@@ -1,0 +1,128 @@
+Currently Working On:
+------------------------------------------
+Budget variance report
+BudgetCategory QT item
+
+
+Bugs:
+------------------------------------------
+The words 'Account Total' are missing in the QTNetWorthItem in the QuickTracker
+
+
+Feature Tweaks:
+------------------------------------------
+Add a database sanity check to startup
+Handle long imports more properly - move to another app?
+
+
+Features Still to Implement:
+------------------------------------------
+Report Stuff: budget variance
+Finish QIF Import (budgets)
+QuickTracker items which depend on other features (budget-related, credit card-related,etc.)
+semi-customizable QuickTracker?
+
+Future Features:
+------------------------------------------
+Kitty idea (wow this is hot stuff!): When OFX transaction support has been implemented, add an AutoReconcile feature which automatically reconciles the transactions for you on a scheduled basis, such as weekly, biweekly, or monthly. When inconsistencies are found (missing transactions, mis-punched transactions, etc.) it can ask the user what to do or even do it automatically for the user.
+
+Hiding categories in the budget window
+Go to Date
+Find...
+Mass Editing: Recategorize Transactions, Rename Payee
+TransactionView Replacement
+Sound events: (turned off by default) enter transaction, successful reconcile
+QuickDates menu for ReportWindow which shows itself when there is enough room for it.
+Import GnuCash file format
+Printing Support
+Memorized Transactions
+Customizable QuickTracker
+Graph support
+
+Possible Features:
+------------------------------------------
+Encryption with the keyfile on a removable disk
+
+Current Features:
+
+QIF Export
+Fast Budgeting
+Scheduled Transactions
+Date autoformatting and recognition
+*Useful* In-program help
+Better-looking message boxes
+Quick Reconcile
+Payee Autocompletion
+Category Autocapitalization
+QIF Import
+Use the program without leaving the keyboard
+Open file format - SQLite 3
+Fast-navigation shortcuts for transaction view
+Reports
+QuickTracker
+
+Planning & Notes:
+------------------------------------------
+QuickTracker
+One other feature which needs to be implemented is a finances-at-a-glance display which will go in the bottom left corner of MainWindow.  It will be configurable to show different items. By default, it will show Income/Expense
+
+QuickTracker Items:
+Income/Expense (month,quarter, year) (Done)
+Overall Budget Variance
+Category Budget Variance
+Category Total
+Credit Card Balance
+Net Worth (Done)
+
+OFX Support
+Chances are that OFX support will be put into a separate program which is under the GPL so that I can make use of libofx. OFX is a big project, and it'd just be easier to have a program which operates on the files. It could be a GUI app run from the command line.
+
+QIF Import
+Depending on how much we want to support, QIF import can either stay the way that it is or do the same thing as OFX support.
+
+Possible Capital Be Features:
+
+A first-run introduction would be a really nice thing to have -- just make sure the user can skip it for the sake of the advanced users who already know what they're doing. This would be an excellent place to have the user choose the location for their financial data.
+
+Check printing
+	This would include printing on blank check paper or just filling in the data. It would also be really cool if you could personalize the checks, too, by adding pictures which could be watermarked into the check. Quicken forces you to go into a special window just to enter the stupid things in and then enters the transaction type as "Print", which is really dumb. A better way would be an option to allow you to automatically schedule checks when you enter them into the register and then if you don't print them before shutting down, ask you if you'd like to do so before closing the app. Quicken also allows 3 different types of checks. The regular style for personal checks should be sufficient.
+
+Credit Card tracking
+	This probably will end up being an account type, more than likely.
+
+Loan Tracking
+	An integrated loan calculator would be nice to have so that the user can track things like car and house loans. Then again, an accompanying Loan Manager for Capital Be might be better for such thing if there is good integration.
+
+Financial Calculator
+	Perhaps instead of an integrated loan calculator it would be a nice feature to have a way to easily figure out many different kinds of financial questions and not just loan stuff. Calculating the value of a CD based on interest rate and time period would be an example of this.
+
+Bill Pay from Capital Be
+	Quicken does this - you sign up for a service that lets you pay bills directly from the program. This feature would absolutely rock if it were possible to either interface with existing bill-pay services or somehow use OFX to do it.
+
+Sorting and filtering in register view
+	This may or may not be a good feature. Many of the OS X apps which utilize this feature use single line listings for transactions.
+
+General Printing Support
+	It would be nice to be able to print out quite a few different kinds of things. Reports, account transaction lists, and budgets come to mind.
+
+Various backup options
+	The user should be able to backup the financial data to another disk, FTP to a location, or even e-mail to an address, such as Gmail.
+
+
+Investment Support
+
+I need to learn a *lot* more about this.
+
+
+Packaging Features
+
+People file for Capital Be Support
+Proper SoftwareValet installation for Zeta and R5
+
+Later on:
+Loan, retirement, college, and other calculators
+Online banking
+
+Break string for testing text inputs:
+zxcvbnm,./<>?asdfghjkl;':"qwertyuiop[]\{}|`1234567890Ωﬁ-=~!@#$%^&*()_à¡™£¢∞ô¶•«»–≠œ∑é®†¥øπ‘¬å∫∂ƒ©∆◊æäñ≈ç√ßñµ…÷
+

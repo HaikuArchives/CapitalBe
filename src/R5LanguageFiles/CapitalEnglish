@@ -1,0 +1,228 @@
+# -------------------------
+# -------------------------
+# Main Window
+# -------------------------
+# -------------------------
+Program	PROGRAM
+Language	LANGUAGE
+About Capital Be	ABOUT CAPITAL BE
+# -------------------------
+File	FILE
+Categories	CATEGORIES
+Scheduled Transactions	SCHEDULED TRANSACTIONS
+Import from QIF File	IMPORT FROM QIF FILE
+Export to QIF File	EXPORT TO QIF FILE
+Import	IMPORT
+Export	EXPORT
+Closed	CLOSED
+# -------------------------
+Account	ACCOUNT
+Reconcile	RECONCILE
+New	NEW
+Delete	DELETE
+Close	CLOSE
+Reopen	REOPEN
+Settings	SETTINGS
+Previous	PREVIOUS
+Next	NEXT
+# -------------------------
+Transaction	TRANSACTION
+Edit	EDIT
+Enter a Transfer	ENTER A TRANSFER
+Schedule This Transaction	SCHEDULE THIS TRANSACTION
+# -------------------------
+Tools	TOOLS
+Budget	BUDGET
+Reports	REPORTS
+# -------------------------
+Accounts	ACCOUNTS
+QuickTracker	QUICKTRACKER
+Account Total	ACCOUNT TOTAL
+Date	DATE
+Type	TYPE
+Payee	PAYEE
+Amount	AMOUNT
+Category	CATEGORY
+Memo	MEMO
+No Memo	NO MEMO
+Enter	ENTER
+Options	OPTIONS
+About Capital Be	ABOUT CAPITAL BE
+# -------------------------
+# -------------------------
+# Global / Account Options windows
+# -------------------------
+# -------------------------
+Default Account Settings	DEFAULT ACCOUNT SETTINGS
+Account Settings	ACCOUNT SETTINGS
+Account Name	ACCOUNT NAME
+# -------------------------
+# -------------------------
+# Preferences window
+# -------------------------
+# -------------------------
+Date Format	DATE FORMAT
+Currency	CURRENCY
+Currency Format	CURRENCY FORMAT
+Symbol	SYMBOL
+Appears Before Amount	APPEARS BEFORE AMOUNT
+Separator	SEPARATOR
+Decimal	DECIMAL
+# -------------------------
+# -------------------------
+# Scheduled Transactions windows
+# -------------------------
+# -------------------------
+Payments	PAYMENTS
+Frequency	FREQUENCY
+Next Payment	NEXT PAYMENT
+Starting Date	STARTING DATE
+Ending Date	ENDING DATE
+Indefinitely	INDEFINITELY
+times	TIMES
+# -------------------------
+# -------------------------
+# Category windows
+# -------------------------
+# -------------------------
+Add Category	ADD CATEGORY
+Remove Category	REMOVE CATEGORY
+Edit Category	EDIT CATEGORY
+New Category Name	NEW CATEGORY NAME
+Category Name	CATEGORY NAME
+Spending Category	SPENDING CATEGORY
+Please choose a new category for all transactions currently in the %%CATEGORY_NAME%% category.	PLEASE CHOOSE A NEW CATEGORY FOR ALL TRANSACTIONS CURRENTLY IN THE %%CATEGORY_NAME%% CATEGORY.
+# -------------------------
+# -------------------------
+# Reconcile window
+# -------------------------
+# -------------------------
+Total Deposits	TOTAL DEPOSITS
+Total Checks	TOTAL CHECKS
+Total Charges	TOTAL CHARGES
+Unreconciled Total	UNRECONCILED TOTAL
+Quick Balance	QUICK BALANCE
+Starting Balance	STARTING BALANCE
+Ending Balance	ENDING BALANCE
+Bank Charges	BANK CHARGES
+Bank Charge	BANK CHARGE
+Interested Earned	INTEREST EARNED
+Account Interest	ACCOUNT INTEREST
+Success!	SUCCESS!
+Quick Balance successful!	QUICK BALANCE SUCCESSFUL!
+# -------------------------
+# -------------------------
+# Edit Transaction window
+# -------------------------
+# -------------------------
+Edit Transaction	EDIT TRANSACTION
+Show Split	SHOW SPLIT
+Hide Split	HIDE SPLIT
+Add Item	ADD ITEM
+Remove Item	REMOVE ITEM
+# -------------------------
+# -------------------------
+# Budget window
+# -------------------------
+# -------------------------
+Summary	SUMMARY
+12 Month Statistics	12 MONTH STATISTICS
+Highest	HIGHEST
+Lowest	LOWEST
+Average	AVERAGE
+Set All to Zero	SET ALL TO ZERO
+Recalculate All	RECALCULATE ALL
+Edit Category	EDIT CATEGORY
+# -------------------------
+# -------------------------
+# Report window and reports
+# -------------------------
+# -------------------------
+Subtotal	SUBTOTAL
+Reports	REPORTS
+Total Worth	TOTAL WORTH
+Transactions	TRANSACTIONS
+# -------------------------
+# -------------------------
+# Transfer window
+# -------------------------
+# -------------------------
+From Account	FROM ACCOUNT
+To Account	TO ACCOUNT
+Edit Transfer	EDIT TRANSFER
+Add Account Transfer	ADD ACCOUNT TRANSFER
+Transfer from %%PAYEE%%
+Transfer to %%PAYEE%%
+# -------------------------
+# -------------------------
+# Miscellaneous globals
+# -------------------------
+# -------------------------
+Income	INCOME
+Spending	SPENDING
+Expense	EXPENSE
+Amount	AMOUNT
+OK	OK
+Cancel	CANCEL
+Reset	RESET
+Total	TOTAL
+Month	MONTH
+Day	DAY
+Year	YEAR
+Quarter	QUARTER
+None	NONE
+Add	ADD
+Remove	REMOVE
+Split	SPLIT
+Monthly	MONTHLY
+Weekly	WEEKLY
+Quarterly	QUARTERLY
+Annually	ANNUALLY
+Unknown	UNKNOWN
+Technology Preview	TECHNOLOGY PREVIEW
+Version	VERSION
+Transfer	TRANSFER
+Help	HELP
+Capital Be Preview Edition	CAPITAL BE PREVIEW EDITION
+Buy Capital Be	BUY CAPITAL BE
+Uncategorized	UNCATEGORIZED
+# -------------------------
+# -------------------------
+# Error Messages and Alerts
+# -------------------------
+# -------------------------
+Really Delete Account?	REALLY DELETE ACCOUNT?
+Once deleted, you will not be able to get back any data on this account.	ONCE DELETED, YOU WILL NOT BE ABLE TO GET BACK ANY DATA ON THIS ACCOUNT.
+Can't use this category name	CAN'T USE THIS CATEGORY NAME
+Capital Be uses the words 'Income','Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.	CAPITAL BE USES THE WORDS 'INCOME','SPENDING', AND 'SPLIT' FOR MANAGING CATEGORIES, SO YOU CAN'T USE THEM AS CATEGORY NAMES. PLEASE CHOOSE A DIFFERENT NAME FOR YOUR NEW CATEGORY.
+Transaction type is missing.	TRANSACTION TYPE IS MISSING.
+You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	YOU NEED TO ENTER A CHECK NUMBER OR TRANSACTION TYPE, SUCH AS ATM (FOR DEBIT CARD TRANSACTIONS AND THE LIKE), DEP (FOR DEPOSITS), OR YOUR OWN CODE FOR SOME OTHER KIND OF EXPENSE.
+Capital Be didn't understand the amount	CAPITAL BE DIDN'T UNDERSTAND THE AMOUNT
+There may be a typo or the wrong kind of currency symbol for this account.	THERE MAY BE A TYPO OR THE WRONG KIND OF CURRENCY SYMBOL FOR THIS ACCOUNT.
+Capital Be didn't understand the date you entered.	CAPITAL BE DIDN'T UNDERSTAND THE DATE YOU ENTERED.
+Capital Be understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	CAPITAL BE UNDERSTANDS LOTS OF DIFFERENT WAYS OF ENTERING DATES. APPARENTLY, THIS WASN'T ONE OF THEM. YOU'LL NEED TO CHANGE HOW YOU ENTERED THIS DATE. SORRY.
+Preview Mode Limit	PREVIEW MODE LIMIT
+You can have up to 5 accounts in Capital Be's preview version. We hope that you like Capital Be and will purchase the full version. Have a nice day!	YOU CAN HAVE UP TO 5 ACCOUNTS IN CAPITAL BE'S PREVIEW VERSION. WE HOPE THAT YOU LIKE CAPITAL BE AND WILL PURCHASE THE FULL VERSION. HAVE A NICE DAY!
+Could not import the data in the file %%FILENAME%%.	COULD NOT IMPORT THE DATA IN THE FILE %%FILENAME%%.
+This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.	THIS HAPPENS WHEN THE KIND OF FILE IS NOT SUPPORTED, WHEN THE FILE'S DATA IS DAMAGED, OR WHEN YOU FEED IT A RECIPE FOR QUICHE.
+This really shouldn't happen, so you probably should e-mail support about this.	THIS REALLY SHOULDN'T HAPPEN, SO YOU PROBABLY SHOULD E-MAIL SUPPORT ABOUT THIS.
+Could not export your financial data to the file %%FILENAME%%.	COULD NOT EXPORT YOUR FINANCIAL DATA TO THE FILE %%FILENAME%%.
+Not enough accounts for a transfer.	NOT ENOUGH ACCOUNTS FOR A TRANSFER.
+You need to have at least 2 accounts to perform a transfer.	YOU NEED TO HAVE AT LEAST 2 ACCOUNTS TO PERFORM A TRANSFER.
+Numbered transactions cannot be scheduled.	NUMBERED TRANSACTIONS CANNOT BE SCHEDULED.
+You can schedule transfers, deposits, or ATM transactions.	YOU CAN SCHEDULE TRANSFERS, DEPOSITS, OR ATM TRANSACTIONS.
+Oops!	OOPS!
+You need to have an account created in order to reconcile it.	YOU NEED TO HAVE AND ACCOUNT CREATED IN ORDER TO RECONCILE IT.
+You need to select an account in order to reconcile it.	YOU NEED TO SELECT AN ACCOUNT IN ORDER TO RECONCILE IT.
+Payee is missing.	PAYEE IS MISSING.
+You need to enter a payee.	YOU NEED TO ENTER A PAYEE.
+Date is missing.	DATE IS MISSING.
+You need to enter the date for the statement to Quick Balance.	YOU NEED TO ENTER THE DATE FOR THE STATEMENT TO QUICK BALANCE.
+Capital Be didn't understand the amount for Bank Charges.	CAPITAL BE DIDN'T UNDERSTAND THE AMOUNT FOR BANK CHARGES.
+Capital Be didn't understand the amount for Interest Earned.	CAPITAL BE DIDN'T UNDERSTAND THE AMOUNT FOR INTEREST EARNED.
+Couldn't Quick Balance.	COULDN'T QUICK BALANCE.
+Quick Balance failed. This doesn't mean that you did something wrong - it's just that Quick Balance works on simpler cases in balancing an account than this one. Sorry.	QUICK BALANCE FAILED. THIS DOESN'T MEAN THAT YOU DID SOMETHING WRONG - IT'S JUST THAT QUICK BALANCE WORKS ON SIMPLER CASES IN BALANCING AN ACCOUNT THAN THIS ONE. SORRY.
+Not Transferring Any Money	NOT TRANSFERRING ANY MONEY
+If you intend to transfer money, it will need to be an amount that is not zero.	IF YOU INTEND TO TRANSFER MONEY, IT WILL NEED TO BE AN AMOUNT THAT IS NOT ZERO.
+Changes will be made on restart	CHANGES WILL BE MADE ON RESTART
+Capital Be will be use your language choice the next time it is started.	CAPITAL BE WILL USE YOUR LANGUAGE CHOICE THE NEXT TIME IT IS STARTED.
