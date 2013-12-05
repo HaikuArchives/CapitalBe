@@ -1,5 +1,6 @@
 NAME = capitalbe
 TYPE = APP
+RDEFS = src/capitalbe.rdef
 SRCS = src/AboutWindow.cpp src/Account.cpp src/AccountListItem.cpp \
 	src/AccountSettingsWindow.cpp src/App.cpp src/AutoTextControl.cpp src/Budget.cpp \
 	src/BudgetReport.cpp src/BudgetWindow.cpp src/CashFlowReport.cpp src/Category.cpp src/CategoryBox.cpp \
