@@ -4,7 +4,7 @@
 #include <String.h>
 #include "Category.h"
 #include "Fixed.h"
-#include "../TextFile.h"
+#include "TextFile.h"
 
 #include "Transaction.h"
 
