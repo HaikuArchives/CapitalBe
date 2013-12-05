@@ -65,7 +65,9 @@ inline bool operator!=(const rgb_color c1, const rgb_color c2)
 }
 
 // Color creation.
-
+/*
+ * This block of code causes the compiler to stop due to an ambigious error. 
+ 
 inline rgb_color make_color(uint8 red, uint8 green, uint8 blue, uint8 alpha=255)
 {
 	rgb_color c;
@@ -75,6 +77,7 @@ inline rgb_color make_color(uint8 red, uint8 green, uint8 blue, uint8 alpha=255)
 	c.alpha = alpha;
 	return c;
 }
+*/
 
 // Mix two colors together, ignoring their relative alpha channels.
 // If amount is 0, the result is color1; if 255, the result is color2;

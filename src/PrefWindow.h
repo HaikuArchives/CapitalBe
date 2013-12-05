@@ -11,7 +11,7 @@
 #include <View.h>
 #include <Window.h>
 
-#include "../AutoTextControl.h"
+#include "AutoTextControl.h"
 #include "Fixed.h"
 #include "CBLocale.h"
 
