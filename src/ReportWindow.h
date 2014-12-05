@@ -14,7 +14,7 @@
 #include "DStringList.h"
 #include "Notifier.h"
 #include "Account.h"
-#include "ColumnListView.h"
+#include <ColumnListView.h>
 #include "Translate.h"
 
 class StickyDrawButton;
