@@ -121,7 +121,7 @@ void ReportWindow::ComputeCashFlow(void)
 				
 				while(!query.eof())
 				{
-					f.SetPremultiplied(query.getLongField(0));
+					f.SetPremultiplied(query.getInt64Field(0));
 					inctotal += f;
 					query.nextRow();
 				}
@@ -144,7 +144,7 @@ void ReportWindow::ComputeCashFlow(void)
 				
 				while(!query.eof())
 				{
-					f.SetPremultiplied(query.getLongField(0));
+					f.SetPremultiplied(query.getInt64Field(0));
 					exptotal += f.AbsoluteValue();
 					query.nextRow();
 				}

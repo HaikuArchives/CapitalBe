@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CppSQLite3 - A C++ wrapper around the SQLite3 embedded database library.
 //
-// Copyright (c) 2004 Rob Groves. All Rights Reserved. rob.groves@btinternet.com
+// Copyright (c) 2004..2007 Rob Groves. All Rights Reserved. rob.groves@btinternet.com
 // 
 // Permission to use, copy, modify, and distribute this software and its
 // documentation for any purpose, without fee, and without a written
@@ -24,6 +24,11 @@
 //
 // V3.1		16/09/2004	-Implemented getXXXXField using sqlite3 functions
 //						-Added CppSQLiteDB3::tableExists()
+//
+// V3.2		01/07/2005	-Fixed execScalar to handle a NULL result
+//			12/07/2007	-Added CppSQLiteDB::IsAutoCommitOn()
+//						-Added int64 functions to CppSQLite3Query
+//						-Added Name based parameter binding to CppSQLite3Statement.
 ////////////////////////////////////////////////////////////////////////////////
 #ifndef _CppSQLite3_H_
 #define _CppSQLite3_H_
@@ -31,7 +36,6 @@
 #include "sqlite3.h"
 #include <cstdio>
 #include <cstring>
-#include <Locker.h>
 
 #define CPPSQLITE_ERROR 1000
 
@@ -141,11 +145,8 @@ public:
     int getIntField(int nField, int nNullValue=0);
     int getIntField(const char* szField, int nNullValue=0);
 
-    long getLongField(int nField, int nNullValue=0);
-    long getLongField(const char* szField, int nNullValue=0);
-
-    long long int getInt64Field(int nField, int nNullValue=0);
-    long long int getInt64Field(const char* szField, int nNullValue=0);
+	sqlite_int64 getInt64Field(int nField, sqlite_int64 nNullValue=0);
+	sqlite_int64 getInt64Field(const char* szField, sqlite_int64 nNullValue=0);
 
     double getFloatField(int nField, double fNullValue=0.0);
     double getFloatField(const char* szField, double fNullValue=0.0);
@@ -156,7 +157,7 @@ public:
     const unsigned char* getBlobField(int nField, int& nLen);
     const unsigned char* getBlobField(const char* szField, int& nLen);
 
-    bool fieldIsNull(int nField);
+	bool fieldIsNull(int nField);
     bool fieldIsNull(const char* szField);
 
     bool eof();
@@ -202,7 +203,7 @@ public:
 
     int getIntField(int nField, int nNullValue=0);
     int getIntField(const char* szField, int nNullValue=0);
-	
+
     double getFloatField(int nField, double fNullValue=0.0);
     double getFloatField(const char* szField, double fNullValue=0.0);
 
@@ -251,7 +252,14 @@ public:
     void bind(int nParam, const unsigned char* blobValue, int nLen);
     void bindNull(int nParam);
 
-    void reset();
+	int bindParameterIndex(const char* szParam);
+    void bind(const char* szParam, const char* szValue);
+    void bind(const char* szParam, const int nValue);
+    void bind(const char* szParam, const double dwValue);
+    void bind(const char* szParam, const unsigned char* blobValue, int nLen);
+    void bindNull(const char* szParam);
+
+	void reset();
 
     void finalize();
 
@@ -283,7 +291,7 @@ public:
 
     CppSQLite3Query execQuery(const char* szSQL);
 
-    int execScalar(const char* szSQL);
+    int execScalar(const char* szSQL, int nNullValue=0);
 
     CppSQLite3Table getTable(const char* szSQL);
 
@@ -296,6 +304,11 @@ public:
     void setBusyTimeout(int nMillisecs);
 
     static const char* SQLiteVersion() { return SQLITE_VERSION; }
+    static const char* SQLiteHeaderVersion() { return SQLITE_VERSION; }
+    static const char* SQLiteLibraryVersion() { return sqlite3_libversion(); }
+    static int SQLiteLibraryVersionNumber() { return sqlite3_libversion_number(); }
+
+	bool IsAutoCommitOn();
 
 private:
 
@@ -308,7 +321,6 @@ private:
 
     sqlite3* mpDB;
     int mnBusyTimeoutMs;
-    BLocker fLocker;
 };
 
 #endif

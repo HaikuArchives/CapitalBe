@@ -296,7 +296,7 @@ void BudgetWindow::RefreshCategories(void)
 	{
 		BString cat = DeescapeIllegalCharacters(query.getStringField(0));
 		Fixed amount;
-		amount.SetPremultiplied(query.getLongField(1));
+		amount.SetPremultiplied(query.getInt64Field(1));
 		BudgetPeriod period = (BudgetPeriod)query.getIntField(2);
 		
 		BRow *row = new BRow();
@@ -422,7 +422,7 @@ void BudgetWindow::RefreshBudgetGrid(void)
 	{
 		BString cat = DeescapeIllegalCharacters(query.getStringField(0));
 		Fixed amount;
-		amount.SetPremultiplied(query.getLongField(1));
+		amount.SetPremultiplied(query.getInt64Field(1));
 		BudgetPeriod period = (BudgetPeriod)query.getIntField(2);
 		
 		ReportGrid *grid = (amount.IsPositive()) ? &fIncomeGrid : &fSpendingGrid;
@@ -530,7 +530,7 @@ void BudgetWindow::GenerateBudget(const bool &zero)
 							<< "' and date > " << DecrementDateByYear(GetCurrentDate()) << ";";
 				query = gDatabase.DBQuery(querystring.String(),
 										"BudgetWindow::GenerateBudget:get category");
-				cattotal.AddPremultiplied(query.getLongField(0));
+				cattotal.AddPremultiplied(query.getInt64Field(0));
 				query.finalize();
 			}
 			cattotal /= 12;
@@ -556,7 +556,7 @@ void BudgetWindow::GenerateBudget(const bool &zero)
 							<< "';";
 				query = gDatabase.DBQuery(querystring.String(),
 										"BudgetWindow::GenerateBudget:get category");
-				cattotal.AddPremultiplied(query.getLongField(0));
+				cattotal.AddPremultiplied(query.getInt64Field(0));
 				query.finalize();
 			}
 			cattotal /= 12;
@@ -586,7 +586,7 @@ void BudgetWindow::CalcStats(const char *cat, Fixed &high, Fixed &low, Fixed &av
 					<< "';";
 		query = gDatabase.DBQuery(querystring.String(),
 								"BudgetWindow::CalcStats:get average");
-		cattotal.AddPremultiplied(query.getLongField(0));
+		cattotal.AddPremultiplied(query.getInt64Field(0));
 		query.finalize();
 	}
 	avg = cattotal;
@@ -604,7 +604,7 @@ void BudgetWindow::CalcStats(const char *cat, Fixed &high, Fixed &low, Fixed &av
 		query = gDatabase.DBQuery(querystring.String(),
 								"BudgetWindow::CalcStats:get highest");
 		Fixed value;
-		value.SetPremultiplied(query.getLongField(0));
+		value.SetPremultiplied(query.getInt64Field(0));
 		cattotal = MAX(cattotal,value);
 		query.finalize();
 	}
@@ -622,7 +622,7 @@ void BudgetWindow::CalcStats(const char *cat, Fixed &high, Fixed &low, Fixed &av
 		query = gDatabase.DBQuery(querystring.String(),
 								"BudgetWindow::CalcStats:get highest");
 		Fixed value;
-		value.SetPremultiplied(query.getLongField(0));
+		value.SetPremultiplied(query.getInt64Field(0));
 		cattotal = MIN(cattotal,value);
 		query.finalize();
 	}

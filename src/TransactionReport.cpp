@@ -145,7 +145,7 @@ void ReportWindow::ComputeTransactions(void)
 			row->SetField(new BStringField(""),0);
 			
 			// date
-			gDefaultLocale.DateToString(query.getLongField(0),tempstr);
+			gDefaultLocale.DateToString(query.getInt64Field(0),tempstr);
 			row->SetField(new BStringField(tempstr.String()),1);
 			
 			// type
@@ -161,7 +161,7 @@ void ReportWindow::ComputeTransactions(void)
 			row->SetField(new BStringField(tempstr.String()),3);
 			
 			// amount
-			Fixed f(query.getLongField(3),true);
+			Fixed f(query.getInt64Field(3),true);
 			gCurrentLocale.CurrencyToString(f.AbsoluteValue(),tempstr);
 			row->SetField(new BStringField(tempstr.String()),4);
 			

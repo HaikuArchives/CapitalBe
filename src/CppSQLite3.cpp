@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // CppSQLite3 - A C++ wrapper around the SQLite3 embedded database library.
 //
-// Copyright (c) 2004 Rob Groves. All Rights Reserved. rob.groves@btinternet.com
+// Copyright (c) 2004..2007 Rob Groves. All Rights Reserved. rob.groves@btinternet.com
 // 
 // Permission to use, copy, modify, and distribute this software and its
 // documentation for any purpose, without fee, and without a written
@@ -24,6 +24,14 @@
 //
 // V3.1		16/09/2004	-Implemented getXXXXField using sqlite3 functions
 //						-Added CppSQLiteDB3::tableExists()
+//
+// V3.2		01/07/2005	-Fixed execScalar to handle a NULL result
+//			12/07/2007	-Added int64 functions to CppSQLite3Query
+//						-Throw exception from CppSQLite3DB::close() if error
+//						-Trap above exception in CppSQLite3DB::~CppSQLite3DB()
+//						-Fix to CppSQLite3DB::compile() as provided by Dave Rollins.
+//						-sqlite3_prepare replaced with sqlite3_prepare_v2
+//						-Added Name based parameter binding to CppSQLite3Statement.
 ////////////////////////////////////////////////////////////////////////////////
 #include "CppSQLite3.h"
 #include <cstdlib>
@@ -397,7 +405,7 @@ int CppSQLite3Query::getIntField(const char* szField, int nNullValue/*=0*/)
 }
 
 
-long CppSQLite3Query::getLongField(int nField, int nNullValue/*=0*/)
+sqlite_int64 CppSQLite3Query::getInt64Field(int nField, sqlite_int64 nNullValue/*=0*/)
 {
 	if (fieldDataType(nField) == SQLITE_NULL)
 	{
@@ -410,31 +418,12 @@ long CppSQLite3Query::getLongField(int nField, int nNullValue/*=0*/)
 }
 
 
-long CppSQLite3Query::getLongField(const char* szField, int nNullValue/*=0*/)
-{
-	int nField = fieldIndex(szField);
-	return getLongField(nField, nNullValue);
-}
-
-
-long long int CppSQLite3Query::getInt64Field(int nField, int nNullValue/*=0*/)
-{
-	if (fieldDataType(nField) == SQLITE_NULL)
-	{
-		return nNullValue;
-	}
-	else
-	{
-		return sqlite3_column_int64(mpVM, nField);
-	}
-}
-
-
-long long int CppSQLite3Query::getInt64Field(const char* szField, int nNullValue/*=0*/)
+sqlite_int64 CppSQLite3Query::getInt64Field(const char* szField, sqlite_int64 nNullValue/*=0*/)
 {
 	int nField = fieldIndex(szField);
 	return getInt64Field(nField, nNullValue);
 }
+
 
 double CppSQLite3Query::getFloatField(int nField, double fNullValue/*=0.0*/)
 {
@@ -1073,6 +1062,60 @@ void CppSQLite3Statement::bindNull(int nParam)
 }
 
 
+int CppSQLite3Statement::bindParameterIndex(const char* szParam)
+{
+	checkVM();
+
+	int nParam = sqlite3_bind_parameter_index(mpVM, szParam);
+
+int nn = sqlite3_bind_parameter_count(mpVM);
+const char* sz1 = sqlite3_bind_parameter_name(mpVM, 1);
+const char* sz2 = sqlite3_bind_parameter_name(mpVM, 2);
+
+	if (!nParam)
+	{
+		char buf[128];
+		sprintf(buf, "Parameter '%s' is not valid for this statement", szParam);
+		throw CppSQLite3Exception(CPPSQLITE_ERROR, buf, DONT_DELETE_MSG);
+	}
+
+	return nParam;
+}
+
+
+void CppSQLite3Statement::bind(const char* szParam, const char* szValue)
+{
+	int nParam = bindParameterIndex(szParam);
+	bind(nParam, szValue);
+}
+
+
+void CppSQLite3Statement::bind(const char* szParam, const int nValue)
+{
+	int nParam = bindParameterIndex(szParam);
+	bind(nParam, nValue);
+}
+
+void CppSQLite3Statement::bind(const char* szParam, const double dwValue)
+{
+	int nParam = bindParameterIndex(szParam);
+	bind(nParam, dwValue);
+}
+
+void CppSQLite3Statement::bind(const char* szParam, const unsigned char* blobValue, int nLen)
+{
+	int nParam = bindParameterIndex(szParam);
+	bind(nParam, blobValue, nLen);
+}
+
+
+void CppSQLite3Statement::bindNull(const char* szParam)
+{
+	int nParam = bindParameterIndex(szParam);
+	bindNull(nParam);
+}
+
+
 void CppSQLite3Statement::reset()
 {
 	if (mpVM)
@@ -1144,7 +1187,13 @@ CppSQLite3DB::CppSQLite3DB(const CppSQLite3DB& db)
 
 CppSQLite3DB::~CppSQLite3DB()
 {
-	close();
+	try
+	{
+		close();
+	}
+	catch (...)
+	{
+	}
 }
 
 
@@ -1174,8 +1223,16 @@ void CppSQLite3DB::close()
 {
 	if (mpDB)
 	{
-		sqlite3_close(mpDB);
-		mpDB = 0;
+		if (sqlite3_close(mpDB) == SQLITE_OK)
+		{
+			mpDB = 0;
+		}
+		else
+		{
+			throw CppSQLite3Exception(CPPSQLITE_ERROR,
+									"Unable to close database",
+									DONT_DELETE_MSG);
+		}
 	}
 }
 
@@ -1191,7 +1248,7 @@ CppSQLite3Statement CppSQLite3DB::compileStatement(const char* szSQL)
 
 bool CppSQLite3DB::tableExists(const char* szTable)
 {
-	char szSQL[128];
+	char szSQL[256];
 	sprintf(szSQL,
 			"select count(*) from sqlite_master where type='table' and name='%s'",
 			szTable);
@@ -1202,7 +1259,6 @@ bool CppSQLite3DB::tableExists(const char* szTable)
 
 int CppSQLite3DB::execDML(const char* szSQL)
 {
-	fLocker.Lock();
 	checkDB();
 
 	char* szError=0;
@@ -1211,13 +1267,10 @@ int CppSQLite3DB::execDML(const char* szSQL)
 
 	if (nRet == SQLITE_OK)
 	{
-		nRet = sqlite3_changes(mpDB);
-		fLocker.Unlock();
-		return nRet;
+		return sqlite3_changes(mpDB);
 	}
 	else
 	{
-		fLocker.Unlock();
 		throw CppSQLite3Exception(nRet, szError);
 	}
 }
@@ -1225,7 +1278,6 @@ int CppSQLite3DB::execDML(const char* szSQL)
 
 CppSQLite3Query CppSQLite3DB::execQuery(const char* szSQL)
 {
-	fLocker.Lock();
 	checkDB();
 
 	sqlite3_stmt* pVM = compile(szSQL);
@@ -1235,27 +1287,23 @@ CppSQLite3Query CppSQLite3DB::execQuery(const char* szSQL)
 	if (nRet == SQLITE_DONE)
 	{
 		// no rows
-		fLocker.Unlock();
 		return CppSQLite3Query(mpDB, pVM, true/*eof*/);
 	}
 	else if (nRet == SQLITE_ROW)
 	{
 		// at least 1 row
-		fLocker.Unlock();
 		return CppSQLite3Query(mpDB, pVM, false/*eof*/);
 	}
 	else
 	{
 		nRet = sqlite3_finalize(pVM);
 		const char* szError= sqlite3_errmsg(mpDB);
-		fLocker.Unlock();
 		throw CppSQLite3Exception(nRet, (char*)szError, DONT_DELETE_MSG);
 	}
-	fLocker.Unlock();
 }
 
 
-int CppSQLite3DB::execScalar(const char* szSQL)
+int CppSQLite3DB::execScalar(const char* szSQL, int nNullValue/*=0*/)
 {
 	CppSQLite3Query q = execQuery(szSQL);
 
@@ -1266,7 +1314,7 @@ int CppSQLite3DB::execScalar(const char* szSQL)
 								DONT_DELETE_MSG);
 	}
 
-	return atoi(q.fieldValue(0));
+	return q.getIntField(0, nNullValue);
 }
 
 
@@ -1321,20 +1369,27 @@ sqlite3_stmt* CppSQLite3DB::compile(const char* szSQL)
 {
 	checkDB();
 
-	char* szError=0;
 	const char* szTail=0;
 	sqlite3_stmt* pVM;
 
-	int nRet = sqlite3_prepare(mpDB, szSQL, -1, &pVM, &szTail);
+	int nRet = sqlite3_prepare_v2(mpDB, szSQL, -1, &pVM, &szTail);
 
 	if (nRet != SQLITE_OK)
 	{
-		throw CppSQLite3Exception(nRet, szError);
+		const char* szError = sqlite3_errmsg(mpDB);
+		throw CppSQLite3Exception(nRet,
+								(char*)szError,
+								DONT_DELETE_MSG);
 	}
 
 	return pVM;
 }
 
+bool CppSQLite3DB::IsAutoCommitOn()
+{
+	checkDB();
+	return sqlite3_get_autocommit(mpDB) ? true : false;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // SQLite encode.c reproduced here, containing implementation notes and source
@@ -1458,7 +1513,7 @@ sqlite3_stmt* CppSQLite3DB::compile(const char* szSQL)
 ** string, excluding the "\000" terminator.
 */
 int sqlite3_encode_binary(const unsigned char *in, int n, unsigned char *out){
-  int i=0, j=0, e=0, m=0;
+  int i, j, e, m;
   int cnt[256];
   if( n<=0 ){
     out[0] = 'x';

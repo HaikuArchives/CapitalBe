@@ -230,8 +230,8 @@ if (count > 1) debugger("");
 		
 		if (!have_row)
 		{
-			transdate = query.getLongField(0);
-			transamount.SetPremultiplied(query.getLongField(1));
+			transdate = query.getInt64Field(0);
+			transamount.SetPremultiplied(query.getInt64Field(1));
 			have_row = true;
 		}
 		
@@ -247,8 +247,8 @@ if (count > 1) debugger("");
 			if (query.eof())
 				break;
 			
-			transdate = query.getLongField(0);
-			transamount.SetPremultiplied(query.getLongField(1));
+			transdate = query.getInt64Field(0);
+			transamount.SetPremultiplied(query.getInt64Field(1));
 		}
 		
 		printf("Actual vs Budget for %s: (%ld,%ld)\n",stringitem->Text(),

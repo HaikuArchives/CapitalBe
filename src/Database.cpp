@@ -512,7 +512,7 @@ bool Database::GetBudgetEntry(const char *name, BudgetEntry &entry)
 	if(!query.eof())
 	{
 		entry.name = name;
-		entry.amount.SetPremultiplied(query.getLongField(0));
+		entry.amount.SetPremultiplied(query.getInt64Field(0));
 		entry.period=(BudgetPeriod)query.getIntField(1);
 		entry.isexpense = (query.getIntField(2)==1);
 		return true;
