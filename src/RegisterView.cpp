@@ -1,5 +1,6 @@
 #include "RegisterView.h"
 #include <Font.h>
+#include <LayoutBuilder.h>
 #include <ScrollView.h>
 #include <StringView.h>
 
@@ -17,39 +18,22 @@ enum
 	M_SELECT_CURRENT
 };
 
-RegisterView::RegisterView(BRect frame, const char *name, int32 resize, int32 flags)
- : BView(frame, name, resize, flags| B_FRAME_EVENTS)
+RegisterView::RegisterView(const char *name, int32 flags)
+ : BView(name, flags| B_FRAME_EVENTS)
 {
 	SetViewColor(240,240,240);
-	BRect r(Bounds());
 	
-	BStringView *accountlabel = new BStringView(BRect(12,2,6,6),"accountlabel",
+	BStringView *accountlabel = new BStringView("accountlabel",
 												TRANSLATE("Accounts"));
-	accountlabel->ResizeToPreferred();
-	AddChild(accountlabel);
-	
-	r.left = 15;
-	r.top = accountlabel->Frame().bottom + 3;
-	r.right = r.left + be_plain_font->StringWidth("AccountName");
-	r.bottom = r.top + 110;
-	
+		
 //	fAccountView = new DragListView(r,"accountview");
-	fAccountView = new BListView(r,"accountview");
+	fAccountView = new BListView("accountview", B_SINGLE_SELECTION_LIST);
 	fAccountView->SetSelectionMessage(new BMessage(M_SELECT_ACCOUNT));
 	fAccountView->SetInvocationMessage(new BMessage(M_SHOW_ACCOUNT_SETTINGS));
-	fAccountScroller = new BScrollView("accountscroll",fAccountView,0,true,true,
-									B_FOLLOW_TOP_BOTTOM|B_FOLLOW_LEFT);
-	AddChild(fAccountScroller);
+	fAccountScroller = new BScrollView("accountscroll",fAccountView,0,true,true);
 	fAccountScroller->SetViewColor(ViewColor());
 	
-	r.left = fAccountScroller->Frame().right + 10;
-	r.right = Bounds().right - 15;
-	r.bottom = Bounds().bottom - 15;
-	r.top = r.bottom - 122;
-	fCheckView = new CheckView(r, "checkview", B_FOLLOW_LEFT_RIGHT | 
-								B_FOLLOW_BOTTOM, B_WILL_DRAW);
-	fCheckView->MoveTo(fAccountScroller->Frame().right + 10,
-						Bounds().bottom - fCheckView->Bounds().Height() - 15);
+	fCheckView = new CheckView("checkview", B_WILL_DRAW);
 	gDatabase.AddObserver(fCheckView);
 	
 	for(int32 i=0; i<gDatabase.CountAccounts(); i++)
@@ -59,39 +43,36 @@ RegisterView::RegisterView(BRect frame, const char *name, int32 resize, int32 fl
 		acc->AddObserver(this);
 	}
 	
-	r.left = fAccountScroller->Frame().right + 10;
-	r.right = Bounds().right - 15;
-	r.top = fAccountScroller->Frame().top;
-	r.bottom = fCheckView->Frame().top - 10;
-	fTransactionView = new TransactionView(r);
-	AddChild(fTransactionView);
+	fTransactionView = new TransactionView();
 	gDatabase.AddObserver(fTransactionView);
 	gDatabase.AddObserver(this);
 	
-	// Add this after the transaction view to ensure that Tab navigation order is correct
-	AddChild(fCheckView);
-
-	// QuickTracker items need to be added here
-	r = fAccountScroller->Frame();
-	r.top = r.bottom + 10;
-	r.bottom = Bounds().bottom - 10;
-	
-	fTrackBox = new BBox(r, "qtbox", B_FOLLOW_LEFT | B_FOLLOW_TOP_BOTTOM);
+	fTrackBox = new BBox("qtbox");
 	fTrackBox->SetLabel(TRANSLATE("QuickTracker"));
-	AddChild(fTrackBox);
 	
-	// We will add a view to force the clipping of the child views
+	QTNetWorthItem *item;	
+	item = new QTNetWorthItem("networth");
 	
-	QTNetWorthItem *item;
-	
-	r = fTrackBox->Bounds().InsetByCopy(2,0);
-	r.top = 10;
-	
-	// This is a quick hack to approximate the amount of room needed to display everything
-	r.bottom = r.top + (be_plain_font->Size() * 2.4);
-	
-	item = new QTNetWorthItem(r,"networth");
-	fTrackBox->AddChild(item);
+	BFont font;
+	BLayoutBuilder::Group<>(fTrackBox, B_VERTICAL, 0)
+		.SetInsets(10, font.Size() * 1.3, 10, 10)
+		.Add(item)
+		.AddGlue(1024 * 1024 * 2014)
+	.End();
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.SetInsets(10)
+		.Add(accountlabel)
+		.AddGroup(B_HORIZONTAL)
+			.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING, 1)
+				.Add(fAccountScroller)
+				.Add(fTrackBox)
+			.End()
+			.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING, 3)
+				.Add(fTransactionView)
+				.Add(fCheckView)
+			.End()
+		.End()
+	.End();
 }
 
 RegisterView::~RegisterView(void)

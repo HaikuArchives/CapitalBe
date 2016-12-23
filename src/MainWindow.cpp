@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "RegisterView.h"
+#include <LayoutBuilder.h>
 #include <MenuBar.h>
 #include <Messenger.h>
 #include <Entry.h>
@@ -42,7 +43,7 @@ int32 gTextViewHeight = 20;
 int32 gStringViewHeight = 20;
 
 MainWindow::MainWindow(BRect frame)
- : BWindow(frame,"",B_DOCUMENT_WINDOW,0)
+ : BWindow(frame,"",B_DOCUMENT_WINDOW, 0)
 {
 	BString temp;
 	// Main window title changes in demo mode
@@ -97,8 +98,7 @@ MainWindow::MainWindow(BRect frame)
 	
 	BRect r(Bounds());
 	r.bottom=20;
-	BMenuBar *bar = new BMenuBar(r,"keybar");
-	AddChild(bar);
+	BMenuBar *bar = new BMenuBar("keybar");
 	
 	#ifdef BETA_MODE
 	temp = TRANSLATE("Report a Bug"); temp += "…";
@@ -210,8 +210,7 @@ MainWindow::MainWindow(BRect frame)
 	
 	r = Bounds();
 	r.top = bar->Frame().bottom+1;
-	fRegisterView = new RegisterView(r,"registerview",B_FOLLOW_ALL,B_WILL_DRAW);
-	AddChild(fRegisterView);
+	fRegisterView = new RegisterView("registerview",B_WILL_DRAW);
 	
 	fImportPanel = new BFilePanel(B_OPEN_PANEL,new BMessenger(this),NULL,B_FILE_NODE,
 									false,new BMessage(M_IMPORT_ACCOUNT));	
@@ -224,6 +223,12 @@ MainWindow::MainWindow(BRect frame)
 	gDatabase.AddObserver(this);
 	
 	HandleScheduledTransactions();
+	
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.SetInsets(0)
+		.Add(bar)
+		.Add(fRegisterView)
+	.End();
 }
 
 MainWindow::~MainWindow(void)

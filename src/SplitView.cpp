@@ -1,4 +1,5 @@
 #include "SplitView.h"
+#include <LayoutBuilder.h>
 #include <StringView.h>
 #include <MessageFilter.h>
 #include <Messenger.h>
@@ -26,219 +27,86 @@
 #include "Translate.h"
 
 
-SplitView::SplitView(const BRect &frame, const char *name, const TransactionData &trans,
-					const int32 &resize, const int32 &flags)
- : BView(frame,name,resize,flags | B_FRAME_EVENTS),
+SplitView::SplitView(const char *name, const TransactionData &trans, const int32 &flags)
+ : BView(name,flags | B_FRAME_EVENTS),
  	Observer(WATCH_SELECT | WATCH_TRANSACTION | WATCH_ACCOUNT)
 {
 	fTransaction = trans;
-	
-	BRect r;
-	float labeltop = 5;
-	float labelbottom = 25;
-	
+		
 	fStartExpanded = false;
 	fCheckNum = fTransaction.GetAccount()->LastCheckNumber();
 	
-	r.left = 12;
-	r.top = labeltop;
-	r.bottom = labelbottom;
-	r.right = 15;
-	fDateLabel = new BStringView(r,"datelabel",TRANSLATE("Date"));
-	fDateLabel->ResizeToPreferred();
-	AddChild(fDateLabel);
+	fDateLabel = new BStringView("datelabel",TRANSLATE("Date"));
 	
-	labelbottom = fDateLabel->Frame().bottom;
-	fDate = new DateBox(BRect(10,labelbottom + 1,r.left+5,r.top+5),"dateentry","label",
-							"text",new BMessage(M_DATE_CHANGED), B_FOLLOW_LEFT | B_FOLLOW_TOP);
-	fDate->ResizeToPreferred();
-	fDate->SetLabel("");
+	fDate = new DateBox("dateentry","", "text",new BMessage(M_DATE_CHANGED));
 //	fDate->SetEscapeCancel(true);
 	fDate->SetDate(trans.Date());
 	
 	BString tempstr;
 	gDefaultLocale.DateToString(fTransaction.Date(),tempstr);
 	fDate->SetText(tempstr.String());
-	fDate->SetDivider(0);
-	fDate->ResizeTo(StringWidth("00-00-0000")+10,gTextViewHeight);
-	AddChild(fDate);
 	
-	r.left = fDate->Frame().right + 2;
-	r.right = r.left + StringWidth("0000")+15;
-	r.top = labelbottom + 1;
-	r.bottom = r.top + gTextViewHeight;
-	fType = new CheckNumBox(r,"typeentry","",NULL,new BMessage(M_TYPE_CHANGED),
-					B_FOLLOW_LEFT | B_FOLLOW_TOP);
-	fType->SetDivider(0);
-	AddChild(fType);
+	fType = new CheckNumBox("typeentry","",NULL,new BMessage(M_TYPE_CHANGED));
 	
 	fType->SetText(fTransaction.Type().Type());
 	
-	r.top=labeltop;
-	r.bottom=labelbottom;
-	fTypeLabel=new BStringView(r,"typelabel",TRANSLATE("Type"));
-	fTypeLabel->ResizeToPreferred();
-	AddChild(fTypeLabel);
+	fTypeLabel=new BStringView("typelabel",TRANSLATE("Type"));
 	
-	r.left = r.right+2;
-	r.right = r.left + StringWidth("00000000000000000000")+15;
-	r.top = labelbottom + 1;
-	r.bottom = r.top + gTextViewHeight;
-	fPayee = new PayeeBox(r,"payeeentry","",fTransaction.Payee(),new BMessage(M_PAYEE_CHANGED),
-				B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
-	fPayee->SetDivider(0);
-	AddChild(fPayee);
+	fPayee = new PayeeBox("payeeentry","",fTransaction.Payee(),new BMessage(M_PAYEE_CHANGED));
 	
-	r.left+=2;
-	r.top=labeltop;
-	r.bottom=25;
-	fPayeeLabel = new BStringView(r,"payeelabel",TRANSLATE("Payee"));
-	fPayeeLabel->ResizeToPreferred();
-	AddChild(fPayeeLabel);
+	fPayeeLabel = new BStringView("payeelabel",TRANSLATE("Payee"));
 	
-	r.left = r.right+2;
-	r.right = Bounds().right - 10;
-	r.top = labelbottom + 1;
-	r.bottom = r.top + gTextViewHeight;
-	fAmount = new CurrencyBox(r,"amountentry","",NULL,new BMessage(M_AMOUNT_CHANGED),
-					B_FOLLOW_RIGHT | B_FOLLOW_TOP);
-	fAmount->SetDivider(0);
+	fAmount = new CurrencyBox("amountentry","",NULL,new BMessage(M_AMOUNT_CHANGED));
 	
-	AddChild(fAmount);
 	gCurrentLocale.CurrencyToString( (fTransaction.Amount() < 0) ? fTransaction.Amount().InvertAsCopy() :
 										fTransaction.Amount(),tempstr);
 	fAmount->SetText(tempstr.String());
 	
-	r.left+=2;
-	r.top=labeltop;
-	r.bottom=25;
-	fAmountLabel = new BStringView(r,"amountlabel",TRANSLATE("Amount"));
-	fAmountLabel->ResizeToPreferred();
-	AddChild(fAmountLabel);
+	fAmountLabel = new BStringView("amountlabel",TRANSLATE("Amount"));
 	
-	labelbottom = fDate->Frame().bottom + 5 + (labelbottom - labeltop);
-	labeltop=fDate->Frame().bottom+5;
-	r.top = labeltop;
-	r.bottom = labelbottom;
-	r.left = 12;
-	r.right = (fAmount->Frame().right - 5) / 3;
-	fCategoryLabel = new BStringView(r,"categorylabel",TRANSLATE("Category"));
-	AddChild(fCategoryLabel);
+	fCategoryLabel = new BStringView("categorylabel",TRANSLATE("Category"));
 	
-	r.top=labelbottom + 1;
-	r.left = 10;
-	r.bottom=r.top + gTextViewHeight;
-	fCategory = new CategoryBox(r,"categoryentry","",fTransaction.NameAt(0),
-								new BMessage(M_CATEGORY_CHANGED), 
-								B_FOLLOW_LEFT | B_FOLLOW_TOP);
-	fCategory->SetDivider(0);
-	AddChild(fCategory);
+	fCategory = new CategoryBox("categoryentry","",fTransaction.NameAt(0),
+								new BMessage(M_CATEGORY_CHANGED));
 	
-	r.left = fCategory->Frame().right+2;
-	r.right = fAmount->Frame().right;
-	r.top = labeltop;
-	r.bottom = labelbottom;
-	fMemoLabel = new BStringView(r,"memolabel",TRANSLATE("Memo"));
-	AddChild(fMemoLabel);
+	fMemoLabel = new BStringView("memolabel",TRANSLATE("Memo"));
 	
-	r.top = labelbottom + 1;
-	r.bottom = r.top + gTextViewHeight;
-	fMemo = new NavTextBox(r,"memoentry","",fTransaction.Memo(),new BMessage(M_MEMO_CHANGED),
-				B_FOLLOW_LEFT | B_FOLLOW_TOP);
-	fMemo->SetDivider(0);
-	AddChild(fMemo);
+	fMemo = new NavTextBox("memoentry","",fTransaction.Memo(),new BMessage(M_MEMO_CHANGED));
 	
-	fSplit = new BButton(BRect(0,0,1,1),"expander",TRANSLATE("Show Split"),new BMessage(M_EXPANDER_CHANGED),
-								B_FOLLOW_LEFT | B_FOLLOW_TOP, B_WILL_DRAW);
-	fSplit->ResizeToPreferred();
-	fSplit->MoveTo(10,fCategory->Frame().bottom + 10);
-	AddChild(fSplit);
+	fSplit = new BButton("expander",TRANSLATE("Show Split"),new BMessage(M_EXPANDER_CHANGED), B_WILL_DRAW);
 	
 	prefsLock.Lock();
 	BString splithelp = gAppPath;
 	prefsLock.Unlock();
 	splithelp << "helpfiles/" << gCurrentLanguage->Name() << "/Transaction Editor Window Help";
-	BPoint helppoint(fSplit->Frame().RightTop());
-	helppoint.x += 10;
-	helppoint.y += (fSplit->Frame().Height()-16)/2;
-	fHelpButton = new HelpButton(helppoint,"splithelp",splithelp.String());
-	AddChild(fHelpButton);
+	fHelpButton = new HelpButton("splithelp",splithelp.String());
 	
-	// This is what *really* handles the split transactions. *heh*
-	r.left = 10;
-	r.right = Bounds().right - 10;
-	r.top = fSplit->Frame().bottom + 15;
-	r.bottom = r.top + 200;
-	fSplitContainer = new BView(r,"splitcontainer",B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP, B_WILL_DRAW);
+	fSplitContainer = new BView("splitcontainer", B_WILL_DRAW);
 	fSplitContainer->SetViewColor(240,240,240);
-	AddChild(fSplitContainer);
 	
-	fAddSplit = new BButton(BRect(0,0,1,1), "addsplit",TRANSLATE("Add Item"),
-							new BMessage(M_ADD_SPLIT));
-	fAddSplit->ResizeToPreferred();
-	fSplitContainer->AddChild(fAddSplit);
+	fAddSplit = new BButton("addsplit",TRANSLATE("Add Item"), new BMessage(M_ADD_SPLIT));
 	
-	fRemoveSplit = new BButton(BRect(0,0,1,1), "removesplit",TRANSLATE("Remove Item"),
-								new BMessage(M_REMOVE_SPLIT));
-	fRemoveSplit->ResizeToPreferred();
-	fRemoveSplit->MoveTo(fAddSplit->Frame().right + 10, 0);
-	fSplitContainer->AddChild(fRemoveSplit);
+	fRemoveSplit = new BButton("removesplit",TRANSLATE("Remove Item"), new BMessage(M_REMOVE_SPLIT));
 	
-	r = fSplitContainer->Bounds();
-	r.top = fAddSplit->Frame().bottom + 10;
-	r.right = (fAmount->Frame().right - 5) / 3;
-	r.bottom = r.top + gTextViewHeight;
-	fSplitCategory = new BTextControl(r, "splitcategory",NULL,NULL,NULL,
-								B_FOLLOW_LEFT | B_FOLLOW_TOP, B_WILL_DRAW);
+	fSplitCategory = new BTextControl("splitcategory",NULL,NULL,NULL, B_WILL_DRAW);
 	
-	// Believe it or not, negative divider values really do work with SetDivider. In
-	// this case, this is a hack to make the frame of the text control vertically line
-	// up with the BListView. It's only needed, though, on R5.
-	if(B_BEOS_VERSION <= B_BEOS_VERSION_5)
-		fSplitCategory->SetDivider(-2);
 	
-	fSplitContainer->AddChild(fSplitCategory);
+	fSplitAmount = new BTextControl("splitamount",NULL,NULL,NULL, B_WILL_DRAW);
 	
-	r.left = r.right + 2;
-	r.right = r.left + fSplitContainer->StringWidth("$000,000.00");
-	fSplitAmount = new BTextControl(r, "splitamount",NULL,NULL,NULL,
-								B_FOLLOW_LEFT | B_FOLLOW_TOP, B_WILL_DRAW);
-	fSplitAmount->SetDivider(0);
-	fSplitContainer->AddChild(fSplitAmount);
+	fSplitMemo = new BTextControl("splitmemo",NULL,NULL,NULL, B_WILL_DRAW);
 	
-	r.left = r.right + 2;
-	r.right = fSplitContainer->Bounds().right;
-	fSplitMemo = new BTextControl(r, "splitmemo",NULL,NULL,NULL,
-								B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP, B_WILL_DRAW);
-	fSplitMemo->SetDivider(0);
-	fSplitContainer->AddChild(fSplitMemo);
-	
-	r = fSplitContainer->Bounds();
-	r.top = fAddSplit->Frame().bottom + 10 + gTextViewHeight + 10;
-	r.bottom -= 15;
-	r.right -= B_V_SCROLL_BAR_WIDTH + 2;
-	r.left+=2;
-	fSplitItems = new BListView(r,"splititems");
+	fSplitItems = new BListView("splititems");
 	fSplitItems->SetSelectionMessage(new BMessage(M_SELECT_SPLIT));
-	fSplitScroller = new BScrollView("split scroller",fSplitItems,B_FOLLOW_LEFT_RIGHT | 
-									B_FOLLOW_BOTTOM,0,false,true);
-	fSplitContainer->AddChild(fSplitScroller);
+	fSplitScroller = new BScrollView("split scroller",fSplitItems,0,false,true);
 	
 	BString totallabel(TRANSLATE("Total"));
 	totallabel << ": " << fTransaction.Amount().AbsoluteValue().AsFloat();
-	fSplitTotal = new BStringView(BRect(fSplitMemo->Frame().left,0,
-										fSplitContainer->Bounds().right,
-										fSplitMemo->Frame().top - 5),
-									"splittotal",totallabel.String());
-	fSplitContainer->AddChild(fSplitTotal);
+	fSplitTotal = new BStringView("splittotal",totallabel.String());
 	fSplitContainer->Hide();
 	
-	fEnter = new BButton(BRect(0,0,1,1),"enterbutton",TRANSLATE("Enter"),
-						new BMessage(M_ENTER_TRANSACTION),B_FOLLOW_RIGHT|B_FOLLOW_TOP);
-	fEnter->ResizeToPreferred();
-	fEnter->MoveTo(Bounds().Width() - fEnter->Frame().Width() - 10,
-					fMemo->Frame().bottom + 10);
-	AddChild(fEnter);
+	fEnter = new BButton("enterbutton",TRANSLATE("Enter"),
+						new BMessage(M_ENTER_TRANSACTION));
+
 	#ifndef ENTER_NAVIGATION
 	fEnter->MakeDefault(true);
 	#endif
@@ -266,6 +134,46 @@ SplitView::SplitView(const BRect &frame, const char *name, const TransactionData
 		fCategory->SetText(TRANSLATE("Split Transaction"));
 		fStartExpanded = true;
 	}
+	
+	BLayoutBuilder::Group<>(fSplitContainer, B_VERTICAL, 0)
+		.SetInsets(0)
+		.AddGrid(1.0f, 0.0f)
+			.Add(fAddSplit, 0, 0)
+			.Add(fRemoveSplit, 1, 0)
+			.AddGlue(2, 0)
+			.Add(fSplitTotal, 3, 0)
+			.AddGlue(4, 0)
+		.End()
+		.AddGrid(1.0f, 0.0f)
+			.Add(fSplitCategory, 0, 0)
+			.Add(fSplitAmount, 1, 0)
+			.Add(fSplitMemo, 3, 0)
+		.End()
+		.Add(fSplitScroller)
+	.End();
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.SetInsets(10)
+		.AddGrid(1.0f, 0.0f)
+			.Add(fDateLabel, 0, 0)
+			.Add(fDate, 0, 1, 2)
+			.Add(fTypeLabel, 2, 0)
+			.Add(fType, 2, 1)
+			.Add(fPayeeLabel, 3, 0)
+			.Add(fPayee, 3, 1, 2)
+			.Add(fAmountLabel, 5, 0)
+			.Add(fAmount, 5, 1, 2)
+			.Add(fCategoryLabel, 0, 2)
+			.Add(fCategory, 0, 3, 3)
+			.Add(fMemoLabel, 3, 2)
+			.Add(fMemo, 3, 3, 4)
+			.Add(fSplit, 0, 5)
+			.Add(fHelpButton, 1, 5)
+			.Add(fEnter, 6, 5)
+		.End()
+		.AddGroup(B_VERTICAL, 0.0f)
+			.Add(fSplitContainer)
+		.End()
+	.End();
 }
 
 SplitView::~SplitView(void)
@@ -286,15 +194,12 @@ void SplitView::AttachedToWindow(void)
 	fMemo->GetFilter()->SetMessenger(new BMessenger(this));
 	
 	fEnter->SetTarget(this);
-	Window()->ResizeTo(Bounds().Width(),fSplit->Frame().bottom + 10);
 	fDate->MakeFocus(true);
 	fSplit->SetTarget(this);
 	fAddSplit->SetTarget(this);
 	fRemoveSplit->SetTarget(this);
 	fSplitItems->SetTarget(this);
-	
-	Window()->SetSizeLimits(Bounds().Width(),30000,Bounds().Height(),30000);
-	
+		
 	if(fStartExpanded)
 	{
 	//	fSplit->Invoke();
@@ -744,14 +649,6 @@ void SplitView::MakeFocus(bool value)
 
 void SplitView::FrameResized(float width, float height)
 {
-	fAmountLabel->MoveTo(fPayee->Frame().right + 2, fAmountLabel->Frame().top);
-	fCategoryLabel->ResizeTo(Bounds().Width()/2,fCategoryLabel->Bounds().Height());
-	fCategory->ResizeTo((fAmount->Frame().right - 5) / 3,fCategory->Bounds().Height());
-	
-	fMemo->MoveTo(fCategory->Frame().right + 2, fMemo->Frame().top);
-	fMemo->ResizeTo(fAmount->Frame().right - fMemo->Frame().left,
-					fMemo->Frame().Height());
-	fMemoLabel->MoveTo(fCategory->Frame().right + 2, fMemoLabel->Frame().top);
 }
 
 bool SplitView::ValidateSplitAmountField(void)
@@ -848,7 +745,6 @@ void SplitView::ToggleSplit(void)
 	{
 		fSplit->SetLabel(TRANSLATE("Hide Split"));
 		
-		Window()->ResizeBy(0,200);
 		fSplitContainer->Show();
 		fCategory->SetEnabled(false);
 		if(fCategory->ChildAt(0)->IsFocus())
@@ -861,9 +757,7 @@ void SplitView::ToggleSplit(void)
 	else
 	{
 		fSplit->SetLabel(TRANSLATE("Show Split"));
-		
-		Window()->ResizeBy(0,-200);
-		
+				
 		fSplitContainer->Hide();
 		fCategory->SetEnabled(true);
 	}

@@ -7,8 +7,8 @@
 #include "Translate.h"
 
 // Calculates the user's net worth by adding up the balances of all accounts
-QTNetWorthItem::QTNetWorthItem(const BRect &rect, const char *name, uint32 resize, uint32 flags)
- :	QuickTrackerItem(rect,name,resize,flags),
+QTNetWorthItem::QTNetWorthItem(const char *name, uint32 flags)
+ :	QuickTrackerItem(name,flags),
  	fIgnore(false)
 {
 	for(int32 i=0; i<gDatabase.CountAccounts(); i++)
@@ -31,7 +31,6 @@ void QTNetWorthItem::AttachedToWindow(void)
 {
 	QuickTrackerItem::AttachedToWindow();
 	Calculate();
-	ResizeTo(Bounds().Width(),(LineHeight() * CountLines()) + 5);
 }
 
 void QTNetWorthItem::SetObserving(const bool &value)
@@ -138,9 +137,9 @@ void QTNetWorthItem::Calculate(void)
 }
 
 // Calculates the budget variance for one category
-QTBudgetCategoryItem::QTBudgetCategoryItem(const char *category, const BRect &rect,
-		const char *name, uint32 resize, uint32 flags)
- :	QuickTrackerItem(rect,name,resize,flags),
+QTBudgetCategoryItem::QTBudgetCategoryItem(const char *category, 
+								const char *name, uint32 flags)
+ :	QuickTrackerItem(name,flags),
  	fIgnore(false)
 {
 	for(int32 i=0; i<gDatabase.CountAccounts(); i++)
@@ -165,7 +164,6 @@ void QTBudgetCategoryItem::AttachedToWindow(void)
 {
 	QuickTrackerItem::AttachedToWindow();
 	Calculate();
-//	ResizeTo(Bounds().Width(),(LineHeight() * CountLines()) + 5);
 }
 
 void QTBudgetCategoryItem::SetObserving(const bool &value)
@@ -249,13 +247,14 @@ void QTBudgetCategoryItem::Calculate(void)
 	}
 }
 
-QuickTrackerItem::QuickTrackerItem(const BRect &rect, const char *name, uint32 resize, uint32 flags)
- : BTextView(rect,name,BRect(rect).OffsetToCopy(0,0).InsetByCopy(2,2),resize,flags)
+QuickTrackerItem::QuickTrackerItem(const char *name, uint32 flags)
+ : BTextView(name,flags)
 {
 	MakeEditable(false);
 	MakeSelectable(false);
 	gDatabase.AddObserver(this);
 }
+
 
 QuickTrackerItem::~QuickTrackerItem(void)
 {

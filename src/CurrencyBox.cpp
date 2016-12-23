@@ -36,9 +36,9 @@ filter_result CurrencyBoxFilter::KeyFilter(const int32 &key, const int32 &mod)
 	return B_DISPATCH_MESSAGE;
 }
 
-CurrencyBox::CurrencyBox(const BRect &frame, const char *name, const char *label,
-			const char *text, BMessage *msg, uint32 resize, uint32 flags)
- : NavTextBox(frame,name,label,text,msg,resize,flags)
+CurrencyBox::CurrencyBox(const char *name, const char *label,
+			const char *text, BMessage *msg, uint32 flags)
+ : NavTextBox(name,label,text,msg,flags)
 {
 	SetFilter(new CurrencyBoxFilter(this));
 
@@ -52,6 +52,7 @@ CurrencyBox::CurrencyBox(const BRect &frame, const char *name, const char *label
 	}
 	SetCharacterLimit(20);
 }
+
 
 bool CurrencyBox::Validate(bool alert)
 {

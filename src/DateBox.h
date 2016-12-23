@@ -15,10 +15,10 @@ public:
 class DateBox : public AutoTextControl
 {
 public:
-	DateBox(const BRect &frame, const char *name, const char *label,
+	DateBox(const char *name, const char *label,
 			const char *text, BMessage *msg,
-			uint32 resize = B_FOLLOW_LEFT | B_FOLLOW_TOP,
 			uint32 flags = B_WILL_DRAW | B_NAVIGABLE);
+
 	void SetDate(const time_t &date) { fCurrentDate = date; }
 	time_t GetDate(void) const { return fCurrentDate; }
 	bool Validate(const bool &alert=true);

@@ -1,3 +1,5 @@
+#include <GridLayout.h>
+#include <LayoutBuilder.h>
 #include <Messenger.h>
 #include <Window.h>
 #include <stdlib.h>
@@ -26,139 +28,66 @@ enum
 	M_ENTER_TRANSACTION='entr'
 };
 
-CheckView::CheckView(const BRect &frame, const char *name, int32 resize, int32 flags)
- : BView(frame,name,resize,flags | B_FRAME_EVENTS)
+CheckView::CheckView(const char *name, int32 flags)
+		: BView(name,flags | B_FRAME_EVENTS)
 {
-	BRect r;
+	fDateLabel = new BStringView("datelabel",TRANSLATE("Date"));
+	fDate = new DateBox("dateentry","",NULL,new BMessage(M_DATE_CHANGED));
 	
-	r.left = 2;
-	r.top = 0;
-	r.bottom = gStringViewHeight;
-	r.right = 15;
-	fDateLabel = new BStringView(r,"datelabel",TRANSLATE("Date"));
-	fDateLabel->ResizeToPreferred();
-	AddChild(fDateLabel);
+	fTypeLabel=new BStringView("typelabel",TRANSLATE("Type"));
+	fType = new CheckNumBox("typeentry","",NULL,new BMessage(M_TYPE_CHANGED));
 	
-	float texttop = 0;
-	float controltop = fDateLabel->Frame().bottom + 1;
+	fPayeeLabel = new BStringView("payeelabel",TRANSLATE("Payee"));
+	fPayee = new PayeeBox("payeeentry","",NULL,new BMessage(M_PAYEE_CHANGED));
 	
-	r.left = 0;
-	r.top = controltop;
-	r.bottom = controltop + gTextViewHeight;
-	r.right = r.left + StringWidth("00-00-0000")+15;
-	fDate = new DateBox(r,"dateentry","",NULL,new BMessage(M_DATE_CHANGED),
-					B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
-	fDate->SetDivider(0);
-	AddChild(fDate);
+	fAmountLabel = new BStringView("amountlabel",TRANSLATE("Amount"));
+	fAmount = new CurrencyBox("amountentry","","",new BMessage(M_AMOUNT_CHANGED));
 	
-	r.left = r.right + 2;
-	r.right = r.left + StringWidth("0000")+15;
-	r.top = controltop;
-	r.bottom = controltop + gTextViewHeight;
-	fType = new CheckNumBox(r,"typeentry","",NULL,new BMessage(M_TYPE_CHANGED),
-					B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
-	fType->SetDivider(0);
-	AddChild(fType);
+	fCategoryLabel = new BStringView("categorylabel",TRANSLATE("Category"));
+	fCategory = new CategoryBox("categoryentry","",NULL,new BMessage(M_CATEGORY_CHANGED));
 	
-	r.left += 2;
-	r.top = texttop;
-	r.bottom = texttop + gStringViewHeight;
-	fTypeLabel=new BStringView(r,"typelabel",TRANSLATE("Type"));
-	fTypeLabel->ResizeToPreferred();
-	AddChild(fTypeLabel);
-	
-	r.left = r.right + 2;
-	r.right = Bounds().right - StringWidth("$000,000.00") - 12;
-	r.top = controltop;
-	r.bottom = controltop + gTextViewHeight;
-	fPayee = new PayeeBox(r,"payeeentry","",NULL,new BMessage(M_PAYEE_CHANGED),
-				B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
-	fPayee->SetDivider(0);
-	AddChild(fPayee);
-	
-	r.left += 2;
-	r.top = texttop;
-	r.bottom = gStringViewHeight;
-	fPayeeLabel = new BStringView(r,"payeelabel",TRANSLATE("Payee"));
-	fPayeeLabel->ResizeToPreferred();
-	AddChild(fPayeeLabel);
-	
-	r.right = Bounds().right;
-	r.top = controltop;
-	r.bottom = controltop + gTextViewHeight;
-	r.left = r.right - StringWidth("$000,000.00") - 10;
-	fAmount = new CurrencyBox(r,"amountentry","","",new BMessage(M_AMOUNT_CHANGED),
-					B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
-	fAmount->SetDivider(0);
-	AddChild(fAmount);
-	
-	r.left += 2;
-	r.top = texttop;
-	r.bottom = gStringViewHeight;
-	fAmountLabel = new BStringView(r,"amountlabel",TRANSLATE("Amount"));
-	fAmountLabel->ResizeToPreferred();
-	AddChild(fAmountLabel);
-
-	texttop = fDate->Frame().bottom + 1;
-	controltop = texttop + gStringViewHeight + 1;
-	
-	r.top = texttop;
-	r.bottom = texttop + gStringViewHeight;
-	r.left = 0;
-	r.right = (fAmount->Frame().right - 5) / 3;
-	fCategoryLabel = new BStringView(r,"categorylabel",TRANSLATE("Category"));
-	AddChild(fCategoryLabel);
-	
-	r.top = controltop;
-	r.bottom = controltop + gTextViewHeight;
-	fCategory = new CategoryBox(r,"categoryentry","",NULL,new BMessage(M_CATEGORY_CHANGED),
-				B_FOLLOW_LEFT | B_FOLLOW_BOTTOM);
-	fCategory->SetDivider(0);
-	AddChild(fCategory);
-	
-	r.left = fCategory->Frame().right + 2;
-	r.right = fAmount->Frame().right;
-	r.top = texttop;
-	r.bottom = texttop + gStringViewHeight;
-	fMemoLabel = new BStringView(r,"memolabel",TRANSLATE("Memo"));
-	AddChild(fMemoLabel);
-	
-	r.top = controltop;
-	r.bottom = controltop + gTextViewHeight;
-	fMemo = new NavTextBox(r,"memoentry","",NULL,new BMessage(M_MEMO_CHANGED),
-				B_FOLLOW_LEFT | B_FOLLOW_TOP);
-	fMemo->SetDivider(0);
+	fMemoLabel = new BStringView("memolabel",TRANSLATE("Memo"));
+	fMemo = new NavTextBox("memoentry","",NULL,new BMessage(M_MEMO_CHANGED));
 	fMemo->TextView()->DisallowChar(B_ESCAPE);
 	fMemo->SetCharacterLimit(21);
-	AddChild(fMemo);
 	
 	prefsLock.Lock();
 	BString rechelp = gAppPath;
 	prefsLock.Unlock();
 	rechelp << "helpfiles/" << gCurrentLanguage->Name() << "/Main Window Help";
+	fHelpButton = new HelpButton("rechelp",rechelp.String());
 	
-	BPoint helppoint(fCategory->Frame().LeftBottom());
-	helppoint.y += ( (Bounds().bottom-helppoint.y)-16)/2;
-	fHelpButton = new HelpButton(helppoint,"rechelp",rechelp.String());
-	AddChild(fHelpButton);
-	
-	fEnter = new BButton(BRect(0,0,1,1),"enterbutton",TRANSLATE("Enter"),
-						new BMessage(M_ENTER_TRANSACTION),B_FOLLOW_RIGHT|B_FOLLOW_BOTTOM);
+	fEnter = new BButton("enterbutton",TRANSLATE("Enter"),new BMessage(M_ENTER_TRANSACTION));
 	
 	#ifndef ENTER_NAVIGATION
 	fEnter->MakeDefault(true);
 	#endif
 	
-	fEnter->ResizeToPreferred();
-	fEnter->MoveTo(Bounds().Width() - fEnter->Frame().Width(),
-					fMemo->Frame().bottom + 10);
-	
 //	#ifndef ENTER_NAVIGATION
 //	fEnter->MoveBy(0,-8);
 //	#endif
-	AddChild(fEnter);
 	
 	gDatabase.AddObserver(this);
+	
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.SetInsets(0)
+		.AddGrid(1.0f, 0.0f)
+			.Add(fDateLabel, 0, 0)
+			.Add(fDate, 0, 1, 2)
+			.Add(fTypeLabel, 2, 0)
+			.Add(fType, 2, 1)
+			.Add(fPayeeLabel, 3, 0)
+			.Add(fPayee, 3, 1, 2)
+			.Add(fAmountLabel, 5, 0)
+			.Add(fAmount, 5, 1, 2)
+			.Add(fCategoryLabel, 0, 2)
+			.Add(fCategory, 0, 3, 3)
+			.Add(fMemoLabel, 3, 2)
+			.Add(fMemo, 3, 3, 4)
+			.Add(fHelpButton, 0, 5)
+			.Add(fEnter, 6, 5)
+		.End()
+	.End();
 }
 
 CheckView::~CheckView(void)
@@ -423,14 +352,6 @@ void CheckView::MakeFocus(bool value)
 
 void CheckView::FrameResized(float width, float height)
 {
-	fAmountLabel->MoveTo(fPayee->Frame().right + 2, fAmountLabel->Frame().top);
-	fCategoryLabel->ResizeTo(Bounds().Width()/2,fCategoryLabel->Bounds().Height());
-	fCategory->ResizeTo((fAmount->Frame().right - 5) / 3,fCategory->Bounds().Height());
-	
-	fMemo->MoveTo(fCategory->Frame().right + 2, fMemo->Frame().top);
-	fMemo->ResizeTo(fAmount->Frame().right - fMemo->Frame().left,
-					fMemo->Frame().Height());
-	fMemoLabel->MoveTo(fCategory->Frame().right + 2, fMemoLabel->Frame().top);
 }
 
 void CheckView::DoNextField(void)

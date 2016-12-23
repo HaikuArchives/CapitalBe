@@ -14,7 +14,7 @@ class CheckView;
 class RegisterView : public BView, public Observer
 {
 public:
-	RegisterView(BRect frame, const char *name, int32 resize, int32 flags);
+	RegisterView(const char *name, int32 flags);
 	~RegisterView(void);
 	void MessageReceived(BMessage *msg);
 	void AttachedToWindow(void);

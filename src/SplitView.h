@@ -41,8 +41,7 @@ class HelpButton;
 class SplitView : public BView, public Observer
 {
 public:
-	SplitView(const BRect &frame, const char *name, const TransactionData &trans,
-			const int32 &resize, const int32 &flags);
+	SplitView(const char *name, const TransactionData &trans, const int32 &flags);
 	~SplitView(void);
 	void AttachedToWindow(void);
 	void DetachedFromWindow(void);

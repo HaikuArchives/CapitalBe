@@ -18,7 +18,7 @@ class TransactionItem;
 class TransactionView : public BView, public Observer
 {
 public:
-	TransactionView(BRect frame);
+	TransactionView(void);
 	~TransactionView(void);
 	
 	void AttachedToWindow(void);

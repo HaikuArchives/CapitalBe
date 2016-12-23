@@ -1,4 +1,6 @@
 #include "BudgetWindow.h"
+
+#include <LayoutBuilder.h>
 #include <MenuBar.h>
 #include <Message.h>
 #include <StringView.h>
@@ -35,74 +37,40 @@ enum
 extern int compare_stringitem(const void *item1, const void *item2);
 
 BudgetWindow::BudgetWindow(const BRect &frame)
- :	BWindow(frame,TRANSLATE("Budget"), B_DOCUMENT_WINDOW, B_ASYNCHRONOUS_CONTROLS),
+ :	BWindow(frame,TRANSLATE("Budget"), B_DOCUMENT_WINDOW, B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
  	fIncomeGrid(13,0),
  	fSpendingGrid(13,0)
 {
-	fBackView = new BView(Bounds(),"background",B_FOLLOW_ALL,B_WILL_DRAW);
-	AddChild(fBackView);
+	fBackView = new BView("background",B_WILL_DRAW);
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f)
+		.SetInsets(0)
+		.Add(fBackView)
+	.End();
 	fBackView->SetViewColor(240,240,240);
 
-	BRect r(Bounds());
-	r.bottom = 16;
-	fBar = new BMenuBar(Bounds(),"menubar");
-	fBackView->AddChild(fBar);
-
+	fBar = new BMenuBar("menubar");
 	fBar->AddItem(new BMenuItem(TRANSLATE("Recalculate All"),new BMessage(M_BUDGET_RECALCULATE)));
 	fBar->AddItem(new BMenuItem(TRANSLATE("Set All to Zero"),new BMessage(M_BUDGET_ZERO)));
 
 	BuildBudgetSummary();
-
-	if(frame.Height() < ((fBudgetSummary->Frame().Height()+15) * 3)+45)
-	{
-		ResizeTo(Frame().Width(),((fBudgetSummary->Frame().Height()+15) * 3)+45);
-		fBudgetSummary->MoveTo(15,Bounds().bottom - 15 - fBudgetSummary->Frame().Height());
-	}
-
 	BuildStatsAndEditor();
 	BuildCategoryList();
 
-	// We add the children here in order to make Tab navigation work properly
-	fBackView->AddChild(fCategoryList);
-
-	fCatBox->AddChild(fAmountBox);
-	fCatBox->AddChild(fMonthly);
-	fCatBox->AddChild(fWeekly);
-	fCatBox->AddChild(fQuarterly);
-	fCatBox->AddChild(fAnnually);
-	fBackView->AddChild(fCatBox);
-
-	// Have to do this idiocy because BTextControl::Resize* don't work unless
-	// attached to a window. Grr...
-	fAmountBox->ResizeToPreferred();
-	fAmountBox->ResizeTo( ((fCatBox->Bounds().Width() - 10)/2) - 5,
-						fAmountBox->Bounds().Height());
+	BFont font;
+	BLayoutBuilder::Group<>(fCatBox, B_VERTICAL, 0.0f)
+		.SetInsets(10, font.Size() * 1.3, 10, 10)
+		.Add(fAmountLabel)
+		.Add(fAmountBox)
+		.AddGrid(B_USE_DEFAULT_SPACING, 1.0f)
+			.Add(fMonthly, 0, 0)
+			.Add(fWeekly, 1, 0)
+			.Add(fQuarterly, 0, 1)
+			.Add(fAnnually, 1, 1)
+		.End()	
+	.End();
 	fAmountBox->SetText("");
 
-	fAmountLabel->MoveTo(5,( (fCatBox->Bounds().Height() - 10) -
-								fAmountLabel->Bounds().Height() -
-								fAmountBox->Bounds().Height()) / 2 );
-	fAmountBox->MoveTo(5,fAmountLabel->Frame().bottom + 1);
-
-	fBackView->AddChild(fCatStat);
-
-	fBackView->AddChild(fBudgetSummary);
-
 	fAmountBox->GetFilter()->SetMessenger(new BMessenger(this));
-
-	// This jazz ensures that if Bounds()/3 isn't adequate for the current
-	// font size and locale that it will be at least wide enough to display
-	// the column headings
-	if (fCategoryList->ScrollBar(B_HORIZONTAL)) {
-		float hmin,hmax;
-		fCategoryList->ScrollBar(B_HORIZONTAL)->GetRange(&hmin, &hmax);
-		if(hmax > 0)
-			ResizeBy(hmax + B_V_SCROLL_BAR_WIDTH + 20,0);
-	}
-
-	// These are just rough edjumacated guesses which should do for most purposes
-	SetSizeLimits( ((fBackView->StringWidth("0000")+20)*10)+30,30000,
-					((fBudgetSummary->Frame().Height()+15) * 3)+45,30000);
 
 	if(gDatabase.CountBudgetEntries()==0)
 		GenerateBudget(false);
@@ -111,6 +79,22 @@ BudgetWindow::BudgetWindow(const BRect &frame)
 	RefreshCategories();
 	RefreshBudgetSummary();
 	fCategoryList->MakeFocus(true);
+	
+	BLayoutBuilder::Group<>(fBackView, B_VERTICAL, 0.0f)
+		.SetInsets(0)
+		.Add(fBar)
+		.AddGroup(B_VERTICAL)
+			.SetInsets(10, 10, 10, 10)
+			.AddGroup(B_HORIZONTAL)
+				.Add(fCategoryList)
+				.AddGroup(B_VERTICAL)
+					.Add(fCatBox)
+					.Add(fCatStat)
+				.End()
+			.End()
+			.Add(fBudgetSummary)
+		.End()
+	.End();	
 }
 
 BudgetWindow::~BudgetWindow(void)
@@ -712,23 +696,12 @@ void BudgetWindow::SetPeriod(const BudgetPeriod &period)
 void BudgetWindow::BuildStatsAndEditor(void)
 {
 	// Add the category statistics
-	BRect temprect;
 	BString temp;
 	rgb_color white = {255,255,255,255};
 	float statwidth = fBackView->StringWidth(TRANSLATE("12 Month Statistics")) + 20;
 	float amountwidth = fBackView->StringWidth("000,000.00") + 20;
 
-	temprect.right = Bounds().right - 15;
-	temprect.left = temprect.right - statwidth - amountwidth -
-					B_V_SCROLL_BAR_WIDTH - 20;
-	temprect.bottom = fBudgetSummary->Frame().top - 10;
-	temprect.top = fBar->Frame().bottom + 15;
-
-	BRect r = temprect;
-	r.top = r.bottom - (r.Height() / 2) + 5;
-
-	fCatStat = new BColumnListView(r,"categorystats",B_FOLLOW_BOTTOM |
-														B_FOLLOW_RIGHT,
+	fCatStat = new BColumnListView("categorystats",
 										B_WILL_DRAW | B_NAVIGABLE,B_FANCY_BORDER);
 	fCatStat->AddColumn(new BStringColumn(TRANSLATE("12 Month Statistics"),statwidth,
 											10,300,B_TRUNCATE_END),0);
@@ -755,52 +728,21 @@ void BudgetWindow::BuildStatsAndEditor(void)
 	fCatStat->SetColor(B_COLOR_HEADER_BACKGROUND,GetColor(BC_GRID_HEADER));
 
 	// Add the category editor
-	r = temprect;
-	r.bottom = r.top + (r.Height() / 2) - 5;
-	fCatBox = new BBox(r,"catbox",B_FOLLOW_RIGHT | B_FOLLOW_TOP_BOTTOM);
+	fCatBox = new BBox("catbox");
 	fCatBox->SetLabel(TRANSLATE("Edit Category"));
 
-	r = fCatBox->Bounds().InsetByCopy(10,10);
-	r.left += (r.Width()/2) + 5;
-	fMonthly = new BRadioButton(r,"monthoption",TRANSLATE("Monthly"),new BMessage(M_SET_PERIOD_MONTH),
-								B_FOLLOW_RIGHT | B_FOLLOW_TOP);
-	fMonthly->ResizeToPreferred();
-	r = fMonthly->Frame();
-	r.right = fCatBox->Bounds().right - 10;
-
-	fWeekly = new BRadioButton(r,"weekoption",TRANSLATE("Weekly"),new BMessage(M_SET_PERIOD_WEEK),
-								B_FOLLOW_RIGHT | B_FOLLOW_TOP);
-	fWeekly->ResizeToPreferred();
-	r = fWeekly->Frame();
-	r.right = fCatBox->Bounds().right - 10;
-
-	fQuarterly = new BRadioButton(r,"quarteroption",TRANSLATE("Quarterly"),new BMessage(M_SET_PERIOD_QUARTER),
-								B_FOLLOW_RIGHT | B_FOLLOW_TOP);
-	fQuarterly->ResizeToPreferred();
-	r = fQuarterly->Frame();
-	r.right = fCatBox->Bounds().right - 10;
-
-	fAnnually = new BRadioButton(r,"yearoption",TRANSLATE("Annually"),new BMessage(M_SET_PERIOD_YEAR),
-								B_FOLLOW_RIGHT | B_FOLLOW_TOP);
-	fAnnually->ResizeToPreferred();
-	r = fAnnually->Frame();
-	r.right = fCatBox->Bounds().right - 10;
-
-	fWeekly->MoveBy(0,fQuarterly->Bounds().Height());
-	fQuarterly->MoveBy(0,(fQuarterly->Bounds().Height()*2));
-	fAnnually->MoveBy(0,(fQuarterly->Bounds().Height()*3));
+	fMonthly = new BRadioButton("monthoption",TRANSLATE("Monthly"),new BMessage(M_SET_PERIOD_MONTH));
+	fWeekly = new BRadioButton("weekoption",TRANSLATE("Weekly"),new BMessage(M_SET_PERIOD_WEEK));
+	fQuarterly = new BRadioButton("quarteroption",TRANSLATE("Quarterly"),new BMessage(M_SET_PERIOD_QUARTER));
+	fAnnually = new BRadioButton("yearoption",TRANSLATE("Annually"),new BMessage(M_SET_PERIOD_YEAR));
 
 	fMonthly->SetValue(B_CONTROL_ON);
 
 	temp = TRANSLATE("Amount"); temp += ":";
-	fAmountLabel = new BStringView(BRect(5,5,20,25),"amountlabel",temp.String());
-	fAmountLabel->ResizeToPreferred();
-	fCatBox->AddChild(fAmountLabel);
+	fAmountLabel = new BStringView("amountlabel",temp.String());
 
-	fAmountBox = new CurrencyBox(BRect(5,5,20,20),"amountbox",NULL,"$00,000.00",
+	fAmountBox = new CurrencyBox("amountbox",NULL,"$00,000.00",
 									new BMessage(M_AMOUNT_CHANGED));
-
-	fAmountBox->SetDivider(0);
 }
 
 void BudgetWindow::BuildBudgetSummary(void)
@@ -811,13 +753,7 @@ void BudgetWindow::BuildBudgetSummary(void)
 	fSummarySpendingRow = new BRow();
 	fSummaryTotalRow = new BRow();
 
-	BRect r;
-	r.bottom = Bounds().bottom - 15;
-	r.top = r.bottom - (fSummaryIncomeRow->Height() * 4.4) - B_H_SCROLL_BAR_HEIGHT;
-	r.left = 15;
-	r.right = Bounds().right - 15;
-	fBudgetSummary = new BColumnListView(r,"budgetsummary",B_FOLLOW_LEFT_RIGHT |
-															B_FOLLOW_BOTTOM,
+	fBudgetSummary = new BColumnListView("budgetsummary",
 										B_WILL_DRAW | B_NAVIGABLE,B_FANCY_BORDER);
 	fBudgetSummary->SetSortingEnabled(false);
 	fBudgetSummary->AddColumn(new BStringColumn(TRANSLATE("Summary"),
@@ -872,14 +808,7 @@ void BudgetWindow::BuildCategoryList(void)
 {
 	rgb_color white = {255,255,255,255};
 
-	// Set up category list
-	BRect r;
-	r.top = fBar->Frame().bottom + 15;
-	r.left = 15;
-	r.right = fCatStat->Frame().left - 10;
-	r.bottom = fBudgetSummary->Frame().top - 10;
-
-	fCategoryList = new BColumnListView(r,"categorylist",B_FOLLOW_ALL,
+	fCategoryList = new BColumnListView("categorylist",
 										B_WILL_DRAW | B_NAVIGABLE,B_FANCY_BORDER, true);
 	fCategoryList->SetSortingEnabled(false);
 	fCategoryList->SetSelectionMessage(new BMessage(M_SELECT_CATEGORY));

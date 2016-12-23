@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <Font.h>
 #include <ListView.h>
 #include <String.h>
 #include <View.h>
@@ -70,18 +71,19 @@ void AccountListItem::DrawItem(BView *owner, BRect frame, bool complete = false)
 	else
 		owner->SetHighColor(200, 200, 200);
 	owner->SetFont(be_bold_font);
-	owner->DrawString(fAccount->Name(), BPoint(frame.left + 5, frame.top + 14));
+	BFont font;
+	owner->DrawString(fAccount->Name(), BPoint(frame.left + 5, frame.top + (font.Size())));
 	owner->SetFont(be_plain_font);
 	
 	if(fAccount->IsClosed())
 	{
-		owner->DrawString(TRANSLATE("Closed"), BPoint(frame.left + 5, frame.top + 26));
+		owner->DrawString(TRANSLATE("Closed"), BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
 	}
 	else
 	{
 		BString text;
 		fAccount->GetLocale().CurrencyToString(fAccount->Balance(),text);
-		owner->DrawString(text.String(), BPoint(frame.left + 5, frame.top + 26));
+		owner->DrawString(text.String(), BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
 	}
 }
 

@@ -1,3 +1,4 @@
+#include <LayoutBuilder.h>
 #include <String.h>
 #include <ScrollView.h>
 #include <MessageFilter.h>
@@ -40,19 +41,13 @@ private:
 */
 
 ReconcileWindow::ReconcileWindow(const BRect frame, Account *account)
- : BWindow(frame,"",B_DOCUMENT_WINDOW_LOOK,B_NORMAL_WINDOW_FEEL,B_NOT_MINIMIZABLE |	
- 	B_NOT_ZOOMABLE)
+ : BWindow(frame,"",B_DOCUMENT_WINDOW_LOOK,B_NORMAL_WINDOW_FEEL,B_NOT_MINIMIZABLE |
+	B_NOT_ZOOMABLE)
 {
 	BString temp;
 	fCurrentDate = GetCurrentDate();
 //	AddCommonFilter(new ReconcileFilter(this));
-	
-	SetSizeLimits(500,30000,235,30000);
-	if(frame.Width() < 500)
-		ResizeBy(500 - frame.Width(),0);
-	if(frame.Height() < 235)
-		ResizeBy(0,235 - frame.Height());
-	
+
 	if(account)
 	{
 		temp = TRANSLATE("Reconcile");
@@ -62,201 +57,143 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account *account)
 	}
 	fAccount = account;
 	
-	
+		
 	AddShortcut('W',B_COMMAND_KEY,new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q',B_COMMAND_KEY,new BMessage(B_QUIT_REQUESTED));
 	
-	BView *back = new BView(Bounds(),"backview",B_FOLLOW_ALL,B_WILL_DRAW);
-	AddChild(back);
+	BView *back = new BView("backview",B_WILL_DRAW);
 	back->SetViewColor(240,240,240);
-	
-	BRect r;
-	
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.SetInsets(0)
+		.Add(back)
+	.End();
 	
 	temp = TRANSLATE("Date"); temp += ":";
 	float width = back->StringWidth(temp.String());
 	
-	r.left = 10;
-	r.top = 10;
-	r.bottom = 40;
-	r.right = r.left + width + back->StringWidth("00-00-0000") + 20;
 	BString datestr;
 	gDefaultLocale.DateToString(GetCurrentDate(),datestr);
-	fDate = new DateBox(r,"dateentry",temp.String(),datestr.String(),NULL,B_FOLLOW_LEFT | B_FOLLOW_TOP);
-	fDate->SetDivider(width+5);
-//	fDate->SetEscapeCancel(true);
-	
-	back->AddChild(fDate);
+	fDate = new DateBox("dateentry",temp.String(),datestr.String(),NULL);
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
 	
-	fDateMultiplier = fDate->Bounds().Width() / Bounds().Width();
 	
 	temp = TRANSLATE("Starting Balance"); temp += ": ";
-	width = back->StringWidth(temp.String());
-	r = fDate->TextView()->Bounds().OffsetByCopy(10,10);
-	r.left = fDate->Frame().right + 10;
-	r.right = r.left + width + back->StringWidth("0000000") + 20;
-	fOpening = new CurrencyBox(r,"starting",temp.String(),NULL,new BMessage(M_SET_BALANCES),
-								B_FOLLOW_LEFT | B_FOLLOW_TOP);
-	fOpening->SetDivider(width + 5);
-	back->AddChild(fOpening);
+	fOpening = new CurrencyBox("starting",temp.String(),NULL,new BMessage(M_SET_BALANCES));
 	fOpening->GetFilter()->SetMessenger(new BMessenger(this));
-	fOpeningMultiplier = fOpening->Bounds().Width() / Bounds().Width();
 	
 	temp = TRANSLATE("Ending Balance"); temp += ":";
-	width = back->StringWidth(temp.String());
-	r = fDate->TextView()->Bounds().OffsetByCopy(10,10);
-	r.left = fOpening->Frame().right + 10;
-	r.right = Bounds().right - 10;
-	fClosing = new CurrencyBox(r,"closing",temp.String(),NULL,
-								new BMessage(M_SET_BALANCES), B_FOLLOW_LEFT | B_FOLLOW_TOP);
-	fClosing->SetDivider(width + 5);
-	back->AddChild(fClosing);
+	fClosing = new CurrencyBox("closing",temp.String(),NULL,
+								new BMessage(M_SET_BALANCES));
 	fClosing->GetFilter()->SetMessenger(new BMessenger(this));
-	fClosingMultiplier = fClosing->Bounds().Width() / Bounds().Width();
 	
-	r.OffsetTo(10,fDate->Frame().bottom + 10);
 	temp = TRANSLATE("Bank Charges"); temp += ":";
-	width = back->StringWidth(temp.String());
-	r.right = (Bounds().Width()/2)-15;
-	fCharges = new CurrencyBox(r,"charges",temp.String(),NULL,NULL,
-								B_FOLLOW_LEFT | B_FOLLOW_TOP);
-	fCharges->SetDivider(width + 5);
-	back->AddChild(fCharges);
+	fCharges = new CurrencyBox("charges",temp.String(),NULL,NULL);
 	fCharges->GetFilter()->SetMessenger(new BMessenger(this));
 	
-	r.OffsetTo(fCharges->Frame().right + 10,r.top);
 	temp = TRANSLATE("Interest Earned"); temp += ":";
-	width = back->StringWidth(temp.String());
-	r.right = Bounds().right - 10;
-	fInterest = new CurrencyBox(r,"interest",temp.String(),NULL,NULL,
-								B_FOLLOW_LEFT | B_FOLLOW_TOP);
-	fInterest->SetDivider(width + 5);
-	back->AddChild(fInterest);
+	fInterest = new CurrencyBox("interest",temp.String(),NULL,NULL);
 	fInterest->GetFilter()->SetMessenger(new BMessenger(this));
-	
-	// 10 pixels padding in between each listview
-	float listwidth = (Bounds().Width() - (B_V_SCROLL_BAR_WIDTH*3) - 40)/3;
-	
-	r.OffsetTo(10,r.bottom+30);
-	r.right = r.left + listwidth;
-	r.bottom = Bounds().bottom - 105;
-	fDepositList = new BListView(r,"depositlist",B_SINGLE_SELECTION_LIST,B_FOLLOW_ALL);
+		
+	fDepositList = new BListView("depositlist",B_SINGLE_SELECTION_LIST);
 	fDepositList->SetFlags(fDepositList->Flags() | B_FULL_UPDATE_ON_RESIZE);
 	fDepositList->SetInvocationMessage(new BMessage(M_TOGGLE_DEPOSIT));
-	fDepScroll = new BScrollView("fDepScroll",fDepositList,B_FOLLOW_TOP_BOTTOM|B_FOLLOW_LEFT,
-													0,false,true);
-	back->AddChild(fDepScroll);
+	fDepScroll = new BScrollView("fDepScroll",fDepositList,0,false,true);
 	fDepScroll->SetViewColor(back->ViewColor());
 	
-	r.OffsetTo(fDepScroll->Frame().right + 10,r.top);
-	fCheckList = new BListView(r,"checklist",B_SINGLE_SELECTION_LIST,B_FOLLOW_ALL);
+	fCheckList = new BListView("checklist",B_SINGLE_SELECTION_LIST);
 	fCheckList->SetFlags(fDepositList->Flags() | B_FULL_UPDATE_ON_RESIZE);
 	fCheckList->SetInvocationMessage(new BMessage(M_TOGGLE_CHECK));
-	fCheckScroll = new BScrollView("fCheckScroll",fCheckList,B_FOLLOW_TOP_BOTTOM|B_FOLLOW_LEFT,
-													0,false,true);
-	back->AddChild(fCheckScroll);
+	fCheckScroll = new BScrollView("fCheckScroll",fCheckList,0,false,true);
 	fCheckScroll->SetViewColor(back->ViewColor());
 	
-	r.OffsetTo(fCheckScroll->Frame().right + 10,r.top);
-	fChargeList = new BListView(r,"chargelist",B_SINGLE_SELECTION_LIST,B_FOLLOW_ALL);
+	fChargeList = new BListView("chargelist",B_SINGLE_SELECTION_LIST);
 	fChargeList->SetFlags(fDepositList->Flags() | B_FULL_UPDATE_ON_RESIZE);
 	fChargeList->SetInvocationMessage(new BMessage(M_TOGGLE_CHARGE));
-	fChargeScroll = new BScrollView("fChargeScroll",fChargeList,B_FOLLOW_TOP_BOTTOM|B_FOLLOW_LEFT,
-													0,false,true);
-	back->AddChild(fChargeScroll);
+	fChargeScroll = new BScrollView("fChargeScroll",fChargeList,0,false,true);
 	fChargeScroll->SetViewColor(back->ViewColor());
 	
-	float pwidth, pheight;
 	BString label;
 	
 	gCurrentLocale.CurrencyToString(fDepositTotal,label);
 	temp = TRANSLATE("Total Deposits");
 	temp << ": " << label;
 	
-	r.left = fDepScroll->Frame().left;
-	r.top = fDepScroll->Frame().bottom+5;
-	fDepLabel = new BStringView(r,"deplabel",temp.String(),B_FOLLOW_BOTTOM|B_FOLLOW_LEFT);
-	fDepLabel->GetPreferredSize(&pwidth, &pheight);
-	fDepLabel->ResizeTo(fDepScroll->Frame().Width(),pheight);
-	back->AddChild(fDepLabel);
+	fDepLabel = new BStringView("deplabel",temp.String());
 	fDepLabel->SetAlignment(B_ALIGN_RIGHT);
 		
-	r.left = fCheckScroll->Frame().left;
 	gCurrentLocale.CurrencyToString(fCheckTotal,label);
 	temp = TRANSLATE("Total Checks");
 	temp << ": " << label;
 	
-	fCheckLabel = new BStringView(r,"checklabel",temp.String(),
-								B_FOLLOW_BOTTOM|B_FOLLOW_LEFT);
-	fCheckLabel->GetPreferredSize(&pwidth, &pheight);
-	fCheckLabel->ResizeTo(fCheckScroll->Frame().Width(),pheight);
-	back->AddChild(fCheckLabel);
+	fCheckLabel = new BStringView("checklabel",temp.String());
 	fCheckLabel->SetAlignment(B_ALIGN_RIGHT);
 	
-	r.left = fChargeScroll->Frame().left;
 	gCurrentLocale.CurrencyToString(fChargeTotal,label);
 	temp = TRANSLATE("Total Charges");
 	temp << ": " << label;
-	fChargeLabel = new BStringView(r,"chargelabel",temp.String(),
-									B_FOLLOW_BOTTOM|B_FOLLOW_LEFT);
-	fChargeLabel->GetPreferredSize(&pwidth, &pheight);
-	fChargeLabel->ResizeTo(fChargeScroll->Frame().Width(),pheight);
-	back->AddChild(fChargeLabel);
+	fChargeLabel = new BStringView("chargelabel",temp.String());
 	fChargeLabel->SetAlignment(B_ALIGN_RIGHT);
 	
-	fReconcile = new BButton(BRect(0,0,1,1),"reconcile",TRANSLATE("Reconcile"),
-							new BMessage(M_RECONCILE),B_FOLLOW_RIGHT | B_FOLLOW_BOTTOM);
-	fReconcile->ResizeToPreferred();
-	fReconcile->MoveTo(Bounds().right - 12 - fReconcile->Frame().Width(),
-						Bounds().bottom - 15 - fReconcile->Frame().Height());
+	fReconcile = new BButton("reconcile",TRANSLATE("Reconcile"),
+							new BMessage(M_RECONCILE));
 	
-	fCancel = new BButton(BRect(0,0,1,1),"cancel",TRANSLATE("Cancel"),
-							new BMessage(B_QUIT_REQUESTED),B_FOLLOW_RIGHT |	B_FOLLOW_BOTTOM);
-	fCancel->ResizeToPreferred();
-	fCancel->MoveTo(fReconcile->Frame().left - 10 - fCancel->Frame().Width(),
-					fReconcile->Frame().top);
+	fCancel = new BButton("cancel",TRANSLATE("Cancel"),
+							new BMessage(B_QUIT_REQUESTED));
 	
-	fReset = new BButton(BRect(0,0,1,1),"reset",TRANSLATE("Reset"),new BMessage(M_RESET),
-							B_FOLLOW_RIGHT|B_FOLLOW_BOTTOM);
-	fReset->ResizeToPreferred();
-	fReset->MoveTo(fCancel->Frame().left - 30 - fReset->Frame().Width(),
-					fReconcile->Frame().top);
+	fReset = new BButton("reset",TRANSLATE("Reset"),new BMessage(M_RESET));
 	
-	fAutoReconcile = new BButton(BRect(0,0,1,1),"autoreconcile",
-							TRANSLATE("Quick Balance"),new BMessage(M_AUTORECONCILE),
-							B_FOLLOW_LEFT |	B_FOLLOW_BOTTOM);
-	fAutoReconcile->ResizeToPreferred();
-	fAutoReconcile->MoveTo(10, Bounds().bottom - 15 - fAutoReconcile->Frame().Height());
+	fAutoReconcile = new BButton("autoreconcile",TRANSLATE("Quick Balance"),
+									new BMessage(M_AUTORECONCILE));
 	
 	prefsLock.Lock();
 	BString rechelp = gAppPath;
 	prefsLock.Unlock();
 	rechelp << "helpfiles/" << gCurrentLanguage->Name() << "/Reconcile Window Help";
-	BPoint helppoint(fAutoReconcile->Frame().RightTop());
-	helppoint.x += 10;
-	helppoint.y += (fAutoReconcile->Frame().Height()-16)/2;
-	fHelpButton = new HelpButton(helppoint,"rechelp",rechelp.String());
-	fHelpButton->SetResizingMode(B_FOLLOW_BOTTOM);
-	
-	back->AddChild(fAutoReconcile);
-	back->AddChild(fHelpButton);
-	back->AddChild(fReset);
-	back->AddChild(fCancel);
-	back->AddChild(fReconcile);
-	
-	r = fDepLabel->Frame();
-	r.OffsetBy(0,r.Height()+15);
+	fHelpButton = new HelpButton("rechelp",rechelp.String());
+		
 	temp = TRANSLATE("Unreconciled Total"); temp += ":";
-	fTotalLabel = new BStringView(r,"totallabel",temp.String(),
-									B_FOLLOW_BOTTOM|B_FOLLOW_LEFT);
-	fTotalLabel->GetPreferredSize(&pwidth, &pheight);
-	fTotalLabel->ResizeTo(fReset->Frame().left - 10 - fTotalLabel->Frame().left,pheight);
-	back->AddChild(fTotalLabel);
+	fTotalLabel = new BStringView("totallabel",temp.String());
 	
 	account->DoForEachTransaction(AddReconcileItems,this);
 		
 	fDate->MakeFocus(true);
+	
+	BLayoutBuilder::Group<>(back, B_VERTICAL, 0)
+		.SetInsets(10)
+		.AddGrid(1.0f, 1.0f)
+			.Add(fDate, 0, 0)
+			.Add(fOpening, 1, 0, 2)		
+			.Add(fClosing, 3, 0, 2)
+		.End()
+		.AddGrid()
+			.Add(fCharges, 0, 0)
+			.Add(fInterest, 1, 0)
+		.End()
+		.AddGroup(B_HORIZONTAL)
+			.AddGroup(B_VERTICAL, 0)
+				.Add(fDepScroll)
+				.Add(fDepLabel)
+			.End()
+			.AddGroup(B_VERTICAL, 0)
+				.Add(fCheckScroll)
+				.Add(fCheckLabel)
+			.End()
+			.AddGroup(B_VERTICAL, 0)
+				.Add(fChargeScroll)
+				.Add(fChargeLabel)
+			.End()
+		.End()
+		.AddGrid(1.0f, 1.0f)
+			.Add(fTotalLabel, 0, 0)
+			.Add(fAutoReconcile, 0, 1)
+			.Add(fHelpButton, 1, 1)
+			.AddGlue(2, 1, 2)
+			.Add(fReset, 4, 1)
+			.AddGlue(5, 1)
+			.Add(fCancel, 6, 1)
+			.Add(fReconcile, 7, 1)
+		.End()
+	.End();
 }
 
 ReconcileWindow::~ReconcileWindow(void)
@@ -272,6 +209,7 @@ void ReconcileWindow::FrameResized(float w, float h)
 	// We implement our own resizing routines because all the controls need to be resized in a proportional
 	// manner of the window being resized, such as the 3 listviews each taking up just a little less than 1/3
 	// of the window's width
+/*
 	fDate->ResizeTo(w * fDateMultiplier, fDate->Frame().Height());
 	fOpening->ResizeTo(w * fOpeningMultiplier, fOpening->Frame().Height());
 	fOpening->MoveTo(fDate->Frame().right + 10,fOpening->Frame().top);
@@ -301,6 +239,7 @@ void ReconcileWindow::FrameResized(float w, float h)
 	fDepLabel->ResizeTo(fDepScroll->Frame().Width(),fDepLabel->Frame().Height());
 	fCheckLabel->ResizeTo(fCheckScroll->Frame().Width(),fCheckLabel->Frame().Height());
 	fChargeLabel->ResizeTo(fChargeScroll->Frame().Width(),fChargeLabel->Frame().Height());
+*/
 }
 
 void ReconcileWindow::MessageReceived(BMessage *msg)

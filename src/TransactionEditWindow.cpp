@@ -1,3 +1,4 @@
+#include <LayoutBuilder.h>
 #include "TransactionEditWindow.h"
 #include "Translate.h"
 
@@ -6,10 +7,13 @@
 TransactionEditWindow::TransactionEditWindow(const BRect &frame, 
 											const TransactionData &trans)
  :	BWindow(frame, TRANSLATE("Edit Transaction"),B_DOCUMENT_WINDOW_LOOK,
-		 	B_FLOATING_APP_WINDOW_FEEL,B_NOT_V_RESIZABLE)
+		 	B_FLOATING_APP_WINDOW_FEEL,B_AUTO_UPDATE_SIZE_LIMITS)
 {
-	fSplitView = new SplitView(Bounds(),"splitview",trans,B_FOLLOW_ALL,B_WILL_DRAW);
-	AddChild(fSplitView);
+	fSplitView = new SplitView("splitview",trans,B_WILL_DRAW);
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.SetInsets(0)
+		.Add(fSplitView)
+	.End();
 	
 	AddShortcut('S',B_COMMAND_KEY,new BMessage(M_TOGGLE_SPLIT));
 	AddShortcut('A',B_COMMAND_KEY,new BMessage(M_ADD_SPLIT));
