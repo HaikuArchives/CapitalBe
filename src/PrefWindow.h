@@ -34,8 +34,7 @@ private:
 class DatePrefView : public BView
 {
 public:
-	DatePrefView(const BRect &frame, const char *name, Locale *locale = NULL,
-			const int32 &resize = B_FOLLOW_ALL,
+	DatePrefView(const char *name, Locale *locale = NULL,
 			const int32 &flags = B_WILL_DRAW);
 	void AttachedToWindow(void);
 	void MessageReceived(BMessage *msg);
@@ -56,8 +55,7 @@ private:
 class CurrencyPrefView : public BView
 {
 public:
-	CurrencyPrefView(const BRect &frame, const char *name, Locale *locale = NULL,
-			const int32 &resize = B_FOLLOW_ALL,
+	CurrencyPrefView(const char *name, Locale *locale = NULL,
 			const int32 &flags = B_WILL_DRAW);
 	void AttachedToWindow(void);
 	void MessageReceived(BMessage *msg);

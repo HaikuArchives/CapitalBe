@@ -1,6 +1,7 @@
 #include "TransferWindow.h"
 #include <MessageFilter.h>
 #include "DAlert.h"
+#include <LayoutBuilder.h>
 #include <ScrollView.h>
 #include <Messenger.h>
 
@@ -22,7 +23,7 @@
 TransferWindow::TransferWindow(BHandler *target)
  : BWindow(BRect(100,100,500,350),TRANSLATE("Add Account Transfer"),B_TITLED_WINDOW_LOOK,
  			B_MODAL_APP_WINDOW_FEEL,B_NOT_RESIZABLE | B_NOT_MINIMIZABLE |
- 			B_NOT_ZOOMABLE),
+ 			B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS),
  	fMessenger(target),
  	fMessage(M_CREATE_TRANSFER)
 {
@@ -32,7 +33,7 @@ TransferWindow::TransferWindow(BHandler *target)
 TransferWindow::TransferWindow(BHandler *target, Account *src,  Account *dest, const Fixed &amount)
  : BWindow(BRect(100,100,300,300),TRANSLATE("Edit Transfer"),B_TITLED_WINDOW_LOOK,
  			B_MODAL_APP_WINDOW_FEEL,B_NOT_RESIZABLE | B_NOT_MINIMIZABLE |
- 			B_NOT_ZOOMABLE),
+ 			B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS),
  	fMessenger(target)
 {
 	InitObject(src,dest,amount);
@@ -44,64 +45,41 @@ void TransferWindow::InitObject(Account *src,  Account *dest, const Fixed &amoun
 	AddShortcut('W',B_COMMAND_KEY,new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q',B_COMMAND_KEY,new BMessage(B_QUIT_REQUESTED));
 	
-	BView *back = new BView(Bounds(),"back",B_FOLLOW_ALL,B_WILL_DRAW);
+	BView *back = new BView("back",B_WILL_DRAW);
 	back->SetViewColor(240,240,240);
-	AddChild(back);
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.SetInsets(0)
+		.Add(back)
+	.End();
 	
 	temp = TRANSLATE("From Account"); temp += ":";
-	fFromLabel = new BStringView(BRect(10,10,11,11),"fromlabel",temp.String());
-	fFromLabel->ResizeToPreferred();
-	back->AddChild(fFromLabel);
+	fFromLabel = new BStringView("fromlabel",temp.String());
 	
 	BRect r(Bounds());
-	r.left = MAX(Bounds().Width()/2,fFromLabel->Frame().right+10);
-	r.right -= 10;
-	r.top = 10;
-	r.bottom = 11;
 	temp = TRANSLATE("To Account"); temp += ":";
-	fToLabel = new BStringView(r,"tolabel",temp.String());
-	fToLabel->ResizeToPreferred();
-	back->AddChild(fToLabel);
+	fToLabel = new BStringView("tolabel",temp.String());
 	
-	fOK = new BButton(BRect(0,0,1,1),"okbutton",TRANSLATE("Cancel"),
-						new BMessage(M_CREATE_TRANSFER),B_FOLLOW_RIGHT|B_FOLLOW_BOTTOM);
-	fOK->ResizeToPreferred();
+	fOK = new BButton("okbutton",TRANSLATE("Cancel"),
+						new BMessage(M_CREATE_TRANSFER));
 	fOK->SetLabel(TRANSLATE("OK"));
-	fOK->MoveTo(Bounds().right - 10 - fOK->Frame().Width(),
-				Bounds().bottom - 10 - fOK->Frame().Height());
 	fOK->SetEnabled(false);
 	fOK->MakeDefault(true);
 	
-	fCancel = new BButton(BRect(0,0,1,1),"cancelbutton",TRANSLATE("Cancel"),
-				new BMessage(B_QUIT_REQUESTED),B_FOLLOW_RIGHT|B_FOLLOW_BOTTOM);
-	fCancel->ResizeToPreferred();
-	fCancel->MoveTo(fOK->Frame().left - 10 - fCancel->Frame().Width(),
-				Bounds().bottom - 10 - fCancel->Frame().Height());
+	fCancel = new BButton("cancelbutton",TRANSLATE("Cancel"),
+				new BMessage(B_QUIT_REQUESTED));
 	
-	r = fOK->Frame();
-	r.top += 5;
-	r.left = 10;
-	r.right = MIN(fCancel->Frame().left - 10,Bounds().Width()/2);
 	temp = TRANSLATE("Memo"); temp += ":";
-	fMemo = new BTextControl(r,"memobox",temp.String(),NULL,NULL,B_FOLLOW_LEFT_RIGHT|B_FOLLOW_TOP);
-	fMemo->SetDivider(fMemo->StringWidth(temp.String())+5);
+	fMemo = new BTextControl("memobox",temp.String(),NULL,NULL);
 	
-	r = fMemo->TextView()->Frame();
-	r.OffsetTo(fMemo->Frame().right+10,fOK->Frame().top - r.Height() - 10);
-	r.right = Bounds().right - 10;
 	BString amt;
 	gCurrentLocale.CurrencyToString(amount,amt);
 	temp = TRANSLATE("Amount"); temp += ":";
-	fAmount = new CurrencyBox(r,"amountbox",temp.String(),amt.String(),NULL,B_FOLLOW_LEFT_RIGHT|B_FOLLOW_TOP);
+	fAmount = new CurrencyBox("amountbox",temp.String(),amt.String(),NULL);
 	fAmount->GetFilter()->SetMessenger(new BMessenger(this));
-	fAmount->SetDivider(fAmount->StringWidth(temp.String())+5);
 	
-	r.right = r.left - 10;
-	r.left = 10;
 	temp = TRANSLATE("Date"); temp += ":";
-	fDate = new DateBox(r,"datebox",temp.String(),"",NULL,B_FOLLOW_LEFT_RIGHT|B_FOLLOW_TOP);
+	fDate = new DateBox("datebox",temp.String(),"",NULL);
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
-	fDate->SetDivider(fDate->StringWidth(temp.String())+5);
 //	fDate->SetEscapeCancel(true);
 	
 	if(src && dest)
@@ -116,33 +94,18 @@ void TransferWindow::InitObject(Account *src,  Account *dest, const Fixed &amoun
 		gDefaultLocale.DateToString(fDate->GetDate(),datestr);
 		fDate->SetText(datestr.String());
 	}
-	
-	r.left = fFromLabel->Frame().left;
-	r.top = fFromLabel->Frame().bottom + 5;
-	r.right = fToLabel->Frame().left - 10 - B_V_SCROLL_BAR_WIDTH;
-	r.bottom = fAmount->Frame().top - 10;
-	
-	fSourceList = new BListView(r,"sourcelist");
-	BScrollView *scrollsrc = new BScrollView("sourcescroll",fSourceList, B_FOLLOW_LEFT | B_FOLLOW_TOP,
+		
+	fSourceList = new BListView("sourcelist");
+	BScrollView *scrollsrc = new BScrollView("sourcescroll",fSourceList,
 											0,false,true);
-	back->AddChild(scrollsrc);
 	fSourceList->SetSelectionMessage(new BMessage(M_SOURCE_SELECTED));
 	scrollsrc->SetViewColor(back->ViewColor());
 	
-	r.left = fToLabel->Frame().left;
-	r.right = Bounds().right - 10 - B_V_SCROLL_BAR_WIDTH;
-	fDestList = new BListView(r,"destlist");
-	BScrollView *scrolldest = new BScrollView("destscroll",fDestList,B_FOLLOW_LEFT | B_FOLLOW_TOP,
+	fDestList = new BListView("destlist");
+	BScrollView *scrolldest = new BScrollView("destscroll",fDestList,
 											0,false,true);
-	back->AddChild(scrolldest);
 	fDestList->SetSelectionMessage(new BMessage(M_DEST_SELECTED));
 	scrolldest->SetViewColor(back->ViewColor());
-	
-	back->AddChild(fDate);
-	back->AddChild(fAmount);
-	back->AddChild(fMemo);
-	back->AddChild(fCancel);
-	back->AddChild(fOK);
 	
 	int32 current=-1;
 	for(int32 i=0; i<gDatabase.CountAccounts(); i++)
@@ -155,6 +118,7 @@ void TransferWindow::InitObject(Account *src,  Account *dest, const Fixed &amoun
 			if(acc == gDatabase.CurrentAccount())
 				current = i;
 		}
+		
 	}
 	
 	if(current>=0)
@@ -175,6 +139,24 @@ void TransferWindow::InitObject(Account *src,  Account *dest, const Fixed &amoun
 	}
 	else
 		fDestList->MakeFocus(true);
+
+	BLayoutBuilder::Group<>(back, B_VERTICAL, 0)
+		.SetInsets(10)
+		.AddGrid(4.0f, 1.0f)
+			.Add(fFromLabel, 0, 0)
+			.Add(scrollsrc, 0, 1, 2)
+			.Add(fDate, 0, 2, 2)
+			.Add(fMemo, 0, 3, 2)
+			.Add(fToLabel, 2, 0)
+			.Add(scrolldest,2, 1, 2)
+			.Add(fAmount, 2, 2, 2)
+			.AddGrid(1.0f, 1.0f, 2, 3, 2)
+				.AddGlue(0, 0)
+				.Add(fCancel, 1, 0)
+				.Add(fOK, 2, 0)
+			.End()
+		.End()
+	.End();
 }
 
 void TransferWindow::SetMessage(BMessage msg)

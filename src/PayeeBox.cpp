@@ -66,13 +66,15 @@ filter_result PayeeBoxFilter::KeyFilter(const int32 &key, const int32 &mod)
 	return B_DISPATCH_MESSAGE;
 }
 
-PayeeBox::PayeeBox(const BRect &frame, const char *name, const char *label,
-			const char *text, BMessage *msg, uint32 resize, uint32 flags)
- : AutoTextControl(frame,name,label,text,msg,resize,flags)
+PayeeBox::PayeeBox(const char *name, const char *label,
+			const char *text, BMessage *msg, uint32 flags)
+ : AutoTextControl(name,label,text,msg,flags)
 {
 	SetFilter(new PayeeBoxFilter(this));
 	SetCharacterLimit(32);
 }
+
+
 
 bool PayeeBox::Validate(const bool &showalert)
 {

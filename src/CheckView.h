@@ -34,7 +34,7 @@ class PayeeBox;
 class CheckView : public BView, public Observer
 {
 public:
-	CheckView(const BRect &frame, const char *name, int32 resize, int32 flags);
+	CheckView(const char *name, int32 flags);
 	~CheckView(void);
 	void AttachedToWindow(void);
 	void MessageReceived(BMessage *msg);

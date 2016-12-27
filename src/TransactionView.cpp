@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <Bitmap.h>
 #include <Box.h>
+#include <LayoutBuilder.h>
 #include <ScrollBar.h>
 #include <StringView.h>
 #include <TranslationUtils.h>
@@ -10,26 +11,25 @@
 #include "TransactionLayout.h"
 #include "TransactionView.h"
 
-TransactionView::TransactionView(BRect frame) 
- :	BView(frame,"transactionview", B_FOLLOW_ALL, B_WILL_DRAW | B_SUBPIXEL_PRECISE |
+TransactionView::TransactionView() 
+ :	BView("transactionview", B_WILL_DRAW | B_SUBPIXEL_PRECISE |
 		  	B_FRAME_EVENTS),
 	fCurrent(NULL)
 {
 	InitTransactionItemLayout(this);
-	
-	font_height fh;
-	GetFontHeight(&fh);
-	
-	BRect r(Bounds().InsetByCopy(1,1));
-	r.right -= B_V_SCROLL_BAR_WIDTH;
-	fListView = new BListView(r, "RegisterList", B_SINGLE_SELECTION_LIST, B_FOLLOW_ALL,
+
+	fListView = new BListView("RegisterList", B_SINGLE_SELECTION_LIST,
 								B_WILL_DRAW|B_NAVIGABLE|B_FULL_UPDATE_ON_RESIZE);
 	fListView->SetSelectionMessage(new BMessage(M_TRANSACTION_SELECTED));
 	fListView->SetInvocationMessage(new BMessage(M_TRANSACTION_INVOKED));
-	fScrollView = new BScrollView("scrollregister", fListView, B_FOLLOW_ALL, 0, false, true);
-	AddChild(fScrollView);
-
+	fScrollView = new BScrollView("scrollregister", fListView, 0, false, true);	
+	
 	fItemList = new BObjectList<TransactionItem>(20,true);
+
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.SetInsets(0)
+		.Add(fScrollView)
+	.End();
 }
 
 TransactionView::~TransactionView(void)

@@ -1,9 +1,13 @@
-#include <Box.h>
 #include "PrefWindow.h"
-#include "EscapeCancelFilter.h"
-#include "Database.h"
+
+#include <Box.h>
+#include <Font.h>
+#include <LayoutBuilder.h>
 #include <Menu.h>
 #include <MenuItem.h>
+
+#include "EscapeCancelFilter.h"
+#include "Database.h"
 #include "Translate.h"
 
 // PrefWindow
@@ -25,53 +29,48 @@ enum
 PrefWindow::PrefWindow(const BRect &frame)
  : BWindow(frame,TRANSLATE("Options"),B_FLOATING_WINDOW_LOOK,
  			B_MODAL_APP_WINDOW_FEEL,
- 			B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE | B_NOT_ZOOMABLE)
+ 			B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	BString temp;
 	AddShortcut('W',B_COMMAND_KEY,new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q',B_COMMAND_KEY,new BMessage(B_QUIT_REQUESTED));
 	AddCommonFilter(new EscapeCancelFilter());
 	
-	BView *back = new BView(Bounds(),"back",B_FOLLOW_ALL,B_WILL_DRAW);
+	BView *back = new BView(NULL, B_WILL_DRAW);
 	back->SetViewColor(240,240,240);
-	AddChild(back);
-	
-	BRect r(Bounds());
-	r.InsetBy(10,10);
-	
+		
 	temp = TRANSLATE("Default Account Settings"); temp += ":";
-	fLabel = new BStringView(BRect(10,10,11,11),"windowlabel", temp.String());
+	fLabel = new BStringView("windowlabel", temp.String());
 	fLabel->SetFont(be_bold_font);
-	fLabel->ResizeToPreferred();
-	back->AddChild(fLabel);
 	
-	fDatePrefView = new DatePrefView(Bounds(),"dateview",&gDefaultLocale);
-	fDatePrefView->MoveTo(0,fLabel->Frame().bottom + 5);
+	fDatePrefView = new DatePrefView("dateview",&gDefaultLocale);
 
-	fCurrencyPrefView = new CurrencyPrefView(Bounds(),"dateview",&gDefaultLocale);
-	fCurrencyPrefView->MoveTo(0,fDatePrefView->Frame().bottom + 1);
+	fCurrencyPrefView = new CurrencyPrefView("dateview",&gDefaultLocale);
 	
-	fOK = new BButton(BRect(0,0,1,1),"okbutton",TRANSLATE("Cancel"),
-						new BMessage(M_EDIT_OPTIONS),
-						B_FOLLOW_RIGHT|B_FOLLOW_BOTTOM);
-	fOK->ResizeToPreferred();
+	fOK = new BButton("okbutton",TRANSLATE("Cancel"),
+						new BMessage(M_EDIT_OPTIONS));
 	fOK->SetLabel(TRANSLATE("OK"));
-	fOK->MoveTo(fCurrencyPrefView->Frame().right - fOK->Frame().Width() - 10,
-				fCurrencyPrefView->Frame().bottom + 10);
 	
-	fCancel = new BButton(BRect(0,0,1,1),"cancelbutton",TRANSLATE("Cancel"),
-				new BMessage(B_QUIT_REQUESTED),B_FOLLOW_RIGHT|B_FOLLOW_BOTTOM);
-	fCancel->ResizeToPreferred();
-	fCancel->MoveTo(fOK->Frame().left - 10 - fCancel->Frame().Width(), fOK->Frame().top);
-	
-	ResizeTo(fOK->Frame().right + 10,fOK->Frame().bottom + 10);
-	
-	back->AddChild(fDatePrefView);
-	back->AddChild(fCurrencyPrefView);
-	back->AddChild(fCancel);
-	back->AddChild(fOK);
-	
+	fCancel = new BButton("cancelbutton",TRANSLATE("Cancel"),
+				new BMessage(B_QUIT_REQUESTED));
+		
 	SetDefaultButton(fOK);
+
+	BLayoutBuilder::Group<>(back, B_VERTICAL, 0.0f)
+		.SetInsets(10, 10, 10, 10)
+		.Add(fLabel)
+		.Add(fDatePrefView)
+		.Add(fCurrencyPrefView)
+		.AddGrid(0.0f, 0.0f)
+			.AddGlue(0, 0)
+			.Add(fCancel, 1, 0)
+			.Add(fOK, 2, 0)
+		.End()
+	.End();
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(0)
+		.Add(back)
+	.End();
 }
 
 void PrefWindow::MessageReceived(BMessage *msg)
@@ -100,9 +99,8 @@ void PrefWindow::MessageReceived(BMessage *msg)
 	}
 }
 
-DatePrefView::DatePrefView(const BRect &frame, const char *name,  Locale *locale,
-		const int32 &resize, const int32 &flags)
- :	BView(frame,name,resize,flags)
+DatePrefView::DatePrefView(const char *name, Locale *locale, const int32 &flags)
+ :	BView(name,flags)
 {
 	BString temp;
 	SetViewColor(240,240,240);
@@ -111,61 +109,49 @@ DatePrefView::DatePrefView(const BRect &frame, const char *name,  Locale *locale
 		fLocale = *locale;
 	else
 		fLocale = gDefaultLocale;
-	
-	BRect r(Bounds());
-	r.InsetBy(10,10);
-	
-	BBox *fDateBox = new BBox(r);
+		
+	BBox *fDateBox = new BBox("DateBox");
 	fDateBox->SetLabel(TRANSLATE("Date"));
-	AddChild(fDateBox);
 	
-	r.Set(10,15,11,16);
 	BString datestr;
 	fLocale.DateToString(0,datestr);
 	temp = "";
 	temp << TRANSLATE("Date Format") << ":   " << datestr;
-	fDateLabel = new BStringView(r,"datelabel",temp.String());
-	fDateLabel->ResizeToPreferred();
-	fDateBox->AddChild(fDateLabel);
-	
-	r = fDateLabel->Frame();
-	r.OffsetBy(0,r.Height() + 10);
+	fDateLabel = new BStringView("datelabel",temp.String());
 	
 	temp = "";
 	temp << TRANSLATE("Month") << ", " << TRANSLATE("Day") << ", "
 		<< TRANSLATE("Year");
-	fDateMDY = new BRadioButton(r,"mdybutton",temp.String(),
+	fDateMDY = new BRadioButton("mdybutton",temp.String(),
 								new BMessage(M_MDY_FORMAT));
-	fDateMDY->ResizeToPreferred();
-	r = fDateMDY->Frame();
-	fDateBox->AddChild(fDateMDY);
 	
-	r.OffsetBy(0,r.Height());
 	temp = "";
 	temp << TRANSLATE("Day") << ", " << TRANSLATE("Month") << ", "
 		<< TRANSLATE("Year");
-	fDateDMY = new BRadioButton(r,"dmybutton",temp.String(),
+	fDateDMY = new BRadioButton("dmybutton",temp.String(),
 								new BMessage(M_DMY_FORMAT));
-	fDateBox->AddChild(fDateDMY);
 	if(fLocale.DateFormat()==DATE_MDY)
 		fDateMDY->SetValue(B_CONTROL_ON);
 	else
 		fDateDMY->SetValue(B_CONTROL_ON);
 	
-	r = fDateMDY->Frame();
-	r.OffsetBy(r.Width() + 10,0);
 	temp = TRANSLATE("Separator"); temp += ":";
-	r.right = r.left + StringWidth(temp.String()) + 35;
-	fDateSeparatorBox = new AutoTextControl(r,"datesep",temp.String(),
+	fDateSeparatorBox = new AutoTextControl("datesep",temp.String(),
 		fLocale.DateSeparator(),new BMessage(M_NEW_DATE_SEPARATOR));
 	fDateSeparatorBox->SetDivider(StringWidth(temp.String()) + 5);
 	fDateSeparatorBox->SetCharacterLimit(2);
-	fDateBox->AddChild(fDateSeparatorBox);
-	
-	fDateBox->ResizeTo(fDateSeparatorBox->Frame().right + 10,
-						fDateDMY->Frame().bottom + 10);
-		
-	ResizeTo(fDateBox->Frame().right + 1,fDateBox->Frame().bottom + 1);
+
+	BFont font;
+	BLayoutBuilder::Group<>(fDateBox, B_VERTICAL, 0.0f)
+		.SetInsets(10, font.Size() * 1.3, 10, 10)
+		.Add(fDateLabel)
+		.Add(fDateMDY)
+		.Add(fDateDMY)
+		.Add(fDateSeparatorBox)
+	.End();
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.Add(fDateBox)
+	.End();
 }
 
 void DatePrefView::AttachedToWindow(void)
@@ -222,9 +208,9 @@ void DatePrefView::GetSettings(Locale &locale)
 }
 
 
-CurrencyPrefView::CurrencyPrefView(const BRect &frame, const char *name,  Locale *locale,
-		const int32 &resize, const int32 &flags)
- :	BView(frame,name,resize,flags),
+CurrencyPrefView::CurrencyPrefView(const char *name,  Locale *locale,
+		const int32 &flags)
+ :	BView(name,flags),
  	fSampleAmount((long)12345678,true)
 {
 	BString temp;
@@ -234,66 +220,54 @@ CurrencyPrefView::CurrencyPrefView(const BRect &frame, const char *name,  Locale
 		fLocale = *locale;
 	else
 		fLocale = gDefaultLocale;
-	
-	BRect r(Bounds());
-	r.InsetBy(10,10);
-	
-	BBox *fCurrencyBox = new BBox(Bounds().InsetByCopy(10,10));
+		
+	BBox *fCurrencyBox = new BBox("CurrencyBox");
 	fCurrencyBox->SetLabel(TRANSLATE("Currency"));
-	AddChild(fCurrencyBox);
-	
-	r.Set(10,15,11,16);
 	
 	BString curstr;
 	fLocale.CurrencyToString(fSampleAmount,curstr);
 	temp = TRANSLATE("Currency Format");
 	temp << ":   " << curstr;
-	fCurrencyLabel = new BStringView(r,"datelabel",temp.String());
-	fCurrencyLabel->ResizeToPreferred();
-	fCurrencyBox->AddChild(fCurrencyLabel);
+	fCurrencyLabel = new BStringView("datelabel",temp.String());
 	
-	r = fCurrencyLabel->Frame();
-	r.OffsetBy(0,r.Height() + 10);
 	temp = TRANSLATE("Symbol"); temp += ":";
-	r.right = r.left + StringWidth(temp.String()) + 35;
-	fCurrencySymbolBox = new AutoTextControl(r,"moneysym",temp.String(),
+	fCurrencySymbolBox = new AutoTextControl("moneysym",temp.String(),
 		fLocale.CurrencySymbol(),new BMessage(M_NEW_CURRENCY_SYMBOL));
 	fCurrencySymbolBox->SetDivider(StringWidth(temp.String()) + 5);
 	fCurrencySymbolBox->SetCharacterLimit(2);
-	fCurrencyBox->AddChild(fCurrencySymbolBox);
-	
-	r.OffsetBy(r.Width() + 10,0);
-	fCurrencySymbolPrefix = new BCheckBox(r,"prefixcheck",
+
+	fCurrencySymbolPrefix = new BCheckBox("prefixcheck",
 										TRANSLATE("Appears Before Amount"),
 										new BMessage(M_TOGGLE_PREFIX));
-	fCurrencyBox->AddChild(fCurrencySymbolPrefix);
-	fCurrencySymbolPrefix->ResizeToPreferred();
 	fCurrencySymbolPrefix->SetValue( (fLocale.IsCurrencySymbolPrefix()) ?
 										B_CONTROL_ON : B_CONTROL_OFF );
 
-	r = fCurrencySymbolBox->Frame();
-	r.OffsetBy(0,r.Height() + 10);
 	temp = TRANSLATE("Separator"); temp += ":";
-	r.right = r.left + StringWidth(temp.String()) + 35;
-	fCurrencySeparatorBox = new AutoTextControl(r,"moneysep",temp.String(),
+	fCurrencySeparatorBox = new AutoTextControl("moneysep",temp.String(),
 		fLocale.CurrencySeparator(),new BMessage(M_NEW_CURRENCY_SEPARATOR));
 	fCurrencySeparatorBox->SetDivider(StringWidth(temp.String()) + 5);
 	fCurrencySeparatorBox->SetCharacterLimit(2);
-	fCurrencyBox->AddChild(fCurrencySeparatorBox);
 	
-	r.OffsetBy(r.Width() + 10,0);
 	temp = TRANSLATE("Decimal"); temp += ":";
-	r.right = r.left + StringWidth(temp.String()) + 35;
-	fCurrencyDecimalBox = new AutoTextControl(r,"moneydecimal",temp.String(),
+	fCurrencyDecimalBox = new AutoTextControl("moneydecimal",temp.String(),
 		fLocale.CurrencyDecimal(),new BMessage(M_NEW_CURRENCY_DECIMAL));
 	fCurrencyDecimalBox->SetDivider(StringWidth(temp.String()) + 5);
-	fCurrencyDecimalBox->SetCharacterLimit(2);
-	fCurrencyBox->AddChild(fCurrencyDecimalBox);
-	
-	fCurrencyBox->ResizeTo(fCurrencySymbolPrefix->Frame().right + 10,
-			fCurrencySeparatorBox->Frame().bottom + 10);
-	
-	ResizeTo(fCurrencyBox->Frame().right + 10,fCurrencyBox->Frame().bottom + 10);
+	fCurrencyDecimalBox->SetCharacterLimit(2);	
+
+	BFont font;
+	BLayoutBuilder::Group<>(fCurrencyBox, B_VERTICAL, 0.0f)
+		.SetInsets(10, font.Size() * 1.3, 10, 10)
+		.Add(fCurrencyLabel)
+		.AddGrid(1.0f, 1.0f)
+			.Add(fCurrencySymbolBox, 0, 0)
+			.Add(fCurrencySymbolPrefix, 1, 0)
+			.Add(fCurrencySeparatorBox, 0, 1)
+			.Add(fCurrencyDecimalBox, 1, 1)
+		.End()
+	.End();
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.Add(fCurrencyBox)
+	.End();
 }
 
 void CurrencyPrefView::AttachedToWindow(void)

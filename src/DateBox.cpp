@@ -106,9 +106,9 @@ filter_result DateBoxFilter::KeyFilter(const int32 &key, const int32 &mod)
 	return B_DISPATCH_MESSAGE;
 }
 
-DateBox::DateBox(const BRect &frame, const char *name, const char *label,
-			const char *text, BMessage *msg, uint32 resize, uint32 flags)
- :	AutoTextControl(frame,name,label,text,msg,resize,flags),
+DateBox::DateBox(const char *name, const char *label,
+			const char *text, BMessage *msg, uint32 flags)
+ :	AutoTextControl(name,label,text,msg,flags),
  	fFilterTab(true)
 {
 	SetFilter(new DateBoxFilter(this));
@@ -127,6 +127,7 @@ DateBox::DateBox(const BRect &frame, const char *name, const char *label,
 	// the user a little elbow room. ;^)
 	SetCharacterLimit(15);
 }
+
 
 bool DateBox::Validate(const bool &alert)
 {

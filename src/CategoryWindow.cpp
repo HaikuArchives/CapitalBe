@@ -3,6 +3,7 @@
 #include <Button.h>
 #include <CheckBox.h>
 #include <OutlineListView.h>
+#include <LayoutBuilder.h>
 #include <ListItem.h>
 #include <Message.h>
 #include <Messenger.h>
@@ -39,8 +40,7 @@ public:
 class CategoryView : public BView
 {
 public:
-	CategoryView(const BRect &frame,const char *name, const int32 &resize,
-					const int32 &flags);
+	CategoryView(const char *name, const int32 &flags);
 	void AttachedToWindow(void);
 	void MessageReceived(BMessage *msg);
 
@@ -112,59 +112,44 @@ private:
 	BScrollView *fScrollView;
 };
 
-CategoryView::CategoryView(const BRect &frame,const char *name,
-							const int32 &resize,const int32 &flags)
- :	BView(frame,name,resize,flags)
+CategoryView::CategoryView(const char *name, const int32 &flags)
+ :	BView(name,flags)
 {
 	BString temp;
 	SetViewColor(240,240,240);
 	
-	BRect r;
-	
 	// the buttons
 	temp = TRANSLATE("Edit"); temp+="…";
-	fEditButton = new BButton(BRect(0,0,1,1),"editbutton",temp.String(),
-						new BMessage(M_SHOW_EDIT_WINDOW),B_FOLLOW_LEFT|B_FOLLOW_BOTTOM);
-	
-	fEditButton->ResizeToPreferred();
-	fEditButton->MoveTo(15, Bounds().Height() - fEditButton->Frame().Height() - 15);
+	fEditButton = new BButton("editbutton",temp.String(), new BMessage(M_SHOW_EDIT_WINDOW));
 	
 	temp = TRANSLATE("Remove"); temp+="…";
-	fRemoveButton = new BButton(BRect(0,0,1,1),"removebutton",temp.String(),
-						new BMessage(M_SHOW_REMOVE_WINDOW),B_FOLLOW_LEFT|B_FOLLOW_BOTTOM);
-	
-	fRemoveButton->ResizeToPreferred();
-	fRemoveButton->MoveTo(fEditButton->Frame().right + 10, fEditButton->Frame().top);
-	
-	temp = TRANSLATE("Add"); temp+="…";
-	fAddButton = new BButton(fRemoveButton->Frame(),"addbutton",temp.String(),
-						new BMessage(M_SHOW_ADD_WINDOW),B_FOLLOW_LEFT|B_FOLLOW_BOTTOM);
-	
-	fAddButton->ResizeToPreferred();
-	fAddButton->MoveTo(fRemoveButton->Frame().right + 10,
-					fEditButton->Frame().top);
-	AddChild(fEditButton);
-	AddChild(fRemoveButton);
-	AddChild(fAddButton);
-	
-	r = (Bounds().InsetByCopy(15,15));
-	r.bottom = fRemoveButton->Frame().top - 15;
-	r.right -= B_V_SCROLL_BAR_WIDTH;
-	
-	// the category list
-	fListView = new BOutlineListView(r,"categorylist",B_SINGLE_SELECTION_LIST,
-									B_FOLLOW_ALL, B_WILL_DRAW | B_FRAME_EVENTS |
-									B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE);
-	BScrollView *sv = new BScrollView("scrollview",fListView,B_FOLLOW_ALL,0,
-										false,true);
-	AddChild(sv);
+	fRemoveButton = new BButton("removebutton",temp.String(), new BMessage(M_SHOW_REMOVE_WINDOW));
 		
+	temp = TRANSLATE("Add"); temp+="…";
+	fAddButton = new BButton("addbutton",temp.String(), new BMessage(M_SHOW_ADD_WINDOW));
+		
+	// the category list
+	fListView = new BOutlineListView("categorylist",B_SINGLE_SELECTION_LIST,
+									B_WILL_DRAW | B_FRAME_EVENTS | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE);
+	BScrollView *sv = new BScrollView("scrollview",fListView,0,false,true);
+	
 	fIncomeItem = new CategoryItem(TRANSLATE("Income"));
 	fSpendingItem = new CategoryItem(TRANSLATE("Spending"));
+
+	RefreshCategoryList();
 	
-	float maxwidth = RefreshCategoryList();
-	fBestWidth = (fRemoveButton->Frame().Width()*3) + 45;
-	fBestWidth = MAX(fBestWidth, maxwidth + 35);
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(15, 15)
+		.AddGrid(1.0f, 1.0f)
+			.Add(sv, 0, 0, 4)
+			.AddGrid(1.0f, 1.0f, 0, 1, 4)
+				.Add(fEditButton, 0, 0)
+				.Add(fRemoveButton, 1, 0)
+				.Add(fAddButton, 2, 0)
+				.AddGlue(3, 0)					
+			.End()
+		.End()
+	.End();	
 }
 
 void CategoryView::AttachedToWindow(void)
@@ -176,7 +161,6 @@ void CategoryView::AttachedToWindow(void)
 	
 	fListView->Select(0);
 	
-	Window()->ResizeTo(fBestWidth,Window()->Frame().Height());
 	fListView->MakeFocus(true);
 }
 
@@ -344,15 +328,19 @@ float CategoryView::RefreshCategoryList(void)
 
 CategoryWindow::CategoryWindow(const BRect &frame)
  :	BWindow(frame,TRANSLATE("Categories"),B_DOCUMENT_WINDOW_LOOK,B_NORMAL_WINDOW_FEEL,
- 			B_ASYNCHRONOUS_CONTROLS)
+ 			B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	AddCommonFilter(new EscapeCancelFilter);
 	
-	CategoryView *view = new CategoryView(Bounds(),"categoryview",B_FOLLOW_ALL,B_WILL_DRAW);
-	AddChild(view);
-	
+	CategoryView *view = new CategoryView("categoryview" ,B_WILL_DRAW);
+		
 	AddShortcut('A',B_COMMAND_KEY, new BMessage(M_SHOW_ADD_WINDOW),view);
 	AddShortcut('R',B_COMMAND_KEY, new BMessage(M_REMOVE_CATEGORY),view);
+
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(0)
+		.Add(view)
+	.End();
 }
 
 CategoryItem::CategoryItem(const BString &name)
@@ -390,60 +378,47 @@ void CategoryItem::DrawItem(BView *owner, BRect frame, bool complete)
 CategoryInputWindow::CategoryInputWindow(const BRect &frame, BView *target)
  :	BWindow(frame,TRANSLATE("Add Category"),B_FLOATING_WINDOW_LOOK,B_MODAL_APP_WINDOW_FEEL,
  			B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE |
- 			B_NOT_V_RESIZABLE),
+ 			B_NOT_V_RESIZABLE | B_AUTO_UPDATE_SIZE_LIMITS),
  	fTarget(target)
 {
 	BString temp;
 	AddCommonFilter(new EscapeCancelFilter);
 	AddShortcut('W',B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	
-	BView *view = new BView(Bounds(),"background",B_FOLLOW_ALL,B_WILL_DRAW);
-	AddChild(view);
-	
+	BView *view = new BView("background",B_WILL_DRAW);
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(0)
+		.Add(view)
+	.End();
 	view->SetViewColor(240,240,240);
 	
 	temp = TRANSLATE("Category Name"); temp+=":";
-	fNameBox = new AutoTextControl(BRect(15,15,20,20),"namebox",temp.String(),
-									"",new BMessage(M_NAME_CHANGED),
-									B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
+	fNameBox = new AutoTextControl("namebox",temp.String(),
+									"",new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
-	view->AddChild(fNameBox);
-	fNameBox->SetDivider(fNameBox->StringWidth(temp.String()));
-	fNameBox->ResizeToPreferred();
 	
-	fExpenseBox = new BCheckBox(BRect(10,10,20,20),"expensebox",TRANSLATE("Spending Category"),
-								NULL,B_FOLLOW_TOP | B_FOLLOW_LEFT_RIGHT);
-	view->AddChild(fExpenseBox);
-	fExpenseBox->ResizeToPreferred();
-	fExpenseBox->MoveTo(15,	fNameBox->Frame().bottom + 5);
+	fExpenseBox = new BCheckBox("expensebox",TRANSLATE("Spending Category"),NULL);
 	fExpenseBox->SetValue(B_CONTROL_ON);
 	
-	fOKButton = new BButton(BRect(0,0,1,1),"okbutton",TRANSLATE("Cancel"),
-						new BMessage(M_ADD_CATEGORY),B_FOLLOW_LEFT|B_FOLLOW_BOTTOM);
-	
-	fOKButton->ResizeToPreferred();
-	fOKButton->MoveTo(Bounds().Width() - fOKButton->Frame().Width() - 15,
-					fExpenseBox->Frame().bottom + 5);
-	fOKButton->SetLabel(TRANSLATE("OK"));
-	
-	ResizeTo( (fOKButton->Frame().Width()*2) + 45, fOKButton->Frame().bottom + 15);
-	
+	fOKButton = new BButton("okbutton",TRANSLATE("Cancel"),
+						new BMessage(M_ADD_CATEGORY));
+		fOKButton->SetLabel(TRANSLATE("OK"));	
 	fOKButton->MakeDefault(true);
 
-	fCancelButton = new BButton(fOKButton->Frame(),"cancelbutton",TRANSLATE("Cancel"),
-						new BMessage(B_QUIT_REQUESTED),B_FOLLOW_LEFT|B_FOLLOW_BOTTOM);
-	
-	fCancelButton->ResizeToPreferred();
-	fCancelButton->MoveTo(fOKButton->Frame().left - fCancelButton->Frame().Width() - 10,
-					fOKButton->Frame().top);
-	view->AddChild(fCancelButton);
-	view->AddChild(fOKButton);
-	
-	fNameBox->ResizeTo(Bounds().Width() - 30,fNameBox->Frame().Height());
-	fOKButton->SetEnabled(false);
+	fCancelButton = new BButton("cancelbutton",TRANSLATE("Cancel"),
+						new BMessage(B_QUIT_REQUESTED));
+
 	fNameBox->MakeFocus(true);
 	
-	SetSizeLimits(Frame().Width(),30000,Frame().Height(),30000);
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(10)
+		.Add(fNameBox)
+		.Add(fExpenseBox)
+		.AddGrid(1.0f, 1.0f)
+			.Add(fCancelButton, 0, 0)
+			.Add(fOKButton, 1, 0)
+		.End()
+	.End();
 }
 
 void CategoryInputWindow::MessageReceived(BMessage *msg)
@@ -482,23 +457,21 @@ void CategoryInputWindow::MessageReceived(BMessage *msg)
 
 CategoryRemoveWindow::CategoryRemoveWindow(const BRect &frame, const char *from, BView *target)
  :	BWindow(frame,TRANSLATE("Remove Category"),B_FLOATING_WINDOW_LOOK,B_MODAL_APP_WINDOW_FEEL,
- 			B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE),
+ 			B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS),
  	fTarget(target)
 {
 	rgb_color backcolor = {240,240,240,255};
 	
 	AddCommonFilter(new EscapeCancelFilter);
 	AddShortcut('W',B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
-	BView *view = new BView(Bounds(),"background",B_FOLLOW_ALL,B_WILL_DRAW | B_FRAME_EVENTS);
-	AddChild(view);
+	BView *view = new BView("background",B_WILL_DRAW | B_FRAME_EVENTS);
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(0)
+		.Add(view)
+	.End();
 	view->SetViewColor(backcolor);
-	
-	BRect r(Bounds());
-	r.InsetBy(10,10);
-	r.bottom /= 2;
-		
-	fDirections = new BTextView(r,"directions",r.OffsetToCopy(0,0),
-								B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
+			
+	fDirections = new BTextView("directions");
 	fDirections->MakeEditable(false);
 	
 	BString directions(
@@ -508,39 +481,20 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect &frame, const char *from,
 	fDirections->SetText(directions.String());
 	fDirections->SetViewColor(backcolor);
 	fDirections->SetWordWrap(true);
-	view->AddChild(fDirections);
-//	fDirections->ResizeTo(fDirections->Bounds().Width() - 10,
-//							(fDirections->LineHeight() * fDirections->CountLines())+20);
-//	fDirections->FrameResized(Bounds().Width(),Bounds().Height());
 	
-	// the buttons
-	fOKButton = new BButton(BRect(0,0,1,1),"okbutton",TRANSLATE("Cancel"),
-						new BMessage(M_REMOVE_CATEGORY),B_FOLLOW_RIGHT|B_FOLLOW_BOTTOM);
+	fOKButton = new BButton("okbutton",TRANSLATE("Cancel"),
+						new BMessage(M_REMOVE_CATEGORY));
 	
-	fOKButton->ResizeToPreferred();
 	fOKButton->SetLabel(TRANSLATE("OK"));
 
-	fCancelButton = new BButton(fOKButton->Frame(),"cancelbutton",TRANSLATE("Cancel"),
-						new BMessage(B_QUIT_REQUESTED),B_FOLLOW_RIGHT|B_FOLLOW_BOTTOM);
-	
-	fCancelButton->ResizeToPreferred();
-	
-	// Put off moving the buttons and adding them so that we have proper keyboard navigation
-	// order. We only created them here so that we can use their proper size in calculating
-	// the control layout
-	
-	// the category list	
-	r = (Bounds().InsetByCopy(15,15));
-	r.top = fDirections->Frame().bottom + 10;
-	r.bottom = Bounds().bottom - 20 - fOKButton->Frame().Height();
-	r.right -= B_V_SCROLL_BAR_WIDTH;
-	
-	fListView = new BOutlineListView(r,"categorylist",B_SINGLE_SELECTION_LIST,
-									B_FOLLOW_ALL, B_WILL_DRAW | B_FRAME_EVENTS |
+	fCancelButton = new BButton("cancelbutton",TRANSLATE("Cancel"),
+						new BMessage(B_QUIT_REQUESTED));
+			
+	fListView = new BOutlineListView("categorylist",B_SINGLE_SELECTION_LIST,
+									B_WILL_DRAW | B_FRAME_EVENTS |
 									B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE);
-	fScrollView = new BScrollView("scrollview",fListView,B_FOLLOW_LEFT_RIGHT | B_FOLLOW_BOTTOM,0,
+	fScrollView = new BScrollView("scrollview",fListView,0,
 										false,true);
-	view->AddChild(fScrollView);
 		
 	fIncomeItem = new CategoryItem(TRANSLATE("Income"));
 	fSpendingItem = new CategoryItem(TRANSLATE("Spending"));
@@ -589,18 +543,17 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect &frame, const char *from,
 		
 		query.nextRow();
 	}
-	
-	float bestwidth = (fOKButton->Frame().Width()*2) + 45;
-	bestwidth = MAX(bestwidth, maxlength + 35);
-	ResizeTo(bestwidth,Frame().Height());
 
-	fOKButton->MoveTo(Bounds().Width() - fOKButton->Frame().Width() - 15,
-					Bounds().Height() - fOKButton->Frame().Height() - 15);
-	view->AddChild(fOKButton);
-	
-	fCancelButton->MoveTo(fOKButton->Frame().left - fCancelButton->Frame().Width() - 10,
-					fOKButton->Frame().top);
-	view->AddChild(fCancelButton);
+	BLayoutBuilder::Group<>(view, B_VERTICAL, 2.0f)
+		.SetInsets(10)
+		.Add(fDirections, 1)
+		.Add(fScrollView, 2)
+		.AddGrid(1.0f, 1.0f)
+			.AddGlue(0, 0)
+			.Add(fCancelButton, 1, 0)
+			.Add(fOKButton, 2, 0)
+		.End()
+	.End();
 }
 
 void CategoryRemoveWindow::MessageReceived(BMessage *msg)
@@ -632,16 +585,13 @@ void CategoryRemoveWindow::MessageReceived(BMessage *msg)
 
 void CategoryRemoveWindow::FrameResized(float w, float h)
 {
-	fDirections->ResizeTo(Bounds().Width() - 20,
-						(fDirections->LineHeight() * fDirections->CountLines())+10);
-	fDirections->SetTextRect(fDirections->Bounds());
-	fScrollView->MoveTo(10,fDirections->Frame().bottom);
-	fScrollView->ResizeTo(fScrollView->Frame().Width(),fOKButton->Frame().top - 10 - fScrollView->Frame().top);
+
 }
 
 CategoryEditWindow::CategoryEditWindow(const BRect &frame, const char *oldname, BView *target)
  :	BWindow(frame,TRANSLATE("Edit Category"),B_FLOATING_WINDOW_LOOK,B_MODAL_APP_WINDOW_FEEL,
- 			B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE),
+ 			B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE |
+ 			B_AUTO_UPDATE_SIZE_LIMITS),
  	fOldName(oldname),
  	fTarget(target)
 {
@@ -649,60 +599,42 @@ CategoryEditWindow::CategoryEditWindow(const BRect &frame, const char *oldname, 
 	AddCommonFilter(new EscapeCancelFilter);
 	AddShortcut('W',B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	
-	BView *view = new BView(Bounds(),"background",B_FOLLOW_ALL,B_WILL_DRAW | B_FRAME_EVENTS);
-	AddChild(view);
-	
+	BView *view = new BView("background",B_WILL_DRAW | B_FRAME_EVENTS);	
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(0)
+		.Add(view)
+	.End();
 	view->SetViewColor(240,240,240);
 	
 	temp = TRANSLATE("Category Name"); temp << ": " << fOldName;
-	BStringView *oldname = new BStringView(BRect(15,15,16,16),"oldname",temp.String());
-	oldname->ResizeToPreferred();
-	view->AddChild(oldname);
-	
+	BStringView *oldname = new BStringView("oldname",temp.String());	
 	
 	temp = TRANSLATE("New Category Name"); temp+=":";
-	fNameBox = new AutoTextControl(BRect(15,15,20,20),"namebox",temp.String(),
-									"",new BMessage(M_NAME_CHANGED),
-									B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP);
+	fNameBox = new AutoTextControl("namebox",temp.String(),"",
+									new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
-	view->AddChild(fNameBox);
-	fNameBox->SetDivider(fNameBox->StringWidth(temp.String()));
-	fNameBox->ResizeToPreferred();
-	fNameBox->MoveTo(15, oldname->Frame().bottom + 10);
 	
-	
-	fOKButton = new BButton(BRect(0,0,1,1),"okbutton",TRANSLATE("Cancel"),
-						new BMessage(M_EDIT_CATEGORY),B_FOLLOW_NONE);
+	fOKButton = new BButton("okbutton",TRANSLATE("Cancel"),
+						new BMessage(M_EDIT_CATEGORY));
 	fOKButton->SetFlags(fOKButton->Flags() | B_FRAME_EVENTS);
-	fOKButton->ResizeToPreferred();
 	fOKButton->SetLabel(TRANSLATE("OK"));
-	
-	
-	float bestwidth = (fOKButton->Frame().Width()*2) + 45;
-	bestwidth = MAX(bestwidth, oldname->Frame().right + 15);
-	
-	ResizeTo( bestwidth, fNameBox->Frame().bottom + fOKButton->Bounds().Height() + 30);
-	fOKButton->MoveTo(Bounds().right - fOKButton->Frame().Width() - 15,
-					fNameBox->Frame().bottom + 15);
-	
-	
 	fOKButton->MakeDefault(true);
 
-	fCancelButton = new BButton(fOKButton->Frame(),"cancelbutton",TRANSLATE("Cancel"),
-						new BMessage(B_QUIT_REQUESTED),B_FOLLOW_RIGHT|B_FOLLOW_BOTTOM);
+	fCancelButton = new BButton("cancelbutton",TRANSLATE("Cancel"),
+						new BMessage(B_QUIT_REQUESTED));
 	
-	fCancelButton->ResizeToPreferred();
-	fCancelButton->MoveTo(fOKButton->Frame().left - fCancelButton->Frame().Width() - 10,
-					fOKButton->Frame().top + 
-					(B_BEOS_VERSION > 0x510 ? 0: 2) );
-	view->AddChild(fCancelButton);
-	view->AddChild(fOKButton);
-	
-	fNameBox->ResizeTo(Bounds().Width() - 30,fNameBox->Frame().Height());
 	fOKButton->SetEnabled(false);
 	fNameBox->MakeFocus(true);
-	
-	SetSizeLimits(Frame().Width(),30000,Frame().Height(),30000);
+
+	BLayoutBuilder::Group<>(view, B_VERTICAL)
+		.SetInsets(10)
+		.Add(oldname)
+		.Add(fNameBox)
+		.AddGrid(1.0f, 1.0f)
+			.Add(fCancelButton, 0, 0)
+			.Add(fOKButton, 1, 0)
+		.End()
+	.End();
 }
 
 void CategoryEditWindow::MessageReceived(BMessage *msg)

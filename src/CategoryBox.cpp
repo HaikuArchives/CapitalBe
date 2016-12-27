@@ -65,9 +65,9 @@ filter_result CategoryBoxFilter::KeyFilter(const int32 &key, const int32 &mod)
 	return B_DISPATCH_MESSAGE;
 }
 
-CategoryBox::CategoryBox(const BRect &frame, const char *name, const char *label,
-			const char *text, BMessage *msg, uint32 resize, uint32 flags)
- : AutoTextControl(frame,name,label,text,msg,resize,flags)
+CategoryBox::CategoryBox(const char *name, const char *label,
+			const char *text, BMessage *msg, uint32 flags)
+ : AutoTextControl(name,label,text,msg,flags)
 {
 	SetFilter(new CategoryBoxFilter(this));
 	SetCharacterLimit(32);

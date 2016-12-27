@@ -1,4 +1,6 @@
 #include "ReportWindow.h"
+#include <GridLayoutBuilder.h>
+#include <LayoutBuilder.h>
 #include <View.h>
 #include <StringView.h>
 #include <Bitmap.h>
@@ -39,7 +41,7 @@ enum
 
 
 ReportWindow::ReportWindow(BRect frame)
- : BWindow(frame,TRANSLATE("Reports"), B_DOCUMENT_WINDOW, B_ASYNCHRONOUS_CONTROLS),
+ : BWindow(frame,TRANSLATE("Reports"), B_DOCUMENT_WINDOW, B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
  	fSubtotalMode(SUBTOTAL_NONE),
  	fReportMode(REPORT_CASH_FLOW),
  	fStartDate(GetCurrentYear()),
@@ -49,18 +51,36 @@ ReportWindow::ReportWindow(BRect frame)
 {
 	BString temp;
 
-	SetSizeLimits(520,30000,260,30000);
 	fHeaderFont.SetFace(B_ITALIC_FACE);
 
-	BView *view = new BView(Bounds(),"back",B_FOLLOW_ALL, B_WILL_DRAW);
-//	view->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
+	BView *view = new BView("back", B_WILL_DRAW);
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f)
+		.SetInsets(0)
+		.Add(view)
+	.End();
 	view->SetViewColor(240,240,240);
-	AddChild(view);
+	
+	BGroupLayout *reportsLayout = new BGroupLayout(B_VERTICAL, 0);
+	BGroupLayout *accountsLayout = new BGroupLayout(B_VERTICAL, 0);
+	BGroupLayout *subtotalLayout = new BGroupLayout(B_VERTICAL, 0);
+	BGroupLayout *categoriesLayout = new BGroupLayout(B_VERTICAL, 0);
+
+	BGroupLayout *layout_ = new BGroupLayout(B_VERTICAL, 1.0f);
+	BLayoutBuilder::Group<>(view, B_HORIZONTAL)
+		.SetInsets(10)
+		.AddGroup(B_VERTICAL, 1.0f)
+			.Add(reportsLayout, 1)
+			.Add(accountsLayout, 5)
+			.Add(subtotalLayout, 1)
+			.Add(categoriesLayout, 5)
+		.End()
+		.Add(layout_)
+	.End();
 
 	BMenu *reportmenu = new BMenu(TRANSLATE("Reports"));
 	reportmenu->SetLabelFromMarked(true);
 
-	// TODO: Re-enable the Budget report
+// 	TODO: Re-enable the Budget report
 //	reportmenu->AddItem(new BMenuItem(TRANSLATE("Budget"), new BMessage(M_REPORT_BUDGET)));
 	temp << TRANSLATE("Income") << " / " << TRANSLATE("Spending");
 	reportmenu->AddItem(new BMenuItem(temp.String(), new BMessage(M_REPORT_CASH_FLOW)));
@@ -72,51 +92,30 @@ ReportWindow::ReportWindow(BRect frame)
 	fReportMode = REPORT_BUDGET;
 
 	BRect r(10,10,reportmenu->StringWidth(temp.String())+45,60);
+
 	temp = TRANSLATE("Reports"); temp += ": ";
-	BStringView *sv = new BStringView(r,"reportsv",temp.String());
-	sv->ResizeToPreferred();
-	view->AddChild(sv);
+	BStringView *sv = new BStringView("reportsv",temp.String());
+	reportsLayout->AddView(sv);
 
-	r = sv->Frame();
-	r.OffsetBy(0,r.Height());
-	r.right = r.left + reportmenu->StringWidth(temp.String()) + 45;
-	fReportField = new BMenuField(r,"reportfield","",reportmenu);
-	fReportField->SetDivider(0);
-	view->AddChild(fReportField);
-
-	r = fReportField->Frame();
-	r.OffsetBy(0,r.Height() + 10);
+	fReportField = new BMenuField("reportfield","",reportmenu);
+	reportsLayout->AddView(fReportField);
 
 	temp = TRANSLATE("Accounts"); temp += ": ";
-	sv = new BStringView(BRect(r.left,r.top,r.left+1,r.top+1),"accountsv",temp.String());
-	sv->ResizeToPreferred();
-	r = sv->Frame();
-	view->AddChild(sv);
+	sv = new BStringView("accountsv",temp.String());
+	accountsLayout->AddView(sv);
 
-	r.OffsetBy(0,r.Height());
-	r.right = r.left + be_plain_font->StringWidth("AccountName");
-	r.bottom = r.top + (r.Height() * 3);
-	fAccountList = new BListView(r,"reportaccountlist",B_MULTIPLE_SELECTION_LIST);
-
-	BScrollView *scrollview = new BScrollView("accountscroller",fAccountList,
-												B_FOLLOW_LEFT | B_FOLLOW_TOP,0,
+	fAccountList = new BListView("reportaccountlist",B_MULTIPLE_SELECTION_LIST);
+	BScrollView *scrollview = new BScrollView("accountscroller",fAccountList,0,
 												false,true);
-	view->AddChild(scrollview);
+	accountsLayout->AddView(scrollview);
 
-	// This is disabled because otherwise the report is rendered once for each
-	// account added when the report window is shown initially
+//	This is disabled because otherwise the report is rendered once for each
+//	account added when the report window is shown initially
 //	fAccountList->SetSelectionMessage(new BMessage(M_TOGGLE_ACCOUNT));
 
-	r.top = scrollview->Frame().bottom + 10;
-	r.right = sv->StringWidth("Current Quarter") + 45;
-	r.bottom = r.top + reportmenu->Frame().Height();
-
 	temp = TRANSLATE("Subtotal"); temp += ":";
-	sv = new BStringView(r,"subtotalsv",temp.String());
-	sv->ResizeToPreferred();
-	view->AddChild(sv);
-
-	r.OffsetTo(r.left, sv->Frame().top + sv->Frame().Height());
+	sv = new BStringView("subtotalsv",temp.String());
+	subtotalLayout->AddView(sv);
 
 	BMenu *subtotalmenu = new BMenu(TRANSLATE("Subtotal"));
 	subtotalmenu->AddItem(new BMenuItem(TRANSLATE("None"),new BMessage(M_SUBTOTAL_NONE)));
@@ -127,36 +126,23 @@ ReportWindow::ReportWindow(BRect frame)
 	subtotalmenu->SetRadioMode(true);
 	subtotalmenu->ItemAt(0)->SetMarked(true);
 
-	fSubtotalField = new BMenuField(r,"subtotalfield","",subtotalmenu);
-	fSubtotalField->SetDivider(0);
-	view->AddChild(fSubtotalField);
+	fSubtotalField = new BMenuField("subtotalfield","",subtotalmenu);
+	subtotalLayout->AddView(fSubtotalField);
 
 	prefsLock.Lock();
 	BString reporthelp = gAppPath;
 	prefsLock.Unlock();
 	reporthelp << "helpfiles/" << gCurrentLanguage->Name() << "/Report Window Help";
-	HelpButton *help = new HelpButton(BPoint(r.right + 10,r.top),"reporthelp", reporthelp.String());
-//	help->MoveTo(fSubtotalField->Frame().right, fSubtotalField->Frame().top);
-	view->AddChild(help);
+	HelpButton *help = new HelpButton("reporthelp", reporthelp.String());
 
-	r.OffsetTo(r.left, fSubtotalField->Frame().bottom + 10);
 	temp = TRANSLATE("Categories"); temp += ": ";
-	sv = new BStringView(r,"catsv",temp.String());
-	sv->ResizeToPreferred();
-	view->AddChild(sv);
+	sv = new BStringView("catsv",temp.String());
+	categoriesLayout->AddView(sv);
 
-	r = sv->Frame();
-	r.OffsetBy(0,r.Height());
-	r.bottom = Bounds().bottom - 13;
-	r.right = r.left + fAccountList->Bounds().Width();
-
-	fCategoryList = new BListView(r,"reportcattlist",B_MULTIPLE_SELECTION_LIST,
-									B_FOLLOW_LEFT | B_FOLLOW_TOP_BOTTOM,
+	fCategoryList = new BListView("reportcattlist",B_MULTIPLE_SELECTION_LIST,
 									B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE | B_NAVIGABLE);
-	fCategoryScroller = new BScrollView("catscroller",fCategoryList,
-										B_FOLLOW_LEFT | B_FOLLOW_TOP_BOTTOM,0,
-										false,true);
-	view->AddChild(fCategoryScroller);
+	fCategoryScroller = new BScrollView("catscroller",fCategoryList,0,false,true);
+	categoriesLayout->AddView(fCategoryScroller);
 	fCategoryList->SetSelectionMessage(new BMessage(M_CATEGORIES_CHANGED));
 	fCategoryList->SetInvocationMessage(new BMessage(M_CATEGORIES_CHANGED));
 
@@ -165,33 +151,21 @@ ReportWindow::ReportWindow(BRect frame)
 
 	temp = TRANSLATE("Starting Date"); temp += ": ";
 
-	r.left = fCategoryScroller->Frame().right + 10;
-	r.top = 10;
-	r.right = r.left + view->StringWidth(temp.String()) + view->StringWidth("00-00-0000") + 15;
-	r.bottom = r.top + gTextViewHeight;
-
-	fStartDateBox = new DateBox(r,"startdate",temp.String(),datestring.String(),
+	fStartDateBox = new DateBox("startdate",temp.String(),datestring.String(),
 								new BMessage(M_START_DATE_CHANGED));
-	fStartDateBox->SetDivider(fStartDateBox->StringWidth(temp.String()));
 	fStartDateBox->SetDate(GetCurrentYear());
 //	fStartDateBox->SetEscapeCancel(true);
-	view->AddChild(fStartDateBox);
+	layout_->AddView(fStartDateBox);
 	fStartDateBox->GetFilter()->SetMessenger(new BMessenger(this));
 
 	gDefaultLocale.DateToString(GetCurrentDate(),datestring);
 	temp = TRANSLATE("Ending Date"); temp += ": ";
 
-	r.OffsetTo(fStartDateBox->Frame().right + 10, r.top);
-	r.right = r.left + view->StringWidth(temp.String()) + view->StringWidth("00-00-0000") + 15;
-	fEndDateBox = new DateBox(r,"enddate",temp.String(),datestring.String(),
+	fEndDateBox = new DateBox("enddate",temp.String(),datestring.String(),
 								new BMessage(M_END_DATE_CHANGED));
-	fEndDateBox->SetDivider(fEndDateBox->StringWidth(temp.String()));
 	fEndDateBox->SetDate(GetCurrentDate());
-	view->AddChild(fEndDateBox);
+	layout_->AddView(fEndDateBox);
 	fEndDateBox->GetFilter()->SetMessenger(new BMessenger(this));
-
-	help->MoveTo(Bounds().right - 10 - help->Frame().Width(),10 +
-					((fEndDateBox->Frame().Height() - 20)/2) );
 
 	BBitmap *up, *down;
 	BRect brect(0,0,16,16);
@@ -207,19 +181,18 @@ ReportWindow::ReportWindow(BRect frame)
 	fGraphButton = new StickyDrawButton(brect,"graphbutton",up,down,
 										new BMessage(M_TOGGLE_GRAPH),
 										B_FOLLOW_TOP | B_FOLLOW_RIGHT,B_WILL_DRAW);
-	view->AddChild(fGraphButton);
+//	view->AddChild(fGraphButton);
 
-// TODO: This needs to be unhidden when graph support is finally added
-fGraphButton->Hide();
+// 	TODO: This needs to be unhidden when graph support is finally added
+	fGraphButton->Hide();
 
-	r = Bounds().InsetByCopy(13,13);
-	r.left = fCategoryScroller->Frame().right + 10;
-	r.top += 30;
-	r.bottom -= B_H_SCROLL_BAR_HEIGHT;
-	r.right -= B_V_SCROLL_BAR_WIDTH;
-	fGridView = new BColumnListView(r,"gridview",B_FOLLOW_ALL,B_WILL_DRAW, B_FANCY_BORDER);
-	view->AddChild(fGridView);
-
+	fGridView = new BColumnListView("gridview",B_WILL_DRAW, B_FANCY_BORDER);
+	layout_->AddView(fGridView);
+	layout_->AddItem(BGridLayoutBuilder(0.0f, 0.0f) 
+		.Add(BSpaceLayoutItem::CreateGlue(), 0, 0)
+		.Add(help, 1, 0)
+	);
+	
 	// Configuring to make it look good and not like a grid
 	fGridView->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 	fGridView->SetSortingEnabled(false);
@@ -234,7 +207,7 @@ fGraphButton->Hide();
 	fGridView->SetColor(B_COLOR_SEPARATOR_LINE,fGridView->Color(B_COLOR_BACKGROUND));
 
 	fGraphView = new BView(r,"As Graph",B_FOLLOW_ALL,B_WILL_DRAW);
-	view->AddChild(fGraphView);
+//	view->AddChild(fGraphView);
 	fGraphView->Hide();
 
 	gDatabase.AddObserver(this);
@@ -264,8 +237,6 @@ fGraphButton->Hide();
 	fCategoryList->Select(0,fCategoryList->CountItems()-1,true);
 
 	// Set up the scrollbars
-	FrameResized(Bounds().Width(),Bounds().Height());
-
 	CalcCategoryString();
 
 	fReportField->MakeFocus(true);

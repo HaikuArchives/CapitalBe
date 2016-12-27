@@ -2,6 +2,7 @@
 
 #include <Button.h>
 #include <CheckBox.h>
+#include <LayoutBuilder.h>
 #include <ListView.h>
 #include <ListItem.h>
 #include <Message.h>
@@ -31,8 +32,7 @@ enum
 class ScheduleListView : public BView
 {
 public:
-	ScheduleListView(const BRect &frame,const char *name, const int32 &resize,
-					const int32 &flags);
+	ScheduleListView(const char *name, const int32 &flags);
 	void AttachedToWindow(void);
 	void MessageReceived(BMessage *msg);
 
@@ -49,31 +49,18 @@ private:
 	float		fBestWidth;
 };
 
-ScheduleListView::ScheduleListView(const BRect &frame,const char *name,
-							const int32 &resize,const int32 &flags)
- :	BView(frame,name,resize,flags)
+ScheduleListView::ScheduleListView(const char *name, const int32 &flags)
+ :	BView(name, flags)
 {
 	BString temp;
 	SetViewColor(240,240,240);
-	
-	BRect r;
-	
+
 	// the buttons
 	temp = TRANSLATE("Remove"); temp += "…";
-	fRemoveButton = new BButton(BRect(0,0,1,1),"removebutton",temp.String(),
-						new BMessage(M_REMOVE_ITEM),B_FOLLOW_RIGHT|B_FOLLOW_BOTTOM);
-	
-	fRemoveButton->ResizeToPreferred();
-	fRemoveButton->MoveTo(Bounds().Width() - fRemoveButton->Frame().Width() - 15,
-					Bounds().Height() - fRemoveButton->Frame().Height() - 15);
-	
-	r = (Bounds().InsetByCopy(15,15));
-	r.bottom = fRemoveButton->Frame().top - 15;
-	r.right -= B_V_SCROLL_BAR_WIDTH;
+	fRemoveButton = new BButton("removebutton",temp.String(), new BMessage(M_REMOVE_ITEM));
 	
 	// the transaction list
-	fListView = new BColumnListView(r,"listview",B_FOLLOW_ALL,B_WILL_DRAW, B_FANCY_BORDER);
-	AddChild(fListView);
+	fListView = new BColumnListView("listview", B_FANCY_BORDER);
 	
 	fListView->SetSortingEnabled(false);
 	fListView->SetEditMode(false);
@@ -101,13 +88,19 @@ ScheduleListView::ScheduleListView(const BRect &frame,const char *name,
 	BString schedhelp = gAppPath;
 	prefsLock.Unlock();
 	schedhelp << "helpfiles/" << gCurrentLanguage->Name() << "/Scheduled Transaction Window Help";
-	BPoint helppoint(fRemoveButton->Frame().LeftTop());
-	fHelpButton = new HelpButton(helppoint,"schedhelp",schedhelp.String());
-	fHelpButton->MoveTo(fRemoveButton->Frame().left - (fHelpButton->Frame().Width() + 10),
-						helppoint.y + ((fRemoveButton->Frame().Height()-fHelpButton->Frame().Height())/2) );
-	fHelpButton->SetResizingMode(fRemoveButton->ResizingMode());
-	AddChild(fHelpButton);
-	AddChild(fRemoveButton);
+	fHelpButton = new HelpButton("schedhelp",schedhelp.String());
+
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(15, 15)
+		.AddGrid(1.0f, 1.0f)
+			.Add(fListView, 0, 0, 3)
+			.AddGrid(1.0f, 1.0f, 0, 1, 3)
+				.AddGlue(0, 0)
+				.Add(fHelpButton, 1, 0)
+				.Add(fRemoveButton, 2, 0)					
+			.End()
+		.End()
+	.End();	
 }
 
 void ScheduleListView::AttachedToWindow(void)
@@ -277,13 +270,16 @@ float ScheduleListView::RefreshScheduleList(void)
 
 ScheduleListWindow::ScheduleListWindow(const BRect &frame)
  :	BWindow(frame,TRANSLATE("Scheduled Transactions"),B_DOCUMENT_WINDOW_LOOK,B_NORMAL_WINDOW_FEEL,
- 			B_ASYNCHRONOUS_CONTROLS)
+ 			B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	AddCommonFilter(new EscapeCancelFilter);
 	
-	ScheduleListView *view = new ScheduleListView(Bounds(),"schedview",B_FOLLOW_ALL,B_WILL_DRAW);
-	AddChild(view);
-	
+	ScheduleListView *view = new ScheduleListView("schedview",B_WILL_DRAW);
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(0)
+		.Add(view)
+	.End();
+
 //	AddShortcut('A',B_COMMAND_KEY, new BMessage(M_SHOW_ADD_WINDOW),view);
 //	AddShortcut('R',B_COMMAND_KEY, new BMessage(M_REMOVE_CATEGORY),view);
 }
