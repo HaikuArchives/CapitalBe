@@ -13,7 +13,8 @@ public:
 	HelpButton(const char *name, const char *path);
 	~HelpButton(void);
 
-	void MessageReceived(BMessage *msg);
+	virtual void AttachedToWindow();
+	virtual void MessageReceived(BMessage *msg);
 private:
 	entry_ref fRef;
 };

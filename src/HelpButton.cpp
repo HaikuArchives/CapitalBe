@@ -26,6 +26,11 @@ HelpButton::~HelpButton(void) {
 
 }
 
+void HelpButton::AttachedToWindow() {
+	SetTarget(this);
+	BButton::AttachedToWindow();
+}
+
 void HelpButton::MessageReceived(BMessage *msg)
 {
 	if(msg->what==M_HELPBUTTON_PRESSED) {
