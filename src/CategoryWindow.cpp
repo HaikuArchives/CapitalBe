@@ -607,7 +607,7 @@ CategoryEditWindow::CategoryEditWindow(const BRect &frame, const char *oldname, 
 	view->SetViewColor(240,240,240);
 	
 	temp = TRANSLATE("Category Name"); temp << ": " << fOldName;
-	BStringView *oldname = new BStringView("oldname",temp.String());	
+	BStringView *oldnameView = new BStringView("oldname",temp.String());	
 	
 	temp = TRANSLATE("New Category Name"); temp+=":";
 	fNameBox = new AutoTextControl("namebox",temp.String(),"",
@@ -628,7 +628,7 @@ CategoryEditWindow::CategoryEditWindow(const BRect &frame, const char *oldname, 
 
 	BLayoutBuilder::Group<>(view, B_VERTICAL)
 		.SetInsets(10)
-		.Add(oldname)
+		.Add(oldnameView)
 		.Add(fNameBox)
 		.AddGrid(1.0f, 1.0f)
 			.Add(fCancelButton, 0, 0)

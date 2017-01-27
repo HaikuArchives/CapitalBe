@@ -9,6 +9,8 @@
 #include <Roster.h>
 #include <NetPositive.h>
 
+#include <stdlib.h>
+
 #include "AboutWindow.h"
 #include "AccountSettingsWindow.h"
 #include "BudgetWindow.h"
