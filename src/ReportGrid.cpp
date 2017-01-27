@@ -69,7 +69,7 @@ status_t ReportGrid::SetValue(const uint32 &x, const uint32 &y, const Fixed &fix
 	return record->SetValue(x,fixed);
 }
 
-int compare_gridrecord(const ReportGrid::GridRecord *item1, const ReportGrid::GridRecord *item2)
+int ReportGrid::CompareGridrecord(const ReportGrid::GridRecord *item1, const ReportGrid::GridRecord *item2)
 {
 //	ReportGrid::GridRecord *listitem1 = *((ReportGrid::GridRecord**)item1);
 //	ReportGrid::GridRecord *listitem2 = *((ReportGrid::GridRecord**)item2);
@@ -100,7 +100,7 @@ void ReportGrid::MakeEmpty(void)
 
 void ReportGrid::Sort(void)
 {
-	fList.SortItems(compare_gridrecord);
+	fList.SortItems(CompareGridrecord);
 }
 
 void ReportGrid::PrintToStream(void)
