@@ -29,7 +29,7 @@ public:
 	status_t DateToString(time_t date, BString &string);
 	status_t StringToCurrency(const char *string, Fixed &amount);
 	status_t PremultipliedStringToCurrency(const char *string, Fixed &amount);
-	status_t StringToDate(const char *date, time_t &date);
+	status_t StringToDate(const char *instring, time_t &date);
 	void NumberToCurrency(const Fixed &number, BString &string);
 	
 	void SetDateFormat(const date_format &format);
