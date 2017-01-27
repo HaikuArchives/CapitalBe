@@ -22,7 +22,7 @@ void AccountListItem::SetEnabled(bool enabled)
 	fEnabled = enabled;
 }
 
-void AccountListItem::DrawItem(BView *owner, BRect frame, bool complete = false)
+void AccountListItem::DrawItem(BView *owner, BRect frame, bool complete)
 {
 	if(IsSelected())
 	{
