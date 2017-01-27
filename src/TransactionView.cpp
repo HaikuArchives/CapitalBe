@@ -5,6 +5,7 @@
 #include <ScrollBar.h>
 #include <StringView.h>
 #include <TranslationUtils.h>
+#include <stdlib.h>
 #include "Database.h"
 #include "MainWindow.h"
 #include "TransactionItem.h"
