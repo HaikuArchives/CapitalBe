@@ -49,7 +49,9 @@ private:
 			BObjectList<Fixed> fList;
 			BString fTitle;
 	};
-	
+
+	static int CompareGridrecord(const GridRecord *item1, const GridRecord *item2);
+
 	BObjectList<GridRecord> fList;
 	uint32 fWidth;
 };
