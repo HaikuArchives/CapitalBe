@@ -1,6 +1,6 @@
 # CapitalBe
 
-![screenshot](screenshot.png)
+![screenshot](Screenshot.png)
 
 Personal finance manager for BeOS, Zeta, and Haiku!
 
