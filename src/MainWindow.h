@@ -49,6 +49,7 @@ enum
 	M_SCHEDULE_TRANSACTION,
 	M_ENTER_TRANSFER,
 	
+	M_SHOW_ABOUT='msha',
 	M_SHOW_REPORTS_WINDOW,
 	M_SHOW_OPTIONS_WINDOW,
 	M_SHOW_SCHEDULED_WINDOW
@@ -59,6 +60,8 @@ class MainWindow : public BWindow, public Observer
 public:
 	MainWindow(BRect frame);
 	~MainWindow(void);
+
+	void OpenAbout(void);
 	bool QuitRequested(void);
 	void MessageReceived(BMessage *msg);
 	void HandleNotify(const uint64 &value, const BMessage *msg);

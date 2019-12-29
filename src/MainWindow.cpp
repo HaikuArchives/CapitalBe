@@ -3,6 +3,7 @@
 #include <LayoutBuilder.h>
 #include <MenuBar.h>
 #include <Messenger.h>
+#include <private/interface/AboutWindow.h>
 #include <Entry.h>
 #include <Directory.h>
 #include <Path.h>
@@ -11,7 +12,6 @@
 
 #include <stdlib.h>
 
-#include "AboutWindow.h"
 #include "AccountSettingsWindow.h"
 #include "BudgetWindow.h"
 #include "BuildOptions.h"
@@ -237,6 +237,26 @@ MainWindow::~MainWindow(void)
 {
 	SavePreferences(PREFERENCES_PATH "/CapitalBeSettings");
 	delete fImportPanel;
+}
+
+void MainWindow::OpenAbout(void)
+{
+	BAboutWindow* abwin = new BAboutWindow("Capital Be","application/x-vnd.wgp-CapitalBe");
+
+	const char* authors[] = {
+		"DarkWyrm",
+		"Jérôme Duval",
+		"Panagiotis Vasilopoulos",
+		"Raefaldhi Amartya Junior",
+		"Thomas Schmidt",
+		"waddlesplash",
+		NULL
+	};
+
+	abwin->AddCopyright(2009, "DarkWyrm");
+	abwin->AddAuthors(authors);
+	abwin->AddText("Distributed under the terms of the MIT License");
+	abwin->Show();
 }
 
 bool MainWindow::QuitRequested(void)
@@ -467,8 +487,7 @@ void MainWindow::MessageReceived(BMessage *msg)
 		}
 		case M_SHOW_ABOUT:
 		{
-			AboutWindow *abwin = new AboutWindow();
-			abwin->Show();
+			OpenAbout();
 			break;
 		}
 		case M_PREVIOUS_TRANSACTION:
