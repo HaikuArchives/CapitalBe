@@ -29,7 +29,6 @@ APP_MIME_SIG =
 #	same name (source.c or source.cpp) are included from different directories.
 #	Also note that spaces in folder names do not work well with this Makefile.
 SRCS = \
-	 src/AboutWindow.cpp  \
 	 src/Account.cpp  \
 	 src/AccountListItem.cpp  \
 	 src/AccountSettingsWindow.cpp  \
