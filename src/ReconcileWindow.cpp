@@ -42,7 +42,7 @@ private:
 
 ReconcileWindow::ReconcileWindow(const BRect frame, Account *account)
  : BWindow(frame,"",B_DOCUMENT_WINDOW_LOOK,B_NORMAL_WINDOW_FEEL,B_NOT_MINIMIZABLE |
-	B_NOT_ZOOMABLE)
+	B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	BString temp;
 	fCurrentDate = GetCurrentDate();
