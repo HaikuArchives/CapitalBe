@@ -113,16 +113,15 @@ void AccountSettingsWindow::MessageReceived(BMessage *msg)
 		}
 		case M_TOGGLE_USE_DEFAULT:
 		{
-			if(fUseDefault->Value()==B_CONTROL_ON)
-			{
+			bool useDefault = fUseDefault->Value() == B_CONTROL_ON;
+
+			if (useDefault)
 				fPrefView->Hide();
-				fAccount->UseDefaultLocale(true);
-			}
 			else
-			{
 				fPrefView->Show();
-				fAccount->UseDefaultLocale(false);
-			}
+
+			if (fAccount != NULL)
+				fAccount->UseDefaultLocale(useDefault);
 			
 			break;
 		}

@@ -200,7 +200,6 @@ void ReportWindow::ComputeBudget(void)
 	float stringwidth = be_plain_font->StringWidth(stringitem->Text()) + 20;
 	if (maxwidths[0] < stringwidth)
 		maxwidths[0] = stringwidth;
-if (count > 1) debugger("");
 	
 	// This flag is for getting the next value from the row only when we don't
 	// already have a value
