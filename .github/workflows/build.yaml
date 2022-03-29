@@ -1,13 +1,9 @@
 name: "haiku-ci"
-on:
-  push:
-    branches:
-      - '*'
-  pull_request: {}
+on: [push, pull_request]
 
 jobs:
-  test-haiku:
-    name: 'Test on Haiku'
+  build-haiku:
+    name: 'Build on Haiku'
     runs-on: 'ubuntu-latest'
     container: 'docker.io/hectormolinero/qemu-haiku:latest'
     steps:
