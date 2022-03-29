@@ -14,7 +14,7 @@ jobs:
       - name: 'Wait until the VM is ready'
         run: 'container-init & timeout 600 vmshell exit 0'
       - name: 'Install packages'
-        run: 'vmshell pkgman install -y make makefile_engine'
+        run: 'vmshell pkgman install -y haiku_devel devel:libsqlite3 makefile_engine cmd:gcc cmd:make'
       - name: 'Checkout project'
         uses: 'actions/checkout@main'
       - name: 'Copy project to VM'
