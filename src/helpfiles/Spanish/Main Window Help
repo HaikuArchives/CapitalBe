@@ -1,24 +1,24 @@
 Ventana Principal
-	Gran parte de su tiempo trabajando con Capital Be ser√° usado en esta ventana. √âsta tiene cuatro partes principales: La Lista de Cuentas, la Lista de Movimientos, el Balance R√°pido y la zona de inserci√≥n de Movimientos.
+	Gran parte de su tiempo trabajando con Capital Be ser· usado en esta ventana. …sta tiene cuatro partes principales: La Lista de Cuentas, la Lista de Movimientos, el Balance R·pido y la zona de inserciÛn de Movimientos.
 
 Lista de Cuentas
-	Ubicada en la esquina superior izquierda de la ventana, es simplemente una lista de las cuentas disponibles en Capital Be. Cada Item le mostrar√° el nombre de la cuenta y su saldo actual. Tenga en cuenta que para las cuentas de deuda, como las tarjetas de cr√©dito, el saldo ser√° inferior a cero. Puede hacer doble clic en una cuenta para editar los detalles b√°sicos de una cuenta. Para la mayor√≠a de las personas, este ser√° solo el nombre, pero tambi√©n puede cambiar la configuraci√≥n de divisas simplemente desactivando la casilla de verificaci√≥n 'Usar configuraci√≥n de divisa predeterminada'. Sin embargo, esto s√≥lo lo necesitar√° usar si tiene una cuenta bancaria en un pa√≠s que use una moneda diferente a la suya.
+	Ubicada en la esquina superior izquierda de la ventana, es simplemente una lista de las cuentas disponibles en Capital Be. Cada Item le mostrar· el nombre de la cuenta y su saldo actual. Tenga en cuenta que para las cuentas de deuda, como las tarjetas de crÈdito, el saldo ser· inferior a cero. Puede hacer doble clic en una cuenta para editar los detalles b·sicos de una cuenta. Para la mayorÌa de las personas, este ser· solo el nombre, pero tambiÈn puede cambiar la configuraciÛn de divisas simplemente desactivando la casilla de verificaciÛn 'Usar configuraciÛn de divisa predeterminada'. Sin embargo, esto sÛlo lo necesitar· usar si tiene una cuenta bancaria en un paÌs que use una moneda diferente a la suya.
 
 Consejo: puede cambiar las cuentas sin usar el mouse presionando la flecha hacia arriba o hacia abajo mientras mantiene presionados la teclas ALT.
 
 
 Lista de Movimientos
-	La lista de movimientos simplemente muestra toda la actividad en una cuenta. Adem√°s de cada movimiento podr√° observar el saldo de la cuenta cuando se realiz√≥ esa transacci√≥n.
+	La lista de movimientos simplemente muestra toda la actividad en una cuenta. Adem·s de cada movimiento podr· observar el saldo de la cuenta cuando se realizÛ esa transacciÛn.
 
 Consejo: puede moverse hacia arriba y hacia abajo en la lista sin usar el mouse presionando la flecha hacia arriba o hacia abajo mientras mantiene la tecla ALT.
 
 
-A√±adir un Movimiento
-	Agregar un movimiento a una cuenta es tan simple como escribir informaci√≥n en el formulario de la parte inferior derecha de la ventana y presionar la tecla ENTER o hacer clic en el bot√≥n A√ëADIR.
+AÒadir un Movimiento
+	Agregar un movimiento a una cuenta es tan simple como escribir informaciÛn en el formulario de la parte inferior derecha de la ventana y presionar la tecla ENTER o hacer clic en el botÛn A—ADIR.
 
-Consejo: puede cambiar la fecha usando las teclas + y - (dias) mientras que las teclas arriba y abajo cambiar√°n el mes.
+Consejo: puede cambiar la fecha usando las teclas + y - (dias) mientras que las teclas arriba y abajo cambiar·n el mes.
 
 Consejo: puede saltar al siguiente cuadro de texto con la tecla TAB o al anterior usando MAYUS + TAB.
 
-Balance R√°pido
-	El Balance R√°pido es un peque√±o panel en la esquina inferior izquierda de la ventana que muestra la informaci√≥n global sobre sus finanzas. Muestra el total de todas sus cuentas (conocidas como patrimonio neto en el mundo financiero) y c√≥mo est√° en su presupuesto en general.
+Balance R·pido
+	El Balance R·pido es un pequeÒo panel en la esquina inferior izquierda de la ventana que muestra la informaciÛn global sobre sus finanzas. Muestra el total de todas sus cuentas (conocidas como patrimonio neto en el mundo financiero) y cÛmo est· en su presupuesto en general.
