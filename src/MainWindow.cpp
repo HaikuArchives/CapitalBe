@@ -250,15 +250,19 @@ void MainWindow::OpenAbout(void)
 		"Raefaldhi Amartya Junior",
 		"Thomas Schmidt",
 		"waddlesplash",
+		NULL
+	};
+
+	const char* thanks[] = {
 		"Tanausú Gómez (Spanish translation)",
 		NULL
 	};
 
 	abwin->AddCopyright(2009, "DarkWyrm");
-// Insertar la URL
+	abwin->AddText("Distributed under the terms of the MIT License");
 	abwin->AddText("https://github.com/HaikuArchives/CapitalBe");
 	abwin->AddAuthors(authors);
-	abwin->AddText("Distributed under the terms of the MIT License");
+	abwin->AddSpecialThanks(thanks);
 	abwin->Show();
 }
 
