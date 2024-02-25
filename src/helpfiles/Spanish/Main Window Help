@@ -1,0 +1,24 @@
+Ventana Principal
+	Gran parte de su tiempo trabajando con Capital Be será usado en esta ventana. Ésta tiene cuatro partes principales: La Lista de Cuentas, la Lista de Movimientos, el Balance Rápido y la zona de inserción de Movimientos.
+
+Lista de Cuentas
+	Ubicada en la esquina superior izquierda de la ventana, es simplemente una lista de las cuentas disponibles en Capital Be. Cada Item le mostrará el nombre de la cuenta y su saldo actual. Tenga en cuenta que para las cuentas de deuda, como las tarjetas de crédito, el saldo será inferior a cero. Puede hacer doble clic en una cuenta para editar los detalles básicos de una cuenta. Para la mayoría de las personas, este será solo el nombre, pero también puede cambiar la configuración de divisas simplemente desactivando la casilla de verificación 'Usar configuración de divisa predeterminada'. Sin embargo, esto sólo lo necesitará usar si tiene una cuenta bancaria en un país que use una moneda diferente a la suya.
+
+Consejo: puede cambiar las cuentas sin usar el mouse presionando la flecha hacia arriba o hacia abajo mientras mantiene presionados la teclas ALT.
+
+
+Lista de Movimientos
+	La lista de movimientos simplemente muestra toda la actividad en una cuenta. Además de cada movimiento podrá observar el saldo de la cuenta cuando se realizó esa transacción.
+
+Consejo: puede moverse hacia arriba y hacia abajo en la lista sin usar el mouse presionando la flecha hacia arriba o hacia abajo mientras mantiene la tecla ALT.
+
+
+Añadir un Movimiento
+	Agregar un movimiento a una cuenta es tan simple como escribir información en el formulario de la parte inferior derecha de la ventana y presionar la tecla ENTER o hacer clic en el botón AÑADIR.
+
+Consejo: puede cambiar la fecha usando las teclas + y - (dias) mientras que las teclas arriba y abajo cambiarán el mes.
+
+Consejo: puede saltar al siguiente cuadro de texto con la tecla TAB o al anterior usando MAYUS + TAB.
+
+Balance Rápido
+	El Balance Rápido es un pequeño panel en la esquina inferior izquierda de la ventana que muestra la información global sobre sus finanzas. Muestra el total de todas sus cuentas (conocidas como patrimonio neto en el mundo financiero) y cómo está en su presupuesto en general.

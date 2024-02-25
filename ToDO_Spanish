@@ -1,0 +1,21 @@
+# TODO de la traducción en español
+
+## Partes traducidas (Texto plano)
+- [x] Texto
+- [5/6] Ayuda
+
+## Partes traducidas (Código)
+- [ ] Inserción de nueva líneas en el archivo Spanish y en el Archivo English (Categoría, etc)
+
+**Cadenas hardcodeadas:**
+~~~~
+fUseDefault = new BCheckBox("usedefault","Use Default Currency Settings",
+DAlert *alert = new DAlert("Category is missing.","Do you want to add this transaction "
+"without a category?","Add","Cancel",NULL,
+Uncategorized
+~~~~
+- (SEGUIR COMPROBANDO)
+
+## Cosas que no tienen que ver con la traducción pero que mejoran la experiencia de usuario:
+- [ ] Nuevo Icono
+- [ ] Ayuda en HTML (Inclulyendo código tipo *SYSTEM("open /HelpFiles/helpfile.html")* o algo así)

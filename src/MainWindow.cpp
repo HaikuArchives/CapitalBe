@@ -253,9 +253,16 @@ void MainWindow::OpenAbout(void)
 		NULL
 	};
 
+	const char* thanks[] = {
+		"Tanausú Gómez (Spanish translation)",
+		NULL
+	};
+
 	abwin->AddCopyright(2009, "DarkWyrm");
-	abwin->AddAuthors(authors);
 	abwin->AddText("Distributed under the terms of the MIT License");
+	abwin->AddText("https://github.com/HaikuArchives/CapitalBe");
+	abwin->AddAuthors(authors);
+	abwin->AddSpecialThanks(thanks);
 	abwin->Show();
 }
 
