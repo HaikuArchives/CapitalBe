@@ -12,67 +12,59 @@
 #include <Window.h>
 
 #include "AutoTextControl.h"
-#include "Fixed.h"
 #include "CBLocale.h"
+#include "Fixed.h"
 
 class DatePrefView;
 class CurrencyPrefView;
 
-class PrefWindow : public BWindow
-{
-public:
+class PrefWindow : public BWindow {
+  public:
 	PrefWindow(const BRect &frame);
 	void MessageReceived(BMessage *msg);
 
-private:
-	DatePrefView		*fDatePrefView;
-	CurrencyPrefView	*fCurrencyPrefView;
-	BButton				*fOK, *fCancel;
-	BStringView			*fLabel;
+  private:
+	DatePrefView *fDatePrefView;
+	CurrencyPrefView *fCurrencyPrefView;
+	BButton *fOK, *fCancel;
+	BStringView *fLabel;
 };
 
-class DatePrefView : public BView
-{
-public:
-	DatePrefView(const char *name, Locale *locale = NULL,
-			const int32 &flags = B_WILL_DRAW);
+class DatePrefView : public BView {
+  public:
+	DatePrefView(const char *name, Locale *locale = NULL, const int32 &flags = B_WILL_DRAW);
 	void AttachedToWindow(void);
 	void MessageReceived(BMessage *msg);
-	
+
 	void GetSettings(Locale &locale);
-	
-private:
+
+  private:
 	void UpdateDateLabel(void);
-	
-	BStringView	*fDateLabel;
-	BRadioButton	*fDateMDY,
-					*fDateDMY;
-	AutoTextControl	*fDateSeparatorBox;
-	
-	Locale		fLocale;
+
+	BStringView *fDateLabel;
+	BRadioButton *fDateMDY, *fDateDMY;
+	AutoTextControl *fDateSeparatorBox;
+
+	Locale fLocale;
 };
 
-class CurrencyPrefView : public BView
-{
-public:
-	CurrencyPrefView(const char *name, Locale *locale = NULL,
-			const int32 &flags = B_WILL_DRAW);
+class CurrencyPrefView : public BView {
+  public:
+	CurrencyPrefView(const char *name, Locale *locale = NULL, const int32 &flags = B_WILL_DRAW);
 	void AttachedToWindow(void);
 	void MessageReceived(BMessage *msg);
-	
+
 	void GetSettings(Locale &locale);
-	
-private:
+
+  private:
 	void UpdateCurrencyLabel(void);
-	
-	BStringView		*fCurrencyLabel;
-	AutoTextControl	*fCurrencySymbolBox,
-					*fCurrencyDecimalBox,
-					*fCurrencySeparatorBox;
-	BCheckBox		*fCurrencySymbolPrefix;
-	
-	Locale		fLocale;
-	Fixed		fSampleAmount;
+
+	BStringView *fCurrencyLabel;
+	AutoTextControl *fCurrencySymbolBox, *fCurrencyDecimalBox, *fCurrencySeparatorBox;
+	BCheckBox *fCurrencySymbolPrefix;
+
+	Locale fLocale;
+	Fixed fSampleAmount;
 };
 
 #endif

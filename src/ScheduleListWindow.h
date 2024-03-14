@@ -3,9 +3,8 @@
 
 #include <Window.h>
 
-class ScheduleListWindow : public BWindow
-{
-public:
+class ScheduleListWindow : public BWindow {
+  public:
 	ScheduleListWindow(const BRect &frame);
 };
 

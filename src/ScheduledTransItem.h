@@ -1,27 +1,30 @@
 #ifndef SCHEDULEDTRANS_ITEM_H
 #define SCHEDULEDTRANS_ITEM_H
 
+#include "ScheduledTransData.h"
 #include <ListItem.h>
 #include <time.h>
-#include "ScheduledTransData.h"
 
 class Account;
 
-//void InitTransactionItemLayout(BView *owner);
+// void InitTransactionItemLayout(BView *owner);
 
-class ScheduledTransItem : public BListItem
-{
-public:
+class ScheduledTransItem : public BListItem {
+  public:
 	ScheduledTransItem(const ScheduledTransData &data);
-	
+
 	void DrawItem(BView *owner, BRect frame, bool complete = false);
-	void Update(BView* owner, const BFont* finfo);
+	void Update(BView *owner, const BFont *finfo);
+
 	uint32 GetID(void) const { return fID; }
-	const char * GetDate(void) const { return fDate.String(); }
+
+	const char *GetDate(void) const { return fDate.String(); }
+
 	const char *GetPayee(void) const { return fPayee.String(); }
+
 	void SetData(const TransactionData &trans);
-	
-private:
+
+  private:
 	Account *fAccount;
 	BString fType;
 	BString fPayee;

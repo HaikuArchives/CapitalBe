@@ -1,34 +1,34 @@
 #ifndef LANGUAGE_H
 #define LANGUAGE_H
 
-#include <string>
-#include <map>
-#include <String.h>
+#include "BuildOptions.h"
 #include <Entry.h>
 #include <File.h>
-#include "BuildOptions.h"
+#include <String.h>
+#include <map>
+#include <string>
 
-typedef std::map<BString,BString> LanguageEntryList;
+typedef std::map<BString, BString> LanguageEntryList;
 
-class Language
-{
-public:
+class Language {
+  public:
 	Language(const entry_ref &ref);
 	Language(void);
-	
+
 	virtual ~Language(void);
-	
+
 	virtual void Initialize(void);
+
 	bool IsInitialized(void) const { return fInit; }
-	
+
 	const char *Name(void) { return fName.String(); }
-	
+
 	virtual BString Translate(const char *instring);
 
-protected:
+  protected:
 	void SetInitialized(bool value) { fInit = value; }
-	
-private:
+
+  private:
 	LanguageEntryList fEntryList;
 	bool fInit;
 	BString fName;
@@ -36,14 +36,13 @@ private:
 };
 
 // Debugging class used to generate language files quickly
-class LanguageLogger : public Language
-{
-public:
+class LanguageLogger : public Language {
+  public:
 	LanguageLogger(const entry_ref &ref);
 	~LanguageLogger(void);
 	void Initialize(void);
 	BString Translate(const char *instring);
-	
+
 	LanguageEntryList fLogList;
 	BFile fFile;
 };

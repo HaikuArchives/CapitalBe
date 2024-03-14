@@ -1,23 +1,22 @@
 #ifndef SPLITVIEW_H
 #define SPLITVIEW_H
 
-#include <List.h>
-#include <Button.h>
-#include <View.h>
-#include <ListView.h>
-#include <ScrollView.h>
-#include <StringView.h>
-#include <CheckBox.h>
-#include <TextControl.h>
 #include "Fixed.h"
 #include "Notifier.h"
 #include "TransactionData.h"
+#include <Button.h>
+#include <CheckBox.h>
+#include <List.h>
+#include <ListView.h>
+#include <ScrollView.h>
+#include <StringView.h>
+#include <TextControl.h>
+#include <View.h>
 
-enum
-{
-	M_ADD_SPLIT='mads',
+enum {
+	M_ADD_SPLIT = 'mads',
 	M_REMOVE_SPLIT,
-	M_ENTER_TRANSACTION='metr',
+	M_ENTER_TRANSACTION = 'metr',
 	M_EXPANDER_CHANGED,
 	M_SELECT_SPLIT,
 	M_SPLIT_CATEGORY_CHANGED,
@@ -38,48 +37,50 @@ class CategoryBox;
 class NavTextBox;
 class HelpButton;
 
-class SplitView : public BView, public Observer
-{
-public:
+class SplitView : public BView, public Observer {
+  public:
 	SplitView(const char *name, const TransactionData &trans, const int32 &flags);
 	~SplitView(void);
 	void AttachedToWindow(void);
 	void DetachedFromWindow(void);
 	void MessageReceived(BMessage *msg);
-	void SetFields(const char *date,const char *type, const char *payee,
-					const char *amount,const char *category,const char *memo);
-	
+	void SetFields(
+		const char *date, const char *type, const char *payee, const char *amount,
+		const char *category, const char *memo
+	);
+
 	void HandleNotify(const uint64 &value, const BMessage *msg);
 	void MakeEmpty(void);
-	void MakeFocus(bool value=true);
+	void MakeFocus(bool value = true);
 	void FrameResized(float width, float height);
+
 	bool IsSplitHidden(void) const { return fSplitContainer->IsHidden(); }
+
 	void ToggleSplit(void);
-	
-private:
+
+  private:
 	friend SplitViewFilter;
 	bool ValidateAllFields(void);
-//	bool ValidateDateField(void);
-//	bool ValidateAmountField(void);
+	//	bool ValidateDateField(void);
+	//	bool ValidateAmountField(void);
 	bool ValidateSplitAmountField(void);
-//	bool ValidateCategoryField(void);
+	//	bool ValidateCategoryField(void);
 	bool ValidateSplitItems(void);
 	Fixed CalculateTotal(void);
 	Category *MakeCategory(void);
-	
-//	BTextControl *fType,*fPayee,*fAmount,*fCategory,*fMemo;
+
+	//	BTextControl *fType,*fPayee,*fAmount,*fCategory,*fMemo;
 	DateBox *fDate;
 	CheckNumBox *fType;
 	PayeeBox *fPayee;
 	CurrencyBox *fAmount;
 	CategoryBox *fCategory;
 	NavTextBox *fMemo;
-	BStringView *fDateLabel,*fTypeLabel,*fPayeeLabel,*fAmountLabel,
-				*fCategoryLabel,*fMemoLabel;
+	BStringView *fDateLabel, *fTypeLabel, *fPayeeLabel, *fAmountLabel, *fCategoryLabel, *fMemoLabel;
 	SplitViewFilter *fKeyFilter;
 	BMessenger *fMessenger;
 	BButton *fEnter, *fTransfer, *fSplit;
-	
+
 	BView *fSplitContainer;
 	BTextControl *fSplitCategory, *fSplitAmount, *fSplitMemo;
 	BListView *fSplitItems;
@@ -88,7 +89,7 @@ private:
 	BStringView *fSplitTotal;
 	BCheckBox *fReconciled;
 	HelpButton *fHelpButton;
-	
+
 	time_t fCurrentDate;
 	bool fStartExpanded;
 	TransactionData fTransaction;

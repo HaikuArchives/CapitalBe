@@ -5,24 +5,29 @@
 
 class TransactionData;
 
-void InitTransactionItemLayout(BView *owner);
+void
+InitTransactionItemLayout(BView *owner);
 
-class TransactionItem : public BListItem
-{
-public:
+class TransactionItem : public BListItem {
+  public:
 	TransactionItem(const TransactionData &trans);
 	void DrawItem(BView *owner, BRect frame, bool complete = false);
-	void Update(BView* owner, const BFont* finfo);
+	void Update(BView *owner, const BFont *finfo);
+
 	uint32 GetID(void) const { return fID; }
+
 	time_t GetDate(void) const { return fDate; }
+
 	const char *GetPayee(void) const { return fPayee.String(); }
+
 	void SetData(const TransactionData &trans);
-private:
+
+  private:
 	time_t fDate;
 	Account *fAccount;
 	BString fType;
 	BString fPayee;
-	Fixed 	fAmount;
+	Fixed fAmount;
 	BString fCategory;
 	BString fMemo;
 	uint8 fStatus;
