@@ -7,6 +7,13 @@
 #include "ReportWindow.h"
 #include "TimeSupport.h"
 
+#include <Catalog.h>
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "NetWorthReport"
+
+
 void
 ReportWindow::ComputeNetWorth(void)
 {
@@ -47,7 +54,7 @@ ReportWindow::ComputeNetWorth(void)
 
 	ReportGrid accountgrid(1, timelist.CountItems());
 
-	BString longestname(TRANSLATE("Total Worth"));
+	BString longestname(B_TRANSLATE("Total worth"));
 	int longestnamelength = longestname.CountChars();
 
 
@@ -91,16 +98,16 @@ ReportWindow::ComputeNetWorth(void)
 	if (fGraphView->IsHidden()) {
 		// Now that we have all the data, we need to set up the rows and columns for the report grid
 
-		BColumn* col = new BStringColumn(TRANSLATE("Date"),
+		BColumn* col = new BStringColumn(B_TRANSLATE("Date"),
 			fGridView->StringWidth(longestname.String()) + 20, 10, 300, B_TRUNCATE_END);
 		fGridView->AddColumn(col, 0);
-		col = new BStringColumn(TRANSLATE("Total"), 75, 10, 300, B_TRUNCATE_END);
+		col = new BStringColumn(B_TRANSLATE("Total"), 75, 10, 300, B_TRUNCATE_END);
 		fGridView->AddColumn(col, 1);
 
 		fGridView->AddRow(new BRow());
 		BRow* titlerow = new BRow();
 		fGridView->AddRow(titlerow);
-		titlerow->SetField(new BStringField(TRANSLATE("Total Worth")), 0);
+		titlerow->SetField(new BStringField(B_TRANSLATE("Total worth")), 0);
 		fGridView->AddRow(new BRow());
 
 		// Now that the grid is set up, start adding data to the grid

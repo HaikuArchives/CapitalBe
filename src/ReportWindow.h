@@ -15,7 +15,6 @@
 #include "Account.h"
 #include "DStringList.h"
 #include "Notifier.h"
-#include "Translate.h"
 
 class StickyDrawButton;
 class DateBox;

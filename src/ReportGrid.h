@@ -22,6 +22,7 @@ public:
 	void RemoveItem(const int32& index);
 
 	int32 CountItems(void) const { return fList.CountItems(); }
+
 	void MakeEmpty(void);
 
 	void Sort(void);
@@ -29,6 +30,7 @@ public:
 	void PrintToStream(void);
 
 	uint32 Width(void) const { return fWidth; }
+
 	uint32 Height(void) const { return (uint32)fList.CountItems(); }
 
 private:
@@ -38,6 +40,7 @@ private:
 		~GridRecord(void);
 
 		const char* Title(void) const { return fTitle.String(); }
+
 		void SetTitle(const char* title) { fTitle = title; }
 
 		status_t ValueAt(const uint32& index, Fixed& fixed);

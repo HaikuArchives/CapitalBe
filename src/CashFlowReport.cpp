@@ -1,3 +1,4 @@
+#include <Catalog.h>
 #include <stdlib.h>
 #include "Account.h"
 #include "CBLocale.h"
@@ -7,6 +8,11 @@
 #include "ReportGrid.h"
 #include "ReportWindow.h"
 #include "TimeSupport.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "CashFlowReport"
+
 
 void
 ReportWindow::ComputeCashFlow(void)
@@ -154,7 +160,7 @@ ReportWindow::ComputeCashFlow(void)
 	expensegrid.Sort();
 
 	// Now that we have all the data, we need to set up the rows and columns for the report grid
-	BColumn* col = new BStringColumn(TRANSLATE("Category"),
+	BColumn* col = new BStringColumn(B_TRANSLATE("Category"),
 		fGridView->StringWidth(longestname.String()) + 20, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 0);
 
@@ -185,7 +191,7 @@ ReportWindow::ComputeCashFlow(void)
 			}
 			default:
 			{
-				sprintf(columntitle, TRANSLATE("Amount"));
+				sprintf(columntitle, B_TRANSLATE("Amount"));
 				break;
 			}
 		}
@@ -197,7 +203,7 @@ ReportWindow::ComputeCashFlow(void)
 	fGridView->AddRow(new BRow());
 	BRow* titlerow = new BRow();
 	fGridView->AddRow(titlerow);
-	titlerow->SetField(new BStringField(TRANSLATE("Income")), 0);
+	titlerow->SetField(new BStringField(B_TRANSLATE("Income")), 0);
 	fGridView->AddRow(new BRow());
 
 	if (!fGridView->IsHidden()) {
@@ -224,7 +230,7 @@ ReportWindow::ComputeCashFlow(void)
 		fGridView->AddRow(new BRow());
 		titlerow = new BRow();
 		fGridView->AddRow(titlerow);
-		titlerow->SetField(new BStringField(TRANSLATE("Expense")), 0);
+		titlerow->SetField(new BStringField(B_TRANSLATE("Expense")), 0);
 		fGridView->AddRow(new BRow());
 
 		for (i = 0; i < expensegrid.CountItems(); i++) {

@@ -39,6 +39,7 @@ public:
 	virtual void DetachedFromWindow(void);
 
 	void SetFilter(AutoTextControlFilter* filter);
+
 	AutoTextControlFilter* GetFilter(void) { return fFilter; }
 
 	void SetCharacterLimit(const uint32& limit);
@@ -68,7 +69,9 @@ public:
 	virtual filter_result KeyFilter(const int32& key, const int32& mod);
 
 	AutoTextControl* TextControl(void) const { return fBox; }
+
 	BMessage* GetCurrentMessage(void) { return fCurrentMessage; }
+
 	void SendMessage(BMessage* msg);
 	void SetMessenger(BMessenger* msgr);
 

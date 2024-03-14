@@ -32,27 +32,35 @@ public:
 	void NumberToCurrency(const Fixed& number, BString& string);
 
 	void SetDateFormat(const date_format& format);
+
 	date_format DateFormat(void) const { return fDateFormat; }
 
 	void SetCurrencySymbol(const char* symbol);
+
 	const char* CurrencySymbol(void) const { return fCurrencySymbol.String(); }
 
 	void SetCurrencySeparator(const char* symbol);
+
 	const char* CurrencySeparator(void) const { return fCurrencySeparator.String(); }
 
 	void SetCurrencyDecimal(const char* symbol);
+
 	const char* CurrencyDecimal(void) const { return fCurrencyDecimal.String(); }
 
 	void SetCurrencySymbolPrefix(const bool& value);
+
 	bool IsCurrencySymbolPrefix(void) const { return fPrefixSymbol; }
 
 	void SetCurrencyDecimalPlace(const uint8& place);
+
 	uint8 CurrencyDecimalPlace(void) const { return fCurrencyDecimalPlace; }
 
 	void SetDateSeparator(const char* symbol);
+
 	const char* DateSeparator(void) const { return fDateSeparator.String(); }
 
 	void SetDST(const bool& value);
+
 	bool UseDST(void) const { return fUseDST; }
 
 private:

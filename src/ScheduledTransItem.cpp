@@ -1,4 +1,5 @@
 #include "ScheduledTransItem.h"
+#include <Catalog.h>
 #include <ListView.h>
 #include <Region.h>
 #include <View.h>
@@ -12,7 +13,11 @@
 #include "Preferences.h"
 #include "TransactionData.h"
 #include "TransactionLayout.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ScheduledTransItem"
+
 
 ScheduledTransItem::ScheduledTransItem(const ScheduledTransData& data)
 	: BListItem(),
@@ -30,7 +35,7 @@ ScheduledTransItem::ScheduledTransItem(const ScheduledTransData& data)
 	gDefaultLocale.DateToString(data.Date(), fDate);
 
 	if (data.CountCategories() > 1)
-		fCategory = TRANSLATE("Split");
+		fCategory = B_TRANSLATE("Split");
 	else
 		fCategory = data.NameAt(0);
 }
@@ -209,7 +214,7 @@ ScheduledTransItem::SetData(const TransactionData& trans)
 	fPayee = trans.Payee();
 	locale.CurrencyToString(trans.Amount().AbsoluteValue(), fAmount);
 	if (trans.CountCategories() > 1)
-		fCategory = TRANSLATE("Split");
+		fCategory = B_TRANSLATE("Split");
 	else
 		fCategory = trans.NameAt(0);
 	fMemo = trans.Memo();

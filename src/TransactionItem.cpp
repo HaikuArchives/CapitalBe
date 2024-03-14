@@ -1,4 +1,5 @@
 #include "TransactionItem.h"
+#include <Catalog.h>
 #include <ListView.h>
 #include <Region.h>
 #include <View.h>
@@ -12,7 +13,10 @@
 #include "Preferences.h"
 #include "TransactionData.h"
 #include "TransactionLayout.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "TransactionItem"
 
 
 TransactionItem::TransactionItem(const TransactionData& trans)
@@ -29,7 +33,7 @@ TransactionItem::TransactionItem(const TransactionData& trans)
 	  fTimeStamp(trans.GetTimeStamp())
 {
 	if (trans.CountCategories() > 1)
-		fCategory = TRANSLATE("Split");
+		fCategory = B_TRANSLATE("Split");
 	else
 		fCategory = trans.NameAt(0);
 }
@@ -196,7 +200,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 3));
 	} else {
 		owner->SetHighColor(linecolor);
-		owner->DrawString(TRANSLATE("No Memo"), BPoint(xpos + 5, ypos - 3));
+		owner->DrawString(B_TRANSLATE("No Memo"), BPoint(xpos + 5, ypos - 3));
 	}
 	owner->ConstrainClippingRegion(NULL);
 }
@@ -217,7 +221,7 @@ TransactionItem::SetData(const TransactionData& trans)
 	fPayee = trans.Payee();
 	fAmount = trans.Amount();
 	if (trans.CountCategories() > 1)
-		fCategory = TRANSLATE("Split");
+		fCategory = B_TRANSLATE("Split");
 	else
 		fCategory = trans.NameAt(0);
 	fMemo = trans.Memo();

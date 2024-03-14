@@ -9,7 +9,9 @@
 class EscapeCancelFilter : public BMessageFilter {
 public:
 	EscapeCancelFilter(void) : BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN) {}
+
 	~EscapeCancelFilter(void) {}
+
 	filter_result Filter(BMessage* msg, BHandler** target)
 	{
 		int32 rawchar;

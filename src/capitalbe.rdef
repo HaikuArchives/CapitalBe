@@ -9,8 +9,8 @@ resource app_version {
 	variety = B_APPV_DEVELOPMENT,
 	internal = 0,
 
-	short_info = "A personal finance app for BeOS",
-	long_info = "A personal finance app for BeOS"
+	short_info = "Finance application for Haiku",
+	long_info = "A personal finance application for Haiku"
 };
 
 resource large_icon array {

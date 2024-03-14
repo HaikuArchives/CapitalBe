@@ -279,8 +279,11 @@ public:
 	void setBusyTimeout(int nMillisecs);
 
 	static const char* SQLiteVersion() { return SQLITE_VERSION; }
+
 	static const char* SQLiteHeaderVersion() { return SQLITE_VERSION; }
+
 	static const char* SQLiteLibraryVersion() { return sqlite3_libversion(); }
+
 	static int SQLiteLibraryVersionNumber() { return sqlite3_libversion_number(); }
 
 	bool IsAutoCommitOn();

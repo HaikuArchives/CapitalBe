@@ -99,7 +99,6 @@ Language::Translate(const char* instring)
 	return BString(instring);
 }
 
-
 LanguageLogger::LanguageLogger(const entry_ref& ref)
 	: Language(ref), fFile(&ref, B_CREATE_FILE | B_ERASE_FILE | B_READ_WRITE)
 

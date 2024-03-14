@@ -19,13 +19,11 @@ TextFile::TextFile(const entry_ref& ref, const uint32& openmode) : BFile(&ref, o
 	InitObject();
 }
 
-
 TextFile::~TextFile(void)
 {
 	delete[] fBuffer;
 	delete[] fReadBuffer;
 }
-
 
 void
 TextFile::InitObject(void)
@@ -82,7 +80,6 @@ TextFile::ReadLine(void)
 	// do we need to add a \0?
 	return fReadBuffer;
 }
-
 
 bool
 TextFile::IsEOF(void)

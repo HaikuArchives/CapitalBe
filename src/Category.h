@@ -24,6 +24,7 @@ public:
 	bool HasItem(const char* name);
 	bool RemoveItem(const char* name);
 	bool RemoveItem(const int32& index);
+
 	int32 CountItems(void) const { return fList->CountItems(); }
 
 	void Flatten(BFile* file);
@@ -42,6 +43,7 @@ private:
 			amount = fixed;
 			memo = str2;
 		}
+
 		CatItem(const CatItem& from)
 		{
 			string = from.string;

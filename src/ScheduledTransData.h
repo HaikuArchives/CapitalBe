@@ -16,15 +16,18 @@ public:
 	ScheduledTransData& operator=(const ScheduledTransData& from);
 
 	TransactionInterval GetInterval(void) const { return fInterval; }
+
 	void SetInterval(const TransactionInterval& interval) { fInterval = interval; }
 
 	int32 GetCount(void) const { return fCount; }
+
 	// count < 0 means repeat indefinitely
 	void SetCount(const int32 count) { fCount = count; }
 
-
 	void SetNextDueDate(const time_t& date) { fNextDate = date; }
+
 	void CalculateNextDueDate(void);
+
 	time_t GetNextDueDate(void) const { return fNextDate; }
 
 	// If everything which needs to be in a transaction is there and valid, it

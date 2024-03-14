@@ -1,4 +1,5 @@
 #include "AccountListItem.h"
+#include <Catalog.h>
 #include <Font.h>
 #include <ListView.h>
 #include <String.h>
@@ -9,7 +10,11 @@
 #include "Database.h"
 #include "Preferences.h"
 #include "TransactionLayout.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "AccountListItem"
+
 
 AccountListItem::AccountListItem(Account* acc) : BListItem()
 {
@@ -66,7 +71,7 @@ AccountListItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 	if (fAccount->IsClosed()) {
 		owner->DrawString(
-			TRANSLATE("Closed"), BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
+			B_TRANSLATE("Closed"), BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
 	} else {
 		BString text;
 		fAccount->GetLocale().CurrencyToString(fAccount->Balance(), text);

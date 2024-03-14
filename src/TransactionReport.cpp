@@ -1,3 +1,4 @@
+#include <Catalog.h>
 #include <stdlib.h>
 #include "Account.h"
 #include "CBLocale.h"
@@ -8,6 +9,11 @@
 #include "ReportWindow.h"
 #include "TimeSupport.h"
 #include "Transaction.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "TransactionReport"
+
 
 void
 ReportWindow::ComputeTransactions(void)
@@ -50,43 +56,43 @@ ReportWindow::ComputeTransactions(void)
 		timelist.AddItem(new time_t(fEndDate));
 	}
 
-	BString longestname(TRANSLATE("Transactions"));
+	BString longestname(B_TRANSLATE("Transactions"));
 	//	int longestnamelength = 12;
 
-	BColumn* col = new BStringColumn("", fGridView->StringWidth(TRANSLATE("Transactions")) + 20, 10,
-		300, B_TRUNCATE_END, B_ALIGN_RIGHT);
+	BColumn* col = new BStringColumn("", fGridView->StringWidth(B_TRANSLATE("Transactions")) + 20,
+		10, 300, B_TRUNCATE_END, B_ALIGN_RIGHT);
 	fGridView->AddColumn(col, 0);
 	col = new BStringColumn(
-		TRANSLATE("Date"), fGridView->StringWidth("00-00-0000") + 15, 10, 300, B_TRUNCATE_END);
+		B_TRANSLATE("Date"), fGridView->StringWidth("00-00-0000") + 15, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 1);
-	col = new BStringColumn(
-		TRANSLATE("Type"), fGridView->StringWidth(TRANSLATE("Type")) + 20, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE("Type"), fGridView->StringWidth(B_TRANSLATE("Type")) + 20,
+		10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 2);
-	col = new BStringColumn(TRANSLATE("Payee"), 75, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE("Payee"), 75, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 3);
 
 	// The string we use for calculating width here should work well enough for general purposes
 	col = new BStringColumn(
-		TRANSLATE("Amount"), fGridView->StringWidth("$00,000.00") + 15, 10, 300, B_TRUNCATE_END);
+		B_TRANSLATE("Amount"), fGridView->StringWidth("$00,000.00") + 15, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 4);
-	col = new BStringColumn(
-		TRANSLATE("Category"), fGridView->StringWidth("0000000000") + 20, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE("Category"), fGridView->StringWidth("0000000000") + 20, 10,
+		300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 5);
-	col = new BStringColumn(TRANSLATE("Memo"), 75, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE("Memo"), 75, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 6);
 
 	fGridView->AddRow(new BRow());
 	BRow* titlerow = new BRow();
 	fGridView->AddRow(titlerow);
-	titlerow->SetField(new BStringField(TRANSLATE("Transactions")), 0);
+	titlerow->SetField(new BStringField(B_TRANSLATE("Transactions")), 0);
 	fGridView->AddRow(new BRow());
 
 
-	int32 payeechars = strlen(TRANSLATE("Payee")), memochars = strlen(TRANSLATE("Memo")),
-		  categorychars = strlen(TRANSLATE("Category"));
-	float maxpayee = fGridView->StringWidth(TRANSLATE("Payee")),
-		  maxmemo = fGridView->StringWidth(TRANSLATE("Memo")),
-		  maxcategory = fGridView->StringWidth(TRANSLATE("Category"));
+	int32 payeechars = strlen(B_TRANSLATE("Payee")), memochars = strlen(B_TRANSLATE("Memo")),
+		  categorychars = strlen(B_TRANSLATE("Category"));
+	float maxpayee = fGridView->StringWidth(B_TRANSLATE("Payee")),
+		  maxmemo = fGridView->StringWidth(B_TRANSLATE("Memo")),
+		  maxcategory = fGridView->StringWidth(B_TRANSLATE("Category"));
 
 	int32 count = timelist.CountItems() - 1;
 	for (int32 subtotal_index = 0; subtotal_index < count; subtotal_index++) {
@@ -131,9 +137,9 @@ ReportWindow::ComputeTransactions(void)
 		if (query.eof()) {
 			row = new BRow();
 			fGridView->AddRow(row);
-			row->SetField(new BStringField(TRANSLATE("No Transactions")), 0);
+			row->SetField(new BStringField(B_TRANSLATE("No transactions")), 0);
 			fGridView->ColumnAt(0)->SetWidth(
-				fGridView->StringWidth(TRANSLATE("No Transactions")) + 15);
+				fGridView->StringWidth(B_TRANSLATE("No transactions")) + 15);
 		} else
 			while (!query.eof()) {
 				row = new BRow();

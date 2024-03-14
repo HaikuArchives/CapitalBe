@@ -3,7 +3,13 @@
 #include "Database.h"
 #include "MsgDefs.h"
 #include "TimeSupport.h"
-#include "Translate.h"
+
+#include <Catalog.h>
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "CurrencyBox"
+
 
 CurrencyBoxFilter::CurrencyBoxFilter(CurrencyBox* box) : NavTextBoxFilter(box) {}
 
@@ -50,6 +56,7 @@ CurrencyBox::CurrencyBox(
 }
 
 
+
 bool
 CurrencyBox::Validate(bool alert)
 {
@@ -59,9 +66,9 @@ CurrencyBox::Validate(bool alert)
 	Fixed amount;
 	if (gCurrentLocale.StringToCurrency(Text(), amount) != B_OK) {
 		if (alert) {
-			ShowAlert(TRANSLATE("Capital Be didn't understand the amount."),
-				TRANSLATE("There may be a typo or the wrong kind of currency symbol "
-						  "for this account."));
+			ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount."),
+				B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
+							"for this account."));
 			MakeFocus(true);
 		}
 		return false;

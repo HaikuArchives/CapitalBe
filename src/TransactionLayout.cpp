@@ -25,21 +25,25 @@ TLeftPadding(void)
 {
 	return sLeftPadding;
 }
+
 uint8
 TRowHeight(void)
 {
 	return sRowHeight;
 }
+
 uint8
 TNumWidth(void)
 {
 	return sNumWidth;
 }
+
 uint8
 TDateWidth(void)
 {
 	return sDateWidth;
 }
+
 uint8
 TAmountWidth(void)
 {

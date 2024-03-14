@@ -3,7 +3,13 @@
 #include "Database.h"
 #include "MsgDefs.h"
 #include "TimeSupport.h"
-#include "Translate.h"
+
+#include <Catalog.h>
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "DateBox"
+
 
 DateBoxFilter::DateBoxFilter(DateBox* box) : AutoTextControlFilter(box) {}
 
@@ -111,6 +117,7 @@ DateBox::DateBox(const char* name, const char* label, const char* text, BMessage
 }
 
 
+
 bool
 DateBox::Validate(const bool& alert)
 {
@@ -122,10 +129,10 @@ DateBox::Validate(const bool& alert)
 		SetText(date.String());
 	} else if (gDefaultLocale.StringToDate(Text(), tdate) != B_OK) {
 		if (alert) {
-			ShowAlert(TRANSLATE("Capital Be didn't understand the date you entered."),
-				TRANSLATE("Capital Be understands lots of different ways of entering dates. "
-						  "Apparently, this wasn't one of them. You'll need to change how you "
-						  "entered this date. Sorry."));
+			ShowAlert(B_TRANSLATE("CapitalBe didn't understand the date you entered."),
+				B_TRANSLATE("CapitalBe understands lots of different ways of entering dates. "
+							"Apparently, this wasn't one of them. You'll need to change how you "
+							"entered this date. Sorry."));
 			MakeFocus(true);
 		}
 		return false;
