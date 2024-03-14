@@ -25,6 +25,7 @@ class LanguageRoster {
 	Language *fDefaultLanguage;
 };
 
+extern Language *gCurrentLanguage;
 extern LanguageRoster *language_roster;
 
 #endif

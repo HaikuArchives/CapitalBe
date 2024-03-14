@@ -30,7 +30,6 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "ScheduleListWindow"
 
-Language *gCurrentLanguage = NULL;
 
 enum { M_REMOVE_ITEM = 'rmit' };
 

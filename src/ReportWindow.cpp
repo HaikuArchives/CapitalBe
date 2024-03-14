@@ -24,7 +24,6 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "ReportWindow"
 
-Language *gCurrentLanguage = NULL;
 
 int
 compare_stringitem(const void *item1, const void *item2);

@@ -14,7 +14,6 @@
 
 #include "AccountSettingsWindow.h"
 #include "BudgetWindow.h"
-#include "BuildOptions.h"
 #include "CBLocale.h"
 #include "CategoryWindow.h"
 #include "DAlert.h"
@@ -45,19 +44,14 @@
 // Internal definition of the Haiku services daemon
 #define B_SERVICES_DAEMON_RESTART 'SDRS'
 
-Language *gCurrentLanguage = NULL;
 
 int32 gTextViewHeight = 20;
 int32 gStringViewHeight = 20;
 
+Language *gCurrentLanguage = NULL;
+
 MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0) {
 	BString temp;
-	// Main window title changes in demo mode
-	if (BUILD_MODE == PREVIEW_MODE)
-		SetTitle(B_TRANSLATE("CapitalBe Preview Edition"));
-	else if (BUILD_MODE == BETA_MODE)
-		SetTitle("CapitalBe: Beta");
-	else
 		SetTitle(B_TRANSLATE_SYSTEM_NAME("CapitalBe"));
 
 	// These chunks of code will save a lot of headache later on --
@@ -103,19 +97,10 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0) {
 	BRect r(Bounds());
 	r.bottom = 20;
 	BMenuBar *bar = new BMenuBar("keybar");
-
-#ifdef BETA_MODE
-	temp = B_TRANSLATE("Report a bug…");
-	bar->AddItem(new BMenuItem(temp.String(), new BMessage(M_REPORT_BUG)));
-#endif
-
 	BMenu *menu = new BMenu(B_TRANSLATE("Program"));
-#ifdef DEMO_MODE
-	menu->AddItem(new BMenuItem(B_TRANSLATE("Buy CapitalBe"), new BMessage(M_PURCHASE_FULL_VERSION))
-	);
-	menu->AddSeparatorItem();
-#endif
 
+	temp = B_TRANSLATE("Report a bug…");
+	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_REPORT_BUG)));
 	temp = B_TRANSLATE("Settings…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_OPTIONS_WINDOW), ','));
 
@@ -321,24 +306,11 @@ MainWindow::MessageReceived(BMessage *msg) {
 		break;
 	}
 	case M_REPORT_BUG: {
-		BString cmdstring("/boot/beos/apps/BeMail mailto:support@capitalbe.com &");
-		system(cmdstring.String());
+		char *argv[2] = {(char*)"https://github.com/HaikuArchives/CapitalBe", NULL};
+		be_roster->Launch("text/html", 1, argv);  
 		break;
 	}
 	case M_SHOW_NEW_ACCOUNT: {
-#ifdef PREVIEW_MODE
-		if (gDatabase.CountAccounts() >= 5) {
-			ShowAlert(
-				B_TRANSLATE("Preview mode limit"),
-				B_TRANSLATE("You can have up to 5 accounts in CapitalBe's demo version. "
-						  "We hope that you like CapitalBe and will "
-						  "purchase the full version. Have a nice day!"),
-				B_IDEA_ALERT
-			);
-			break;
-		}
-#endif
-
 		AccountSettingsWindow *newaccwin = new AccountSettingsWindow(NULL);
 		BRect r(Frame());
 		newaccwin->MoveTo(

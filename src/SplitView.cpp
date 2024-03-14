@@ -31,7 +31,6 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "SplitView"
 
-Language *gCurrentLanguage = NULL;
 
 SplitView::SplitView(const char *name, const TransactionData &trans, const int32 &flags)
 	: BView(name, flags | B_FRAME_EVENTS),

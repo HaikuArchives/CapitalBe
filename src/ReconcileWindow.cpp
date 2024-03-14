@@ -21,7 +21,6 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "ReconcileWindow"
 
-Language *gCurrentLanguage = NULL;
 
 enum {
 	M_TOGGLE_DEPOSIT = 'tgdp',
