@@ -1,9 +1,12 @@
 #ifndef TRANSACTION_ITEM_H
 #define TRANSACTION_ITEM_H
 
-#include <ListItem.h>
 
-class TransactionData;
+#include "TransactionData.h"
+
+#include <ListItem.h>
+#include <String.h>
+
 
 void
 InitTransactionItemLayout(BView *owner);
@@ -23,16 +26,17 @@ class TransactionItem : public BListItem {
 	void SetData(const TransactionData &trans);
 
   private:
-	time_t fDate;
 	Account *fAccount;
-	BString fType;
-	BString fPayee;
-	Fixed fAmount;
 	BString fCategory;
 	BString fMemo;
+	BString fPayee;
+	BString fType;
+	Fixed fAmount;
+
+	bigtime_t fTimeStamp;
+	time_t fDate;
 	uint8 fStatus;
 	uint32 fID;
-	bigtime_t fTimeStamp;
 };
 
 #endif

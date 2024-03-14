@@ -1,12 +1,14 @@
 #ifndef TRANSACTIONDATA_H
 #define TRANSACTIONDATA_H
 
+
 #include "Category.h"
 #include "Fixed.h"
 #include "TextFile.h"
+#include "Transaction.h"
+
 #include <String.h>
 
-#include "Transaction.h"
 
 class TransactionData {
   public:

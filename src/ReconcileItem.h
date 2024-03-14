@@ -1,9 +1,10 @@
 #ifndef RECONCILE_ITEM_H
 #define RECONCILE_ITEM_H
 
+#include "TransactionData.h"
+
 #include <ListItem.h>
 
-class TransactionData;
 
 class ReconcileItem : public BStringItem {
   public:
