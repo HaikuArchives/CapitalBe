@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	1061653508
+1	English	application/x-vnd.wgp-CapitalBe	548178424
 Year	ReportWindow		Year
 Edit transaction	TransactionEditWindow		Edit transaction
 None	ReportWindow		None
@@ -7,10 +7,10 @@ Transfer from %%PAYEE%%	MainWindow		Transfer from %%PAYEE%%
 Reports	ReportWindow		Reports
 Monthly	ScheduleAddWindow		Monthly
 Annually	BudgetWindow		Annually
+Report a bug…	MainWindow		Report a bug…
 OK	PrefWindow		OK
 Changes will take effect on restart	MainWindow		Changes will take effect on restart
 CapitalBe didn't understand the date you entered.	DateBox		CapitalBe didn't understand the date you entered.
-CapitalBe Preview Edition	MainWindow		CapitalBe Preview Edition
 To account	TransferWindow		To account
 Category	CheckView		Category
 Reports…	MainWindow		Reports…

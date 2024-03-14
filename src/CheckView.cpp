@@ -7,7 +7,6 @@
 #include <stdlib.h>
 
 #include "Account.h"
-#include "BuildOptions.h"
 #include "CategoryBox.h"
 #include "CheckNumBox.h"
 #include "CheckView.h"
@@ -16,7 +15,6 @@
 #include "Database.h"
 #include "DateBox.h"
 #include "LanguageRoster.h"
-#include "Layout.h"
 #include "MainWindow.h"
 #include "MsgDefs.h"
 #include "NavTextBox.h"
@@ -162,21 +160,6 @@ CheckView::MessageReceived(BMessage* msg)
 			// The text filter sends this message whenever the user hits Enter
 			// from the Memo field. The CheckView instance should do whatever is
 			// needed to post the transaction into the register
-
-#ifdef DEMO_MODE
-			Account* demoacc = gDatabase.CurrentAccount();
-			if (demoacc && demoacc->CountTransactions() >= 25) {
-				ShowAlert(B_TRANSLATE("Demo mode limit"),
-					B_TRANSLATE("The Demo Mode limit has been reached on this account.",
-						"You can manually enter up to 25 transactions per "
-						"account. We hope that you like CapitalBe and will "
-						"purchase the full version. Have a nice day!"),
-					B_IDEA_ALERT);
-				MakeEmpty();
-				break;
-			}
-
-#endif
 
 			if (!fDate->Validate() || !fType->Validate() || !fPayee->Validate() ||
 				!fAmount->Validate() || !fCategory->Validate())

@@ -20,30 +20,12 @@ bool gRestartApp = false;
 
 App::App(void) : BApplication("application/x-vnd.wgp-CapitalBe")
 {
-#ifdef BETA_MODE
-
-	// To create the UNIX number, run the Terminal command
-	// date --date="25 Dec 2006" +%s
-	// and change the date accordingly
-	if (GetCurrentDate() > 1167022800) {
-		ShowAlert("This beta version has expired.",
-			"This is only a test version of CapitalBe and is intended to work only "
-			"for a short period of time to allow the community to help find bugs and "
-			"make CapitalBe the best financial manager possible.\n\nYou can download "
-			"a new copy of CapitalBe from http://www.capitalbe.com/");
-		be_app->PostMessage(B_QUIT_REQUESTED);
-		return;
-	}
-
-#endif
-
 	// Load preferences and then initialize the translation system
 	LoadPreferences(PREFERENCES_PATH "/CapitalBeSettings");
 
 	BString languagepath = gAppPath.String();
 	languagepath += "R5LanguageFiles";
 	language_roster = new LanguageRoster(languagepath.String());
-
 
 	// We can skip locking because nothing else is open at this point :)
 	BRect winframe;
@@ -54,18 +36,6 @@ App::App(void) : BApplication("application/x-vnd.wgp-CapitalBe")
 
 	MainWindow* win = new MainWindow(winframe);
 	win->Show();
-
-#ifdef PREVIEW_MODE
-
-	ShowAlert("Welcome to CapitalBe's Technology Preview!",
-		"Welcome and thank you for trying CapitalBe, what will be the foremost "
-		"personal finance manager for BeOS, Zeta, and Haiku.\n\n"
-		"This preview version may contain bugs and is not feature complete, but "
-		"will give you an idea of what the full version will be like when released.\n\n"
-		"Please feel free to experiment and send any feedback to capitalbe@earthlink.net",
-		B_IDEA_ALERT);
-
-#endif
 }
 
 App::~App(void)
