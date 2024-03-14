@@ -18,6 +18,7 @@ public:
 	virtual ~Language(void);
 
 	virtual void Initialize(void);
+
 	bool IsInitialized(void) const { return fInit; }
 
 	const char* Name(void) { return fName.String(); }

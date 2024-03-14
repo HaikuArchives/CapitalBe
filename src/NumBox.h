@@ -19,9 +19,11 @@ public:
 	bool Validate(bool alert = true);
 
 	void UseTabFiltering(const bool& value) { fFilterTab = value; }
+
 	bool IsTabFiltering(void) const { return fFilterTab; }
 
 	void AllowNegatives(const bool& value);
+
 	bool AllowsNegatives(void) const { return fAllowNegatives; }
 
 private:

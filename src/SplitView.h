@@ -52,7 +52,9 @@ public:
 	void MakeEmpty(void);
 	void MakeFocus(bool value = true);
 	void FrameResized(float width, float height);
+
 	bool IsSplitHidden(void) const { return fSplitContainer->IsHidden(); }
+
 	void ToggleSplit(void);
 
 private:

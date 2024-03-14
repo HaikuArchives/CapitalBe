@@ -3,7 +3,13 @@
 #include "Database.h"
 #include "MsgDefs.h"
 #include "TimeSupport.h"
-#include "Translate.h"
+
+#include <Catalog.h>
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "PayeeBox"
+
 
 PayeeBoxFilter::PayeeBoxFilter(PayeeBox* box) : AutoTextControlFilter(box) {}
 
@@ -73,7 +79,7 @@ bool
 PayeeBox::Validate(const bool& showalert)
 {
 	if (showalert && (Text() == NULL || strlen(Text()) < 1)) {
-		ShowAlert(TRANSLATE("Payee is missing."), TRANSLATE("You need to enter a payee."));
+		ShowAlert(B_TRANSLATE("Payee is missing."), B_TRANSLATE("You need to enter a payee."));
 		MakeFocus(true);
 		return false;
 	}

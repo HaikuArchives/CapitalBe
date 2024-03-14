@@ -1,6 +1,8 @@
 #include "ScheduleAddWindow.h"
+
 #include <Box.h>
 #include <Button.h>
+#include <Catalog.h>
 #include <LayoutBuilder.h>
 #include <MenuBar.h>
 #include <MenuField.h>
@@ -15,7 +17,11 @@
 #include "Layout.h"
 #include "NumBox.h"
 #include "ScheduledTransData.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ScheduleAddWindow"
+
 
 enum
 {
@@ -31,7 +37,7 @@ enum
 };
 
 ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& data)
-	: BWindow(frame, TRANSLATE("Schedule Transaction"), B_TITLED_WINDOW_LOOK,
+	: BWindow(frame, B_TRANSLATE("Schedule transaction"), B_TITLED_WINDOW_LOOK,
 		  B_MODAL_APP_WINDOW_FEEL,
 		  B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS),
 	  fTransData(data)
@@ -43,59 +49,58 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	back->SetViewColor(240, 240, 240);
 
 	BString label;
-	label << TRANSLATE("Type") << ": " << data.Type().Type();
+	label.SetToFormat(B_TRANSLATE("Type: %s"), data.Type().Type());
 	BStringView* typelabel = new BStringView("typelabel", label.String());
 
-	label = TRANSLATE("Payee");
-	label << ": " << data.Payee();
+	label.SetToFormat(B_TRANSLATE("Payee: %s"), data.Payee());
 	BStringView* payeelabel = new BStringView("payeelabel", label.String());
 
 	BString temp;
 	gCurrentLocale.CurrencyToString(data.Amount().AbsoluteValue(), temp);
-	label = TRANSLATE("Amount");
-	label << ": " << temp;
+	label.SetToFormat(B_TRANSLATE("Amount: %s"), temp);
 
 	BStringView* amountlabel = new BStringView("amountlabel", label.String());
 
-	label = TRANSLATE("Category");
-	label += ": ";
+	label = B_TRANSLATE("Category:");
+	label += " ";
 	if (data.CountCategories() > 1)
-		label << TRANSLATE("Split");
+		label << B_TRANSLATE("Split");
 	else
 		label << data.NameAt(0);
 
 	BStringView* categorylabel = new BStringView("categorylabel", label.String());
 
-	label = TRANSLATE("Memo");
-	label << ": " << data.Memo();
+	label = B_TRANSLATE("Memo:");
+	label << " " << data.Memo();
 	BStringView* memolabel = new BStringView("memolabel", label.String());
 
 	//	Since layout-api, we need other way to make divider
 	//	BBox *divider = new BBox(r);
 	//	AddChild(divider);
 
-	fIntervalMenu = new BMenu(TRANSLATE("Frequency"));
-	fIntervalMenu->AddItem(new BMenuItem(TRANSLATE("Monthly"), new BMessage(M_SCHEDULED_MONTHLY)));
+	fIntervalMenu = new BMenu(B_TRANSLATE("Frequency"));
 	fIntervalMenu->AddItem(
-		new BMenuItem(TRANSLATE("Quarterly"), new BMessage(M_SCHEDULED_QUARTERLY)));
+		new BMenuItem(B_TRANSLATE("Monthly"), new BMessage(M_SCHEDULED_MONTHLY)));
 	fIntervalMenu->AddItem(
-		new BMenuItem(TRANSLATE("Annually"), new BMessage(M_SCHEDULED_ANNUALLY)));
+		new BMenuItem(B_TRANSLATE("Quarterly"), new BMessage(M_SCHEDULED_QUARTERLY)));
+	fIntervalMenu->AddItem(
+		new BMenuItem(B_TRANSLATE("Annually"), new BMessage(M_SCHEDULED_ANNUALLY)));
 	fIntervalMenu->ItemAt(0)->SetMarked(true);
 	fIntervalMenu->SetLabelFromMarked(true);
 
-	temp = TRANSLATE("Frequency");
-	temp += ": ";
+	temp = B_TRANSLATE("Frequency:");
+	temp += " ";
 	BMenuField* intervalfield = new BMenuField("intervalfield", temp.String(), fIntervalMenu);
 
-	temp = TRANSLATE("Starting Date");
-	temp += ": ";
+	temp = B_TRANSLATE("Starting date:");
+	temp += " ";
 	fStartDate = new DateBox("startdate", temp.String(), "", new BMessage(M_DATE_CHANGED));
 	fStartDate->UseTabFiltering(false);
 	gDefaultLocale.DateToString(data.Date(), temp);
 	fStartDate->SetText(temp.String());
 
 	fRepeatAlways =
-		new BRadioButton("inftimes", TRANSLATE("Indefinitely"), new BMessage(M_REPEAT_ALWAYS));
+		new BRadioButton("inftimes", B_TRANSLATE("Indefinitely"), new BMessage(M_REPEAT_ALWAYS));
 
 	fRepeatLimited = new BRadioButton("limitedtimes", "", new BMessage(M_REPEAT_LIMITED));
 
@@ -103,19 +108,19 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	fRepeatCount->UseTabFiltering(false);
 	fRepeatCount->SetEnabled(false);
 
-	BStringView* timeslabel = new BStringView("timeslabel", TRANSLATE("times"));
+	BStringView* timeslabel = new BStringView("timeslabel", B_TRANSLATE("times"));
 
 	fRepeatAlways->SetValue(B_CONTROL_ON);
 
 	intervalfield->MakeFocus(true);
 
 	BButton* okbutton =
-		new BButton("okbutton", TRANSLATE("Cancel"), new BMessage(M_SCHEDULE_TRANSACTION));
+		new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_SCHEDULE_TRANSACTION));
 	okbutton->MakeDefault(true);
-	okbutton->SetLabel(TRANSLATE("OK"));
+	okbutton->SetLabel(B_TRANSLATE("OK"));
 
 	BButton* cancelbutton =
-		new BButton("cancelbutton", TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 	cancelbutton->MakeDefault(true);
 
 	BLayoutBuilder::Group<>(back, B_VERTICAL)
@@ -209,10 +214,11 @@ ScheduleAddWindow::MessageReceived(BMessage* msg)
 			BString datestr = fStartDate->Text();
 			if (datestr.CountChars() < 3 ||
 				gDefaultLocale.StringToDate(datestr.String(), tempdate) != B_OK) {
-				ShowAlert(TRANSLATE("Capital Be didn't understand the date you entered."),
-					TRANSLATE("Capital Be understands lots of different ways of entering dates. "
-							  "Apparently, this wasn't one of them. You'll need to change how you "
-							  "entered this date. Sorry."));
+				ShowAlert(B_TRANSLATE("CapitalBe didn't understand the date you entered."),
+					B_TRANSLATE(
+						"CapitalBe understands lots of different ways of entering dates. "
+						"Apparently, this wasn't one of them. You'll need to change how you "
+						"entered this date. Sorry."));
 				break;
 			}
 

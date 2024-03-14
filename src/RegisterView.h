@@ -21,8 +21,11 @@ public:
 	void SelectAccount(const int32& index);
 
 	bool SelectNextTransaction(void) { return fTransactionView->SelectNext(); }
+
 	bool SelectPreviousTransaction(void) { return fTransactionView->SelectPrevious(); }
+
 	bool SelectFirstTransaction(void) { return fTransactionView->SelectFirst(); }
+
 	bool SelectLastTransaction(void) { return fTransactionView->SelectLast(); }
 
 private:

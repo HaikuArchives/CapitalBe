@@ -1,10 +1,11 @@
 #include "BudgetWindow.h"
 
+#include <Catalog.h>
+#include <ColumnTypes.h>
 #include <LayoutBuilder.h>
 #include <MenuBar.h>
 #include <Message.h>
 #include <StringView.h>
-#include "ColumnTypes.h"
 
 #include "Account.h"
 #include "Budget.h"
@@ -15,7 +16,11 @@
 #include "MsgDefs.h"
 #include "Preferences.h"
 #include "TimeSupport.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "BudgetWindow"
+
 
 enum
 {
@@ -37,7 +42,7 @@ enum
 extern int compare_stringitem(const void* item1, const void* item2);
 
 BudgetWindow::BudgetWindow(const BRect& frame)
-	: BWindow(frame, TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
+	: BWindow(frame, B_TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
 	  fIncomeGrid(13, 0),
 	  fSpendingGrid(13, 0)
@@ -47,8 +52,9 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 	fBackView->SetViewColor(240, 240, 240);
 
 	fBar = new BMenuBar("menubar");
-	fBar->AddItem(new BMenuItem(TRANSLATE("Recalculate All"), new BMessage(M_BUDGET_RECALCULATE)));
-	fBar->AddItem(new BMenuItem(TRANSLATE("Set All to Zero"), new BMessage(M_BUDGET_ZERO)));
+	fBar->AddItem(
+		new BMenuItem(B_TRANSLATE("Recalculate all"), new BMessage(M_BUDGET_RECALCULATE)));
+	fBar->AddItem(new BMenuItem(B_TRANSLATE("Set all to zero"), new BMessage(M_BUDGET_ZERO)));
 
 	BuildBudgetSummary();
 	BuildStatsAndEditor();
@@ -267,8 +273,8 @@ BudgetWindow::RefreshCategories(void)
 	fCategoryList->AddRow(fIncomeRow);
 	fSpendingRow = new BRow();
 	fCategoryList->AddRow(fSpendingRow);
-	fIncomeRow->SetField(new BStringField(TRANSLATE("Income")), 0);
-	fSpendingRow->SetField(new BStringField(TRANSLATE("Spending")), 0);
+	fIncomeRow->SetField(new BStringField(B_TRANSLATE("Income")), 0);
+	fSpendingRow->SetField(new BStringField(B_TRANSLATE("Spending")), 0);
 
 	CppSQLite3Query query = gDatabase.DBQuery(
 		"select category,amount,period,isexpense from "
@@ -459,11 +465,11 @@ BudgetWindow::GenerateBudget(const bool& zero)
 	if (query.eof())
 		return;
 
-	float maxwidth = fCategoryList->StringWidth(TRANSLATE("Category"));
+	float maxwidth = fCategoryList->StringWidth(B_TRANSLATE("Category"));
 	while (!query.eof()) {
 		BString catname = DeescapeIllegalCharacters(query.getStringField(0));
 
-		if (catname.ICompare(TRANSLATE("Transfer")) == 0) {
+		if (catname.ICompare(B_TRANSLATE("Transfer")) == 0) {
 			query.nextRow();
 			continue;
 		}
@@ -672,14 +678,15 @@ BudgetWindow::BuildStatsAndEditor(void)
 	// Add the category statistics
 	BString temp;
 	rgb_color white = {255, 255, 255, 255};
-	float statwidth = fBackView->StringWidth(TRANSLATE("12 Month Statistics")) + 20;
+	float statwidth = fBackView->StringWidth(B_TRANSLATE("12 month statistics")) + 20;
 	float amountwidth = fBackView->StringWidth("000,000.00") + 20;
 
 	fCatStat = new BColumnListView("categorystats", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER);
 	fCatStat->AddColumn(
-		new BStringColumn(TRANSLATE("12 Month Statistics"), statwidth, 10, 300, B_TRUNCATE_END), 0);
+		new BStringColumn(B_TRANSLATE("12 month statistics"), statwidth, 10, 300, B_TRUNCATE_END),
+		0);
 	fCatStat->AddColumn(
-		new BStringColumn(TRANSLATE("Amount"), amountwidth, 10, 300, B_TRUNCATE_END), 1);
+		new BStringColumn(B_TRANSLATE("Amount"), amountwidth, 10, 300, B_TRUNCATE_END), 1);
 	fCatStat->SetSortingEnabled(false);
 	fCatStat->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 	fStatAverageRow = new BRow();
@@ -689,9 +696,9 @@ BudgetWindow::BuildStatsAndEditor(void)
 	fCatStat->AddRow(fStatHighestRow);
 	fCatStat->AddRow(fStatLowestRow);
 
-	fStatAverageRow->SetField(new BStringField(TRANSLATE("Average")), 0);
-	fStatHighestRow->SetField(new BStringField(TRANSLATE("Highest")), 0);
-	fStatLowestRow->SetField(new BStringField(TRANSLATE("Lowest")), 0);
+	fStatAverageRow->SetField(new BStringField(B_TRANSLATE("Average")), 0);
+	fStatHighestRow->SetField(new BStringField(B_TRANSLATE("Highest")), 0);
+	fStatLowestRow->SetField(new BStringField(B_TRANSLATE("Lowest")), 0);
 
 	fCatStat->SetColor(B_COLOR_BACKGROUND, white);
 	fCatStat->SetColor(B_COLOR_SELECTION, white);
@@ -702,19 +709,20 @@ BudgetWindow::BuildStatsAndEditor(void)
 
 	// Add the category editor
 	fCatBox = new BBox("catbox");
-	fCatBox->SetLabel(TRANSLATE("Edit Category"));
+	fCatBox->SetLabel(B_TRANSLATE("Edit category"));
 
 	fMonthly =
-		new BRadioButton("monthoption", TRANSLATE("Monthly"), new BMessage(M_SET_PERIOD_MONTH));
-	fWeekly = new BRadioButton("weekoption", TRANSLATE("Weekly"), new BMessage(M_SET_PERIOD_WEEK));
+		new BRadioButton("monthoption", B_TRANSLATE("Monthly"), new BMessage(M_SET_PERIOD_MONTH));
+	fWeekly =
+		new BRadioButton("weekoption", B_TRANSLATE("Weekly"), new BMessage(M_SET_PERIOD_WEEK));
 	fQuarterly = new BRadioButton(
-		"quarteroption", TRANSLATE("Quarterly"), new BMessage(M_SET_PERIOD_QUARTER));
+		"quarteroption", B_TRANSLATE("Quarterly"), new BMessage(M_SET_PERIOD_QUARTER));
 	fAnnually =
-		new BRadioButton("yearoption", TRANSLATE("Annually"), new BMessage(M_SET_PERIOD_YEAR));
+		new BRadioButton("yearoption", B_TRANSLATE("Annually"), new BMessage(M_SET_PERIOD_YEAR));
 
 	fMonthly->SetValue(B_CONTROL_ON);
 
-	temp = TRANSLATE("Amount");
+	temp = B_TRANSLATE("Amount");
 	temp += ":";
 	fAmountLabel = new BStringView("amountlabel", temp.String());
 
@@ -734,17 +742,17 @@ BudgetWindow::BuildBudgetSummary(void)
 		new BColumnListView("budgetsummary", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER);
 	fBudgetSummary->SetSortingEnabled(false);
 	fBudgetSummary->AddColumn(
-		new BStringColumn(TRANSLATE("Summary"),
-			fBudgetSummary->StringWidth(TRANSLATE("Spending")) + 20, 10, 300, B_TRUNCATE_END),
+		new BStringColumn(B_TRANSLATE("Summary"),
+			fBudgetSummary->StringWidth(B_TRANSLATE("Spending")) + 20, 10, 300, B_TRUNCATE_END),
 		0);
 	fBudgetSummary->AddRow(fSummaryIncomeRow);
 	fBudgetSummary->AddRow(fSummarySpendingRow);
 	fBudgetSummary->AddRow(fSummaryTotalRow);
 	fBudgetSummary->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 
-	fSummaryIncomeRow->SetField(new BStringField(TRANSLATE("Income")), 0);
-	fSummarySpendingRow->SetField(new BStringField(TRANSLATE("Spending")), 0);
-	fSummaryTotalRow->SetField(new BStringField(TRANSLATE("Total")), 0);
+	fSummaryIncomeRow->SetField(new BStringField(B_TRANSLATE("Income")), 0);
+	fSummarySpendingRow->SetField(new BStringField(B_TRANSLATE("Spending")), 0);
+	fSummaryTotalRow->SetField(new BStringField(B_TRANSLATE("Total")), 0);
 
 	fBudgetSummary->SetColor(B_COLOR_BACKGROUND, white);
 	fBudgetSummary->SetColor(B_COLOR_SELECTION, white);
@@ -770,7 +778,7 @@ BudgetWindow::BuildBudgetSummary(void)
 		fSummaryTotalRow->SetField(new BStringField(""), i + 1);
 	}
 	fBudgetSummary->AddColumn(
-		new BStringColumn(TRANSLATE("Total"), fBudgetSummary->StringWidth(TRANSLATE("Total")) + 20,
+		new BStringColumn(B_TRANSLATE("Total"), fBudgetSummary->StringWidth(B_TRANSLATE("Total")) + 20,
 			10, 300, B_TRUNCATE_END, B_ALIGN_RIGHT),
 		13);
 	fSummaryIncomeRow->SetField(new BStringField(""), 13);
@@ -792,15 +800,15 @@ BudgetWindow::BuildCategoryList(void)
 	fCategoryList->SetSortingEnabled(false);
 	fCategoryList->SetSelectionMessage(new BMessage(M_SELECT_CATEGORY));
 	fCategoryList->AddColumn(
-		new BStringColumn(TRANSLATE("Category"),
-			fCategoryList->StringWidth(TRANSLATE("Category")) + 20, 10, 300, B_TRUNCATE_END),
+		new BStringColumn(B_TRANSLATE("Category"),
+			fCategoryList->StringWidth(B_TRANSLATE("Category")) + 20, 10, 300, B_TRUNCATE_END),
 		0);
-	fCategoryList->AddColumn(
-		new BStringColumn(TRANSLATE("Amount"), fCategoryList->StringWidth(TRANSLATE("Amount")) + 20,
-			10, 300, B_TRUNCATE_END, B_ALIGN_RIGHT),
+	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE("Amount"),
+								 fCategoryList->StringWidth(B_TRANSLATE("Amount")) + 20, 10, 300,
+								 B_TRUNCATE_END, B_ALIGN_RIGHT),
 		1);
-	fCategoryList->AddColumn(new BStringColumn(TRANSLATE("Frequency"),
-								 fCategoryList->StringWidth(TRANSLATE("Frequency")) + 20, 10, 300,
+	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE("Frequency"),
+								 fCategoryList->StringWidth(B_TRANSLATE("Frequency")) + 20, 10, 300,
 								 B_TRUNCATE_END, B_ALIGN_RIGHT),
 		2);
 	fCategoryList->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
@@ -809,8 +817,8 @@ BudgetWindow::BuildCategoryList(void)
 	fCategoryList->AddRow(fIncomeRow);
 	fSpendingRow = new BRow();
 	fCategoryList->AddRow(fSpendingRow);
-	fIncomeRow->SetField(new BStringField(TRANSLATE("Income")), 0);
-	fSpendingRow->SetField(new BStringField(TRANSLATE("Spending")), 0);
+	fIncomeRow->SetField(new BStringField(B_TRANSLATE("Income")), 0);
+	fSpendingRow->SetField(new BStringField(B_TRANSLATE("Spending")), 0);
 
 	fCategoryList->SetColor(B_COLOR_BACKGROUND, white);
 	fCategoryList->SetColor(B_COLOR_SELECTION, GetColor(BC_SELECTION_FOCUS));

@@ -1,6 +1,8 @@
+#include <Catalog.h>
 #include <GridLayout.h>
 #include <LayoutBuilder.h>
 #include <Messenger.h>
+#include <String.h>
 #include <Window.h>
 #include <stdlib.h>
 
@@ -13,6 +15,7 @@
 #include "DAlert.h"
 #include "Database.h"
 #include "DateBox.h"
+#include "LanguageRoster.h"
 #include "Layout.h"
 #include "MainWindow.h"
 #include "MsgDefs.h"
@@ -21,7 +24,11 @@
 #include "Preferences.h"
 #include "TimeSupport.h"
 #include "TransactionData.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "CheckView"
+
 
 enum
 {
@@ -30,22 +37,22 @@ enum
 
 CheckView::CheckView(const char* name, int32 flags) : BView(name, flags | B_FRAME_EVENTS)
 {
-	fDateLabel = new BStringView("datelabel", TRANSLATE("Date"));
+	fDateLabel = new BStringView("datelabel", B_TRANSLATE("Date"));
 	fDate = new DateBox("dateentry", "", NULL, new BMessage(M_DATE_CHANGED));
 
-	fTypeLabel = new BStringView("typelabel", TRANSLATE("Type"));
+	fTypeLabel = new BStringView("typelabel", B_TRANSLATE("Type"));
 	fType = new CheckNumBox("typeentry", "", NULL, new BMessage(M_TYPE_CHANGED));
 
-	fPayeeLabel = new BStringView("payeelabel", TRANSLATE("Payee"));
+	fPayeeLabel = new BStringView("payeelabel", B_TRANSLATE("Payee"));
 	fPayee = new PayeeBox("payeeentry", "", NULL, new BMessage(M_PAYEE_CHANGED));
 
-	fAmountLabel = new BStringView("amountlabel", TRANSLATE("Amount"));
+	fAmountLabel = new BStringView("amountlabel", B_TRANSLATE("Amount"));
 	fAmount = new CurrencyBox("amountentry", "", "", new BMessage(M_AMOUNT_CHANGED));
 
-	fCategoryLabel = new BStringView("categorylabel", TRANSLATE("Category"));
+	fCategoryLabel = new BStringView("categorylabel", B_TRANSLATE("Category"));
 	fCategory = new CategoryBox("categoryentry", "", NULL, new BMessage(M_CATEGORY_CHANGED));
 
-	fMemoLabel = new BStringView("memolabel", TRANSLATE("Memo"));
+	fMemoLabel = new BStringView("memolabel", B_TRANSLATE("Memo"));
 	fMemo = new NavTextBox("memoentry", "", NULL, new BMessage(M_MEMO_CHANGED));
 	fMemo->TextView()->DisallowChar(B_ESCAPE);
 	fMemo->SetCharacterLimit(21);
@@ -53,10 +60,10 @@ CheckView::CheckView(const char* name, int32 flags) : BView(name, flags | B_FRAM
 	prefsLock.Lock();
 	BString rechelp = gAppPath;
 	prefsLock.Unlock();
-	rechelp << "helpfiles/" << gCurrentLanguage->Name() << "/Main Window Help";
+	rechelp << "helpfiles/" << gCurrentLanguage << "/Main Window Help";
 	fHelpButton = new HelpButton("rechelp", rechelp.String());
 
-	fEnter = new BButton("enterbutton", TRANSLATE("Enter"), new BMessage(M_ENTER_TRANSACTION));
+	fEnter = new BButton("enterbutton", B_TRANSLATE("Enter"), new BMessage(M_ENTER_TRANSACTION));
 
 #ifndef ENTER_NAVIGATION
 	fEnter->MakeDefault(true);
@@ -159,10 +166,10 @@ CheckView::MessageReceived(BMessage* msg)
 #ifdef DEMO_MODE
 			Account* demoacc = gDatabase.CurrentAccount();
 			if (demoacc && demoacc->CountTransactions() >= 25) {
-				ShowAlert(TRANSLATE("Demo Mode Limit"),
-					TRANSLATE("The Demo Mode limit has been reached on this account.",
+				ShowAlert(B_TRANSLATE("Demo mode limit"),
+					B_TRANSLATE("The Demo Mode limit has been reached on this account.",
 						"You can manually enter up to 25 transactions per "
-						"account. We hope that you like Capital Be and will "
+						"account. We hope that you like CapitalBe and will "
 						"purchase the full version. Have a nice day!"),
 					B_IDEA_ALERT);
 				MakeEmpty();

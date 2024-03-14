@@ -20,7 +20,6 @@ Fixed::Fixed(int val)
 	fValue = val * 100;
 }
 
-
 float
 Fixed::AsFloat(void) const
 {
@@ -32,7 +31,6 @@ Fixed::AsDouble(void) const
 {
 	return double(fValue / 100.0);
 }
-
 
 long
 Fixed::AsLong(void) const
@@ -115,7 +113,6 @@ Fixed::Invert(void)
 {
 	fValue = -fValue;
 }
-
 
 bool
 Fixed::IsNegative(void) const

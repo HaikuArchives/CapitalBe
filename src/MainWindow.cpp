@@ -1,4 +1,6 @@
 #include "MainWindow.h"
+
+#include <Catalog.h>
 #include <Directory.h>
 #include <Entry.h>
 #include <LayoutBuilder.h>
@@ -8,7 +10,6 @@
 #include <Path.h>
 #include <Roster.h>
 #include <private/interface/AboutWindow.h>
-#include "RegisterView.h"
 
 #include <stdlib.h>
 
@@ -23,6 +24,7 @@
 #include "PrefWindow.h"
 #include "Preferences.h"
 #include "ReconcileWindow.h"
+#include "RegisterView.h"
 #include "ReportWindow.h"
 #include "ScheduleAddWindow.h"
 #include "ScheduleListWindow.h"
@@ -31,7 +33,12 @@
 #include "TextControl.h"
 #include "TransactionEditWindow.h"
 #include "TransferWindow.h"
-#include "Translate.h"
+
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "MainWindow"
+
 
 // #define TEST
 // #define NOSAVE
@@ -39,21 +46,22 @@
 // Internal definition of the Haiku services daemon
 #define B_SERVICES_DAEMON_RESTART 'SDRS'
 
-Language* gCurrentLanguage = NULL;
 
 int32 gTextViewHeight = 20;
 int32 gStringViewHeight = 20;
+
+Language* gCurrentLanguage = NULL;
 
 MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 {
 	BString temp;
 	// Main window title changes in demo mode
 	if (BUILD_MODE == PREVIEW_MODE)
-		SetTitle(TRANSLATE("Capital Be Preview Edition"));
+		SetTitle(B_TRANSLATE("CapitalBe Preview Edition"));
 	else if (BUILD_MODE == BETA_MODE)
-		SetTitle("Capital Be: Beta");
+		SetTitle("CapitalBe: Beta");
 	else
-		SetTitle("Capital Be");
+		SetTitle(B_TRANSLATE_SYSTEM_NAME("CapitalBe"));
 
 	// These chunks of code will save a lot of headache later on --
 	// we cache the preferred size of BTextControls to make control layout *much* easier.
@@ -100,20 +108,18 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 	BMenuBar* bar = new BMenuBar("keybar");
 
 #ifdef BETA_MODE
-	temp = TRANSLATE("Report a Bug");
-	temp += "…";
+	temp = B_TRANSLATE("Report a bug…");
 	bar->AddItem(new BMenuItem(temp.String(), new BMessage(M_REPORT_BUG)));
 #endif
 
-	BMenu* menu = new BMenu(TRANSLATE("Program"));
+	BMenu* menu = new BMenu(B_TRANSLATE("Program"));
 #ifdef DEMO_MODE
 	menu->AddItem(
-		new BMenuItem(TRANSLATE("Buy Capital Be"), new BMessage(M_PURCHASE_FULL_VERSION)));
+		new BMenuItem(B_TRANSLATE("Buy CapitalBe"), new BMessage(M_PURCHASE_FULL_VERSION)));
 	menu->AddSeparatorItem();
 #endif
 
-	temp = TRANSLATE("Options");
-	temp += "…";
+	temp = B_TRANSLATE("Settings…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_OPTIONS_WINDOW), ','));
 
 	// Set up language support. Note that we only show the menu at all if there is
@@ -121,7 +127,7 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 
 	if (language_roster->CountLanguages() > 1) {
 		menu->AddSeparatorItem();
-		fLanguageMenu = new BMenu(TRANSLATE("Language"));
+		fLanguageMenu = new BMenu(B_TRANSLATE("Language"));
 		fLanguageMenu->SetRadioMode(true);
 		for (int32 i = 0; i < language_roster->CountLanguages(); i++) {
 			Language* language = language_roster->LanguageAt(i);
@@ -138,78 +144,65 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 		fLanguageMenu = NULL;
 
 	menu->AddSeparatorItem();
-	temp = TRANSLATE("About Capital Be");
-	temp += "…";
+	temp = B_TRANSLATE("About CapitalBe…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_ABOUT)));
 	bar->AddItem(menu);
 
-	menu = new BMenu(TRANSLATE("File"));
-	temp = TRANSLATE("Categories");
-	temp << "…";
+	menu = new BMenu(B_TRANSLATE("File"));
+	temp = B_TRANSLATE("Categories…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_CATEGORY_WINDOW)));
-	temp = TRANSLATE("Scheduled Transactions");
-	temp << "…";
+	temp = B_TRANSLATE("Scheduled transactions…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_SCHEDULED_WINDOW)));
 	menu->AddSeparatorItem();
-	temp = TRANSLATE("Import from QIF File");
-	temp << "…";
+	temp = B_TRANSLATE("Import from QIF file…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_IMPORT_PANEL)));
-	temp = TRANSLATE("Export to QIF File");
-	temp << "…";
+	temp = B_TRANSLATE("Export to QIF file…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_EXPORT_PANEL)));
 
 	bar->AddItem(menu);
 
-	menu = new BMenu(TRANSLATE("Account"));
+	menu = new BMenu(B_TRANSLATE("Account"));
 	bar->AddItem(menu);
 
-	temp = TRANSLATE("Reconcile");
-	temp << "…";
+	temp = B_TRANSLATE("Reconcile…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_RECONCILE_WINDOW), 'R'));
 	menu->AddSeparatorItem();
-	temp = TRANSLATE("New");
-	temp << "…";
+	temp = B_TRANSLATE("New…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_NEW_ACCOUNT), 'N'));
-	temp = TRANSLATE("Delete");
-	temp << "…";
+	temp = B_TRANSLATE("Delete…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_DELETE_ACCOUNT)));
-	fAccountClosedItem = new BMenuItem(TRANSLATE("Close"), new BMessage(M_CLOSE_ACCOUNT));
+	fAccountClosedItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(M_CLOSE_ACCOUNT));
 	menu->AddItem(fAccountClosedItem);
 	menu->AddSeparatorItem();
-	temp = TRANSLATE("Settings");
-	temp << "…";
+	temp = B_TRANSLATE("Settings…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_ACCOUNT_SETTINGS)));
 	menu->AddSeparatorItem();
-	menu->AddItem(new BMenuItem(TRANSLATE("Previous"), new BMessage(M_PREVIOUS_ACCOUNT), B_UP_ARROW,
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Previous"), new BMessage(M_PREVIOUS_ACCOUNT),
+		B_UP_ARROW, B_COMMAND_KEY | B_SHIFT_KEY));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Next"), new BMessage(M_NEXT_ACCOUNT), B_DOWN_ARROW,
 		B_COMMAND_KEY | B_SHIFT_KEY));
-	menu->AddItem(new BMenuItem(TRANSLATE("Next"), new BMessage(M_NEXT_ACCOUNT), B_DOWN_ARROW,
-		B_COMMAND_KEY | B_SHIFT_KEY));
-	menu = new BMenu(TRANSLATE("Transaction"));
+	menu = new BMenu(B_TRANSLATE("Transaction"));
 	bar->AddItem(menu);
-	temp = TRANSLATE("Edit");
-	temp << "…";
+	temp = B_TRANSLATE("Edit…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_EDIT_TRANSACTION), 'E'));
-	temp = TRANSLATE("Enter a Transfer");
-	temp << "…";
+	temp = B_TRANSLATE("Enter a transfer…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_ENTER_TRANSFER), 'T'));
 	menu->AddSeparatorItem();
-	menu->AddItem(new BMenuItem(TRANSLATE("Delete"), new BMessage(M_DELETE_TRANSACTION)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Delete…"), new BMessage(M_DELETE_TRANSACTION)));
 	menu->AddSeparatorItem();
-	temp = TRANSLATE("Schedule This Transaction");
-	temp << "…";
+	temp = B_TRANSLATE("Schedule this transaction…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SCHEDULE_TRANSACTION)));
 	menu->AddSeparatorItem();
 	menu->AddItem(
-		new BMenuItem(TRANSLATE("Previous"), new BMessage(M_PREVIOUS_TRANSACTION), B_UP_ARROW));
-	menu->AddItem(new BMenuItem(TRANSLATE("Next"), new BMessage(M_NEXT_TRANSACTION), B_DOWN_ARROW));
+		new BMenuItem(B_TRANSLATE("Previous"), new BMessage(M_PREVIOUS_TRANSACTION), B_UP_ARROW));
+	menu->AddItem(
+		new BMenuItem(B_TRANSLATE("Next"), new BMessage(M_NEXT_TRANSACTION), B_DOWN_ARROW));
 
-	menu = new BMenu(TRANSLATE("Tools"));
+	menu = new BMenu(B_TRANSLATE("Tools"));
 	bar->AddItem(menu);
-	temp = TRANSLATE("Budget");
-	temp << "…";
+	temp = B_TRANSLATE("Budget…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_BUDGET_WINDOW)));
-	temp = TRANSLATE("Reports");
-	temp << "…";
+	temp = B_TRANSLATE("Reports…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_REPORTS_WINDOW)));
 
 	// We load the financial data before we create any of the views because the
@@ -222,13 +215,15 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 
 	fImportPanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL, B_FILE_NODE, false,
 		new BMessage(M_IMPORT_ACCOUNT));
-	temp = "Capital Be: ";
-	temp += TRANSLATE("Import");
+	temp = B_TRANSLATE("CapitalBe:");
+	temp += " ";
+	temp += B_TRANSLATE("Import");
 	fImportPanel->Window()->SetTitle(temp.String());
 	fExportPanel = new BFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL, B_FILE_NODE, false,
 		new BMessage(M_EXPORT_ACCOUNT));
-	temp = "Capital Be: ";
-	temp += TRANSLATE("Export");
+	temp = B_TRANSLATE("CapitalBe:");
+	temp += " ";
+	temp += B_TRANSLATE("Export");
 	fExportPanel->Window()->SetTitle(temp.String());
 	gDatabase.AddObserver(this);
 
@@ -246,7 +241,7 @@ MainWindow::~MainWindow(void)
 void
 MainWindow::OpenAbout(void)
 {
-	BAboutWindow* abwin = new BAboutWindow("Capital Be", "application/x-vnd.wgp-CapitalBe");
+	BAboutWindow* abwin = new BAboutWindow("CapitalBe", "application/x-vnd.wgp-CapitalBe");
 
 	const char* authors[] = {"DarkWyrm", "Jérôme Duval", "Panagiotis Vasilopoulos",
 		"Raefaldhi Amartya Junior", "Thomas Schmidt", "waddlesplash", NULL};
@@ -314,9 +309,9 @@ MainWindow::MessageReceived(BMessage* msg)
 				msgr.SendMessage(&msg);
 				be_app->PostMessage(B_QUIT_REQUESTED);
 			} else {
-				ShowAlert(TRANSLATE("Changes will be made on restart"),
-					TRANSLATE("Capital Be will be use your language choice the next time it is "
-							  "started."),
+				ShowAlert(B_TRANSLATE("Changes will take effect on restart"),
+					B_TRANSLATE("CapitalBe will be use your language choice the next time it is "
+								"started."),
 					B_IDEA_ALERT);
 			}
 			break;
@@ -331,10 +326,10 @@ MainWindow::MessageReceived(BMessage* msg)
 		{
 #ifdef PREVIEW_MODE
 			if (gDatabase.CountAccounts() >= 5) {
-				ShowAlert(TRANSLATE("Preview Mode Limit"),
-					TRANSLATE("You can have up to 5 accounts in Capital Be's demo version. "
-							  "We hope that you like Capital Be and will "
-							  "purchase the full version. Have a nice day!"),
+				ShowAlert(B_TRANSLATE("Preview mode limit"),
+					B_TRANSLATE("You can have up to 5 accounts in CapitalBe's demo version. "
+								"We hope that you like CapitalBe and will "
+								"purchase the full version. Have a nice day!"),
 					B_IDEA_ALERT);
 				break;
 			}
@@ -364,10 +359,10 @@ MainWindow::MessageReceived(BMessage* msg)
 			if (!acc)
 				break;
 
-			DAlert* alert = new DAlert(TRANSLATE("Really Delete Account?"),
-				TRANSLATE("Once deleted, you will not be able to "
-						  "get back any data on this account."),
-				TRANSLATE("Delete"), TRANSLATE("Cancel"), NULL, B_WIDTH_AS_USUAL, B_STOP_ALERT);
+			DAlert* alert = new DAlert(B_TRANSLATE("Really delete account?"),
+				B_TRANSLATE("Once deleted, you will not be able to "
+							"get back any data on this account."),
+				B_TRANSLATE("Delete"), B_TRANSLATE("Cancel"), NULL, B_WIDTH_AS_USUAL, B_STOP_ALERT);
 
 			if (alert->Go() == 0) {
 				int32 index = gDatabase.IndexOf(acc);
@@ -421,19 +416,19 @@ MainWindow::MessageReceived(BMessage* msg)
 		{
 			entry_ref ref;
 
-			//			BEntry entry("/boot/develop/projects/Capital Be/source/yoderdata.qif");
+			//			BEntry entry("/boot/develop/projects/CapitalBe/source/yoderdata.qif");
 			//			entry.GetRef(&ref);
 
 			if (msg->FindRef("refs", &ref) != B_OK)
 				break;
 
 			if (!gDatabase.ImportFile(ref)) {
-				BString errmsg(TRANSLATE("Could not import the data in the file %%FILENAME%%."));
+				BString errmsg(B_TRANSLATE("Could not import the data in the file %%FILENAME%%."));
 				errmsg.ReplaceFirst("%%FILENAME%%", ref.name);
 				ShowAlert(errmsg.String(),
-					TRANSLATE("This happens when the kind of file is not "
-							  "supported, when the file's data is damaged, or when you feed "
-							  "it a recipe for quiche."));
+					B_TRANSLATE("This happens when the kind of file is not "
+								"supported, when the file's data is damaged, or when you feed "
+								"it a recipe for quiche."));
 			}
 			break;
 		}
@@ -458,11 +453,11 @@ MainWindow::MessageReceived(BMessage* msg)
 
 			if (!gDatabase.ExportFile(dir)) {
 				BString errmsg(
-					TRANSLATE("Could not export your financial data to the file %%FILENAME%%."));
+					B_TRANSLATE("Could not export your financial data to the file %%FILENAME%%."));
 				errmsg.ReplaceFirst("%%FILENAME%%", dir.name);
 				ShowAlert(
-					errmsg.String(), TRANSLATE("This really shouldn't happen, so you probably "
-											   "should e-mail support about this."));
+					errmsg.String(), B_TRANSLATE("This really shouldn't happen, so you probably "
+												 "should e-mail support about this."));
 			}
 			break;
 		}
@@ -521,8 +516,8 @@ MainWindow::MessageReceived(BMessage* msg)
 		case M_ENTER_TRANSFER:
 		{
 			if (gDatabase.CountAccounts() < 2) {
-				ShowAlert(TRANSLATE("Not enough accounts for a transfer."),
-					TRANSLATE("You need to have at least 2 accounts to perform a transfer."));
+				ShowAlert(B_TRANSLATE("Not enough accounts for a transfer."),
+					B_TRANSLATE("You need to have at least 2 accounts to perform a transfer."));
 				break;
 			}
 
@@ -568,8 +563,8 @@ MainWindow::MessageReceived(BMessage* msg)
 			gDatabase.GetTransaction(acc->CurrentTransaction(), data);
 
 			if (data.Type().TypeCode() == TRANS_NUMERIC) {
-				ShowAlert(TRANSLATE("Numbered transactions cannot be scheduled."),
-					TRANSLATE("You can schedule transfers, deposits, or ATM transactions."));
+				ShowAlert(B_TRANSLATE("Numbered transactions cannot be scheduled."),
+					B_TRANSLATE("You can schedule transfers, deposits, or ATM transactions."));
 				break;
 			}
 
@@ -607,11 +602,12 @@ MainWindow::MessageReceived(BMessage* msg)
 		{
 			if (!acc) {
 				if (gDatabase.CountAccounts() < 1)
-					ShowAlert(TRANSLATE("Oops!"),
-						TRANSLATE("You need to have an account created in order to reconcile it."));
+					ShowAlert(B_TRANSLATE("Oops!"),
+						B_TRANSLATE(
+							"You need to have an account created in order to reconcile it."));
 				else
-					ShowAlert(TRANSLATE("Oops!"),
-						TRANSLATE("You need to select an account in order to reconcile it."));
+					ShowAlert(B_TRANSLATE("Oops!"),
+						B_TRANSLATE("You need to select an account in order to reconcile it."));
 				break;
 			}
 
@@ -667,7 +663,7 @@ MainWindow::LoadData(void)
 	if (gDatabase.OpenFile(fLastFile.String()) != B_OK) {
 		BEntry entry(fLastFile.String());
 		if (!entry.Exists()) {
-			// TODO: Show Capital Be introduction
+			// TODO: Show CapitalBe introduction
 			// TODO: Show a Create File dialog
 			gDatabase.CreateFile(fLastFile.String());
 			PostMessage(M_SHOW_NEW_ACCOUNT);
@@ -701,7 +697,7 @@ MainWindow::CreateTransfer(BMessage* msg)
 
 	// Now that we've gathered all the data from the message sent to us by TransferWindow,
 	// we create the transactions needed for each account.
-	BString payee = TRANSLATE("Transfer to %%PAYEE%%");
+	BString payee = B_TRANSLATE("Transfer to %%PAYEE%%");
 	payee.ReplaceFirst("%%PAYEE%%", to->Name());
 
 	uint32 transid = gDatabase.NextTransactionID();
@@ -709,7 +705,7 @@ MainWindow::CreateTransfer(BMessage* msg)
 	gDatabase.AddTransaction(from->GetID(), transid, date, type, payee.String(),
 		fixed.InvertAsCopy(), "Transfer", memo.String());
 
-	payee = TRANSLATE("Transfer from %%PAYEE%%");
+	payee = B_TRANSLATE("Transfer from %%PAYEE%%");
 	payee.ReplaceFirst("%%PAYEE%%", to->Name());
 	payee << from->Name();
 	gDatabase.AddTransaction(
@@ -735,9 +731,9 @@ MainWindow::HandleNotify(const uint64& value, const BMessage* msg)
 
 		if (value & WATCH_SELECT || value & WATCH_CHANGE) {
 			if (acc->IsClosed()) {
-				fAccountClosedItem->SetLabel(TRANSLATE("Reopen"));
+				fAccountClosedItem->SetLabel(B_TRANSLATE("Reopen"));
 			} else {
-				fAccountClosedItem->SetLabel(TRANSLATE("Close"));
+				fAccountClosedItem->SetLabel(B_TRANSLATE("Close"));
 			}
 		}
 	}

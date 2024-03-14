@@ -19,9 +19,11 @@ public:
 	void ResizeToPreferred(void);
 	void SetDisabled(BBitmap* disabledup, BBitmap* disableddown);
 	void MouseUp(BPoint pt);
+
 	//	void	MessageReceived(BMessage *msg);
 
 	int32 GetState(void) { return fButtonState ? 1 : 0; };
+
 	void SetState(int32 value);
 
 private:

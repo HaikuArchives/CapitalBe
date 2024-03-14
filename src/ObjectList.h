@@ -93,7 +93,6 @@ UnaryPredicate<T>::_unary_predicate_glue(const void* item, void* context)
 	return ((UnaryPredicate<T>*)context)->operator()((const T*)item);
 }
 
-
 class _PointerList_ : public BList {
 public:
 	_PointerList_(const _PointerList_& list);
@@ -224,11 +223,13 @@ public:
 	T* BinaryInsertCopyUnique(const T& copyThis, CompareFunctionWithState, void* state);
 
 	int32 FindBinaryInsertionIndex(const UnaryPredicate<T>&, bool* alreadyInList = 0) const;
+
 	// returns either the index into which a new item should be inserted
 	// or index of an existing item that matches the predicate
 
 	// deprecated API, will go away
 	BList* AsBList() { return this; }
+
 	const BList* AsBList() const { return this; }
 
 private:
@@ -353,7 +354,6 @@ EachListItem(BObjectList<Item>* list, void (*func)(Item*, Param1, Param2, Param3
 	for (int32 index = 0; index < count; index++)
 		(func)(list->ItemAt(index), p1, p2, p3);
 }
-
 
 template <class Item, class Param1, class Param2, class Param3, class Param4>
 void

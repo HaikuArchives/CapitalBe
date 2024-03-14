@@ -18,6 +18,7 @@ public:
 	virtual bool Validate(const bool& alert = true);
 
 	void UseTabFiltering(const bool& value) { fFilterTab = value; }
+
 	bool IsTabFiltering(void) const { return fFilterTab; }
 
 private:

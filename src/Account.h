@@ -21,19 +21,25 @@ public:
 	~Account(void);
 
 	void SetName(const char* name);
+
 	const char* Name(void) const { return fName.String(); }
 
 	void SetID(const time_t& id) { fID = id; }
+
 	uint32 GetID(void) const { return fID; }
 
 	void SetClosed(const bool& value) { fClosed = value; }
+
 	bool IsClosed(void) const { return fClosed; }
 
 	uint32 CurrentTransaction(void) const { return fCurrentTransaction; }
+
 	bool SetCurrentTransaction(const uint32& id);
 
 	uint16 LastCheckNumber(void) const { return fLastCheckNumber; }
+
 	uint16 LookupLastCheckNumber(void);
+
 	void SetLastCheckNumber(const uint16& value) { fLastCheckNumber = value; }
 
 	BString AutocompleteCategory(const char* input);
@@ -53,6 +59,7 @@ public:
 		void (*TransactionIteratorFunc)(const TransactionData&, void*), void* ptr);
 
 	void UseDefaultLocale(const bool& usedefault);
+
 	bool IsUsingDefaultLocale(void) const { return fUseDefaultLocale; }
 
 private:

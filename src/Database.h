@@ -28,13 +28,20 @@ public:
 	// ---------------------------------------------------------------------------
 	Account* SetCurrentAccount(const int32& index);
 	int32 SetCurrentAccount(Account* account);
+
 	Account* CurrentAccount(void) const { return fCurrent; }
+
 	Account* AccountAt(int32 index) { return fList.ItemAt(index); }
+
 	Account* AccountByName(const char* name);
 	Account* AccountByID(const uint32& accountid);
+
 	int32 CountAccounts(void) { return fList.CountItems(); }
+
 	void PrintToStream(void) const;
+
 	int32 IndexOf(Account* acc) { return fList.IndexOf(acc); }
+
 	void CloseAccount(Account* item);
 	void ReopenAccount(Account* item);
 

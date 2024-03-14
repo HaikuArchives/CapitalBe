@@ -15,9 +15,13 @@ public:
 
 	void DrawItem(BView* owner, BRect frame, bool complete = false);
 	void Update(BView* owner, const BFont* finfo);
+
 	uint32 GetID(void) const { return fID; }
+
 	const char* GetDate(void) const { return fDate.String(); }
+
 	const char* GetPayee(void) const { return fPayee.String(); }
+
 	void SetData(const TransactionData& trans);
 
 private:

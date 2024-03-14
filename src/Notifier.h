@@ -31,9 +31,11 @@ public:
 		AddWatch(flags);
 		fEnabled = true;
 	}
+
 	virtual ~Observer(void) {}
 
 	void AddWatch(const uint64& flags) { fFlags |= flags; }
+
 	void RemoveWatch(const uint64& flags) { fFlags &= ~flags; }
 
 	bool IsWatching(const uint64& flags) { return fFlags & flags; }
@@ -42,6 +44,7 @@ public:
 	virtual void HandleNotify(const uint64& value, const BMessage* msg) {}
 
 	virtual void SetObserving(const bool& value) { fEnabled = value; }
+
 	bool IsObserving(void) const { return fEnabled; }
 
 private:
@@ -52,12 +55,15 @@ private:
 class Notifier {
 public:
 	Notifier(void) { fEnabled = true; }
+
 	virtual ~Notifier(void) {}
 
 	// If these methods are subclassed, please make sure that these versions
 	// are also called.
 	virtual void AddObserver(Observer* obs) { fObserverList.AddItem(obs); }
+
 	virtual void RemoveObserver(Observer* obs) { fObserverList.RemoveItem(obs); }
+
 	bool HasObserver(Observer* obs) { return fObserverList.HasItem(obs); }
 
 	virtual void Notify(const uint64& value, const BMessage* msg = NULL)
@@ -77,6 +83,7 @@ public:
 	}
 
 	void SetNotify(const bool& value) { fEnabled = value; }
+
 	bool IsNotifying(void) const { return fEnabled; }
 
 private:

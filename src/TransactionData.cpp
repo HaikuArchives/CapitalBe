@@ -33,7 +33,6 @@ TransactionData::TransactionData(const TransactionData& trans)
 	*this = trans;
 }
 
-
 TransactionData::~TransactionData() {}
 
 TransactionData&

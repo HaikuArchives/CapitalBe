@@ -27,10 +27,10 @@ App::App(void) : BApplication("application/x-vnd.wgp-CapitalBe")
 	// and change the date accordingly
 	if (GetCurrentDate() > 1167022800) {
 		ShowAlert("This beta version has expired.",
-			"This is only a test version of Capital Be and is intended to work only "
+			"This is only a test version of CapitalBe and is intended to work only "
 			"for a short period of time to allow the community to help find bugs and "
-			"make Capital Be the best financial manager possible.\n\nYou can download "
-			"a new copy of Capital Be from http://www.capitalbe.com/");
+			"make CapitalBe the best financial manager possible.\n\nYou can download "
+			"a new copy of CapitalBe from http://www.capitalbe.com/");
 		be_app->PostMessage(B_QUIT_REQUESTED);
 		return;
 	}
@@ -57,8 +57,8 @@ App::App(void) : BApplication("application/x-vnd.wgp-CapitalBe")
 
 #ifdef PREVIEW_MODE
 
-	ShowAlert("Welcome to Capital Be's Technology Preview!",
-		"Welcome and thank you for trying Capital Be, what will be the foremost "
+	ShowAlert("Welcome to CapitalBe's Technology Preview!",
+		"Welcome and thank you for trying CapitalBe, what will be the foremost "
 		"personal finance manager for BeOS, Zeta, and Haiku.\n\n"
 		"This preview version may contain bugs and is not feature complete, but "
 		"will give you an idea of what the full version will be like when released.\n\n"
@@ -120,10 +120,10 @@ main(void)
 void
 StartFile(void)
 {
-	BEntry entry("/boot/develop/projects/Capital Be/cbsql/testdb");
+	BEntry entry("/boot/develop/projects/CapitalBe/cbsql/testdb");
 	if (entry.Exists())
 		entry.Remove();
-	gDatabase.CreateFile("/boot/develop/projects/Capital Be/cbsql/testdb");
+	gDatabase.CreateFile("/boot/develop/projects/CapitalBe/cbsql/testdb");
 
 	/*	gDatabase.AddAccount("Test Account 1",ACCOUNT_BANK);
 		gDatabase.AddAccount("Test Account 2",ACCOUNT_BANK);
@@ -175,7 +175,7 @@ StartFile(void)
 int
 main(void)
 {
-	//	gDatabase.OpenFile("/boot/develop/projects/Capital Be/cbsql/testdb");
+	//	gDatabase.OpenFile("/boot/develop/projects/CapitalBe/cbsql/testdb");
 
 	StartFile();
 }

@@ -1,4 +1,6 @@
 #include "RegisterView.h"
+
+#include <Catalog.h>
 #include <Font.h>
 #include <LayoutBuilder.h>
 #include <ScrollView.h>
@@ -10,7 +12,11 @@
 #include "Database.h"
 #include "MainWindow.h"
 #include "QuickTrackerItem.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "RegisterView"
+
 
 enum
 {
@@ -22,7 +28,7 @@ RegisterView::RegisterView(const char* name, int32 flags) : BView(name, flags | 
 {
 	SetViewColor(240, 240, 240);
 
-	BStringView* accountlabel = new BStringView("accountlabel", TRANSLATE("Accounts"));
+	BStringView* accountlabel = new BStringView("accountlabel", B_TRANSLATE("Accounts"));
 
 	//	fAccountView = new DragListView(r,"accountview");
 	fAccountView = new BListView("accountview", B_SINGLE_SELECTION_LIST);
@@ -45,7 +51,7 @@ RegisterView::RegisterView(const char* name, int32 flags) : BView(name, flags | 
 	gDatabase.AddObserver(this);
 
 	fTrackBox = new BBox("qtbox");
-	fTrackBox->SetLabel(TRANSLATE("QuickTracker"));
+	fTrackBox->SetLabel(B_TRANSLATE("QuickTracker"));
 
 	QTNetWorthItem* item;
 	item = new QTNetWorthItem("networth");
@@ -173,7 +179,6 @@ RegisterView::HandleNotify(const uint64& value, const BMessage* msg)
 
 		BScrollBar* bar = fAccountScroller->ScrollBar(B_HORIZONTAL);
 		bar->SetRange(0, range);
-
 	} else if (value & WATCH_TRANSACTION) {
 		if (value & WATCH_CREATE || value & WATCH_DELETE || value & WATCH_CHANGE)
 			fAccountView->Invalidate();

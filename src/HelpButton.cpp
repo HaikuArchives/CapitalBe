@@ -1,4 +1,5 @@
 #include "HelpButton.h"
+#include <Catalog.h>
 #include <File.h>
 #include <LayoutBuilder.h>
 #include <Path.h>
@@ -6,7 +7,11 @@
 #include <TextView.h>
 #include <TranslationUtils.h>
 #include "Preferences.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "HelpButton"
+
 
 class HelpButtonWindow : public BWindow {
 public:
@@ -45,7 +50,7 @@ HelpButton::MessageReceived(BMessage* msg)
 }
 
 HelpButtonWindow::HelpButtonWindow(const BRect& frame, const entry_ref& helpfileref)
-	: BWindow(frame, TRANSLATE("Help"), B_DOCUMENT_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL,
+	: BWindow(frame, B_TRANSLATE("Help"), B_DOCUMENT_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	BView* view = new BView("back", B_WILL_DRAW | B_FRAME_EVENTS);

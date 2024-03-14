@@ -1,5 +1,6 @@
 #include "SplitViewFilter.h"
 #include <Button.h>
+#include <Catalog.h>
 #include <TextControl.h>
 #include "Account.h"
 #include "AutoTextControl.h"
@@ -7,7 +8,11 @@
 #include "Database.h"
 #include "MsgDefs.h"
 #include "TimeSupport.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "SplitFilterView"
+
 
 SplitViewFilter::SplitViewFilter(SplitView* checkview)
 	: BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN), fView(checkview)
@@ -186,7 +191,7 @@ SplitViewFilter::Filter(BMessage* msg, BHandler** target)
 
 			BString autocomplete = acc->AutocompleteCategory(string.String());
 
-			if (autocomplete.CountChars() > 0 && autocomplete != TRANSLATE("Split")) {
+			if (autocomplete.CountChars() > 0 && autocomplete != B_TRANSLATE("Split")) {
 				BMessage automsg(M_CATEGORY_AUTOCOMPLETE);
 				automsg.AddInt32("start", strlen(text->Text()) + 1);
 				automsg.AddString("string", autocomplete.String());

@@ -1,6 +1,7 @@
 #include "CategoryWindow.h"
 
 #include <Button.h>
+#include <Catalog.h>
 #include <CheckBox.h>
 #include <LayoutBuilder.h>
 #include <ListItem.h>
@@ -17,7 +18,11 @@
 #include "Database.h"
 #include "EscapeCancelFilter.h"
 #include "Preferences.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "CategoryWindow"
+
 
 enum
 {
@@ -106,16 +111,13 @@ CategoryView::CategoryView(const char* name, const int32& flags) : BView(name, f
 	SetViewColor(240, 240, 240);
 
 	// the buttons
-	temp = TRANSLATE("Edit");
-	temp += "…";
+	temp = B_TRANSLATE("Edit…");
 	fEditButton = new BButton("editbutton", temp.String(), new BMessage(M_SHOW_EDIT_WINDOW));
 
-	temp = TRANSLATE("Remove");
-	temp += "…";
+	temp = B_TRANSLATE("Remove…");
 	fRemoveButton = new BButton("removebutton", temp.String(), new BMessage(M_SHOW_REMOVE_WINDOW));
 
-	temp = TRANSLATE("Add");
-	temp += "…";
+	temp = B_TRANSLATE("Add…");
 	fAddButton = new BButton("addbutton", temp.String(), new BMessage(M_SHOW_ADD_WINDOW));
 
 	// the category list
@@ -123,8 +125,8 @@ CategoryView::CategoryView(const char* name, const int32& flags) : BView(name, f
 		B_WILL_DRAW | B_FRAME_EVENTS | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE);
 	BScrollView* sv = new BScrollView("scrollview", fListView, 0, false, true);
 
-	fIncomeItem = new CategoryItem(TRANSLATE("Income"));
-	fSpendingItem = new CategoryItem(TRANSLATE("Spending"));
+	fIncomeItem = new CategoryItem(B_TRANSLATE("Income"));
+	fSpendingItem = new CategoryItem(B_TRANSLATE("Spending"));
 
 	RefreshCategoryList();
 
@@ -206,13 +208,13 @@ CategoryView::MessageReceived(BMessage* msg)
 				msg->FindBool("expense", &expense) != B_OK)
 				break;
 
-			if (name.ICompare(TRANSLATE("Income")) == 0 ||
-				name.ICompare(TRANSLATE("Spending")) == 0 ||
-				name.ICompare(TRANSLATE("Split")) == 0) {
-				ShowAlert(TRANSLATE("Can't use this category name"),
-					TRANSLATE("Capital Be uses the words 'Income','Spending', and 'Split' "
-							  "for managing categories, so you can't use them as category names. "
-							  "Please choose a different name for your new category."));
+			if (name.ICompare(B_TRANSLATE("Income")) == 0 ||
+				name.ICompare(B_TRANSLATE("Spending")) == 0 ||
+				name.ICompare(B_TRANSLATE("Split")) == 0) {
+				ShowAlert(B_TRANSLATE("Can't use this category name"),
+					B_TRANSLATE("CapitalBe uses the words 'Income','Spending', and 'Split' "
+								"for managing categories, so you can't use them as category names. "
+								"Please choose a different name for your new category."));
 				break;
 			}
 
@@ -279,12 +281,12 @@ CategoryView::RefreshCategoryList(void)
 
 	int32 maxchars;
 	float maxlength;
-	if (strlen(TRANSLATE("Income")) > strlen(TRANSLATE("Spending"))) {
-		maxchars = strlen(TRANSLATE("Income"));
-		maxlength = StringWidth(TRANSLATE("Income"));
+	if (strlen(B_TRANSLATE("Income")) > strlen(B_TRANSLATE("Spending"))) {
+		maxchars = strlen(B_TRANSLATE("Income"));
+		maxlength = StringWidth(B_TRANSLATE("Income"));
 	} else {
-		maxchars = strlen(TRANSLATE("Spending"));
-		maxlength = StringWidth(TRANSLATE("Spending"));
+		maxchars = strlen(B_TRANSLATE("Spending"));
+		maxlength = StringWidth(B_TRANSLATE("Spending"));
 	}
 
 	CppSQLite3Query query = gDatabase.DBQuery(
@@ -312,7 +314,7 @@ CategoryView::RefreshCategoryList(void)
 }
 
 CategoryWindow::CategoryWindow(const BRect& frame)
-	: BWindow(frame, TRANSLATE("Categories"), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
+	: BWindow(frame, B_TRANSLATE("Categories"), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	AddCommonFilter(new EscapeCancelFilter);
@@ -352,7 +354,7 @@ CategoryItem::DrawItem(BView* owner, BRect frame, bool complete)
 }
 
 CategoryInputWindow::CategoryInputWindow(const BRect& frame, BView* target)
-	: BWindow(frame, TRANSLATE("Add Category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+	: BWindow(frame, B_TRANSLATE("Add Category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_V_RESIZABLE |
 			  B_AUTO_UPDATE_SIZE_LIMITS),
 	  fTarget(target)
@@ -365,20 +367,19 @@ CategoryInputWindow::CategoryInputWindow(const BRect& frame, BView* target)
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 	view->SetViewColor(240, 240, 240);
 
-	temp = TRANSLATE("Category Name");
-	temp += ":";
+	temp = B_TRANSLATE("Category name:");
 	fNameBox = new AutoTextControl("namebox", temp.String(), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
-	fExpenseBox = new BCheckBox("expensebox", TRANSLATE("Spending Category"), NULL);
+	fExpenseBox = new BCheckBox("expensebox", B_TRANSLATE("Spending category"), NULL);
 	fExpenseBox->SetValue(B_CONTROL_ON);
 
-	fOKButton = new BButton("okbutton", TRANSLATE("Cancel"), new BMessage(M_ADD_CATEGORY));
-	fOKButton->SetLabel(TRANSLATE("OK"));
+	fOKButton = new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_ADD_CATEGORY));
+	fOKButton->SetLabel(B_TRANSLATE("OK"));
 	fOKButton->MakeDefault(true);
 
 	fCancelButton =
-		new BButton("cancelbutton", TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
 	fNameBox->MakeFocus(true);
 
@@ -425,7 +426,8 @@ CategoryInputWindow::MessageReceived(BMessage* msg)
 }
 
 CategoryRemoveWindow::CategoryRemoveWindow(const BRect& frame, const char* from, BView* target)
-	: BWindow(frame, TRANSLATE("Remove Category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+	: BWindow(frame, B_TRANSLATE("Remove category"), B_FLOATING_WINDOW_LOOK,
+		  B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS),
 	  fTarget(target)
 {
@@ -441,26 +443,24 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect& frame, const char* from,
 	fDirections->MakeEditable(false);
 
 	BString directions(
-		TRANSLATE("Please choose a new category for all transactions currently in the "
-				  "%%CATEGORY_NAME%% category."));
+		B_TRANSLATE("Please choose a new category for all transactions currently in the "
+					"%%CATEGORY_NAME%% category."));
 	directions.ReplaceFirst("%%CATEGORY_NAME%%", from);
 	fDirections->SetText(directions.String());
 	fDirections->SetViewColor(backcolor);
 	fDirections->SetWordWrap(true);
 
-	fOKButton = new BButton("okbutton", TRANSLATE("Cancel"), new BMessage(M_REMOVE_CATEGORY));
-
-	fOKButton->SetLabel(TRANSLATE("OK"));
-
+	fOKButton = new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_REMOVE_CATEGORY));
+	fOKButton->SetLabel(B_TRANSLATE("OK"));
 	fCancelButton =
-		new BButton("cancelbutton", TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
 	fListView = new BOutlineListView("categorylist", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW | B_FRAME_EVENTS | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE);
 	fScrollView = new BScrollView("scrollview", fListView, 0, false, true);
 
-	fIncomeItem = new CategoryItem(TRANSLATE("Income"));
-	fSpendingItem = new CategoryItem(TRANSLATE("Spending"));
+	fIncomeItem = new CategoryItem(B_TRANSLATE("Income"));
+	fSpendingItem = new CategoryItem(B_TRANSLATE("Spending"));
 	fListView->AddItem(fIncomeItem);
 	fListView->AddItem(fSpendingItem);
 
@@ -469,12 +469,12 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect& frame, const char* from,
 
 	int32 maxchars;
 	float maxlength;
-	if (strlen(TRANSLATE("Income")) > strlen(TRANSLATE("Spending"))) {
-		maxchars = strlen(TRANSLATE("Income"));
-		maxlength = view->StringWidth(TRANSLATE("Income"));
+	if (strlen(B_TRANSLATE("Income")) > strlen(B_TRANSLATE("Spending"))) {
+		maxchars = strlen(B_TRANSLATE("Income"));
+		maxlength = view->StringWidth(B_TRANSLATE("Income"));
 	} else {
-		maxchars = strlen(TRANSLATE("Spending"));
-		maxlength = view->StringWidth(TRANSLATE("Spending"));
+		maxchars = strlen(B_TRANSLATE("Spending"));
+		maxlength = view->StringWidth(B_TRANSLATE("Spending"));
 	}
 
 	while (!query.eof()) {
@@ -544,7 +544,7 @@ CategoryRemoveWindow::FrameResized(float w, float h)
 }
 
 CategoryEditWindow::CategoryEditWindow(const BRect& frame, const char* oldname, BView* target)
-	: BWindow(frame, TRANSLATE("Edit Category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+	: BWindow(frame, B_TRANSLATE("Edit category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE |
 			  B_AUTO_UPDATE_SIZE_LIMITS),
 	  fOldName(oldname),
@@ -558,22 +558,20 @@ CategoryEditWindow::CategoryEditWindow(const BRect& frame, const char* oldname, 
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 	view->SetViewColor(240, 240, 240);
 
-	temp = TRANSLATE("Category Name");
-	temp << ": " << fOldName;
+	temp = B_TRANSLATE("Category name:");
 	BStringView* oldnameView = new BStringView("oldname", temp.String());
 
-	temp = TRANSLATE("New Category Name");
-	temp += ":";
+	temp = B_TRANSLATE("New category name:");
 	fNameBox = new AutoTextControl("namebox", temp.String(), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
-	fOKButton = new BButton("okbutton", TRANSLATE("Cancel"), new BMessage(M_EDIT_CATEGORY));
+	fOKButton = new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_EDIT_CATEGORY));
 	fOKButton->SetFlags(fOKButton->Flags() | B_FRAME_EVENTS);
-	fOKButton->SetLabel(TRANSLATE("OK"));
+	fOKButton->SetLabel(B_TRANSLATE("OK"));
 	fOKButton->MakeDefault(true);
 
 	fCancelButton =
-		new BButton("cancelbutton", TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
 	fOKButton->SetEnabled(false);
 	fNameBox->MakeFocus(true);

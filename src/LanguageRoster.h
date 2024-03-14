@@ -15,6 +15,7 @@ public:
 	void SetLanguage(const int32& index);
 	void SetLanguage(Language* language);
 	bool SetLanguage(const char* name);
+
 	Language* GetLanguage(void) { return fCurrentLanguage; }
 
 private:
@@ -24,6 +25,7 @@ private:
 	Language* fDefaultLanguage;
 };
 
+extern Language* gCurrentLanguage;
 extern LanguageRoster* language_roster;
 
 #endif

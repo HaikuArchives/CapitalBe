@@ -125,7 +125,6 @@ private:
 	DAlert* fAlert;
 };
 
-
 static float
 width_from_label(BButton* button)
 {
@@ -133,7 +132,6 @@ width_from_label(BButton* button)
 	// required to fit the label. Thus, the width is computed here.
 	return button->StringWidth(button->Label()) + 20.0f;
 }
-
 
 //	#pragma mark - DAlert
 
@@ -147,6 +145,7 @@ DAlert::DAlert(const char* title, const char* text, const char* button1, const c
 }
 
 
+
 DAlert::DAlert(const char* title, const char* text, const char* button1, const char* button2,
 	const char* button3, button_width width, button_spacing spacing, alert_type type)
 	: BWindow(DEFAULT_RECT, title, B_MODAL_WINDOW,
@@ -155,13 +154,13 @@ DAlert::DAlert(const char* title, const char* text, const char* button1, const c
 	InitObject(text, button1, button2, button3, width, spacing, type);
 }
 
-
 DAlert::~DAlert()
 {
 	// Probably not necessary, but it makes me feel better.
 	if (fAlertSem >= B_OK)
 		delete_sem(fAlertSem);
 }
+
 
 
 DAlert::DAlert(BMessage* data) : BWindow(data)
@@ -206,7 +205,6 @@ DAlert::DAlert(BMessage* data) : BWindow(data)
 	AddCommonFilter(new _DAlertFilter_(this));
 }
 
-
 BArchivable*
 DAlert::Instantiate(BMessage* data)
 {
@@ -215,7 +213,6 @@ DAlert::Instantiate(BMessage* data)
 
 	return new DAlert(data);
 }
-
 
 status_t
 DAlert::Archive(BMessage* data, bool deep) const
@@ -249,14 +246,12 @@ DAlert::Archive(BMessage* data, bool deep) const
 	return ret;
 }
 
-
 void
 DAlert::SetShortcut(int32 index, char key)
 {
 	if (index >= 0 && index < 3)
 		fKeys[index] = key;
 }
-
 
 char
 DAlert::Shortcut(int32 index) const
@@ -266,7 +261,6 @@ DAlert::Shortcut(int32 index) const
 
 	return 0;
 }
-
 
 int32
 DAlert::Go()
@@ -312,7 +306,6 @@ DAlert::Go()
 	return value;
 }
 
-
 status_t
 DAlert::Go(BInvoker* invoker)
 {
@@ -320,7 +313,6 @@ DAlert::Go(BInvoker* invoker)
 	Show();
 	return B_OK;
 }
-
 
 void
 DAlert::MessageReceived(BMessage* msg)
@@ -354,13 +346,11 @@ DAlert::MessageReceived(BMessage* msg)
 	}
 }
 
-
 void
 DAlert::FrameResized(float newWidth, float newHeight)
 {
 	BWindow::FrameResized(newWidth, newHeight);
 }
-
 
 BButton*
 DAlert::ButtonAt(int32 index) const
@@ -371,13 +361,11 @@ DAlert::ButtonAt(int32 index) const
 	return NULL;
 }
 
-
 BTextView*
 DAlert::TextView() const
 {
 	return fTextView;
 }
-
 
 BHandler*
 DAlert::ResolveSpecifier(
@@ -386,13 +374,11 @@ DAlert::ResolveSpecifier(
 	return BWindow::ResolveSpecifier(msg, index, specifier, form, property);
 }
 
-
 status_t
 DAlert::GetSupportedSuites(BMessage* data)
 {
 	return BWindow::GetSupportedSuites(data);
 }
-
 
 void
 DAlert::DispatchMessage(BMessage* msg, BHandler* handler)
@@ -400,20 +386,17 @@ DAlert::DispatchMessage(BMessage* msg, BHandler* handler)
 	BWindow::DispatchMessage(msg, handler);
 }
 
-
 void
 DAlert::Quit()
 {
 	BWindow::Quit();
 }
 
-
 bool
 DAlert::QuitRequested()
 {
 	return BWindow::QuitRequested();
 }
-
 
 BPoint
 DAlert::AlertPosition(float width, float height)
@@ -436,27 +419,26 @@ DAlert::AlertPosition(float width, float height)
 	return result;
 }
 
-
 status_t
 DAlert::Perform(perform_code d, void* arg)
 {
 	return BWindow::Perform(d, arg);
 }
 
-
 void
 DAlert::_ReservedAlert1()
 {
 }
+
 void
 DAlert::_ReservedAlert2()
 {
 }
+
 void
 DAlert::_ReservedAlert3()
 {
 }
-
 
 void
 DAlert::InitObject(const char* text, const char* button0, const char* button1, const char* button2,
@@ -634,7 +616,6 @@ DAlert::InitObject(const char* text, const char* button0, const char* button1, c
 	MoveTo(AlertPosition(Frame().Width(), Frame().Height()));
 }
 
-
 BBitmap*
 DAlert::InitIcon()
 {
@@ -668,7 +649,6 @@ DAlert::InitIcon()
 	return icon;
 }
 
-
 //------------------------------------------------------------------------------
 //	#pragma mark - TAlertView
 
@@ -683,12 +663,10 @@ TAlertView::TAlertView(BRect frame)
 
 TAlertView::TAlertView(BMessage* archive) : BView(archive), fIconBitmap(NULL) {}
 
-
 TAlertView::~TAlertView()
 {
 	delete fIconBitmap;
 }
-
 
 TAlertView*
 TAlertView::Instantiate(BMessage* archive)
@@ -699,13 +677,11 @@ TAlertView::Instantiate(BMessage* archive)
 	return new TAlertView(archive);
 }
 
-
 status_t
 TAlertView::Archive(BMessage* archive, bool deep)
 {
 	return BView::Archive(archive, deep);
 }
-
 
 void
 TAlertView::Draw(BRect updateRect)
@@ -724,16 +700,13 @@ TAlertView::Draw(BRect updateRect)
 	}
 }
 
-
 //------------------------------------------------------------------------------
 //	#pragma mark - _DAlertFilter_
 
 
 _DAlertFilter_::_DAlertFilter_(DAlert* alert) : BMessageFilter(B_KEY_DOWN), fAlert(alert) {}
 
-
 _DAlertFilter_::~_DAlertFilter_() {}
-
 
 filter_result
 _DAlertFilter_::Filter(BMessage* msg, BHandler** target)
