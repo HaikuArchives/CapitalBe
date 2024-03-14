@@ -1,11 +1,13 @@
 #include "ScheduleListWindow.h"
 
 #include <Button.h>
+#include <Catalog.h>
 #include <CheckBox.h>
 #include <LayoutBuilder.h>
 #include <ListItem.h>
 #include <ListView.h>
 #include <Message.h>
+#include <Catalog.h>
 #include <Messenger.h>
 #include <Region.h>
 #include <ScrollView.h>
@@ -17,12 +19,18 @@
 #include "ColumnTypes.h"
 #include "Database.h"
 #include "EscapeCancelFilter.h"
+#include "LanguageRoster.h"
 #include "HelpButton.h"
 #include "Preferences.h"
 #include "ScheduledTransData.h"
 #include "ScheduledTransItem.h"
 #include "TransactionLayout.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ScheduleListWindow"
+
+Language *gCurrentLanguage = NULL;
 
 enum { M_REMOVE_ITEM = 'rmit' };
 
@@ -50,8 +58,7 @@ ScheduleListView::ScheduleListView(const char *name, const int32 &flags) : BView
 	SetViewColor(240, 240, 240);
 
 	// the buttons
-	temp = TRANSLATE("Remove");
-	temp += "…";
+	temp = B_TRANSLATE("Remove…");
 	fRemoveButton = new BButton("removebutton", temp.String(), new BMessage(M_REMOVE_ITEM));
 
 	// the transaction list
@@ -64,31 +71,31 @@ ScheduleListView::ScheduleListView(const char *name, const int32 &flags) : BView
 	fListView->SetColor(B_COLOR_BACKGROUND, white);
 	fListView->SetColor(B_COLOR_SELECTION, GetColor(BC_SELECTION_FOCUS));
 
-	fListView->AddColumn(new BStringColumn(TRANSLATE("Payee"), 100, 25, 300, B_ALIGN_LEFT), 0);
+	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Payee"), 100, 25, 300, B_ALIGN_LEFT), 0);
 
 	float amountwidth = StringWidth("$000,000.00");
-	float amountlabelwidth = StringWidth(TRANSLATE("Amount"));
+	float amountlabelwidth = StringWidth(B_TRANSLATE("Amount"));
 	fListView->AddColumn(
 		new BStringColumn(
-			TRANSLATE("Amount"), MAX(amountwidth, amountlabelwidth), 25, 300, B_ALIGN_LEFT
+			B_TRANSLATE("Amount"), MAX(amountwidth, amountlabelwidth), 25, 300, B_ALIGN_LEFT
 		),
 		1
 	);
 	fListView->AddColumn(
 		new BStringColumn(
-			TRANSLATE("Payments"), StringWidth(TRANSLATE("Payments")) + 20, 25, 300, B_ALIGN_LEFT
+			B_TRANSLATE("Payments"), StringWidth(B_TRANSLATE("Payments")) + 20, 25, 300, B_ALIGN_LEFT
 		),
 		2
 	);
 	fListView->AddColumn(
 		new BStringColumn(
-			TRANSLATE("Frequency"), StringWidth(TRANSLATE("Frequency")) + 20, 25, 300, B_ALIGN_LEFT
+			B_TRANSLATE("Frequency"), StringWidth(B_TRANSLATE("Frequency")) + 20, 25, 300, B_ALIGN_LEFT
 		),
 		3
 	);
 	fListView->AddColumn(
 		new BStringColumn(
-			TRANSLATE("Next Payment"), StringWidth(TRANSLATE("Next Payment")) + 20, 25, 300,
+			B_TRANSLATE("Next Payment"), StringWidth(B_TRANSLATE("Next Payment")) + 20, 25, 300,
 			B_ALIGN_LEFT
 		),
 		4
@@ -233,29 +240,29 @@ ScheduleListView::RefreshScheduleList(void) {
 			string = "";
 			string << sdata->GetCount();
 		} else
-			string = TRANSLATE("Unlimited");
+			string = B_TRANSLATE("Unlimited");
 
 		row->SetField(new BStringField(string.String()), 2);
 
 		switch (sdata->GetInterval()) {
 		case SCHEDULED_MONTHLY: {
-			string = TRANSLATE("Monthly");
+			string = B_TRANSLATE("Monthly");
 			break;
 		}
 		case SCHEDULED_WEEKLY: {
-			string = TRANSLATE("Weekly");
+			string = B_TRANSLATE("Weekly");
 			break;
 		}
 		case SCHEDULED_QUARTERLY: {
-			string = TRANSLATE("Quarterly");
+			string = B_TRANSLATE("Quarterly");
 			break;
 		}
 		case SCHEDULED_ANNUALLY: {
-			string = TRANSLATE("Annually");
+			string = B_TRANSLATE("Annually");
 			break;
 		}
 		default: {
-			string = TRANSLATE("Unknown");
+			string = B_TRANSLATE("Unknown");
 			break;
 		}
 		}
@@ -273,7 +280,7 @@ ScheduleListView::RefreshScheduleList(void) {
 
 ScheduleListWindow::ScheduleListWindow(const BRect &frame)
 	: BWindow(
-		  frame, TRANSLATE("Scheduled Transactions"), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
+		  frame, B_TRANSLATE("Scheduled transactions"), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS
 	  ) {
 	AddCommonFilter(new EscapeCancelFilter);

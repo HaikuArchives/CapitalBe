@@ -3,6 +3,7 @@
 #include "Database.h"
 #include "DateBox.h"
 #include "HelpButton.h"
+#include "LanguageRoster.h"
 #include "Layout.h"
 #include "MsgDefs.h"
 #include "ObjectList.h"
@@ -10,12 +11,20 @@
 #include "ReportGrid.h"
 #include "StickyDrawButton.h"
 #include "TimeSupport.h"
+
 #include <Bitmap.h>
+#include <Catalog.h>
 #include <GridLayoutBuilder.h>
 #include <LayoutBuilder.h>
 #include <StringView.h>
 #include <TranslationUtils.h>
 #include <View.h>
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ReportWindow"
+
+Language *gCurrentLanguage = NULL;
 
 int
 compare_stringitem(const void *item1, const void *item2);
@@ -41,7 +50,7 @@ enum {
 
 ReportWindow::ReportWindow(BRect frame)
 	: BWindow(
-		  frame, TRANSLATE("Reports"), B_DOCUMENT_WINDOW,
+		  frame, B_TRANSLATE("Reports"), B_DOCUMENT_WINDOW,
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS
 	  ),
 	  fSubtotalMode(SUBTOTAL_NONE), fReportMode(REPORT_CASH_FLOW), fStartDate(GetCurrentYear()),
@@ -71,16 +80,16 @@ ReportWindow::ReportWindow(BRect frame)
 		.Add(layout_)
 		.End();
 
-	BMenu *reportmenu = new BMenu(TRANSLATE("Reports"));
+	BMenu *reportmenu = new BMenu(B_TRANSLATE("Reports"));
 	reportmenu->SetLabelFromMarked(true);
 
 	// 	TODO: Re-enable the Budget report
-	//	reportmenu->AddItem(new BMenuItem(TRANSLATE("Budget"), new BMessage(M_REPORT_BUDGET)));
-	temp << TRANSLATE("Income") << " / " << TRANSLATE("Spending");
+	//	reportmenu->AddItem(new BMenuItem(B_TRANSLATE("Budget"), new BMessage(M_REPORT_BUDGET)));
+	temp << B_TRANSLATE("Income") << " / " << B_TRANSLATE("Spending");
 	reportmenu->AddItem(new BMenuItem(temp.String(), new BMessage(M_REPORT_CASH_FLOW)));
-	reportmenu->AddItem(new BMenuItem(TRANSLATE("Total Worth"), new BMessage(M_REPORT_NET_WORTH)));
+	reportmenu->AddItem(new BMenuItem(B_TRANSLATE("Total worth"), new BMessage(M_REPORT_NET_WORTH)));
 	reportmenu->AddItem(
-		new BMenuItem(TRANSLATE("Transactions"), new BMessage(M_REPORT_TRANSACTIONS))
+		new BMenuItem(B_TRANSLATE("Transactions"), new BMessage(M_REPORT_TRANSACTIONS))
 	);
 	reportmenu->SetRadioMode(true);
 	reportmenu->ItemAt(0L)->SetMarked(true);
@@ -89,16 +98,16 @@ ReportWindow::ReportWindow(BRect frame)
 
 	BRect r(10, 10, reportmenu->StringWidth(temp.String()) + 45, 60);
 
-	temp = TRANSLATE("Reports");
-	temp += ": ";
+	temp = B_TRANSLATE("Reports:");
+	temp += " ";
 	BStringView *sv = new BStringView("reportsv", temp.String());
 	reportsLayout->AddView(sv);
 
 	fReportField = new BMenuField("reportfield", "", reportmenu);
 	reportsLayout->AddView(fReportField);
 
-	temp = TRANSLATE("Accounts");
-	temp += ": ";
+	temp = B_TRANSLATE("Accounts:");
+	temp += " ";
 	sv = new BStringView("accountsv", temp.String());
 	accountsLayout->AddView(sv);
 
@@ -110,16 +119,16 @@ ReportWindow::ReportWindow(BRect frame)
 	//	account added when the report window is shown initially
 	//	fAccountList->SetSelectionMessage(new BMessage(M_TOGGLE_ACCOUNT));
 
-	temp = TRANSLATE("Subtotal");
-	temp += ":";
+	temp = B_TRANSLATE("Subtotal:");
+	temp += " ";
 	sv = new BStringView("subtotalsv", temp.String());
 	subtotalLayout->AddView(sv);
 
-	BMenu *subtotalmenu = new BMenu(TRANSLATE("Subtotal"));
-	subtotalmenu->AddItem(new BMenuItem(TRANSLATE("None"), new BMessage(M_SUBTOTAL_NONE)));
-	subtotalmenu->AddItem(new BMenuItem(TRANSLATE("Month"), new BMessage(M_SUBTOTAL_MONTH)));
-	subtotalmenu->AddItem(new BMenuItem(TRANSLATE("Quarter"), new BMessage(M_SUBTOTAL_QUARTER)));
-	subtotalmenu->AddItem(new BMenuItem(TRANSLATE("Year"), new BMessage(M_SUBTOTAL_YEAR)));
+	BMenu *subtotalmenu = new BMenu(B_TRANSLATE("Subtotal"));
+	subtotalmenu->AddItem(new BMenuItem(B_TRANSLATE("None"), new BMessage(M_SUBTOTAL_NONE)));
+	subtotalmenu->AddItem(new BMenuItem(B_TRANSLATE("Month"), new BMessage(M_SUBTOTAL_MONTH)));
+	subtotalmenu->AddItem(new BMenuItem(B_TRANSLATE("Quarter"), new BMessage(M_SUBTOTAL_QUARTER)));
+	subtotalmenu->AddItem(new BMenuItem(B_TRANSLATE("Year"), new BMessage(M_SUBTOTAL_YEAR)));
 	subtotalmenu->SetLabelFromMarked(true);
 	subtotalmenu->SetRadioMode(true);
 	subtotalmenu->ItemAt(0)->SetMarked(true);
@@ -133,7 +142,7 @@ ReportWindow::ReportWindow(BRect frame)
 	reporthelp << "helpfiles/" << gCurrentLanguage->Name() << "/Report Window Help";
 	HelpButton *help = new HelpButton("reporthelp", reporthelp.String());
 
-	temp = TRANSLATE("Categories");
+	temp = B_TRANSLATE("Categories");
 	temp += ": ";
 	sv = new BStringView("catsv", temp.String());
 	categoriesLayout->AddView(sv);
@@ -150,8 +159,7 @@ ReportWindow::ReportWindow(BRect frame)
 	BString datestring;
 	gDefaultLocale.DateToString(GetCurrentYear(), datestring);
 
-	temp = TRANSLATE("Starting Date");
-	temp += ": ";
+	temp = B_TRANSLATE("Starting date:");
 
 	fStartDateBox = new DateBox(
 		"startdate", temp.String(), datestring.String(), new BMessage(M_START_DATE_CHANGED)
@@ -162,8 +170,7 @@ ReportWindow::ReportWindow(BRect frame)
 	fStartDateBox->GetFilter()->SetMessenger(new BMessenger(this));
 
 	gDefaultLocale.DateToString(GetCurrentDate(), datestring);
-	temp = TRANSLATE("Ending Date");
-	temp += ": ";
+	temp = B_TRANSLATE("Ending date:");
 
 	fEndDateBox = new DateBox(
 		"enddate", temp.String(), datestring.String(), new BMessage(M_END_DATE_CHANGED)
@@ -340,8 +347,8 @@ ReportWindow::MessageReceived(BMessage *msg) {
 			RenderReport();
 		} else {
 			ShowAlert(
-				TRANSLATE("Capital Be didn't understand the date you entered."),
-				TRANSLATE("Capital Be understands lots of different ways of entering dates. "
+				B_TRANSLATE("CapitalBe didn't understand the date you entered."),
+				B_TRANSLATE("CapitalBe understands lots of different ways of entering dates. "
 						  "Apparently, this wasn't one of them. You'll need to change how you "
 						  "entered this date. Sorry.")
 			);
@@ -364,8 +371,8 @@ ReportWindow::MessageReceived(BMessage *msg) {
 			RenderReport();
 		} else {
 			ShowAlert(
-				TRANSLATE("Capital Be didn't understand the date you entered."),
-				TRANSLATE("Capital Be understands lots of different ways of entering dates. "
+				B_TRANSLATE("CapitalBe didn't understand the date you entered."),
+				B_TRANSLATE("CapitalBe understands lots of different ways of entering dates. "
 						  "Apparently, this wasn't one of them. You'll need to change how you "
 						  "entered this date. Sorry.")
 			);

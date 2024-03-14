@@ -1,5 +1,11 @@
 #include "Budget.h"
-#include "Translate.h"
+
+#include <Catalog.h>
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "Budget"
+
 
 BudgetEntry::BudgetEntry(void) { Set("", 0, BUDGET_MONTHLY, true); }
 
@@ -31,23 +37,23 @@ BString
 BudgetPeriodToString(const BudgetPeriod &period) {
 	switch (period) {
 	case BUDGET_MONTHLY: {
-		return BString(TRANSLATE("Monthly"));
+		return BString(B_TRANSLATE("Monthly"));
 		break;
 	}
 	case BUDGET_WEEKLY: {
-		return BString(TRANSLATE("Weekly"));
+		return BString(B_TRANSLATE("Weekly"));
 		break;
 	}
 	case BUDGET_QUARTERLY: {
-		return BString(TRANSLATE("Quarterly"));
+		return BString(B_TRANSLATE("Quarterly"));
 		break;
 	}
 	case BUDGET_ANNUALLY: {
-		return BString(TRANSLATE("Annually"));
+		return BString(B_TRANSLATE("Annually"));
 		break;
 	}
 	default: {
-		return BString(TRANSLATE("Unknown"));
+		return BString(B_TRANSLATE("Unknown"));
 		break;
 	}
 	}

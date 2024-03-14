@@ -1,5 +1,7 @@
 #include "TransferWindow.h"
 #include "DAlert.h"
+
+#include <Catalog.h>
 #include <LayoutBuilder.h>
 #include <MessageFilter.h>
 #include <Messenger.h>
@@ -13,7 +15,11 @@
 #include "MsgDefs.h"
 
 #include "TimeSupport.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "TransferWindow"
+
 
 #define M_SOURCE_SELECTED 'srsl'
 #define M_DEST_SELECTED 'dssl'
@@ -22,7 +28,7 @@
 
 TransferWindow::TransferWindow(BHandler *target)
 	: BWindow(
-		  BRect(100, 100, 500, 350), TRANSLATE("Add Account Transfer"), B_TITLED_WINDOW_LOOK,
+		  BRect(100, 100, 500, 350), B_TRANSLATE("Add account transfer"), B_TITLED_WINDOW_LOOK,
 		  B_MODAL_APP_WINDOW_FEEL,
 		  B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
 	  ),
@@ -32,7 +38,7 @@ TransferWindow::TransferWindow(BHandler *target)
 
 TransferWindow::TransferWindow(BHandler *target, Account *src, Account *dest, const Fixed &amount)
 	: BWindow(
-		  BRect(100, 100, 300, 300), TRANSLATE("Edit Transfer"), B_TITLED_WINDOW_LOOK,
+		  BRect(100, 100, 300, 300), B_TRANSLATE("Edit transfer"), B_TITLED_WINDOW_LOOK,
 		  B_MODAL_APP_WINDOW_FEEL,
 		  B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
 	  ),
@@ -50,34 +56,34 @@ TransferWindow::InitObject(Account *src, Account *dest, const Fixed &amount) {
 	back->SetViewColor(240, 240, 240);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
 
-	temp = TRANSLATE("From Account");
+	temp = B_TRANSLATE("From account");
 	temp += ":";
 	fFromLabel = new BStringView("fromlabel", temp.String());
 
 	BRect r(Bounds());
-	temp = TRANSLATE("To Account");
+	temp = B_TRANSLATE("To account");
 	temp += ":";
 	fToLabel = new BStringView("tolabel", temp.String());
 
-	fOK = new BButton("okbutton", TRANSLATE("Cancel"), new BMessage(M_CREATE_TRANSFER));
-	fOK->SetLabel(TRANSLATE("OK"));
+	fOK = new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_CREATE_TRANSFER));
+	fOK->SetLabel(B_TRANSLATE("OK"));
 	fOK->SetEnabled(false);
 	fOK->MakeDefault(true);
 
-	fCancel = new BButton("cancelbutton", TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+	fCancel = new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
-	temp = TRANSLATE("Memo");
+	temp = B_TRANSLATE("Memo");
 	temp += ":";
 	fMemo = new BTextControl("memobox", temp.String(), NULL, NULL);
 
 	BString amt;
 	gCurrentLocale.CurrencyToString(amount, amt);
-	temp = TRANSLATE("Amount");
+	temp = B_TRANSLATE("Amount");
 	temp += ":";
 	fAmount = new CurrencyBox("amountbox", temp.String(), amt.String(), NULL);
 	fAmount->GetFilter()->SetMessenger(new BMessenger(this));
 
-	temp = TRANSLATE("Date");
+	temp = B_TRANSLATE("Date");
 	temp += ":";
 	fDate = new DateBox("datebox", temp.String(), "", NULL);
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
@@ -223,8 +229,8 @@ TransferWindow::MessageReceived(BMessage *msg) {
 		gCurrentLocale.StringToCurrency(fAmount->Text(), amount);
 		if (amount == 0) {
 			ShowAlert(
-				TRANSLATE("Not Transferring Any Money"),
-				TRANSLATE("If you intend to transfer money, it will need to "
+				B_TRANSLATE("Not transferring any money"),
+				B_TRANSLATE("If you intend to transfer money, it will need to "
 						  "be an amount that is not zero.")
 			);
 			break;

@@ -4,7 +4,7 @@
 #include "Account.h"
 #include "DStringList.h"
 #include "Notifier.h"
-#include "Translate.h"
+
 #include <ColumnListView.h>
 #include <Font.h>
 #include <ListItem.h>
@@ -15,6 +15,7 @@
 #include <ScrollView.h>
 #include <TextControl.h>
 #include <Window.h>
+
 #include <time.h>
 
 class StickyDrawButton;

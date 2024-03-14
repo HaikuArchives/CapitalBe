@@ -1,3 +1,4 @@
+#include <Catalog.h>
 #include <LayoutBuilder.h>
 #include <MessageFilter.h>
 #include <ScrollView.h>
@@ -8,13 +9,19 @@
 #include "DAlert.h"
 #include "Database.h"
 #include "DateBox.h"
+#include "LanguageRoster.h"
 #include "MsgDefs.h"
 #include "Preferences.h"
 #include "ReconcileItem.h"
 #include "ReconcileWindow.h"
 #include "TimeSupport.h"
 #include "Transaction.h"
-#include "Translate.h"
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ReconcileWindow"
+
+Language *gCurrentLanguage = NULL;
 
 enum {
 	M_TOGGLE_DEPOSIT = 'tgdp',
@@ -49,8 +56,8 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account *account)
 	//	AddCommonFilter(new ReconcileFilter(this));
 
 	if (account) {
-		temp = TRANSLATE("Reconcile");
-		temp << ": " << account->Name();
+		temp = B_TRANSLATE("Reconcile:");
+		temp << " " << account->Name();
 		SetTitle(temp.String());
 		gDatabase.AddObserver(this);
 	}
@@ -64,8 +71,8 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account *account)
 	back->SetViewColor(240, 240, 240);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
 
-	temp = TRANSLATE("Date");
-	temp += ":";
+	temp = B_TRANSLATE("Date:");
+	temp += " ";
 	float width = back->StringWidth(temp.String());
 
 	BString datestr;
@@ -74,23 +81,23 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account *account)
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
 
 
-	temp = TRANSLATE("Starting Balance");
-	temp += ": ";
+	temp = B_TRANSLATE("Starting balance:");
+	temp += " ";
 	fOpening = new CurrencyBox("starting", temp.String(), NULL, new BMessage(M_SET_BALANCES));
 	fOpening->GetFilter()->SetMessenger(new BMessenger(this));
 
-	temp = TRANSLATE("Ending Balance");
-	temp += ":";
+	temp = B_TRANSLATE("Ending balance:");
+	temp += " ";
 	fClosing = new CurrencyBox("closing", temp.String(), NULL, new BMessage(M_SET_BALANCES));
 	fClosing->GetFilter()->SetMessenger(new BMessenger(this));
 
-	temp = TRANSLATE("Bank Charges");
-	temp += ":";
+	temp = B_TRANSLATE("Bank charges:");
+	temp += " ";
 	fCharges = new CurrencyBox("charges", temp.String(), NULL, NULL);
 	fCharges->GetFilter()->SetMessenger(new BMessenger(this));
 
-	temp = TRANSLATE("Interest Earned");
-	temp += ":";
+	temp = B_TRANSLATE("Interest earned:");
+	temp += " ";
 	fInterest = new CurrencyBox("interest", temp.String(), NULL, NULL);
 	fInterest->GetFilter()->SetMessenger(new BMessenger(this));
 
@@ -115,33 +122,30 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account *account)
 	BString label;
 
 	gCurrentLocale.CurrencyToString(fDepositTotal, label);
-	temp = TRANSLATE("Total Deposits");
-	temp << ": " << label;
+	temp = B_TRANSLATE("Total deposits:");
+	temp << " " << label;
 
 	fDepLabel = new BStringView("deplabel", temp.String());
 	fDepLabel->SetAlignment(B_ALIGN_RIGHT);
 
 	gCurrentLocale.CurrencyToString(fCheckTotal, label);
-	temp = TRANSLATE("Total Checks");
-	temp << ": " << label;
+	temp = B_TRANSLATE("Total checks:");
+	temp << " " << label;
 
 	fCheckLabel = new BStringView("checklabel", temp.String());
 	fCheckLabel->SetAlignment(B_ALIGN_RIGHT);
 
 	gCurrentLocale.CurrencyToString(fChargeTotal, label);
-	temp = TRANSLATE("Total Charges");
-	temp << ": " << label;
+	temp = B_TRANSLATE("Total charges:");
+	temp << " " << label;
 	fChargeLabel = new BStringView("chargelabel", temp.String());
 	fChargeLabel->SetAlignment(B_ALIGN_RIGHT);
 
-	fReconcile = new BButton("reconcile", TRANSLATE("Reconcile"), new BMessage(M_RECONCILE));
-
-	fCancel = new BButton("cancel", TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
-
-	fReset = new BButton("reset", TRANSLATE("Reset"), new BMessage(M_RESET));
-
+	fReconcile = new BButton("reconcile", B_TRANSLATE("Reconcile"), new BMessage(M_RECONCILE));
+	fCancel = new BButton("cancel", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+	fReset = new BButton("reset", B_TRANSLATE("Reset"), new BMessage(M_RESET));
 	fAutoReconcile =
-		new BButton("autoreconcile", TRANSLATE("Quick Balance"), new BMessage(M_AUTORECONCILE));
+		new BButton("autoreconcile", B_TRANSLATE("Quick balance"), new BMessage(M_AUTORECONCILE));
 
 	prefsLock.Lock();
 	BString rechelp = gAppPath;
@@ -149,7 +153,7 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account *account)
 	rechelp << "helpfiles/" << gCurrentLanguage->Name() << "/Reconcile Window Help";
 	fHelpButton = new HelpButton("rechelp", rechelp.String());
 
-	temp = TRANSLATE("Unreconciled Total");
+	temp = B_TRANSLATE("Unreconciled total");
 	temp += ":";
 	fTotalLabel = new BStringView("totallabel", temp.String());
 
@@ -346,12 +350,12 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 			fDepositList->InvalidateItem(index);
 
 			fAccount->GetLocale().CurrencyToString(fDepositTotal, label);
-			temp << TRANSLATE("Total Deposits") << ": " << label;
+			temp.SetToFormat(B_TRANSLATE("Total deposits: %s"), label);
 			fDepLabel->SetText(label.String());
 
 			fAccount->GetLocale().CurrencyToString(fTotal + fDifference, label);
 			temp = "";
-			temp << TRANSLATE("Unreconciled Total") << ": " << label;
+			temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label);
 			fTotalLabel->SetText(label.String());
 
 			if ((fTotal + fDifference) == 0)
@@ -377,12 +381,12 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 			fCheckList->InvalidateItem(index);
 
 			fAccount->GetLocale().CurrencyToString(fCheckTotal, label);
-			temp << TRANSLATE("TotaChecks") << ": " << label;
+			temp.SetToFormat(B_TRANSLATE("Total checks: %s"), label);
 			fCheckLabel->SetText(label.String());
 
 			fAccount->GetLocale().CurrencyToString(fTotal + fDifference, label);
 			temp = "";
-			temp << TRANSLATE("Unreconciled Total") << ": " << label;
+			temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label);
 			fTotalLabel->SetText(label.String());
 
 			if ((fTotal + fDifference) == 0)
@@ -408,12 +412,12 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 			fChargeList->InvalidateItem(index);
 
 			fAccount->GetLocale().CurrencyToString(fChargeTotal, label);
-			temp << TRANSLATE("Total Charges") << ": " << label;
+			temp.SetToFormat(B_TRANSLATE("Total charges: %s"), label);
 			fChargeLabel->SetText(label.String());
 
 			fAccount->GetLocale().CurrencyToString(fTotal + fDifference, label);
 			temp = "";
-			temp << TRANSLATE("Unreconciled Total") << ": " << label;
+			temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label);
 			fTotalLabel->SetText(label.String());
 
 			if ((fTotal + fDifference) == 0)
@@ -433,7 +437,7 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 
 		gCurrentLocale.CurrencyToString(fTotal + fDifference, label);
 		label.Prepend(" ");
-		label.Prepend("Unreconciled Total:");
+		label.Prepend("Unreconciled total:");
 		fTotalLabel->SetText(label.String());
 
 		if ((fTotal + fDifference) == 0)
@@ -549,8 +553,8 @@ ReconcileWindow::ApplyChargesAndInterest(void) {
 	if (strlen(fCharges->Text()) > 0 &&
 		gCurrentLocale.StringToCurrency(fCharges->Text(), charge) == B_OK) {
 		TransactionData chargetrans(
-			fAccount, fDate->Text(), "ATM", TRANSLATE("Bank Charge"), fCharges->Text(),
-			TRANSLATE("Bank Charge"), NULL, TRANS_RECONCILED
+			fAccount, fDate->Text(), "ATM", B_TRANSLATE("Bank charge"), fCharges->Text(),
+			B_TRANSLATE("Bank Charge"), NULL, TRANS_RECONCILED
 		);
 		gDatabase.AddTransaction(chargetrans);
 	}
@@ -559,8 +563,8 @@ ReconcileWindow::ApplyChargesAndInterest(void) {
 	if (strlen(fInterest->Text()) > 0 &&
 		gCurrentLocale.StringToCurrency(fInterest->Text(), interest) == B_OK) {
 		TransactionData interesttrans(
-			fAccount, fDate->Text(), TRANSLATE("DEP"), TRANSLATE("Account Interest"),
-			fInterest->Text(), TRANSLATE("Account Interest"), NULL, TRANS_RECONCILED
+			fAccount, fDate->Text(), B_TRANSLATE("DEP"), B_TRANSLATE("Account interest"),
+			fInterest->Text(), B_TRANSLATE("Account interest"), NULL, TRANS_RECONCILED
 		);
 		gDatabase.AddTransaction(interesttrans);
 	}
@@ -581,8 +585,8 @@ ReconcileWindow::AutoReconcile(void) {
 		// Do we have an empty date box?
 		if (strlen(fDate->Text()) < 1) {
 			ShowAlert(
-				TRANSLATE("Date is missing."),
-				TRANSLATE("You need to enter the date for the statement to Quick Balance.")
+				B_TRANSLATE("Date is missing."),
+				B_TRANSLATE("You need to enter the date for the statement to Quick Balance.")
 			);
 			return false;
 		}
@@ -596,8 +600,8 @@ ReconcileWindow::AutoReconcile(void) {
 			bankchrg.Invert();
 		else {
 			ShowAlert(
-				TRANSLATE("Capital Be didn't understand the amount for Bank Charges."),
-				TRANSLATE("There may be a typo or the wrong kind of currency symbol "
+				B_TRANSLATE("CapitalBe didn't understand the amount for Bank Charges."),
+				B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
 						  "for this account.")
 			);
 			return false;
@@ -607,8 +611,8 @@ ReconcileWindow::AutoReconcile(void) {
 	if (strlen(fInterest->Text()) > 0) {
 		if (gCurrentLocale.StringToCurrency(fInterest->Text(), interest) != B_OK) {
 			ShowAlert(
-				TRANSLATE("Capital Be didn't understand the amount for Interest Earned."),
-				TRANSLATE("There may be a typo or the wrong kind of currency symbol "
+				B_TRANSLATE("CapitalBe didn't understand the amount for Interest Earned."),
+				B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
 						  "for this account.")
 			);
 			return false;
@@ -654,14 +658,14 @@ ReconcileWindow::AutoReconcile(void) {
 			item->SetReconciled(true);
 		}
 		ApplyChargesAndInterest();
-		ShowAlert(TRANSLATE("Success!"), TRANSLATE("Quick Balance successful!"), B_IDEA_ALERT);
+		ShowAlert(B_TRANSLATE("Success!"), B_TRANSLATE("Quick balance successful!"), B_IDEA_ALERT);
 		PostMessage(B_QUIT_REQUESTED);
 		return true;
 	}
 
 	ShowAlert(
-		TRANSLATE("Couldn't Quick Balance."),
-		TRANSLATE("Quick Balance failed. This doesn't mean "
+		B_TRANSLATE("Couldn't quick balance."),
+		B_TRANSLATE("Quick Balance failed. This doesn't mean "
 				  "that you did something wrong - it's just that Quick Balance works on "
 				  "simpler cases in balancing an account than this one. Sorry.")
 	);

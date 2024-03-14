@@ -779,8 +779,8 @@ GetVersionString(BString &string) {
 // test
 void
 ShowBug(const char *string) {
-	BString message = "Capital Be has run into a bug. This shouldn't happen, but it has.\n"
-					  "Would you like to:\n\n1) Have Capital Be make an e-mail to send to Support\n"
+	BString message = "CapitalBe has run into a bug. This shouldn't happen, but it has.\n"
+					  "Would you like to:\n\n1) Have CapitalBe make an e-mail to send to Support\n"
 					  "2) Save the bug to a text file for e-mailing later\n"
 					  "3) Just quit and do nothing\n";
 
@@ -794,7 +794,7 @@ ShowBug(const char *string) {
 	}
 
 	// Generate the report text
-	message = "Capital Be Bug Report\n\n";
+	message = "CapitalBe Bug Report\n\n";
 
 	BString version;
 	GetVersionString(version);
@@ -805,12 +805,12 @@ ShowBug(const char *string) {
 		// Make an e-mail to myself. :D
 
 		BString cmdstring("/boot/beos/apps/BeMail mailto:support@capitalbe.com ");
-		cmdstring << "-subject 'Capital Be Bug Report' -body '" << message << "'";
+		cmdstring << "-subject 'CapitalBe Bug Report' -body '" << message << "'";
 		cmdstring << " &";
 		system(cmdstring.String());
 	} else if (value == 1) {
 		// Generate a text file of the bug on the Desktop
-		BString filename("/boot/home/Desktop/Capital Be Bug Report ");
+		BString filename("/boot/home/Desktop/CapitalBe Bug Report ");
 		filename << real_time_clock() << ".txt";
 		BFile file(filename.String(), B_READ_WRITE | B_CREATE_FILE | B_ERASE_FILE);
 		file.Write(message.String(), message.Length());

@@ -3,8 +3,14 @@
 #include "CBLocale.h"
 #include "Database.h"
 #include "Fixed.h"
-#include "Translate.h"
+
+#include <Catalog.h>
 #include <String.h>
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "QuickTrackerItem"
+
 
 // Calculates the user's net worth by adding up the balances of all accounts
 QTNetWorthItem::QTNetWorthItem(const char *name, uint32 flags)
@@ -66,7 +72,7 @@ QTNetWorthItem::HandleNotify(const uint64 &value, const BMessage *msg) {
 					Window()->Lock();
 
 				BString label, temp;
-				temp << TRANSLATE("Account Total") << ": ";
+				temp << B_TRANSLATE("Account total:") << " ";
 				if (gCurrentLocale.CurrencyToString(Fixed(), label) == B_OK)
 					temp << label;
 				SetText(temp.String());
@@ -86,7 +92,7 @@ QTNetWorthItem::Calculate(void) {
 	BString label, temp;
 	Fixed balance;
 
-	temp << TRANSLATE("Account Total") << ": ";
+	temp << B_TRANSLATE("Account total:") << " ";
 
 	if (gDatabase.CountAccounts() == 0) {
 		if (Window())
@@ -182,7 +188,7 @@ QTBudgetCategoryItem::HandleNotify(const uint64 &value, const BMessage *msg) {
 					Window()->Lock();
 
 				BString label, temp;
-				temp << TRANSLATE("Account Total") << ": ";
+				temp << B_TRANSLATE("Account total:") << " ";
 				if (gCurrentLocale.CurrencyToString(Fixed(), label) == B_OK)
 					temp << label;
 				SetText(temp.String());
@@ -202,7 +208,7 @@ QTBudgetCategoryItem::Calculate(void) {
 	BString label, temp;
 	Fixed variance;
 
-	temp << TRANSLATE("Budget") << ": " << fEntry.name;
+	temp << B_TRANSLATE("Budget:") << " " << fEntry.name;
 
 	if (gDefaultLocale.CurrencyToString(variance, label) == B_OK) {
 		temp << " \n" << label;

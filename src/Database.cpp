@@ -28,7 +28,7 @@ Locale gDefaultLocale;
 // This is the locale is set to whatever is used by the active account in the database
 Locale gCurrentLocale;
 
-// This global is used to hold all financial data for Capital Be.
+// This global is used to hold all financial data for CapitalBe.
 Database gDatabase;
 
 Database::Database(const char *path) : fCurrent(NULL), fList(20, true), fPath(path) {}
@@ -189,7 +189,7 @@ Database::OpenFile(const char *path) {
 		UNLOCK;
 		ShowAlert(
 			"Couldn't open account data.",
-			"Capital Be couldn't open your financial data. "
+			"CapitalBe couldn't open your financial data. "
 			"If your data is in the old storage format from the Preview Edition 1.0, you "
 			"will need to run the conversion program before you can use your data."
 		);

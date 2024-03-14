@@ -1,12 +1,18 @@
 #include "TransactionEditWindow.h"
-#include "Translate.h"
+
+#include <Catalog.h>
 #include <LayoutBuilder.h>
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "TransactionEditWindow"
+
 
 #define M_TOGGLE_SPLIT 'tspl'
 
 TransactionEditWindow::TransactionEditWindow(const BRect &frame, const TransactionData &trans)
 	: BWindow(
-		  frame, TRANSLATE("Edit Transaction"), B_DOCUMENT_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL,
+		  frame, B_TRANSLATE("Edit transaction"), B_DOCUMENT_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL,
 		  B_AUTO_UPDATE_SIZE_LIMITS
 	  ) {
 	fSplitView = new SplitView("splitview", trans, B_WILL_DRAW);

@@ -3,7 +3,13 @@
 #include "Database.h"
 #include "MsgDefs.h"
 #include "TimeSupport.h"
-#include "Translate.h"
+
+#include <Catalog.h>
+
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "CheckNumBox"
+
 
 CheckNumBoxFilter::CheckNumBoxFilter(CheckNumBox *box) : AutoTextControlFilter(box) {}
 
@@ -110,8 +116,8 @@ bool
 CheckNumBox::Validate(void) {
 	if (strlen(Text()) < 1) {
 		ShowAlert(
-			TRANSLATE("Transaction type is missing."),
-			TRANSLATE("You need to enter a check number or transaction type, such as "
+			B_TRANSLATE("Transaction type is missing."),
+			B_TRANSLATE("You need to enter a check number or transaction type, such as "
 					  "ATM (for debit card transactions and the like), DEP (for deposits), "
 					  "or your own code for some other kind of expense.")
 		);
