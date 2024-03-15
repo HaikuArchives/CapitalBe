@@ -25,5 +25,8 @@ jobs:
           version: ${{ matrix.config.version }}
           architecture: ${{ matrix.config.architecture }}
           run: |
+            hostname
+            id
+            ssh user@localhost "echo coucou"
             ssh -o StrictHostKeyChecking=no user@localhost pkgman install -y haiku_devel devel:libsqlite3 makefile_engine cmd:gcc cmd:make
-            make
+  
