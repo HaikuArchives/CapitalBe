@@ -25,5 +25,4 @@ jobs:
           version: ${{ matrix.config.version }}
           architecture: ${{ matrix.config.architecture }}
           run: |
-            ssh user@localhost pkgman install -y haiku_devel devel:libsqlite3 makefile_engine cmd:gcc cmd:make
-            make
+            ssh user@localhost "pkgman install -y haiku_devel devel:libsqlite3 makefile_engine cmd:gcc cmd:make" && make
