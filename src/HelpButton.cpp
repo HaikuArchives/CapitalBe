@@ -13,17 +13,17 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "HelpButton"
 
-
 class HelpButtonWindow : public BWindow {
   public:
-	HelpButtonWindow(const BRect &frame, const entry_ref &helpfileref);
+	HelpButtonWindow(const BRect& frame, const entry_ref& helpfileref);
 
   private:
-	BTextView *fTextView;
+	BTextView* fTextView;
 };
 
-HelpButton::HelpButton(const char *name, const char *path)
-	: BButton(name, "", new BMessage(M_HELPBUTTON_PRESSED)) {
+HelpButton::HelpButton(const char* name, const char* path)
+	: BButton(name, "", new BMessage(M_HELPBUTTON_PRESSED))
+{
 	get_ref_for_path(path, &fRef);
 	SetIcon(BTranslationUtils::GetBitmap('PNG ', "HelpButtonUp.png"));
 }
@@ -31,28 +31,32 @@ HelpButton::HelpButton(const char *name, const char *path)
 HelpButton::~HelpButton(void) {}
 
 void
-HelpButton::AttachedToWindow() {
+HelpButton::AttachedToWindow()
+{
 	SetTarget(this);
 	BButton::AttachedToWindow();
 }
 
 void
-HelpButton::MessageReceived(BMessage *msg) {
+HelpButton::MessageReceived(BMessage* msg)
+{
 	if (msg->what == M_HELPBUTTON_PRESSED) {
 		BRect frame = Window()->Frame();
-		HelpButtonWindow *help = new HelpButtonWindow(frame, fRef);
+		HelpButtonWindow* help = new HelpButtonWindow(frame, fRef);
 		help->Show();
-	} else {
+	}
+	else {
 		BButton::MessageReceived(msg);
 	}
 }
 
-HelpButtonWindow::HelpButtonWindow(const BRect &frame, const entry_ref &helpfileref)
+HelpButtonWindow::HelpButtonWindow(const BRect& frame, const entry_ref& helpfileref)
 	: BWindow(
 		  frame, B_TRANSLATE("Help"), B_DOCUMENT_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS
-	  ) {
-	BView *view = new BView("back", B_WILL_DRAW | B_FRAME_EVENTS);
+	  )
+{
+	BView* view = new BView("back", B_WILL_DRAW | B_FRAME_EVENTS);
 	view->SetViewColor(235, 235, 255);
 	BLayoutBuilder::Group<>(this, B_VERTICAL).Add(view).End();
 
@@ -61,7 +65,7 @@ HelpButtonWindow::HelpButtonWindow(const BRect &frame, const entry_ref &helpfile
 	fTextView->SetStylable(true);
 	fTextView->SetWordWrap(true);
 
-	BScrollView *sv = new BScrollView("scrollview", fTextView, B_FRAME_EVENTS, false, true);
+	BScrollView* sv = new BScrollView("scrollview", fTextView, B_FRAME_EVENTS, false, true);
 
 	BFile file(&helpfileref, B_READ_ONLY);
 	SetTitle(helpfileref.name);

@@ -13,17 +13,17 @@ class Account;
 
 class AccountSettingsWindow : public BWindow {
   public:
-	AccountSettingsWindow(Account *name);
-	void MessageReceived(BMessage *msg);
+	AccountSettingsWindow(Account* name);
+	void MessageReceived(BMessage* msg);
 
   private:
 	friend class NewAccountFilter;
 
-	AutoTextControl *fAccountName;
+	AutoTextControl* fAccountName;
 	BButton *fCancel, *fOK;
-	CurrencyPrefView *fPrefView;
-	Account *fAccount;
-	BCheckBox *fUseDefault;
+	CurrencyPrefView* fPrefView;
+	Account* fAccount;
+	BCheckBox* fUseDefault;
 };
 
 #endif

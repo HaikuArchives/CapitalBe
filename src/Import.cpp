@@ -37,19 +37,20 @@ bool debuggerflag = false;
 */
 
 BString
-ReadCategories(BObjectList<Category> &list, TextFile &file);
+ReadCategories(BObjectList<Category>& list, TextFile& file);
 BString
-ReadTransactions(Account *account, TextFile &file);
+ReadTransactions(Account* account, TextFile& file);
 BString
-ReadAccounts(BObjectList<Account> &list, TextFile &file);
+ReadAccounts(BObjectList<Account>& list, TextFile& file);
 
 BString
-DateToQIFDate(const time_t &date);
+DateToQIFDate(const time_t& date);
 BString
-MakeCategoryString(const DStringList &list, const bool &isexpense);
+MakeCategoryString(const DStringList& list, const bool& isexpense);
 
 bool
-ImportQIF(const entry_ref &ref) {
+ImportQIF(const entry_ref& ref)
+{
 	TextFile file(ref, B_READ_ONLY);
 
 	STRACE(("Importing QIF file\n"));
@@ -60,7 +61,7 @@ ImportQIF(const entry_ref &ref) {
 	BString string = file.ReadLine();
 
 	while (!file.IsEOF()) {
-		Account *currentaccount;
+		Account* currentaccount;
 		BString accountname;
 
 		if (string.CountChars() < 1)
@@ -70,7 +71,8 @@ ImportQIF(const entry_ref &ref) {
 
 		if (string.FindFirst("!Type:Cat") != B_ERROR) {
 			string = ReadCategories(catlist, file);
-		} else if (string.FindFirst("!Type:Bank") != B_ERROR) {
+		}
+		else if (string.FindFirst("!Type:Bank") != B_ERROR) {
 			STRACE(("Bank Account\n"));
 			accountindex++;
 			accountname = "Bank Account ";
@@ -78,14 +80,16 @@ ImportQIF(const entry_ref &ref) {
 
 			currentaccount = gDatabase.AddAccount(accountname.String(), ACCOUNT_BANK, "open");
 			string = ReadTransactions(currentaccount, file);
-		} else if (string.FindFirst("!Type:Cash") != B_ERROR) {
+		}
+		else if (string.FindFirst("!Type:Cash") != B_ERROR) {
 			accountindex++;
 			accountname = "Cash Account ";
 			accountname << accountindex;
 
 			currentaccount = gDatabase.AddAccount(accountname.String(), ACCOUNT_CASH, "open");
 			string = ReadTransactions(currentaccount, file);
-		} else if (string.FindFirst("!Type:CCard") != B_ERROR) {
+		}
+		else if (string.FindFirst("!Type:CCard") != B_ERROR) {
 			accountindex++;
 			accountname = "Credit Card Account ";
 			accountname << accountindex;
@@ -122,12 +126,13 @@ ImportQIF(const entry_ref &ref) {
 }
 
 BString
-ReadCategories(BObjectList<Category> &list, TextFile &file) {
+ReadCategories(BObjectList<Category>& list, TextFile& file)
+{
 	STRACE(("Importing category list\n"));
 	BString catdata = file.ReadLine();
 	catdata.RemoveAll("\r");
 
-	Category *cat = new Category();
+	Category* cat = new Category();
 	while (catdata.ByteAt(0) != '!' && !file.IsEOF()) {
 		/*		switch(catdata.ByteAt(0))
 				{
@@ -172,7 +177,8 @@ ReadCategories(BObjectList<Category> &list, TextFile &file) {
 }
 
 BString
-ReadAccounts(BObjectList<Account> &list, TextFile &file) {
+ReadAccounts(BObjectList<Account>& list, TextFile& file)
+{
 	STRACE(("Importing accounts\n"));
 	BString accdata = file.ReadLine();
 
@@ -189,7 +195,7 @@ ReadAccounts(BObjectList<Account> &list, TextFile &file) {
 			if (accname.CountChars() < 1)
 				break;
 
-			Account *acc = gDatabase.AddAccount(accname.String(), ACCOUNT_BANK);
+			Account* acc = gDatabase.AddAccount(accname.String(), ACCOUNT_BANK);
 			list.AddItem(acc);
 			accname = "";
 			break;
@@ -204,7 +210,8 @@ ReadAccounts(BObjectList<Account> &list, TextFile &file) {
 }
 
 BString
-ReadTransactions(Account *account, TextFile &file) {
+ReadTransactions(Account* account, TextFile& file)
+{
 	gDatabase.SetNotify(false);
 	gDatabase.DBCommand("BEGIN EXCLUSIVE", "Import:Turn off autocommit");
 	STRACE(("Importing bank transactions to %s\n", account ? account->Name() : "<unnamed>"));
@@ -332,7 +339,8 @@ ReadTransactions(Account *account, TextFile &file) {
 }
 
 bool
-ExportQIF(const entry_ref &ref) {
+ExportQIF(const entry_ref& ref)
+{
 	BFile file(&ref, B_CREATE_FILE | B_READ_WRITE | B_FAIL_IF_EXISTS);
 	if (file.InitCheck() != B_OK)
 		return false;
@@ -368,7 +376,7 @@ ExportQIF(const entry_ref &ref) {
 	// Export account list
 	text << "!Account\n";
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *account = gDatabase.AccountAt(i);
+		Account* account = gDatabase.AccountAt(i);
 		text << "N" << account->Name() << "\nBank\n^\n";
 	}
 
@@ -378,7 +386,7 @@ ExportQIF(const entry_ref &ref) {
 	// Export accounts
 	text << "!Account\n";
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *account = gDatabase.AccountAt(i);
+		Account* account = gDatabase.AccountAt(i);
 		text << "N" << account->Name() << "\nTBank\n^\n!Type:Bank\n";
 
 		command = "select * from account_";
@@ -418,8 +426,9 @@ ExportQIF(const entry_ref &ref) {
 }
 
 BString
-DateToQIFDate(const time_t &date) {
-	struct tm *timestruct;
+DateToQIFDate(const time_t& date)
+{
+	struct tm* timestruct;
 
 	timestruct = localtime(&date);
 
@@ -428,7 +437,8 @@ DateToQIFDate(const time_t &date) {
 		if (timestruct->tm_year < 100) {
 			qifdate << (timestruct->tm_mon + 1) << "/" << timestruct->tm_mday << "/"
 					<< timestruct->tm_year;
-		} else {
+		}
+		else {
 			qifdate << (timestruct->tm_mon + 1) << "/";
 
 			if (timestruct->tm_mday < 10)
@@ -445,12 +455,13 @@ DateToQIFDate(const time_t &date) {
 }
 
 BString
-MakeCategoryString(const DStringList &list, const bool &isexpense) {
+MakeCategoryString(const DStringList& list, const bool& isexpense)
+{
 	BString text;
 	CppSQLite3Query query;
 
 	for (int32 i = 0; i < list.CountItems(); i++) {
-		BString *category = list.ItemAt(i);
+		BString* category = list.ItemAt(i);
 		BString unescaped(DeescapeIllegalCharacters(category->String()));
 		text << "N" << unescaped << "\nD" << unescaped << "\n" << (isexpense ? "E" : "I") << "\n";
 

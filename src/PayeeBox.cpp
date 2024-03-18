@@ -10,11 +10,11 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "PayeeBox"
 
-
-PayeeBoxFilter::PayeeBoxFilter(PayeeBox *box) : AutoTextControlFilter(box) {}
+PayeeBoxFilter::PayeeBoxFilter(PayeeBox* box) : AutoTextControlFilter(box) {}
 
 filter_result
-PayeeBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
+PayeeBoxFilter::KeyFilter(const int32& key, const int32& mod)
+{
 	// Here is where all the *real* work for a date box is done.
 	if (key == B_TAB) {
 		if (mod & B_SHIFT_KEY)
@@ -38,7 +38,7 @@ PayeeBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 					 !(mod & B_CONTROL_KEY)))
 		return B_DISPATCH_MESSAGE;
 
-	Account *acc = gDatabase.CurrentAccount();
+	Account* acc = gDatabase.CurrentAccount();
 	if (!acc)
 		return B_DISPATCH_MESSAGE;
 
@@ -66,15 +66,17 @@ PayeeBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 }
 
 PayeeBox::PayeeBox(
-	const char *name, const char *label, const char *text, BMessage *msg, uint32 flags
+	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags
 )
-	: AutoTextControl(name, label, text, msg, flags) {
+	: AutoTextControl(name, label, text, msg, flags)
+{
 	SetFilter(new PayeeBoxFilter(this));
 	SetCharacterLimit(32);
 }
 
 bool
-PayeeBox::Validate(const bool &showalert) {
+PayeeBox::Validate(const bool& showalert)
+{
 	if (showalert && (Text() == NULL || strlen(Text()) < 1)) {
 		ShowAlert(B_TRANSLATE("Payee is missing."), B_TRANSLATE("You need to enter a payee."));
 		MakeFocus(true);

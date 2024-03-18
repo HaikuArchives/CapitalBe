@@ -29,17 +29,18 @@ enum {
 	M_TOGGLE_PREFIX
 };
 
-PrefWindow::PrefWindow(const BRect &frame)
+PrefWindow::PrefWindow(const BRect& frame)
 	: BWindow(
 		  frame, B_TRANSLATE("Options"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
-	  ) {
+	  )
+{
 	BString temp;
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddCommonFilter(new EscapeCancelFilter());
 
-	BView *back = new BView(NULL, B_WILL_DRAW);
+	BView* back = new BView(NULL, B_WILL_DRAW);
 	back->SetViewColor(240, 240, 240);
 
 	temp = B_TRANSLATE("Default account settings:");
@@ -72,7 +73,8 @@ PrefWindow::PrefWindow(const BRect &frame)
 }
 
 void
-PrefWindow::MessageReceived(BMessage *msg) {
+PrefWindow::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_EDIT_OPTIONS: {
 		Locale temp = gDefaultLocale;
@@ -93,8 +95,9 @@ PrefWindow::MessageReceived(BMessage *msg) {
 	}
 }
 
-DatePrefView::DatePrefView(const char *name, Locale *locale, const int32 &flags)
-	: BView(name, flags) {
+DatePrefView::DatePrefView(const char* name, Locale* locale, const int32& flags)
+	: BView(name, flags)
+{
 	BString temp;
 	SetViewColor(240, 240, 240);
 
@@ -103,7 +106,7 @@ DatePrefView::DatePrefView(const char *name, Locale *locale, const int32 &flags)
 	else
 		fLocale = gDefaultLocale;
 
-	BBox *fDateBox = new BBox("DateBox");
+	BBox* fDateBox = new BBox("DateBox");
 	fDateBox->SetLabel(B_TRANSLATE("Date"));
 
 	BString datestr;
@@ -143,14 +146,16 @@ DatePrefView::DatePrefView(const char *name, Locale *locale, const int32 &flags)
 }
 
 void
-DatePrefView::AttachedToWindow(void) {
+DatePrefView::AttachedToWindow(void)
+{
 	fDateMDY->SetTarget(this);
 	fDateDMY->SetTarget(this);
 	fDateSeparatorBox->SetTarget(this);
 }
 
 void
-DatePrefView::MessageReceived(BMessage *msg) {
+DatePrefView::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_DMY_FORMAT: {
 		fLocale.SetDateFormat(DATE_DMY);
@@ -177,7 +182,8 @@ DatePrefView::MessageReceived(BMessage *msg) {
 }
 
 void
-DatePrefView::UpdateDateLabel(void) {
+DatePrefView::UpdateDateLabel(void)
+{
 	BString temp, label;
 	fLocale.DateToString(0, temp);
 	label.SetToFormat(B_TRANSLATE("Date format: %s"), temp);
@@ -185,14 +191,16 @@ DatePrefView::UpdateDateLabel(void) {
 }
 
 void
-DatePrefView::GetSettings(Locale &locale) {
+DatePrefView::GetSettings(Locale& locale)
+{
 	if (strlen(fDateSeparatorBox->Text()) > 0)
 		locale.SetDateSeparator(fDateSeparatorBox->Text());
 	locale.SetDateFormat((fDateDMY->Value() == B_CONTROL_ON) ? DATE_DMY : DATE_MDY);
 }
 
-CurrencyPrefView::CurrencyPrefView(const char *name, Locale *locale, const int32 &flags)
-	: BView(name, flags), fSampleAmount((long)12345678, true) {
+CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32& flags)
+	: BView(name, flags), fSampleAmount((long)12345678, true)
+{
 	BString temp;
 	SetViewColor(240, 240, 240);
 
@@ -201,7 +209,7 @@ CurrencyPrefView::CurrencyPrefView(const char *name, Locale *locale, const int32
 	else
 		fLocale = gDefaultLocale;
 
-	BBox *fCurrencyBox = new BBox("CurrencyBox");
+	BBox* fCurrencyBox = new BBox("CurrencyBox");
 	fCurrencyBox->SetLabel(B_TRANSLATE("Currency"));
 
 	BString curstr;
@@ -254,7 +262,8 @@ CurrencyPrefView::CurrencyPrefView(const char *name, Locale *locale, const int32
 }
 
 void
-CurrencyPrefView::AttachedToWindow(void) {
+CurrencyPrefView::AttachedToWindow(void)
+{
 	fCurrencySymbolBox->SetTarget(this);
 	fCurrencyDecimalBox->SetTarget(this);
 	fCurrencySeparatorBox->SetTarget(this);
@@ -262,7 +271,8 @@ CurrencyPrefView::AttachedToWindow(void) {
 }
 
 void
-CurrencyPrefView::MessageReceived(BMessage *msg) {
+CurrencyPrefView::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_NEW_CURRENCY_SYMBOL: {
 		if (strlen(fCurrencySymbolBox->Text()) < 1)
@@ -300,7 +310,8 @@ CurrencyPrefView::MessageReceived(BMessage *msg) {
 }
 
 void
-CurrencyPrefView::UpdateCurrencyLabel(void) {
+CurrencyPrefView::UpdateCurrencyLabel(void)
+{
 	BString temp, label;
 	fLocale.CurrencyToString(fSampleAmount, temp);
 	label.SetToFormat(B_TRANSLATE("Currency format: %s"), temp);
@@ -308,7 +319,8 @@ CurrencyPrefView::UpdateCurrencyLabel(void) {
 }
 
 void
-CurrencyPrefView::GetSettings(Locale &locale) {
+CurrencyPrefView::GetSettings(Locale& locale)
+{
 	if (strlen(fCurrencySeparatorBox->Text()) > 0)
 		locale.SetCurrencySeparator(fCurrencySeparatorBox->Text());
 	if (strlen(fCurrencyDecimalBox->Text()) > 0)

@@ -10,11 +10,12 @@
 
 #define M_TOGGLE_SPLIT 'tspl'
 
-TransactionEditWindow::TransactionEditWindow(const BRect &frame, const TransactionData &trans)
+TransactionEditWindow::TransactionEditWindow(const BRect& frame, const TransactionData& trans)
 	: BWindow(
-		  frame, B_TRANSLATE("Edit transaction"), B_DOCUMENT_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL,
-		  B_AUTO_UPDATE_SIZE_LIMITS
-	  ) {
+		  frame, B_TRANSLATE("Edit transaction"), B_DOCUMENT_WINDOW_LOOK,
+		  B_FLOATING_APP_WINDOW_FEEL, B_AUTO_UPDATE_SIZE_LIMITS
+	  )
+{
 	fSplitView = new SplitView("splitview", trans, B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(fSplitView).End();
 
@@ -28,7 +29,8 @@ TransactionEditWindow::TransactionEditWindow(const BRect &frame, const Transacti
 }
 
 void
-TransactionEditWindow::MessageReceived(BMessage *msg) {
+TransactionEditWindow::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_TOGGLE_SPLIT: {
 		fSplitView->ToggleSplit();

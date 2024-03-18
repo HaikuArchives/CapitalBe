@@ -16,9 +16,9 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "TransactionReport"
 
-
 void
-ReportWindow::ComputeTransactions(void) {
+ReportWindow::ComputeTransactions(void)
+{
 	// Total of all accounts
 	// Calculate the number of columns and the starting date for each one
 	BObjectList<time_t> timelist(20, true);
@@ -26,9 +26,10 @@ ReportWindow::ComputeTransactions(void) {
 	if (fSubtotalMode == SUBTOTAL_NONE) {
 		timelist.AddItem(new time_t(fStartDate));
 		timelist.AddItem(new time_t(fEndDate));
-	} else {
+	}
+	else {
 		for (time_t t = fStartDate; t < fEndDate;) {
-			time_t *item = new time_t(t);
+			time_t* item = new time_t(t);
 			timelist.AddItem(item);
 
 			switch (fSubtotalMode) {
@@ -56,7 +57,7 @@ ReportWindow::ComputeTransactions(void) {
 	BString longestname(B_TRANSLATE("Transactions"));
 	//	int longestnamelength = 12;
 
-	BColumn *col = new BStringColumn(
+	BColumn* col = new BStringColumn(
 		"", fGridView->StringWidth(B_TRANSLATE("Transactions")) + 20, 10, 300, B_TRUNCATE_END,
 		B_ALIGN_RIGHT
 	);
@@ -66,7 +67,8 @@ ReportWindow::ComputeTransactions(void) {
 	);
 	fGridView->AddColumn(col, 1);
 	col = new BStringColumn(
-		B_TRANSLATE("Type"), fGridView->StringWidth(B_TRANSLATE("Type")) + 20, 10, 300, B_TRUNCATE_END
+		B_TRANSLATE("Type"), fGridView->StringWidth(B_TRANSLATE("Type")) + 20, 10, 300,
+		B_TRUNCATE_END
 	);
 	fGridView->AddColumn(col, 2);
 	col = new BStringColumn(B_TRANSLATE("Payee"), 75, 10, 300, B_TRUNCATE_END);
@@ -85,7 +87,7 @@ ReportWindow::ComputeTransactions(void) {
 	fGridView->AddColumn(col, 6);
 
 	fGridView->AddRow(new BRow());
-	BRow *titlerow = new BRow();
+	BRow* titlerow = new BRow();
 	fGridView->AddRow(titlerow);
 	titlerow->SetField(new BStringField(B_TRANSLATE("Transactions")), 0);
 	fGridView->AddRow(new BRow());
@@ -99,10 +101,10 @@ ReportWindow::ComputeTransactions(void) {
 
 	int32 count = timelist.CountItems() - 1;
 	for (int32 subtotal_index = 0; subtotal_index < count; subtotal_index++) {
-		time_t subtotal_start = *((time_t *)timelist.ItemAt(subtotal_index));
-		time_t subtotal_end = *((time_t *)timelist.ItemAt(subtotal_index + 1));
+		time_t subtotal_start = *((time_t*)timelist.ItemAt(subtotal_index));
+		time_t subtotal_end = *((time_t*)timelist.ItemAt(subtotal_index + 1));
 
-		BRow *row = new BRow();
+		BRow* row = new BRow();
 		fGridView->AddRow(row);
 
 		BString datestring, tempstr;
@@ -120,7 +122,7 @@ ReportWindow::ComputeTransactions(void) {
 
 		int32 accountcount = 0;
 		for (int32 i = 0; i < fAccountList->CountItems(); i++) {
-			AccountItem *item = (AccountItem *)fAccountList->ItemAt(i);
+			AccountItem* item = (AccountItem*)fAccountList->ItemAt(i);
 			if (!item || !item->IsSelected())
 				continue;
 
@@ -144,7 +146,8 @@ ReportWindow::ComputeTransactions(void) {
 			fGridView->ColumnAt(0)->SetWidth(
 				fGridView->StringWidth(B_TRANSLATE("No transactions")) + 15
 			);
-		} else
+		}
+		else
 			while (!query.eof()) {
 				row = new BRow();
 				fGridView->AddRow(row);

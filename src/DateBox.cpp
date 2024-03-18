@@ -10,14 +10,14 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "DateBox"
 
-
-DateBoxFilter::DateBoxFilter(DateBox *box) : AutoTextControlFilter(box) {}
+DateBoxFilter::DateBoxFilter(DateBox* box) : AutoTextControlFilter(box) {}
 
 filter_result
-DateBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
+DateBoxFilter::KeyFilter(const int32& key, const int32& mod)
+{
 	// Here is where all the *real* work for a date box is done.
 	if (key == B_TAB) {
-		if (!((DateBox *)TextControl())->IsTabFiltering())
+		if (!((DateBox*)TextControl())->IsTabFiltering())
 			return B_DISPATCH_MESSAGE;
 
 		if (mod & B_SHIFT_KEY)
@@ -42,7 +42,7 @@ DateBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 		return B_DISPATCH_MESSAGE;
 
 	int32 start, end;
-	DateBox *box = (DateBox *)TextControl();
+	DateBox* box = (DateBox*)TextControl();
 	box->TextView()->GetSelection(&start, &end);
 
 	BString keystring;
@@ -58,7 +58,8 @@ DateBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 		box->TextView()->SelectAll();
 		TextControl()->Invoke();
 		return B_SKIP_MESSAGE;
-	} else if (keystring == "-") {
+	}
+	else if (keystring == "-") {
 		if (strlen(box->Text()) > 0)
 			box->fCurrentDate = DecrementDateByDay(box->fCurrentDate);
 		gDefaultLocale.DateToString(box->fCurrentDate, string);
@@ -66,7 +67,8 @@ DateBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 		box->TextView()->SelectAll();
 		TextControl()->Invoke();
 		return B_SKIP_MESSAGE;
-	} else if (key == B_PAGE_UP) {
+	}
+	else if (key == B_PAGE_UP) {
 		if (strlen(box->Text()) > 0) {
 			if (mod & B_SHIFT_KEY)
 				box->fCurrentDate = IncrementDateByYear(box->fCurrentDate);
@@ -78,7 +80,8 @@ DateBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 		box->TextView()->SelectAll();
 		TextControl()->Invoke();
 		return B_SKIP_MESSAGE;
-	} else if (key == B_PAGE_DOWN) {
+	}
+	else if (key == B_PAGE_DOWN) {
 		if (strlen(box->Text()) > 0) {
 			if (mod & B_SHIFT_KEY)
 				box->fCurrentDate = DecrementDateByYear(box->fCurrentDate);
@@ -95,8 +98,9 @@ DateBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 	return B_DISPATCH_MESSAGE;
 }
 
-DateBox::DateBox(const char *name, const char *label, const char *text, BMessage *msg, uint32 flags)
-	: AutoTextControl(name, label, text, msg, flags), fFilterTab(true) {
+DateBox::DateBox(const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
+	: AutoTextControl(name, label, text, msg, flags), fFilterTab(true)
+{
 	SetFilter(new DateBoxFilter(this));
 	fCurrentDate = GetCurrentDate();
 
@@ -114,25 +118,28 @@ DateBox::DateBox(const char *name, const char *label, const char *text, BMessage
 }
 
 bool
-DateBox::Validate(const bool &alert) {
+DateBox::Validate(const bool& alert)
+{
 	BString date;
 	time_t tdate;
 	if (strlen(Text()) < 1) {
 		BString date;
 		gDefaultLocale.DateToString(fCurrentDate, date);
 		SetText(date.String());
-	} else if (gDefaultLocale.StringToDate(Text(), tdate) != B_OK) {
+	}
+	else if (gDefaultLocale.StringToDate(Text(), tdate) != B_OK) {
 		if (alert) {
 			ShowAlert(
 				B_TRANSLATE("CapitalBe didn't understand the date you entered."),
 				B_TRANSLATE("CapitalBe understands lots of different ways of entering dates. "
-						  "Apparently, this wasn't one of them. You'll need to change how you "
-						  "entered this date. Sorry.")
+							"Apparently, this wasn't one of them. You'll need to change how you "
+							"entered this date. Sorry.")
 			);
 			MakeFocus(true);
 		}
 		return false;
-	} else {
+	}
+	else {
 		fCurrentDate = tdate;
 		gDefaultLocale.DateToString(fCurrentDate, date);
 		SetText(date.String());

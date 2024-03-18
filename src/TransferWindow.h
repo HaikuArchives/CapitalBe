@@ -20,20 +20,20 @@ class CurrencyBox;
 
 class TransferWindow : public BWindow {
   public:
-	TransferWindow(BHandler *target);
-	TransferWindow(BHandler *target, Account *src, Account *dest, const Fixed &amount);
-	void MessageReceived(BMessage *msg);
+	TransferWindow(BHandler* target);
+	TransferWindow(BHandler* target, Account* src, Account* dest, const Fixed& amount);
+	void MessageReceived(BMessage* msg);
 	void SetMessage(BMessage msg);
 
   private:
 	friend class TransferFilter;
 
-	void InitObject(Account *src, Account *dest, const Fixed &amount);
+	void InitObject(Account* src, Account* dest, const Fixed& amount);
 	void HandleOKButton(void);
 
-	BTextControl *fMemo;
-	DateBox *fDate;
-	CurrencyBox *fAmount;
+	BTextControl* fMemo;
+	DateBox* fDate;
+	CurrencyBox* fAmount;
 
 	BButton *fCancel, *fOK;
 	BStringView *fFromLabel, *fToLabel;

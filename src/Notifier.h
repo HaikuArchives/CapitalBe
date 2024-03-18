@@ -23,27 +23,28 @@
 #define WATCH_ALL 0xFFFFFFFFFFFFFFFFLL
 
 void
-PrintNotification(const uint64 &value, const BMessage *msg);
+PrintNotification(const uint64& value, const BMessage* msg);
 
 class Observer {
   public:
-	Observer(const uint64 &flags = WATCH_ALL) {
+	Observer(const uint64& flags = WATCH_ALL)
+	{
 		AddWatch(flags);
 		fEnabled = true;
 	}
 
 	virtual ~Observer(void) {}
 
-	void AddWatch(const uint64 &flags) { fFlags |= flags; }
+	void AddWatch(const uint64& flags) { fFlags |= flags; }
 
-	void RemoveWatch(const uint64 &flags) { fFlags &= ~flags; }
+	void RemoveWatch(const uint64& flags) { fFlags &= ~flags; }
 
-	bool IsWatching(const uint64 &flags) { return fFlags & flags; }
+	bool IsWatching(const uint64& flags) { return fFlags & flags; }
 
 	// Implement this to do whatever you want it to.
-	virtual void HandleNotify(const uint64 &value, const BMessage *msg) {}
+	virtual void HandleNotify(const uint64& value, const BMessage* msg) {}
 
-	virtual void SetObserving(const bool &value) { fEnabled = value; }
+	virtual void SetObserving(const bool& value) { fEnabled = value; }
 
 	bool IsObserving(void) const { return fEnabled; }
 
@@ -60,18 +61,19 @@ class Notifier {
 
 	// If these methods are subclassed, please make sure that these versions
 	// are also called.
-	virtual void AddObserver(Observer *obs) { fObserverList.AddItem(obs); }
+	virtual void AddObserver(Observer* obs) { fObserverList.AddItem(obs); }
 
-	virtual void RemoveObserver(Observer *obs) { fObserverList.RemoveItem(obs); }
+	virtual void RemoveObserver(Observer* obs) { fObserverList.RemoveItem(obs); }
 
-	bool HasObserver(Observer *obs) { return fObserverList.HasItem(obs); }
+	bool HasObserver(Observer* obs) { return fObserverList.HasItem(obs); }
 
-	virtual void Notify(const uint64 &value, const BMessage *msg = NULL) {
+	virtual void Notify(const uint64& value, const BMessage* msg = NULL)
+	{
 		if (!fEnabled)
 			return;
 
 		for (int32 i = 0; i < fObserverList.CountItems(); i++) {
-			Observer *obs = (Observer *)fObserverList.ItemAt(i);
+			Observer* obs = (Observer*)fObserverList.ItemAt(i);
 
 			if (!obs)
 				continue;
@@ -81,7 +83,7 @@ class Notifier {
 		}
 	}
 
-	void SetNotify(const bool &value) { fEnabled = value; }
+	void SetNotify(const bool& value) { fEnabled = value; }
 
 	bool IsNotifying(void) const { return fEnabled; }
 

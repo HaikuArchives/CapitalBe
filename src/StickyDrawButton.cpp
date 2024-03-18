@@ -1,13 +1,16 @@
 #include "StickyDrawButton.h"
 
 StickyDrawButton::StickyDrawButton(
-	BRect frame, const char *name, BBitmap *up, BBitmap *down, BMessage *msg, const int32 &resize,
-	const int32 &flags
+	BRect frame, const char* name, BBitmap* up, BBitmap* down, BMessage* msg, const int32& resize,
+	const int32& flags
 )
 	: BButton(frame, name, "", msg, resize, flags), fUp(up), fDown(down), fDisabledUp(NULL),
-	  fDisabledDown(NULL), fButtonState(B_CONTROL_OFF) {}
+	  fDisabledDown(NULL), fButtonState(B_CONTROL_OFF)
+{
+}
 
-StickyDrawButton::~StickyDrawButton(void) {
+StickyDrawButton::~StickyDrawButton(void)
+{
 	delete fUp;
 	delete fDown;
 	delete fDisabledUp;
@@ -15,7 +18,8 @@ StickyDrawButton::~StickyDrawButton(void) {
 }
 
 void
-StickyDrawButton::ResizeToPreferred(void) {
+StickyDrawButton::ResizeToPreferred(void)
+{
 	if (fUp)
 		ResizeTo(fUp->Bounds().Width(), fUp->Bounds().Height());
 	else if (fDown)
@@ -27,7 +31,8 @@ StickyDrawButton::ResizeToPreferred(void) {
 }
 
 void
-StickyDrawButton::SetBitmaps(BBitmap *up, BBitmap *down) {
+StickyDrawButton::SetBitmaps(BBitmap* up, BBitmap* down)
+{
 	delete fUp;
 	delete fDown;
 
@@ -36,7 +41,8 @@ StickyDrawButton::SetBitmaps(BBitmap *up, BBitmap *down) {
 }
 
 void
-StickyDrawButton::SetDisabled(BBitmap *disabledup, BBitmap *disableddown) {
+StickyDrawButton::SetDisabled(BBitmap* disabledup, BBitmap* disableddown)
+{
 	delete fDisabledUp;
 	delete fDisabledDown;
 
@@ -45,14 +51,16 @@ StickyDrawButton::SetDisabled(BBitmap *disabledup, BBitmap *disableddown) {
 }
 
 void
-StickyDrawButton::MouseUp(BPoint pt) {
+StickyDrawButton::MouseUp(BPoint pt)
+{
 	BButton::MouseUp(pt);
 	fButtonState = (fButtonState == B_CONTROL_ON) ? B_CONTROL_OFF : B_CONTROL_ON;
 	Invalidate();
 }
 
 void
-StickyDrawButton::SetState(int32 value) {
+StickyDrawButton::SetState(int32 value)
+{
 	if (fButtonState != value) {
 		if (value == B_CONTROL_ON)
 			fButtonState = B_CONTROL_OFF;
@@ -63,7 +71,8 @@ StickyDrawButton::SetState(int32 value) {
 }
 
 void
-StickyDrawButton::Draw(BRect update) {
+StickyDrawButton::Draw(BRect update)
+{
 	// if down
 	if (fButtonState == B_CONTROL_ON) {
 		if (!IsEnabled()) {
@@ -72,21 +81,24 @@ StickyDrawButton::Draw(BRect update) {
 			else
 				StrokeRect(Bounds());
 			return;
-		} else {
+		}
+		else {
 			if (fDown)
 				DrawBitmap(fDown, BPoint(0, 0));
 			else
 				StrokeRect(Bounds());
 			return;
 		}
-	} else {
+	}
+	else {
 		if (!IsEnabled()) {
 			if (fDisabledUp)
 				DrawBitmap(fDisabledUp, BPoint(0, 0));
 			else
 				StrokeRect(Bounds());
 			return;
-		} else {
+		}
+		else {
 			if (fUp)
 				DrawBitmap(fUp, BPoint(0, 0));
 			else

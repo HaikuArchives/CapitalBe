@@ -4,7 +4,8 @@
 #include <stdio.h>
 
 void
-PrintNotification(const uint64 &value, const BMessage *msg) {
+PrintNotification(const uint64& value, const BMessage* msg)
+{
 	BString action;
 	if (value & WATCH_CREATE)
 		action << "WATCH_CREATE ";

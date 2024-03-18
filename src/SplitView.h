@@ -39,17 +39,17 @@ class HelpButton;
 
 class SplitView : public BView, public Observer {
   public:
-	SplitView(const char *name, const TransactionData &trans, const int32 &flags);
+	SplitView(const char* name, const TransactionData& trans, const int32& flags);
 	~SplitView(void);
 	void AttachedToWindow(void);
 	void DetachedFromWindow(void);
-	void MessageReceived(BMessage *msg);
+	void MessageReceived(BMessage* msg);
 	void SetFields(
-		const char *date, const char *type, const char *payee, const char *amount,
-		const char *category, const char *memo
+		const char* date, const char* type, const char* payee, const char* amount,
+		const char* category, const char* memo
 	);
 
-	void HandleNotify(const uint64 &value, const BMessage *msg);
+	void HandleNotify(const uint64& value, const BMessage* msg);
 	void MakeEmpty(void);
 	void MakeFocus(bool value = true);
 	void FrameResized(float width, float height);
@@ -67,28 +67,28 @@ class SplitView : public BView, public Observer {
 	//	bool ValidateCategoryField(void);
 	bool ValidateSplitItems(void);
 	Fixed CalculateTotal(void);
-	Category *MakeCategory(void);
+	Category* MakeCategory(void);
 
 	//	BTextControl *fType,*fPayee,*fAmount,*fCategory,*fMemo;
-	DateBox *fDate;
-	CheckNumBox *fType;
-	PayeeBox *fPayee;
-	CurrencyBox *fAmount;
-	CategoryBox *fCategory;
-	NavTextBox *fMemo;
+	DateBox* fDate;
+	CheckNumBox* fType;
+	PayeeBox* fPayee;
+	CurrencyBox* fAmount;
+	CategoryBox* fCategory;
+	NavTextBox* fMemo;
 	BStringView *fDateLabel, *fTypeLabel, *fPayeeLabel, *fAmountLabel, *fCategoryLabel, *fMemoLabel;
-	SplitViewFilter *fKeyFilter;
-	BMessenger *fMessenger;
+	SplitViewFilter* fKeyFilter;
+	BMessenger* fMessenger;
 	BButton *fEnter, *fTransfer, *fSplit;
 
-	BView *fSplitContainer;
+	BView* fSplitContainer;
 	BTextControl *fSplitCategory, *fSplitAmount, *fSplitMemo;
-	BListView *fSplitItems;
-	BScrollView *fSplitScroller;
+	BListView* fSplitItems;
+	BScrollView* fSplitScroller;
 	BButton *fAddSplit, *fRemoveSplit;
-	BStringView *fSplitTotal;
-	BCheckBox *fReconciled;
-	HelpButton *fHelpButton;
+	BStringView* fSplitTotal;
+	BCheckBox* fReconciled;
+	HelpButton* fHelpButton;
 
 	time_t fCurrentDate;
 	bool fStartExpanded;

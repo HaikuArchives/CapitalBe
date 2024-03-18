@@ -12,14 +12,15 @@
 	to be rewritten or replaced later.
 */
 
-Language::Language(const entry_ref &ref) : fInit(false), fName(ref.name), fFileRef(ref) {}
+Language::Language(const entry_ref& ref) : fInit(false), fName(ref.name), fFileRef(ref) {}
 
 Language::Language(void) : fInit(false) {}
 
 Language::~Language(void) {}
 
 void
-Language::Initialize(void) {
+Language::Initialize(void)
+{
 	// Here we load the dictionary file for the app
 
 	fInit = true;
@@ -54,10 +55,12 @@ Language::Initialize(void) {
 				if (line[i] == '#' || line[i] == ';') {
 					nextline = true;
 					break;
-				} else {
+				}
+				else {
 					key += line[i];
 				}
-			} else {
+			}
+			else {
 				key += line[i];
 			}
 		}
@@ -78,7 +81,8 @@ Language::Initialize(void) {
 }
 
 BString
-Language::Translate(const char *instring) {
+Language::Translate(const char* instring)
+{
 	if (!instring)
 		return NULL;
 
@@ -97,7 +101,7 @@ Language::Translate(const char *instring) {
 	return BString(instring);
 }
 
-LanguageLogger::LanguageLogger(const entry_ref &ref)
+LanguageLogger::LanguageLogger(const entry_ref& ref)
 	: Language(ref), fFile(&ref, B_CREATE_FILE | B_ERASE_FILE | B_READ_WRITE)
 
 {
@@ -107,10 +111,13 @@ LanguageLogger::LanguageLogger(const entry_ref &ref)
 LanguageLogger::~LanguageLogger(void) { fFile.Unset(); }
 
 void
-LanguageLogger::Initialize(void) {}
+LanguageLogger::Initialize(void)
+{
+}
 
 BString
-LanguageLogger::Translate(const char *instring) {
+LanguageLogger::Translate(const char* instring)
+{
 	if (!instring)
 		return BString();
 

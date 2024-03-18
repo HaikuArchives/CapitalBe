@@ -56,47 +56,47 @@ enum button_spacing { B_EVEN_SPACING = 0, B_OFFSET_SPACING };
 class DAlert : public BWindow {
   public:
 	DAlert(
-		const char *title, const char *text, const char *button1, const char *button2 = NULL,
-		const char *button3 = NULL, button_width width = B_WIDTH_AS_USUAL,
+		const char* title, const char* text, const char* button1, const char* button2 = NULL,
+		const char* button3 = NULL, button_width width = B_WIDTH_AS_USUAL,
 		alert_type type = B_INFO_ALERT
 	);
 	DAlert(
-		const char *title, const char *text, const char *button1, const char *button2,
-		const char *button3, button_width width, button_spacing spacing,
+		const char* title, const char* text, const char* button1, const char* button2,
+		const char* button3, button_width width, button_spacing spacing,
 		alert_type type = B_INFO_ALERT
 	);
 	virtual ~DAlert();
 
 	// Archiving
-	DAlert(BMessage *data);
-	static BArchivable *Instantiate(BMessage *data);
-	virtual status_t Archive(BMessage *data, bool deep = true) const;
+	DAlert(BMessage* data);
+	static BArchivable* Instantiate(BMessage* data);
+	virtual status_t Archive(BMessage* data, bool deep = true) const;
 
 	// DAlert guts
 	void SetShortcut(int32 button_index, char key);
 	char Shortcut(int32 button_index) const;
 
 	int32 Go();
-	status_t Go(BInvoker *invoker);
+	status_t Go(BInvoker* invoker);
 
-	virtual void MessageReceived(BMessage *an_event);
+	virtual void MessageReceived(BMessage* an_event);
 	virtual void FrameResized(float new_width, float new_height);
-	BButton *ButtonAt(int32 index) const;
-	BTextView *TextView() const;
+	BButton* ButtonAt(int32 index) const;
+	BTextView* TextView() const;
 
-	virtual BHandler *ResolveSpecifier(
-		BMessage *msg, int32 index, BMessage *specifier, int32 form, const char *property
+	virtual BHandler* ResolveSpecifier(
+		BMessage* msg, int32 index, BMessage* specifier, int32 form, const char* property
 	);
-	virtual status_t GetSupportedSuites(BMessage *data);
+	virtual status_t GetSupportedSuites(BMessage* data);
 
-	virtual void DispatchMessage(BMessage *msg, BHandler *handler);
+	virtual void DispatchMessage(BMessage* msg, BHandler* handler);
 	virtual void Quit();
 	virtual bool QuitRequested();
 
 	static BPoint AlertPosition(float width, float height);
 
 	// Private or reserved ---------------------------------------------------------
-	virtual status_t Perform(perform_code d, void *arg);
+	virtual status_t Perform(perform_code d, void* arg);
 
   private:
 	friend class _DAlertFilter_;
@@ -106,20 +106,20 @@ class DAlert : public BWindow {
 	virtual void _ReservedAlert3();
 
 	void InitObject(
-		const char *text, const char *button1, const char *button2 = NULL,
-		const char *button3 = NULL, button_width width = B_WIDTH_AS_USUAL,
+		const char* text, const char* button1, const char* button2 = NULL,
+		const char* button3 = NULL, button_width width = B_WIDTH_AS_USUAL,
 		button_spacing spacing = B_EVEN_SPACING, alert_type type = B_INFO_ALERT
 	);
-	BBitmap *InitIcon();
+	BBitmap* InitIcon();
 
 	sem_id fAlertSem;
 	int32 fAlertVal;
-	BButton *fButtons[3];
-	BTextView *fTextView;
+	BButton* fButtons[3];
+	BTextView* fTextView;
 	char fKeys[3];
 	alert_type fMsgType;
 	button_width fButtonWidth;
-	BInvoker *fInvoker;
+	BInvoker* fInvoker;
 	uint32 _reserved[4];
 };
 

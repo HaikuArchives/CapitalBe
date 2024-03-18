@@ -17,12 +17,14 @@ Locale::Locale(void) { SetDefaults(); }
 Locale::~Locale(void) {}
 
 bool
-Locale::operator!=(const Locale &other) const {
+Locale::operator!=(const Locale& other) const
+{
 	return !(*this == other);
 }
 
 bool
-Locale::operator==(const Locale &other) const {
+Locale::operator==(const Locale& other) const
+{
 	if (fDateFormat != other.fDateFormat || fCurrencySymbol != other.fCurrencySymbol ||
 		fPrefixSymbol != other.fPrefixSymbol || fCurrencySeparator != other.fCurrencySeparator ||
 		fCurrencyDecimal != other.fCurrencyDecimal || fDateSeparator != other.fDateSeparator ||
@@ -32,7 +34,8 @@ Locale::operator==(const Locale &other) const {
 }
 
 void
-Locale::Flatten(BFile *file) {
+Locale::Flatten(BFile* file)
+{
 	BString str("\t<Locale>\n");
 
 	if (fDateFormat == DATE_MDY)
@@ -55,7 +58,8 @@ Locale::Flatten(BFile *file) {
 }
 
 status_t
-Locale::CurrencyToString(const Fixed &amount, BString &string) {
+Locale::CurrencyToString(const Fixed& amount, BString& string)
+{
 	string = "";
 
 	BString dollars;
@@ -87,7 +91,8 @@ Locale::CurrencyToString(const Fixed &amount, BString &string) {
 }
 
 status_t
-Locale::StringToCurrency(const char *string, Fixed &amount) {
+Locale::StringToCurrency(const char* string, Fixed& amount)
+{
 	// This is going to be a royal pain. We have to deal with separators (or lack
 	// thereof) and the mere possibility of a cents separator. Yuck.
 
@@ -103,7 +108,8 @@ Locale::StringToCurrency(const char *string, Fixed &amount) {
 	if (index < 0) {
 		// We're working with whole dollars here. :)
 		cents = "00";
-	} else {
+	}
+	else {
 		cents = dollars.String() + index + 1;
 		dollars.Truncate(index);
 		if (dollars == "-0")
@@ -120,7 +126,8 @@ Locale::StringToCurrency(const char *string, Fixed &amount) {
 }
 
 status_t
-Locale::PremultipliedStringToCurrency(const char *string, Fixed &amount) {
+Locale::PremultipliedStringToCurrency(const char* string, Fixed& amount)
+{
 	// This function is an optimized version of StringToCurrency which expects
 	// the input string to represent the premultiplied version of a Fixed value.
 	// As a result, everything which is not a number is stripped out, converted
@@ -141,9 +148,10 @@ Locale::PremultipliedStringToCurrency(const char *string, Fixed &amount) {
 }
 
 status_t
-Locale::DateToString(time_t date, BString &string) {
+Locale::DateToString(time_t date, BString& string)
+{
 	char buffer[10];
-	struct tm *timestruct = localtime(&date);
+	struct tm* timestruct = localtime(&date);
 	BString datestr;
 
 	if (fDateFormat == DATE_MDY)
@@ -168,7 +176,8 @@ Locale::DateToString(time_t date, BString &string) {
 }
 
 status_t
-Locale::ConstructDateStringDMY(const char *in, BString &out) {
+Locale::ConstructDateStringDMY(const char* in, BString& out)
+{
 	// This constructs a proper date string given a list of numbers
 	if (!in)
 		return B_ERROR;
@@ -211,13 +220,15 @@ Locale::ConstructDateStringDMY(const char *in, BString &out) {
 					ddm = false;
 				else
 					ddm = true;
-			} else if (num2 > 1)
+			}
+			else if (num2 > 1)
 				ddm = true;
 			else if (num2 == 0) {
 				// Although we can't say for sure, it's unlikely that the user entered a leading
 				// zero for the month.
 				ddm = true;
-			} else {
+			}
+			else {
 				// [1-2][0-1]x.
 				charstring[0] = in[2];
 				num = atoi(charstring);
@@ -261,7 +272,8 @@ Locale::ConstructDateStringDMY(const char *in, BString &out) {
 					ddmm = false;
 				else
 					ddmm = true;
-			} else if (num2 == 0)
+			}
+			else if (num2 == 0)
 				ddmm = true;
 			else {
 				// [1-2][1-2]xx
@@ -312,10 +324,12 @@ Locale::ConstructDateStringDMY(const char *in, BString &out) {
 					// we'll go with dmyyyy.
 					if ((in[2] == '1' && in[3] == '9') || (in[2] == '2' && in[3] == '0')) {
 						ddmm = false;
-					} else
+					}
+					else
 						ddmm = true;
 				}
-			} else {
+			}
+			else {
 				// Getting this far, we know that [1-9][1-9]xxxx
 				charstring[0] = in[2];
 				num = atoi(charstring);
@@ -330,7 +344,8 @@ Locale::ConstructDateStringDMY(const char *in, BString &out) {
 							ddmm = false;
 						else
 							ddmm = true;
-					} else {
+					}
+					else {
 						// At this point, we have [1-9][1-9]0xxx. We'll check to see if
 						// digit 3 is 0, but if it happens to be nonzero, it's a little
 						// hard to definitively know which the user meant. Of course, it
@@ -348,7 +363,8 @@ Locale::ConstructDateStringDMY(const char *in, BString &out) {
 		if (ddmm) {
 			out.Insert(fDateSeparator, 2);
 			out.Insert(fDateSeparator, 5);
-		} else {
+		}
+		else {
 			out.Insert(fDateSeparator, 1);
 			out.Insert(fDateSeparator, 3);
 		}
@@ -370,7 +386,8 @@ Locale::ConstructDateStringDMY(const char *in, BString &out) {
 }
 
 status_t
-Locale::ConstructDateStringMDY(const char *in, BString &out) {
+Locale::ConstructDateStringMDY(const char* in, BString& out)
+{
 	// This constructs a proper date string given a list of numbers
 	if (!in)
 		return B_ERROR;
@@ -494,7 +511,8 @@ Locale::ConstructDateStringMDY(const char *in, BString &out) {
 						// choose mmdd
 						mdyy = false;
 					}
-				} else {
+				}
+				else {
 
 					// Getting this far means we can't tell. Date is in format 1[1,2][1,2]x
 					// Example dates: 1124 could be either 1/1/24 or 11/24. Just as above, the user
@@ -507,7 +525,8 @@ Locale::ConstructDateStringMDY(const char *in, BString &out) {
 		if (mdyy) {
 			out.Insert(fDateSeparator, 1);
 			out.Insert(fDateSeparator, 3);
-		} else
+		}
+		else
 			out.Insert(fDateSeparator, 2);
 		break;
 	}
@@ -544,11 +563,13 @@ Locale::ConstructDateStringMDY(const char *in, BString &out) {
 						mmddyy = false;
 					else
 						mmddyy = true;
-				} else if (num == 0) {
+				}
+				else if (num == 0) {
 					// It's *much* less likely that the user will type in a year with a leading
 					// zero, so choose mmddyy
 					mmddyy = true;
-				} else {
+				}
+				else {
 					// 01[1-2]xxx or 11[1-2]xxx. At this point, it's not possible to tell for sure
 					// which it is, but probability points to x119xx or x120xx if it's a year.
 					// Otherwise, we'll assume mmddyy
@@ -559,12 +580,14 @@ Locale::ConstructDateStringMDY(const char *in, BString &out) {
 							mmddyy = false;
 						else
 							mmddyy = true;
-					} else if (num == 2) {
+					}
+					else if (num == 2) {
 						if (num2 == 0)
 							mmddyy = false;
 						else
 							mmddyy = true;
-					} else
+					}
+					else
 						mmddyy = true;
 				}
 			}
@@ -573,7 +596,8 @@ Locale::ConstructDateStringMDY(const char *in, BString &out) {
 		if (mmddyy) {
 			out.Insert(fDateSeparator, 2);
 			out.Insert(fDateSeparator, 5);
-		} else {
+		}
+		else {
 			out.Insert(fDateSeparator, 1);
 			out.Insert(fDateSeparator, 4);
 		}
@@ -597,7 +621,8 @@ Locale::ConstructDateStringMDY(const char *in, BString &out) {
 }
 
 status_t
-Locale::StringToDate(const char *instring, time_t &date) {
+Locale::StringToDate(const char* instring, time_t& date)
+{
 	//	Input recognized for MM/DD/YY:
 	//	1) MM/DD
 	//	2) MM/DD/YYYY
@@ -633,11 +658,13 @@ Locale::StringToDate(const char *instring, time_t &date) {
 			if (daystr.CountChars() != 1 && daystr.CountChars() != 2)
 				return B_ERROR;
 			yearstr = "";
-		} else {
+		}
+		else {
 			daystr.Truncate(index);
 			yearstr = daystr.String() + index + 1;
 		}
-	} else {
+	}
+	else {
 		daystr = string;
 		index = daystr.FindFirst(fDateSeparator);
 		if (index < 0) {
@@ -660,7 +687,8 @@ Locale::StringToDate(const char *instring, time_t &date) {
 			if (monthstr.CountChars() != 1 && monthstr.CountChars() != 2)
 				return B_ERROR;
 			yearstr = "";
-		} else {
+		}
+		else {
 			yearstr = monthstr.String() + index + 1;
 			monthstr.Truncate(index);
 		}
@@ -677,7 +705,8 @@ Locale::StringToDate(const char *instring, time_t &date) {
 			timestruct.tm_year = atoi(yearstr.String());
 			if (timestruct.tm_year < 10)
 				timestruct.tm_year += 100;
-		} else
+		}
+		else
 			timestruct.tm_year = atoi(yearstr.String()) - 1900;
 	}
 	timestruct.tm_sec = 1;
@@ -698,7 +727,8 @@ Locale::StringToDate(const char *instring, time_t &date) {
 }
 
 void
-Locale::NumberToCurrency(const Fixed &number, BString &string) {
+Locale::NumberToCurrency(const Fixed& number, BString& string)
+{
 	string = "";
 	string << number.IntegerPart();
 
@@ -718,7 +748,8 @@ Locale::NumberToCurrency(const Fixed &number, BString &string) {
 }
 
 void
-Locale::SetDefaults(void) {
+Locale::SetDefaults(void)
+{
 	fDateFormat = DATE_MDY;
 	fCurrencySymbol = "$";
 	fPrefixSymbol = true;
@@ -730,13 +761,15 @@ Locale::SetDefaults(void) {
 }
 
 void
-ShowAlert(const char *header, const char *message, alert_type type) {
-	DAlert *alert = new DAlert(header, message, "OK", NULL, NULL, B_WIDTH_AS_USUAL, type);
+ShowAlert(const char* header, const char* message, alert_type type)
+{
+	DAlert* alert = new DAlert(header, message, "OK", NULL, NULL, B_WIDTH_AS_USUAL, type);
 	alert->Go();
 }
 
 void
-GetVersionString(BString &string) {
+GetVersionString(BString& string)
+{
 	app_info ai;
 	version_info vi;
 	be_app->GetAppInfo(&ai);
@@ -778,13 +811,14 @@ GetVersionString(BString &string) {
 // This function saves typing and makes debug messages more friendly and easier to
 // test
 void
-ShowBug(const char *string) {
+ShowBug(const char* string)
+{
 	BString message = "CapitalBe has run into a bug. This shouldn't happen, but it has.\n"
 					  "Would you like to:\n\n1) Have CapitalBe make an e-mail to send to Support\n"
 					  "2) Save the bug to a text file for e-mailing later\n"
 					  "3) Just quit and do nothing\n";
 
-	DAlert *alert =
+	DAlert* alert =
 		new DAlert("Agh! Bug!", message.String(), "Make an E-mail", "Save to File", "Quit");
 	int32 value = alert->Go();
 
@@ -808,7 +842,8 @@ ShowBug(const char *string) {
 		cmdstring << "-subject 'CapitalBe Bug Report' -body '" << message << "'";
 		cmdstring << " &";
 		system(cmdstring.String());
-	} else if (value == 1) {
+	}
+	else if (value == 1) {
 		// Generate a text file of the bug on the Desktop
 		BString filename("/boot/home/Desktop/CapitalBe Bug Report ");
 		filename << real_time_clock() << ".txt";
@@ -822,11 +857,12 @@ ShowBug(const char *string) {
 
 // Code from Haiku's String.cpp
 void
-CapitalizeEachWord(BString &string) {
+CapitalizeEachWord(BString& string)
+{
 	if (string.CountChars() < 1)
 		return;
 
-	char *index = string.LockBuffer(string.Length());
+	char* index = string.LockBuffer(string.Length());
 
 	int32 count = 0;
 	int32 length = string.Length();
@@ -855,63 +891,74 @@ CapitalizeEachWord(BString &string) {
 }
 
 void
-Locale::SetDateFormat(const date_format &format) {
+Locale::SetDateFormat(const date_format& format)
+{
 	fDateFormat = format;
 }
 
 void
-Locale::SetCurrencySymbol(const char *symbol) {
+Locale::SetCurrencySymbol(const char* symbol)
+{
 	if (symbol)
 		fCurrencySymbol = symbol;
 }
 
 void
-Locale::SetCurrencySeparator(const char *symbol) {
+Locale::SetCurrencySeparator(const char* symbol)
+{
 	if (symbol)
 		fCurrencySeparator = symbol;
 }
 
 void
-Locale::SetCurrencyDecimal(const char *symbol) {
+Locale::SetCurrencyDecimal(const char* symbol)
+{
 	if (symbol)
 		fCurrencyDecimal = symbol;
 }
 
 void
-Locale::SetCurrencySymbolPrefix(const bool &value) {
+Locale::SetCurrencySymbolPrefix(const bool& value)
+{
 	fPrefixSymbol = value;
 }
 
 void
-Locale::SetCurrencyDecimalPlace(const uint8 &place) {
+Locale::SetCurrencyDecimalPlace(const uint8& place)
+{
 	fCurrencyDecimalPlace = place;
 }
 
 void
-Locale::SetDateSeparator(const char *symbol) {
+Locale::SetDateSeparator(const char* symbol)
+{
 	if (symbol)
 		fDateSeparator = symbol;
 }
 
 void
-Locale::SetDST(const bool &value) {
+Locale::SetDST(const bool& value)
+{
 	fUseDST = value;
 }
 
-const char *
-GetCurrencyOnlyMask(void) {
+const char*
+GetCurrencyOnlyMask(void)
+{
 	return "zxcvbnm/"
 		   "<>?asdfghjkl;':\"qwertyuiop[]\\{}|`-=~!@#%^&*()_"
 		   "à¡™∞ô¶•«»–≠œ∑é®†øπ‘¬å∫∂ƒ©Ωﬁ∆◊æäñ≈ç√ßñµ…÷";
 }
 
-const char *
-GetDateOnlyMask(void) {
+const char*
+GetDateOnlyMask(void)
+{
 	return "`~!@#$%^&*()_=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\"ZXCVBNM,.<>?qwertyuiopasdfghjklzxcvbnm";
 }
 
 void
-IllegalCharsToEntities(BString *string) {
+IllegalCharsToEntities(BString* string)
+{
 	if (!string)
 		return;
 

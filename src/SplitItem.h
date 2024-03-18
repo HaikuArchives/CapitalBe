@@ -11,14 +11,14 @@ class SplitItem : public BStringItem {
 	~SplitItem(void);
 	//	void DrawItem(BView *owner, BRect frame, bool complete = false);
 
-	void SetCategory(const char *value);
-	const char *GetCategory(void) const;
+	void SetCategory(const char* value);
+	const char* GetCategory(void) const;
 
-	void SetAmount(const Fixed &fixed);
+	void SetAmount(const Fixed& fixed);
 	Fixed GetAmount(void) const;
 
-	void SetMemo(const char *value);
-	const char *GetMemo(void) const;
+	void SetMemo(const char* value);
+	const char* GetMemo(void) const;
 
   private:
 	void UpdateLabel(void);

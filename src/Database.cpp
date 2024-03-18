@@ -31,12 +31,13 @@ Locale gCurrentLocale;
 // This global is used to hold all financial data for CapitalBe.
 Database gDatabase;
 
-Database::Database(const char *path) : fCurrent(NULL), fList(20, true), fPath(path) {}
+Database::Database(const char* path) : fCurrent(NULL), fList(20, true), fPath(path) {}
 
 Database::~Database(void) {}
 
 void
-Database::CloseAccount(Account *item) {
+Database::CloseAccount(Account* item)
+{
 	if (!item)
 		return;
 
@@ -48,13 +49,14 @@ Database::CloseAccount(Account *item) {
 	item->SetClosed(true);
 
 	BMessage msg;
-	msg.AddPointer("item", (void *)item);
+	msg.AddPointer("item", (void*)item);
 	Notify(WATCH_CHANGE | WATCH_ACCOUNT, &msg);
 	UNLOCK;
 }
 
 void
-Database::RenameAccount(Account *item, const char *name) {
+Database::RenameAccount(Account* item, const char* name)
+{
 	if (item && name) {
 		LOCK;
 		BString command = "update accountlist set name = '";
@@ -65,14 +67,15 @@ Database::RenameAccount(Account *item, const char *name) {
 		item->SetName(name);
 
 		BMessage msg;
-		msg.AddPointer("item", (void *)item);
+		msg.AddPointer("item", (void*)item);
 		Notify(WATCH_CHANGE | WATCH_ACCOUNT, &msg);
 		UNLOCK;
 	}
 }
 
 void
-Database::ReopenAccount(Account *item) {
+Database::ReopenAccount(Account* item)
+{
 	if (!item)
 		return;
 
@@ -83,13 +86,14 @@ Database::ReopenAccount(Account *item) {
 
 	item->SetClosed(false);
 	BMessage msg;
-	msg.AddPointer("item", (void *)item);
+	msg.AddPointer("item", (void*)item);
 	Notify(WATCH_CHANGE | WATCH_ACCOUNT, &msg);
 	UNLOCK;
 }
 
 void
-Database::CreateFile(const char *path) {
+Database::CreateFile(const char* path)
+{
 	if (!path)
 		return;
 
@@ -99,7 +103,8 @@ Database::CreateFile(const char *path) {
 
 	try {
 		fDB.open(path);
-	} catch (...) {
+	}
+	catch (...) {
 		BString error = "Couldn't create database file '";
 		error << path << "'.";
 		ShowBug(error.String());
@@ -168,7 +173,8 @@ Database::CreateFile(const char *path) {
 }
 
 status_t
-Database::OpenFile(const char *path) {
+Database::OpenFile(const char* path)
+{
 	if (!path)
 		return B_ERROR;
 
@@ -185,7 +191,8 @@ Database::OpenFile(const char *path) {
 
 	try {
 		fDB.open(path);
-	} catch (...) {
+	}
+	catch (...) {
 		UNLOCK;
 		ShowAlert(
 			"Couldn't open account data.",
@@ -206,7 +213,7 @@ Database::OpenFile(const char *path) {
 		//		BString type = query.getStringField(2);
 		BString status = DeescapeIllegalCharacters(query.getStringField(3));
 
-		Account *account = new Account(name.String(), status.ICompare("open") != 0);
+		Account* account = new Account(name.String(), status.ICompare("open") != 0);
 		account->SetID(id);
 		if (UsesDefaultLocale(id)) {
 			account->UseDefaultLocale(false);
@@ -215,7 +222,7 @@ Database::OpenFile(const char *path) {
 		fList.AddItem(account);
 
 		BMessage msg;
-		msg.AddPointer("item", (void *)account);
+		msg.AddPointer("item", (void*)account);
 		Notify(WATCH_CREATE | WATCH_ACCOUNT, &msg);
 
 		query.nextRow();
@@ -224,7 +231,7 @@ Database::OpenFile(const char *path) {
 
 	// Set the current transaction and last check number for each account
 	for (int32 i = 0; i < fList.CountItems(); i++) {
-		Account *acc = fList.ItemAt(i);
+		Account* acc = fList.ItemAt(i);
 		BString command("select transid from account_");
 		command << acc->GetID() << " order by date,transid;";
 
@@ -238,20 +245,22 @@ Database::OpenFile(const char *path) {
 
 	gDefaultLocale = GetDefaultLocale();
 
-	fCurrent = (Account *)fList.ItemAt(0);
+	fCurrent = (Account*)fList.ItemAt(0);
 	UNLOCK;
 	return B_OK;
 }
 
 void
-Database::CloseFile(void) {
+Database::CloseFile(void)
+{
 	LOCK;
 	fDB.close();
 	UNLOCK;
 }
 
 bool
-Database::ImportFile(const entry_ref &ref) {
+Database::ImportFile(const entry_ref& ref)
+{
 	LOCK;
 	Notify(WATCH_MASS_EDIT, NULL);
 	bool value = ImportQIF(ref);
@@ -262,7 +271,8 @@ Database::ImportFile(const entry_ref &ref) {
 }
 
 bool
-Database::ExportFile(const entry_ref &ref) {
+Database::ExportFile(const entry_ref& ref)
+{
 	LOCK;
 	bool value = ExportQIF(ref);
 	UNLOCK;
@@ -270,16 +280,17 @@ Database::ExportFile(const entry_ref &ref) {
 	return value;
 }
 
-Account *
-Database::SetCurrentAccount(const int32 &index) {
+Account*
+Database::SetCurrentAccount(const int32& index)
+{
 	// We actually permit a NULL pointer here because sometimes we don't *have* an account
 	// to operate on
 	LOCK;
-	Account *acc = (Account *)fList.ItemAt(index);
+	Account* acc = (Account*)fList.ItemAt(index);
 	fCurrent = acc;
 
 	BMessage msg;
-	msg.AddPointer("item", (void *)acc);
+	msg.AddPointer("item", (void*)acc);
 	Notify(WATCH_SELECT | WATCH_ACCOUNT, &msg);
 	UNLOCK;
 
@@ -287,7 +298,8 @@ Database::SetCurrentAccount(const int32 &index) {
 }
 
 int32
-Database::SetCurrentAccount(Account *account) {
+Database::SetCurrentAccount(Account* account)
+{
 	if (!account) {
 		LOCK;
 		SetCurrentAccount(-1);
@@ -304,7 +316,7 @@ Database::SetCurrentAccount(Account *account) {
 	fCurrent = account;
 
 	BMessage msg;
-	msg.AddPointer("item", (void *)account);
+	msg.AddPointer("item", (void*)account);
 	Notify(WATCH_SELECT | WATCH_ACCOUNT, &msg);
 
 	int32 value = fList.IndexOf(account);
@@ -312,10 +324,11 @@ Database::SetCurrentAccount(Account *account) {
 	return value;
 }
 
-Account *
+Account*
 Database::AddAccount(
-	const char *name, const AccountType &type, const char *status, const Locale *locale
-) {
+	const char* name, const AccountType& type, const char* status, const Locale* locale
+)
+{
 	if (!name || !status)
 		return NULL;
 
@@ -345,7 +358,7 @@ Database::AddAccount(
 
 	DBCommand(command.String(), "Database::AddAccount:create account");
 
-	Account *account = new Account(name);
+	Account* account = new Account(name);
 	account->SetID(id);
 	if (strcmp(status, "closed") == 0)
 		account->SetClosed(true);
@@ -355,7 +368,7 @@ Database::AddAccount(
 		fCurrent = account;
 
 	BMessage msg;
-	msg.AddPointer("item", (void *)account);
+	msg.AddPointer("item", (void*)account);
 	Notify(WATCH_CREATE | WATCH_ACCOUNT, &msg);
 	UNLOCK;
 
@@ -363,7 +376,8 @@ Database::AddAccount(
 }
 
 bool
-Database::RemoveAccount(const int &accountid) {
+Database::RemoveAccount(const int& accountid)
+{
 	LOCK;
 	BString command;
 	command << "select accountid from accountlist where accountid = " << accountid << ";";
@@ -372,10 +386,10 @@ Database::RemoveAccount(const int &accountid) {
 	if (!query.eof()) {
 		query.finalize();
 
-		Account *item = AccountByID(accountid);
+		Account* item = AccountByID(accountid);
 		if (item) {
 			BMessage msg;
-			msg.AddPointer("item", (void *)item);
+			msg.AddPointer("item", (void*)item);
 			Notify(WATCH_DELETE | WATCH_ACCOUNT, &msg);
 		}
 
@@ -404,28 +418,31 @@ Database::RemoveAccount(const int &accountid) {
 }
 
 void
-Database::RemoveAccount(Account *account) {
+Database::RemoveAccount(Account* account)
+{
 	if (account)
 		RemoveAccount(account->GetID());
 }
 
-Account *
-Database::AccountByName(const char *name) {
+Account*
+Database::AccountByName(const char* name)
+{
 	if (!name)
 		return NULL;
 
 	for (int32 i = 0; i < fList.CountItems(); i++) {
-		Account *acc = fList.ItemAt(i);
+		Account* acc = fList.ItemAt(i);
 		if (acc && acc->Name() && strcmp(name, acc->Name()) == 0)
 			return acc;
 	}
 	return NULL;
 }
 
-Account *
-Database::AccountByID(const uint32 &accountid) {
+Account*
+Database::AccountByID(const uint32& accountid)
+{
 	for (int32 i = 0; i < fList.CountItems(); i++) {
-		Account *acc = fList.ItemAt(i);
+		Account* acc = fList.ItemAt(i);
 		if (acc && acc->GetID() == accountid)
 			return acc;
 	}
@@ -433,7 +450,8 @@ Database::AccountByID(const uint32 &accountid) {
 }
 
 void
-Database::AddBudgetEntry(const BudgetEntry &entry) {
+Database::AddBudgetEntry(const BudgetEntry& entry)
+{
 	if (entry.name.CountChars() < 1 || !HasCategory(entry.name.String()))
 		return;
 
@@ -473,7 +491,8 @@ Database::AddBudgetEntry(const BudgetEntry &entry) {
 }
 
 bool
-Database::RemoveBudgetEntry(const char *category) {
+Database::RemoveBudgetEntry(const char* category)
+{
 	if (!category || !HasBudgetEntry(category))
 		return false;
 
@@ -488,7 +507,8 @@ Database::RemoveBudgetEntry(const char *category) {
 }
 
 bool
-Database::HasBudgetEntry(const char *category) {
+Database::HasBudgetEntry(const char* category)
+{
 	if (!category)
 		return false;
 
@@ -504,7 +524,8 @@ Database::HasBudgetEntry(const char *category) {
 }
 
 bool
-Database::GetBudgetEntry(const char *name, BudgetEntry &entry) {
+Database::GetBudgetEntry(const char* name, BudgetEntry& entry)
+{
 	if (!name)
 		return false;
 
@@ -524,7 +545,8 @@ Database::GetBudgetEntry(const char *name, BudgetEntry &entry) {
 }
 
 int32
-Database::CountBudgetEntries(void) {
+Database::CountBudgetEntries(void)
+{
 	CppSQLite3Query query =
 		gDatabase.DBQuery("select category from budgetlist", "Database::CountBudgetEntries");
 
@@ -537,7 +559,8 @@ Database::CountBudgetEntries(void) {
 }
 
 void
-Database::SetAccountLocale(const uint32 &accountid, const Locale &data) {
+Database::SetAccountLocale(const uint32& accountid, const Locale& data)
+{
 	LOCK;
 	BString command("select accountid from accountlocale where accountid = ");
 	command << accountid << ";";
@@ -586,7 +609,8 @@ Database::SetAccountLocale(const uint32 &accountid, const Locale &data) {
 }
 
 Locale
-Database::LocaleForAccount(const uint32 &id) {
+Database::LocaleForAccount(const uint32& id)
+{
 	LOCK;
 	BString command;
 	command << "select * from accountlocale where accountid = " << id << ";";
@@ -612,7 +636,8 @@ Database::LocaleForAccount(const uint32 &id) {
 }
 
 void
-Database::SetDefaultLocale(const Locale &data) {
+Database::SetDefaultLocale(const Locale& data)
+{
 	LOCK;
 	BString command;
 
@@ -644,7 +669,8 @@ Database::SetDefaultLocale(const Locale &data) {
 }
 
 Locale
-Database::GetDefaultLocale(void) {
+Database::GetDefaultLocale(void)
+{
 	LOCK;
 	CppSQLite3Query query = DBQuery("select * from defaultlocale;", "Database::GetDefaultLocale");
 
@@ -668,7 +694,8 @@ Database::GetDefaultLocale(void) {
 }
 
 bool
-Database::UsesDefaultLocale(const uint32 &id) {
+Database::UsesDefaultLocale(const uint32& id)
+{
 	LOCK;
 
 	BString command = "select accountid from accountlocale where accountid = ";
@@ -682,10 +709,11 @@ Database::UsesDefaultLocale(const uint32 &id) {
 
 bool
 Database::AddTransaction(
-	const uint32 &accountid, const uint32 &id, const time_t &date, const TransactionType &type,
-	const char *payee, const Fixed &amount, const char *category, const char *memo,
-	const uint8 &status
-) {
+	const uint32& accountid, const uint32& id, const time_t& date, const TransactionType& type,
+	const char* payee, const Fixed& amount, const char* category, const char* memo,
+	const uint8& status
+)
+{
 	if (!payee || !category)
 		return false;
 
@@ -719,7 +747,7 @@ Database::AddTransaction(
 
 	DBCommand(command.String(), "Database::AddTransaction:insert into account");
 
-	Account *account = AccountByID(accountid);
+	Account* account = AccountByID(accountid);
 	if (account) {
 		if (account->CurrentTransaction() == 0) {
 			// It appears that the account is empty. Make sure and, if so, set the just-added
@@ -740,7 +768,7 @@ Database::AddTransaction(
 		TransactionData data;
 		GetTransaction(id, data);
 		msg.AddInt32("accountid", accountid);
-		msg.AddPointer("item", (void *)&data);
+		msg.AddPointer("item", (void*)&data);
 		Notify(WATCH_CREATE | WATCH_TRANSACTION, &msg);
 	}
 	UNLOCK;
@@ -749,7 +777,8 @@ Database::AddTransaction(
 }
 
 bool
-Database::AddTransaction(TransactionData &data, const bool &newid) {
+Database::AddTransaction(TransactionData& data, const bool& newid)
+{
 	if (!data.IsValid())
 		return false;
 
@@ -766,7 +795,8 @@ Database::AddTransaction(TransactionData &data, const bool &newid) {
 			data.GetAccount()->GetID(), id, data.Date(), data.Type(), data.Payee(), data.Amount(),
 			data.NameAt(0), data.Memo(), data.Status()
 		);
-	} else {
+	}
+	else {
 		if (newid) {
 			id = NextTransactionID();
 			data.SetID(id);
@@ -799,7 +829,8 @@ Database::AddTransaction(TransactionData &data, const bool &newid) {
 }
 
 bool
-Database::RemoveTransaction(const uint32 &transid) {
+Database::RemoveTransaction(const uint32& transid)
+{
 	if (!HasTransaction(transid))
 		return false;
 
@@ -841,7 +872,7 @@ Database::RemoveTransaction(const uint32 &transid) {
 		DBCommand(command.String(), "Database::RemoveTransaction:delete from account");
 
 		// determine if the account is empty and set the current to 0 if it is.
-		Account *account = AccountByID(accountid);
+		Account* account = AccountByID(accountid);
 		if (account) {
 			command = "select * from account_";
 			command << accountid << ";";
@@ -861,7 +892,8 @@ Database::RemoveTransaction(const uint32 &transid) {
 }
 
 uint32
-Database::NextTransactionID(void) {
+Database::NextTransactionID(void)
+{
 	LOCK;
 	uint32 key = GetLastKey("transactionlist", "transid");
 	key++;
@@ -870,7 +902,8 @@ Database::NextTransactionID(void) {
 }
 
 bool
-Database::HasTransaction(const uint32 &transid) {
+Database::HasTransaction(const uint32& transid)
+{
 	if (transid < 0)
 		return false;
 
@@ -885,7 +918,8 @@ Database::HasTransaction(const uint32 &transid) {
 }
 
 bool
-Database::GetTransaction(const uint32 &transid, const uint32 &accountid, TransactionData &data) {
+Database::GetTransaction(const uint32& transid, const uint32& accountid, TransactionData& data)
+{
 	LOCK;
 
 	BString command;
@@ -928,7 +962,8 @@ Database::GetTransaction(const uint32 &transid, const uint32 &accountid, Transac
 }
 
 bool
-Database::GetTransaction(const uint32 &transid, TransactionData &data) {
+Database::GetTransaction(const uint32& transid, TransactionData& data)
+{
 	LOCK;
 
 	BString command;
@@ -945,7 +980,8 @@ Database::GetTransaction(const uint32 &transid, TransactionData &data) {
 }
 
 void
-Database::SetTransactionStatus(const uint32 &transid, const uint8 &status) {
+Database::SetTransactionStatus(const uint32& transid, const uint8& status)
+{
 	LOCK;
 
 	BString command;
@@ -973,14 +1009,15 @@ Database::SetTransactionStatus(const uint32 &transid, const uint8 &status) {
 	TransactionData data;
 	GetTransaction(transid, data);
 	msg.AddInt32("accountid", accountid);
-	msg.AddPointer("item", (void *)&data);
+	msg.AddPointer("item", (void*)&data);
 	Notify(WATCH_CHANGE | WATCH_TRANSACTION, &msg);
 
 	UNLOCK;
 }
 
 bool
-Database::GetTransferCounterpart(const uint32 &transid, TransactionData &data) {
+Database::GetTransferCounterpart(const uint32& transid, TransactionData& data)
+{
 	LOCK;
 
 	BString command;
@@ -1000,7 +1037,8 @@ Database::GetTransferCounterpart(const uint32 &transid, TransactionData &data) {
 }
 
 void
-Database::AddScheduledTransaction(const ScheduledTransData &data, const bool &newid) {
+Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& newid)
+{
 	if (!data.IsValid())
 		return;
 
@@ -1010,7 +1048,8 @@ Database::AddScheduledTransaction(const ScheduledTransData &data, const bool &ne
 	if (newid) {
 		id = GetLastKey("scheduledlist", "transid");
 		id++;
-	} else
+	}
+	else
 		id = data.GetID();
 
 	time_t nextdate = data.GetNextDueDate();
@@ -1047,7 +1086,8 @@ Database::AddScheduledTransaction(const ScheduledTransData &data, const bool &ne
 			id, data.GetAccount()->GetID(), data.Date(), data.Type(), data.Payee(), data.Amount(),
 			data.NameAt(0), data.Memo(), data.GetInterval(), nextdate, data.GetCount()
 		);
-	} else {
+	}
+	else {
 		// We are disabling notifications for the moment so that we don't end up with
 		// multiple single-category transaction entries in the transaction view.
 		SetNotify(false);
@@ -1076,7 +1116,8 @@ Database::AddScheduledTransaction(const ScheduledTransData &data, const bool &ne
 }
 
 void
-Database::RemoveScheduledTransaction(const uint32 &id) {
+Database::RemoveScheduledTransaction(const uint32& id)
+{
 	LOCK;
 	BString command = "delete from scheduledlist where transid = ";
 	command << id << ";";
@@ -1088,7 +1129,8 @@ Database::RemoveScheduledTransaction(const uint32 &id) {
 }
 
 bool
-Database::GetScheduledTransaction(const uint32 &transid, ScheduledTransData &data) {
+Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& data)
+{
 	LOCK;
 
 	BString command;
@@ -1135,7 +1177,8 @@ Database::GetScheduledTransaction(const uint32 &transid, ScheduledTransData &dat
 }
 
 uint32
-Database::CountScheduledTransactions(void) {
+Database::CountScheduledTransactions(void)
+{
 	CppSQLite3Query query = gDatabase.DBQuery(
 		"select count(*) from scheduledlist",
 		"ScheduleListView::RefreshScheduleList: count transactions"
@@ -1148,10 +1191,11 @@ Database::CountScheduledTransactions(void) {
 
 bool
 Database::InsertSchedTransaction(
-	const uint32 &id, const uint32 &accountid, const time_t &startdate, const TransactionType &type,
-	const char *payee, const Fixed &amount, const char *category, const char *memo,
-	const TransactionInterval &interval, const time_t &nextdate, const int32 &count
-) {
+	const uint32& id, const uint32& accountid, const time_t& startdate, const TransactionType& type,
+	const char* payee, const Fixed& amount, const char* category, const char* memo,
+	const TransactionInterval& interval, const time_t& nextdate, const int32& count
+)
+{
 	// Internal method. No locking required
 	if (!payee || !category)
 		return false;
@@ -1179,7 +1223,8 @@ Database::InsertSchedTransaction(
 }
 
 int32
-Database::GetLastKey(const char *table, const char *column) {
+Database::GetLastKey(const char* table, const char* column)
+{
 	// Internal method. No locking required
 	if (!table || !column)
 		return B_ERROR;
@@ -1197,7 +1242,8 @@ Database::GetLastKey(const char *table, const char *column) {
 }
 
 void
-Database::AddCategory(const char *name, const bool &isexpense) {
+Database::AddCategory(const char* name, const bool& isexpense)
+{
 	if (!name || HasCategory(name))
 		return;
 
@@ -1210,7 +1256,8 @@ Database::AddCategory(const char *name, const bool &isexpense) {
 }
 
 void
-Database::RemoveCategory(const char *name) {
+Database::RemoveCategory(const char* name)
+{
 	if (!name || !HasCategory(name))
 		return;
 
@@ -1220,7 +1267,8 @@ Database::RemoveCategory(const char *name) {
 }
 
 bool
-Database::RenameCategory(const char *oldname, const char *newname) {
+Database::RenameCategory(const char* oldname, const char* newname)
+{
 	if ((!oldname && !newname) || strcmp(oldname, newname) == 0)
 		return false;
 
@@ -1243,7 +1291,8 @@ Database::RenameCategory(const char *oldname, const char *newname) {
 }
 
 bool
-Database::HasCategory(const char *name) {
+Database::HasCategory(const char* name)
+{
 	BString command;
 	CppSQLite3Query query;
 
@@ -1270,7 +1319,8 @@ Database::HasCategory(const char *name) {
 }
 
 bool
-Database::IsCategoryExpense(const char *name) {
+Database::IsCategoryExpense(const char* name)
+{
 	if (!name)
 		return false;
 
@@ -1289,7 +1339,8 @@ Database::IsCategoryExpense(const char *name) {
 }
 
 void
-Database::SetCategoryExpense(const char *name, const bool &isexpense) {
+Database::SetCategoryExpense(const char* name, const bool& isexpense)
+{
 	if (!name || !HasCategory(name))
 		return;
 
@@ -1300,7 +1351,8 @@ Database::SetCategoryExpense(const char *name, const bool &isexpense) {
 }
 
 void
-Database::RecategorizeTransactions(const char *from, const char *to) {
+Database::RecategorizeTransactions(const char* from, const char* to)
+{
 	if (!HasCategory(from))
 		return;
 
@@ -1311,7 +1363,7 @@ Database::RecategorizeTransactions(const char *from, const char *to) {
 
 	BString command;
 	for (int32 i = 0; i < CountAccounts(); i++) {
-		Account *acc = AccountAt(i);
+		Account* acc = AccountAt(i);
 		if (!acc)
 			continue;
 
@@ -1332,7 +1384,8 @@ Database::RecategorizeTransactions(const char *from, const char *to) {
 }
 
 BString
-AccountTypeToString(const AccountType &type) {
+AccountTypeToString(const AccountType& type)
+{
 	switch (type) {
 	case ACCOUNT_BANK:
 		return BString("Bank");
@@ -1345,29 +1398,30 @@ AccountTypeToString(const AccountType &type) {
 
 // This will prevent SQL injection attacks
 
-static const char *sIllegalCharacters[] = {"!", "@", "#", "$", "%",	 "^", "&", "*", "(",
+static const char* sIllegalCharacters[] = {"!", "@", "#", "$", "%",	 "^", "&", "*", "(",
 										   ")", "-", "+", "=", "{",	 "}", "[", "]", "\\",
 										   "|", ";", ":", "'", "\"", "<", ">", ",", ".",
 										   "/", "?", "`", "~", " ",	 NULL};
-static const char *sReplacementCharacters[] = {
+static const char* sReplacementCharacters[] = {
 	"£21£", "£40£", "£23£", "£24£", "£25£", "£5e£", "£26£", "£2a£", "£28£", "£29£", "£2d£",
 	"£2b£", "£3d£", "£7b£", "£7d£", "£5b£", "£5d£", "£5c£", "£7c£", "£3b£", "£3a£", "£27£",
 	"£22£", "£3c£", "£3e£", "£2c£", "£2e£", "£2f£", "£3f£", "£60£", "£7e£", "£20£", NULL
 };
 
-static const char *sIllegalWords[] = {" select ", " drop ",		 " create ",  " delete ", " where ",
+static const char* sIllegalWords[] = {" select ", " drop ",		 " create ",  " delete ", " where ",
 									  " update ", " order ",	 " by ",	  " and ",	  " or ",
 									  " in ",	  " between ",	 " aliases ", " join ",	  " union ",
 									  " alter ",  " functions ", " group ",	  " into ",	  " view ",
 									  NULL};
-static const char *sReplacementWords[] = {
+static const char* sReplacementWords[] = {
 	" ¥select ", " ¥drop ",	 " ¥create ",	 " ¥delete ", " ¥where ",	" ¥update ",  " ¥order ",
 	" ¥by ",	 " ¥and ",	 " ¥or ",		 " ¥in ",	  " ¥between ", " ¥aliases ", " ¥join ",
 	" ¥union ",	 " ¥alter ", " ¥functions ", " ¥group ",  " ¥into ",	" ¥view ",	  NULL
 };
 
 BString
-EscapeIllegalCharacters(const char *instr) {
+EscapeIllegalCharacters(const char* instr)
+{
 	// Because the £ symbol isn't allowed in a category but is a valid database character,
 	// we'll use it as the escape character for illegal characters
 
@@ -1395,7 +1449,8 @@ EscapeIllegalCharacters(const char *instr) {
 }
 
 BString
-DeescapeIllegalCharacters(const char *instr) {
+DeescapeIllegalCharacters(const char* instr)
+{
 	BString string(instr);
 	if (string.CountChars() < 1)
 		return string;
@@ -1417,7 +1472,8 @@ DeescapeIllegalCharacters(const char *instr) {
 }
 
 void
-Database::DBCommand(const char *command, const char *functionname) {
+Database::DBCommand(const char* command, const char* functionname)
+{
 	if (!command)
 		ShowBug("NULL database command in Database::DBCommand");
 	if (!functionname)
@@ -1425,7 +1481,8 @@ Database::DBCommand(const char *command, const char *functionname) {
 
 	try {
 		fDB.execDML(command);
-	} catch (CppSQLite3Exception &e) {
+	}
+	catch (CppSQLite3Exception& e) {
 		BString msg("Database Exception in ");
 		msg << functionname << ".\n\n"
 			<< e.errorMessage() << "\n\nDatabase Exception Command: " << command << "\n";
@@ -1435,7 +1492,8 @@ Database::DBCommand(const char *command, const char *functionname) {
 }
 
 CppSQLite3Query
-Database::DBQuery(const char *query, const char *functionname) {
+Database::DBQuery(const char* query, const char* functionname)
+{
 	if (!query)
 		ShowBug("NULL database command in Database::DBQuery");
 	if (!functionname)
@@ -1443,7 +1501,8 @@ Database::DBQuery(const char *query, const char *functionname) {
 
 	try {
 		return fDB.execQuery(query);
-	} catch (CppSQLite3Exception &e) {
+	}
+	catch (CppSQLite3Exception& e) {
 		BString msg("Database Exception in ");
 		msg << functionname << ".\n\n"
 			<< e.errorMessage() << "\n\nDatabase Exception Query: " << query << "\n";

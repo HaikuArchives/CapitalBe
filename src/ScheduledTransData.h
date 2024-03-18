@@ -7,28 +7,28 @@ class ScheduledTransData : public TransactionData {
   public:
 	ScheduledTransData(void);
 	ScheduledTransData(
-		Account *account, const char *date, const char *type, const char *payee, const char *amount,
-		const char *category, const char *memo, const TransactionInterval &interval,
-		const int32 &count = 0
+		Account* account, const char* date, const char* type, const char* payee, const char* amount,
+		const char* category, const char* memo, const TransactionInterval& interval,
+		const int32& count = 0
 	);
-	ScheduledTransData(const ScheduledTransData &trans);
+	ScheduledTransData(const ScheduledTransData& trans);
 	ScheduledTransData(
-		const TransactionData &data, const TransactionInterval &interval = SCHEDULED_MONTHLY,
-		const int32 &count = 0
+		const TransactionData& data, const TransactionInterval& interval = SCHEDULED_MONTHLY,
+		const int32& count = 0
 	);
 	virtual ~ScheduledTransData(void);
-	ScheduledTransData &operator=(const ScheduledTransData &from);
+	ScheduledTransData& operator=(const ScheduledTransData& from);
 
 	TransactionInterval GetInterval(void) const { return fInterval; }
 
-	void SetInterval(const TransactionInterval &interval) { fInterval = interval; }
+	void SetInterval(const TransactionInterval& interval) { fInterval = interval; }
 
 	int32 GetCount(void) const { return fCount; }
 
 	// count < 0 means repeat indefinitely
 	void SetCount(const int32 count) { fCount = count; }
 
-	void SetNextDueDate(const time_t &date) { fNextDate = date; }
+	void SetNextDueDate(const time_t& date) { fNextDate = date; }
 
 	void CalculateNextDueDate(void);
 

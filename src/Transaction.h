@@ -23,11 +23,11 @@ typedef enum {
 
 class TransactionType {
   public:
-	TransactionType(const char *data) { SetType(data); }
+	TransactionType(const char* data) { SetType(data); }
 
-	void SetType(const char *data);
+	void SetType(const char* data);
 
-	const char *Type(void) const { return fTypeData.String(); }
+	const char* Type(void) const { return fTypeData.String(); }
 
 	uint8 TypeCode(void) const { return fTypeCode; }
 
@@ -40,7 +40,7 @@ class Transaction {
   public:
 	Transaction(void);
 
-	void SetID(const time_t &id) { fID = id; };
+	void SetID(const time_t& id) { fID = id; };
 
 	time_t GetID(void) const { return fID; }
 

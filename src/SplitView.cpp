@@ -31,10 +31,10 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "SplitView"
 
-
-SplitView::SplitView(const char *name, const TransactionData &trans, const int32 &flags)
+SplitView::SplitView(const char* name, const TransactionData& trans, const int32& flags)
 	: BView(name, flags | B_FRAME_EVENTS),
-	  Observer(WATCH_SELECT | WATCH_TRANSACTION | WATCH_ACCOUNT) {
+	  Observer(WATCH_SELECT | WATCH_TRANSACTION | WATCH_ACCOUNT)
+{
 	fTransaction = trans;
 
 	fStartExpanded = false;
@@ -128,7 +128,7 @@ SplitView::SplitView(const char *name, const TransactionData &trans, const int32
 
 	int32 count = fTransaction.CountCategories();
 	for (int32 i = 0; i < count; i++) {
-		SplitItem *item = new SplitItem();
+		SplitItem* item = new SplitItem();
 		item->SetCategory(fTransaction.NameAt(i));
 		item->SetAmount(fTransaction.AmountAt(i));
 		item->SetMemo(fTransaction.MemoAt(i));
@@ -187,7 +187,8 @@ SplitView::SplitView(const char *name, const TransactionData &trans, const int32
 SplitView::~SplitView(void) { delete fMessenger; }
 
 void
-SplitView::AttachedToWindow(void) {
+SplitView::AttachedToWindow(void)
+{
 	SetViewColor(240, 240, 240);
 	Window()->AddCommonFilter(fKeyFilter);
 	fMessenger = new BMessenger(this);
@@ -216,12 +217,14 @@ SplitView::AttachedToWindow(void) {
 }
 
 void
-SplitView::DetachedFromWindow(void) {
+SplitView::DetachedFromWindow(void)
+{
 	Window()->RemoveCommonFilter(fKeyFilter);
 }
 
 void
-SplitView::MessageReceived(BMessage *msg) {
+SplitView::MessageReceived(BMessage* msg)
+{
 	int32 start;
 	BString string;
 	switch (msg->what) {
@@ -250,7 +253,8 @@ SplitView::MessageReceived(BMessage *msg) {
 		if (fSplitContainer->IsHidden()) {
 			fCategory->SetText(string.String());
 			fCategory->TextView()->Select(start, string.CountChars());
-		} else {
+		}
+		else {
 			fSplitCategory->SetText(string.String());
 			fSplitCategory->TextView()->Select(start, string.CountChars());
 		}
@@ -278,11 +282,11 @@ SplitView::MessageReceived(BMessage *msg) {
 		if (!ValidateSplitItems())
 			break;
 
-		Account *account = fTransaction.GetAccount();
+		Account* account = fTransaction.GetAccount();
 		if (!account)
 			ShowBug("NULL transaction account in SplitView::M_ENTER_TRANSACTION");
 
-		Category *cat = MakeCategory();
+		Category* cat = MakeCategory();
 		fTransaction.Set(
 			account, fDate->Text(), fType->Text(), fPayee->Text(), fAmount->Text(), NULL,
 			fMemo->Text(), fTransaction.Status()
@@ -295,7 +299,8 @@ SplitView::MessageReceived(BMessage *msg) {
 
 			// This adds the transaction data without generating a new transaction id
 			gDatabase.AddTransaction(fTransaction, false);
-		} catch (CppSQLite3Exception &e) {
+		}
+		catch (CppSQLite3Exception& e) {
 			debugger(e.errorMessage());
 		}
 		Window()->PostMessage(B_QUIT_REQUESTED);
@@ -305,23 +310,28 @@ SplitView::MessageReceived(BMessage *msg) {
 		if (fDate->ChildAt(0)->IsFocus()) {
 			if (fDate->Validate())
 				fEnter->MakeFocus(true);
-		} else if (fType->ChildAt(0)->IsFocus())
+		}
+		else if (fType->ChildAt(0)->IsFocus())
 			fDate->MakeFocus(true);
 		else if (fPayee->ChildAt(0)->IsFocus()) {
 			if (fPayee->Validate())
 				fType->MakeFocus(true);
-		} else if (fAmount->ChildAt(0)->IsFocus()) {
+		}
+		else if (fAmount->ChildAt(0)->IsFocus()) {
 			if (fAmount->Validate())
 				fPayee->MakeFocus(true);
-		} else if (fCategory->ChildAt(0)->IsFocus()) {
+		}
+		else if (fCategory->ChildAt(0)->IsFocus()) {
 			if (fCategory->Validate())
 				fAmount->MakeFocus(true);
-		} else if (fMemo->ChildAt(0)->IsFocus()) {
+		}
+		else if (fMemo->ChildAt(0)->IsFocus()) {
 			if (fSplitContainer->IsHidden())
 				fCategory->MakeFocus(true);
 			else
 				fAmount->MakeFocus(true);
-		} else if (fSplit->IsFocus())
+		}
+		else if (fSplit->IsFocus())
 			fMemo->MakeFocus(true);
 		else if (fAddSplit->IsFocus())
 			fSplit->MakeFocus(true);
@@ -332,7 +342,8 @@ SplitView::MessageReceived(BMessage *msg) {
 		else if (fSplitAmount->ChildAt(0)->IsFocus()) {
 			if (ValidateSplitAmountField())
 				fSplitCategory->MakeFocus(true);
-		} else if (fSplitMemo->ChildAt(0)->IsFocus())
+		}
+		else if (fSplitMemo->ChildAt(0)->IsFocus())
 			fSplitAmount->MakeFocus(true);
 		else if (fSplitScroller->IsFocus())
 			fSplitMemo->MakeFocus();
@@ -341,7 +352,8 @@ SplitView::MessageReceived(BMessage *msg) {
 				fSplit->MakeFocus(true);
 			else
 				fSplitItems->MakeFocus(true);
-		} else {
+		}
+		else {
 			// We should *never* be here
 			ShowBug("M_PREVIOUS_FIELD received for unrecognized view");
 		}
@@ -353,29 +365,34 @@ SplitView::MessageReceived(BMessage *msg) {
 		if (fDate->ChildAt(0)->IsFocus()) {
 			if (fDate->Validate())
 				fType->MakeFocus(true);
-		} else if (fType->ChildAt(0)->IsFocus())
+		}
+		else if (fType->ChildAt(0)->IsFocus())
 			fPayee->MakeFocus(true);
 		else if (fPayee->ChildAt(0)->IsFocus()) {
 			if (fPayee->Validate())
 				fAmount->MakeFocus(true);
-		} else if (fAmount->ChildAt(0)->IsFocus()) {
+		}
+		else if (fAmount->ChildAt(0)->IsFocus()) {
 			if (fAmount->Validate()) {
 				if (fSplitContainer->IsHidden())
 					fCategory->MakeFocus(true);
 				else
 					fMemo->MakeFocus(true);
 			}
-		} else if (fCategory->ChildAt(0)->IsFocus()) {
+		}
+		else if (fCategory->ChildAt(0)->IsFocus()) {
 			if (fCategory->Validate())
 				fMemo->MakeFocus(true);
-		} else if (fMemo->ChildAt(0)->IsFocus())
+		}
+		else if (fMemo->ChildAt(0)->IsFocus())
 			fSplit->MakeFocus(true);
 		else if (fSplit->IsFocus()) {
 			if (fSplitContainer->IsHidden())
 				fEnter->MakeFocus(true);
 			else
 				fAddSplit->MakeFocus(true);
-		} else if (fAddSplit->IsFocus())
+		}
+		else if (fAddSplit->IsFocus())
 			fRemoveSplit->MakeFocus(true);
 		else if (fRemoveSplit->IsFocus())
 			fSplitCategory->MakeFocus(true);
@@ -384,7 +401,8 @@ SplitView::MessageReceived(BMessage *msg) {
 		else if (fSplitAmount->ChildAt(0)->IsFocus()) {
 			if (ValidateSplitAmountField())
 				fSplitMemo->MakeFocus(true);
-		} else if (fSplitMemo->ChildAt(0)->IsFocus())
+		}
+		else if (fSplitMemo->ChildAt(0)->IsFocus())
 			fSplitItems->MakeFocus(true);
 		else if (fSplitItems->IsFocus())
 			fEnter->MakeFocus(true);
@@ -400,7 +418,7 @@ SplitView::MessageReceived(BMessage *msg) {
 		if (fSplitContainer->IsHidden())
 			ToggleSplit();
 
-		SplitItem *item = new SplitItem();
+		SplitItem* item = new SplitItem();
 		item->SetCategory(B_TRANSLATE("Uncategorized"));
 		item->SetAmount(fTransaction.Amount().AbsoluteValue() - CalculateTotal().AbsoluteValue());
 		fSplitItems->AddItem(item);
@@ -423,7 +441,7 @@ SplitView::MessageReceived(BMessage *msg) {
 		else
 			newselection = (selection == 0) ? 0 : selection - 1;
 
-		SplitItem *item = (SplitItem *)fSplitItems->ItemAt(selection);
+		SplitItem* item = (SplitItem*)fSplitItems->ItemAt(selection);
 		fSplitItems->RemoveItem(item);
 		fSplitItems->Select(newselection);
 		fSplitCategory->TextView()->SelectAll();
@@ -434,7 +452,7 @@ SplitView::MessageReceived(BMessage *msg) {
 		if (selection < 0)
 			break;
 
-		SplitItem *item = (SplitItem *)fSplitItems->ItemAt(selection);
+		SplitItem* item = (SplitItem*)fSplitItems->ItemAt(selection);
 		fSplitCategory->SetText(item->GetCategory());
 
 		BString amount;
@@ -460,7 +478,7 @@ SplitView::MessageReceived(BMessage *msg) {
 	// which, unfortunately, is what we want.
 	case M_SPLIT_CATEGORY_CHANGED: {
 		int32 selection = fSplitItems->CurrentSelection();
-		SplitItem *splititem = (SplitItem *)fSplitItems->ItemAt(selection);
+		SplitItem* splititem = (SplitItem*)fSplitItems->ItemAt(selection);
 		if (!splititem)
 			break;
 
@@ -475,7 +493,7 @@ SplitView::MessageReceived(BMessage *msg) {
 	}
 	case M_SPLIT_AMOUNT_CHANGED: {
 		int32 selection = fSplitItems->CurrentSelection();
-		SplitItem *splititem = (SplitItem *)fSplitItems->ItemAt(selection);
+		SplitItem* splititem = (SplitItem*)fSplitItems->ItemAt(selection);
 		if (!splititem)
 			break;
 
@@ -495,7 +513,7 @@ SplitView::MessageReceived(BMessage *msg) {
 	}
 	case M_SPLIT_MEMO_CHANGED: {
 		int32 selection = fSplitItems->CurrentSelection();
-		SplitItem *splititem = (SplitItem *)fSplitItems->ItemAt(selection);
+		SplitItem* splititem = (SplitItem*)fSplitItems->ItemAt(selection);
 		if (!splititem)
 			break;
 
@@ -535,9 +553,10 @@ SplitView::MessageReceived(BMessage *msg) {
 
 void
 SplitView::SetFields(
-	const char *date, const char *type, const char *payee, const char *amount, const char *category,
-	const char *memo
-) {
+	const char* date, const char* type, const char* payee, const char* amount, const char* category,
+	const char* memo
+)
+{
 	fDate->SetText(date);
 	fType->SetText(type);
 	fPayee->SetText(payee);
@@ -547,20 +566,22 @@ SplitView::SetFields(
 }
 
 void
-SplitView::HandleNotify(const uint64 &value, const BMessage *msg) {
+SplitView::HandleNotify(const uint64& value, const BMessage* msg)
+{
 	if (value & WATCH_SELECT) {
 		if (value & WATCH_ACCOUNT)
 			MakeEmpty();
 		else if (value & WATCH_TRANSACTION) {
-			TransactionData *trans;
-			if (msg->FindPointer("item", (void **)&trans) == B_OK)
+			TransactionData* trans;
+			if (msg->FindPointer("item", (void**)&trans) == B_OK)
 				fCurrentDate = trans->Date();
 		}
 	}
 }
 
 void
-SplitView::MakeEmpty(void) {
+SplitView::MakeEmpty(void)
+{
 	fDate->SetText("");
 	fType->SetText("");
 	fPayee->SetText("");
@@ -570,15 +591,19 @@ SplitView::MakeEmpty(void) {
 }
 
 void
-SplitView::MakeFocus(bool value) {
+SplitView::MakeFocus(bool value)
+{
 	fDate->MakeFocus(value);
 }
 
 void
-SplitView::FrameResized(float width, float height) {}
+SplitView::FrameResized(float width, float height)
+{
+}
 
 bool
-SplitView::ValidateSplitAmountField(void) {
+SplitView::ValidateSplitAmountField(void)
+{
 	if (strlen(fSplitAmount->Text()) < 1)
 		fSplitAmount->SetText("0");
 
@@ -587,11 +612,12 @@ SplitView::ValidateSplitAmountField(void) {
 		ShowAlert(
 			B_TRANSLATE("CapitalBe didn't understand the amount."),
 			B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
-					  "for this account.")
+						"for this account.")
 		);
 		fSplitAmount->MakeFocus(true);
 		return false;
-	} else {
+	}
+	else {
 		BString string;
 		gCurrentLocale.CurrencyToString(amount, string);
 		fSplitAmount->SetText(string.String());
@@ -601,10 +627,11 @@ SplitView::ValidateSplitAmountField(void) {
 }
 
 bool
-SplitView::ValidateSplitItems(void) {
+SplitView::ValidateSplitItems(void)
+{
 	Fixed total;
 	for (int32 i = 0; i < fSplitItems->CountItems(); i++) {
-		SplitItem *item = (SplitItem *)fSplitItems->ItemAt(i);
+		SplitItem* item = (SplitItem*)fSplitItems->ItemAt(i);
 		total += item->GetAmount().AbsoluteValue();
 	}
 
@@ -614,7 +641,7 @@ SplitView::ValidateSplitItems(void) {
 		ShowAlert(
 			B_TRANSLATE("CapitalBe didn't understand the amount."),
 			B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
-					  "for this account.")
+						"for this account.")
 		);
 		return false;
 	}
@@ -625,7 +652,7 @@ SplitView::ValidateSplitItems(void) {
 		gCurrentLocale.CurrencyToString(total, totalstr);
 
 		errormsg = B_TRANSLATE("When the split items are added together, they need to add up "
-							 "to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%");
+							   "to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%");
 		errormsg.ReplaceFirst("%%ENTERED_AMOUNT%%", fAmount->Text());
 		errormsg.ReplaceFirst("%%TOTAL_AMOUNT%%", totalstr.String());
 
@@ -637,12 +664,14 @@ SplitView::ValidateSplitItems(void) {
 }
 
 bool
-SplitView::ValidateAllFields(void) {
+SplitView::ValidateAllFields(void)
+{
 	BString date;
 	if (strlen(fDate->Text()) < 1) {
 		gDefaultLocale.DateToString(fCurrentDate, date);
 		fDate->SetText(date.String());
-	} else if (!fDate->Validate())
+	}
+	else if (!fDate->Validate())
 		return false;
 
 	if (!fPayee->Validate())
@@ -661,7 +690,8 @@ SplitView::ValidateAllFields(void) {
 }
 
 void
-SplitView::ToggleSplit(void) {
+SplitView::ToggleSplit(void)
+{
 	if (fSplitContainer->IsHidden()) {
 		fSplit->SetLabel(B_TRANSLATE("Hide Split"));
 
@@ -673,7 +703,8 @@ SplitView::ToggleSplit(void) {
 		// These calls are needed because of some stupid resize-related bugs in Zeta. :/
 		Invalidate();
 		fEnter->Invalidate();
-	} else {
+	}
+	else {
 		fSplit->SetLabel(B_TRANSLATE("Show Split"));
 
 		fSplitContainer->Hide();
@@ -681,10 +712,11 @@ SplitView::ToggleSplit(void) {
 	}
 }
 
-Category *
-SplitView::MakeCategory(void) {
+Category*
+SplitView::MakeCategory(void)
+{
 	// This makes a category object from the existing data
-	Category *cat = new Category();
+	Category* cat = new Category();
 	Locale locale = fTransaction.GetAccount()->GetLocale();
 	if (fSplitContainer->IsHidden() && fSplitItems->CountItems() <= 1) {
 		if (strlen(fCategory->Text()) > 0 && strlen(fAmount->Text()) > 0) {
@@ -701,7 +733,7 @@ SplitView::MakeCategory(void) {
 	}
 
 	for (int32 i = 0; i < fSplitItems->CountItems(); i++) {
-		SplitItem *item = (SplitItem *)fSplitItems->ItemAt(i);
+		SplitItem* item = (SplitItem*)fSplitItems->ItemAt(i);
 		if (!item || strlen(item->GetCategory()) < 1 || item->GetAmount().IsZero())
 			continue;
 
@@ -718,11 +750,12 @@ SplitView::MakeCategory(void) {
 }
 
 Fixed
-SplitView::CalculateTotal(void) {
+SplitView::CalculateTotal(void)
+{
 	Fixed total;
 
 	for (int32 i = 0; i < fSplitItems->CountItems(); i++) {
-		SplitItem *item = (SplitItem *)fSplitItems->ItemAt(i);
+		SplitItem* item = (SplitItem*)fSplitItems->ItemAt(i);
 		total += item->GetAmount().AbsoluteValue();
 	}
 

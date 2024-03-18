@@ -16,7 +16,8 @@
 Transaction::Transaction(void) : fID(0) {}
 
 void
-TransactionType::SetType(const char *data) {
+TransactionType::SetType(const char* data)
+{
 	if (!data) {
 		fTypeCode = TRANS_INIT;
 		fTypeData = "";

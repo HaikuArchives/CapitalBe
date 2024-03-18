@@ -12,7 +12,7 @@ typedef std::map<BString, BString> LanguageEntryList;
 
 class Language {
   public:
-	Language(const entry_ref &ref);
+	Language(const entry_ref& ref);
 	Language(void);
 
 	virtual ~Language(void);
@@ -21,9 +21,9 @@ class Language {
 
 	bool IsInitialized(void) const { return fInit; }
 
-	const char *Name(void) { return fName.String(); }
+	const char* Name(void) { return fName.String(); }
 
-	virtual BString Translate(const char *instring);
+	virtual BString Translate(const char* instring);
 
   protected:
 	void SetInitialized(bool value) { fInit = value; }
@@ -38,10 +38,10 @@ class Language {
 // Debugging class used to generate language files quickly
 class LanguageLogger : public Language {
   public:
-	LanguageLogger(const entry_ref &ref);
+	LanguageLogger(const entry_ref& ref);
 	~LanguageLogger(void);
 	void Initialize(void);
-	BString Translate(const char *instring);
+	BString Translate(const char* instring);
 
 	LanguageEntryList fLogList;
 	BFile fFile;

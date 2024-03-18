@@ -27,26 +27,30 @@ static property_info sProperties[] = {
 };
 
 AutoTextControl::AutoTextControl(
-	const char *name, const char *label, const char *text, BMessage *msg, uint32 flags
+	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags
 )
-	: BTextControl(name, label, text, msg, flags), fFilter(NULL), fCharLimit(0) {
+	: BTextControl(name, label, text, msg, flags), fFilter(NULL), fCharLimit(0)
+{
 	SetFilter(new AutoTextControlFilter(this));
 }
 
-AutoTextControl::~AutoTextControl(void) {
+AutoTextControl::~AutoTextControl(void)
+{
 	if (Window())
 		Window()->RemoveCommonFilter(fFilter);
 
 	delete fFilter;
 }
 
-AutoTextControl::AutoTextControl(BMessage *data) : BTextControl(data) {
-	if (data->FindInt32("_charlimit", (int32 *)&fCharLimit) != B_OK)
+AutoTextControl::AutoTextControl(BMessage* data) : BTextControl(data)
+{
+	if (data->FindInt32("_charlimit", (int32*)&fCharLimit) != B_OK)
 		fCharLimit = 0;
 }
 
-BArchivable *
-AutoTextControl::Instantiate(BMessage *data) {
+BArchivable*
+AutoTextControl::Instantiate(BMessage* data)
+{
 	if (validate_instantiation(data, "AutoTextControl"))
 		return new AutoTextControl(data);
 
@@ -54,7 +58,8 @@ AutoTextControl::Instantiate(BMessage *data) {
 }
 
 status_t
-AutoTextControl::Archive(BMessage *data, bool deep) const {
+AutoTextControl::Archive(BMessage* data, bool deep) const
+{
 	status_t status = BTextControl::Archive(data, deep);
 
 	if (status == B_OK)
@@ -67,7 +72,8 @@ AutoTextControl::Archive(BMessage *data, bool deep) const {
 }
 
 status_t
-AutoTextControl::GetSupportedSuites(BMessage *msg) {
+AutoTextControl::GetSupportedSuites(BMessage* msg)
+{
 	msg->AddString("suites", "suite/vnd.DW-autotextcontrol");
 
 	BPropertyInfo prop_info(sProperties);
@@ -75,15 +81,17 @@ AutoTextControl::GetSupportedSuites(BMessage *msg) {
 	return BTextControl::GetSupportedSuites(msg);
 }
 
-BHandler *
+BHandler*
 AutoTextControl::ResolveSpecifier(
-	BMessage *msg, int32 index, BMessage *specifier, int32 form, const char *property
-) {
+	BMessage* msg, int32 index, BMessage* specifier, int32 form, const char* property
+)
+{
 	return BControl::ResolveSpecifier(msg, index, specifier, form, property);
 }
 
 void
-AutoTextControl::AttachedToWindow(void) {
+AutoTextControl::AttachedToWindow(void)
+{
 	BTextControl::AttachedToWindow();
 	if (fFilter) {
 		Window()->AddCommonFilter(fFilter);
@@ -92,7 +100,8 @@ AutoTextControl::AttachedToWindow(void) {
 }
 
 void
-AutoTextControl::DetachedFromWindow(void) {
+AutoTextControl::DetachedFromWindow(void)
+{
 	if (fFilter) {
 		fFilter->SetMessenger(NULL);
 		Window()->RemoveCommonFilter(fFilter);
@@ -101,17 +110,20 @@ AutoTextControl::DetachedFromWindow(void) {
 }
 
 void
-AutoTextControl::SetCharacterLimit(const uint32 &limit) {
+AutoTextControl::SetCharacterLimit(const uint32& limit)
+{
 	fCharLimit = limit;
 }
 
 uint32
-AutoTextControl::GetCharacterLimit(const uint32 &limit) {
+AutoTextControl::GetCharacterLimit(const uint32& limit)
+{
 	return fCharLimit;
 }
 
 void
-AutoTextControl::SetFilter(AutoTextControlFilter *filter) {
+AutoTextControl::SetFilter(AutoTextControlFilter* filter)
+{
 	if (fFilter) {
 		if (Window())
 			Window()->RemoveCommonFilter(fFilter);
@@ -123,23 +135,26 @@ AutoTextControl::SetFilter(AutoTextControlFilter *filter) {
 		Window()->AddCommonFilter(fFilter);
 }
 
-AutoTextControlFilter::AutoTextControlFilter(AutoTextControl *box)
+AutoTextControlFilter::AutoTextControlFilter(AutoTextControl* box)
 	: BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN), fBox(box),
-	  fCurrentMessage(NULL), fMessenger(NULL) {}
+	  fCurrentMessage(NULL), fMessenger(NULL)
+{
+}
 
 AutoTextControlFilter::~AutoTextControlFilter(void) {}
 
 filter_result
-AutoTextControlFilter::Filter(BMessage *msg, BHandler **target) {
+AutoTextControlFilter::Filter(BMessage* msg, BHandler** target)
+{
 	int32 rawchar, mod;
 	msg->FindInt32("raw_char", &rawchar);
 	msg->FindInt32("modifiers", &mod);
 
-	BView *view = dynamic_cast<BView *>(*target);
+	BView* view = dynamic_cast<BView*>(*target);
 	if (!view || strcmp("_input_", view->Name()) != 0)
 		return B_DISPATCH_MESSAGE;
 
-	AutoTextControl *text = dynamic_cast<AutoTextControl *>(view->Parent());
+	AutoTextControl* text = dynamic_cast<AutoTextControl*>(view->Parent());
 	if (!text || text != fBox)
 		return B_DISPATCH_MESSAGE;
 
@@ -162,7 +177,8 @@ AutoTextControlFilter::Filter(BMessage *msg, BHandler **target) {
 }
 
 filter_result
-AutoTextControlFilter::KeyFilter(const int32 &rawchar, const int32 &mod) {
+AutoTextControlFilter::KeyFilter(const int32& rawchar, const int32& mod)
+{
 	if (fBox)
 		fBox->Invoke();
 
@@ -170,13 +186,15 @@ AutoTextControlFilter::KeyFilter(const int32 &rawchar, const int32 &mod) {
 }
 
 void
-AutoTextControlFilter::SendMessage(BMessage *msg) {
+AutoTextControlFilter::SendMessage(BMessage* msg)
+{
 	if (fMessenger && msg)
 		fMessenger->SendMessage(msg);
 }
 
 void
-AutoTextControlFilter::SetMessenger(BMessenger *msgr) {
+AutoTextControlFilter::SetMessenger(BMessenger* msgr)
+{
 	if (fMessenger)
 		delete fMessenger;
 	fMessenger = msgr;

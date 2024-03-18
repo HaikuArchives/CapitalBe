@@ -9,14 +9,14 @@ class CheckNumBox;
 
 class CheckNumBoxFilter : public AutoTextControlFilter {
   public:
-	CheckNumBoxFilter(CheckNumBox *box);
-	filter_result KeyFilter(const int32 &key, const int32 &mod);
+	CheckNumBoxFilter(CheckNumBox* box);
+	filter_result KeyFilter(const int32& key, const int32& mod);
 };
 
 class CheckNumBox : public AutoTextControl {
   public:
 	CheckNumBox(
-		const char *name, const char *label, const char *text, BMessage *msg,
+		const char* name, const char* label, const char* text, BMessage* msg,
 		uint32 flags = B_WILL_DRAW | B_NAVIGABLE
 	);
 

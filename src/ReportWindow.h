@@ -31,13 +31,13 @@ enum { REPORT_CASH_FLOW = 0, REPORT_NET_WORTH, REPORT_TRANSACTIONS, REPORT_BUDGE
 class ReportWindow : public BWindow, public Observer {
   public:
 	ReportWindow(BRect frame);
-	void MessageReceived(BMessage *msg);
+	void MessageReceived(BMessage* msg);
 	void FrameResized(float w, float h);
-	void HandleNotify(const uint64 &value, const BMessage *msg);
+	void HandleNotify(const uint64& value, const BMessage* msg);
 	bool QuitRequested(void);
 
   private:
-	void AddAccount(Account *acc);
+	void AddAccount(Account* acc);
 	void FixGridScrollbar(void);
 	void RenderReport(void);
 
@@ -48,15 +48,15 @@ class ReportWindow : public BWindow, public Observer {
 
 	void CalcCategoryString(void);
 
-	BMenuField *fReportField;
-	BMenuField *fSubtotalField;
-	BListView *fAccountList;
-	BListView *fCategoryList;
-	BColumnListView *fGridView;
-	BView *fGraphView;
-	BScrollView *fCategoryScroller;
+	BMenuField* fReportField;
+	BMenuField* fSubtotalField;
+	BListView* fAccountList;
+	BListView* fCategoryList;
+	BColumnListView* fGridView;
+	BView* fGraphView;
+	BScrollView* fCategoryScroller;
 	DateBox *fStartDateBox, *fEndDateBox;
-	StickyDrawButton *fGraphButton;
+	StickyDrawButton* fGraphButton;
 
 	uint8 fSubtotalMode;
 	uint8 fReportMode;
@@ -68,13 +68,14 @@ class ReportWindow : public BWindow, public Observer {
 
 class AccountItem : public BStringItem {
   public:
-	AccountItem(Account *acc) : BStringItem("") {
+	AccountItem(Account* acc) : BStringItem("")
+	{
 		if (acc)
 			SetText(acc->Name());
 		account = acc;
 	}
 
-	Account *account;
+	Account* account;
 };
 
 

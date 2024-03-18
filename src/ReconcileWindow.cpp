@@ -21,7 +21,6 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "ReconcileWindow"
 
-
 enum {
 	M_TOGGLE_DEPOSIT = 'tgdp',
 	M_TOGGLE_CHECK,
@@ -45,11 +44,12 @@ private:
 };
 */
 
-ReconcileWindow::ReconcileWindow(const BRect frame, Account *account)
+ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	: BWindow(
 		  frame, "", B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
 		  B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
-	  ) {
+	  )
+{
 	BString temp;
 	fCurrentDate = GetCurrentDate();
 	//	AddCommonFilter(new ReconcileFilter(this));
@@ -66,7 +66,7 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account *account)
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BView *back = new BView("backview", B_WILL_DRAW);
+	BView* back = new BView("backview", B_WILL_DRAW);
 	back->SetViewColor(240, 240, 240);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
 
@@ -198,7 +198,8 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account *account)
 		.End();
 }
 
-ReconcileWindow::~ReconcileWindow(void) {
+ReconcileWindow::~ReconcileWindow(void)
+{
 	prefsLock.Lock();
 	gPreferences.RemoveData("reconcileframe");
 	gPreferences.AddRect("reconcileframe", Frame());
@@ -206,7 +207,8 @@ ReconcileWindow::~ReconcileWindow(void) {
 }
 
 void
-ReconcileWindow::FrameResized(float w, float h) {
+ReconcileWindow::FrameResized(float w, float h)
+{
 	// We implement our own resizing routines because all the controls need to be resized in a
 	// proportional manner of the window being resized, such as the 3 listviews each taking up just
 	// a little less than 1/3 of the window's width
@@ -244,9 +246,10 @@ ReconcileWindow::FrameResized(float w, float h) {
 }
 
 void
-ReconcileWindow::MessageReceived(BMessage *msg) {
+ReconcileWindow::MessageReceived(BMessage* msg)
+{
 	int32 index;
-	ReconcileItem *selection;
+	ReconcileItem* selection;
 	BString label, temp;
 
 	switch (msg->what) {
@@ -281,21 +284,21 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 		ApplyChargesAndInterest();
 
 		int32 i;
-		ReconcileItem *item;
+		ReconcileItem* item;
 		for (i = 0; i < fDepositList->CountItems(); i++) {
-			item = (ReconcileItem *)fDepositList->ItemAt(i);
+			item = (ReconcileItem*)fDepositList->ItemAt(i);
 			if (item->IsReconciled())
 				item->SyncToTransaction();
 		}
 
 		for (i = 0; i < fCheckList->CountItems(); i++) {
-			item = (ReconcileItem *)fCheckList->ItemAt(i);
+			item = (ReconcileItem*)fCheckList->ItemAt(i);
 			if (item->IsReconciled())
 				item->SyncToTransaction();
 		}
 
 		for (i = 0; i < fChargeList->CountItems(); i++) {
-			item = (ReconcileItem *)fChargeList->ItemAt(i);
+			item = (ReconcileItem*)fChargeList->ItemAt(i);
 			if (item->IsReconciled())
 				item->SyncToTransaction();
 		}
@@ -307,9 +310,9 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 	}
 	case M_RESET: {
 		int32 i;
-		ReconcileItem *item;
+		ReconcileItem* item;
 		for (i = 0; i < fDepositList->CountItems(); i++) {
-			item = (ReconcileItem *)fDepositList->ItemAt(i);
+			item = (ReconcileItem*)fDepositList->ItemAt(i);
 			if (item->IsReconciled()) {
 				item->RevertTransaction();
 				fDepositList->InvalidateItem(i);
@@ -317,7 +320,7 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 		}
 
 		for (i = 0; i < fCheckList->CountItems(); i++) {
-			item = (ReconcileItem *)fCheckList->ItemAt(i);
+			item = (ReconcileItem*)fCheckList->ItemAt(i);
 			if (item->IsReconciled()) {
 				item->RevertTransaction();
 				fCheckList->InvalidateItem(i);
@@ -325,7 +328,7 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 		}
 
 		for (i = 0; i < fChargeList->CountItems(); i++) {
-			item = (ReconcileItem *)fChargeList->ItemAt(i);
+			item = (ReconcileItem*)fChargeList->ItemAt(i);
 			if (item->IsReconciled()) {
 				item->RevertTransaction();
 				fChargeList->InvalidateItem(i);
@@ -335,13 +338,14 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 	}
 	case M_TOGGLE_DEPOSIT: {
 		index = fDepositList->CurrentSelection();
-		selection = (ReconcileItem *)fDepositList->ItemAt(index);
+		selection = (ReconcileItem*)fDepositList->ItemAt(index);
 		if (selection) {
 			if (selection->IsReconciled()) {
 				selection->SetReconciled(false);
 				fDepositTotal -= selection->GetTransaction()->Amount();
 				fTotal -= selection->GetTransaction()->Amount();
-			} else {
+			}
+			else {
 				selection->SetReconciled(true);
 				fDepositTotal += selection->GetTransaction()->Amount();
 				fTotal += selection->GetTransaction()->Amount();
@@ -366,13 +370,14 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 	}
 	case M_TOGGLE_CHECK: {
 		index = fCheckList->CurrentSelection();
-		selection = (ReconcileItem *)fCheckList->ItemAt(index);
+		selection = (ReconcileItem*)fCheckList->ItemAt(index);
 		if (selection) {
 			if (selection->IsReconciled()) {
 				selection->SetReconciled(false);
 				fCheckTotal += selection->GetTransaction()->Amount();
 				fTotal -= selection->GetTransaction()->Amount();
-			} else {
+			}
+			else {
 				selection->SetReconciled(true);
 				fCheckTotal -= selection->GetTransaction()->Amount();
 				fTotal += selection->GetTransaction()->Amount();
@@ -397,13 +402,14 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 	}
 	case M_TOGGLE_CHARGE: {
 		index = fChargeList->CurrentSelection();
-		selection = (ReconcileItem *)fChargeList->ItemAt(index);
+		selection = (ReconcileItem*)fChargeList->ItemAt(index);
 		if (selection) {
 			if (selection->IsReconciled()) {
 				selection->SetReconciled(false);
 				fChargeTotal += selection->GetTransaction()->Amount();
 				fTotal -= selection->GetTransaction()->Amount();
-			} else {
+			}
+			else {
 				selection->SetReconciled(true);
 				fChargeTotal -= selection->GetTransaction()->Amount();
 				fTotal += selection->GetTransaction()->Amount();
@@ -458,7 +464,8 @@ ReconcileWindow::MessageReceived(BMessage *msg) {
 }
 
 void
-ReconcileWindow::HandleNotify(const uint64 &value, const BMessage *msg) {
+ReconcileWindow::HandleNotify(const uint64& value, const BMessage* msg)
+{
 	bool unlock = false;
 	if (!IsLocked()) {
 		unlock = true;
@@ -471,7 +478,8 @@ ReconcileWindow::HandleNotify(const uint64 &value, const BMessage *msg) {
 		if (IsWatching(WATCH_TRANSACTION)) {
 			RemoveWatch(WATCH_ALL);
 			AddWatch(WATCH_MASS_EDIT);
-		} else {
+		}
+		else {
 			AddWatch(WATCH_ALL);
 		}
 
@@ -480,16 +488,17 @@ ReconcileWindow::HandleNotify(const uint64 &value, const BMessage *msg) {
 		return;
 	}
 
-	Account *acc = NULL;
+	Account* acc = NULL;
 	if ((value & WATCH_ACCOUNT) && (value & WATCH_DELETE)) {
-		if ((msg->FindPointer("item", (void **)&acc) == B_OK) && (acc == fAccount))
+		if ((msg->FindPointer("item", (void**)&acc) == B_OK) && (acc == fAccount))
 			PostMessage(B_QUIT_REQUESTED);
-	} else if ((value & WATCH_TRANSACTION)) {
+	}
+	else if ((value & WATCH_TRANSACTION)) {
 		if (value & WATCH_DELETE) {
 			uint32 id;
-			if (msg->FindInt32("id", (int32 *)&id) == B_OK) {
-				ReconcileItem *deleteditem;
-				BListView *itemlist;
+			if (msg->FindInt32("id", (int32*)&id) == B_OK) {
+				ReconcileItem* deleteditem;
+				BListView* itemlist;
 
 				deleteditem = FindItemForID(fDepositList, id);
 				if (deleteditem)
@@ -514,18 +523,19 @@ ReconcileWindow::HandleNotify(const uint64 &value, const BMessage *msg) {
 				itemlist->RemoveItem(deleteditem);
 				delete deleteditem;
 			}
-		} else if (value & WATCH_CREATE) {
+		}
+		else if (value & WATCH_CREATE) {
 			uint32 accountid;
-			if (msg->FindInt32("accountid", (int32 *)&accountid) != B_OK ||
+			if (msg->FindInt32("accountid", (int32*)&accountid) != B_OK ||
 				accountid != fAccount->GetID()) {
 				if (unlock)
 					Unlock();
 				return;
 			}
 
-			TransactionData *data;
-			if (msg->FindPointer("item", (void **)&data) == B_OK) {
-				ReconcileItem *newitem = new ReconcileItem(*data);
+			TransactionData* data;
+			if (msg->FindPointer("item", (void**)&data) == B_OK) {
+				ReconcileItem* newitem = new ReconcileItem(*data);
 
 				if (data->Type().TypeCode() == TRANS_DEP)
 					InsertTransactionItem(fDepositList, newitem);
@@ -541,13 +551,15 @@ ReconcileWindow::HandleNotify(const uint64 &value, const BMessage *msg) {
 }
 
 bool
-ReconcileWindow::QuitRequested(void) {
+ReconcileWindow::QuitRequested(void)
+{
 	gDatabase.RemoveObserver(this);
 	return true;
 }
 
 void
-ReconcileWindow::ApplyChargesAndInterest(void) {
+ReconcileWindow::ApplyChargesAndInterest(void)
+{
 	Fixed charge;
 	if (strlen(fCharges->Text()) > 0 &&
 		gCurrentLocale.StringToCurrency(fCharges->Text(), charge) == B_OK) {
@@ -570,7 +582,8 @@ ReconcileWindow::ApplyChargesAndInterest(void) {
 }
 
 bool
-ReconcileWindow::AutoReconcile(void) {
+ReconcileWindow::AutoReconcile(void)
+{
 	// We are going to attempt to automatically reconcile the account. We will do
 	// this by adding up the values of all transactions unreconciled before the
 	// statement date. If they balance, we can notify the user that we were successful
@@ -578,7 +591,7 @@ ReconcileWindow::AutoReconcile(void) {
 	// we can tell the user that it failed and the conditions under which it works.
 	time_t statdate;
 	int32 i;
-	ReconcileItem *item;
+	ReconcileItem* item;
 
 	if (gDefaultLocale.StringToDate(fDate->Text(), statdate) != B_OK) {
 		// Do we have an empty date box?
@@ -601,7 +614,7 @@ ReconcileWindow::AutoReconcile(void) {
 			ShowAlert(
 				B_TRANSLATE("CapitalBe didn't understand the amount for Bank Charges."),
 				B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
-						  "for this account.")
+							"for this account.")
 			);
 			return false;
 		}
@@ -612,14 +625,14 @@ ReconcileWindow::AutoReconcile(void) {
 			ShowAlert(
 				B_TRANSLATE("CapitalBe didn't understand the amount for Interest Earned."),
 				B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
-						  "for this account.")
+							"for this account.")
 			);
 			return false;
 		}
 	}
 
 	for (i = 0; i < fDepositList->CountItems(); i++) {
-		item = (ReconcileItem *)fDepositList->ItemAt(i);
+		item = (ReconcileItem*)fDepositList->ItemAt(i);
 		if (item->GetTransaction()->Date() >= statdate)
 			break;
 
@@ -630,7 +643,7 @@ ReconcileWindow::AutoReconcile(void) {
 	}
 
 	for (i = 0; i < fCheckList->CountItems(); i++) {
-		item = (ReconcileItem *)fCheckList->ItemAt(i);
+		item = (ReconcileItem*)fCheckList->ItemAt(i);
 		if (item->GetTransaction()->Date() >= statdate)
 			break;
 
@@ -641,7 +654,7 @@ ReconcileWindow::AutoReconcile(void) {
 	}
 
 	for (i = 0; i < fChargeList->CountItems(); i++) {
-		item = (ReconcileItem *)fChargeList->ItemAt(i);
+		item = (ReconcileItem*)fChargeList->ItemAt(i);
 		if (item->GetTransaction()->Date() >= statdate)
 			break;
 
@@ -653,7 +666,7 @@ ReconcileWindow::AutoReconcile(void) {
 
 	if (dep + chk + chrg + bankchrg + interest + fDifference == 0) {
 		for (i = 0; i < list.CountItems(); i++) {
-			item = (ReconcileItem *)list.ItemAt(i);
+			item = (ReconcileItem*)list.ItemAt(i);
 			item->SetReconciled(true);
 		}
 		ApplyChargesAndInterest();
@@ -665,16 +678,17 @@ ReconcileWindow::AutoReconcile(void) {
 	ShowAlert(
 		B_TRANSLATE("Couldn't quick balance."),
 		B_TRANSLATE("Quick Balance failed. This doesn't mean "
-				  "that you did something wrong - it's just that Quick Balance works on "
-				  "simpler cases in balancing an account than this one. Sorry.")
+					"that you did something wrong - it's just that Quick Balance works on "
+					"simpler cases in balancing an account than this one. Sorry.")
 	);
 	return false;
 }
 
-ReconcileItem *
-ReconcileWindow::FindItemForID(BListView *target, const uint32 &id) {
+ReconcileItem*
+ReconcileWindow::FindItemForID(BListView* target, const uint32& id)
+{
 	for (int32 i = 0; i < target->CountItems(); i++) {
-		ReconcileItem *temp = (ReconcileItem *)target->ItemAt(i);
+		ReconcileItem* temp = (ReconcileItem*)target->ItemAt(i);
 		if (temp->GetTransaction()->GetID() == id)
 			return temp;
 	}
@@ -682,12 +696,13 @@ ReconcileWindow::FindItemForID(BListView *target, const uint32 &id) {
 }
 
 void
-ReconcileWindow::InsertTransactionItem(BListView *target, ReconcileItem *item) {
-	TransactionData *itemdata = item->GetTransaction();
+ReconcileWindow::InsertTransactionItem(BListView* target, ReconcileItem* item)
+{
+	TransactionData* itemdata = item->GetTransaction();
 
 	for (int32 i = 0; i < target->CountItems(); i++) {
-		ReconcileItem *temp = (ReconcileItem *)target->ItemAt(i);
-		TransactionData *tempdata = temp->GetTransaction();
+		ReconcileItem* temp = (ReconcileItem*)target->ItemAt(i);
+		TransactionData* tempdata = temp->GetTransaction();
 
 		if (itemdata->Date() < tempdata->Date() ||
 			(itemdata->Date() == tempdata->Date() &&
@@ -701,11 +716,12 @@ ReconcileWindow::InsertTransactionItem(BListView *target, ReconcileItem *item) {
 }
 
 void
-AddReconcileItems(const TransactionData &data, void *ptr) {
+AddReconcileItems(const TransactionData& data, void* ptr)
+{
 	if (data.Status() == TRANS_RECONCILED)
 		return;
 
-	ReconcileWindow *win = (ReconcileWindow *)ptr;
+	ReconcileWindow* win = (ReconcileWindow*)ptr;
 
 	switch (data.Type().TypeCode()) {
 	case TRANS_NUMERIC: {

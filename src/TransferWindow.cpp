@@ -26,33 +26,36 @@
 #define M_DATE_CHANGED 'dtch'
 #define M_AMOUNT_CHANGED 'amch'
 
-TransferWindow::TransferWindow(BHandler *target)
+TransferWindow::TransferWindow(BHandler* target)
 	: BWindow(
 		  BRect(100, 100, 500, 350), B_TRANSLATE("Add account transfer"), B_TITLED_WINDOW_LOOK,
 		  B_MODAL_APP_WINDOW_FEEL,
 		  B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
 	  ),
-	  fMessenger(target), fMessage(M_CREATE_TRANSFER) {
+	  fMessenger(target), fMessage(M_CREATE_TRANSFER)
+{
 	InitObject(NULL, NULL, Fixed(0));
 }
 
-TransferWindow::TransferWindow(BHandler *target, Account *src, Account *dest, const Fixed &amount)
+TransferWindow::TransferWindow(BHandler* target, Account* src, Account* dest, const Fixed& amount)
 	: BWindow(
 		  BRect(100, 100, 300, 300), B_TRANSLATE("Edit transfer"), B_TITLED_WINDOW_LOOK,
 		  B_MODAL_APP_WINDOW_FEEL,
 		  B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
 	  ),
-	  fMessenger(target) {
+	  fMessenger(target)
+{
 	InitObject(src, dest, amount);
 }
 
 void
-TransferWindow::InitObject(Account *src, Account *dest, const Fixed &amount) {
+TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
+{
 	BString temp;
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BView *back = new BView("back", B_WILL_DRAW);
+	BView* back = new BView("back", B_WILL_DRAW);
 	back->SetViewColor(240, 240, 240);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
 
@@ -93,25 +96,26 @@ TransferWindow::InitObject(Account *src, Account *dest, const Fixed &amount) {
 		BString datestr;
 		gDefaultLocale.DateToString(fDate->GetDate(), datestr);
 		fDate->SetText(datestr.String());
-	} else {
+	}
+	else {
 		BString datestr;
 		gDefaultLocale.DateToString(fDate->GetDate(), datestr);
 		fDate->SetText(datestr.String());
 	}
 
 	fSourceList = new BListView("sourcelist");
-	BScrollView *scrollsrc = new BScrollView("sourcescroll", fSourceList, 0, false, true);
+	BScrollView* scrollsrc = new BScrollView("sourcescroll", fSourceList, 0, false, true);
 	fSourceList->SetSelectionMessage(new BMessage(M_SOURCE_SELECTED));
 	scrollsrc->SetViewColor(back->ViewColor());
 
 	fDestList = new BListView("destlist");
-	BScrollView *scrolldest = new BScrollView("destscroll", fDestList, 0, false, true);
+	BScrollView* scrolldest = new BScrollView("destscroll", fDestList, 0, false, true);
 	fDestList->SetSelectionMessage(new BMessage(M_DEST_SELECTED));
 	scrolldest->SetViewColor(back->ViewColor());
 
 	int32 current = -1;
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *acc = gDatabase.AccountAt(i);
+		Account* acc = gDatabase.AccountAt(i);
 		if (acc) {
 			fSourceList->AddItem(new AccountListItem(acc));
 			fDestList->AddItem(new AccountListItem(acc));
@@ -133,7 +137,8 @@ TransferWindow::InitObject(Account *src, Account *dest, const Fixed &amount) {
 		else
 			fDestList->Select(0L);
 		fAmount->MakeFocus(true);
-	} else
+	}
+	else
 		fDestList->MakeFocus(true);
 
 	BLayoutBuilder::Group<>(back, B_VERTICAL, 0)
@@ -156,16 +161,18 @@ TransferWindow::InitObject(Account *src, Account *dest, const Fixed &amount) {
 }
 
 void
-TransferWindow::SetMessage(BMessage msg) {
+TransferWindow::SetMessage(BMessage msg)
+{
 	fMessage = msg;
 }
 
 void
-TransferWindow::MessageReceived(BMessage *msg) {
+TransferWindow::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_SOURCE_SELECTED: {
 		for (int32 i = 0; i < fDestList->CountItems(); i++) {
-			AccountListItem *item = (AccountListItem *)fDestList->ItemAt(i);
+			AccountListItem* item = (AccountListItem*)fDestList->ItemAt(i);
 			if (item && !item->IsEnabled()) {
 				item->SetEnabled(true);
 				fDestList->InvalidateItem(i);
@@ -188,7 +195,8 @@ TransferWindow::MessageReceived(BMessage *msg) {
 		if (fDate->ChildAt(0)->IsFocus()) {
 			fDate->Validate(false);
 			fOK->MakeFocus(true);
-		} else if (fAmount->ChildAt(0)->IsFocus()) {
+		}
+		else if (fAmount->ChildAt(0)->IsFocus()) {
 			fAmount->Validate(false);
 			fDate->MakeFocus(true);
 		}
@@ -201,7 +209,8 @@ TransferWindow::MessageReceived(BMessage *msg) {
 		if (fDate->ChildAt(0)->IsFocus()) {
 			fDate->Validate(false);
 			fAmount->MakeFocus(true);
-		} else if (fAmount->ChildAt(0)->IsFocus()) {
+		}
+		else if (fAmount->ChildAt(0)->IsFocus()) {
 			fAmount->Validate(false);
 			fMemo->MakeFocus(true);
 		}
@@ -215,13 +224,12 @@ TransferWindow::MessageReceived(BMessage *msg) {
 		if (!fAmount->Validate())
 			break;
 
-		AccountListItem *sitem =
-			(AccountListItem *)fSourceList->ItemAt(fSourceList->CurrentSelection());
+		AccountListItem* sitem =
+			(AccountListItem*)fSourceList->ItemAt(fSourceList->CurrentSelection());
 		if (!sitem)
 			break;
 
-		AccountListItem *ditem =
-			(AccountListItem *)fDestList->ItemAt(fDestList->CurrentSelection());
+		AccountListItem* ditem = (AccountListItem*)fDestList->ItemAt(fDestList->CurrentSelection());
 		if (!ditem)
 			break;
 
@@ -231,7 +239,7 @@ TransferWindow::MessageReceived(BMessage *msg) {
 			ShowAlert(
 				B_TRANSLATE("Not transferring any money"),
 				B_TRANSLATE("If you intend to transfer money, it will need to "
-						  "be an amount that is not zero.")
+							"be an amount that is not zero.")
 			);
 			break;
 		}
@@ -255,9 +263,10 @@ TransferWindow::MessageReceived(BMessage *msg) {
 }
 
 void
-TransferWindow::HandleOKButton(void) {
+TransferWindow::HandleOKButton(void)
+{
 	if (fSourceList->CurrentSelection() >= 0) {
-		AccountListItem *item = (AccountListItem *)fDestList->ItemAt(fDestList->CurrentSelection());
+		AccountListItem* item = (AccountListItem*)fDestList->ItemAt(fDestList->CurrentSelection());
 		if (item && item->IsEnabled()) {
 			fOK->SetEnabled(true);
 			return;

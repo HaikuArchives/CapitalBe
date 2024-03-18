@@ -23,17 +23,17 @@ class AutoTextControlFilter;
 class AutoTextControl : public BTextControl {
   public:
 	AutoTextControl(
-		const char *name, const char *label, const char *text, BMessage *msg,
+		const char* name, const char* label, const char* text, BMessage* msg,
 		uint32 flags = B_WILL_DRAW | B_NAVIGABLE
 	);
 
-	AutoTextControl(BMessage *data);
-	static BArchivable *Instantiate(BMessage *data);
-	virtual status_t Archive(BMessage *data, bool deep = true) const;
+	AutoTextControl(BMessage* data);
+	static BArchivable* Instantiate(BMessage* data);
+	virtual status_t Archive(BMessage* data, bool deep = true) const;
 
-	virtual status_t GetSupportedSuites(BMessage *msg);
-	virtual BHandler *ResolveSpecifier(
-		BMessage *msg, int32 index, BMessage *specifier, int32 form, const char *property
+	virtual status_t GetSupportedSuites(BMessage* msg);
+	virtual BHandler* ResolveSpecifier(
+		BMessage* msg, int32 index, BMessage* specifier, int32 form, const char* property
 	);
 
 	virtual ~AutoTextControl(void);
@@ -41,17 +41,17 @@ class AutoTextControl : public BTextControl {
 	virtual void AttachedToWindow(void);
 	virtual void DetachedFromWindow(void);
 
-	void SetFilter(AutoTextControlFilter *filter);
+	void SetFilter(AutoTextControlFilter* filter);
 
-	AutoTextControlFilter *GetFilter(void) { return fFilter; }
+	AutoTextControlFilter* GetFilter(void) { return fFilter; }
 
-	void SetCharacterLimit(const uint32 &limit);
-	uint32 GetCharacterLimit(const uint32 &limit);
+	void SetCharacterLimit(const uint32& limit);
+	uint32 GetCharacterLimit(const uint32& limit);
 
   private:
 	friend class AutoTextControlFilter;
 
-	AutoTextControlFilter *fFilter;
+	AutoTextControlFilter* fFilter;
 	uint32 fCharLimit;
 };
 
@@ -66,22 +66,22 @@ class AutoTextControl : public BTextControl {
 */
 class AutoTextControlFilter : public BMessageFilter {
   public:
-	AutoTextControlFilter(AutoTextControl *checkview);
+	AutoTextControlFilter(AutoTextControl* checkview);
 	~AutoTextControlFilter(void);
-	virtual filter_result Filter(BMessage *msg, BHandler **target);
-	virtual filter_result KeyFilter(const int32 &key, const int32 &mod);
+	virtual filter_result Filter(BMessage* msg, BHandler** target);
+	virtual filter_result KeyFilter(const int32& key, const int32& mod);
 
-	AutoTextControl *TextControl(void) const { return fBox; }
+	AutoTextControl* TextControl(void) const { return fBox; }
 
-	BMessage *GetCurrentMessage(void) { return fCurrentMessage; }
+	BMessage* GetCurrentMessage(void) { return fCurrentMessage; }
 
-	void SendMessage(BMessage *msg);
-	void SetMessenger(BMessenger *msgr);
+	void SendMessage(BMessage* msg);
+	void SetMessenger(BMessenger* msgr);
 
   private:
-	AutoTextControl *fBox;
-	BMessage *fCurrentMessage;
-	BMessenger *fMessenger;
+	AutoTextControl* fBox;
+	BMessage* fCurrentMessage;
+	BMessenger* fMessenger;
 };
 
 #endif

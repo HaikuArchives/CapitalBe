@@ -13,12 +13,12 @@ class CheckView;
 
 class RegisterView : public BView, public Observer {
   public:
-	RegisterView(const char *name, int32 flags);
+	RegisterView(const char* name, int32 flags);
 	~RegisterView(void);
-	void MessageReceived(BMessage *msg);
+	void MessageReceived(BMessage* msg);
 	void AttachedToWindow(void);
-	void HandleNotify(const uint64 &value, const BMessage *msg);
-	void SelectAccount(const int32 &index);
+	void HandleNotify(const uint64& value, const BMessage* msg);
+	void SelectAccount(const int32& index);
 
 	bool SelectNextTransaction(void) { return fTransactionView->SelectNext(); }
 
@@ -29,11 +29,11 @@ class RegisterView : public BView, public Observer {
 	bool SelectLastTransaction(void) { return fTransactionView->SelectLast(); }
 
   private:
-	CheckView *fCheckView;
-	BListView *fAccountView;
-	BScrollView *fAccountScroller;
-	TransactionView *fTransactionView;
-	BBox *fTrackBox;
+	CheckView* fCheckView;
+	BListView* fAccountView;
+	BScrollView* fAccountScroller;
+	TransactionView* fTransactionView;
+	BBox* fTrackBox;
 };
 
 #endif

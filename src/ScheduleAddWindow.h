@@ -14,14 +14,14 @@ class NumBox;
 
 class ScheduleAddWindow : public BWindow {
   public:
-	ScheduleAddWindow(const BRect &frame, const TransactionData &data);
-	void MessageReceived(BMessage *msg);
+	ScheduleAddWindow(const BRect& frame, const TransactionData& data);
+	void MessageReceived(BMessage* msg);
 
   private:
-	DateBox *fStartDate;
+	DateBox* fStartDate;
 	BRadioButton *fRepeatAlways, *fRepeatLimited;
-	BMenu *fIntervalMenu;
-	NumBox *fRepeatCount;
+	BMenu* fIntervalMenu;
+	NumBox* fRepeatCount;
 
 	TransactionData fTransData;
 };

@@ -23,7 +23,6 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CategoryWindow"
 
-
 enum {
 	M_SHOW_ADD_WINDOW = 'shaw',
 	M_SHOW_REMOVE_WINDOW,
@@ -36,20 +35,20 @@ enum {
 
 class CategoryItem : public BStringItem {
   public:
-	CategoryItem(const BString &name);
-	void DrawItem(BView *owner, BRect frame, bool complete = false);
+	CategoryItem(const BString& name);
+	void DrawItem(BView* owner, BRect frame, bool complete = false);
 };
 
 class CategoryView : public BView {
   public:
-	CategoryView(const char *name, const int32 &flags);
+	CategoryView(const char* name, const int32& flags);
 	void AttachedToWindow(void);
-	void MessageReceived(BMessage *msg);
+	void MessageReceived(BMessage* msg);
 
   private:
 	float RefreshCategoryList(void);
 
-	BOutlineListView *fListView;
+	BOutlineListView* fListView;
 
 	BButton *fAddButton, *fRemoveButton, *fEditButton;
 
@@ -59,52 +58,53 @@ class CategoryView : public BView {
 
 class CategoryInputWindow : public BWindow {
   public:
-	CategoryInputWindow(const BRect &frame, BView *target);
-	void MessageReceived(BMessage *msg);
+	CategoryInputWindow(const BRect& frame, BView* target);
+	void MessageReceived(BMessage* msg);
 
   private:
-	AutoTextControl *fNameBox;
+	AutoTextControl* fNameBox;
 
 	BButton *fOKButton, *fCancelButton;
 
-	BCheckBox *fExpenseBox;
-	BView *fTarget;
+	BCheckBox* fExpenseBox;
+	BView* fTarget;
 };
 
 class CategoryEditWindow : public BWindow {
   public:
-	CategoryEditWindow(const BRect &frame, const char *oldname, BView *target);
-	void MessageReceived(BMessage *msg);
+	CategoryEditWindow(const BRect& frame, const char* oldname, BView* target);
+	void MessageReceived(BMessage* msg);
 
   private:
-	AutoTextControl *fNameBox;
+	AutoTextControl* fNameBox;
 
 	BButton *fOKButton, *fCancelButton;
 
 	BString fOldName;
 
-	BView *fTarget;
+	BView* fTarget;
 };
 
 class CategoryRemoveWindow : public BWindow {
   public:
-	CategoryRemoveWindow(const BRect &frame, const char *from, BView *target);
-	void MessageReceived(BMessage *msg);
+	CategoryRemoveWindow(const BRect& frame, const char* from, BView* target);
+	void MessageReceived(BMessage* msg);
 	void FrameResized(float w, float h);
 
   private:
-	BOutlineListView *fListView;
+	BOutlineListView* fListView;
 
 	CategoryItem *fIncomeItem, *fSpendingItem;
 
-	BTextView *fDirections;
+	BTextView* fDirections;
 
 	BButton *fOKButton, *fCancelButton;
-	BView *fTarget;
-	BScrollView *fScrollView;
+	BView* fTarget;
+	BScrollView* fScrollView;
 };
 
-CategoryView::CategoryView(const char *name, const int32 &flags) : BView(name, flags) {
+CategoryView::CategoryView(const char* name, const int32& flags) : BView(name, flags)
+{
 	BString temp;
 	SetViewColor(240, 240, 240);
 
@@ -123,7 +123,7 @@ CategoryView::CategoryView(const char *name, const int32 &flags) : BView(name, f
 		"categorylist", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW | B_FRAME_EVENTS | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE
 	);
-	BScrollView *sv = new BScrollView("scrollview", fListView, 0, false, true);
+	BScrollView* sv = new BScrollView("scrollview", fListView, 0, false, true);
 
 	fIncomeItem = new CategoryItem(B_TRANSLATE("Income"));
 	fSpendingItem = new CategoryItem(B_TRANSLATE("Spending"));
@@ -145,7 +145,8 @@ CategoryView::CategoryView(const char *name, const int32 &flags) : BView(name, f
 }
 
 void
-CategoryView::AttachedToWindow(void) {
+CategoryView::AttachedToWindow(void)
+{
 	fListView->SetTarget(this);
 	fEditButton->SetTarget(this);
 	fAddButton->SetTarget(this);
@@ -157,11 +158,12 @@ CategoryView::AttachedToWindow(void) {
 }
 
 void
-CategoryView::MessageReceived(BMessage *msg) {
+CategoryView::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_SHOW_ADD_WINDOW: {
 		BRect r(Window()->Frame());
-		CategoryInputWindow *catwin = new CategoryInputWindow(BRect(100, 100, 300, 225), this);
+		CategoryInputWindow* catwin = new CategoryInputWindow(BRect(100, 100, 300, 225), this);
 		catwin->MoveTo(
 			r.left + ((Bounds().Width() - catwin->Bounds().Width()) / 2),
 			r.top + ((Bounds().Height() - catwin->Bounds().Height()) / 2)
@@ -171,13 +173,13 @@ CategoryView::MessageReceived(BMessage *msg) {
 	}
 	case M_SHOW_REMOVE_WINDOW: {
 		int32 index = fListView->CurrentSelection();
-		CategoryItem *item = (CategoryItem *)fListView->ItemAt(index);
+		CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
 		if (!item || item == fIncomeItem || item == fSpendingItem)
 			break;
 
 		BRect r(Window()->Frame());
-		CategoryRemoveWindow *catwin = new CategoryRemoveWindow(r, item->Text(), this);
+		CategoryRemoveWindow* catwin = new CategoryRemoveWindow(r, item->Text(), this);
 		catwin->MoveTo(
 			r.left + ((Bounds().Width() - catwin->Bounds().Width()) / 2),
 			r.top + ((Bounds().Height() - catwin->Bounds().Height()) / 2)
@@ -187,13 +189,13 @@ CategoryView::MessageReceived(BMessage *msg) {
 	}
 	case M_SHOW_EDIT_WINDOW: {
 		int32 index = fListView->CurrentSelection();
-		CategoryItem *item = (CategoryItem *)fListView->ItemAt(index);
+		CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
 		if (!item || item == fIncomeItem || item == fSpendingItem)
 			break;
 
 		BRect r(Window()->Frame());
-		CategoryEditWindow *catwin = new CategoryEditWindow(r, item->Text(), this);
+		CategoryEditWindow* catwin = new CategoryEditWindow(r, item->Text(), this);
 		catwin->MoveTo(
 			r.left + ((Bounds().Width() - catwin->Bounds().Width()) / 2),
 			r.top + ((Bounds().Height() - catwin->Bounds().Height()) / 2)
@@ -207,13 +209,14 @@ CategoryView::MessageReceived(BMessage *msg) {
 		if (msg->FindString("name", &name) != B_OK || msg->FindBool("expense", &expense) != B_OK)
 			break;
 
-		if (name.ICompare(B_TRANSLATE("Income")) == 0 || name.ICompare(B_TRANSLATE("Spending")) == 0 ||
+		if (name.ICompare(B_TRANSLATE("Income")) == 0 ||
+			name.ICompare(B_TRANSLATE("Spending")) == 0 ||
 			name.ICompare(B_TRANSLATE("Split")) == 0) {
 			ShowAlert(
 				B_TRANSLATE("Can't use this category name"),
 				B_TRANSLATE("CapitalBe uses the words 'Income','Spending', and 'Split' "
-						  "for managing categories, so you can't use them as category names. "
-						  "Please choose a different name for your new category.")
+							"for managing categories, so you can't use them as category names. "
+							"Please choose a different name for your new category.")
 			);
 			break;
 		}
@@ -228,7 +231,7 @@ CategoryView::MessageReceived(BMessage *msg) {
 			break;
 
 		int32 index = fListView->CurrentSelection();
-		CategoryItem *item = (CategoryItem *)fListView->ItemAt(index);
+		CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
 		if (!item || item == fIncomeItem || item == fSpendingItem)
 			break;
@@ -246,7 +249,7 @@ CategoryView::MessageReceived(BMessage *msg) {
 			break;
 
 		int32 index = fListView->CurrentSelection();
-		CategoryItem *item = (CategoryItem *)fListView->ItemAt(index);
+		CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
 		if (!item || item == fIncomeItem || item == fSpendingItem)
 			break;
@@ -264,7 +267,8 @@ CategoryView::MessageReceived(BMessage *msg) {
 }
 
 float
-CategoryView::RefreshCategoryList(void) {
+CategoryView::RefreshCategoryList(void)
+{
 	if (fListView->CountItems() > 0) {
 		if (fListView->HasItem(fIncomeItem))
 			fListView->RemoveItem(fIncomeItem);
@@ -281,7 +285,8 @@ CategoryView::RefreshCategoryList(void) {
 	if (strlen(B_TRANSLATE("Income")) > strlen(B_TRANSLATE("Spending"))) {
 		maxchars = strlen(B_TRANSLATE("Income"));
 		maxlength = StringWidth(B_TRANSLATE("Income"));
-	} else {
+	}
+	else {
 		maxchars = strlen(B_TRANSLATE("Spending"));
 		maxlength = StringWidth(B_TRANSLATE("Spending"));
 	}
@@ -313,14 +318,15 @@ CategoryView::RefreshCategoryList(void) {
 	return maxlength;
 }
 
-CategoryWindow::CategoryWindow(const BRect &frame)
+CategoryWindow::CategoryWindow(const BRect& frame)
 	: BWindow(
 		  frame, B_TRANSLATE("Categories"), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS
-	  ) {
+	  )
+{
 	AddCommonFilter(new EscapeCancelFilter);
 
-	CategoryView *view = new CategoryView("categoryview", B_WILL_DRAW);
+	CategoryView* view = new CategoryView("categoryview", B_WILL_DRAW);
 
 	AddShortcut('A', B_COMMAND_KEY, new BMessage(M_SHOW_ADD_WINDOW), view);
 	AddShortcut('R', B_COMMAND_KEY, new BMessage(M_REMOVE_CATEGORY), view);
@@ -328,14 +334,16 @@ CategoryWindow::CategoryWindow(const BRect &frame)
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 }
 
-CategoryItem::CategoryItem(const BString &name) : BStringItem(name.String()) {}
+CategoryItem::CategoryItem(const BString& name) : BStringItem(name.String()) {}
 
 void
-CategoryItem::DrawItem(BView *owner, BRect frame, bool complete) {
+CategoryItem::DrawItem(BView* owner, BRect frame, bool complete)
+{
 	if (IsSelected()) {
 		owner->SetHighColor(GetColor(BC_SELECTION_FOCUS));
 		owner->SetLowColor(GetColor(BC_SELECTION_FOCUS));
-	} else {
+	}
+	else {
 		owner->SetHighColor(255, 255, 255);
 		owner->SetLowColor(255, 255, 255);
 	}
@@ -353,18 +361,19 @@ CategoryItem::DrawItem(BView *owner, BRect frame, bool complete) {
 	owner->ConstrainClippingRegion(NULL);
 }
 
-CategoryInputWindow::CategoryInputWindow(const BRect &frame, BView *target)
+CategoryInputWindow::CategoryInputWindow(const BRect& frame, BView* target)
 	: BWindow(
 		  frame, B_TRANSLATE("Add Category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_V_RESIZABLE |
 			  B_AUTO_UPDATE_SIZE_LIMITS
 	  ),
-	  fTarget(target) {
+	  fTarget(target)
+{
 	BString temp;
 	AddCommonFilter(new EscapeCancelFilter);
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BView *view = new BView("background", B_WILL_DRAW);
+	BView* view = new BView("background", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 	view->SetViewColor(240, 240, 240);
 
@@ -396,13 +405,15 @@ CategoryInputWindow::CategoryInputWindow(const BRect &frame, BView *target)
 }
 
 void
-CategoryInputWindow::MessageReceived(BMessage *msg) {
+CategoryInputWindow::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_NAME_CHANGED: {
 		if (strlen(fNameBox->Text()) > 0) {
 			if (!fOKButton->IsEnabled())
 				fOKButton->SetEnabled(true);
-		} else {
+		}
+		else {
 			if (fOKButton->IsEnabled())
 				fOKButton->SetEnabled(false);
 		}
@@ -422,17 +433,18 @@ CategoryInputWindow::MessageReceived(BMessage *msg) {
 	}
 }
 
-CategoryRemoveWindow::CategoryRemoveWindow(const BRect &frame, const char *from, BView *target)
+CategoryRemoveWindow::CategoryRemoveWindow(const BRect& frame, const char* from, BView* target)
 	: BWindow(
 		  frame, B_TRANSLATE("Remove category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS
 	  ),
-	  fTarget(target) {
+	  fTarget(target)
+{
 	rgb_color backcolor = {240, 240, 240, 255};
 
 	AddCommonFilter(new EscapeCancelFilter);
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
-	BView *view = new BView("background", B_WILL_DRAW | B_FRAME_EVENTS);
+	BView* view = new BView("background", B_WILL_DRAW | B_FRAME_EVENTS);
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 	view->SetViewColor(backcolor);
 
@@ -441,7 +453,7 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect &frame, const char *from,
 
 	BString directions(
 		B_TRANSLATE("Please choose a new category for all transactions currently in the "
-				  "%%CATEGORY_NAME%% category.")
+					"%%CATEGORY_NAME%% category.")
 	);
 	directions.ReplaceFirst("%%CATEGORY_NAME%%", from);
 	fDirections->SetText(directions.String());
@@ -473,7 +485,8 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect &frame, const char *from,
 	if (strlen(B_TRANSLATE("Income")) > strlen(B_TRANSLATE("Spending"))) {
 		maxchars = strlen(B_TRANSLATE("Income"));
 		maxlength = view->StringWidth(B_TRANSLATE("Income"));
-	} else {
+	}
+	else {
 		maxchars = strlen(B_TRANSLATE("Spending"));
 		maxlength = view->StringWidth(B_TRANSLATE("Spending"));
 	}
@@ -513,11 +526,12 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect &frame, const char *from,
 }
 
 void
-CategoryRemoveWindow::MessageReceived(BMessage *msg) {
+CategoryRemoveWindow::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_REMOVE_CATEGORY: {
 		int32 index = fListView->CurrentSelection();
-		CategoryItem *item = (CategoryItem *)fListView->ItemAt(index);
+		CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
 		if (!item || item == fIncomeItem || item == fSpendingItem)
 			break;
@@ -537,25 +551,28 @@ CategoryRemoveWindow::MessageReceived(BMessage *msg) {
 }
 
 void
-CategoryRemoveWindow::FrameResized(float w, float h) {}
+CategoryRemoveWindow::FrameResized(float w, float h)
+{
+}
 
-CategoryEditWindow::CategoryEditWindow(const BRect &frame, const char *oldname, BView *target)
+CategoryEditWindow::CategoryEditWindow(const BRect& frame, const char* oldname, BView* target)
 	: BWindow(
 		  frame, B_TRANSLATE("Edit category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE |
 			  B_AUTO_UPDATE_SIZE_LIMITS
 	  ),
-	  fOldName(oldname), fTarget(target) {
+	  fOldName(oldname), fTarget(target)
+{
 	BString temp;
 	AddCommonFilter(new EscapeCancelFilter);
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BView *view = new BView("background", B_WILL_DRAW | B_FRAME_EVENTS);
+	BView* view = new BView("background", B_WILL_DRAW | B_FRAME_EVENTS);
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 	view->SetViewColor(240, 240, 240);
 
 	temp = B_TRANSLATE("Category name:");
-	BStringView *oldnameView = new BStringView("oldname", temp.String());
+	BStringView* oldnameView = new BStringView("oldname", temp.String());
 
 	temp = B_TRANSLATE("New category name:");
 	fNameBox = new AutoTextControl("namebox", temp.String(), "", new BMessage(M_NAME_CHANGED));
@@ -584,13 +601,15 @@ CategoryEditWindow::CategoryEditWindow(const BRect &frame, const char *oldname, 
 }
 
 void
-CategoryEditWindow::MessageReceived(BMessage *msg) {
+CategoryEditWindow::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_NAME_CHANGED: {
 		if (strlen(fNameBox->Text()) > 0) {
 			if (!fOKButton->IsEnabled())
 				fOKButton->SetEnabled(true);
-		} else {
+		}
+		else {
 			if (fOKButton->IsEnabled())
 				fOKButton->SetEnabled(false);
 		}

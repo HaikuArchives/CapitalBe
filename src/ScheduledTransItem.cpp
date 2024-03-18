@@ -20,10 +20,10 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "ScheduledTransItem"
 
-
-ScheduledTransItem::ScheduledTransItem(const ScheduledTransData &data)
+ScheduledTransItem::ScheduledTransItem(const ScheduledTransData& data)
 	: BListItem(), fAccount(data.GetAccount()), fType(data.Type().Type()), fPayee(data.Payee()),
-	  fAmount(""), fCategory(""), fMemo(data.Memo()), fDate(""), fID(data.GetID()) {
+	  fAmount(""), fCategory(""), fMemo(data.Memo()), fDate(""), fID(data.GetID())
+{
 	Locale locale = data.GetAccount()->GetLocale();
 	locale.CurrencyToString(data.Amount().AbsoluteValue(), fAmount);
 	gDefaultLocale.DateToString(data.Date(), fDate);
@@ -35,7 +35,8 @@ ScheduledTransItem::ScheduledTransItem(const ScheduledTransData &data)
 }
 
 void
-ScheduledTransItem::DrawItem(BView *owner, BRect frame, bool complete) {
+ScheduledTransItem::DrawItem(BView* owner, BRect frame, bool complete)
+{
 	BString string;
 	Locale locale = fAccount->GetLocale();
 
@@ -54,7 +55,8 @@ ScheduledTransItem::DrawItem(BView *owner, BRect frame, bool complete) {
 		owner->SetHighColor(linecolor);
 		owner->StrokeRect(frame);
 		owner->SetHighColor(255, 255, 255);
-	} else {
+	}
+	else {
 		linecolor.red = 200;
 		linecolor.green = 200;
 		linecolor.blue = 200;
@@ -182,7 +184,8 @@ ScheduledTransItem::DrawItem(BView *owner, BRect frame, bool complete) {
 	if (fMemo.CountChars() > 0) {
 		owner->SetHighColor(0, 0, 0);
 		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 3));
-	} else {
+	}
+	else {
 		owner->SetHighColor(linecolor);
 		owner->DrawString("No Memo", BPoint(xpos + 5, ypos - 3));
 	}
@@ -190,13 +193,15 @@ ScheduledTransItem::DrawItem(BView *owner, BRect frame, bool complete) {
 }
 
 void
-ScheduledTransItem::Update(BView *owner, const BFont *finfo) {
+ScheduledTransItem::Update(BView* owner, const BFont* finfo)
+{
 	BListItem::Update(owner, finfo);
 	SetHeight(TRowHeight() * 2);
 }
 
 void
-ScheduledTransItem::SetData(const TransactionData &trans) {
+ScheduledTransItem::SetData(const TransactionData& trans)
+{
 	fAccount = trans.GetAccount();
 	Locale locale = fAccount->GetLocale();
 

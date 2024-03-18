@@ -8,21 +8,25 @@
 #include <stdio.h>
 #include <string.h>
 
-TextFile::TextFile(const char *path, const uint32 &openmode) : BFile(path, openmode) {
+TextFile::TextFile(const char* path, const uint32& openmode) : BFile(path, openmode)
+{
 	InitObject();
 }
 
-TextFile::TextFile(const entry_ref &ref, const uint32 &openmode) : BFile(&ref, openmode) {
+TextFile::TextFile(const entry_ref& ref, const uint32& openmode) : BFile(&ref, openmode)
+{
 	InitObject();
 }
 
-TextFile::~TextFile(void) {
+TextFile::~TextFile(void)
+{
 	delete[] fBuffer;
 	delete[] fReadBuffer;
 }
 
 void
-TextFile::InitObject(void) {
+TextFile::InitObject(void)
+{
 	fReadBuffer = new char[4096];
 	fReadBufferSize = 4096;
 
@@ -34,20 +38,22 @@ TextFile::InitObject(void) {
 		Seek(0, SEEK_SET);
 
 		fBuffer[fBufferSize] = 0;
-	} else {
+	}
+	else {
 		fBuffer = NULL;
 		fBufferSize = 0;
 	}
 }
 
-const char *
-TextFile::ReadLine(void) {
+const char*
+TextFile::ReadLine(void)
+{
 	off_t pos = Position();
 
-	char *c = fBuffer;
+	char* c = fBuffer;
 	c += sizeof(char) * pos;
 
-	char *eol = strchr(c, '\n');
+	char* eol = strchr(c, '\n');
 
 	if (!eol) {
 		// This means that there are no more linefeeds before the the
@@ -75,6 +81,7 @@ TextFile::ReadLine(void) {
 }
 
 bool
-TextFile::IsEOF(void) {
+TextFile::IsEOF(void)
+{
 	return (Position() > fBufferSize);
 }

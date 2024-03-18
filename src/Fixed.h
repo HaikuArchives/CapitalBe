@@ -30,28 +30,28 @@ class Fixed {
 	bool IsPositive(void) const;
 	bool IsZero(void) const;
 
-	Fixed operator+(const Fixed &from);
-	Fixed operator-(const Fixed &from);
-	bool operator<(const Fixed &from) const;
-	bool operator>(const Fixed &from) const;
-	bool operator<=(const Fixed &from) const;
-	bool operator>=(const Fixed &from) const;
-	bool operator!=(const Fixed &from) const;
-	bool operator==(const Fixed &from) const;
+	Fixed operator+(const Fixed& from);
+	Fixed operator-(const Fixed& from);
+	bool operator<(const Fixed& from) const;
+	bool operator>(const Fixed& from) const;
+	bool operator<=(const Fixed& from) const;
+	bool operator>=(const Fixed& from) const;
+	bool operator!=(const Fixed& from) const;
+	bool operator==(const Fixed& from) const;
 
-	Fixed operator+(const double &from);
-	Fixed operator-(const double &from);
-	Fixed operator+=(const double &from);
-	Fixed operator-=(const double &from);
-	Fixed operator*=(const double &from);
-	Fixed operator/=(const double &from);
-	bool operator<(const long &from) const;
-	bool operator>(const long &from) const;
-	bool operator==(const long &from) const;
+	Fixed operator+(const double& from);
+	Fixed operator-(const double& from);
+	Fixed operator+=(const double& from);
+	Fixed operator-=(const double& from);
+	Fixed operator*=(const double& from);
+	Fixed operator/=(const double& from);
+	bool operator<(const long& from) const;
+	bool operator>(const long& from) const;
+	bool operator==(const long& from) const;
 
-	Fixed &operator+=(const Fixed &from);
-	Fixed &operator-=(const Fixed &from);
-	Fixed &operator=(const long &from);
+	Fixed& operator+=(const Fixed& from);
+	Fixed& operator-=(const Fixed& from);
+	Fixed& operator=(const long& from);
 
   private:
 	int32 fValue;

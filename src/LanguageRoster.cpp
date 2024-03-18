@@ -7,10 +7,11 @@
 // #define BUILD_LOGFILE
 
 
-LanguageRoster *language_roster = NULL;
+LanguageRoster* language_roster = NULL;
 
-LanguageRoster::LanguageRoster(const char *path)
-	: fLanguagePath(path), fCurrentLanguage(NULL), fDefaultLanguage(NULL) {
+LanguageRoster::LanguageRoster(const char* path)
+	: fLanguagePath(path), fCurrentLanguage(NULL), fDefaultLanguage(NULL)
+{
 	BDirectory dir(fLanguagePath.String());
 
 	if (dir.InitCheck() != B_OK)
@@ -28,38 +29,43 @@ LanguageRoster::LanguageRoster(const char *path)
 	fCurrentLanguage->Initialize();
 	fLanguageList.AddItem(fDefaultLanguage);
 	while (dir.GetNextRef(&ref) == B_OK) {
-		Language *loc = new Language(ref);
+		Language* loc = new Language(ref);
 		fLanguageList.AddItem(loc);
 	}
 }
 
-LanguageRoster::~LanguageRoster(void) {
+LanguageRoster::~LanguageRoster(void)
+{
 	for (int32 i = 0; i < fLanguageList.CountItems(); i++) {
-		Language *loc = (Language *)fLanguageList.ItemAt(i);
+		Language* loc = (Language*)fLanguageList.ItemAt(i);
 		delete loc;
 	}
 	fLanguageList.MakeEmpty();
 }
 
 int32
-LanguageRoster::CountLanguages(void) const {
+LanguageRoster::CountLanguages(void) const
+{
 	return fLanguageList.CountItems();
 }
 
-Language *
-LanguageRoster::LanguageAt(const int32 &index) {
-	return (Language *)fLanguageList.ItemAt(index);
+Language*
+LanguageRoster::LanguageAt(const int32& index)
+{
+	return (Language*)fLanguageList.ItemAt(index);
 }
 
 void
-LanguageRoster::SetLanguage(const int32 &index) {
-	Language *language = (Language *)fLanguageList.ItemAt(index);
+LanguageRoster::SetLanguage(const int32& index)
+{
+	Language* language = (Language*)fLanguageList.ItemAt(index);
 
 	SetLanguage(language);
 }
 
 void
-LanguageRoster::SetLanguage(Language *language) {
+LanguageRoster::SetLanguage(Language* language)
+{
 	if (language) {
 		if (!language->IsInitialized())
 			language->Initialize();
@@ -73,12 +79,13 @@ LanguageRoster::SetLanguage(Language *language) {
 }
 
 bool
-LanguageRoster::SetLanguage(const char *name) {
+LanguageRoster::SetLanguage(const char* name)
+{
 	if (!name)
 		return false;
 
 	for (int32 i = 0; i < fLanguageList.CountItems(); i++) {
-		Language *language = (Language *)fLanguageList.ItemAt(i);
+		Language* language = (Language*)fLanguageList.ItemAt(i);
 		if (language && strcmp(language->Name(), name) == 0) {
 			SetLanguage(language);
 			return true;

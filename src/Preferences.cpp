@@ -18,7 +18,8 @@ static rgb_color sSelectionNoFocusColor = {205, 205, 230, 255};
 static rgb_color sGridHeaderColor = {225, 225, 255, 255};
 
 void
-ConstrainWindowFrameToScreen(BRect *rect) {
+ConstrainWindowFrameToScreen(BRect* rect)
+{
 	if (!rect)
 		return;
 
@@ -55,7 +56,8 @@ ConstrainWindowFrameToScreen(BRect *rect) {
 }
 
 status_t
-SavePreferences(const char *path) {
+SavePreferences(const char* path)
+{
 	if (!path)
 		return B_ERROR;
 
@@ -75,7 +77,8 @@ SavePreferences(const char *path) {
 }
 
 status_t
-LoadPreferences(const char *path) {
+LoadPreferences(const char* path)
+{
 	if (!path)
 		return B_ERROR;
 
@@ -113,7 +116,8 @@ LoadPreferences(const char *path) {
 }
 
 rgb_color
-GetColor(const CapitalBeColor &color) {
+GetColor(const CapitalBeColor& color)
+{
 	rgb_color returncolor = {0, 0, 0, 0};
 
 	switch (color) {

@@ -15,14 +15,14 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CashFlowReport"
 
-
 void
-ReportWindow::ComputeCashFlow(void) {
+ReportWindow::ComputeCashFlow(void)
+{
 	// Calculate the number of columns and the starting date for each one
 	BObjectList<time_t> timelist(20, true);
 
 	for (time_t t = fStartDate; t < fEndDate;) {
-		time_t *item = new time_t(t);
+		time_t* item = new time_t(t);
 		timelist.AddItem(item);
 
 		switch (fSubtotalMode) {
@@ -50,7 +50,7 @@ ReportWindow::ComputeCashFlow(void) {
 	BString longestname("");
 
 	for (int32 i = 0; i < fCategoryList->CountItems(); i++) {
-		BStringItem *catitem = (BStringItem *)fCategoryList->ItemAt(i);
+		BStringItem* catitem = (BStringItem*)fCategoryList->ItemAt(i);
 		if (!catitem || !catitem->IsSelected() || strlen(catitem->Text()) < 1)
 			continue;
 
@@ -82,13 +82,13 @@ ReportWindow::ComputeCashFlow(void) {
 
 		int32 count = timelist.CountItems() - 1;
 		for (int32 subtotal_index = 0; subtotal_index < count; subtotal_index++) {
-			time_t subtotal_start = *((time_t *)timelist.ItemAt(subtotal_index));
-			time_t subtotal_end = *((time_t *)timelist.ItemAt(subtotal_index + 1));
+			time_t subtotal_start = *((time_t*)timelist.ItemAt(subtotal_index));
+			time_t subtotal_end = *((time_t*)timelist.ItemAt(subtotal_index + 1));
 
 			accountcount = 0;
 			command = expcommand = "";
 			for (int32 i = 0; i < fAccountList->CountItems(); i++) {
-				AccountItem *item = (AccountItem *)fAccountList->ItemAt(i);
+				AccountItem* item = (AccountItem*)fAccountList->ItemAt(i);
 				if (!item || !item->IsSelected())
 					continue;
 
@@ -128,7 +128,8 @@ ReportWindow::ComputeCashFlow(void) {
 					incomegrid.SetRowTitle(incomegrid.CountItems() - 1, catitem->Text());
 					incomegrid.SetValue(subtotal_index, incomegrid.CountItems() - 1, inctotal);
 				}
-			} else
+			}
+			else
 				incomegrid.SetValue(subtotal_index, incomegrid.CountItems() - 1, Fixed());
 
 			// query for spending in this category
@@ -147,7 +148,8 @@ ReportWindow::ComputeCashFlow(void) {
 					expensegrid.SetRowTitle(expensegrid.CountItems() - 1, catitem->Text());
 					expensegrid.SetValue(subtotal_index, expensegrid.CountItems() - 1, exptotal);
 				}
-			} else
+			}
+			else
 				expensegrid.SetValue(subtotal_index, expensegrid.CountItems() - 1, Fixed());
 
 			query.finalize();
@@ -157,7 +159,7 @@ ReportWindow::ComputeCashFlow(void) {
 	expensegrid.Sort();
 
 	// Now that we have all the data, we need to set up the rows and columns for the report grid
-	BColumn *col = new BStringColumn(
+	BColumn* col = new BStringColumn(
 		B_TRANSLATE("Category"), fGridView->StringWidth(longestname.String()) + 20, 10, 300,
 		B_TRUNCATE_END
 	);
@@ -166,7 +168,7 @@ ReportWindow::ComputeCashFlow(void) {
 	int32 i;
 	for (i = 0; i < timelist.CountItems() - 1; i++) {
 		char columntitle[128];
-		struct tm *timestruct = localtime((time_t *)timelist.ItemAt(i));
+		struct tm* timestruct = localtime((time_t*)timelist.ItemAt(i));
 
 		BString formatstring;
 		switch (fSubtotalMode) {
@@ -196,7 +198,7 @@ ReportWindow::ComputeCashFlow(void) {
 	}
 
 	fGridView->AddRow(new BRow());
-	BRow *titlerow = new BRow();
+	BRow* titlerow = new BRow();
 	fGridView->AddRow(titlerow);
 	titlerow->SetField(new BStringField(B_TRANSLATE("Income")), 0);
 	fGridView->AddRow(new BRow());
@@ -204,10 +206,10 @@ ReportWindow::ComputeCashFlow(void) {
 	if (!fGridView->IsHidden()) {
 		// Now that the grid is set up, start adding data to the grid
 		for (i = 0; i < incomegrid.CountItems(); i++) {
-			BRow *row = new BRow();
+			BRow* row = new BRow();
 			fGridView->AddRow(row);
 
-			BStringField *catname = new BStringField(incomegrid.RowTitle(i));
+			BStringField* catname = new BStringField(incomegrid.RowTitle(i));
 			row->SetField(catname, 0);
 
 			for (int32 columnindex = 0; columnindex < timelist.CountItems(); columnindex++) {
@@ -217,7 +219,7 @@ ReportWindow::ComputeCashFlow(void) {
 				incomegrid.ValueAt(columnindex, i, f);
 				gCurrentLocale.CurrencyToString(f, temp);
 
-				BStringField *amountfield = new BStringField(temp.String());
+				BStringField* amountfield = new BStringField(temp.String());
 				row->SetField(amountfield, columnindex + 1);
 			}
 		}
@@ -229,10 +231,10 @@ ReportWindow::ComputeCashFlow(void) {
 		fGridView->AddRow(new BRow());
 
 		for (i = 0; i < expensegrid.CountItems(); i++) {
-			BRow *row = new BRow();
+			BRow* row = new BRow();
 			fGridView->AddRow(row);
 
-			BStringField *catname = new BStringField(expensegrid.RowTitle(i));
+			BStringField* catname = new BStringField(expensegrid.RowTitle(i));
 			row->SetField(catname, 0);
 
 			for (int32 columnindex = 0; columnindex < timelist.CountItems(); columnindex++) {
@@ -242,11 +244,12 @@ ReportWindow::ComputeCashFlow(void) {
 				expensegrid.ValueAt(columnindex, i, f);
 				gCurrentLocale.CurrencyToString(f, temp);
 
-				BStringField *amountfield = new BStringField(temp.String());
+				BStringField* amountfield = new BStringField(temp.String());
 				row->SetField(amountfield, columnindex + 1);
 			}
 		}
-	} else {
+	}
+	else {
 		// Graph view is showing. Render the graph
 		// TODO: Implement as line graph
 

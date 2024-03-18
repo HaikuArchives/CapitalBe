@@ -10,11 +10,11 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CheckNumBox"
 
-
-CheckNumBoxFilter::CheckNumBoxFilter(CheckNumBox *box) : AutoTextControlFilter(box) {}
+CheckNumBoxFilter::CheckNumBoxFilter(CheckNumBox* box) : AutoTextControlFilter(box) {}
 
 filter_result
-CheckNumBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
+CheckNumBoxFilter::KeyFilter(const int32& key, const int32& mod)
+{
 	// Here is where all the *real* work for a date box is done.
 	if (key == B_TAB) {
 		if (mod & B_SHIFT_KEY)
@@ -38,7 +38,7 @@ CheckNumBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 					 !(mod & B_CONTROL_KEY)))
 		return B_DISPATCH_MESSAGE;
 
-	Account *acc = gDatabase.CurrentAccount();
+	Account* acc = gDatabase.CurrentAccount();
 	if (!acc)
 		return B_DISPATCH_MESSAGE;
 
@@ -56,26 +56,30 @@ CheckNumBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 			acc->SetLastCheckNumber(num);
 
 			string << (num + 1);
-		} else
+		}
+		else
 			string << acc->LastCheckNumber() + 1;
 
 		TextControl()->SetText(string.String());
 		TextControl()->TextView()->SelectAll();
 		return B_SKIP_MESSAGE;
-	} else if (keystring == "-") {
+	}
+	else if (keystring == "-") {
 		//		if(strlen(TextControl()->Text())>0)
 		if (length > 0) {
 			uint16 num = acc->LastCheckNumber() - 1;
 			acc->SetLastCheckNumber(num);
 
 			string << (num + 1);
-		} else
+		}
+		else
 			string << acc->LastCheckNumber() + 1;
 
 		TextControl()->SetText(string.String());
 		TextControl()->TextView()->SelectAll();
 		return B_SKIP_MESSAGE;
-	} else
+	}
+	else
 		//	if(end == (int32)strlen(TextControl()->Text()))
 		if (end == length) {
 			TextControl()->TextView()->Delete(start, end);
@@ -97,9 +101,10 @@ CheckNumBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 }
 
 CheckNumBox::CheckNumBox(
-	const char *name, const char *label, const char *text, BMessage *msg, uint32 flags
+	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags
 )
-	: AutoTextControl(name, label, text, msg, flags) {
+	: AutoTextControl(name, label, text, msg, flags)
+{
 	SetFilter(new CheckNumBoxFilter(this));
 
 	const char type_disallowed[] = "`~!@#$%^&*()_-+={[}]|\\;:'\"<>?";
@@ -113,13 +118,14 @@ CheckNumBox::CheckNumBox(
 }
 
 bool
-CheckNumBox::Validate(void) {
+CheckNumBox::Validate(void)
+{
 	if (strlen(Text()) < 1) {
 		ShowAlert(
 			B_TRANSLATE("Transaction type is missing."),
 			B_TRANSLATE("You need to enter a check number or transaction type, such as "
-					  "ATM (for debit card transactions and the like), DEP (for deposits), "
-					  "or your own code for some other kind of expense.")
+						"ATM (for debit card transactions and the like), DEP (for deposits), "
+						"or your own code for some other kind of expense.")
 		);
 		MakeFocus(true);
 		return false;

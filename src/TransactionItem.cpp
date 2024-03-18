@@ -20,11 +20,11 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "TransactionItem"
 
-
-TransactionItem::TransactionItem(const TransactionData &trans)
+TransactionItem::TransactionItem(const TransactionData& trans)
 	: BListItem(), fDate(trans.Date()), fAccount(trans.GetAccount()), fType(trans.Type().Type()),
 	  fPayee(trans.Payee()), fAmount(trans.Amount()), fCategory(""), fMemo(trans.Memo()),
-	  fStatus(trans.Status()), fID(trans.GetID()), fTimeStamp(trans.GetTimeStamp()) {
+	  fStatus(trans.Status()), fID(trans.GetID()), fTimeStamp(trans.GetTimeStamp())
+{
 	if (trans.CountCategories() > 1)
 		fCategory = B_TRANSLATE("Split");
 	else
@@ -32,7 +32,8 @@ TransactionItem::TransactionItem(const TransactionData &trans)
 }
 
 void
-TransactionItem::DrawItem(BView *owner, BRect frame, bool complete) {
+TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
+{
 	BString string;
 	Locale locale = fAccount->GetLocale();
 
@@ -51,7 +52,8 @@ TransactionItem::DrawItem(BView *owner, BRect frame, bool complete) {
 		owner->SetHighColor(linecolor);
 		owner->StrokeRect(frame);
 		owner->SetHighColor(255, 255, 255);
-	} else {
+	}
+	else {
 		linecolor.red = 200;
 		linecolor.green = 200;
 		linecolor.blue = 200;
@@ -63,7 +65,8 @@ TransactionItem::DrawItem(BView *owner, BRect frame, bool complete) {
 			owner->SetHighColor(linecolor);
 			owner->StrokeLine(r.LeftBottom(), r.RightBottom());
 			owner->SetHighColor(255, 255, 255);
-		} else {
+		}
+		else {
 			owner->SetHighColor(255, 255, 255);
 			owner->SetLowColor(255, 255, 255);
 			owner->FillRect(frame);
@@ -190,7 +193,8 @@ TransactionItem::DrawItem(BView *owner, BRect frame, bool complete) {
 	if (fMemo.CountChars() > 0) {
 		owner->SetHighColor(0, 0, 0);
 		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 3));
-	} else {
+	}
+	else {
 		owner->SetHighColor(linecolor);
 		owner->DrawString(B_TRANSLATE("No Memo"), BPoint(xpos + 5, ypos - 3));
 	}
@@ -198,13 +202,15 @@ TransactionItem::DrawItem(BView *owner, BRect frame, bool complete) {
 }
 
 void
-TransactionItem::Update(BView *owner, const BFont *finfo) {
+TransactionItem::Update(BView* owner, const BFont* finfo)
+{
 	BListItem::Update(owner, finfo);
 	SetHeight(TRowHeight() * 2);
 }
 
 void
-TransactionItem::SetData(const TransactionData &trans) {
+TransactionItem::SetData(const TransactionData& trans)
+{
 	fDate = trans.Date();
 	fAccount = trans.GetAccount();
 	fType = trans.Type().Type();

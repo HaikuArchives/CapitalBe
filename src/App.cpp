@@ -18,7 +18,8 @@
 
 bool gRestartApp = false;
 
-App::App(void) : BApplication("application/x-vnd.wgp-CapitalBe") {
+App::App(void) : BApplication("application/x-vnd.wgp-CapitalBe")
+{
 	// Load preferences and then initialize the translation system
 	LoadPreferences(PREFERENCES_PATH "/CapitalBeSettings");
 
@@ -33,17 +34,19 @@ App::App(void) : BApplication("application/x-vnd.wgp-CapitalBe") {
 	else
 		winframe.Set(100, 100, 620, 360);
 
-	MainWindow *win = new MainWindow(winframe);
+	MainWindow* win = new MainWindow(winframe);
 	win->Show();
 }
 
-App::~App(void) {
+App::~App(void)
+{
 	delete language_roster;
 	language_roster = NULL;
 }
 
 void
-App::MessageReceived(BMessage *msg) {
+App::MessageReceived(BMessage* msg)
+{
 	if (msg->what == M_QUIT_NOW)
 		Quit();
 	else
@@ -51,7 +54,8 @@ App::MessageReceived(BMessage *msg) {
 }
 
 int
-main(void) {
+main(void)
+{
 	// Attempt to load the default data file
 
 	BEntry entry("/boot/home/config/settings/CapitalBe");
@@ -66,7 +70,7 @@ main(void) {
 		file.Unset();
 	}
 
-	App *app = new App;
+	App* app = new App;
 	app->Run();
 	delete app;
 
@@ -84,7 +88,8 @@ main(void) {
 #include <Entry.h>
 
 void
-StartFile(void) {
+StartFile(void)
+{
 
 	BEntry entry("/boot/develop/projects/CapitalBe/cbsql/testdb");
 	if (entry.Exists())
@@ -139,7 +144,8 @@ StartFile(void) {
 }
 
 int
-main(void) {
+main(void)
+{
 	//	gDatabase.OpenFile("/boot/develop/projects/CapitalBe/cbsql/testdb");
 
 	StartFile();

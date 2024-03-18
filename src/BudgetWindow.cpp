@@ -21,7 +21,6 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "BudgetWindow"
 
-
 enum {
 	M_CATEGORIES_CHANGED = 'mccc',
 
@@ -39,21 +38,22 @@ enum {
 };
 
 extern int
-compare_stringitem(const void *item1, const void *item2);
+compare_stringitem(const void* item1, const void* item2);
 
-BudgetWindow::BudgetWindow(const BRect &frame)
+BudgetWindow::BudgetWindow(const BRect& frame)
 	: BWindow(
 		  frame, B_TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS
 	  ),
-	  fIncomeGrid(13, 0), fSpendingGrid(13, 0) {
+	  fIncomeGrid(13, 0), fSpendingGrid(13, 0)
+{
 	fBackView = new BView("background", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f).SetInsets(0).Add(fBackView).End();
 	fBackView->SetViewColor(240, 240, 240);
 
 	fBar = new BMenuBar("menubar");
-	fBar->AddItem(new BMenuItem(B_TRANSLATE("Recalculate all"),
-		new BMessage(M_BUDGET_RECALCULATE)));
+	fBar->AddItem(new BMenuItem(B_TRANSLATE("Recalculate all"), new BMessage(M_BUDGET_RECALCULATE))
+	);
 	fBar->AddItem(new BMenuItem(B_TRANSLATE("Set all to zero"), new BMessage(M_BUDGET_ZERO)));
 
 	BuildBudgetSummary();
@@ -104,7 +104,8 @@ BudgetWindow::BudgetWindow(const BRect &frame)
 BudgetWindow::~BudgetWindow(void) {}
 
 void
-BudgetWindow::MessageReceived(BMessage *msg) {
+BudgetWindow::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_SELECT_CATEGORY: {
 		HandleCategorySelection();
@@ -124,7 +125,7 @@ BudgetWindow::MessageReceived(BMessage *msg) {
 		str.Truncate(str.FindFirst(gDefaultLocale.CurrencyDecimal()));
 		str.RemoveFirst(gDefaultLocale.CurrencySymbol());
 
-		BRow *row = fCategoryList->CurrentSelection();
+		BRow* row = fCategoryList->CurrentSelection();
 		if (!row)
 			break;
 
@@ -132,7 +133,7 @@ BudgetWindow::MessageReceived(BMessage *msg) {
 		fCategoryList->UpdateRow(row);
 
 		BudgetEntry entry;
-		gDatabase.GetBudgetEntry(((BStringField *)row->GetField(0))->String(), entry);
+		gDatabase.GetBudgetEntry(((BStringField*)row->GetField(0))->String(), entry);
 		entry.amount = f;
 		if (entry.isexpense)
 			entry.amount.Invert();
@@ -191,8 +192,9 @@ BudgetWindow::MessageReceived(BMessage *msg) {
 }
 
 void
-BudgetWindow::HandleCategorySelection(void) {
-	BRow *row = fCategoryList->CurrentSelection();
+BudgetWindow::HandleCategorySelection(void)
+{
+	BRow* row = fCategoryList->CurrentSelection();
 	if (!row) {
 		fAmountBox->SetText("");
 		fMonthly->SetValue(B_CONTROL_ON);
@@ -202,7 +204,7 @@ BudgetWindow::HandleCategorySelection(void) {
 	}
 
 	BudgetEntry entry;
-	BStringField *strfield = (BStringField *)row->GetField(0);
+	BStringField* strfield = (BStringField*)row->GetField(0);
 	if (!gDatabase.GetBudgetEntry(strfield->String(), entry))
 		return;
 
@@ -250,7 +252,8 @@ BudgetWindow::HandleCategorySelection(void) {
 }
 
 void
-BudgetWindow::RefreshCategories(void) {
+BudgetWindow::RefreshCategories(void)
+{
 	fCategoryList->Clear();
 	fIncomeRow = new BRow();
 	fCategoryList->AddRow(fIncomeRow);
@@ -271,7 +274,7 @@ BudgetWindow::RefreshCategories(void) {
 		amount.SetPremultiplied(query.getInt64Field(1));
 		BudgetPeriod period = (BudgetPeriod)query.getIntField(2);
 
-		BRow *row = new BRow();
+		BRow* row = new BRow();
 
 		if (query.getIntField(3) == 0)
 			fCategoryList->AddRow(row, fIncomeRow);
@@ -300,7 +303,8 @@ BudgetWindow::RefreshCategories(void) {
 }
 
 void
-BudgetWindow::RefreshBudgetSummary(void) {
+BudgetWindow::RefreshBudgetSummary(void)
+{
 	Fixed itotal, stotal, mtotal, f;
 	Fixed irowtotal, srowtotal, ttotal;
 	for (int32 i = 0; i < 12; i++) {
@@ -338,9 +342,9 @@ BudgetWindow::RefreshBudgetSummary(void) {
 		stemp.RemoveFirst(gDefaultLocale.CurrencySymbol());
 		mtemp.RemoveFirst(gDefaultLocale.CurrencySymbol());
 
-		BRow *irow = fBudgetSummary->RowAt(0);
-		BRow *srow = fBudgetSummary->RowAt(1);
-		BRow *mrow = fBudgetSummary->RowAt(2);
+		BRow* irow = fBudgetSummary->RowAt(0);
+		BRow* srow = fBudgetSummary->RowAt(1);
+		BRow* mrow = fBudgetSummary->RowAt(2);
 
 		irow->SetField(new BStringField(itemp.String()), i + 1);
 		srow->SetField(new BStringField(stemp.String()), i + 1);
@@ -380,7 +384,8 @@ BudgetWindow::RefreshBudgetSummary(void) {
 }
 
 void
-BudgetWindow::RefreshBudgetGrid(void) {
+BudgetWindow::RefreshBudgetGrid(void)
+{
 	fIncomeGrid.MakeEmpty();
 	fSpendingGrid.MakeEmpty();
 
@@ -395,7 +400,7 @@ BudgetWindow::RefreshBudgetGrid(void) {
 		amount.SetPremultiplied(query.getInt64Field(1));
 		BudgetPeriod period = (BudgetPeriod)query.getIntField(2);
 
-		ReportGrid *grid = (amount.IsPositive()) ? &fIncomeGrid : &fSpendingGrid;
+		ReportGrid* grid = (amount.IsPositive()) ? &fIncomeGrid : &fSpendingGrid;
 
 		int32 index = grid->CountItems();
 		grid->AddItem();
@@ -431,7 +436,8 @@ BudgetWindow::RefreshBudgetGrid(void) {
 }
 
 void
-BudgetWindow::GenerateBudget(const bool &zero) {
+BudgetWindow::GenerateBudget(const bool& zero)
+{
 	// Generate a budget based on the last year's transactions
 	ReportGrid income(1, 0), spending(1, 0);
 
@@ -459,7 +465,8 @@ BudgetWindow::GenerateBudget(const bool &zero) {
 		if (isexpense) {
 			spending.AddItem();
 			spending.SetRowTitle(spending.CountItems() - 1, catname.String());
-		} else {
+		}
+		else {
 			income.AddItem();
 			income.SetRowTitle(income.CountItems() - 1, catname.String());
 		}
@@ -481,7 +488,7 @@ BudgetWindow::GenerateBudget(const bool &zero) {
 
 		if (!zero) {
 			for (int32 j = 0; j < gDatabase.CountAccounts(); j++) {
-				Account *acc = gDatabase.AccountAt(j);
+				Account* acc = gDatabase.AccountAt(j);
 				querystring = "select sum(amount) from account_";
 				querystring << acc->GetID() << " where category = '"
 							<< EscapeIllegalCharacters(income.RowTitle(i)) << "' and date > "
@@ -505,7 +512,7 @@ BudgetWindow::GenerateBudget(const bool &zero) {
 
 		if (!zero) {
 			for (int32 j = 0; j < gDatabase.CountAccounts(); j++) {
-				Account *acc = gDatabase.AccountAt(j);
+				Account* acc = gDatabase.AccountAt(j);
 				querystring = "select sum(amount) from account_";
 				querystring << acc->GetID() << " where category = '"
 							<< EscapeIllegalCharacters(spending.RowTitle(i)) << "';";
@@ -524,7 +531,8 @@ BudgetWindow::GenerateBudget(const bool &zero) {
 }
 
 void
-BudgetWindow::CalcStats(const char *cat, Fixed &high, Fixed &low, Fixed &avg) {
+BudgetWindow::CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg)
+{
 	if (!cat)
 		return;
 
@@ -534,7 +542,7 @@ BudgetWindow::CalcStats(const char *cat, Fixed &high, Fixed &low, Fixed &avg) {
 
 	// find the average amount
 	for (int32 j = 0; j < gDatabase.CountAccounts(); j++) {
-		Account *acc = gDatabase.AccountAt(j);
+		Account* acc = gDatabase.AccountAt(j);
 		querystring = "select sum(amount) from account_";
 		querystring << acc->GetID() << " where category = '" << EscapeIllegalCharacters(cat)
 					<< "';";
@@ -548,7 +556,7 @@ BudgetWindow::CalcStats(const char *cat, Fixed &high, Fixed &low, Fixed &avg) {
 	// find the highest amount
 	cattotal = 0;
 	for (int32 j = 0; j < gDatabase.CountAccounts(); j++) {
-		Account *acc = gDatabase.AccountAt(j);
+		Account* acc = gDatabase.AccountAt(j);
 		querystring = "select max(amount) from account_";
 		querystring << acc->GetID() << " where category = '" << EscapeIllegalCharacters(cat)
 					<< "';";
@@ -563,7 +571,7 @@ BudgetWindow::CalcStats(const char *cat, Fixed &high, Fixed &low, Fixed &avg) {
 	// find the lowest amount
 	cattotal = 0;
 	for (int32 j = 0; j < gDatabase.CountAccounts(); j++) {
-		Account *acc = gDatabase.AccountAt(j);
+		Account* acc = gDatabase.AccountAt(j);
 		querystring = "select min(amount) from account_";
 		querystring << acc->GetID() << " where category = '" << EscapeIllegalCharacters(cat)
 					<< "';";
@@ -577,13 +585,14 @@ BudgetWindow::CalcStats(const char *cat, Fixed &high, Fixed &low, Fixed &avg) {
 }
 
 void
-BudgetWindow::SetPeriod(const BudgetPeriod &period) {
-	BRow *row = fCategoryList->CurrentSelection();
+BudgetWindow::SetPeriod(const BudgetPeriod& period)
+{
+	BRow* row = fCategoryList->CurrentSelection();
 	if (!row)
 		return;
 
 	BudgetEntry entry;
-	BStringField *strfield = (BStringField *)row->GetField(0);
+	BStringField* strfield = (BStringField*)row->GetField(0);
 	if (!gDatabase.GetBudgetEntry(strfield->String(), entry))
 		return;
 
@@ -645,7 +654,8 @@ BudgetWindow::SetPeriod(const BudgetPeriod &period) {
 }
 
 void
-BudgetWindow::BuildStatsAndEditor(void) {
+BudgetWindow::BuildStatsAndEditor(void)
+{
 	// Add the category statistics
 	BString temp;
 	rgb_color white = {255, 255, 255, 255};
@@ -685,8 +695,8 @@ BudgetWindow::BuildStatsAndEditor(void) {
 
 	fMonthly =
 		new BRadioButton("monthoption", B_TRANSLATE("Monthly"), new BMessage(M_SET_PERIOD_MONTH));
-	fWeekly = new BRadioButton("weekoption", B_TRANSLATE("Weekly"),
-		new BMessage(M_SET_PERIOD_WEEK));
+	fWeekly =
+		new BRadioButton("weekoption", B_TRANSLATE("Weekly"), new BMessage(M_SET_PERIOD_WEEK));
 	fQuarterly = new BRadioButton(
 		"quarteroption", B_TRANSLATE("Quarterly"), new BMessage(M_SET_PERIOD_QUARTER)
 	);
@@ -703,7 +713,8 @@ BudgetWindow::BuildStatsAndEditor(void) {
 }
 
 void
-BudgetWindow::BuildBudgetSummary(void) {
+BudgetWindow::BuildBudgetSummary(void)
+{
 	rgb_color white = {255, 255, 255, 255};
 
 	fSummaryIncomeRow = new BRow();
@@ -715,8 +726,8 @@ BudgetWindow::BuildBudgetSummary(void) {
 	fBudgetSummary->SetSortingEnabled(false);
 	fBudgetSummary->AddColumn(
 		new BStringColumn(
-			B_TRANSLATE("Summary"), fBudgetSummary->StringWidth(B_TRANSLATE("Spending")) + 20, 10, 300,
-			B_TRUNCATE_END
+			B_TRANSLATE("Summary"), fBudgetSummary->StringWidth(B_TRANSLATE("Spending")) + 20, 10,
+			300, B_TRUNCATE_END
 		),
 		0
 	);
@@ -773,7 +784,8 @@ BudgetWindow::BuildBudgetSummary(void) {
 }
 
 void
-BudgetWindow::BuildCategoryList(void) {
+BudgetWindow::BuildCategoryList(void)
+{
 	rgb_color white = {255, 255, 255, 255};
 
 	fCategoryList =
@@ -782,8 +794,8 @@ BudgetWindow::BuildCategoryList(void) {
 	fCategoryList->SetSelectionMessage(new BMessage(M_SELECT_CATEGORY));
 	fCategoryList->AddColumn(
 		new BStringColumn(
-			B_TRANSLATE("Category"), fCategoryList->StringWidth(B_TRANSLATE("Category")) + 20, 10, 300,
-			B_TRUNCATE_END
+			B_TRANSLATE("Category"), fCategoryList->StringWidth(B_TRANSLATE("Category")) + 20, 10,
+			300, B_TRUNCATE_END
 		),
 		0
 	);

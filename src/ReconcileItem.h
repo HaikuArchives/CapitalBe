@@ -5,14 +5,13 @@
 
 #include <ListItem.h>
 
-
 class ReconcileItem : public BStringItem {
   public:
-	ReconcileItem(const TransactionData &trans);
+	ReconcileItem(const TransactionData& trans);
 	~ReconcileItem(void);
-	void DrawItem(BView *owner, BRect frame, bool complete = false);
+	void DrawItem(BView* owner, BRect frame, bool complete = false);
 
-	TransactionData *GetTransaction(void) { return &fTransaction; }
+	TransactionData* GetTransaction(void) { return &fTransaction; }
 
 	void SetReconciled(bool value);
 	bool IsReconciled(void) const;

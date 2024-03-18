@@ -14,7 +14,6 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "BudgetReport"
 
-
 /*
 	Status:
 	Different tack on the same task - go one row at a time by querying once for
@@ -31,21 +30,23 @@ typedef enum { MAP_UNCHANGED = 0, MAP_CHANGED = 1, MAP_BAD_VALUE = -1 } map_stat
 
 map_status
 MapBudgetToSubtotal(
-	Fixed &fixed, const int &budgetperiod, const int &subtotal, const time_t &start,
-	const time_t &end
+	Fixed& fixed, const int& budgetperiod, const int& subtotal, const time_t& start,
+	const time_t& end
 );
 
 void
-ReportWindow::ComputeBudget(void) {
+ReportWindow::ComputeBudget(void)
+{
 	BObjectList<time_t> timelist(20, true);
 
 	// Calculate the number of columns and the starting date for each one
 	if (fSubtotalMode == SUBTOTAL_NONE) {
 		timelist.AddItem(new time_t(fStartDate));
 		timelist.AddItem(new time_t(fEndDate));
-	} else {
+	}
+	else {
 		for (time_t t = fStartDate; t < fEndDate;) {
-			time_t *item = new time_t(t);
+			time_t* item = new time_t(t);
 			timelist.AddItem(item);
 
 			switch (fSubtotalMode) {
@@ -91,13 +92,14 @@ ReportWindow::ComputeBudget(void) {
 	// The rest of the array will be initialized in the column-adding loop
 	float maxwidths[count + 1];
 	maxwidths[0] = be_plain_font->StringWidth("Category") + 20;
-	fGridView->AddColumn(new BStringColumn(B_TRANSLATE("Category"), maxwidths[0], 10, 300,
-		B_TRUNCATE_END), 0);
+	fGridView->AddColumn(
+		new BStringColumn(B_TRANSLATE("Category"), maxwidths[0], 10, 300, B_TRUNCATE_END), 0
+	);
 
 	int32 i;
 	for (i = 0; i < timelist.CountItems() - 1; i++) {
 		char columntitle[128];
-		struct tm *timestruct = localtime((time_t *)timelist.ItemAt(i));
+		struct tm* timestruct = localtime((time_t*)timelist.ItemAt(i));
 
 		BString formatstring;
 		switch (fSubtotalMode) {
@@ -128,7 +130,7 @@ ReportWindow::ComputeBudget(void) {
 	}
 
 	// Later this will iterate over all items in the category list
-	BStringItem *stringitem = (BStringItem *)fCategoryList->ItemAt(0);
+	BStringItem* stringitem = (BStringItem*)fCategoryList->ItemAt(0);
 	if (!stringitem) {
 		ShowBug("NULL category BStringItem in ReportWindow::ComputeBudget");
 		return;
@@ -155,7 +157,7 @@ ReportWindow::ComputeBudget(void) {
 	BString escaped = EscapeIllegalCharacters(stringitem->Text());
 	int32 accountcount = 0;
 	for (i = 0; i < fAccountList->CountItems(); i++) {
-		AccountItem *item = (AccountItem *)fAccountList->ItemAt(i);
+		AccountItem* item = (AccountItem*)fAccountList->ItemAt(i);
 		if (!item || !item->IsSelected())
 			continue;
 
@@ -174,15 +176,15 @@ ReportWindow::ComputeBudget(void) {
 	if (query.eof())
 		return;
 
-	BRow *budrow = new BRow();
+	BRow* budrow = new BRow();
 	fGridView->AddRow(budrow);
 	budrow->SetField(new BStringField(stringitem->Text()), 0);
 
-	BRow *amtrow = new BRow();
+	BRow* amtrow = new BRow();
 	fGridView->AddRow(amtrow);
 	amtrow->SetField(new BStringField(""), 0);
 
-	BRow *diffrow = new BRow();
+	BRow* diffrow = new BRow();
 	fGridView->AddRow(diffrow);
 	diffrow->SetField(new BStringField(""), 0);
 
@@ -199,8 +201,8 @@ ReportWindow::ComputeBudget(void) {
 
 	// This loop places values for a row into corresponding places in each grid
 	for (int32 subtotal_index = 0; subtotal_index < count; subtotal_index++) {
-		time_t subtotal_start = *((time_t *)timelist.ItemAt(subtotal_index));
-		time_t subtotal_end = *((time_t *)timelist.ItemAt(subtotal_index + 1));
+		time_t subtotal_start = *((time_t*)timelist.ItemAt(subtotal_index));
+		time_t subtotal_end = *((time_t*)timelist.ItemAt(subtotal_index + 1));
 
 		Fixed budamount = budgetentry.amount;
 		map_status mapstatus = MapBudgetToSubtotal(
@@ -240,7 +242,7 @@ ReportWindow::ComputeBudget(void) {
 			budamount.AsLong()
 		);
 		BString string;
-		BStringField *field;
+		BStringField* field;
 
 		string << budamount.AbsoluteValue().AsFloat();
 		field = new BStringField(string.String());
@@ -265,9 +267,10 @@ ReportWindow::ComputeBudget(void) {
 
 map_status
 MapBudgetToSubtotal(
-	Fixed &fixed, const int &budgetperiod, const int &subtotal, const time_t &start,
-	const time_t &end
-) {
+	Fixed& fixed, const int& budgetperiod, const int& subtotal, const time_t& start,
+	const time_t& end
+)
+{
 	// Converts a Fixed value into the proper period. When the value is actually
 	// converted (Subtotal-Monthly + Budget-Weekly, etc.), MAP_CHANGED is returned and
 	// the actual value is found in the Fixed parameter originally passed to it.

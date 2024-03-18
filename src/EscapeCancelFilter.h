@@ -12,12 +12,13 @@ class EscapeCancelFilter : public BMessageFilter {
 
 	~EscapeCancelFilter(void) {}
 
-	filter_result Filter(BMessage *msg, BHandler **target) {
+	filter_result Filter(BMessage* msg, BHandler** target)
+	{
 		int32 rawchar;
 		msg->FindInt32("raw_char", &rawchar);
 
 		if (rawchar == B_ESCAPE) {
-			BLooper *loop = (*target)->Looper();
+			BLooper* loop = (*target)->Looper();
 			if (loop) {
 				BMessenger msgr(loop);
 				msgr.SendMessage(B_QUIT_REQUESTED);

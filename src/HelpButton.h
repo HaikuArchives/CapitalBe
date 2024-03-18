@@ -9,11 +9,11 @@
 
 class HelpButton : public BButton {
   public:
-	HelpButton(const char *name, const char *path);
+	HelpButton(const char* name, const char* path);
 	~HelpButton(void);
 
 	virtual void AttachedToWindow();
-	virtual void MessageReceived(BMessage *msg);
+	virtual void MessageReceived(BMessage* msg);
 
   private:
 	entry_ref fRef;

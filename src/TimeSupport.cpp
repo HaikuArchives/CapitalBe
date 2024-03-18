@@ -2,35 +2,40 @@
 #include <OS.h>
 
 time_t
-IncrementDateByDay(const time_t &t) {
+IncrementDateByDay(const time_t& t)
+{
 	struct tm timestruct = *localtime(&t);
 	timestruct.tm_mday++;
 	return mktime(&timestruct);
 }
 
 time_t
-DecrementDateByDay(const time_t &t) {
+DecrementDateByDay(const time_t& t)
+{
 	struct tm timestruct = *localtime(&t);
 	timestruct.tm_mday--;
 	return mktime(&timestruct);
 }
 
 time_t
-IncrementDateByMonth(const time_t &t) {
+IncrementDateByMonth(const time_t& t)
+{
 	struct tm timestruct = *localtime(&t);
 	timestruct.tm_mon++;
 	return mktime(&timestruct);
 }
 
 time_t
-DecrementDateByMonth(const time_t &t) {
+DecrementDateByMonth(const time_t& t)
+{
 	struct tm timestruct = *localtime(&t);
 	timestruct.tm_mon--;
 	return mktime(&timestruct);
 }
 
 time_t
-IncrementDateByQuarter(const time_t &t) {
+IncrementDateByQuarter(const time_t& t)
+{
 	struct tm timestruct = *localtime(&t);
 	int quarter = (timestruct.tm_mon + 1) / 3;
 	if ((timestruct.tm_mon + 1) % 3 > 0)
@@ -39,7 +44,8 @@ IncrementDateByQuarter(const time_t &t) {
 	if (quarter == 4) {
 		quarter = 1;
 		timestruct.tm_year++;
-	} else
+	}
+	else
 		quarter++;
 
 	// We subtract 3 becuase the actual month is (quarter * 3) - 2, but we
@@ -49,21 +55,24 @@ IncrementDateByQuarter(const time_t &t) {
 }
 
 time_t
-IncrementDateByYear(const time_t &t) {
+IncrementDateByYear(const time_t& t)
+{
 	struct tm timestruct = *localtime(&t);
 	timestruct.tm_year++;
 	return mktime(&timestruct);
 }
 
 time_t
-DecrementDateByYear(const time_t &t) {
+DecrementDateByYear(const time_t& t)
+{
 	struct tm timestruct = *localtime(&t);
 	timestruct.tm_year--;
 	return mktime(&timestruct);
 }
 
 time_t
-GetCurrentDate(void) {
+GetCurrentDate(void)
+{
 	time_t rawtime;
 	time(&rawtime);
 	struct tm timestruct = *localtime(&rawtime);
@@ -75,7 +84,8 @@ GetCurrentDate(void) {
 
 // Returns the value for the first day of the month.
 time_t
-GetCurrentMonth(void) {
+GetCurrentMonth(void)
+{
 	time_t rawtime;
 	time(&rawtime);
 	struct tm timestruct = *localtime(&rawtime);
@@ -88,7 +98,8 @@ GetCurrentMonth(void) {
 
 // Returns the value for the first day of the quarter
 time_t
-GetCurrentQuarter(void) {
+GetCurrentQuarter(void)
+{
 	time_t rawtime;
 	time(&rawtime);
 	struct tm timestruct = *localtime(&rawtime);
@@ -110,7 +121,8 @@ GetCurrentQuarter(void) {
 
 // Returns the value for the first day of the year
 time_t
-GetCurrentYear(void) {
+GetCurrentYear(void)
+{
 	time_t rawtime;
 	time(&rawtime);
 	struct tm timestruct = *localtime(&rawtime);
@@ -124,7 +136,8 @@ GetCurrentYear(void) {
 }
 
 time_t
-GetLastMonth(void) {
+GetLastMonth(void)
+{
 	time_t rawtime;
 	time(&rawtime);
 	struct tm timestruct = *localtime(&rawtime);
@@ -138,7 +151,8 @@ GetLastMonth(void) {
 }
 
 time_t
-GetLastQuarter(void) {
+GetLastQuarter(void)
+{
 	time_t rawtime;
 	time(&rawtime);
 	struct tm timestruct = *localtime(&rawtime);
@@ -155,7 +169,8 @@ GetLastQuarter(void) {
 	if (quarter == 1) {
 		quarter = 4;
 		timestruct.tm_year--;
-	} else
+	}
+	else
 		quarter--;
 
 	// We subtract 3 becuase the actual month is (quarter * 3) - 2, but we
@@ -165,7 +180,8 @@ GetLastQuarter(void) {
 }
 
 time_t
-GetLastYear(void) {
+GetLastYear(void)
+{
 	time_t rawtime;
 	time(&rawtime);
 	struct tm timestruct = *localtime(&rawtime);
@@ -180,7 +196,8 @@ GetLastYear(void) {
 }
 
 BString
-GetShortMonthName(const uint8 &number) {
+GetShortMonthName(const uint8& number)
+{
 	time_t rawtime;
 	time(&rawtime);
 	struct tm timestruct = *localtime(&rawtime);
@@ -192,7 +209,8 @@ GetShortMonthName(const uint8 &number) {
 }
 
 int
-DayOfWeek(int day, int month, int year) {
+DayOfWeek(int day, int month, int year)
+{
 	// adjust months so February is the last one
 	month -= 2;
 	if (month < 1) {
@@ -207,7 +225,8 @@ DayOfWeek(int day, int month, int year) {
 }
 
 int
-DaysInMonth(int month, int year) {
+DaysInMonth(int month, int year)
+{
 	if (month > 11 || month < 0 || year < 0) {
 		debugger("Bad value in DaysInMonth");
 		return 0;
@@ -238,7 +257,8 @@ DaysInMonth(int month, int year) {
 }
 
 bool
-IsLeapYear(int year) {
+IsLeapYear(int year)
+{
 	if (year < 0) {
 		debugger("Bad value in IsLeapYear");
 		return false;
@@ -251,7 +271,8 @@ IsLeapYear(int year) {
 }
 
 int
-DayOfYear(int day, int month, int year) {
+DayOfYear(int day, int month, int year)
+{
 	if (month > 11 || month < 0 || year < 0 || day < 0 || day > 31) {
 		debugger("Bad value in DayOfYear");
 		return 0;
@@ -275,7 +296,8 @@ DayOfYear(int day, int month, int year) {
 }
 
 int
-GetQuarterForDate(const time_t &t) {
+GetQuarterForDate(const time_t& t)
+{
 	struct tm timestruct = *localtime(&t);
 	timestruct.tm_sec = 0;
 	timestruct.tm_min = 0;
@@ -290,7 +312,8 @@ GetQuarterForDate(const time_t &t) {
 }
 
 int
-GetQuarterMonthForDate(const time_t &t) {
+GetQuarterMonthForDate(const time_t& t)
+{
 	struct tm timestruct = *localtime(&t);
 	timestruct.tm_sec = 0;
 	timestruct.tm_min = 0;

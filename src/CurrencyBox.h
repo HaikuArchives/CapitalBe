@@ -7,14 +7,14 @@ class CurrencyBox;
 
 class CurrencyBoxFilter : public NavTextBoxFilter {
   public:
-	CurrencyBoxFilter(CurrencyBox *box);
-	filter_result KeyFilter(const int32 &key, const int32 &mod);
+	CurrencyBoxFilter(CurrencyBox* box);
+	filter_result KeyFilter(const int32& key, const int32& mod);
 };
 
 class CurrencyBox : public NavTextBox {
   public:
 	CurrencyBox(
-		const char *name, const char *label, const char *text, BMessage *msg,
+		const char* name, const char* label, const char* text, BMessage* msg,
 		uint32 flags = B_WILL_DRAW | B_NAVIGABLE
 	);
 

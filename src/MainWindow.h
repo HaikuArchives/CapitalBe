@@ -61,8 +61,8 @@ class MainWindow : public BWindow, public Observer {
 
 	void OpenAbout(void);
 	bool QuitRequested(void);
-	void MessageReceived(BMessage *msg);
-	void HandleNotify(const uint64 &value, const BMessage *msg);
+	void MessageReceived(BMessage* msg);
+	void HandleNotify(const uint64& value, const BMessage* msg);
 	void ReadLanguageSettings(void);
 	void WriteLanguageSettings(void);
 
@@ -71,14 +71,14 @@ class MainWindow : public BWindow, public Observer {
 	void LoadData(void);
 	void SaveData(void);
 
-	void CreateTransfer(BMessage *msg);
+	void CreateTransfer(BMessage* msg);
 
-	RegisterView *fRegisterView;
+	RegisterView* fRegisterView;
 	BFilePanel *fImportPanel, *fExportPanel;
 
 	BString fLastFile;
-	BMenuItem *fAccountClosedItem;
-	BMenu *fLanguageMenu;
+	BMenuItem* fAccountClosedItem;
+	BMenu* fLanguageMenu;
 
 	bool fLoadError;
 	BString fLanguage;

@@ -13,18 +13,21 @@
 #include <ctime>
 #include <stdio.h>
 
-ReconcileItem::ReconcileItem(const TransactionData &trans) : BStringItem(""), fTransaction(trans) {
+ReconcileItem::ReconcileItem(const TransactionData& trans) : BStringItem(""), fTransaction(trans)
+{
 	fValue = fTransaction.Status();
 }
 
 ReconcileItem::~ReconcileItem(void) {}
 
 void
-ReconcileItem::DrawItem(BView *owner, BRect frame, bool complete) {
+ReconcileItem::DrawItem(BView* owner, BRect frame, bool complete)
+{
 	if (IsSelected()) {
 		owner->SetHighColor(GetColor(BC_SELECTION_FOCUS));
 		owner->SetLowColor(GetColor(BC_SELECTION_FOCUS));
-	} else {
+	}
+	else {
 		owner->SetHighColor(255, 255, 255);
 		owner->SetLowColor(255, 255, 255);
 	}
@@ -63,17 +66,20 @@ ReconcileItem::DrawItem(BView *owner, BRect frame, bool complete) {
 }
 
 void
-ReconcileItem::SetReconciled(bool value) {
+ReconcileItem::SetReconciled(bool value)
+{
 	fTransaction.SetStatus(value ? TRANS_RECONCILED : TRANS_OPEN);
 }
 
 bool
-ReconcileItem::IsReconciled(void) const {
+ReconcileItem::IsReconciled(void) const
+{
 	return (fTransaction.Status() == TRANS_RECONCILED);
 }
 
 void
-ReconcileItem::SyncToTransaction(void) {
+ReconcileItem::SyncToTransaction(void)
+{
 	if (fTransaction.Status() == TRANS_RECONCILED)
 		gDatabase.SetTransactionStatus(fTransaction.GetID(), TRANS_RECONCILED);
 	else

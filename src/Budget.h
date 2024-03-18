@@ -19,12 +19,12 @@ class BudgetEntry {
   public:
 	BudgetEntry(void);
 	BudgetEntry(
-		const char *name, const Fixed &amount, const BudgetPeriod &period, const bool &isexpense
+		const char* name, const Fixed& amount, const BudgetPeriod& period, const bool& isexpense
 	);
-	BudgetEntry(const BudgetEntry &from);
-	BudgetEntry &operator=(const BudgetEntry &from);
+	BudgetEntry(const BudgetEntry& from);
+	BudgetEntry& operator=(const BudgetEntry& from);
 	void
-	Set(const char *name, const Fixed &amount, const BudgetPeriod &period, const bool &isexpense);
+	Set(const char* name, const Fixed& amount, const BudgetPeriod& period, const bool& isexpense);
 
 	BString name;
 	Fixed amount;
@@ -33,8 +33,8 @@ class BudgetEntry {
 };
 
 BString
-BudgetPeriodToString(const BudgetPeriod &period);
+BudgetPeriodToString(const BudgetPeriod& period);
 BudgetPeriod
-StringToBudgetPeriod(const char *string);
+StringToBudgetPeriod(const char* string);
 
 #endif

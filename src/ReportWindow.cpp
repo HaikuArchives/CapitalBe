@@ -26,7 +26,7 @@
 
 
 int
-compare_stringitem(const void *item1, const void *item2);
+compare_stringitem(const void* item1, const void* item2);
 
 enum {
 	M_REPORT_CASH_FLOW = 'csfl',
@@ -53,21 +53,22 @@ ReportWindow::ReportWindow(BRect frame)
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS
 	  ),
 	  fSubtotalMode(SUBTOTAL_NONE), fReportMode(REPORT_CASH_FLOW), fStartDate(GetCurrentYear()),
-	  fEndDate(GetCurrentDate()), fTitleFont(be_bold_font), fHeaderFont(be_plain_font) {
+	  fEndDate(GetCurrentDate()), fTitleFont(be_bold_font), fHeaderFont(be_plain_font)
+{
 	BString temp;
 
 	fHeaderFont.SetFace(B_ITALIC_FACE);
 
-	BView *view = new BView("back", B_WILL_DRAW);
+	BView* view = new BView("back", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f).SetInsets(0).Add(view).End();
 	view->SetViewColor(240, 240, 240);
 
-	BGroupLayout *reportsLayout = new BGroupLayout(B_VERTICAL, 0);
-	BGroupLayout *accountsLayout = new BGroupLayout(B_VERTICAL, 0);
-	BGroupLayout *subtotalLayout = new BGroupLayout(B_VERTICAL, 0);
-	BGroupLayout *categoriesLayout = new BGroupLayout(B_VERTICAL, 0);
+	BGroupLayout* reportsLayout = new BGroupLayout(B_VERTICAL, 0);
+	BGroupLayout* accountsLayout = new BGroupLayout(B_VERTICAL, 0);
+	BGroupLayout* subtotalLayout = new BGroupLayout(B_VERTICAL, 0);
+	BGroupLayout* categoriesLayout = new BGroupLayout(B_VERTICAL, 0);
 
-	BGroupLayout *layout_ = new BGroupLayout(B_VERTICAL, 1.0f);
+	BGroupLayout* layout_ = new BGroupLayout(B_VERTICAL, 1.0f);
 	BLayoutBuilder::Group<>(view, B_HORIZONTAL)
 		.SetInsets(10)
 		.AddGroup(B_VERTICAL, 1.0f)
@@ -79,14 +80,15 @@ ReportWindow::ReportWindow(BRect frame)
 		.Add(layout_)
 		.End();
 
-	BMenu *reportmenu = new BMenu(B_TRANSLATE("Reports"));
+	BMenu* reportmenu = new BMenu(B_TRANSLATE("Reports"));
 	reportmenu->SetLabelFromMarked(true);
 
 	// 	TODO: Re-enable the Budget report
 	//	reportmenu->AddItem(new BMenuItem(B_TRANSLATE("Budget"), new BMessage(M_REPORT_BUDGET)));
 	temp << B_TRANSLATE("Income") << " / " << B_TRANSLATE("Spending");
 	reportmenu->AddItem(new BMenuItem(temp.String(), new BMessage(M_REPORT_CASH_FLOW)));
-	reportmenu->AddItem(new BMenuItem(B_TRANSLATE("Total worth"), new BMessage(M_REPORT_NET_WORTH)));
+	reportmenu->AddItem(new BMenuItem(B_TRANSLATE("Total worth"), new BMessage(M_REPORT_NET_WORTH))
+	);
 	reportmenu->AddItem(
 		new BMenuItem(B_TRANSLATE("Transactions"), new BMessage(M_REPORT_TRANSACTIONS))
 	);
@@ -99,7 +101,7 @@ ReportWindow::ReportWindow(BRect frame)
 
 	temp = B_TRANSLATE("Reports:");
 	temp += " ";
-	BStringView *sv = new BStringView("reportsv", temp.String());
+	BStringView* sv = new BStringView("reportsv", temp.String());
 	reportsLayout->AddView(sv);
 
 	fReportField = new BMenuField("reportfield", "", reportmenu);
@@ -111,7 +113,7 @@ ReportWindow::ReportWindow(BRect frame)
 	accountsLayout->AddView(sv);
 
 	fAccountList = new BListView("reportaccountlist", B_MULTIPLE_SELECTION_LIST);
-	BScrollView *scrollview = new BScrollView("accountscroller", fAccountList, 0, false, true);
+	BScrollView* scrollview = new BScrollView("accountscroller", fAccountList, 0, false, true);
 	accountsLayout->AddView(scrollview);
 
 	//	This is disabled because otherwise the report is rendered once for each
@@ -123,7 +125,7 @@ ReportWindow::ReportWindow(BRect frame)
 	sv = new BStringView("subtotalsv", temp.String());
 	subtotalLayout->AddView(sv);
 
-	BMenu *subtotalmenu = new BMenu(B_TRANSLATE("Subtotal"));
+	BMenu* subtotalmenu = new BMenu(B_TRANSLATE("Subtotal"));
 	subtotalmenu->AddItem(new BMenuItem(B_TRANSLATE("None"), new BMessage(M_SUBTOTAL_NONE)));
 	subtotalmenu->AddItem(new BMenuItem(B_TRANSLATE("Month"), new BMessage(M_SUBTOTAL_MONTH)));
 	subtotalmenu->AddItem(new BMenuItem(B_TRANSLATE("Quarter"), new BMessage(M_SUBTOTAL_QUARTER)));
@@ -139,7 +141,7 @@ ReportWindow::ReportWindow(BRect frame)
 	BString reporthelp = gAppPath;
 	prefsLock.Unlock();
 	reporthelp << "helpfiles/" << gCurrentLanguage->Name() << "/Report Window Help";
-	HelpButton *help = new HelpButton("reporthelp", reporthelp.String());
+	HelpButton* help = new HelpButton("reporthelp", reporthelp.String());
 
 	temp = B_TRANSLATE("Categories");
 	temp += ": ";
@@ -224,7 +226,7 @@ ReportWindow::ReportWindow(BRect frame)
 
 	gDatabase.AddObserver(this);
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *acc = gDatabase.AccountAt(i);
+		Account* acc = gDatabase.AccountAt(i);
 		if (!acc)
 			continue;
 
@@ -235,11 +237,11 @@ ReportWindow::ReportWindow(BRect frame)
 	fCategoryList->SortItems(compare_stringitem);
 
 	for (int32 i = 0; i < fAccountList->CountItems(); i++) {
-		BStringItem *item = (BStringItem *)fAccountList->ItemAt(i);
+		BStringItem* item = (BStringItem*)fAccountList->ItemAt(i);
 		if (!item)
 			continue;
 
-		Account *itemaccount = gDatabase.AccountByName(item->Text());
+		Account* itemaccount = gDatabase.AccountByName(item->Text());
 		if (itemaccount && (!itemaccount->IsClosed()))
 			fAccountList->Select(i, true);
 	}
@@ -255,30 +257,36 @@ ReportWindow::ReportWindow(BRect frame)
 }
 
 void
-ReportWindow::HandleNotify(const uint64 &value, const BMessage *msg) {
+ReportWindow::HandleNotify(const uint64& value, const BMessage* msg)
+{
 	Lock();
 
 	if (value & WATCH_ACCOUNT) {
-		Account *acc;
-		if (msg->FindPointer("item", (void **)&acc) != B_OK) {
+		Account* acc;
+		if (msg->FindPointer("item", (void**)&acc) != B_OK) {
 			Unlock();
 			return;
 		}
 
 		if (value & WATCH_CREATE) {
 			AddAccount(acc);
-		} else if (value & WATCH_DELETE) {
-		} else if (value & WATCH_RENAME) {
-		} else if (value & WATCH_CHANGE) {
 		}
-	} else if (value & WATCH_TRANSACTION) {
+		else if (value & WATCH_DELETE) {
+		}
+		else if (value & WATCH_RENAME) {
+		}
+		else if (value & WATCH_CHANGE) {
+		}
+	}
+	else if (value & WATCH_TRANSACTION) {
 	}
 	RenderReport();
 	Unlock();
 }
 
 void
-ReportWindow::MessageReceived(BMessage *msg) {
+ReportWindow::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_PREVIOUS_FIELD: {
 		if (fStartDateBox->ChildAt(0)->IsFocus())
@@ -344,12 +352,13 @@ ReportWindow::MessageReceived(BMessage *msg) {
 			if (fStartDate > fEndDate)
 				fStartDate = fEndDate;
 			RenderReport();
-		} else {
+		}
+		else {
 			ShowAlert(
 				B_TRANSLATE("CapitalBe didn't understand the date you entered."),
 				B_TRANSLATE("CapitalBe understands lots of different ways of entering dates. "
-						  "Apparently, this wasn't one of them. You'll need to change how you "
-						  "entered this date. Sorry.")
+							"Apparently, this wasn't one of them. You'll need to change how you "
+							"entered this date. Sorry.")
 			);
 			fStartDateBox->MakeFocus(true);
 			break;
@@ -368,12 +377,13 @@ ReportWindow::MessageReceived(BMessage *msg) {
 			if (fStartDate > fEndDate)
 				fStartDate = fEndDate;
 			RenderReport();
-		} else {
+		}
+		else {
 			ShowAlert(
 				B_TRANSLATE("CapitalBe didn't understand the date you entered."),
 				B_TRANSLATE("CapitalBe understands lots of different ways of entering dates. "
-						  "Apparently, this wasn't one of them. You'll need to change how you "
-						  "entered this date. Sorry.")
+							"Apparently, this wasn't one of them. You'll need to change how you "
+							"entered this date. Sorry.")
 			);
 			fEndDateBox->MakeFocus(true);
 			break;
@@ -397,7 +407,8 @@ ReportWindow::MessageReceived(BMessage *msg) {
 		if (fGridView->IsHidden()) {
 			fGridView->Show();
 			fGraphView->Hide();
-		} else {
+		}
+		else {
 			fGridView->Hide();
 			fGraphView->Show();
 		}
@@ -409,8 +420,9 @@ ReportWindow::MessageReceived(BMessage *msg) {
 }
 
 void
-ReportWindow::FrameResized(float w, float h) {
-	BScrollBar *bar = fCategoryScroller->ScrollBar(B_VERTICAL);
+ReportWindow::FrameResized(float w, float h)
+{
+	BScrollBar* bar = fCategoryScroller->ScrollBar(B_VERTICAL);
 
 	if (fCategoryList->CountItems()) {
 		float itemheight = fCategoryList->ItemAt(0)->Height();
@@ -424,20 +436,22 @@ ReportWindow::FrameResized(float w, float h) {
 		bar->GetSteps(&small, &big);
 		big = (int32)(fCategoryScroller->Frame().Height() * .9);
 		bar->SetSteps(small, big);
-	} else
+	}
+	else
 		bar->SetRange(0, 0);
 
 	FixGridScrollbar();
 }
 
 void
-ReportWindow::AddAccount(Account *acc) {
+ReportWindow::AddAccount(Account* acc)
+{
 	if (!acc)
 		return;
 
 	acc->AddObserver(this);
 
-	AccountItem *accountitem = new AccountItem(acc);
+	AccountItem* accountitem = new AccountItem(acc);
 	fAccountList->AddItem(accountitem);
 
 	BString command = "select category from account_";
@@ -452,9 +466,9 @@ ReportWindow::AddAccount(Account *acc) {
 		}
 
 		// Make sure that the category is not already in the list.
-		BStringItem *existing = NULL;
+		BStringItem* existing = NULL;
 		for (int32 k = 0; k < fCategoryList->CountItems(); k++) {
-			BStringItem *item = (BStringItem *)fCategoryList->ItemAt(k);
+			BStringItem* item = (BStringItem*)fCategoryList->ItemAt(k);
 			if (!item)
 				continue;
 
@@ -476,11 +490,12 @@ ReportWindow::AddAccount(Account *acc) {
 }
 
 void
-ReportWindow::FixGridScrollbar(void) {
-	BScrollBar *bar = fGridView->ScrollBar(B_VERTICAL);
+ReportWindow::FixGridScrollbar(void)
+{
+	BScrollBar* bar = fGridView->ScrollBar(B_VERTICAL);
 	if (!bar)
 		return;
-	BRow *row = fGridView->RowAt(0);
+	BRow* row = fGridView->RowAt(0);
 	if (!row)
 		return;
 	float itemrange = (fGridView->CountRows() + 3) * row->Height();
@@ -515,11 +530,12 @@ void ReportWindow::CalcAccountString(void)
 }
 */
 void
-ReportWindow::CalcCategoryString(void) {
+ReportWindow::CalcCategoryString(void)
+{
 	// Compile list of selected categories
 	fCategoryString = "";
 	for (int32 i = 0; i < fCategoryList->CountItems(); i++) {
-		BStringItem *catitem = (BStringItem *)fCategoryList->ItemAt(i);
+		BStringItem* catitem = (BStringItem*)fCategoryList->ItemAt(i);
 		if (catitem && catitem->IsSelected()) {
 			if (fCategoryString.CountChars() > 0)
 				fCategoryString << ",'" << EscapeIllegalCharacters(catitem->Text()) << "'";
@@ -530,9 +546,10 @@ ReportWindow::CalcCategoryString(void) {
 }
 
 void
-ReportWindow::RenderReport(void) {
+ReportWindow::RenderReport(void)
+{
 	fGridView->Clear();
-	BColumn *column = fGridView->ColumnAt(0);
+	BColumn* column = fGridView->ColumnAt(0);
 	while (column) {
 		fGridView->RemoveColumn(column);
 		delete column;
@@ -566,12 +583,13 @@ ReportWindow::RenderReport(void) {
 }
 
 bool
-ReportWindow::QuitRequested(void) {
+ReportWindow::QuitRequested(void)
+{
 	// We need to remove this window's observer object from each account's notifier, or else
 	// we will crash the app after closing the window and selecting an account
 
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *acc = gDatabase.AccountAt(i);
+		Account* acc = gDatabase.AccountAt(i);
 		if (!acc)
 			continue;
 
@@ -582,19 +600,21 @@ ReportWindow::QuitRequested(void) {
 }
 
 int
-compare_stringitem(const void *item1, const void *item2) {
-	BListItem *listitem1 = *((BListItem **)item1);
-	BListItem *listitem2 = *((BListItem **)item2);
+compare_stringitem(const void* item1, const void* item2)
+{
+	BListItem* listitem1 = *((BListItem**)item1);
+	BListItem* listitem2 = *((BListItem**)item2);
 
-	BStringItem *stritem1 = (BStringItem *)listitem1;
-	BStringItem *stritem2 = (BStringItem *)listitem2;
+	BStringItem* stritem1 = (BStringItem*)listitem1;
+	BStringItem* stritem2 = (BStringItem*)listitem2;
 
 	int len1 = (stritem1 && stritem1->Text()) ? strlen(stritem1->Text()) : 0;
 	int len2 = (stritem2 && stritem2->Text()) ? strlen(stritem2->Text()) : 0;
 
 	if (len1 < 1) {
 		return (len2 < 1) ? 0 : 1;
-	} else if (len2 < 1) {
+	}
+	else if (len2 < 1) {
 		return (len1 < 1) ? 0 : -1;
 	}
 

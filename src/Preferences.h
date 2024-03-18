@@ -15,16 +15,16 @@ extern BString gAppPath;
 #define PREFERENCES_PATH "/boot/home/config/settings/CapitalBe"
 
 status_t
-SavePreferences(const char *path);
+SavePreferences(const char* path);
 status_t
-LoadPreferences(const char *path);
+LoadPreferences(const char* path);
 
 void
-ConstrainWindowFrameToScreen(BRect *rect);
+ConstrainWindowFrameToScreen(BRect* rect);
 
 typedef enum { BC_SELECTION_FOCUS = 0, BC_SELECTION_NOFOCUS, BC_GRID_HEADER } CapitalBeColor;
 
 rgb_color
-GetColor(const CapitalBeColor &color);
+GetColor(const CapitalBeColor& color);
 
 #endif

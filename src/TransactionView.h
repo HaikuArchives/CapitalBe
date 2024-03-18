@@ -22,15 +22,15 @@ class TransactionView : public BView, public Observer {
 
 	void AttachedToWindow(void);
 
-	void SetAccount(Account *acc);
-	TransactionItem *AddTransaction(const TransactionData &trans, const int32 &index = -1);
-	void DeleteTransaction(const int32 &index);
+	void SetAccount(Account* acc);
+	TransactionItem* AddTransaction(const TransactionData& trans, const int32& index = -1);
+	void DeleteTransaction(const int32& index);
 	void EditTransaction();
 
 	void Draw(BRect updateRect);
-	void MessageReceived(BMessage *message);
+	void MessageReceived(BMessage* message);
 
-	void HandleNotify(const uint64 &value, const BMessage *msg);
+	void HandleNotify(const uint64& value, const BMessage* msg);
 	void FrameResized(float width, float height);
 
 	bool SelectNext(void);
@@ -39,14 +39,14 @@ class TransactionView : public BView, public Observer {
 	bool SelectLast(void);
 
   private:
-	int32 FindItemForID(const uint32 &id);
-	int32 FindIndexForDate(const time_t &time, const char *payee);
+	int32 FindItemForID(const uint32& id);
+	int32 FindIndexForDate(const time_t& time, const char* payee);
 
-	BListView *fListView;
-	BObjectList<TransactionItem> *fItemList;
-	Transaction *fCurrent;
+	BListView* fListView;
+	BObjectList<TransactionItem>* fItemList;
+	Transaction* fCurrent;
 	BStringView *fCategoryLabel, *fMemoLabel;
-	BScrollView *fScrollView;
+	BScrollView* fScrollView;
 };
 
 #endif

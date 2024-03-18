@@ -48,11 +48,12 @@
 int32 gTextViewHeight = 20;
 int32 gStringViewHeight = 20;
 
-Language *gCurrentLanguage = NULL;
+Language* gCurrentLanguage = NULL;
 
-MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0) {
+MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
+{
 	BString temp;
-		SetTitle(B_TRANSLATE_SYSTEM_NAME("CapitalBe"));
+	SetTitle(B_TRANSLATE_SYSTEM_NAME("CapitalBe"));
 
 	// These chunks of code will save a lot of headache later on --
 	// we cache the preferred size of BTextControls to make control layout *much* easier.
@@ -60,14 +61,14 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0) {
 	// be moved into its own init function that is called from here.
 	float pw, ph;
 
-	BTextControl *temptc = new BTextControl(BRect(0, 0, 1, 1), "temptc", "", "", NULL);
+	BTextControl* temptc = new BTextControl(BRect(0, 0, 1, 1), "temptc", "", "", NULL);
 	AddChild(temptc);
 	temptc->GetPreferredSize(&pw, &ph);
 	gTextViewHeight = (int32)ph;
 	RemoveChild(temptc);
 	delete temptc;
 
-	BStringView *tempsv = new BStringView(BRect(0, 0, 1, 1), "tempsv", "Foo");
+	BStringView* tempsv = new BStringView(BRect(0, 0, 1, 1), "tempsv", "Foo");
 	AddChild(tempsv);
 	tempsv->GetPreferredSize(&pw, &ph);
 	gStringViewHeight = (int32)ph;
@@ -96,8 +97,8 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0) {
 
 	BRect r(Bounds());
 	r.bottom = 20;
-	BMenuBar *bar = new BMenuBar("keybar");
-	BMenu *menu = new BMenu(B_TRANSLATE("Program"));
+	BMenuBar* bar = new BMenuBar("keybar");
+	BMenu* menu = new BMenu(B_TRANSLATE("Program"));
 
 	temp = B_TRANSLATE("Report a bug…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_REPORT_BUG)));
@@ -112,17 +113,18 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0) {
 		fLanguageMenu = new BMenu(B_TRANSLATE("Language"));
 		fLanguageMenu->SetRadioMode(true);
 		for (int32 i = 0; i < language_roster->CountLanguages(); i++) {
-			Language *language = language_roster->LanguageAt(i);
-			BMessage *langmsg = new BMessage(M_SET_LANGUAGE);
+			Language* language = language_roster->LanguageAt(i);
+			BMessage* langmsg = new BMessage(M_SET_LANGUAGE);
 			langmsg->AddInt32("index", i);
 			fLanguageMenu->AddItem(new BMenuItem(language->Name(), langmsg));
 		}
 		menu->AddItem(fLanguageMenu);
 
-		BMenuItem *markeditem = fLanguageMenu->FindItem(fLanguage.String());
+		BMenuItem* markeditem = fLanguageMenu->FindItem(fLanguage.String());
 		if (markeditem)
 			markeditem->SetMarked(true);
-	} else
+	}
+	else
 		fLanguageMenu = NULL;
 
 	menu->AddSeparatorItem();
@@ -181,7 +183,8 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0) {
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Previous"), new BMessage(M_PREVIOUS_TRANSACTION), B_UP_ARROW)
 	);
-	menu->AddItem(new BMenuItem(B_TRANSLATE("Next"), new BMessage(M_NEXT_TRANSACTION), B_DOWN_ARROW));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Next"), new BMessage(M_NEXT_TRANSACTION), B_DOWN_ARROW)
+	);
 
 	menu = new BMenu(B_TRANSLATE("Tools"));
 	bar->AddItem(menu);
@@ -219,16 +222,18 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0) {
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(bar).Add(fRegisterView).End();
 }
 
-MainWindow::~MainWindow(void) {
+MainWindow::~MainWindow(void)
+{
 	SavePreferences(PREFERENCES_PATH "/CapitalBeSettings");
 	delete fImportPanel;
 }
 
 void
-MainWindow::OpenAbout(void) {
-	BAboutWindow *abwin = new BAboutWindow("CapitalBe", "application/x-vnd.wgp-CapitalBe");
+MainWindow::OpenAbout(void)
+{
+	BAboutWindow* abwin = new BAboutWindow("CapitalBe", "application/x-vnd.wgp-CapitalBe");
 
-	const char *authors[] = {
+	const char* authors[] = {
 		"DarkWyrm",
 		"Jérôme Duval",
 		"Panagiotis Vasilopoulos",
@@ -238,7 +243,7 @@ MainWindow::OpenAbout(void) {
 		NULL
 	};
 
-	const char *thanks[] = {"Tanausú Gómez (Spanish translation)", NULL};
+	const char* thanks[] = {"Tanausú Gómez (Spanish translation)", NULL};
 
 	abwin->AddCopyright(2009, "DarkWyrm");
 	abwin->AddText("Distributed under the terms of the MIT License");
@@ -249,7 +254,8 @@ MainWindow::OpenAbout(void) {
 }
 
 bool
-MainWindow::QuitRequested(void) {
+MainWindow::QuitRequested(void)
+{
 #ifndef NOSAVE
 	SaveData();
 #endif
@@ -263,7 +269,8 @@ MainWindow::QuitRequested(void) {
 }
 
 void
-MainWindow::InitSettings(void) {
+MainWindow::InitSettings(void)
+{
 	// This loads all the settings from disk and uses sane defaults if a setting
 	// is non-existent or invalid
 	if (gPreferences.FindString("lastfile", &fLastFile) != B_OK)
@@ -271,8 +278,9 @@ MainWindow::InitSettings(void) {
 }
 
 void
-MainWindow::MessageReceived(BMessage *msg) {
-	Account *acc = gDatabase.CurrentAccount();
+MainWindow::MessageReceived(BMessage* msg)
+{
+	Account* acc = gDatabase.CurrentAccount();
 
 	switch (msg->what) {
 	case M_SET_LANGUAGE: {
@@ -280,7 +288,7 @@ MainWindow::MessageReceived(BMessage *msg) {
 		if (msg->FindInt32("index", &language) != B_OK)
 			break;
 
-		BMenuItem *item = fLanguageMenu->ItemAt(language);
+		BMenuItem* item = fLanguageMenu->ItemAt(language);
 		if (!item)
 			break;
 
@@ -295,23 +303,24 @@ MainWindow::MessageReceived(BMessage *msg) {
 			msg.AddString("signature", "application/x-vnd.wgp-CapitalBe");
 			msgr.SendMessage(&msg);
 			be_app->PostMessage(B_QUIT_REQUESTED);
-		} else {
+		}
+		else {
 			ShowAlert(
 				B_TRANSLATE("Changes will take effect on restart"),
 				B_TRANSLATE("CapitalBe will be use your language choice the next time it is "
-						  "started."),
+							"started."),
 				B_IDEA_ALERT
 			);
 		}
 		break;
 	}
 	case M_REPORT_BUG: {
-		char *argv[2] = {(char*)"https://github.com/HaikuArchives/CapitalBe", NULL};
-		be_roster->Launch("text/html", 1, argv);  
+		char* argv[2] = {(char*)"https://github.com/HaikuArchives/CapitalBe", NULL};
+		be_roster->Launch("text/html", 1, argv);
 		break;
 	}
 	case M_SHOW_NEW_ACCOUNT: {
-		AccountSettingsWindow *newaccwin = new AccountSettingsWindow(NULL);
+		AccountSettingsWindow* newaccwin = new AccountSettingsWindow(NULL);
 		BRect r(Frame());
 		newaccwin->MoveTo(
 			r.left + ((Bounds().Width() - newaccwin->Bounds().Width()) / 2),
@@ -324,7 +333,7 @@ MainWindow::MessageReceived(BMessage *msg) {
 		if (!acc)
 			break;
 
-		AccountSettingsWindow *accwin = new AccountSettingsWindow(acc);
+		AccountSettingsWindow* accwin = new AccountSettingsWindow(acc);
 		BRect r(Frame());
 		accwin->MoveTo(
 			r.left + ((Bounds().Width() - accwin->Bounds().Width()) / 2),
@@ -337,10 +346,10 @@ MainWindow::MessageReceived(BMessage *msg) {
 		if (!acc)
 			break;
 
-		DAlert *alert = new DAlert(
+		DAlert* alert = new DAlert(
 			B_TRANSLATE("Really delete account?"),
 			B_TRANSLATE("Once deleted, you will not be able to "
-					  "get back any data on this account."),
+						"get back any data on this account."),
 			B_TRANSLATE("Delete"), B_TRANSLATE("Cancel"), NULL, B_WIDTH_AS_USUAL, B_STOP_ALERT
 		);
 
@@ -348,7 +357,8 @@ MainWindow::MessageReceived(BMessage *msg) {
 			int32 index = gDatabase.IndexOf(acc);
 			if (index == 0) {
 				gDatabase.SetCurrentAccount(1);
-			} else if (index > 0) {
+			}
+			else if (index > 0) {
 				gDatabase.SetCurrentAccount(index - 1);
 			}
 			gDatabase.RemoveAccount(acc);
@@ -404,8 +414,8 @@ MainWindow::MessageReceived(BMessage *msg) {
 			ShowAlert(
 				errmsg.String(),
 				B_TRANSLATE("This happens when the kind of file is not "
-						  "supported, when the file's data is damaged, or when you feed "
-						  "it a recipe for quiche.")
+							"supported, when the file's data is damaged, or when you feed "
+							"it a recipe for quiche.")
 			);
 		}
 		break;
@@ -434,7 +444,7 @@ MainWindow::MessageReceived(BMessage *msg) {
 			errmsg.ReplaceFirst("%%FILENAME%%", dir.name);
 			ShowAlert(
 				errmsg.String(), B_TRANSLATE("This really shouldn't happen, so you probably "
-										   "should e-mail support about this.")
+											 "should e-mail support about this.")
 			);
 		}
 		break;
@@ -493,7 +503,7 @@ MainWindow::MessageReceived(BMessage *msg) {
 			break;
 		}
 
-		TransferWindow *tnwin = new TransferWindow(this);
+		TransferWindow* tnwin = new TransferWindow(this);
 		BRect r(Frame());
 		tnwin->MoveTo(
 			r.left + ((Bounds().Width() - tnwin->Bounds().Width()) / 2),
@@ -516,7 +526,7 @@ MainWindow::MessageReceived(BMessage *msg) {
 		BRect r(Frame());
 		r.right = r.left + 400;
 		r.bottom = r.top + 300;
-		TransactionEditWindow *transwin = new TransactionEditWindow(r, data);
+		TransactionEditWindow* transwin = new TransactionEditWindow(r, data);
 		transwin->MoveTo(
 			r.left + ((Bounds().Width() - transwin->Bounds().Width()) / 2),
 			r.top + ((Bounds().Height() - transwin->Bounds().Height()) / 2)
@@ -548,7 +558,7 @@ MainWindow::MessageReceived(BMessage *msg) {
 		r.right = r.left + 400;
 		r.bottom = r.top + 300;
 
-		ScheduleAddWindow *schedwin = new ScheduleAddWindow(r, data);
+		ScheduleAddWindow* schedwin = new ScheduleAddWindow(r, data);
 		schedwin->MoveTo(
 			r.left + ((Bounds().Width() - schedwin->Bounds().Width()) / 2),
 			r.top + ((Bounds().Height() - schedwin->Bounds().Height()) / 2)
@@ -561,7 +571,7 @@ MainWindow::MessageReceived(BMessage *msg) {
 		break;
 	}
 	case M_SHOW_OPTIONS_WINDOW: {
-		PrefWindow *pwin = new PrefWindow(Frame());
+		PrefWindow* pwin = new PrefWindow(Frame());
 		pwin->Show();
 		break;
 	}
@@ -569,7 +579,7 @@ MainWindow::MessageReceived(BMessage *msg) {
 		// While it seems kind of silly to show the reports window if
 		// there is no data, it seems more like a bug to not bother showing it
 
-		ReportWindow *rwin = new ReportWindow(Frame());
+		ReportWindow* rwin = new ReportWindow(Frame());
 		rwin->Show();
 		break;
 	}
@@ -589,7 +599,7 @@ MainWindow::MessageReceived(BMessage *msg) {
 		}
 
 		BRect r(Frame());
-		ReconcileWindow *recwin = new ReconcileWindow(BRect(100, 100, 600, 425), acc);
+		ReconcileWindow* recwin = new ReconcileWindow(BRect(100, 100, 600, 425), acc);
 		recwin->MoveTo(
 			r.left + ((Bounds().Width() - recwin->Bounds().Width()) / 2),
 			r.top + ((Bounds().Height() - recwin->Bounds().Height()) / 2)
@@ -599,7 +609,7 @@ MainWindow::MessageReceived(BMessage *msg) {
 	}
 	case M_SHOW_SCHEDULED_WINDOW: {
 		BRect r(Frame());
-		ScheduleListWindow *schedwin = new ScheduleListWindow(BRect(100, 100, 600, 425));
+		ScheduleListWindow* schedwin = new ScheduleListWindow(BRect(100, 100, 600, 425));
 		schedwin->MoveTo(
 			r.left + ((Bounds().Width() - schedwin->Bounds().Width()) / 2),
 			r.top + ((Bounds().Height() - schedwin->Bounds().Height()) / 2)
@@ -608,13 +618,13 @@ MainWindow::MessageReceived(BMessage *msg) {
 		break;
 	}
 	case M_SHOW_BUDGET_WINDOW: {
-		BudgetWindow *bwin = new BudgetWindow(Frame());
+		BudgetWindow* bwin = new BudgetWindow(Frame());
 		bwin->Show();
 		break;
 	}
 	case M_SHOW_CATEGORY_WINDOW: {
 		BRect r(Frame());
-		CategoryWindow *catwin = new CategoryWindow(BRect(100, 100, 600, 425));
+		CategoryWindow* catwin = new CategoryWindow(BRect(100, 100, 600, 425));
 		catwin->MoveTo(
 			r.left + ((Bounds().Width() - catwin->Bounds().Width()) / 2),
 			r.top + ((Bounds().Height() - catwin->Bounds().Height()) / 2)
@@ -636,7 +646,8 @@ MainWindow::MessageReceived(BMessage *msg) {
 }
 
 void
-MainWindow::LoadData(void) {
+MainWindow::LoadData(void)
+{
 	if (gDatabase.OpenFile(fLastFile.String()) != B_OK) {
 		BEntry entry(fLastFile.String());
 		if (!entry.Exists()) {
@@ -649,17 +660,20 @@ MainWindow::LoadData(void) {
 }
 
 void
-MainWindow::SaveData(void) {}
+MainWindow::SaveData(void)
+{
+}
 
 void
-MainWindow::CreateTransfer(BMessage *msg) {
+MainWindow::CreateTransfer(BMessage* msg)
+{
 	Account *from, *to;
 	BString amount, memo, datestr;
 	Fixed fixed;
 	time_t date;
 
-	if ((msg->FindPointer("from", (void **)&from) != B_OK) ||
-		(msg->FindPointer("to", (void **)&to) != B_OK) ||
+	if ((msg->FindPointer("from", (void**)&from) != B_OK) ||
+		(msg->FindPointer("to", (void**)&to) != B_OK) ||
 		(msg->FindString("amount", &amount) != B_OK) ||
 		(gCurrentLocale.StringToCurrency(amount.String(), fixed) != B_OK) ||
 		(msg->FindString("date", &datestr) != B_OK) ||
@@ -690,7 +704,8 @@ MainWindow::CreateTransfer(BMessage *msg) {
 }
 
 void
-MainWindow::HandleNotify(const uint64 &value, const BMessage *msg) {
+MainWindow::HandleNotify(const uint64& value, const BMessage* msg)
+{
 	bool lockwin = false;
 	if (!IsLocked()) {
 		Lock();
@@ -698,8 +713,8 @@ MainWindow::HandleNotify(const uint64 &value, const BMessage *msg) {
 	}
 
 	if (value & WATCH_ACCOUNT) {
-		Account *acc;
-		if (msg->FindPointer("item", (void **)&acc) != B_OK || !acc) {
+		Account* acc;
+		if (msg->FindPointer("item", (void**)&acc) != B_OK || !acc) {
 			if (lockwin)
 				Unlock();
 			return;
@@ -708,7 +723,8 @@ MainWindow::HandleNotify(const uint64 &value, const BMessage *msg) {
 		if (value & WATCH_SELECT || value & WATCH_CHANGE) {
 			if (acc->IsClosed()) {
 				fAccountClosedItem->SetLabel(B_TRANSLATE("Reopen"));
-			} else {
+			}
+			else {
 				fAccountClosedItem->SetLabel(B_TRANSLATE("Close"));
 			}
 		}
@@ -719,7 +735,8 @@ MainWindow::HandleNotify(const uint64 &value, const BMessage *msg) {
 }
 
 void
-MainWindow::ReadLanguageSettings(void) {
+MainWindow::ReadLanguageSettings(void)
+{
 	BFile file("/boot/home/config/settings/CapitalBe/CurrentLocale", B_READ_ONLY);
 
 	if (file.InitCheck() != B_OK)
@@ -737,7 +754,8 @@ MainWindow::ReadLanguageSettings(void) {
 }
 
 void
-MainWindow::WriteLanguageSettings(void) {
+MainWindow::WriteLanguageSettings(void)
+{
 	BFile file(
 		"/boot/home/config/settings/CapitalBe/CurrentLocale",
 		B_READ_WRITE | B_CREATE_FILE | B_ERASE_FILE

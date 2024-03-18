@@ -5,7 +5,7 @@
 
 class CategoryWindow : public BWindow {
   public:
-	CategoryWindow(const BRect &frame);
+	CategoryWindow(const BRect& frame);
 };
 
 #endif

@@ -4,13 +4,14 @@
 #include "MsgDefs.h"
 #include "TimeSupport.h"
 
-NumBoxFilter::NumBoxFilter(NumBox *box) : AutoTextControlFilter(box) {}
+NumBoxFilter::NumBoxFilter(NumBox* box) : AutoTextControlFilter(box) {}
 
 filter_result
-NumBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
+NumBoxFilter::KeyFilter(const int32& key, const int32& mod)
+{
 	// Here is where all the *real* work for a date box is done.
 	if (key == B_TAB) {
-		if (!((NumBox *)TextControl())->IsTabFiltering())
+		if (!((NumBox*)TextControl())->IsTabFiltering())
 			return B_DISPATCH_MESSAGE;
 
 		if (mod & B_SHIFT_KEY)
@@ -33,8 +34,9 @@ NumBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 	return B_DISPATCH_MESSAGE;
 }
 
-NumBox::NumBox(const char *name, const char *label, const char *text, BMessage *msg, uint32 flags)
-	: AutoTextControl(name, label, text, msg, flags), fFilterTab(true), fAllowNegatives(true) {
+NumBox::NumBox(const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
+	: AutoTextControl(name, label, text, msg, flags), fFilterTab(true), fAllowNegatives(true)
+{
 	SetFilter(new NumBoxFilter(this));
 
 	const char num_disallowed[] = " `~!@#%^&*()_+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
@@ -47,7 +49,8 @@ NumBox::NumBox(const char *name, const char *label, const char *text, BMessage *
 }
 
 bool
-NumBox::Validate(bool alert) {
+NumBox::Validate(bool alert)
+{
 	if (strlen(Text()) < 1)
 		SetText("0");
 
@@ -55,7 +58,8 @@ NumBox::Validate(bool alert) {
 }
 
 void
-NumBox::AllowNegatives(const bool &value) {
+NumBox::AllowNegatives(const bool& value)
+{
 	if (fAllowNegatives != value) {
 		fAllowNegatives = value;
 		if (fAllowNegatives)

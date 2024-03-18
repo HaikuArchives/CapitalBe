@@ -10,13 +10,13 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CurrencyBox"
 
-
-CurrencyBoxFilter::CurrencyBoxFilter(CurrencyBox *box) : NavTextBoxFilter(box) {}
+CurrencyBoxFilter::CurrencyBoxFilter(CurrencyBox* box) : NavTextBoxFilter(box) {}
 
 filter_result
-CurrencyBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
+CurrencyBoxFilter::KeyFilter(const int32& key, const int32& mod)
+{
 	// Here is where all the *real* work for a date box is done.
-	if (key == B_TAB && ((NavTextBox *)TextControl())->IsTabFiltering()) {
+	if (key == B_TAB && ((NavTextBox*)TextControl())->IsTabFiltering()) {
 		if (mod & B_SHIFT_KEY)
 			SendMessage(new BMessage(M_PREVIOUS_FIELD));
 		else
@@ -38,9 +38,10 @@ CurrencyBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 }
 
 CurrencyBox::CurrencyBox(
-	const char *name, const char *label, const char *text, BMessage *msg, uint32 flags
+	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags
 )
-	: NavTextBox(name, label, text, msg, flags) {
+	: NavTextBox(name, label, text, msg, flags)
+{
 	SetFilter(new CurrencyBoxFilter(this));
 
 	const char amount_disallowed[] = " `~!@#%^&*()_-+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
@@ -54,7 +55,8 @@ CurrencyBox::CurrencyBox(
 }
 
 bool
-CurrencyBox::Validate(bool alert) {
+CurrencyBox::Validate(bool alert)
+{
 	if (strlen(Text()) < 1)
 		SetText("0");
 
@@ -64,12 +66,13 @@ CurrencyBox::Validate(bool alert) {
 			ShowAlert(
 				B_TRANSLATE("CapitalBe didn't understand the amount."),
 				B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
-						  "for this account.")
+							"for this account.")
 			);
 			MakeFocus(true);
 		}
 		return false;
-	} else {
+	}
+	else {
 		BString string;
 		gCurrentLocale.CurrencyToString(amount, string);
 		SetText(string.String());

@@ -3,7 +3,8 @@
 #include "TimeSupport.h"
 
 void
-HandleScheduledTransactions(void) {
+HandleScheduledTransactions(void)
+{
 	// This function does one thing: enter any transactions which are
 	// scheduled for entry
 

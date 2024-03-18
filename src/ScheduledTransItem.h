@@ -11,21 +11,21 @@ class Account;
 
 class ScheduledTransItem : public BListItem {
   public:
-	ScheduledTransItem(const ScheduledTransData &data);
+	ScheduledTransItem(const ScheduledTransData& data);
 
-	void DrawItem(BView *owner, BRect frame, bool complete = false);
-	void Update(BView *owner, const BFont *finfo);
+	void DrawItem(BView* owner, BRect frame, bool complete = false);
+	void Update(BView* owner, const BFont* finfo);
 
 	uint32 GetID(void) const { return fID; }
 
-	const char *GetDate(void) const { return fDate.String(); }
+	const char* GetDate(void) const { return fDate.String(); }
 
-	const char *GetPayee(void) const { return fPayee.String(); }
+	const char* GetPayee(void) const { return fPayee.String(); }
 
-	void SetData(const TransactionData &trans);
+	void SetData(const TransactionData& trans);
 
   private:
-	Account *fAccount;
+	Account* fAccount;
 	BString fType;
 	BString fPayee;
 	BString fAmount;

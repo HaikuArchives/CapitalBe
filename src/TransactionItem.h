@@ -9,24 +9,24 @@
 
 
 void
-InitTransactionItemLayout(BView *owner);
+InitTransactionItemLayout(BView* owner);
 
 class TransactionItem : public BListItem {
   public:
-	TransactionItem(const TransactionData &trans);
-	void DrawItem(BView *owner, BRect frame, bool complete = false);
-	void Update(BView *owner, const BFont *finfo);
+	TransactionItem(const TransactionData& trans);
+	void DrawItem(BView* owner, BRect frame, bool complete = false);
+	void Update(BView* owner, const BFont* finfo);
 
 	uint32 GetID(void) const { return fID; }
 
 	time_t GetDate(void) const { return fDate; }
 
-	const char *GetPayee(void) const { return fPayee.String(); }
+	const char* GetPayee(void) const { return fPayee.String(); }
 
-	void SetData(const TransactionData &trans);
+	void SetData(const TransactionData& trans);
 
   private:
-	Account *fAccount;
+	Account* fAccount;
 	BString fCategory;
 	BString fMemo;
 	BString fPayee;

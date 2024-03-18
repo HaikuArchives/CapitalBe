@@ -14,27 +14,32 @@
 #endif
 
 TransactionData::TransactionData(void)
-	: fDate(0), fType(""), fStatus(TRANS_OPEN), fID(0), fTimeStamp(0) {}
+	: fDate(0), fType(""), fStatus(TRANS_OPEN), fID(0), fTimeStamp(0)
+{
+}
 
 TransactionData::TransactionData(
-	Account *account, const char *date, const char *type, const char *payee, const char *amount,
-	const char *category, const char *memo, uint8 status
+	Account* account, const char* date, const char* type, const char* payee, const char* amount,
+	const char* category, const char* memo, uint8 status
 )
-	: fDate(0), fType(type), fAccount(NULL), fStatus(TRANS_OPEN), fID(0), fTimeStamp(0) {
+	: fDate(0), fType(type), fAccount(NULL), fStatus(TRANS_OPEN), fID(0), fTimeStamp(0)
+{
 	fCategory.MakeEmpty();
 	Set(account, date, type, payee, amount, category, memo, status);
 }
 
-TransactionData::TransactionData(const TransactionData &trans)
-	: fDate(0), fType(""), fStatus(TRANS_OPEN), fTimeStamp(0) {
+TransactionData::TransactionData(const TransactionData& trans)
+	: fDate(0), fType(""), fStatus(TRANS_OPEN), fTimeStamp(0)
+{
 	fCategory.MakeEmpty();
 	*this = trans;
 }
 
 TransactionData::~TransactionData() {}
 
-TransactionData &
-TransactionData::operator=(const TransactionData &from) {
+TransactionData&
+TransactionData::operator=(const TransactionData& from)
+{
 	fDate = from.fDate;
 	fType = from.fType;
 
@@ -53,9 +58,10 @@ TransactionData::operator=(const TransactionData &from) {
 
 status_t
 TransactionData::Set(
-	Account *account, const char *date, const char *type, const char *payee, const char *amount,
-	const char *category, const char *memo, uint8 status
-) {
+	Account* account, const char* date, const char* type, const char* payee, const char* amount,
+	const char* category, const char* memo, uint8 status
+)
+{
 	STRACE(
 		("TransactionData(%s,%s,%s,%s,%s,%s,%s\n", date, type, payee, amount, category, memo,
 		 status ? "reconciled" : "not reconciled")
@@ -73,7 +79,8 @@ TransactionData::Set(
 	if (fType.TypeCode() == TRANS_DEP) {
 		if (fAmount.IsNegative())
 			fAmount.Invert();
-	} else {
+	}
+	else {
 		if (fAmount.IsPositive())
 			fAmount.Invert();
 	}
@@ -86,19 +93,22 @@ TransactionData::Set(
 }
 
 uint8
-TransactionData::Month() {
-	tm *t = localtime(&fDate);
+TransactionData::Month()
+{
+	tm* t = localtime(&fDate);
 	return (t->tm_mon);
 }
 
 uint8
-TransactionData::Year() {
-	tm *t = localtime(&fDate);
+TransactionData::Year()
+{
+	tm* t = localtime(&fDate);
 	return (t->tm_year);
 }
 
 void
-TransactionData::PrintToStream(void) {
+TransactionData::PrintToStream(void)
+{
 	BString str, temp;
 	gDefaultLocale.DateToString(fDate, str);
 
@@ -124,17 +134,20 @@ TransactionData::PrintToStream(void) {
 }
 
 void
-TransactionData::SetType(const TransactionType &type) {
+TransactionData::SetType(const TransactionType& type)
+{
 	fType = type;
 }
 
 void
-TransactionData::SetType(const char *type) {
+TransactionData::SetType(const char* type)
+{
 	fType.SetType(type);
 }
 
 void
-TransactionData::SetCategory(const char *cat) {
+TransactionData::SetCategory(const char* cat)
+{
 	if (!cat) {
 		fCategory.MakeEmpty();
 		return;
@@ -147,12 +160,14 @@ TransactionData::SetCategory(const char *cat) {
 }
 
 void
-TransactionData::SetCategory(const Category &cat) {
+TransactionData::SetCategory(const Category& cat)
+{
 	fCategory = cat;
 }
 
 void
-TransactionData::AddCategory(const char *name, const Fixed &amount, const bool &recalculate) {
+TransactionData::AddCategory(const char* name, const Fixed& amount, const bool& recalculate)
+{
 	if (!name)
 		return;
 
@@ -166,7 +181,8 @@ TransactionData::AddCategory(const char *name, const Fixed &amount, const bool &
 }
 
 void
-TransactionData::MakeEmpty(void) {
+TransactionData::MakeEmpty(void)
+{
 	SetAccount(NULL);
 	SetDate(0);
 	SetType(TransactionType(NULL));
@@ -178,7 +194,8 @@ TransactionData::MakeEmpty(void) {
 }
 
 bool
-TransactionData::IsValid(void) const {
+TransactionData::IsValid(void) const
+{
 	if (fType.TypeCode() == TRANS_INIT)
 		return false;
 

@@ -7,7 +7,6 @@
 #include <ListItem.h>
 #include <ListView.h>
 #include <Message.h>
-#include <Catalog.h>
 #include <Messenger.h>
 #include <Region.h>
 #include <ScrollView.h>
@@ -19,8 +18,8 @@
 #include "ColumnTypes.h"
 #include "Database.h"
 #include "EscapeCancelFilter.h"
-#include "LanguageRoster.h"
 #include "HelpButton.h"
+#include "LanguageRoster.h"
 #include "Preferences.h"
 #include "ScheduledTransData.h"
 #include "ScheduledTransItem.h"
@@ -30,29 +29,29 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "ScheduleListWindow"
 
-
 enum { M_REMOVE_ITEM = 'rmit' };
 
 class ScheduleListView : public BView {
   public:
-	ScheduleListView(const char *name, const int32 &flags);
+	ScheduleListView(const char* name, const int32& flags);
 	void AttachedToWindow(void);
-	void MessageReceived(BMessage *msg);
+	void MessageReceived(BMessage* msg);
 
   private:
 	// This is a float so we can get the maximum string width for payees.
 	float RefreshScheduleList(void);
 
-	BColumnListView *fListView;
+	BColumnListView* fListView;
 
-	BButton *fRemoveButton;
+	BButton* fRemoveButton;
 	BList fTransList;
-	HelpButton *fHelpButton;
+	HelpButton* fHelpButton;
 
 	float fBestWidth;
 };
 
-ScheduleListView::ScheduleListView(const char *name, const int32 &flags) : BView(name, flags) {
+ScheduleListView::ScheduleListView(const char* name, const int32& flags) : BView(name, flags)
+{
 	BString temp;
 	SetViewColor(240, 240, 240);
 
@@ -82,13 +81,15 @@ ScheduleListView::ScheduleListView(const char *name, const int32 &flags) : BView
 	);
 	fListView->AddColumn(
 		new BStringColumn(
-			B_TRANSLATE("Payments"), StringWidth(B_TRANSLATE("Payments")) + 20, 25, 300, B_ALIGN_LEFT
+			B_TRANSLATE("Payments"), StringWidth(B_TRANSLATE("Payments")) + 20, 25, 300,
+			B_ALIGN_LEFT
 		),
 		2
 	);
 	fListView->AddColumn(
 		new BStringColumn(
-			B_TRANSLATE("Frequency"), StringWidth(B_TRANSLATE("Frequency")) + 20, 25, 300, B_ALIGN_LEFT
+			B_TRANSLATE("Frequency"), StringWidth(B_TRANSLATE("Frequency")) + 20, 25, 300,
+			B_ALIGN_LEFT
 		),
 		3
 	);
@@ -126,7 +127,8 @@ ScheduleListView::ScheduleListView(const char *name, const int32 &flags) : BView
 }
 
 void
-ScheduleListView::AttachedToWindow(void) {
+ScheduleListView::AttachedToWindow(void)
+{
 	fListView->SetTarget(this);
 	fRemoveButton->SetTarget(this);
 
@@ -135,14 +137,15 @@ ScheduleListView::AttachedToWindow(void) {
 }
 
 void
-ScheduleListView::MessageReceived(BMessage *msg) {
+ScheduleListView::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_REMOVE_ITEM: {
 		int32 selection = fListView->IndexOf(fListView->CurrentSelection());
 		if (selection < 0)
 			break;
 
-		ScheduledTransData *data = (ScheduledTransData *)fTransList.ItemAt(selection);
+		ScheduledTransData* data = (ScheduledTransData*)fTransList.ItemAt(selection);
 		gDatabase.RemoveScheduledTransaction(data->GetID());
 
 		fTransList.RemoveItem(data);
@@ -160,9 +163,10 @@ ScheduleListView::MessageReceived(BMessage *msg) {
 }
 
 float
-ScheduleListView::RefreshScheduleList(void) {
+ScheduleListView::RefreshScheduleList(void)
+{
 	for (int32 i = 0; i < fTransList.CountItems(); i++) {
-		ScheduledTransData *data = (ScheduledTransData *)fTransList.ItemAt(i);
+		ScheduledTransData* data = (ScheduledTransData*)fTransList.ItemAt(i);
 		delete data;
 	}
 	fTransList.MakeEmpty();
@@ -208,7 +212,7 @@ ScheduleListView::RefreshScheduleList(void) {
 	float maxwidth = 0;
 
 	for (uint32 i = 0; i <= count; i++) {
-		ScheduledTransData *sdata = new ScheduledTransData();
+		ScheduledTransData* sdata = new ScheduledTransData();
 		if (!gDatabase.GetScheduledTransaction(idlist[i], *sdata)) {
 			delete sdata;
 			continue;
@@ -221,10 +225,10 @@ ScheduleListView::RefreshScheduleList(void) {
 	}
 
 	for (int32 i = 0; i < fTransList.CountItems(); i++) {
-		BRow *row = new BRow();
+		BRow* row = new BRow();
 		fListView->AddRow(row);
 
-		ScheduledTransData *sdata = (ScheduledTransData *)fTransList.ItemAt(i);
+		ScheduledTransData* sdata = (ScheduledTransData*)fTransList.ItemAt(i);
 
 		row->SetField(new BStringField(sdata->Payee()), 0);
 
@@ -238,7 +242,8 @@ ScheduleListView::RefreshScheduleList(void) {
 		if (sdata->GetCount() > 0) {
 			string = "";
 			string << sdata->GetCount();
-		} else
+		}
+		else
 			string = B_TRANSLATE("Unlimited");
 
 		row->SetField(new BStringField(string.String()), 2);
@@ -277,14 +282,15 @@ ScheduleListView::RefreshScheduleList(void) {
 	return maxwidth;
 }
 
-ScheduleListWindow::ScheduleListWindow(const BRect &frame)
+ScheduleListWindow::ScheduleListWindow(const BRect& frame)
 	: BWindow(
-		  frame, B_TRANSLATE("Scheduled transactions"), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
-		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS
-	  ) {
+		  frame, B_TRANSLATE("Scheduled transactions"), B_DOCUMENT_WINDOW_LOOK,
+		  B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS
+	  )
+{
 	AddCommonFilter(new EscapeCancelFilter);
 
-	ScheduleListView *view = new ScheduleListView("schedview", B_WILL_DRAW);
+	ScheduleListView* view = new ScheduleListView("schedview", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 
 	//	AddShortcut('A',B_COMMAND_KEY, new BMessage(M_SHOW_ADD_WINDOW),view);

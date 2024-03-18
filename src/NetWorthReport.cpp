@@ -13,16 +13,16 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "NetWorthReport"
 
-
 void
-ReportWindow::ComputeNetWorth(void) {
+ReportWindow::ComputeNetWorth(void)
+{
 	// Total of all accounts
 	// Calculate the number of columns and the starting date for each one
 	BObjectList<time_t> timelist(20, true);
 
 	if (fSubtotalMode != SUBTOTAL_NONE) {
 		for (time_t t = fStartDate; t < fEndDate;) {
-			time_t *item = new time_t(t);
+			time_t* item = new time_t(t);
 			timelist.AddItem(item);
 
 			switch (fSubtotalMode) {
@@ -54,16 +54,17 @@ ReportWindow::ComputeNetWorth(void) {
 
 
 	for (int32 subtotal_index = 0; subtotal_index < timelist.CountItems(); subtotal_index++) {
-		time_t subtotal_start = *((time_t *)timelist.ItemAt(subtotal_index));
+		time_t subtotal_start = *((time_t*)timelist.ItemAt(subtotal_index));
 
 		char rowtitle[128];
-		struct tm *timestruct = localtime(&subtotal_start);
+		struct tm* timestruct = localtime(&subtotal_start);
 
 		BString formatstring;
 		if (gCurrentLocale.DateFormat() == DATE_MDY) {
 			formatstring << "%m" << gCurrentLocale.DateSeparator() << "%d"
 						 << gCurrentLocale.DateSeparator() << "%Y";
-		} else {
+		}
+		else {
 			formatstring << "%d" << gCurrentLocale.DateSeparator() << "%m"
 						 << gCurrentLocale.DateSeparator() << "%Y";
 		}
@@ -80,7 +81,7 @@ ReportWindow::ComputeNetWorth(void) {
 		Fixed accounttotal;
 
 		for (int32 i = 0; i < fAccountList->CountItems(); i++) {
-			AccountItem *item = (AccountItem *)fAccountList->ItemAt(i);
+			AccountItem* item = (AccountItem*)fAccountList->ItemAt(i);
 			if (!item)
 				continue;
 
@@ -93,7 +94,7 @@ ReportWindow::ComputeNetWorth(void) {
 	if (fGraphView->IsHidden()) {
 		// Now that we have all the data, we need to set up the rows and columns for the report grid
 
-		BColumn *col = new BStringColumn(
+		BColumn* col = new BStringColumn(
 			B_TRANSLATE("Date"), fGridView->StringWidth(longestname.String()) + 20, 10, 300,
 			B_TRUNCATE_END
 		);
@@ -102,17 +103,17 @@ ReportWindow::ComputeNetWorth(void) {
 		fGridView->AddColumn(col, 1);
 
 		fGridView->AddRow(new BRow());
-		BRow *titlerow = new BRow();
+		BRow* titlerow = new BRow();
 		fGridView->AddRow(titlerow);
 		titlerow->SetField(new BStringField(B_TRANSLATE("Total worth")), 0);
 		fGridView->AddRow(new BRow());
 
 		// Now that the grid is set up, start adding data to the grid
 		for (int32 rowindex = 0; rowindex < accountgrid.CountItems(); rowindex++) {
-			BRow *row = new BRow();
+			BRow* row = new BRow();
 			fGridView->AddRow(row);
 
-			BStringField *catname = new BStringField(accountgrid.RowTitle(rowindex));
+			BStringField* catname = new BStringField(accountgrid.RowTitle(rowindex));
 			row->SetField(catname, 0);
 
 			BString temp;
@@ -121,7 +122,7 @@ ReportWindow::ComputeNetWorth(void) {
 			accountgrid.ValueAt(0, rowindex, f);
 			gCurrentLocale.CurrencyToString(f, temp);
 
-			BStringField *amountfield = new BStringField(temp.String());
+			BStringField* amountfield = new BStringField(temp.String());
 			row->SetField(amountfield, 1);
 		}
 	}

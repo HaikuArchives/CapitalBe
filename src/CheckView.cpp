@@ -28,10 +28,10 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CheckView"
 
-
 enum { M_ENTER_TRANSACTION = 'entr' };
 
-CheckView::CheckView(const char *name, int32 flags) : BView(name, flags | B_FRAME_EVENTS) {
+CheckView::CheckView(const char* name, int32 flags) : BView(name, flags | B_FRAME_EVENTS)
+{
 	fDateLabel = new BStringView("datelabel", B_TRANSLATE("Date"));
 	fDate = new DateBox("dateentry", "", NULL, new BMessage(M_DATE_CHANGED));
 
@@ -94,7 +94,8 @@ CheckView::CheckView(const char *name, int32 flags) : BView(name, flags | B_FRAM
 CheckView::~CheckView(void) {}
 
 void
-CheckView::AttachedToWindow(void) {
+CheckView::AttachedToWindow(void)
+{
 	SetViewColor(Parent()->ViewColor());
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
 	fPayee->GetFilter()->SetMessenger(new BMessenger(this));
@@ -107,7 +108,8 @@ CheckView::AttachedToWindow(void) {
 }
 
 void
-CheckView::MessageReceived(BMessage *msg) {
+CheckView::MessageReceived(BMessage* msg)
+{
 	int32 start;
 	BString string;
 	switch (msg->what) {
@@ -155,7 +157,7 @@ CheckView::MessageReceived(BMessage *msg) {
 			!fAmount->Validate() || !fCategory->Validate())
 			break;
 
-		Account *acc = gDatabase.CurrentAccount();
+		Account* acc = gDatabase.CurrentAccount();
 		if (!acc)
 			break;
 
@@ -193,15 +195,18 @@ CheckView::MessageReceived(BMessage *msg) {
 				fMemo->MakeFocus(true);
 			}
 			break;
-		} else if (fType->ChildAt(0)->IsFocus())
+		}
+		else if (fType->ChildAt(0)->IsFocus())
 			fDate->MakeFocus(true);
 		else if (fPayee->ChildAt(0)->IsFocus()) {
 			if (fPayee->Validate(false))
 				fType->MakeFocus(true);
-		} else if (fAmount->ChildAt(0)->IsFocus()) {
+		}
+		else if (fAmount->ChildAt(0)->IsFocus()) {
 			if (fAmount->Validate(false))
 				fPayee->MakeFocus(true);
-		} else if (fCategory->ChildAt(0)->IsFocus()) {
+		}
+		else if (fCategory->ChildAt(0)->IsFocus()) {
 			//				if(fCategory->Validate())
 			fAmount->MakeFocus(true);
 		}
@@ -221,9 +226,10 @@ CheckView::MessageReceived(BMessage *msg) {
 
 void
 CheckView::SetFields(
-	const char *date, const char *type, const char *payee, const char *amount, const char *category,
-	const char *memo
-) {
+	const char* date, const char* type, const char* payee, const char* amount, const char* category,
+	const char* memo
+)
+{
 	fDate->SetText(date);
 	fType->SetText(type);
 	fPayee->SetText(payee);
@@ -233,13 +239,14 @@ CheckView::SetFields(
 }
 
 void
-CheckView::HandleNotify(const uint64 &value, const BMessage *msg) {
+CheckView::HandleNotify(const uint64& value, const BMessage* msg)
+{
 	if (value & WATCH_SELECT) {
 		if (value & WATCH_ACCOUNT) {
 			MakeEmpty();
 
-			Account *account;
-			if (msg->FindPointer("item", (void **)&account) == B_OK) {
+			Account* account;
+			if (msg->FindPointer("item", (void**)&account) == B_OK) {
 				if (account && !account->HasObserver(this))
 					account->AddObserver(this);
 			}
@@ -260,16 +267,18 @@ CheckView::HandleNotify(const uint64 &value, const BMessage *msg) {
 				BString text;
 				gDefaultLocale.DateToString(data.Date(), text);
 				fDate->SetText(text.String());
-			} else {
+			}
+			else {
 				BString text;
 				gDefaultLocale.DateToString(GetCurrentDate(), text);
 				fDate->SetText(text.String());
 			}
 
 			fDate->MakeFocus(true);
-		} else if (value & WATCH_TRANSACTION) {
+		}
+		else if (value & WATCH_TRANSACTION) {
 			uint32 id;
-			if (msg->FindInt32("id", (int32 *)&id) == B_OK) {
+			if (msg->FindInt32("id", (int32*)&id) == B_OK) {
 				if (gDatabase.CurrentAccount()) {
 					TransactionData data;
 					gDatabase.GetTransaction(id, data);
@@ -285,7 +294,8 @@ CheckView::HandleNotify(const uint64 &value, const BMessage *msg) {
 }
 
 void
-CheckView::MakeEmpty(void) {
+CheckView::MakeEmpty(void)
+{
 	fDate->SetText("");
 	fType->SetText("");
 	fPayee->SetText("");
@@ -295,15 +305,19 @@ CheckView::MakeEmpty(void) {
 }
 
 void
-CheckView::MakeFocus(bool value) {
+CheckView::MakeFocus(bool value)
+{
 	fDate->MakeFocus(value);
 }
 
 void
-CheckView::FrameResized(float width, float height) {}
+CheckView::FrameResized(float width, float height)
+{
+}
 
 void
-CheckView::DoNextField(void) {
+CheckView::DoNextField(void)
+{
 	if (fDate->ChildAt(0)->IsFocus()) {
 		if (fDate->Validate(false)) {
 			if (gDatabase.CurrentAccount() && strlen(fDate->Text()) > 0) {
@@ -313,15 +327,18 @@ CheckView::DoNextField(void) {
 			}
 		}
 		fType->MakeFocus(true);
-	} else if (fType->ChildAt(0)->IsFocus())
+	}
+	else if (fType->ChildAt(0)->IsFocus())
 		fPayee->MakeFocus(true);
 	else if (fPayee->ChildAt(0)->IsFocus()) {
 		if (fPayee->Validate(false))
 			fAmount->MakeFocus(true);
-	} else if (fAmount->ChildAt(0)->IsFocus()) {
+	}
+	else if (fAmount->ChildAt(0)->IsFocus()) {
 		if (fAmount->Validate(false))
 			fCategory->MakeFocus(true);
-	} else if (fCategory->ChildAt(0)->IsFocus()) {
+	}
+	else if (fCategory->ChildAt(0)->IsFocus()) {
 		// TODO: don't force entering a transaction when going to the
 		// split window via key editing
 		if (strcmp(fCategory->Text(), "Split") == 0) {
@@ -331,9 +348,11 @@ CheckView::DoNextField(void) {
 		}
 
 		fMemo->MakeFocus(true);
-	} else if (fMemo->ChildAt(0)->IsFocus()) {
+	}
+	else if (fMemo->ChildAt(0)->IsFocus()) {
 		fEnter->MakeFocus(true);
-	} else {
+	}
+	else {
 		// We should *never* be here
 		ShowBug("M_NEXT_FIELD received for unknown view in CheckView");
 	}

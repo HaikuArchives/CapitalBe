@@ -17,13 +17,13 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "RegisterView"
 
-
 enum { M_SELECT_ACCOUNT = 'slac', M_SELECT_CURRENT };
 
-RegisterView::RegisterView(const char *name, int32 flags) : BView(name, flags | B_FRAME_EVENTS) {
+RegisterView::RegisterView(const char* name, int32 flags) : BView(name, flags | B_FRAME_EVENTS)
+{
 	SetViewColor(240, 240, 240);
 
-	BStringView *accountlabel = new BStringView("accountlabel", B_TRANSLATE("Accounts"));
+	BStringView* accountlabel = new BStringView("accountlabel", B_TRANSLATE("Accounts"));
 
 	//	fAccountView = new DragListView(r,"accountview");
 	fAccountView = new BListView("accountview", B_SINGLE_SELECTION_LIST);
@@ -36,7 +36,7 @@ RegisterView::RegisterView(const char *name, int32 flags) : BView(name, flags | 
 	gDatabase.AddObserver(fCheckView);
 
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *acc = gDatabase.AccountAt(i);
+		Account* acc = gDatabase.AccountAt(i);
 		fAccountView->AddItem(new AccountListItem(acc));
 		acc->AddObserver(this);
 	}
@@ -48,7 +48,7 @@ RegisterView::RegisterView(const char *name, int32 flags) : BView(name, flags | 
 	fTrackBox = new BBox("qtbox");
 	fTrackBox->SetLabel(B_TRANSLATE("QuickTracker"));
 
-	QTNetWorthItem *item;
+	QTNetWorthItem* item;
 	item = new QTNetWorthItem("networth");
 
 	BFont font;
@@ -76,14 +76,15 @@ RegisterView::RegisterView(const char *name, int32 flags) : BView(name, flags | 
 RegisterView::~RegisterView(void) {}
 
 void
-RegisterView::AttachedToWindow(void) {
+RegisterView::AttachedToWindow(void)
+{
 	fAccountView->SetTarget(this);
 
 	// If the selection done is before being attached to the window, the message is
 	// never received.
 	bool selected = false;
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *acc = gDatabase.AccountAt(i);
+		Account* acc = gDatabase.AccountAt(i);
 		if (acc && !acc->IsClosed()) {
 			fAccountView->Select(i);
 			selected = true;
@@ -96,7 +97,8 @@ RegisterView::AttachedToWindow(void) {
 }
 
 void
-RegisterView::MessageReceived(BMessage *msg) {
+RegisterView::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_SELECT_ACCOUNT: {
 		if (fAccountView->CurrentSelection() < 0)
@@ -117,7 +119,8 @@ RegisterView::MessageReceived(BMessage *msg) {
 }
 
 void
-RegisterView::HandleNotify(const uint64 &value, const BMessage *msg) {
+RegisterView::HandleNotify(const uint64& value, const BMessage* msg)
+{
 	bool lockwin = false;
 	if (!Window()->IsLocked()) {
 		Window()->Lock();
@@ -125,8 +128,8 @@ RegisterView::HandleNotify(const uint64 &value, const BMessage *msg) {
 	}
 
 	if (value & WATCH_ACCOUNT) {
-		Account *acc;
-		if (msg->FindPointer("item", (void **)&acc) != B_OK) {
+		Account* acc;
+		if (msg->FindPointer("item", (void**)&acc) != B_OK) {
 			if (lockwin)
 				Window()->Unlock();
 			return;
@@ -137,14 +140,16 @@ RegisterView::HandleNotify(const uint64 &value, const BMessage *msg) {
 			if (fAccountView->CountItems() == 1)
 				fAccountView->Select(0);
 			acc->AddObserver(this);
-		} else if (value & WATCH_DELETE) {
-			AccountListItem *item =
-				(AccountListItem *)fAccountView->RemoveItem(gDatabase.IndexOf(acc));
+		}
+		else if (value & WATCH_DELETE) {
+			AccountListItem* item =
+				(AccountListItem*)fAccountView->RemoveItem(gDatabase.IndexOf(acc));
 			delete item;
 			fAccountView->Select(0);
-		} else if (value & WATCH_CHANGE) {
+		}
+		else if (value & WATCH_CHANGE) {
 			for (int32 i = 0; i < fAccountView->CountItems(); i++) {
-				AccountListItem *listitem = (AccountListItem *)fAccountView->ItemAt(i);
+				AccountListItem* listitem = (AccountListItem*)fAccountView->ItemAt(i);
 				if (listitem && listitem->GetAccount() == acc) {
 					fAccountView->InvalidateItem(i);
 					break;
@@ -166,15 +171,16 @@ RegisterView::HandleNotify(const uint64 &value, const BMessage *msg) {
 		if (range < 0)
 			range = 0;
 
-		BScrollBar *bar = fAccountScroller->ScrollBar(B_HORIZONTAL);
+		BScrollBar* bar = fAccountScroller->ScrollBar(B_HORIZONTAL);
 		bar->SetRange(0, range);
-
-	} else if (value & WATCH_TRANSACTION) {
+	}
+	else if (value & WATCH_TRANSACTION) {
 		if (value & WATCH_CREATE || value & WATCH_DELETE || value & WATCH_CHANGE)
 			fAccountView->Invalidate();
-	} else if (value & WATCH_LOCALE) {
+	}
+	else if (value & WATCH_LOCALE) {
 		for (int32 i = 0; i < fAccountView->CountItems(); i++) {
-			AccountListItem *listitem = (AccountListItem *)fAccountView->ItemAt(i);
+			AccountListItem* listitem = (AccountListItem*)fAccountView->ItemAt(i);
 			if (listitem)
 				fAccountView->InvalidateItem(i);
 		}
@@ -184,7 +190,8 @@ RegisterView::HandleNotify(const uint64 &value, const BMessage *msg) {
 }
 
 void
-RegisterView::SelectAccount(const int32 &index) {
+RegisterView::SelectAccount(const int32& index)
+{
 	if (index < 0 || index > fAccountView->CountItems() - 1)
 		return;
 

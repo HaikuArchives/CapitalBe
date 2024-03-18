@@ -2,27 +2,33 @@
 #include "CBLocale.h"
 #include "TimeSupport.h"
 
-ScheduledTransData::ScheduledTransData(void)
-	: fInterval(SCHEDULED_UNKNOWN), fCount(0), fNextDate(0) {}
+ScheduledTransData::ScheduledTransData(void) : fInterval(SCHEDULED_UNKNOWN), fCount(0), fNextDate(0)
+{
+}
 
 ScheduledTransData::ScheduledTransData(
-	Account *account, const char *date, const char *type, const char *payee, const char *amount,
-	const char *category, const char *memo, const TransactionInterval &interval, const int32 &count
+	Account* account, const char* date, const char* type, const char* payee, const char* amount,
+	const char* category, const char* memo, const TransactionInterval& interval, const int32& count
 )
 	: TransactionData(account, date, type, payee, amount, category, memo, TRANS_OPEN),
-	  fInterval(interval), fCount(count), fNextDate(0) {}
+	  fInterval(interval), fCount(count), fNextDate(0)
+{
+}
 
-ScheduledTransData::ScheduledTransData(const ScheduledTransData &trans) { *this = trans; }
+ScheduledTransData::ScheduledTransData(const ScheduledTransData& trans) { *this = trans; }
 
 ScheduledTransData::ScheduledTransData(
-	const TransactionData &data, const TransactionInterval &interval, const int32 &count
+	const TransactionData& data, const TransactionInterval& interval, const int32& count
 )
-	: TransactionData(data), fInterval(interval), fCount(count), fNextDate(0) {}
+	: TransactionData(data), fInterval(interval), fCount(count), fNextDate(0)
+{
+}
 
 ScheduledTransData::~ScheduledTransData(void) {}
 
-ScheduledTransData &
-ScheduledTransData::operator=(const ScheduledTransData &from) {
+ScheduledTransData&
+ScheduledTransData::operator=(const ScheduledTransData& from)
+{
 	TransactionData::operator=(from);
 	fInterval = from.GetInterval();
 	fCount = from.GetCount();
@@ -30,7 +36,8 @@ ScheduledTransData::operator=(const ScheduledTransData &from) {
 }
 
 void
-ScheduledTransData::CalculateNextDueDate(void) {
+ScheduledTransData::CalculateNextDueDate(void)
+{
 	switch (GetInterval()) {
 	case SCHEDULED_MONTHLY: {
 		fNextDate = IncrementDateByMonth(Date());
@@ -60,7 +67,8 @@ ScheduledTransData::CalculateNextDueDate(void) {
 }
 
 bool
-ScheduledTransData::IsValid(void) const {
+ScheduledTransData::IsValid(void) const
+{
 	if (!TransactionData::IsValid())
 		return false;
 
@@ -71,7 +79,8 @@ ScheduledTransData::IsValid(void) const {
 }
 
 void
-ScheduledTransData::MakeEmpty(void) {
+ScheduledTransData::MakeEmpty(void)
+{
 	TransactionData::MakeEmpty();
 	fInterval = SCHEDULED_UNKNOWN;
 	fCount = 0;

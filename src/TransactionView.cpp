@@ -13,7 +13,8 @@
 #include <stdlib.h>
 
 TransactionView::TransactionView()
-	: BView("transactionview", B_WILL_DRAW | B_SUBPIXEL_PRECISE | B_FRAME_EVENTS), fCurrent(NULL) {
+	: BView("transactionview", B_WILL_DRAW | B_SUBPIXEL_PRECISE | B_FRAME_EVENTS), fCurrent(NULL)
+{
 	InitTransactionItemLayout(this);
 
 	fListView = new BListView(
@@ -28,18 +29,20 @@ TransactionView::TransactionView()
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(fScrollView).End();
 }
 
-TransactionView::~TransactionView(void) {
+TransactionView::~TransactionView(void)
+{
 	fListView->MakeEmpty();
 	delete fItemList;
 }
 
 void
-TransactionView::AttachedToWindow(void) {
+TransactionView::AttachedToWindow(void)
+{
 	SetViewColor(Parent()->ViewColor());
 	fListView->SetTarget(this);
 
 	// So the scrollbar initially starts with the proper steps
-	BScrollBar *bar = fScrollView->ScrollBar(B_VERTICAL);
+	BScrollBar* bar = fScrollView->ScrollBar(B_VERTICAL);
 
 	float big, small;
 	bar->GetSteps(&small, &big);
@@ -47,13 +50,14 @@ TransactionView::AttachedToWindow(void) {
 	bar->SetSteps(small, big);
 
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *account = gDatabase.AccountAt(i);
+		Account* account = gDatabase.AccountAt(i);
 		account->AddObserver(this);
 	}
 }
 
 void
-TransactionView::SetAccount(Account *acc) {
+TransactionView::SetAccount(Account* acc)
+{
 	// We accept NULL pointers because sometimes we're given them
 
 	// According to the BeBook, calling BListView::MakeEmpty() doesn't free
@@ -149,34 +153,37 @@ TransactionView::SetAccount(Account *acc) {
 	}
 }
 
-TransactionItem *
-TransactionView::AddTransaction(const TransactionData &trans, const int32 &index) {
+TransactionItem*
+TransactionView::AddTransaction(const TransactionData& trans, const int32& index)
+{
 	int32 itemindex = 0;
 	if (index < 0)
 		itemindex = FindIndexForDate(trans.Date(), trans.Payee());
 	else
 		itemindex = index;
 
-	TransactionItem *transitem = new TransactionItem(trans);
+	TransactionItem* transitem = new TransactionItem(trans);
 	fListView->AddItem(transitem, itemindex);
 	fItemList->AddItem(transitem, itemindex);
-	return (TransactionItem *)transitem;
+	return (TransactionItem*)transitem;
 }
 
 void
-TransactionView::DeleteTransaction(const int32 &index) {
+TransactionView::DeleteTransaction(const int32& index)
+{
 	// This is totally bizarre. If we remove the first TransactionItem from the
 	// actual fListView, it removes *all* of the items. Does commenting out the line
 	// create a memory leak? BDB doesn't report any leaks FWIW. That won't work as
 	// a fix, though, because whenever a transaction is deleted anywhere else, it
 	// causes a segfault. Grrr....
-	TransactionItem *item = (TransactionItem *)fListView->RemoveItem(index);
+	TransactionItem* item = (TransactionItem*)fListView->RemoveItem(index);
 	delete item;
 	fItemList->RemoveItemAt(index);
 }
 
 void
-TransactionView::Draw(BRect updateRect) {
+TransactionView::Draw(BRect updateRect)
+{
 	BRect frame = Frame();
 	frame.OffsetTo(0, 0);
 	frame.bottom = frame.top + 46;
@@ -185,19 +192,21 @@ TransactionView::Draw(BRect updateRect) {
 }
 
 void
-TransactionView::EditTransaction(void) {
+TransactionView::EditTransaction(void)
+{
 	int32 cs = fListView->CurrentSelection();
 	fListView->InvalidateItem(cs);
 }
 
 void
-TransactionView::MessageReceived(BMessage *message) {
+TransactionView::MessageReceived(BMessage* message)
+{
 	switch (message->what) {
 	case M_TRANSACTION_SELECTED: {
-		Account *acc = gDatabase.CurrentAccount();
+		Account* acc = gDatabase.CurrentAccount();
 		if (acc) {
-			TransactionItem *titem =
-				(TransactionItem *)fListView->ItemAt(fListView->CurrentSelection());
+			TransactionItem* titem =
+				(TransactionItem*)fListView->ItemAt(fListView->CurrentSelection());
 			if (titem)
 				acc->SetCurrentTransaction(titem->GetID());
 		}
@@ -215,7 +224,8 @@ TransactionView::MessageReceived(BMessage *message) {
 }
 
 void
-TransactionView::HandleNotify(const uint64 &value, const BMessage *msg) {
+TransactionView::HandleNotify(const uint64& value, const BMessage* msg)
+{
 	bool lockwin = false;
 	if (!Window()->IsLocked()) {
 		lockwin = true;
@@ -226,7 +236,8 @@ TransactionView::HandleNotify(const uint64 &value, const BMessage *msg) {
 		if (IsWatching(WATCH_TRANSACTION)) {
 			RemoveWatch(WATCH_ALL);
 			AddWatch(WATCH_MASS_EDIT);
-		} else {
+		}
+		else {
 			AddWatch(WATCH_ALL);
 
 			// need to reset all transactions for the current account
@@ -236,7 +247,7 @@ TransactionView::HandleNotify(const uint64 &value, const BMessage *msg) {
 
 	if (value & WATCH_TRANSACTION) {
 		uint32 accountid = 0;
-		if (msg->FindInt32("accountid", (int32 *)&accountid) != B_OK) {
+		if (msg->FindInt32("accountid", (int32*)&accountid) != B_OK) {
 			if (lockwin)
 				Window()->Unlock();
 			return;
@@ -244,19 +255,20 @@ TransactionView::HandleNotify(const uint64 &value, const BMessage *msg) {
 
 		if (accountid == gDatabase.CurrentAccount()->GetID()) {
 			if (value & WATCH_CREATE) {
-				TransactionData *trans = NULL;
-				if (msg->FindPointer("item", (void **)&trans) != B_OK) {
+				TransactionData* trans = NULL;
+				if (msg->FindPointer("item", (void**)&trans) != B_OK) {
 					if (lockwin)
 						Window()->Unlock();
 					return;
 				}
 
-				TransactionItem *item = AddTransaction(*trans);
+				TransactionItem* item = AddTransaction(*trans);
 				fListView->Select(fListView->IndexOf(item));
 				fListView->ScrollToSelection();
-			} else if (value & WATCH_DELETE) {
+			}
+			else if (value & WATCH_DELETE) {
 				uint32 id = 0;
-				if (msg->FindInt32("id", (int32 *)&id) != B_OK) {
+				if (msg->FindInt32("id", (int32*)&id) != B_OK) {
 					if (lockwin)
 						Window()->Unlock();
 					return;
@@ -270,11 +282,12 @@ TransactionView::HandleNotify(const uint64 &value, const BMessage *msg) {
 				}
 
 				DeleteTransaction(index);
-			} else if (value & WATCH_CHANGE) {
-				TransactionData *data;
-				if (msg->FindPointer("item", (void **)&data) == B_OK) {
+			}
+			else if (value & WATCH_CHANGE) {
+				TransactionData* data;
+				if (msg->FindPointer("item", (void**)&data) == B_OK) {
 					int32 index = FindItemForID(data->GetID());
-					TransactionItem *item = (TransactionItem *)fListView->ItemAt(index);
+					TransactionItem* item = (TransactionItem*)fListView->ItemAt(index);
 					if (item) {
 						item->SetData(*data);
 						fListView->InvalidateItem(index);
@@ -288,13 +301,14 @@ TransactionView::HandleNotify(const uint64 &value, const BMessage *msg) {
 				fListView->ScrollToSelection();
 			}
 */		}
-	} else if (value & WATCH_ACCOUNT) {
+	}
+	else if (value & WATCH_ACCOUNT) {
 		if (value & WATCH_REDRAW) {
 			fListView->Invalidate();
 		}
 
-		Account *acc;
-		if (msg->FindPointer("item", (void **)&acc) != B_OK) {
+		Account* acc;
+		if (msg->FindPointer("item", (void**)&acc) != B_OK) {
 			if (lockwin)
 				Window()->Unlock();
 			return;
@@ -302,17 +316,20 @@ TransactionView::HandleNotify(const uint64 &value, const BMessage *msg) {
 
 		if (value & WATCH_SELECT) {
 			SetAccount(gDatabase.CurrentAccount());
-		} else if (value & WATCH_CREATE) {
+		}
+		else if (value & WATCH_CREATE) {
 			acc->AddObserver(this);
-		} else if (value & (WATCH_CHANGE | WATCH_LOCALE)) {
+		}
+		else if (value & (WATCH_CHANGE | WATCH_LOCALE)) {
 			if (acc == gDatabase.CurrentAccount())
 				fListView->Invalidate();
 		}
-	} else if (value & (WATCH_CHANGE | WATCH_LOCALE)) {
+	}
+	else if (value & (WATCH_CHANGE | WATCH_LOCALE)) {
 		// this case handles updates to the default locale
 		// when the default locale is updated
-		Locale *locale;
-		if (msg->FindPointer("locale", (void **)&locale) == B_OK) {
+		Locale* locale;
+		if (msg->FindPointer("locale", (void**)&locale) == B_OK) {
 			if (locale == &gDefaultLocale)
 				fListView->Invalidate();
 		}
@@ -323,8 +340,9 @@ TransactionView::HandleNotify(const uint64 &value, const BMessage *msg) {
 }
 
 void
-TransactionView::FrameResized(float width, float height) {
-	BScrollBar *bar = fScrollView->ScrollBar(B_VERTICAL);
+TransactionView::FrameResized(float width, float height)
+{
+	BScrollBar* bar = fScrollView->ScrollBar(B_VERTICAL);
 
 	float big, small;
 	bar->GetSteps(&small, &big);
@@ -333,7 +351,8 @@ TransactionView::FrameResized(float width, float height) {
 }
 
 bool
-TransactionView::SelectNext(void) {
+TransactionView::SelectNext(void)
+{
 	int32 index = fListView->CurrentSelection();
 	if (index < 0 || index >= fListView->CountItems() - 1)
 		return false;
@@ -343,7 +362,8 @@ TransactionView::SelectNext(void) {
 }
 
 bool
-TransactionView::SelectPrevious(void) {
+TransactionView::SelectPrevious(void)
+{
 	int32 index = fListView->CurrentSelection();
 	if (index <= 0)
 		return false;
@@ -353,7 +373,8 @@ TransactionView::SelectPrevious(void) {
 }
 
 bool
-TransactionView::SelectFirst(void) {
+TransactionView::SelectFirst(void)
+{
 	if (fListView->CountItems() <= 0)
 		return false;
 	fListView->Select(0L);
@@ -362,7 +383,8 @@ TransactionView::SelectFirst(void) {
 }
 
 bool
-TransactionView::SelectLast(void) {
+TransactionView::SelectLast(void)
+{
 	if (fListView->CountItems() <= 0)
 		return false;
 	fListView->Select(fListView->CountItems() - 1);
@@ -371,9 +393,10 @@ TransactionView::SelectLast(void) {
 }
 
 int32
-TransactionView::FindItemForID(const uint32 &id) {
+TransactionView::FindItemForID(const uint32& id)
+{
 	for (int32 i = 0; i < fListView->CountItems(); i++) {
-		TransactionItem *item = (TransactionItem *)fListView->ItemAt(i);
+		TransactionItem* item = (TransactionItem*)fListView->ItemAt(i);
 		if (item->GetID() == id)
 			return i;
 	}
@@ -381,7 +404,8 @@ TransactionView::FindItemForID(const uint32 &id) {
 }
 
 int32
-TransactionView::FindIndexForDate(const time_t &time, const char *payee) {
+TransactionView::FindIndexForDate(const time_t& time, const char* payee)
+{
 	// We need to find the appropriate index based on the date of
 	// the transaction and insert it there
 	int32 count = fListView->CountItems();
@@ -391,7 +415,7 @@ TransactionView::FindIndexForDate(const time_t &time, const char *payee) {
 
 	int32 i = 0;
 	while (i < count) {
-		TransactionItem *item = (TransactionItem *)fListView->ItemAt(i);
+		TransactionItem* item = (TransactionItem*)fListView->ItemAt(i);
 
 		if (time < item->GetDate() ||
 			(time == item->GetDate() && strcmp(payee, item->GetPayee()) < 1))

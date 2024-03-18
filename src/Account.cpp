@@ -3,19 +3,23 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-Account::Account(const char *name, const bool &isclosed)
+Account::Account(const char* name, const bool& isclosed)
 	: fName(name), fID(0), fClosed(isclosed), fCurrentTransaction(0), fLastCheckNumber(0),
-	  fUseDefaultLocale(true) {}
+	  fUseDefaultLocale(true)
+{
+}
 
 Account::~Account(void) {}
 
 void
-Account::SetName(const char *name) {
+Account::SetName(const char* name)
+{
 	fName = name;
 }
 
 bool
-Account::SetCurrentTransaction(const uint32 &id) {
+Account::SetCurrentTransaction(const uint32& id)
+{
 	if (gDatabase.HasTransaction(id)) {
 		if (id != fCurrentTransaction) {
 			BMessage msg;
@@ -29,7 +33,8 @@ Account::SetCurrentTransaction(const uint32 &id) {
 }
 
 uint16
-Account::LookupLastCheckNumber(void) {
+Account::LookupLastCheckNumber(void)
+{
 	BString command("select max(type) from account_");
 	command << fID << " where type between 0 and 65536;";
 
@@ -41,7 +46,8 @@ Account::LookupLastCheckNumber(void) {
 }
 
 Fixed
-Account::Balance(void) {
+Account::Balance(void)
+{
 	BString command("select sum(amount) from account_");
 	command << fID << ";";
 
@@ -59,7 +65,8 @@ Account::Balance(void) {
 }
 
 Fixed
-Account::BalanceAt(const time_t &date) {
+Account::BalanceAt(const time_t& date)
+{
 	BString command("select sum(amount) from account_");
 	command << fID << " where date <= " << date << " order by payee;";
 
@@ -77,7 +84,8 @@ Account::BalanceAt(const time_t &date) {
 }
 
 Fixed
-Account::BalanceAtTransaction(const time_t &time, const char *payee) {
+Account::BalanceAtTransaction(const time_t& time, const char* payee)
+{
 	if (!payee)
 		return Fixed();
 
@@ -93,7 +101,8 @@ Account::BalanceAtTransaction(const time_t &time, const char *payee) {
 		date = query.getInt64Field(0);
 		if (date < time) {
 			amount += query.getInt64Field(2);
-		} else {
+		}
+		else {
 			BString temp(DeescapeIllegalCharacters(query.getStringField(1)));
 			if (strcmp(temp.String(), payee) < 1)
 				amount += query.getInt64Field(2);
@@ -108,7 +117,8 @@ Account::BalanceAtTransaction(const time_t &time, const char *payee) {
 }
 
 BString
-Account::AutocompleteCategory(const char *input) {
+Account::AutocompleteCategory(const char* input)
+{
 	if (!input)
 		return BString();
 
@@ -131,7 +141,8 @@ Account::AutocompleteCategory(const char *input) {
 }
 
 BString
-Account::AutocompletePayee(const char *input) {
+Account::AutocompletePayee(const char* input)
+{
 	if (!input)
 		return BString();
 
@@ -147,7 +158,8 @@ Account::AutocompletePayee(const char *input) {
 }
 
 BString
-Account::AutocompleteType(const char *input) {
+Account::AutocompleteType(const char* input)
+{
 	if (!input)
 		return BString();
 
@@ -155,11 +167,13 @@ Account::AutocompleteType(const char *input) {
 		int32 inputlength = strlen(input);
 		if (strncasecmp(input, "ATM", inputlength) == 0)
 			return BString("ATM");
-	} else if (toupper(input[0]) == (int)'D') {
+	}
+	else if (toupper(input[0]) == (int)'D') {
 		int32 inputlength = strlen(input);
 		if (strncasecmp(input, "DEP", inputlength) == 0)
 			return BString("DEP");
-	} else {
+	}
+	else {
 		// Numeric autocompletion
 		BString str;
 		str << fLastCheckNumber;
@@ -179,12 +193,14 @@ Account::AutocompleteType(const char *input) {
 }
 
 Locale
-Account::GetLocale(void) const {
+Account::GetLocale(void) const
+{
 	return fUseDefaultLocale ? gDefaultLocale : fLocale;
 }
 
 void
-Account::SetLocale(const Locale &locale) {
+Account::SetLocale(const Locale& locale)
+{
 	if (fUseDefaultLocale) {
 		ShowBug("Calling SetLocale on an account with default locale settings");
 		return;
@@ -201,7 +217,8 @@ Account::SetLocale(const Locale &locale) {
 }
 
 uint32
-Account::CountTransactions(void) {
+Account::CountTransactions(void)
+{
 	BString command("select * from account_");
 	command << GetID() << " order by transid";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::CountTransactions");
@@ -221,7 +238,8 @@ Account::CountTransactions(void) {
 }
 
 void
-Account::DoForEachTransaction(void (*func)(const TransactionData &, void *), void *ptr) {
+Account::DoForEachTransaction(void (*func)(const TransactionData&, void*), void* ptr)
+{
 	BString command("select * from account_");
 	command << GetID() << " order by date,transid";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::DoForEachTransaction");
@@ -300,7 +318,8 @@ Account::DoForEachTransaction(void (*func)(const TransactionData &, void *), voi
 }
 
 void
-Account::UseDefaultLocale(const bool &usedefault) {
+Account::UseDefaultLocale(const bool& usedefault)
+{
 	if (usedefault == fUseDefaultLocale)
 		return;
 
@@ -310,7 +329,8 @@ Account::UseDefaultLocale(const bool &usedefault) {
 	if (fUseDefaultLocale) {
 		command = "delete from accountlocale where accountid = ";
 		command << fID << ";";
-	} else {
+	}
+	else {
 		// update the local copy in case it changed since the program was opened
 		fLocale = gDefaultLocale;
 

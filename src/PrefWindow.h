@@ -20,48 +20,48 @@ class CurrencyPrefView;
 
 class PrefWindow : public BWindow {
   public:
-	PrefWindow(const BRect &frame);
-	void MessageReceived(BMessage *msg);
+	PrefWindow(const BRect& frame);
+	void MessageReceived(BMessage* msg);
 
   private:
-	DatePrefView *fDatePrefView;
-	CurrencyPrefView *fCurrencyPrefView;
+	DatePrefView* fDatePrefView;
+	CurrencyPrefView* fCurrencyPrefView;
 	BButton *fOK, *fCancel;
-	BStringView *fLabel;
+	BStringView* fLabel;
 };
 
 class DatePrefView : public BView {
   public:
-	DatePrefView(const char *name, Locale *locale = NULL, const int32 &flags = B_WILL_DRAW);
+	DatePrefView(const char* name, Locale* locale = NULL, const int32& flags = B_WILL_DRAW);
 	void AttachedToWindow(void);
-	void MessageReceived(BMessage *msg);
+	void MessageReceived(BMessage* msg);
 
-	void GetSettings(Locale &locale);
+	void GetSettings(Locale& locale);
 
   private:
 	void UpdateDateLabel(void);
 
-	BStringView *fDateLabel;
+	BStringView* fDateLabel;
 	BRadioButton *fDateMDY, *fDateDMY;
-	AutoTextControl *fDateSeparatorBox;
+	AutoTextControl* fDateSeparatorBox;
 
 	Locale fLocale;
 };
 
 class CurrencyPrefView : public BView {
   public:
-	CurrencyPrefView(const char *name, Locale *locale = NULL, const int32 &flags = B_WILL_DRAW);
+	CurrencyPrefView(const char* name, Locale* locale = NULL, const int32& flags = B_WILL_DRAW);
 	void AttachedToWindow(void);
-	void MessageReceived(BMessage *msg);
+	void MessageReceived(BMessage* msg);
 
-	void GetSettings(Locale &locale);
+	void GetSettings(Locale& locale);
 
   private:
 	void UpdateCurrencyLabel(void);
 
-	BStringView *fCurrencyLabel;
+	BStringView* fCurrencyLabel;
 	AutoTextControl *fCurrencySymbolBox, *fCurrencyDecimalBox, *fCurrencySeparatorBox;
-	BCheckBox *fCurrencySymbolPrefix;
+	BCheckBox* fCurrencySymbolPrefix;
 
 	Locale fLocale;
 	Fixed fSampleAmount;

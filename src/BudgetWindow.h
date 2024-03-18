@@ -22,9 +22,9 @@ class CurrencyBox;
 
 class BudgetWindow : public BWindow {
   public:
-	BudgetWindow(const BRect &frame);
+	BudgetWindow(const BRect& frame);
 	~BudgetWindow(void);
-	void MessageReceived(BMessage *msg);
+	void MessageReceived(BMessage* msg);
 
   private:
 	void BuildStatsAndEditor(void);
@@ -34,26 +34,26 @@ class BudgetWindow : public BWindow {
 	void RefreshCategories(void);
 	void RefreshBudgetSummary(void);
 	void RefreshBudgetGrid(void);
-	void GenerateBudget(const bool &zero);
-	void CalcStats(const char *cat, Fixed &high, Fixed &low, Fixed &avg);
+	void GenerateBudget(const bool& zero);
+	void CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg);
 	void HandleCategorySelection(void);
-	void SetPeriod(const BudgetPeriod &period);
+	void SetPeriod(const BudgetPeriod& period);
 
-	BMenuBar *fBar;
-	BView *fBackView;
+	BMenuBar* fBar;
+	BView* fBackView;
 
-	BColumnListView *fCategoryList;
+	BColumnListView* fCategoryList;
 	BRow *fIncomeRow, *fSpendingRow;
 
-	BColumnListView *fBudgetSummary;
+	BColumnListView* fBudgetSummary;
 	BRow *fSummaryIncomeRow, *fSummarySpendingRow, *fSummaryTotalRow;
 
-	BBox *fCatBox;
-	CurrencyBox *fAmountBox;
-	BStringView *fAmountLabel;
+	BBox* fCatBox;
+	CurrencyBox* fAmountBox;
+	BStringView* fAmountLabel;
 	BRadioButton *fMonthly, *fWeekly, *fQuarterly, *fAnnually;
 
-	BColumnListView *fCatStat;
+	BColumnListView* fCatStat;
 	BRow *fStatAverageRow, *fStatHighestRow, *fStatLowestRow;
 
 	ReportGrid fIncomeGrid, fSpendingGrid;

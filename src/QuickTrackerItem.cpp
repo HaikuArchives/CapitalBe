@@ -11,31 +11,34 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "QuickTrackerItem"
 
-
 // Calculates the user's net worth by adding up the balances of all accounts
-QTNetWorthItem::QTNetWorthItem(const char *name, uint32 flags)
-	: QuickTrackerItem(name, flags), fIgnore(false) {
+QTNetWorthItem::QTNetWorthItem(const char* name, uint32 flags)
+	: QuickTrackerItem(name, flags), fIgnore(false)
+{
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *account = gDatabase.AccountAt(i);
+		Account* account = gDatabase.AccountAt(i);
 		account->AddObserver(this);
 	}
 }
 
-QTNetWorthItem::~QTNetWorthItem(void) {
+QTNetWorthItem::~QTNetWorthItem(void)
+{
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *account = gDatabase.AccountAt(i);
+		Account* account = gDatabase.AccountAt(i);
 		account->RemoveObserver(this);
 	}
 }
 
 void
-QTNetWorthItem::AttachedToWindow(void) {
+QTNetWorthItem::AttachedToWindow(void)
+{
 	QuickTrackerItem::AttachedToWindow();
 	Calculate();
 }
 
 void
-QTNetWorthItem::SetObserving(const bool &value) {
+QTNetWorthItem::SetObserving(const bool& value)
+{
 	if (IsObserving() != value) {
 		Observer::SetObserving(value);
 		Calculate();
@@ -43,7 +46,8 @@ QTNetWorthItem::SetObserving(const bool &value) {
 }
 
 void
-QTNetWorthItem::HandleNotify(const uint64 &value, const BMessage *msg) {
+QTNetWorthItem::HandleNotify(const uint64& value, const BMessage* msg)
+{
 	/*
 		TODO: Make QTNetWorthItem ignore mass edits
 		if(value & WATCH_MASS_EDIT)
@@ -59,13 +63,14 @@ QTNetWorthItem::HandleNotify(const uint64 &value, const BMessage *msg) {
 			return;
 	*/
 	if (value & WATCH_ACCOUNT) {
-		Account *acc = NULL;
-		if (msg->FindPointer("item", (void **)&acc) != B_OK)
+		Account* acc = NULL;
+		if (msg->FindPointer("item", (void**)&acc) != B_OK)
 			return;
 
 		if (value & WATCH_CREATE) {
 			acc->AddObserver(this);
-		} else if (value & WATCH_DELETE) {
+		}
+		else if (value & WATCH_DELETE) {
 			acc->RemoveObserver(this);
 			if (gDatabase.CountAccounts() == 1) {
 				if (Window())
@@ -88,7 +93,8 @@ QTNetWorthItem::HandleNotify(const uint64 &value, const BMessage *msg) {
 }
 
 void
-QTNetWorthItem::Calculate(void) {
+QTNetWorthItem::Calculate(void)
+{
 	BString label, temp;
 	Fixed balance;
 
@@ -109,7 +115,7 @@ QTNetWorthItem::Calculate(void) {
 	}
 
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *account = gDatabase.AccountAt(i);
+		Account* account = gDatabase.AccountAt(i);
 		if (!account->IsClosed())
 			balance += account->Balance();
 	}
@@ -127,31 +133,35 @@ QTNetWorthItem::Calculate(void) {
 }
 
 // Calculates the budget variance for one category
-QTBudgetCategoryItem::QTBudgetCategoryItem(const char *category, const char *name, uint32 flags)
-	: QuickTrackerItem(name, flags), fIgnore(false) {
+QTBudgetCategoryItem::QTBudgetCategoryItem(const char* category, const char* name, uint32 flags)
+	: QuickTrackerItem(name, flags), fIgnore(false)
+{
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *account = gDatabase.AccountAt(i);
+		Account* account = gDatabase.AccountAt(i);
 		account->AddObserver(this);
 	}
 
 	gDatabase.GetBudgetEntry(category, fEntry);
 }
 
-QTBudgetCategoryItem::~QTBudgetCategoryItem(void) {
+QTBudgetCategoryItem::~QTBudgetCategoryItem(void)
+{
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account *account = gDatabase.AccountAt(i);
+		Account* account = gDatabase.AccountAt(i);
 		account->RemoveObserver(this);
 	}
 }
 
 void
-QTBudgetCategoryItem::AttachedToWindow(void) {
+QTBudgetCategoryItem::AttachedToWindow(void)
+{
 	QuickTrackerItem::AttachedToWindow();
 	Calculate();
 }
 
 void
-QTBudgetCategoryItem::SetObserving(const bool &value) {
+QTBudgetCategoryItem::SetObserving(const bool& value)
+{
 	if (IsObserving() != value) {
 		Observer::SetObserving(value);
 		Calculate();
@@ -159,7 +169,8 @@ QTBudgetCategoryItem::SetObserving(const bool &value) {
 }
 
 void
-QTBudgetCategoryItem::HandleNotify(const uint64 &value, const BMessage *msg) {
+QTBudgetCategoryItem::HandleNotify(const uint64& value, const BMessage* msg)
+{
 	/*
 		TODO: Make QTBudgetCategoryItem ignore mass edits
 		if(value & WATCH_MASS_EDIT)
@@ -175,13 +186,14 @@ QTBudgetCategoryItem::HandleNotify(const uint64 &value, const BMessage *msg) {
 			return;
 	*/
 	if (value & WATCH_ACCOUNT) {
-		Account *acc = NULL;
-		if (msg->FindPointer("item", (void **)&acc) != B_OK)
+		Account* acc = NULL;
+		if (msg->FindPointer("item", (void**)&acc) != B_OK)
 			return;
 
 		if (value & WATCH_CREATE) {
 			acc->AddObserver(this);
-		} else if (value & WATCH_DELETE) {
+		}
+		else if (value & WATCH_DELETE) {
 			acc->RemoveObserver(this);
 			if (gDatabase.CountAccounts() == 1) {
 				if (Window())
@@ -204,7 +216,8 @@ QTBudgetCategoryItem::HandleNotify(const uint64 &value, const BMessage *msg) {
 }
 
 void
-QTBudgetCategoryItem::Calculate(void) {
+QTBudgetCategoryItem::Calculate(void)
+{
 	BString label, temp;
 	Fixed variance;
 
@@ -222,7 +235,8 @@ QTBudgetCategoryItem::Calculate(void) {
 	}
 }
 
-QuickTrackerItem::QuickTrackerItem(const char *name, uint32 flags) : BTextView(name, flags) {
+QuickTrackerItem::QuickTrackerItem(const char* name, uint32 flags) : BTextView(name, flags)
+{
 	MakeEditable(false);
 	MakeSelectable(false);
 	gDatabase.AddObserver(this);
@@ -231,16 +245,19 @@ QuickTrackerItem::QuickTrackerItem(const char *name, uint32 flags) : BTextView(n
 QuickTrackerItem::~QuickTrackerItem(void) { gDatabase.RemoveObserver(this); }
 
 void
-QuickTrackerItem::AttachedToWindow(void) {
+QuickTrackerItem::AttachedToWindow(void)
+{
 	SetViewColor(Parent()->ViewColor());
 }
 
 void
-QuickTrackerItem::HandleNotify(const uint64 &value, const BMessage *msg) {
+QuickTrackerItem::HandleNotify(const uint64& value, const BMessage* msg)
+{
 	// Does nothing by default - hook function for child classes
 }
 
 void
-QuickTrackerItem::Configure(void) {
+QuickTrackerItem::Configure(void)
+{
 	// Does nothing by default - hook function for child classes
 }

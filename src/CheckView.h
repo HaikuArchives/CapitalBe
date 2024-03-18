@@ -32,16 +32,16 @@ class PayeeBox;
 
 class CheckView : public BView, public Observer {
   public:
-	CheckView(const char *name, int32 flags);
+	CheckView(const char* name, int32 flags);
 	~CheckView(void);
 	void AttachedToWindow(void);
-	void MessageReceived(BMessage *msg);
+	void MessageReceived(BMessage* msg);
 	void SetFields(
-		const char *date, const char *type, const char *payee, const char *amount,
-		const char *category, const char *memo
+		const char* date, const char* type, const char* payee, const char* amount,
+		const char* category, const char* memo
 	);
 
-	void HandleNotify(const uint64 &value, const BMessage *msg);
+	void HandleNotify(const uint64& value, const BMessage* msg);
 	void MakeEmpty(void);
 	void MakeFocus(bool value = true);
 	void FrameResized(float width, float height);
@@ -49,17 +49,17 @@ class CheckView : public BView, public Observer {
   private:
 	void DoNextField(void);
 
-	DateBox *fDate;
-	CheckNumBox *fType;
-	PayeeBox *fPayee;
-	CurrencyBox *fAmount;
-	CategoryBox *fCategory;
-	NavTextBox *fMemo;
+	DateBox* fDate;
+	CheckNumBox* fType;
+	PayeeBox* fPayee;
+	CurrencyBox* fAmount;
+	CategoryBox* fCategory;
+	NavTextBox* fMemo;
 
 	BStringView *fDateLabel, *fTypeLabel, *fPayeeLabel, *fAmountLabel, *fCategoryLabel, *fMemoLabel;
 	BButton *fEnter, *fTransfer;
 
-	HelpButton *fHelpButton;
+	HelpButton* fHelpButton;
 };
 
 

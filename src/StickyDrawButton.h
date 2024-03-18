@@ -9,16 +9,16 @@
 class StickyDrawButton : public BButton {
   public:
 	StickyDrawButton(
-		BRect frame, const char *name, BBitmap *up, BBitmap *down, BMessage *msg,
-		const int32 &resize, const int32 &flags
+		BRect frame, const char* name, BBitmap* up, BBitmap* down, BMessage* msg,
+		const int32& resize, const int32& flags
 	);
 	~StickyDrawButton(void);
 
 	void Draw(BRect update);
 
-	void SetBitmaps(BBitmap *up, BBitmap *down);
+	void SetBitmaps(BBitmap* up, BBitmap* down);
 	void ResizeToPreferred(void);
-	void SetDisabled(BBitmap *disabledup, BBitmap *disableddown);
+	void SetDisabled(BBitmap* disabledup, BBitmap* disableddown);
 	void MouseUp(BPoint pt);
 
 	//	void	MessageReceived(BMessage *msg);

@@ -15,6 +15,6 @@ uint8
 TAmountWidth(void);
 
 void
-InitTransactionItemLayout(BView *owner);
+InitTransactionItemLayout(BView* owner);
 
 #endif

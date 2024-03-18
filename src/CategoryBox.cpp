@@ -4,10 +4,11 @@
 #include "MsgDefs.h"
 #include "TimeSupport.h"
 
-CategoryBoxFilter::CategoryBoxFilter(CategoryBox *box) : AutoTextControlFilter(box) {}
+CategoryBoxFilter::CategoryBoxFilter(CategoryBox* box) : AutoTextControlFilter(box) {}
 
 filter_result
-CategoryBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
+CategoryBoxFilter::KeyFilter(const int32& key, const int32& mod)
+{
 	// Here is where all the *real* work for a date box is done.
 	if (key == B_TAB) {
 		if (mod & B_SHIFT_KEY)
@@ -31,7 +32,7 @@ CategoryBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 					 !(mod & B_CONTROL_KEY)))
 		return B_DISPATCH_MESSAGE;
 
-	Account *acc = gDatabase.CurrentAccount();
+	Account* acc = gDatabase.CurrentAccount();
 	if (!acc)
 		return B_DISPATCH_MESSAGE;
 
@@ -59,17 +60,19 @@ CategoryBoxFilter::KeyFilter(const int32 &key, const int32 &mod) {
 }
 
 CategoryBox::CategoryBox(
-	const char *name, const char *label, const char *text, BMessage *msg, uint32 flags
+	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags
 )
-	: AutoTextControl(name, label, text, msg, flags) {
+	: AutoTextControl(name, label, text, msg, flags)
+{
 	SetFilter(new CategoryBoxFilter(this));
 	SetCharacterLimit(32);
 }
 
 bool
-CategoryBox::Validate(void) {
+CategoryBox::Validate(void)
+{
 	if (strlen(Text()) < 1) {
-		DAlert *alert = new DAlert(
+		DAlert* alert = new DAlert(
 			"Category is missing.",
 			"Do you want to add this transaction "
 			"without a category?",

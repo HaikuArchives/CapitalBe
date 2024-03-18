@@ -8,7 +8,8 @@ static uint8 sDateWidth = 0;
 static uint8 sAmountWidth = 0;
 
 void
-InitTransactionItemLayout(BView *owner) {
+InitTransactionItemLayout(BView* owner)
+{
 	font_height fh;
 	owner->GetFontHeight(&fh);
 	float fontheight = fh.ascent + fh.descent + fh.leading;
@@ -20,26 +21,31 @@ InitTransactionItemLayout(BView *owner) {
 }
 
 uint8
-TLeftPadding(void) {
+TLeftPadding(void)
+{
 	return sLeftPadding;
 }
 
 uint8
-TRowHeight(void) {
+TRowHeight(void)
+{
 	return sRowHeight;
 }
 
 uint8
-TNumWidth(void) {
+TNumWidth(void)
+{
 	return sNumWidth;
 }
 
 uint8
-TDateWidth(void) {
+TDateWidth(void)
+{
 	return sDateWidth;
 }
 
 uint8
-TAmountWidth(void) {
+TAmountWidth(void)
+{
 	return sAmountWidth;
 }

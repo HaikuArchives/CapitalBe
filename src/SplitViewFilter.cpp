@@ -6,34 +6,36 @@
 #include "MsgDefs.h"
 #include "TimeSupport.h"
 
-#include <Catalog.h>
 #include <Button.h>
+#include <Catalog.h>
 #include <TextControl.h>
 
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "SplitFilterView"
 
-
-SplitViewFilter::SplitViewFilter(SplitView *checkview)
-	: BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN), fView(checkview) {}
+SplitViewFilter::SplitViewFilter(SplitView* checkview)
+	: BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN), fView(checkview)
+{
+}
 
 SplitViewFilter::~SplitViewFilter(void) {}
 
 filter_result
-SplitViewFilter::Filter(BMessage *msg, BHandler **target) {
+SplitViewFilter::Filter(BMessage* msg, BHandler** target)
+{
 	int32 mod;
 	if (msg->FindInt32("modifiers", &mod) == B_OK) {
 		if ((mod & B_COMMAND_KEY) || (mod & B_COMMAND_KEY) || (mod & B_OPTION_KEY))
 			return B_DISPATCH_MESSAGE;
 	}
 
-	BView *v = dynamic_cast<BView *>(*target);
+	BView* v = dynamic_cast<BView*>(*target);
 	if (!v)
 		return B_DISPATCH_MESSAGE;
 
-	BTextControl *text = dynamic_cast<BTextControl *>(v->Parent());
-	BButton *button = dynamic_cast<BButton *>(v);
+	BTextControl* text = dynamic_cast<BTextControl*>(v->Parent());
+	BButton* button = dynamic_cast<BButton*>(v);
 	if (!text && !button)
 		return B_DISPATCH_MESSAGE;
 
@@ -70,7 +72,8 @@ SplitViewFilter::Filter(BMessage *msg, BHandler **target) {
 				fView->ToggleSplit();
 				fView->fMessenger->SendMessage(new BMessage(M_NEXT_FIELD));
 				return B_SKIP_MESSAGE;
-			} else {
+			}
+			else {
 				fView->fMessenger->SendMessage(new BMessage(M_NEXT_FIELD));
 				return B_SKIP_MESSAGE;
 			}
@@ -126,7 +129,7 @@ SplitViewFilter::Filter(BMessage *msg, BHandler **target) {
 	int32 start, end;
 	text->TextView()->GetSelection(&start, &end);
 
-	Account *acc = gDatabase.CurrentAccount();
+	Account* acc = gDatabase.CurrentAccount();
 
 	if (text == fView->fSplitCategory || text == fView->fSplitAmount || text == fView->fSplitMemo) {
 		switch (rawchar) {
@@ -144,9 +147,11 @@ SplitViewFilter::Filter(BMessage *msg, BHandler **target) {
 
 			if (text == fView->fSplitCategory) {
 				editmsg.AddInt32("command", M_SPLIT_CATEGORY_CHANGED);
-			} else if (text == fView->fSplitAmount) {
+			}
+			else if (text == fView->fSplitAmount) {
 				editmsg.AddInt32("command", M_SPLIT_AMOUNT_CHANGED);
-			} else if (text == fView->fSplitMemo) {
+			}
+			else if (text == fView->fSplitMemo) {
 				editmsg.AddInt32("command", M_SPLIT_MEMO_CHANGED);
 			}
 
@@ -164,9 +169,11 @@ SplitViewFilter::Filter(BMessage *msg, BHandler **target) {
 			BMessage keymsg(M_EDIT_KEY);
 			if (text == fView->fSplitCategory) {
 				keymsg.AddInt32("command", M_SPLIT_CATEGORY_CHANGED);
-			} else if (text == fView->fSplitAmount) {
+			}
+			else if (text == fView->fSplitAmount) {
 				keymsg.AddInt32("command", M_SPLIT_AMOUNT_CHANGED);
-			} else if (text == fView->fSplitMemo) {
+			}
+			else if (text == fView->fSplitMemo) {
 				keymsg.AddInt32("command", M_SPLIT_MEMO_CHANGED);
 			}
 

@@ -22,7 +22,6 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "ScheduleAddWindow"
 
-
 enum {
 	M_SCHEDULED_MONTHLY = 'schm',
 	M_SCHEDULED_WEEKLY,
@@ -35,30 +34,31 @@ enum {
 	M_SCHEDULE_TRANSACTION
 };
 
-ScheduleAddWindow::ScheduleAddWindow(const BRect &frame, const TransactionData &data)
+ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& data)
 	: BWindow(
 		  frame, B_TRANSLATE("Schedule transaction"), B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		  B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS
 	  ),
-	  fTransData(data) {
+	  fTransData(data)
+{
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BView *back = new BView("backview", B_WILL_DRAW);
+	BView* back = new BView("backview", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
 	back->SetViewColor(240, 240, 240);
 
 	BString label;
 	label.SetToFormat(B_TRANSLATE("Type: %s"), data.Type().Type());
-	BStringView *typelabel = new BStringView("typelabel", label.String());
+	BStringView* typelabel = new BStringView("typelabel", label.String());
 
 	label.SetToFormat(B_TRANSLATE("Payee: %s"), data.Payee());
-	BStringView *payeelabel = new BStringView("payeelabel", label.String());
+	BStringView* payeelabel = new BStringView("payeelabel", label.String());
 
 	BString temp;
 	gCurrentLocale.CurrencyToString(data.Amount().AbsoluteValue(), temp);
 	label.SetToFormat(B_TRANSLATE("Amount: %s"), temp);
 
-	BStringView *amountlabel = new BStringView("amountlabel", label.String());
+	BStringView* amountlabel = new BStringView("amountlabel", label.String());
 
 	label = B_TRANSLATE("Category:");
 	label += " ";
@@ -67,29 +67,31 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect &frame, const TransactionData &
 	else
 		label << data.NameAt(0);
 
-	BStringView *categorylabel = new BStringView("categorylabel", label.String());
+	BStringView* categorylabel = new BStringView("categorylabel", label.String());
 
 	label = B_TRANSLATE("Memo:");
 	label << " " << data.Memo();
-	BStringView *memolabel = new BStringView("memolabel", label.String());
+	BStringView* memolabel = new BStringView("memolabel", label.String());
 
 	//	Since layout-api, we need other way to make divider
 	//	BBox *divider = new BBox(r);
 	//	AddChild(divider);
 
 	fIntervalMenu = new BMenu(B_TRANSLATE("Frequency"));
-	fIntervalMenu->AddItem(new BMenuItem(B_TRANSLATE("Monthly"), new BMessage(M_SCHEDULED_MONTHLY)));
+	fIntervalMenu->AddItem(new BMenuItem(B_TRANSLATE("Monthly"), new BMessage(M_SCHEDULED_MONTHLY))
+	);
 	fIntervalMenu->AddItem(
 		new BMenuItem(B_TRANSLATE("Quarterly"), new BMessage(M_SCHEDULED_QUARTERLY))
 	);
-	fIntervalMenu->AddItem(new BMenuItem(B_TRANSLATE("Annually"), new BMessage(M_SCHEDULED_ANNUALLY))
+	fIntervalMenu->AddItem(
+		new BMenuItem(B_TRANSLATE("Annually"), new BMessage(M_SCHEDULED_ANNUALLY))
 	);
 	fIntervalMenu->ItemAt(0)->SetMarked(true);
 	fIntervalMenu->SetLabelFromMarked(true);
 
 	temp = B_TRANSLATE("Frequency:");
 	temp += " ";
-	BMenuField *intervalfield = new BMenuField("intervalfield", temp.String(), fIntervalMenu);
+	BMenuField* intervalfield = new BMenuField("intervalfield", temp.String(), fIntervalMenu);
 
 	temp = B_TRANSLATE("Starting date:");
 	temp += " ";
@@ -107,18 +109,18 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect &frame, const TransactionData &
 	fRepeatCount->UseTabFiltering(false);
 	fRepeatCount->SetEnabled(false);
 
-	BStringView *timeslabel = new BStringView("timeslabel", B_TRANSLATE("times"));
+	BStringView* timeslabel = new BStringView("timeslabel", B_TRANSLATE("times"));
 
 	fRepeatAlways->SetValue(B_CONTROL_ON);
 
 	intervalfield->MakeFocus(true);
 
-	BButton *okbutton =
+	BButton* okbutton =
 		new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_SCHEDULE_TRANSACTION));
 	okbutton->MakeDefault(true);
 	okbutton->SetLabel(B_TRANSLATE("OK"));
 
-	BButton *cancelbutton =
+	BButton* cancelbutton =
 		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 	cancelbutton->MakeDefault(true);
 
@@ -149,7 +151,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect &frame, const TransactionData &
 }
 
 void
-ScheduleAddWindow::MessageReceived(BMessage *msg) {
+ScheduleAddWindow::MessageReceived(BMessage* msg)
+{
 	switch (msg->what) {
 	case M_REPEAT_ALWAYS: {
 		fRepeatCount->SetEnabled(false);
@@ -172,7 +175,7 @@ ScheduleAddWindow::MessageReceived(BMessage *msg) {
 	case M_SCHEDULE_TRANSACTION: {
 		ScheduledTransData stdata(fTransData);
 
-		BMenuItem *intervalitem = fIntervalMenu->FindMarked();
+		BMenuItem* intervalitem = fIntervalMenu->FindMarked();
 		if (!intervalitem) {
 			ShowBug("NULL menu item in ScheduleAddWindow");
 			break;
@@ -207,8 +210,8 @@ ScheduleAddWindow::MessageReceived(BMessage *msg) {
 			ShowAlert(
 				B_TRANSLATE("CapitalBe didn't understand the date you entered."),
 				B_TRANSLATE("CapitalBe understands lots of different ways of entering dates. "
-						  "Apparently, this wasn't one of them. You'll need to change how you "
-						  "entered this date. Sorry.")
+							"Apparently, this wasn't one of them. You'll need to change how you "
+							"entered this date. Sorry.")
 			);
 			break;
 		}
