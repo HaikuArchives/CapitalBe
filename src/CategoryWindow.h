@@ -3,10 +3,9 @@
 
 #include <Window.h>
 
-class CategoryWindow : public BWindow
-{
-public:
-	CategoryWindow(const BRect &frame);
+class CategoryWindow : public BWindow {
+  public:
+	CategoryWindow(const BRect& frame);
 };
 
 #endif

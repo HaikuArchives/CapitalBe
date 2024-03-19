@@ -1,33 +1,42 @@
 #ifndef TRANSACTION_ITEM_H
 #define TRANSACTION_ITEM_H
 
+
+#include "TransactionData.h"
+
 #include <ListItem.h>
+#include <String.h>
 
-class TransactionData;
 
-void InitTransactionItemLayout(BView *owner);
+void
+InitTransactionItemLayout(BView* owner);
 
-class TransactionItem : public BListItem
-{
-public:
-	TransactionItem(const TransactionData &trans);
-	void DrawItem(BView *owner, BRect frame, bool complete = false);
+class TransactionItem : public BListItem {
+  public:
+	TransactionItem(const TransactionData& trans);
+	void DrawItem(BView* owner, BRect frame, bool complete = false);
 	void Update(BView* owner, const BFont* finfo);
+
 	uint32 GetID(void) const { return fID; }
+
 	time_t GetDate(void) const { return fDate; }
-	const char *GetPayee(void) const { return fPayee.String(); }
-	void SetData(const TransactionData &trans);
-private:
-	time_t fDate;
-	Account *fAccount;
-	BString fType;
-	BString fPayee;
-	Fixed 	fAmount;
+
+	const char* GetPayee(void) const { return fPayee.String(); }
+
+	void SetData(const TransactionData& trans);
+
+  private:
+	Account* fAccount;
 	BString fCategory;
 	BString fMemo;
+	BString fPayee;
+	BString fType;
+	Fixed fAmount;
+
+	bigtime_t fTimeStamp;
+	time_t fDate;
 	uint8 fStatus;
 	uint32 fID;
-	bigtime_t fTimeStamp;
 };
 
 #endif

@@ -7,15 +7,15 @@
 
 #define M_HELPBUTTON_PRESSED 'hbpr'
 
-class HelpButton : public BButton
-{
-public:
-	HelpButton(const char *name, const char *path);
+class HelpButton : public BButton {
+  public:
+	HelpButton(const char* name, const char* path);
 	~HelpButton(void);
 
 	virtual void AttachedToWindow();
-	virtual void MessageReceived(BMessage *msg);
-private:
+	virtual void MessageReceived(BMessage* msg);
+
+  private:
 	entry_ref fRef;
 };
 
