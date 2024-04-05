@@ -777,9 +777,9 @@ BudgetWindow::BuildBudgetSummary(void)
 		fSummarySpendingRow->SetField(new BStringField(""), i + 1);
 		fSummaryTotalRow->SetField(new BStringField(""), i + 1);
 	}
-	fBudgetSummary->AddColumn(
-		new BStringColumn(B_TRANSLATE("Total"), fBudgetSummary->StringWidth(B_TRANSLATE("Total")) + 20,
-			10, 300, B_TRUNCATE_END, B_ALIGN_RIGHT),
+	fBudgetSummary->AddColumn(new BStringColumn(B_TRANSLATE("Total"),
+								  fBudgetSummary->StringWidth(B_TRANSLATE("Total")) + 20, 10, 300,
+								  B_TRUNCATE_END, B_ALIGN_RIGHT),
 		13);
 	fSummaryIncomeRow->SetField(new BStringField(""), 13);
 	fSummarySpendingRow->SetField(new BStringField(""), 13);

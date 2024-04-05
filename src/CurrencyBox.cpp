@@ -56,7 +56,6 @@ CurrencyBox::CurrencyBox(
 }
 
 
-
 bool
 CurrencyBox::Validate(bool alert)
 {

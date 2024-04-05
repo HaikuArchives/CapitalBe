@@ -131,7 +131,7 @@ DatePrefView::DatePrefView(const char* name, Locale* locale, const int32& flags)
 
 	temp = B_TRANSLATE("Separator:");
 	fDateSeparatorBox = new AutoTextControl(
-		 "datesep", temp.String(), fLocale.DateSeparator(), new BMessage(M_NEW_DATE_SEPARATOR));
+		"datesep", temp.String(), fLocale.DateSeparator(), new BMessage(M_NEW_DATE_SEPARATOR));
 	fDateSeparatorBox->SetDivider(StringWidth(temp.String()) + 5);
 	fDateSeparatorBox->SetCharacterLimit(2);
 

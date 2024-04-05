@@ -34,7 +34,6 @@
 #include "TransferWindow.h"
 
 
-
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MainWindow"
 
@@ -303,7 +302,7 @@ MainWindow::MessageReceived(BMessage* msg)
 		}
 		case M_REPORT_BUG:
 		{
-			char *argv[2] = {(char*)"https://github.com/HaikuArchives/CapitalBe", NULL};
+			char* argv[2] = {(char*)"https://github.com/HaikuArchives/CapitalBe", NULL};
 			be_roster->Launch("text/html", 1, argv);
 			break;
 		}

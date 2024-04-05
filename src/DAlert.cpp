@@ -145,7 +145,6 @@ DAlert::DAlert(const char* title, const char* text, const char* button1, const c
 }
 
 
-
 DAlert::DAlert(const char* title, const char* text, const char* button1, const char* button2,
 	const char* button3, button_width width, button_spacing spacing, alert_type type)
 	: BWindow(DEFAULT_RECT, title, B_MODAL_WINDOW,
@@ -160,7 +159,6 @@ DAlert::~DAlert()
 	if (fAlertSem >= B_OK)
 		delete_sem(fAlertSem);
 }
-
 
 
 DAlert::DAlert(BMessage* data) : BWindow(data)

@@ -117,7 +117,6 @@ DateBox::DateBox(const char* name, const char* label, const char* text, BMessage
 }
 
 
-
 bool
 DateBox::Validate(const bool& alert)
 {
