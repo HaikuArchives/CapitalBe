@@ -7,22 +7,21 @@
 
 class Account;
 
-//void InitTransactionItemLayout(BView *owner);
+// void InitTransactionItemLayout(BView *owner);
 
-class ScheduledTransItem : public BListItem
-{
+class ScheduledTransItem : public BListItem {
 public:
-	ScheduledTransItem(const ScheduledTransData &data);
-	
-	void DrawItem(BView *owner, BRect frame, bool complete = false);
+	ScheduledTransItem(const ScheduledTransData& data);
+
+	void DrawItem(BView* owner, BRect frame, bool complete = false);
 	void Update(BView* owner, const BFont* finfo);
 	uint32 GetID(void) const { return fID; }
-	const char * GetDate(void) const { return fDate.String(); }
-	const char *GetPayee(void) const { return fPayee.String(); }
-	void SetData(const TransactionData &trans);
-	
+	const char* GetDate(void) const { return fDate.String(); }
+	const char* GetPayee(void) const { return fPayee.String(); }
+	void SetData(const TransactionData& trans);
+
 private:
-	Account *fAccount;
+	Account* fAccount;
 	BString fType;
 	BString fPayee;
 	BString fAmount;

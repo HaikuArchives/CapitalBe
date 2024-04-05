@@ -3,7 +3,7 @@
 
 #include "Language.h"
 
-extern Language *gCurrentLanguage;
+extern Language* gCurrentLanguage;
 
 #define TRANSLATE(x) gCurrentLanguage->Translate(x).String()
 

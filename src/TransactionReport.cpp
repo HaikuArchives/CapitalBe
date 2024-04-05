@@ -1,34 +1,30 @@
-#include "ReportWindow.h"
+#include <stdlib.h>
 #include "Account.h"
 #include "CBLocale.h"
-#include "Database.h"
-#include "ReportGrid.h"
 #include "ColumnListView.h"
 #include "ColumnTypes.h"
+#include "Database.h"
+#include "ReportGrid.h"
+#include "ReportWindow.h"
 #include "TimeSupport.h"
 #include "Transaction.h"
-#include <stdlib.h>
 
-void ReportWindow::ComputeTransactions(void)
+void
+ReportWindow::ComputeTransactions(void)
 {
 	// Total of all accounts
 	// Calculate the number of columns and the starting date for each one
-	BObjectList<time_t> timelist(20,true);
-	
-	if(fSubtotalMode == SUBTOTAL_NONE)
-	{
+	BObjectList<time_t> timelist(20, true);
+
+	if (fSubtotalMode == SUBTOTAL_NONE) {
 		timelist.AddItem(new time_t(fStartDate));
 		timelist.AddItem(new time_t(fEndDate));
-	}
-	else
-	{
-		for(time_t t=fStartDate; t<fEndDate; )
-		{
-			time_t *item = new time_t(t);
+	} else {
+		for (time_t t = fStartDate; t < fEndDate;) {
+			time_t* item = new time_t(t);
 			timelist.AddItem(item);
-			
-			switch(fSubtotalMode)
-			{
+
+			switch (fSubtotalMode) {
 				case SUBTOTAL_MONTH:
 				{
 					t = IncrementDateByMonth(t);
@@ -53,147 +49,145 @@ void ReportWindow::ComputeTransactions(void)
 		}
 		timelist.AddItem(new time_t(fEndDate));
 	}
-	
+
 	BString longestname(TRANSLATE("Transactions"));
-//	int longestnamelength = 12;
-			
-	BColumn *col = new BStringColumn("",fGridView->StringWidth(TRANSLATE("Transactions"))+20,10,300,B_TRUNCATE_END,B_ALIGN_RIGHT);
-	fGridView->AddColumn(col,0);
-	col = new BStringColumn(TRANSLATE("Date"),fGridView->StringWidth("00-00-0000")+15,10,300,B_TRUNCATE_END);
-	fGridView->AddColumn(col,1);
-	col = new BStringColumn(TRANSLATE("Type"),fGridView->StringWidth(TRANSLATE("Type"))+20,10,300,B_TRUNCATE_END);
-	fGridView->AddColumn(col,2);
-	col = new BStringColumn(TRANSLATE("Payee"),75,10,300,B_TRUNCATE_END);
-	fGridView->AddColumn(col,3);
-	
+	//	int longestnamelength = 12;
+
+	BColumn* col = new BStringColumn("", fGridView->StringWidth(TRANSLATE("Transactions")) + 20, 10,
+		300, B_TRUNCATE_END, B_ALIGN_RIGHT);
+	fGridView->AddColumn(col, 0);
+	col = new BStringColumn(
+		TRANSLATE("Date"), fGridView->StringWidth("00-00-0000") + 15, 10, 300, B_TRUNCATE_END);
+	fGridView->AddColumn(col, 1);
+	col = new BStringColumn(
+		TRANSLATE("Type"), fGridView->StringWidth(TRANSLATE("Type")) + 20, 10, 300, B_TRUNCATE_END);
+	fGridView->AddColumn(col, 2);
+	col = new BStringColumn(TRANSLATE("Payee"), 75, 10, 300, B_TRUNCATE_END);
+	fGridView->AddColumn(col, 3);
+
 	// The string we use for calculating width here should work well enough for general purposes
-	col = new BStringColumn(TRANSLATE("Amount"),fGridView->StringWidth("$00,000.00")+15,10,300,B_TRUNCATE_END);
-	fGridView->AddColumn(col,4);
-	col = new BStringColumn(TRANSLATE("Category"),fGridView->StringWidth("0000000000")+20,10,300,B_TRUNCATE_END);
-	fGridView->AddColumn(col,5);
-	col = new BStringColumn(TRANSLATE("Memo"),75,10,300,B_TRUNCATE_END);
-	fGridView->AddColumn(col,6);
-	
+	col = new BStringColumn(
+		TRANSLATE("Amount"), fGridView->StringWidth("$00,000.00") + 15, 10, 300, B_TRUNCATE_END);
+	fGridView->AddColumn(col, 4);
+	col = new BStringColumn(
+		TRANSLATE("Category"), fGridView->StringWidth("0000000000") + 20, 10, 300, B_TRUNCATE_END);
+	fGridView->AddColumn(col, 5);
+	col = new BStringColumn(TRANSLATE("Memo"), 75, 10, 300, B_TRUNCATE_END);
+	fGridView->AddColumn(col, 6);
+
 	fGridView->AddRow(new BRow());
-	BRow *titlerow = new BRow();
+	BRow* titlerow = new BRow();
 	fGridView->AddRow(titlerow);
-	titlerow->SetField(new BStringField(TRANSLATE("Transactions")),0);
+	titlerow->SetField(new BStringField(TRANSLATE("Transactions")), 0);
 	fGridView->AddRow(new BRow());
-	
-		
-	int32 	payeechars=strlen(TRANSLATE("Payee")),
-			memochars=strlen(TRANSLATE("Memo")),
-			categorychars=strlen(TRANSLATE("Category"));
-	float 	maxpayee=fGridView->StringWidth(TRANSLATE("Payee")),
-			maxmemo=fGridView->StringWidth(TRANSLATE("Memo")),
-			maxcategory=fGridView->StringWidth(TRANSLATE("Category"));
-	
-	int32 count = timelist.CountItems()-1;
-	for(int32 subtotal_index=0; subtotal_index<count; subtotal_index++)
-	{
+
+
+	int32 payeechars = strlen(TRANSLATE("Payee")), memochars = strlen(TRANSLATE("Memo")),
+		  categorychars = strlen(TRANSLATE("Category"));
+	float maxpayee = fGridView->StringWidth(TRANSLATE("Payee")),
+		  maxmemo = fGridView->StringWidth(TRANSLATE("Memo")),
+		  maxcategory = fGridView->StringWidth(TRANSLATE("Category"));
+
+	int32 count = timelist.CountItems() - 1;
+	for (int32 subtotal_index = 0; subtotal_index < count; subtotal_index++) {
 		time_t subtotal_start = *((time_t*)timelist.ItemAt(subtotal_index));
-		time_t subtotal_end = *((time_t*)timelist.ItemAt(subtotal_index+1));
-		
-		BRow *row = new BRow();
+		time_t subtotal_end = *((time_t*)timelist.ItemAt(subtotal_index + 1));
+
+		BRow* row = new BRow();
 		fGridView->AddRow(row);
-		
+
 		BString datestring, tempstr;
-		gDefaultLocale.DateToString(subtotal_start,datestring);
-		row->SetField(new BStringField(datestring.String()),0);
-		row->SetField(new BStringField("-"),1);
+		gDefaultLocale.DateToString(subtotal_start, datestring);
+		row->SetField(new BStringField(datestring.String()), 0);
+		row->SetField(new BStringField("-"), 1);
 		row = new BRow();
 		fGridView->AddRow(row);
-		gDefaultLocale.DateToString(subtotal_end,datestring);
-		row->SetField(new BStringField(datestring.String()),0);
-		
+		gDefaultLocale.DateToString(subtotal_end, datestring);
+		row->SetField(new BStringField(datestring.String()), 0);
+
 		fGridView->AddRow(new BRow());
-		
+
 		BString command;
-		
-		int32 accountcount=0;
-		for(int32 i=0; i<fAccountList->CountItems(); i++)
-		{
-			AccountItem *item = (AccountItem*)fAccountList->ItemAt(i);
-			if(!item || !item->IsSelected())
+
+		int32 accountcount = 0;
+		for (int32 i = 0; i < fAccountList->CountItems(); i++) {
+			AccountItem* item = (AccountItem*)fAccountList->ItemAt(i);
+			if (!item || !item->IsSelected())
 				continue;
-			
-			if(accountcount>0)
+
+			if (accountcount > 0)
 				command << " union all ";
-			
-			command << "select date,type,payee,amount,category,memo,transid from account_" << item->account->GetID()
-					<< " where category in (" << fCategoryString << ") and date >= "
-					<< subtotal_start << " and date < " << subtotal_end;
-			
+
+			command << "select date,type,payee,amount,category,memo,transid from account_"
+					<< item->account->GetID() << " where category in (" << fCategoryString
+					<< ") and date >= " << subtotal_start << " and date < " << subtotal_end;
+
 			accountcount++;
 		}
 		command << " order by date,transid;";
-		CppSQLite3Query query = gDatabase.DBQuery(command.String(),"ReportWindow::ComputeTransactions()");
-		
-		if(query.eof())
-		{
+		CppSQLite3Query query =
+			gDatabase.DBQuery(command.String(), "ReportWindow::ComputeTransactions()");
+
+		if (query.eof()) {
 			row = new BRow();
 			fGridView->AddRow(row);
-			row->SetField(new BStringField(TRANSLATE("No Transactions")),0);
-			fGridView->ColumnAt(0)->SetWidth(fGridView->StringWidth(TRANSLATE("No Transactions"))+15);
-		}
-		else
-		while(!query.eof())
-		{
-			row = new BRow();
-			fGridView->AddRow(row);
-			
-			row->SetField(new BStringField(""),0);
-			
-			// date
-			gDefaultLocale.DateToString(query.getInt64Field(0),tempstr);
-			row->SetField(new BStringField(tempstr.String()),1);
-			
-			// type
-			row->SetField(new BStringField(DeescapeIllegalCharacters(query.getStringField(1)).String()),2);
-			
-			// payee
-			tempstr = DeescapeIllegalCharacters(query.getStringField(2));
-			if(tempstr.CountChars() > payeechars)
-			{
-				payeechars = tempstr.CountChars();
-				maxpayee = fGridView->StringWidth(tempstr.String());
-			}
-			row->SetField(new BStringField(tempstr.String()),3);
-			
-			// amount
-			Fixed f(query.getInt64Field(3),true);
-			gCurrentLocale.CurrencyToString(f.AbsoluteValue(),tempstr);
-			row->SetField(new BStringField(tempstr.String()),4);
-			
-			// category
-			tempstr = DeescapeIllegalCharacters(query.getStringField(4));
-			if(tempstr.CountChars() > categorychars)
-			{
-				categorychars = tempstr.CountChars();
-				maxcategory = fGridView->StringWidth(tempstr.String());
-			}
-			row->SetField(new BStringField(tempstr.String()),5);
-			
-			// memo
-			if(!query.fieldIsNull(5))
-			{
-				tempstr = DeescapeIllegalCharacters(query.getStringField(5));
-				if(tempstr.CountChars() > memochars)
-				{
-					memochars = tempstr.CountChars();
-					maxmemo = fGridView->StringWidth(tempstr.String());
+			row->SetField(new BStringField(TRANSLATE("No Transactions")), 0);
+			fGridView->ColumnAt(0)->SetWidth(
+				fGridView->StringWidth(TRANSLATE("No Transactions")) + 15);
+		} else
+			while (!query.eof()) {
+				row = new BRow();
+				fGridView->AddRow(row);
+
+				row->SetField(new BStringField(""), 0);
+
+				// date
+				gDefaultLocale.DateToString(query.getInt64Field(0), tempstr);
+				row->SetField(new BStringField(tempstr.String()), 1);
+
+				// type
+				row->SetField(
+					new BStringField(DeescapeIllegalCharacters(query.getStringField(1)).String()),
+					2);
+
+				// payee
+				tempstr = DeescapeIllegalCharacters(query.getStringField(2));
+				if (tempstr.CountChars() > payeechars) {
+					payeechars = tempstr.CountChars();
+					maxpayee = fGridView->StringWidth(tempstr.String());
 				}
-				row->SetField(new BStringField(tempstr.String()),6);
+				row->SetField(new BStringField(tempstr.String()), 3);
+
+				// amount
+				Fixed f(query.getInt64Field(3), true);
+				gCurrentLocale.CurrencyToString(f.AbsoluteValue(), tempstr);
+				row->SetField(new BStringField(tempstr.String()), 4);
+
+				// category
+				tempstr = DeescapeIllegalCharacters(query.getStringField(4));
+				if (tempstr.CountChars() > categorychars) {
+					categorychars = tempstr.CountChars();
+					maxcategory = fGridView->StringWidth(tempstr.String());
+				}
+				row->SetField(new BStringField(tempstr.String()), 5);
+
+				// memo
+				if (!query.fieldIsNull(5)) {
+					tempstr = DeescapeIllegalCharacters(query.getStringField(5));
+					if (tempstr.CountChars() > memochars) {
+						memochars = tempstr.CountChars();
+						maxmemo = fGridView->StringWidth(tempstr.String());
+					}
+					row->SetField(new BStringField(tempstr.String()), 6);
+				}
+
+				query.nextRow();
 			}
-			
-			query.nextRow();
-		}
 		query.finalize();
-		
+
 		fGridView->AddRow(new BRow());
 	}
-	fGridView->ColumnAt(3)->SetWidth(maxpayee+15);
-	fGridView->ColumnAt(5)->SetWidth(maxcategory+15);
-	fGridView->ColumnAt(6)->SetWidth(maxmemo+15);
+	fGridView->ColumnAt(3)->SetWidth(maxpayee + 15);
+	fGridView->ColumnAt(5)->SetWidth(maxcategory + 15);
+	fGridView->ColumnAt(6)->SetWidth(maxmemo + 15);
 }
-

@@ -6,12 +6,11 @@
 
 #define M_QUIT_NOW 'qnow'
 
-class App : public BApplication
-{
+class App : public BApplication {
 public:
 	App(void);
 	~App(void);
-	void MessageReceived(BMessage *msg);
+	void MessageReceived(BMessage* msg);
 };
 
 extern bool gRestartApp;

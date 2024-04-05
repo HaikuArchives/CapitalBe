@@ -5,19 +5,18 @@
 
 class Account;
 
-class AccountListItem : public BListItem
-{
+class AccountListItem : public BListItem {
 public:
-	AccountListItem(Account *acc);
+	AccountListItem(Account* acc);
 	void SetEnabled(bool enabled);
 	bool IsEnabled(void) const { return fEnabled; }
-	
-	void DrawItem(BView *owner, BRect frame, bool complete = false);
+
+	void DrawItem(BView* owner, BRect frame, bool complete = false);
 	void Update(BView* owner, const BFont* finfo);
-	Account *GetAccount(void) const { return fAccount; }
-	
+	Account* GetAccount(void) const { return fAccount; }
+
 private:
-	Account *fAccount;
+	Account* fAccount;
 	bool fEnabled;
 };
 

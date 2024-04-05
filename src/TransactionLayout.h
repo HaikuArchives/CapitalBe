@@ -9,6 +9,6 @@ uint8 TNumWidth(void);
 uint8 TDateWidth(void);
 uint8 TAmountWidth(void);
 
-void InitTransactionItemLayout(BView *owner);
+void InitTransactionItemLayout(BView* owner);
 
 #endif
