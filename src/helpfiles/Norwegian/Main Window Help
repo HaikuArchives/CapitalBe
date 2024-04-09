@@ -1,0 +1,30 @@
+Hovedvinduet
+
+	Det meste av tiden din å jobbe med CapitalBe vil bli brukt i dette vinduet. Det er fire hoveddeler: kontolisten, transaksjonslisten, QuickTracker og tekstboksene for å legge inn transaksjonsinformasjon.
+
+Kontolisten
+
+	Ligger i øverste venstre hjørne av vinduet, og er ganske enkelt en liste over kontoene som er tilgjengelige i CapitalBe. Hvert element viser deg navnet på kontoen og dens nåværende saldo. Merk at for gjeldskontoer, for eksempel kredittkort, vil saldoen være mindre enn null. Du kan dobbeltklikke på en konto for å redigere grunnleggende detaljer for kontoen. For de fleste vil dette bare være navnet, men du kan også endre valutainnstillinger ved å fjerne merket for avkrysningsruten "Bruk standard valutainnstillinger". Den eneste gangen du kanskje trenger å gjøre dette, er hvis du har en bankkonto i et annet land som bruker en annen valuta.
+
+Tips: Du kan endre kontoer uten å bruke musen ved å trykke på pil opp eller ned mens du holder ALT- og skiftetastene nede.
+
+
+Transaksjonslisten
+
+	Transaksjonslisten er ganske enkelt en liste over all aktivitet på en konto. Ved siden av hver transaksjon er saldoen på kontoen da den transaksjonen ble lagt inn.
+
+Tips: Du kan bevege deg opp og ned i listen uten å bruke musen ved å trykke på pil opp eller ned mens du holder ALT -tasten.
+
+
+Legge inn en transaksjon
+
+	Å legge til en transaksjon til en konto er like enkel som å skrive inn informasjon i skjemaet nederst til høyre av vinduet og trykke på Enter-tasten eller klikke på Legg Til-knappen.
+
+Tips: + og - tastene kan endre datoen med en dag. Side opp- og side ned-tastene endrer den med en måned.
+
+Tips: Hopp til neste boks med TAB-tasten eller hopp til den forrige med SHIFT + TAB.
+
+
+QuickTracker -panelet
+
+	QuickTracker er et lite panel nederst i venstre hjørne som viser aktuell informasjon om økonomien din. Det viser summen av alle kontoene dine (kjent som nettoverdi i finansverdenen) og hvordan det går med budsjettet ditt.

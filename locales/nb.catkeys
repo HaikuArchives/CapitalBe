@@ -1,0 +1,267 @@
+1	Norwegian	application/x-vnd.wgp-CapitalBe	2175615134
+Year	ReportWindow		År
+Edit transaction	TransactionEditWindow		Rediger transaksjon
+None	ReportWindow		Ingen
+Export to QIF file…	MainWindow		Eksporter til QIF-fil…
+Transfer from %%PAYEE%%	MainWindow		Overføring fra %%PAYEE%%
+Reports	ReportWindow		Raporter
+Monthly	ScheduleAddWindow		Månedlig
+Annually	BudgetWindow		Årlig
+Report a bug…	MainWindow		Rapporter en feil…
+OK	PrefWindow		OK
+CapitalBe didn't understand the date you entered.	DateBox		CapitalBe forsto ikke datoen du skrev inn.
+To account	TransferWindow		Til konto
+Category	CheckView		Kategori
+Reports…	MainWindow		Rapporter…
+Cancel	TransferWindow		Avbryt
+Weekly	BudgetWindow		Ukentlig
+Enter	CheckView		Opprett
+Next	MainWindow		Neste
+Remove…	CategoryWindow		Fjern…
+Cancel	CategoryWindow		Avbryt
+Amount	BudgetReport		Beløp
+Cancel	ScheduleAddWindow		Avbryt
+Payee: %s	ScheduleAddWindow		Betalingsmottaker: %s
+Default account settings:	PrefWindow		Standard kontoinnstillinger:
+CapitalBe	System name		CapitalBe
+Import from QIF file…	MainWindow		Importer fra QIF-fil…
+Ending date:	ReportWindow		Sluttdato:
+You need to enter a payee.	PayeeBox		Du må skrive inn en betalingsmottaker.
+Split	ScheduledTransItem		Del opp
+Could not export your financial data to the file %%FILENAME%%.	MainWindow		Kunne ikke eksportere dine økonomiske data til filen %%FILENAME%%.
+Separator:	PrefWindow		Separator:
+Program	MainWindow		Program
+Starting balance:	ReconcileWindow		Startbalanse:
+CapitalBe uses the words 'Income','Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.	CategoryWindow		CapitalBe bruker ordene 'Income','Spending', og 'Split' for å administrere kategorier, så du kan ikke kan bruke dem som kategorinavn. Velg et annet navn for din nye kategori.
+Total charges: %s	ReconcileWindow		Totalkostnader: %s
+CapitalBe:	MainWindow		CapitalBe:
+CapitalBe didn't understand the amount.	SplitView		CapitalBe forsto ikke beløpet.
+You need to select an account in order to reconcile it.	MainWindow		Du må velge en konto for å forene den.
+Spending category	CategoryWindow		Forbrukskategori
+Add…	CategoryWindow		Legg til…
+Total	NetWorthReport		Total
+Interest earned:	ReconcileWindow		Opptjent rente:
+Category	SplitView		Kategori
+Transactions	ReportWindow		Transaksjoner
+Budget:	QuickTrackerItem		Budsjett:
+Couldn't quick balance.	ReconcileWindow		Kunne ikke lage hurtig-balanse.
+Total	BudgetWindow		Total
+Memo	TransactionReport		Notat
+Enter	SplitView		Opprett
+Category	CashFlowReport		Kategori
+Reports:	ReportWindow		Raporter:
+Subtotal:	ReportWindow		Subtotal:
+CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ScheduleAddWindow		CapitalBe forstår mange forskjellige måter å legge inn datoer på. Tilsynelatende var dette ikke en av dem. Du må endre hvordan du skrev inn denne datoen. Beklager.
+Highest	BudgetWindow		Høyeste
+Unknown	Budget		Ukjent
+You need to have at least 2 accounts to perform a transfer.	MainWindow		Du må ha minst 2 kontoer for å utføre en overføring.
+Monthly	ScheduleListWindow		Månedlig
+Category	BudgetWindow		Kategori
+Frequency	BudgetWindow		Frekvens
+Subtotal	ReportWindow		Subtotal
+Memo:	ScheduleAddWindow		Notat:
+Uncategorized	SplitView		Ukategorisert
+Frequency	ScheduleListWindow		Frekvens
+Cancel	ReconcileWindow		Avbryt
+Category	TransactionReport		Kategori
+Amount	ScheduleListWindow		Beløp
+Add Category	CategoryWindow		Legg til Kategori
+Spending	CategoryWindow		Utgifter
+Date	TransferWindow		Dato
+There may be a typo or the wrong kind of currency symbol for this account.	SplitView		Det kan være en skrivefeil eller feil type valutasymbol for denne kontoen.
+Reconcile…	MainWindow		Avstemme…
+Spending	BudgetWindow		Utgifter
+Type	TransactionReport		Type
+Reopen	MainWindow		Gjennåpne
+Edit…	CategoryWindow		Rediger…
+Annually	ScheduleAddWindow		Årlig
+Close	MainWindow		Avslutt
+English	CheckView	Path to localized helpfiles. Only translate if available in your language.	Norwegian
+Closed	AccountListItem		Avsluttet
+CapitalBe didn't understand the amount for Bank Charges.	ReconcileWindow		CapitalBe forsto ikke beløpet for bankkostnader.
+Import	MainWindow		Importer
+CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ReportWindow		CapitalBe forstår mange forskjellige måter å legge inn datoer på. Tilsynelatende var dette ikke en av dem. Du må endre hvordan du skrev inn denne datoen. Beklager.
+Could not import the data in the file %%FILENAME%%.	MainWindow		Kunne ikke importere data fra filen %%FILENAME%%.
+Once deleted, you will not be able to get back any data on this account.	MainWindow		Når du er slettet, vil du ikke kunne få tilbake data på denne kontoen.
+Total deposits: %s	ReconcileWindow		Totalt innskudd: %s
+Amount	CheckView		Beløp
+Indefinitely	ScheduleAddWindow		På ubestemt tid
+Cancel	MainWindow		Avbryt
+Categories	ReportWindow		Kategorier
+Appears before amount	PrefWindow		Vises før beløpet
+Unreconciled total: %s	ReconcileWindow		Uavstemt totalt: %s
+Date	TransactionReport		Dato
+There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		Det kan være en skrivefeil eller feil type valutasymbol for denne kontoen.
+Really delete account?	MainWindow		Virkelig slette kontoen?
+Payee	CheckView		Betalingsmottaker
+DEP	ReconcileWindow		DEP
+Income	BudgetWindow		Inntekt
+This really shouldn't happen, so you probably should e-mail support about this.	MainWindow		Dette burde virkelig ikke skje, så du bør sannsynligvis sende en e-post til brukerstøtte om dette.
+Quick balance	ReconcileWindow		Hurtig-balanse
+This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.	MainWindow		Dette skjer når filtypen ikke støttes, når filens data er skadet, eller når du mater den en oppskrift på quiche.
+Payments	ScheduleListWindow		Betalinger
+Month	ReportWindow		Måned
+Add Item	SplitView		Legg til element
+Scheduled transactions…	MainWindow		Planlagte overføringer…
+Delete	MainWindow		Slett
+Date format: %s	PrefWindow		Datoformat: %s
+Bank charges:	ReconcileWindow		Bankutgifter:
+Quick balance successful!	ReconcileWindow		Hurtig-balanse vellykket!
+Quarter	ReportWindow		Kvartal
+Account interest	ReconcileWindow		Kontointeresse
+Schedule this transaction…	MainWindow		Planlegg denne transaksjonen…
+Payee	ScheduleListWindow		Betalingsmottaker
+Symbol:	PrefWindow		Symbol:
+Transactions	TransactionReport		Transaksjoner
+English	ScheduleListWindow	Path to localized helpfiles. Only translate if available in your language.	Norwegian
+Split Transaction	SplitView		Del Transaksjon
+Average	BudgetWindow		Gjennomsnitt
+Quarterly	Budget		Kvartalsvis
+Currency	PrefWindow		Valuta
+Summary	BudgetWindow		Sammendrag
+Frequency	ScheduleAddWindow		Frekvens
+Category	BudgetReport		Kategori
+Accounts:	ReportWindow		Konti:
+Options	PrefWindow		Innstillinger
+English	SplitView	Path to localized helpfiles. Only translate if available in your language.	Norwegian
+Edit category	BudgetWindow		Rediger kategori
+Reconcile	ReconcileWindow		Avstem
+Weekly	ScheduleListWindow		Ukentlig
+Amount	SplitView		Beløp
+Reset	ReconcileWindow		Nullstill
+Frequency:	ScheduleAddWindow		Frekvens:
+Category:	ScheduleAddWindow		Kategori:
+OK	AccountSettingsWindow		OK
+Annually	Budget		Årlig
+Payee	SplitView		Betalingsmottaker
+Can't use this category name	CategoryWindow		Kan ikke bruke dette kategorinavnet
+Budget	BudgetWindow		Budsjett
+Monthly	BudgetWindow		Månedlig
+Transfer to %%PAYEE%%	MainWindow		Overfør til %%PAYEE%%
+OK	TransferWindow		OK
+Total worth	NetWorthReport		Totalt verdt
+Memo	CheckView		Notat
+Show Split	SplitView		Vis deling
+times	ScheduleAddWindow		ganger
+Annually	ScheduleListWindow		Årlig
+Oops!	MainWindow		Oops!
+Edit…	MainWindow		Rediger…
+OK	CategoryWindow		OK
+Spending	ReportWindow		Utgifter
+Help	HelpButton		Hjelp
+Total:	SplitView		Total:
+Unlimited	ScheduleListWindow		Ubegrenset
+Account settings	AccountSettingsWindow		Kontoinnstillinger
+Account name:	AccountSettingsWindow		Kontonavn:
+Set all to zero	BudgetWindow		Sett alle til null
+When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		Når de delte elementene blir lagt sammen, må de bli %%ENTERED_AMOUNT%% tilsammen. For øyeblikket blir det %%TOTAL_AMOUNT%%
+Date is missing.	ReconcileWindow		Dato mangler.
+Date:	ReconcileWindow		Dato:
+Numbered transactions cannot be scheduled.	MainWindow		Nummererte transaksjoner kan ikke planlegges.
+New…	MainWindow		Ny…
+English	ReconcileWindow	Path to localized helpfiles. Only translate if available in your language.	Norwegian
+Quick Balance failed. This doesn't mean that you did something wrong - it's just that Quick Balance works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Hurtig-balanse mislyktes. Dette betyr ikke at du gjorde noe galt - det er bare at Hurtig-balanse fungerer på enklere saker i å avstemme en konto enn denne. Beklager.
+Transfer	BudgetWindow		Overfør
+Amount: %s	ScheduleAddWindow		Beløp: %s
+Starting date:	ScheduleAddWindow		Startdato:
+Settings…	MainWindow		Innstillinger…
+Monthly	Budget		Månedlig
+Cancel	PrefWindow		Avbryt
+Unreconciled total	ReconcileWindow		Uavstemt total
+Quarterly	ScheduleListWindow		Kvartalsvis
+12 month statistics	BudgetWindow		12-måneders statistikk
+Not transferring any money	TransferWindow		Overfører ikke penger
+Split	CategoryWindow		Del opp
+Income	ReportWindow		Inntekt
+Memo	SplitView		Notat
+Total checks:	ReconcileWindow		Total sjekker:
+Not enough accounts for a transfer.	MainWindow		Ikke nok konti for overføring
+Amount	TransactionReport		Beløp
+Transaction	MainWindow		Transaksjon
+Edit transfer	TransferWindow		Rediger transaksjon
+Amount	TransferWindow		Beløp
+Categories	CategoryWindow		Kategorier
+Date	CheckView		Dato
+Account	MainWindow		Konto
+Currency format: %s	PrefWindow		Valutaformat: %s
+Payee	TransactionReport		Betalingsmottaker
+Total deposits:	ReconcileWindow		Totalt innskudd:
+Categories…	MainWindow		Kategorier…
+No Memo	TransactionItem		Ingen notat
+CapitalBe didn't understand the amount.	CurrencyBox		CapitalBe forsto ikke beløpet.
+Day, Month, Year	PrefWindow		Dag, Måned, År
+Remove…	ScheduleListWindow		Fjern…
+If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		Hvis du har tenkt å overføre penger, må det være et beløp som ikke er null.
+Budget…	MainWindow		Budsjett…
+You can schedule transfers, deposits, or ATM transactions.	MainWindow		Du kan planlegge overføringer, innskudd eller minibank -transaksjoner.
+Success!	ReconcileWindow		Suksess!
+Income	CategoryWindow		Inntekt
+Edit category	CategoryWindow		Rediger kategori
+QuickTracker	RegisterView		QuickTracker
+Schedule transaction	ScheduleAddWindow		Planlegg transaksjon
+Type: %s	ScheduleAddWindow		Type: %s
+Weekly	Budget		Ukentlig
+Split	SplitFilterView		Del opp
+Bank charge	ReconcileWindow		Bankgebyr
+Cancel	AccountSettingsWindow		Avbryt
+Ending balance:	ReconcileWindow		Sluttsum:
+Date	PrefWindow		Dato
+OK	ScheduleAddWindow		OK
+Date	SplitView		Dato
+Lowest	BudgetWindow		Laveste
+Previous	MainWindow		Forrige
+New category name:	CategoryWindow		Nytt kategorinavn:
+Remove Item	SplitView		Fjern element
+Accounts	RegisterView		Konti
+Payee is missing.	PayeeBox		Betalingsmottaker mangler.
+Type	CheckView		Type
+Account total:	QuickTrackerItem		Kontototal:
+Export	MainWindow		Eksporter
+You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	CheckNumBox		Du må oppgi et sjekknummer eller transaksjonstype, for eksempel minibank (for debetkorttransaksjoner og lignende), DEP (for innskudd), eller din egen kode for en annen type utgifter.
+Enter a transfer…	MainWindow		Skriv inn en transaksjon…
+File	MainWindow		Fil
+Tools	MainWindow		Verktøy
+Transaction type is missing.	CheckNumBox		Transaksjonstype mangler.
+Split	TransactionItem		Del opp
+CapitalBe didn't understand the amount for Interest Earned.	ReconcileWindow		CapitalBe forsto ikke beløpet for opptjent rente.
+Split	SplitView		Del opp
+The split total must match the amount box.	SplitView		Den delte totalen må samsvare med beløpsboksen.
+Delete…	MainWindow		Slett…
+Amount	BudgetWindow		Beløp
+About CapitalBe…	MainWindow		Om CapitalBe…
+Scheduled transactions	ScheduleListWindow		Planlagte transaksjoner
+Starting date:	ReportWindow		Startdato:
+Amount	CashFlowReport		Beløp
+Quarterly	ScheduleAddWindow		Kvartalsvis
+Hide Split	SplitView		Skjul oppdeling
+Reconcile:	ReconcileWindow		Avstemm:
+Total charges:	ReconcileWindow		Total kostnader:
+Total worth	ReportWindow		Total verdi
+Category name:	CategoryWindow		Kategorinavn:
+Expense	CashFlowReport		Utgift
+No transactions	TransactionReport		Ingen transaksjoner
+Please choose a new category for all transactions currently in the %%CATEGORY_NAME%% category.	CategoryWindow		Velg en ny kategori for alle transaksjoner som for øyeblikket er i kategorien %%CATEGORY_NAME%%.
+Add account transfer	TransferWindow		Legg til kontooverføring
+You need to have an account created in order to reconcile it.	MainWindow		Du må ha en konto opprettet for å avstemme den.
+CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	DateBox		CapitalBe forstår mange forskjellige måter å legge inn datoer på. Tilsynelatende var dette ikke en av dem. Du må endre hvordan du skrev inn denne datoen. Beklager.
+There may be a typo or the wrong kind of currency symbol for this account.	CurrencyBox		Det kan være en skrivefeil eller feil type valutasymbol for denne kontoen.
+From account	TransferWindow		Fra konto
+Next Payment	ScheduleListWindow		Neste betaling
+Type	SplitView		Type
+Bank Charge	ReconcileWindow		Bankgebyr
+Recalculate all	BudgetWindow		Beregne alle på nytt
+Date	NetWorthReport		Dato
+CapitalBe didn't understand the date you entered.	ScheduleAddWindow		CapitalBe forsto ikke datoen du skrev inn.
+Income	CashFlowReport		Inntekt
+Memo	TransferWindow		Notat
+Total checks: %s	ReconcileWindow		Total sjekker: %s
+English	ReportWindow	Path to localized helpfiles. Only translate if available in your language.	Norwegian
+Quarterly	BudgetWindow		Kvartalsvis
+Remove category	CategoryWindow		Fjern kategori
+Decimal:	PrefWindow		Desimal:
+Month, Day, Year	PrefWindow		Måned, Dag, År
+You need to enter the date for the statement to Quick Balance.	ReconcileWindow		Du må oppgi datoen for kontoutskriften til Hurtig-balanse.
+Split	ScheduleAddWindow		Del opp
+Use default currency settings	AccountSettingsWindow		Bruk standard valuta-innstillinger
+CapitalBe didn't understand the date you entered.	ReportWindow		CapitalBe forsto ikke datoen du skrev inn.
+Unknown	ScheduleListWindow		Ukjent

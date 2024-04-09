@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	548178424
+1	English	application/x-vnd.wgp-CapitalBe	2175615134
 Year	ReportWindow		Year
 Edit transaction	TransactionEditWindow		Edit transaction
 None	ReportWindow		None
@@ -9,7 +9,6 @@ Monthly	ScheduleAddWindow		Monthly
 Annually	BudgetWindow		Annually
 Report a bug…	MainWindow		Report a bug…
 OK	PrefWindow		OK
-Changes will take effect on restart	MainWindow		Changes will take effect on restart
 CapitalBe didn't understand the date you entered.	DateBox		CapitalBe didn't understand the date you entered.
 To account	TransferWindow		To account
 Category	CheckView		Category
@@ -77,6 +76,7 @@ Reopen	MainWindow		Reopen
 Edit…	CategoryWindow		Edit…
 Annually	ScheduleAddWindow		Annually
 Close	MainWindow		Close
+English	CheckView	Path to localized helpfiles. Only translate if available in your language.	English
 Closed	AccountListItem		Closed
 CapitalBe didn't understand the amount for Bank Charges.	ReconcileWindow		CapitalBe didn't understand the amount for Bank Charges.
 Import	MainWindow		Import
@@ -113,6 +113,7 @@ Schedule this transaction…	MainWindow		Schedule this transaction…
 Payee	ScheduleListWindow		Payee
 Symbol:	PrefWindow		Symbol:
 Transactions	TransactionReport		Transactions
+English	ScheduleListWindow	Path to localized helpfiles. Only translate if available in your language.	English
 Split Transaction	SplitView		Split Transaction
 Average	BudgetWindow		Average
 Quarterly	Budget		Quarterly
@@ -122,6 +123,7 @@ Frequency	ScheduleAddWindow		Frequency
 Category	BudgetReport		Category
 Accounts:	ReportWindow		Accounts:
 Options	PrefWindow		Options
+English	SplitView	Path to localized helpfiles. Only translate if available in your language.	English
 Edit category	BudgetWindow		Edit category
 Reconcile	ReconcileWindow		Reconcile
 Weekly	ScheduleListWindow		Weekly
@@ -157,6 +159,7 @@ Date is missing.	ReconcileWindow		Date is missing.
 Date:	ReconcileWindow		Date:
 Numbered transactions cannot be scheduled.	MainWindow		Numbered transactions cannot be scheduled.
 New…	MainWindow		New…
+English	ReconcileWindow	Path to localized helpfiles. Only translate if available in your language.	English
 Quick Balance failed. This doesn't mean that you did something wrong - it's just that Quick Balance works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Quick Balance failed. This doesn't mean that you did something wrong - it's just that Quick Balance works on simpler cases in balancing an account than this one. Sorry.
 Transfer	BudgetWindow		Transfer
 Amount: %s	ScheduleAddWindow		Amount: %s
@@ -177,9 +180,7 @@ Amount	TransactionReport		Amount
 Transaction	MainWindow		Transaction
 Edit transfer	TransferWindow		Edit transfer
 Amount	TransferWindow		Amount
-CapitalBe will be use your language choice the next time it is started.	MainWindow		CapitalBe will be use your language choice the next time it is started.
 Categories	CategoryWindow		Categories
-Language	MainWindow		Language
 Date	CheckView		Date
 Account	MainWindow		Account
 Currency format: %s	PrefWindow		Currency format: %s
@@ -254,6 +255,7 @@ CapitalBe didn't understand the date you entered.	ScheduleAddWindow		CapitalBe d
 Income	CashFlowReport		Income
 Memo	TransferWindow		Memo
 Total checks: %s	ReconcileWindow		Total checks: %s
+English	ReportWindow	Path to localized helpfiles. Only translate if available in your language.	English
 Quarterly	BudgetWindow		Quarterly
 Remove category	CategoryWindow		Remove category
 Decimal:	PrefWindow		Decimal:

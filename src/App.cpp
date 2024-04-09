@@ -1,5 +1,4 @@
 #include <Application.h>
-#include "Database.h"
 
 // #define DEBUG_DATABASE
 
@@ -9,7 +8,6 @@
 #include "App.h"
 #include "BuildOptions.h"
 #include "CBLocale.h"
-#include "LanguageRoster.h"
 #include "MainWindow.h"
 #include "Preferences.h"
 #include "TimeSupport.h"
@@ -22,10 +20,6 @@ App::App(void) : BApplication("application/x-vnd.wgp-CapitalBe")
 {
 	// Load preferences and then initialize the translation system
 	LoadPreferences(PREFERENCES_PATH "/CapitalBeSettings");
-
-	BString languagepath = gAppPath.String();
-	languagepath += "R5LanguageFiles";
-	language_roster = new LanguageRoster(languagepath.String());
 
 	// We can skip locking because nothing else is open at this point :)
 	BRect winframe;
@@ -40,8 +34,6 @@ App::App(void) : BApplication("application/x-vnd.wgp-CapitalBe")
 
 App::~App(void)
 {
-	delete language_roster;
-	language_roster = NULL;
 }
 
 void

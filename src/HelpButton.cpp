@@ -6,7 +6,6 @@
 #include <ScrollView.h>
 #include <TextView.h>
 #include <TranslationUtils.h>
-#include "Preferences.h"
 
 
 #undef B_TRANSLATION_CONTEXT

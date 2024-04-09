@@ -14,7 +14,6 @@
 #include "DAlert.h"
 #include "Database.h"
 #include "DateBox.h"
-#include "LanguageRoster.h"
 #include "MainWindow.h"
 #include "MsgDefs.h"
 #include "NavTextBox.h"
@@ -58,7 +57,7 @@ CheckView::CheckView(const char* name, int32 flags) : BView(name, flags | B_FRAM
 	prefsLock.Lock();
 	BString rechelp = gAppPath;
 	prefsLock.Unlock();
-	rechelp << "helpfiles/" << gCurrentLanguage << "/Main Window Help";
+	rechelp << "helpfiles/" << B_TRANSLATE_COMMENT("English","Path to localized helpfiles. Only translate if available in your language.") <<  "/Main Window Help";
 	fHelpButton = new HelpButton("rechelp", rechelp.String());
 
 	fEnter = new BButton("enterbutton", B_TRANSLATE("Enter"), new BMessage(M_ENTER_TRANSACTION));
