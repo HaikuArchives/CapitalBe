@@ -114,7 +114,7 @@ DatePrefView::DatePrefView(const char* name, Locale* locale, const int32& flags)
 	BString datestr;
 	fLocale.DateToString(0, datestr);
 	temp = "";
-	temp.SetToFormat(B_TRANSLATE("Date format: %s"), datestr);
+	temp.SetToFormat(B_TRANSLATE("Date format: %s"), datestr.String());
 	fDateLabel = new BStringView("datelabel", temp.String());
 
 	temp = "";
@@ -190,7 +190,7 @@ DatePrefView::UpdateDateLabel(void)
 {
 	BString temp, label;
 	fLocale.DateToString(0, temp);
-	label.SetToFormat(B_TRANSLATE("Date format: %s"), temp);
+	label.SetToFormat(B_TRANSLATE("Date format: %s"), temp.String());
 	fDateLabel->SetText(label.String());
 }
 
@@ -219,7 +219,7 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 
 	BString curstr;
 	fLocale.CurrencyToString(fSampleAmount, curstr);
-	temp.SetToFormat(B_TRANSLATE("Currency format: %s"), curstr);
+	temp.SetToFormat(B_TRANSLATE("Currency format: %s"), curstr.String());
 	fCurrencyLabel = new BStringView("datelabel", temp.String());
 
 	temp = B_TRANSLATE("Symbol:");
@@ -316,7 +316,7 @@ CurrencyPrefView::UpdateCurrencyLabel(void)
 {
 	BString temp, label;
 	fLocale.CurrencyToString(fSampleAmount, temp);
-	label.SetToFormat(B_TRANSLATE("Currency format: %s"), temp);
+	label.SetToFormat(B_TRANSLATE("Currency format: %s"), temp.String());
 	fCurrencyLabel->SetText(label.String());
 }
 

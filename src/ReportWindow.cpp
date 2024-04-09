@@ -10,7 +10,6 @@
 #include "Database.h"
 #include "DateBox.h"
 #include "HelpButton.h"
-#include "LanguageRoster.h"
 #include "Layout.h"
 #include "MsgDefs.h"
 #include "ObjectList.h"
@@ -140,7 +139,7 @@ ReportWindow::ReportWindow(BRect frame)
 	prefsLock.Lock();
 	BString reporthelp = gAppPath;
 	prefsLock.Unlock();
-	reporthelp << "helpfiles/" << gCurrentLanguage->Name() << "/Report Window Help";
+	reporthelp << "helpfiles/" << B_TRANSLATE_COMMENT("English","Path to localized helpfiles. Only translate if available in your language.") << "/Report Window Help";
 	HelpButton* help = new HelpButton("reporthelp", reporthelp.String());
 
 	temp = B_TRANSLATE("Categories");

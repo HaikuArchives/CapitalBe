@@ -21,7 +21,6 @@ enum
 
 	M_PURCHASE_FULL_VERSION,
 	M_REPORT_BUG,
-	M_SET_LANGUAGE,
 
 	M_SHOW_NEW_ACCOUNT,
 	M_IMPORT_ACCOUNT,
@@ -64,8 +63,6 @@ public:
 	bool QuitRequested(void);
 	void MessageReceived(BMessage* msg);
 	void HandleNotify(const uint64& value, const BMessage* msg);
-	void ReadLanguageSettings(void);
-	void WriteLanguageSettings(void);
 
 private:
 	void InitSettings(void);
@@ -79,10 +76,8 @@ private:
 
 	BString fLastFile;
 	BMenuItem* fAccountClosedItem;
-	BMenu* fLanguageMenu;
 
 	bool fLoadError;
-	BString fLanguage;
 };
 
 #endif

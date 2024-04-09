@@ -9,7 +9,6 @@
 #include "DAlert.h"
 #include "Database.h"
 #include "DateBox.h"
-#include "LanguageRoster.h"
 #include "MsgDefs.h"
 #include "Preferences.h"
 #include "ReconcileItem.h"
@@ -149,7 +148,7 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	prefsLock.Lock();
 	BString rechelp = gAppPath;
 	prefsLock.Unlock();
-	rechelp << "helpfiles/" << gCurrentLanguage->Name() << "/Reconcile Window Help";
+	rechelp << "helpfiles/" << B_TRANSLATE_COMMENT("English","Path to localized helpfiles. Only translate if available in your language.") << "/Reconcile Window Help";
 	fHelpButton = new HelpButton("rechelp", rechelp.String());
 
 	temp = B_TRANSLATE("Unreconciled total");

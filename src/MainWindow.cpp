@@ -18,7 +18,6 @@
 #include "CBLocale.h"
 #include "CategoryWindow.h"
 #include "DAlert.h"
-#include "LanguageRoster.h"
 #include "Layout.h"
 #include "PrefWindow.h"
 #include "Preferences.h"
@@ -48,8 +47,6 @@
 int32 gTextViewHeight = 20;
 int32 gStringViewHeight = 20;
 
-Language* gCurrentLanguage = NULL;
-
 MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 {
 	BString temp;
@@ -75,14 +72,6 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 	RemoveChild(tempsv);
 	delete tempsv;
 
-	ReadLanguageSettings();
-	if (fLanguage.CountChars() > 0) {
-		language_roster->SetLanguage(fLanguage.String());
-		gCurrentLanguage = language_roster->GetLanguage();
-	}
-	if (!gCurrentLanguage)
-		gCurrentLanguage = language_roster->GetLanguage();
-
 	fLoadError = false;
 	InitSettings();
 
@@ -105,27 +94,6 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_REPORT_BUG)));
 	temp = B_TRANSLATE("Settings…");
 	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_OPTIONS_WINDOW), ','));
-
-	// Set up language support. Note that we only show the menu at all if there is
-	// more than one language available
-
-	if (language_roster->CountLanguages() > 1) {
-		menu->AddSeparatorItem();
-		fLanguageMenu = new BMenu(B_TRANSLATE("Language"));
-		fLanguageMenu->SetRadioMode(true);
-		for (int32 i = 0; i < language_roster->CountLanguages(); i++) {
-			Language* language = language_roster->LanguageAt(i);
-			BMessage* langmsg = new BMessage(M_SET_LANGUAGE);
-			langmsg->AddInt32("index", i);
-			fLanguageMenu->AddItem(new BMenuItem(language->Name(), langmsg));
-		}
-		menu->AddItem(fLanguageMenu);
-
-		BMenuItem* markeditem = fLanguageMenu->FindItem(fLanguage.String());
-		if (markeditem)
-			markeditem->SetMarked(true);
-	} else
-		fLanguageMenu = NULL;
 
 	menu->AddSeparatorItem();
 	temp = B_TRANSLATE("About CapitalBe…");
@@ -271,35 +239,6 @@ MainWindow::MessageReceived(BMessage* msg)
 	Account* acc = gDatabase.CurrentAccount();
 
 	switch (msg->what) {
-		case M_SET_LANGUAGE:
-		{
-			int32 language;
-			if (msg->FindInt32("index", &language) != B_OK)
-				break;
-
-			BMenuItem* item = fLanguageMenu->ItemAt(language);
-			if (!item)
-				break;
-
-			fLanguage = item->Label();
-			WriteLanguageSettings();
-
-			// This will *rock* under Haiku and any other places which are running
-			// the daemon
-			if (be_roster->IsRunning("application/x-vnd.Haiku-ServicesDaemon")) {
-				BMessenger msgr("application/x-vnd.Haiku-ServicesDaemon");
-				BMessage msg(B_SERVICES_DAEMON_RESTART);
-				msg.AddString("signature", "application/x-vnd.wgp-CapitalBe");
-				msgr.SendMessage(&msg);
-				be_app->PostMessage(B_QUIT_REQUESTED);
-			} else {
-				ShowAlert(B_TRANSLATE("Changes will take effect on restart"),
-					B_TRANSLATE("CapitalBe will be use your language choice the next time it is "
-								"started."),
-					B_IDEA_ALERT);
-			}
-			break;
-		}
 		case M_REPORT_BUG:
 		{
 			char* argv[2] = {(char*)"https://github.com/HaikuArchives/CapitalBe", NULL};
@@ -713,37 +652,4 @@ MainWindow::HandleNotify(const uint64& value, const BMessage* msg)
 
 	if (lockwin)
 		Unlock();
-}
-
-void
-MainWindow::ReadLanguageSettings(void)
-{
-	BFile file("/boot/home/config/settings/CapitalBe/CurrentLocale", B_READ_ONLY);
-
-	if (file.InitCheck() != B_OK)
-		return;
-
-	file.Seek(0, SEEK_END);
-	off_t size = file.Position();
-	file.Seek(0, SEEK_SET);
-
-	char name[size];
-	file.Read(name, size);
-	file.Unset();
-
-	fLanguage = name;
-}
-
-void
-MainWindow::WriteLanguageSettings(void)
-{
-	BFile file("/boot/home/config/settings/CapitalBe/CurrentLocale",
-		B_READ_WRITE | B_CREATE_FILE | B_ERASE_FILE);
-
-	if (file.InitCheck() != B_OK)
-		return;
-
-	file.Seek(0, SEEK_SET);
-	file.Write(fLanguage.String(), fLanguage.Length() + 1);
-	file.Unset();
 }
