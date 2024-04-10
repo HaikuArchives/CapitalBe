@@ -32,9 +32,7 @@ App::App(void) : BApplication("application/x-vnd.wgp-CapitalBe")
 	win->Show();
 }
 
-App::~App(void)
-{
-}
+App::~App(void) {}
 
 void
 App::MessageReceived(BMessage* msg)

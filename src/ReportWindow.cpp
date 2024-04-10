@@ -139,7 +139,10 @@ ReportWindow::ReportWindow(BRect frame)
 	prefsLock.Lock();
 	BString reporthelp = gAppPath;
 	prefsLock.Unlock();
-	reporthelp << "helpfiles/" << B_TRANSLATE_COMMENT("English","Path to localized helpfiles. Only translate if available in your language.") << "/Report Window Help";
+	reporthelp << "helpfiles/"
+			   << B_TRANSLATE_COMMENT("English",
+					  "Path to localized helpfiles. Only translate if available in your language.")
+			   << "/Report Window Help";
 	HelpButton* help = new HelpButton("reporthelp", reporthelp.String());
 
 	temp = B_TRANSLATE("Categories");

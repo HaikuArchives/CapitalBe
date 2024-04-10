@@ -98,7 +98,10 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags) : BView
 	prefsLock.Lock();
 	BString schedhelp = gAppPath;
 	prefsLock.Unlock();
-	schedhelp << "helpfiles/" << B_TRANSLATE_COMMENT("English","Path to localized helpfiles. Only translate if available in your language.") << "/Scheduled Transaction Window Help";
+	schedhelp << "helpfiles/"
+			  << B_TRANSLATE_COMMENT("English",
+					 "Path to localized helpfiles. Only translate if available in your language.")
+			  << "/Scheduled Transaction Window Help";
 	fHelpButton = new HelpButton("schedhelp", schedhelp.String());
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL)

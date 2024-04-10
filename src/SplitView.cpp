@@ -83,7 +83,10 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	prefsLock.Lock();
 	BString splithelp = gAppPath;
 	prefsLock.Unlock();
-	splithelp << "helpfiles/" << B_TRANSLATE_COMMENT("English","Path to localized helpfiles. Only translate if available in your language.") << "/Transaction Editor Window Help";
+	splithelp << "helpfiles/"
+			  << B_TRANSLATE_COMMENT("English",
+					 "Path to localized helpfiles. Only translate if available in your language.")
+			  << "/Transaction Editor Window Help";
 	fHelpButton = new HelpButton("splithelp", splithelp.String());
 
 	fSplitContainer = new BView("splitcontainer", B_WILL_DRAW);

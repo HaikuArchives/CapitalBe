@@ -148,7 +148,10 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	prefsLock.Lock();
 	BString rechelp = gAppPath;
 	prefsLock.Unlock();
-	rechelp << "helpfiles/" << B_TRANSLATE_COMMENT("English","Path to localized helpfiles. Only translate if available in your language.") << "/Reconcile Window Help";
+	rechelp << "helpfiles/"
+			<< B_TRANSLATE_COMMENT("English",
+				   "Path to localized helpfiles. Only translate if available in your language.")
+			<< "/Reconcile Window Help";
 	fHelpButton = new HelpButton("rechelp", rechelp.String());
 
 	temp = B_TRANSLATE("Unreconciled total");
