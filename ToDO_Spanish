@@ -2,7 +2,7 @@
 
 ## Partes traducidas (Texto plano)
 - [x] Texto
-- [5/6] Ayuda
+- [6/6] Ayuda
 
 ## Partes traducidas (Código)
 - [ ] Inserción de nueva líneas en el archivo Spanish y en el Archivo English (Categoría, etc)
@@ -17,5 +17,5 @@ Uncategorized
 - (SEGUIR COMPROBANDO)
 
 ## Cosas que no tienen que ver con la traducción pero que mejoran la experiencia de usuario:
-- [ ] Nuevo Icono
+- [X] Nuevo Icono
 - [ ] Ayuda en HTML (Inclulyendo código tipo *SYSTEM("open /HelpFiles/helpfile.html")* o algo así)
