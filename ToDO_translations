@@ -1,0 +1,12 @@
+# TODO about translations (Useful info for translators/developers)
+
+Some Strings are hardcoded and doesn't use the catalogs.
+
+There are a few examples, it need to use the locale system to a real-full translations.
+
+~~~~
+fUseDefault = new BCheckBox("usedefault","Use Default Currency Settings",
+DAlert *alert = new DAlert("Category is missing.","Do you want to add this transaction "
+"without a category?","Add","Cancel",NULL,
+Uncategorized
+~~~~
