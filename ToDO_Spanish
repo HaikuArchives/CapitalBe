@@ -9,10 +9,10 @@
 
 **Cadenas hardcodeadas:**
 ~~~~
-fUseDefault = new BCheckBox("usedefault","Use Default Currency Settings",
-DAlert *alert = new DAlert("Category is missing.","Do you want to add this transaction "
+- [X]fUseDefault = new BCheckBox("usedefault","Use Default Currency Settings",
+- [X] DAlert *alert = new DAlert("Category is missing.","Do you want to add this transaction "
 "without a category?","Add","Cancel",NULL,
-Uncategorized
+- [X] Uncategorized
 ~~~~
 - (SEGUIR COMPROBANDO)
 

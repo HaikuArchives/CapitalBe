@@ -3,6 +3,10 @@
 #include "Database.h"
 #include "MsgDefs.h"
 #include "TimeSupport.h"
+#include <Catalog.h>
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "CategoryBox"
 
 CategoryBoxFilter::CategoryBoxFilter(CategoryBox* box) : AutoTextControlFilter(box) {}
 
@@ -71,13 +75,12 @@ bool
 CategoryBox::Validate(void)
 {
 	if (strlen(Text()) < 1) {
-		DAlert* alert = new DAlert("Category is missing.",
-			"Do you want to add this transaction "
-			"without a category?",
-			"Add", "Cancel", NULL, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
+		DAlert* alert = new DAlert(B_TRANSLATE("Category is missing."),
+			B_TRANSLATE("Do you want to add this transaction without a category?"),
+			B_TRANSLATE("Add"), B_TRANSLATE("Cancel"), NULL, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 		int32 value = alert->Go();
 		if (value == 0)
-			SetText("Uncategorized");
+			SetText(B_TRANSLATE("Uncategorized"));
 		else
 			return false;
 	}

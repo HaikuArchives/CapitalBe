@@ -11,6 +11,10 @@
 #include <time.h>
 #include "App.h"
 #include "CBLocale.h"
+#include <Catalog.h>
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "Locale"
 
 Locale::Locale(void)
 {
@@ -802,13 +806,14 @@ void
 ShowBug(const char* string)
 {
 	BString message =
-		"CapitalBe has run into a bug. This shouldn't happen, but it has.\n"
+		B_TRANSLATE("CapitalBe has run into a bug. This shouldn't happen, but it has.\n"
 		"Would you like to:\n\n1) Have CapitalBe make an e-mail to send to Support\n"
 		"2) Save the bug to a text file for e-mailing later\n"
-		"3) Just quit and do nothing\n";
+		"3) Just quit and do nothing\n");
 
 	DAlert* alert =
-		new DAlert("Agh! Bug!", message.String(), "Make an E-mail", "Save to File", "Quit");
+		new DAlert(B_TRANSLATE("Agh! Bug!"), message.String(), B_TRANSLATE("Make an E-mail"),
+		B_TRANSLATE("Save to File"), B_TRANSLATE("Quit"));
 	int32 value = alert->Go();
 
 	if (value == 0) {
