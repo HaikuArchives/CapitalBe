@@ -8,6 +8,7 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CategoryBox"
 
+
 CategoryBoxFilter::CategoryBoxFilter(CategoryBox* box) : AutoTextControlFilter(box) {}
 
 filter_result
