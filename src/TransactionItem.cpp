@@ -96,7 +96,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	clip = cliprect;
 	owner->ConstrainClippingRegion(&clip);
 	locale.DateToString(fDate, string);
-	owner->DrawString(string.String(), BPoint(xpos, ypos - 3));
+	owner->DrawString(string.String(), BPoint(xpos, ypos - 6));
 	owner->ConstrainClippingRegion(NULL);
 
 	xpos += TDateWidth();
@@ -110,7 +110,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 	// Type
 	owner->SetHighColor(0, 0, 0);
-	owner->DrawString(fType.String(), BPoint(xpos + 5, ypos - 3));
+	owner->DrawString(fType.String(), BPoint(xpos + 5, ypos - 6));
 
 	// Line between Type and Payee
 	xpos += TNumWidth();
@@ -134,7 +134,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	if (balance.AsFixed() < 0)
 		owner->SetHighColor(150, 0, 0);
 	locale.CurrencyToString(balance, string);
-	owner->DrawString(string.String(), BPoint(xpos + 5, ypos - 3));
+	owner->DrawString(string.String(), BPoint(xpos + 5, ypos - 6));
 
 	// Line between Balance and Amount
 	owner->SetHighColor(linecolor);
@@ -149,7 +149,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	fAccount->GetLocale().CurrencyToString(fAmount.AbsoluteValue(), string);
 
 	owner->ConstrainClippingRegion(&clip);
-	owner->DrawString(string.String(), BPoint(xpos + 5, ypos - 3));
+	owner->DrawString(string.String(), BPoint(xpos + 5, ypos - 6));
 	owner->ConstrainClippingRegion(NULL);
 
 	// Line between Amount and Payee
@@ -165,7 +165,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	owner->SetHighColor(0, 0, 0);
 	clip = payee_rect;
 	owner->ConstrainClippingRegion(&clip);
-	owner->DrawString(fPayee.String(), BPoint(xpos + 5, ypos - 3));
+	owner->DrawString(fPayee.String(), BPoint(xpos + 5, ypos - 6));
 	owner->ConstrainClippingRegion(NULL);
 
 	owner->SetHighColor(linecolor);
@@ -181,7 +181,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	cliprect.bottom += TRowHeight();
 	clip = cliprect;
 	owner->ConstrainClippingRegion(&clip);
-	owner->DrawString(fCategory.String(), BPoint(xpos, ypos - 3));
+	owner->DrawString(fCategory.String(), BPoint(xpos, ypos - 6));
 	owner->ConstrainClippingRegion(NULL);
 
 	xpos = r.right / 2;
@@ -197,10 +197,10 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	owner->ConstrainClippingRegion(&clip);
 	if (fMemo.CountChars() > 0) {
 		owner->SetHighColor(0, 0, 0);
-		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 3));
+		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 6));
 	} else {
 		owner->SetHighColor(linecolor);
-		owner->DrawString(B_TRANSLATE("No Memo"), BPoint(xpos + 5, ypos - 3));
+		owner->DrawString(B_TRANSLATE("No Memo"), BPoint(xpos + 5, ypos - 6));
 	}
 	owner->ConstrainClippingRegion(NULL);
 }

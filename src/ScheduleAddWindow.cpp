@@ -57,7 +57,7 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 
 	BString temp;
 	gCurrentLocale.CurrencyToString(data.Amount().AbsoluteValue(), temp);
-	label.SetToFormat(B_TRANSLATE("Amount: %s"), temp);
+	label.SetToFormat(B_TRANSLATE("Amount: %s"), temp.String());
 
 	BStringView* amountlabel = new BStringView("amountlabel", label.String());
 
