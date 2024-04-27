@@ -1,8 +1,10 @@
 Ventana Principal
-	Gran parte de su tiempo trabajando con Capital Be será usado en esta ventana. Ésta tiene cuatro partes principales: La Lista de Cuentas, la Lista de Movimientos, el Balance Rápido y la zona de inserción de Movimientos.
+
+Gran parte de su tiempo trabajando con Capital Be será usado en esta ventana. Ésta tiene cuatro partes principales: La Lista de Cuentas, la Lista de Movimientos, el Balance Rápido y la zona de inserción de Movimientos.
 
 Lista de Cuentas
-	Ubicada en la esquina superior izquierda de la ventana, es simplemente una lista de las cuentas disponibles en Capital Be. Cada Item le mostrará el nombre de la cuenta y su saldo actual. Tenga en cuenta que para las cuentas de deuda, como las tarjetas de crédito, el saldo será inferior a cero. Puede hacer doble clic en una cuenta para editar los detalles básicos de una cuenta. Para la mayoría de las personas, este será solo el nombre, pero también puede cambiar la configuración de divisas simplemente desactivando la casilla de verificación 'Usar configuración de divisa predeterminada'. Sin embargo, esto sólo lo necesitará usar si tiene una cuenta bancaria en un país que use una moneda diferente a la suya.
+
+Ubicada en la esquina superior izquierda de la ventana, es simplemente una lista de las cuentas disponibles en Capital Be. Cada Item le mostrará el nombre de la cuenta y su saldo actual. Tenga en cuenta que para las cuentas de deuda, como las tarjetas de crédito, el saldo será inferior a cero. Puede hacer doble clic en una cuenta para editar los detalles básicos de una cuenta. Para la mayoría de las personas, este será solo el nombre, pero también puede cambiar la configuración de divisas simplemente desactivando la casilla de verificación 'Usar configuración de divisa predeterminada'. Sin embargo, esto sólo lo necesitará usar si tiene una cuenta bancaria en un país que use una moneda diferente a la suya.
 
 Consejo: puede cambiar las cuentas sin usar el mouse presionando la flecha hacia arriba o hacia abajo mientras mantiene presionados la teclas ALT.
 
