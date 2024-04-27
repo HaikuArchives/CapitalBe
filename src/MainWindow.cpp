@@ -47,7 +47,7 @@
 int32 gTextViewHeight = 20;
 int32 gStringViewHeight = 20;
 
-MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
+MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_TITLED_WINDOW, 0)
 {
 	BString temp;
 	SetTitle(B_TRANSLATE_SYSTEM_NAME("CapitalBe"));
@@ -88,62 +88,48 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 	r.bottom = 20;
 	BMenuBar* bar = new BMenuBar("keybar");
 
-	BMenu* menu = new BMenu(B_TRANSLATE("Program"));
-
-	temp = B_TRANSLATE("Report a bug…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_REPORT_BUG)));
-	temp = B_TRANSLATE("Settings…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_OPTIONS_WINDOW), ','));
-
+	BMenu* menu = new BMenu(B_TRANSLATE("CapitalBe"));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Report a bug" B_UTF8_ELLIPSIS), new BMessage(M_REPORT_BUG)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Settings" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_OPTIONS_WINDOW), ','));
 	menu->AddSeparatorItem();
-	temp = B_TRANSLATE("About CapitalBe…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_ABOUT)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("About CapitalBe"), new BMessage(M_SHOW_ABOUT)));
+	menu->AddSeparatorItem();
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(B_QUIT_REQUESTED), 'Q'));
 	bar->AddItem(menu);
 
 	menu = new BMenu(B_TRANSLATE("File"));
-	temp = B_TRANSLATE("Categories…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_CATEGORY_WINDOW)));
-	temp = B_TRANSLATE("Scheduled transactions…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_SCHEDULED_WINDOW)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Categories" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_CATEGORY_WINDOW)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Scheduled transactions" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_SCHEDULED_WINDOW)));
 	menu->AddSeparatorItem();
-	temp = B_TRANSLATE("Import from QIF file…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_IMPORT_PANEL)));
-	temp = B_TRANSLATE("Export to QIF file…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_EXPORT_PANEL)));
-
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Import from QIF file" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_IMPORT_PANEL)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Export to QIF file" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_EXPORT_PANEL)));
 	bar->AddItem(menu);
 
 	menu = new BMenu(B_TRANSLATE("Account"));
 	bar->AddItem(menu);
-
-	temp = B_TRANSLATE("Reconcile…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_RECONCILE_WINDOW), 'R'));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Reconcile" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_RECONCILE_WINDOW), 'R'));
 	menu->AddSeparatorItem();
-	temp = B_TRANSLATE("New…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_NEW_ACCOUNT), 'N'));
-	temp = B_TRANSLATE("Delete…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_DELETE_ACCOUNT)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("New" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_NEW_ACCOUNT), 'N'));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Delete" B_UTF8_ELLIPSIS), new BMessage(M_DELETE_ACCOUNT)));
 	fAccountClosedItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(M_CLOSE_ACCOUNT));
 	menu->AddItem(fAccountClosedItem);
 	menu->AddSeparatorItem();
-	temp = B_TRANSLATE("Settings…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_ACCOUNT_SETTINGS)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Settings" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_ACCOUNT_SETTINGS)));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Previous"), new BMessage(M_PREVIOUS_ACCOUNT),
 		B_UP_ARROW, B_COMMAND_KEY | B_SHIFT_KEY));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Next"), new BMessage(M_NEXT_ACCOUNT), B_DOWN_ARROW,
 		B_COMMAND_KEY | B_SHIFT_KEY));
+
 	menu = new BMenu(B_TRANSLATE("Transaction"));
 	bar->AddItem(menu);
-	temp = B_TRANSLATE("Edit…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_EDIT_TRANSACTION), 'E'));
-	temp = B_TRANSLATE("Enter a transfer…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_ENTER_TRANSFER), 'T'));
+
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Edit" B_UTF8_ELLIPSIS), new BMessage(M_EDIT_TRANSACTION), 'E'));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Enter a transfer" B_UTF8_ELLIPSIS), new BMessage(M_ENTER_TRANSFER), 'T'));
 	menu->AddSeparatorItem();
-	menu->AddItem(new BMenuItem(B_TRANSLATE("Delete…"), new BMessage(M_DELETE_TRANSACTION)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Delete" B_UTF8_ELLIPSIS), new BMessage(M_DELETE_TRANSACTION)));
 	menu->AddSeparatorItem();
-	temp = B_TRANSLATE("Schedule this transaction…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SCHEDULE_TRANSACTION)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Schedule this transaction" B_UTF8_ELLIPSIS), new BMessage(M_SCHEDULE_TRANSACTION)));
 	menu->AddSeparatorItem();
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Previous"), new BMessage(M_PREVIOUS_TRANSACTION), B_UP_ARROW));
@@ -152,10 +138,8 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 
 	menu = new BMenu(B_TRANSLATE("Tools"));
 	bar->AddItem(menu);
-	temp = B_TRANSLATE("Budget…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_BUDGET_WINDOW)));
-	temp = B_TRANSLATE("Reports…");
-	menu->AddItem(new BMenuItem(temp.String(), new BMessage(M_SHOW_REPORTS_WINDOW)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Budget"), new BMessage(M_SHOW_BUDGET_WINDOW)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Reports"), new BMessage(M_SHOW_REPORTS_WINDOW)));
 
 	// We load the financial data before we create any of the views because the
 	// notifications are not sent and startup time is *significantly* reduced
@@ -523,10 +507,8 @@ MainWindow::MessageReceived(BMessage* msg)
 				break;
 			}
 
-			BRect r(Frame());
-			ReconcileWindow* recwin = new ReconcileWindow(BRect(100, 100, 600, 425), acc);
-			recwin->MoveTo(r.left + ((Bounds().Width() - recwin->Bounds().Width()) / 2),
-				r.top + ((Bounds().Height() - recwin->Bounds().Height()) / 2));
+			ReconcileWindow* recwin = new ReconcileWindow(BRect(100, 100, 700, 425), acc);
+			recwin->CenterIn(Frame());
 			recwin->Show();
 			break;
 		}
@@ -552,13 +534,6 @@ MainWindow::MessageReceived(BMessage* msg)
 			catwin->MoveTo(r.left + ((Bounds().Width() - catwin->Bounds().Width()) / 2),
 				r.top + ((Bounds().Height() - catwin->Bounds().Height()) / 2));
 			catwin->Show();
-			break;
-		}
-		case M_PURCHASE_FULL_VERSION:
-		{
-			BMessage msg(B_NETPOSITIVE_OPEN_URL);
-			msg.AddString("be:url", "http://www.capitalbe.com/");
-			be_roster->Launch(B_NETPOSITIVE_APP_SIGNATURE, &msg);
 			break;
 		}
 		default:

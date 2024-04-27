@@ -59,7 +59,7 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags) : BView
 	SetViewColor(240, 240, 240);
 
 	// the buttons
-	temp = B_TRANSLATE("Remove…");
+	temp = B_TRANSLATE("Remove" B_UTF8_ELLIPSIS);
 	fRemoveButton = new BButton("removebutton", temp.String(), new BMessage(M_REMOVE_ITEM));
 
 	// the transaction list

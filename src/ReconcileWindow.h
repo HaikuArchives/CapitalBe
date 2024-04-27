@@ -47,7 +47,8 @@ private:
 	// fTotal is the sum of all of the deposits, checks, and charges
 	// The way to tell if we are done is if fDifference + fTotal == 0
 	Fixed fDepositTotal, fCheckTotal, fChargeTotal, fDifference, fTotal;
-	BStringView *fDepLabel, *fCheckLabel, *fChargeLabel, *fTotalLabel;
+	BStringView *fDepLabel, *fCheckLabel, *fChargeLabel, *fTotalLabel, *fDateLabel, *fOpeningLabel,
+				*fClosingLabel, *fChargesLabel, *fInterestLabel;
 	BScrollView *fDepScroll, *fCheckScroll, *fChargeScroll;
 
 	HelpButton* fHelpButton;

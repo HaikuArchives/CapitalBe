@@ -46,8 +46,8 @@ private:
 */
 
 ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
-	: BWindow(frame, "", B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
-		  B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
+	: BWindow(frame, "", B_TITLED_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
+		  B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE)
 {
 	BString temp;
 	fCurrentDate = GetCurrentDate();
@@ -69,34 +69,26 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	back->SetViewColor(240, 240, 240);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
 
-	temp = B_TRANSLATE("Date:");
-	temp += " ";
-	float width = back->StringWidth(temp.String());
-
+	fDateLabel = new BStringView("datelabel", B_TRANSLATE("Date"));
 	BString datestr;
-	gDefaultLocale.DateToString(GetCurrentDate(), datestr);
-	fDate = new DateBox("dateentry", temp.String(), datestr.String(), NULL);
+	gDefaultLocale.DateToString(fCurrentDate, datestr);
+	fDate = new DateBox("dateentry", NULL, datestr.String(), NULL);
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
 
-
-	temp = B_TRANSLATE("Starting balance:");
-	temp += " ";
-	fOpening = new CurrencyBox("starting", temp.String(), NULL, new BMessage(M_SET_BALANCES));
+	fOpeningLabel = new BStringView("startinglabel", B_TRANSLATE("Starting balance"));
+	fOpening = new CurrencyBox("starting", NULL, NULL, new BMessage(M_SET_BALANCES));
 	fOpening->GetFilter()->SetMessenger(new BMessenger(this));
 
-	temp = B_TRANSLATE("Ending balance:");
-	temp += " ";
-	fClosing = new CurrencyBox("closing", temp.String(), NULL, new BMessage(M_SET_BALANCES));
+	fClosingLabel = new BStringView("closinglabel", B_TRANSLATE("Ending balance"));
+	fClosing = new CurrencyBox("closing", NULL, NULL, new BMessage(M_SET_BALANCES));
 	fClosing->GetFilter()->SetMessenger(new BMessenger(this));
 
-	temp = B_TRANSLATE("Bank charges:");
-	temp += " ";
-	fCharges = new CurrencyBox("charges", temp.String(), NULL, NULL);
+	fChargesLabel = new BStringView("chargeslabel", B_TRANSLATE("Bank charges"));
+	fCharges = new CurrencyBox("charges", NULL, NULL, NULL);
 	fCharges->GetFilter()->SetMessenger(new BMessenger(this));
 
-	temp = B_TRANSLATE("Interest earned:");
-	temp += " ";
-	fInterest = new CurrencyBox("interest", temp.String(), NULL, NULL);
+	fInterestLabel = new BStringView("interestlabel", B_TRANSLATE("Interest earned"));
+	fInterest = new CurrencyBox("interest", NULL, NULL, NULL);
 	fInterest->GetFilter()->SetMessenger(new BMessenger(this));
 
 	fDepositList = new BListView("depositlist", B_SINGLE_SELECTION_LIST);
@@ -154,50 +146,52 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 			<< "/Reconcile Window Help";
 	fHelpButton = new HelpButton("rechelp", rechelp.String());
 
-	temp = B_TRANSLATE("Unreconciled total");
-	temp += ":";
+	fAccount->GetLocale().CurrencyToString(fTotal + fDifference, label);
+	temp = "";
+	temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label.String());
 	fTotalLabel = new BStringView("totallabel", temp.String());
 
 	account->DoForEachTransaction(AddReconcileItems, this);
 
 	fDate->MakeFocus(true);
 
-	BLayoutBuilder::Group<>(back, B_VERTICAL, 0)
+	BLayoutBuilder::Group<>(back, B_VERTICAL)
 		.SetInsets(10)
 		.AddGrid(1.0f, 1.0f)
-		.Add(fDate, 0, 0)
-		.Add(fOpening, 1, 0, 2)
-		.Add(fClosing, 3, 0, 2)
-		.End()
-		.AddGrid()
-		.Add(fCharges, 0, 0)
-		.Add(fInterest, 1, 0)
-		.End()
-		.AddGroup(B_HORIZONTAL)
-		.AddGroup(B_VERTICAL, 0)
-		.Add(fDepScroll)
-		.Add(fDepLabel)
-		.End()
-		.AddGroup(B_VERTICAL, 0)
-		.Add(fCheckScroll)
-		.Add(fCheckLabel)
-		.End()
-		.AddGroup(B_VERTICAL, 0)
-		.Add(fChargeScroll)
-		.Add(fChargeLabel)
-		.End()
+			.Add(fDateLabel, 0, 0)
+			.Add(fDate, 0, 1, 2)
+			.Add(fOpeningLabel, 2, 0)
+			.Add(fOpening, 2, 1, 2)
+			.Add(fClosingLabel, 4, 0)
+			.Add(fClosing, 4, 1, 2)
 		.End()
 		.AddGrid(1.0f, 1.0f)
-		.Add(fTotalLabel, 0, 0)
-		.Add(fAutoReconcile, 0, 1)
-		.Add(fHelpButton, 1, 1)
-		.AddGlue(2, 1, 2)
-		.Add(fReset, 4, 1)
-		.AddGlue(5, 1)
-		.Add(fCancel, 6, 1)
-		.Add(fReconcile, 7, 1)
+			.Add(fChargesLabel, 2, 0)
+			.Add(fCharges, 2, 1, 2)
+			.Add(fInterestLabel, 4, 0)
+			.Add(fInterest, 4, 1, 2)
 		.End()
-		.End();
+		.AddGrid(1.0f, 2.0f)
+			.Add(fDepScroll, 0, 0)
+			.Add(fDepLabel, 0, 1)
+			.Add(fCheckScroll, 2, 0)
+			.Add(fCheckLabel, 2, 1)
+			.Add(fChargeScroll, 4, 0)
+			.Add(fChargeLabel, 4, 1)
+		.End()
+		.AddGrid(1.0f, 1.0f)
+			.Add(fTotalLabel, 0, 0)
+		.End()
+		.AddGrid(1.0f, 1.0f)
+			.Add(fAutoReconcile, 0, 1)
+			.Add(fHelpButton, 1, 1)
+			.AddGlue(2, 1, 2)
+			.Add(fReset, 4, 1)
+			.AddGlue(5, 1)
+			.Add(fCancel, 6, 1)
+			.Add(fReconcile, 7, 1)
+		.End()
+	.End();
 }
 
 ReconcileWindow::~ReconcileWindow(void)
@@ -359,13 +353,13 @@ ReconcileWindow::MessageReceived(BMessage* msg)
 				fDepositList->InvalidateItem(index);
 
 				fAccount->GetLocale().CurrencyToString(fDepositTotal, label);
-				temp.SetToFormat(B_TRANSLATE("Total deposits: %s"), label);
-				fDepLabel->SetText(label.String());
+				temp.SetToFormat(B_TRANSLATE("Total deposits: %s"), label.String());
+				fDepLabel->SetText(temp.String());
 
 				fAccount->GetLocale().CurrencyToString(fTotal + fDifference, label);
 				temp = "";
-				temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label);
-				fTotalLabel->SetText(label.String());
+				temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label.String());
+				fTotalLabel->SetText(temp.String());
 
 				if ((fTotal + fDifference) == 0)
 					fReconcile->SetEnabled(true);
@@ -391,13 +385,13 @@ ReconcileWindow::MessageReceived(BMessage* msg)
 				fCheckList->InvalidateItem(index);
 
 				fAccount->GetLocale().CurrencyToString(fCheckTotal, label);
-				temp.SetToFormat(B_TRANSLATE("Total checks: %s"), label);
-				fCheckLabel->SetText(label.String());
+				temp.SetToFormat(B_TRANSLATE("Total checks: %s"), label.String());
+				fCheckLabel->SetText(temp);
 
 				fAccount->GetLocale().CurrencyToString(fTotal + fDifference, label);
 				temp = "";
-				temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label);
-				fTotalLabel->SetText(label.String());
+				temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label.String());
+				fTotalLabel->SetText(temp);
 
 				if ((fTotal + fDifference) == 0)
 					fReconcile->SetEnabled(true);
@@ -423,13 +417,13 @@ ReconcileWindow::MessageReceived(BMessage* msg)
 				fChargeList->InvalidateItem(index);
 
 				fAccount->GetLocale().CurrencyToString(fChargeTotal, label);
-				temp.SetToFormat(B_TRANSLATE("Total charges: %s"), label);
-				fChargeLabel->SetText(label.String());
+				temp.SetToFormat(B_TRANSLATE("Total charges: %s"), label.String());
+				fChargeLabel->SetText(temp);
 
 				fAccount->GetLocale().CurrencyToString(fTotal + fDifference, label);
 				temp = "";
-				temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label);
-				fTotalLabel->SetText(label.String());
+				temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label.String());
+				fTotalLabel->SetText(temp);
 
 				if ((fTotal + fDifference) == 0)
 					fReconcile->SetEnabled(true);

@@ -111,13 +111,13 @@ CategoryView::CategoryView(const char* name, const int32& flags) : BView(name, f
 	SetViewColor(240, 240, 240);
 
 	// the buttons
-	temp = B_TRANSLATE("Edit…");
+	temp = B_TRANSLATE("Edit" B_UTF8_ELLIPSIS);
 	fEditButton = new BButton("editbutton", temp.String(), new BMessage(M_SHOW_EDIT_WINDOW));
 
-	temp = B_TRANSLATE("Remove…");
+	temp = B_TRANSLATE("Remove" B_UTF8_ELLIPSIS);
 	fRemoveButton = new BButton("removebutton", temp.String(), new BMessage(M_SHOW_REMOVE_WINDOW));
 
-	temp = B_TRANSLATE("Add…");
+	temp = B_TRANSLATE("Add" B_UTF8_ELLIPSIS);
 	fAddButton = new BButton("addbutton", temp.String(), new BMessage(M_SHOW_ADD_WINDOW));
 
 	// the category list
