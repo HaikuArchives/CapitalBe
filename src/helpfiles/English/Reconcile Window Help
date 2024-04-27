@@ -4,13 +4,14 @@ When it comes time to balance your checkbook, you will need to go here.
 
 How to Reconcile an Account
 
-	Many banks today group checks together in one area on a statement, deposits in another, and everything else in a big list. Capital Be does the exact same thing so you don't have to keep hunting around your statement.
-	To reconcile your account, enter in the starting and closing balances in the top boxes with numbers from your bank statement. If your bank imposed a service charge for something, such as an account maintenance fee, enter it into the 'Bank Charges' box. If this account earns interest, put your monthly interest in the 'Interest Earned' box. Now all you have to do is double click on all the items listed on your statement. When the number of deposits, checks and charges add up to the difference between the starting and ending balance amounts, you're finished.
+Many banks today group checks together in one area on a statement, deposits in another, and everything else in a big list. Capital Be does the exact same thing so you don't have to keep hunting around your statement.
+
+To reconcile your account, enter in the starting and closing balances in the top boxes with numbers from your bank statement. If your bank imposed a service charge for something, such as an account maintenance fee, enter it into the 'Bank Charges' box. If this account earns interest, put your monthly interest in the 'Interest Earned' box. Now all you have to do is double click on all the items listed on your statement. When the number of deposits, checks and charges add up to the difference between the starting and ending balance amounts, you're finished.
 
 Tip:  Did you forget to punch something in? Do you need to correct an amount? Not a problem! Move the Reconcile window over and do what you need in the main window. The Reconcile window will update itself and you can move on.
 
 About Quick Balance
 
-	The 'Quick Balance' button is a feature unique to Capital Be. It can balance your checkbook for you in one click whenever all the checks, charges, and deposits before the statement date have cleared. Whenever this happens, it will automatically reconcile your account, saving you all the clicking required to normally do it.
+The 'Quick Balance' button is a feature unique to Capital Be. It can balance your checkbook for you in one click whenever all the checks, charges, and deposits before the statement date have cleared. Whenever this happens, it will automatically reconcile your account, saving you all the clicking required to normally do it.
 
 Tip: Setting the date in the Date box to the day of the most recent transaction on your bank statement will help Quick Balance work more often.

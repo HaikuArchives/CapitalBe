@@ -1,31 +1,26 @@
 The Main Window
 
-	Most of your time working with Capital Be will be spent in this window. There are four main parts: the account list, the transaction list, the QuickTracker, and the text boxes for entering transaction information.
+Most of your time working with Capital Be will be spent in this window. There are four main parts: the account list, the transaction list, the QuickTracker, and the text boxes for entering transaction information.
 
 The Account List
 
-	Located in the top left corner of the window, this is simply a list of the accounts available in Capital Be. Each item will show you the name of the account and its current balance. Note that for debt accounts, such as credit cards, the balance will be less than zero. You can double-click an account to edit basic details for the account. For most people, this will be just the name, but you can also change currency settings just by unchecking the 'Use Default Currency Settings' checkbox. The only time you might need to do this, though, is if you have a bank account in another country which uses a different currency.
+Located in the top left corner of the window, this is simply a list of the accounts available in Capital Be. Each item will show you the name of the account and its current balance. Note that for debt accounts, such as credit cards, the balance will be less than zero. You can double-click an account to edit basic details for the account. For most people, this will be just the name, but you can also change currency settings just by unchecking the 'Use Default Currency Settings' checkbox. The only time you might need to do this, though, is if you have a bank account in another country which uses a different currency.
 
 Tip: You can change accounts without using the mouse by pressing the Up or Down arrow while holding the Alt and Shift keys down.
 
-
 The Transaction List
 
-	The transaction list is simply a list of all activity on an account. Beside each transaction is the balance of the account when that transaction was entered.
+The transaction list is simply a list of all activity on an account. Beside each transaction is the balance of the account when that transaction was entered.
 
 Tip: You can move up and down in the list without using the mouse by pressing the Up or Down arrow while holding the Alt key.
 
-
 Entering a Transaction
 
-	Adding a transaction to an account is just as simple as typing in information into the form in the bottom right part of the window and hitting the Enter key or clicking the Enter button.
+Adding a transaction to an account is just as simple as typing in information into the form in the bottom right part of the window and hitting the Enter key or clicking the Enter button.
 
 Tip: The + and - keys can change the date by one day. The Page Up and Page Down keys change it by one month.
-
 Tip: Jump to the next box with the Tab key or jump to the previous one with Shift + Tab.
-
 
 The QuickTracker Panel
 
-	The QuickTracker is a small panel in the bottem left corner which shows current information about your finances. It shows the total of all of your accounts (known as net worth in the financial world) and how you're doing on your budget overall. 
-
+The QuickTracker is a small panel in the bottem left corner which shows current information about your finances. It shows the total of all of your accounts (known as net worth in the financial world) and how you're doing on your budget overall. 

@@ -1,11 +1,11 @@
 The Transaction Editor Window
 
-	Here you can make changes to a transaction that you have already entered into the register. This is also where a transaction can be split among several categories.
+Here you can make changes to a transaction that you have already entered into the register. This is also where a transaction can be split among several categories.
 
 Split Transactions
 
-	Just because you buy something at one place doesn't mean that it all has to go into the same budget category. Split transactions allow you to place parts of the amount of a transaction into different categories.
+Just because you buy something at one place doesn't mean that it all has to go into the same budget category. Split transactions allow you to place parts of the amount of a transaction into different categories.
 
-	To enter a split transaction, all you have to do is type in the word Split into the Category box in the main window and go to another box in the register. Capital Be will open the Transaction Editor window and you can begin entering in categories for the transaction. Click the Add Item button to add a category to the transaction and the Remove Item button to delete the selected category. You will see a running total of the items you've entered to the right of the Remove Item button. When you are all finished, you can just hit the Enter key or click the Enter button and you will be finished!
+To enter a split transaction, all you have to do is type in the word Split into the Category box in the main window and go to another box in the register. Capital Be will open the Transaction Editor window and you can begin entering in categories for the transaction. Click the Add Item button to add a category to the transaction and the Remove Item button to delete the selected category. You will see a running total of the items you've entered to the right of the Remove Item button. When you are all finished, you can just hit the Enter key or click the Enter button and you will be finished!
 
 Tip: You can split or unsplit a transaction you have already entered just by double-clicking on it or choosing Edit from the Transaction menu.
