@@ -48,7 +48,7 @@ private:
 	// The way to tell if we are done is if fDifference + fTotal == 0
 	Fixed fDepositTotal, fCheckTotal, fChargeTotal, fDifference, fTotal;
 	BStringView *fDepLabel, *fCheckLabel, *fChargeLabel, *fTotalLabel, *fDateLabel, *fOpeningLabel,
-				*fClosingLabel, *fChargesLabel, *fInterestLabel;
+		*fClosingLabel, *fChargesLabel, *fInterestLabel;
 	BScrollView *fDepScroll, *fCheckScroll, *fChargeScroll;
 
 	HelpButton* fHelpButton;
