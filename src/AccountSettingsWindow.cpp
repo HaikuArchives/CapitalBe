@@ -33,10 +33,9 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
 	BView* back = new BView("back", B_WILL_DRAW);
-	back->SetViewColor(240, 240, 240);
+	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	temp = B_TRANSLATE("Account name:");
-	fAccountName = new AutoTextControl("accname", temp.String(),
+	fAccountName = new AutoTextControl("accname", B_TRANSLATE("Account name:"),
 		(fAccount ? fAccount->Name() : NULL), new BMessage(M_NAME_CHANGED));
 	fAccountName->SetCharacterLimit(32);
 

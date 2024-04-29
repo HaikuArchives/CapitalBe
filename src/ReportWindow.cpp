@@ -61,7 +61,7 @@ ReportWindow::ReportWindow(BRect frame)
 
 	BView* view = new BView("back", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f).SetInsets(0).Add(view).End();
-	view->SetViewColor(240, 240, 240);
+	view->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	BGroupLayout* reportsLayout = new BGroupLayout(B_VERTICAL, 0);
 	BGroupLayout* accountsLayout = new BGroupLayout(B_VERTICAL, 0);
@@ -205,14 +205,6 @@ ReportWindow::ReportWindow(BRect frame)
 	fGridView->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 	fGridView->SetSortingEnabled(false);
 	fGridView->SetEditMode(false);
-
-	rgb_color white = {255, 255, 255, 255};
-	fGridView->SetColor(B_COLOR_BACKGROUND, white);
-	fGridView->SetColor(B_COLOR_ROW_DIVIDER, fGridView->Color(B_COLOR_BACKGROUND));
-	fGridView->SetColor(B_COLOR_SELECTION, fGridView->Color(B_COLOR_BACKGROUND));
-	fGridView->SetColor(B_COLOR_NON_FOCUS_SELECTION, fGridView->Color(B_COLOR_BACKGROUND));
-	fGridView->SetColor(B_COLOR_SEPARATOR_BORDER, fGridView->Color(B_COLOR_BACKGROUND));
-	fGridView->SetColor(B_COLOR_SEPARATOR_LINE, fGridView->Color(B_COLOR_BACKGROUND));
 
 	fGraphView = new BView(r, "As Graph", B_FOLLOW_ALL, B_WILL_DRAW);
 	//	view->AddChild(fGraphView);

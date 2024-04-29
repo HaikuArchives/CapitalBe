@@ -53,7 +53,7 @@ HelpButtonWindow::HelpButtonWindow(const BRect& frame, const entry_ref& helpfile
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	BView* view = new BView("back", B_WILL_DRAW | B_FRAME_EVENTS);
-	view->SetViewColor(235, 235, 255);
+	view->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	BLayoutBuilder::Group<>(this, B_VERTICAL).Add(view).End();
 
 	fTextView = new BTextView("textview", B_WILL_DRAW);

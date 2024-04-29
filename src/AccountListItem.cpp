@@ -19,13 +19,14 @@
 AccountListItem::AccountListItem(Account* acc) : BListItem()
 {
 	fAccount = acc;
-	fEnabled = true;
+	//fEnabled = true;
+	fEnabled = acc->IsUsingDefaultLocale();
 }
 
 void
 AccountListItem::SetEnabled(bool enabled)
 {
-	fEnabled = enabled;
+	fEnabled = true;
 }
 
 void
@@ -34,36 +35,37 @@ AccountListItem::DrawItem(BView* owner, BRect frame, bool complete)
 	if (IsSelected()) {
 		if (IsEnabled()) {
 			if (fAccount->IsClosed()) {
-				owner->SetHighColor(GetColor(BC_SELECTION_NOFOCUS));
-				owner->SetLowColor(GetColor(BC_SELECTION_NOFOCUS));
+				owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR, B_DISABLED_MARK_TINT);
+				owner->SetLowUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR, B_DISABLED_MARK_TINT);
 			} else {
-				owner->SetHighColor(GetColor(BC_SELECTION_FOCUS));
-				owner->SetLowColor(GetColor(BC_SELECTION_FOCUS));
+				owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
+				owner->SetLowUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR);
 			}
 		} else {
-			owner->SetHighColor(230, 230, 230);
-			owner->SetLowColor(230, 230, 230);
+			owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR, B_DISABLED_MARK_TINT);
+			owner->SetLowUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR, B_DISABLED_MARK_TINT);
 		}
 	} else {
 		if (fAccount->IsClosed()) {
-			owner->SetHighColor(240, 240, 240, 128);
-			owner->SetLowColor(240, 240, 240, 128);
+			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR, B_DISABLED_MARK_TINT);
+			owner->SetLowUIColor(B_LIST_ITEM_TEXT_COLOR, B_DISABLED_MARK_TINT);
 		} else {
-			owner->SetHighColor(255, 255, 255, 128);
-			owner->SetLowColor(255, 255, 255, 128);
+			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR);
+			owner->SetLowUIColor(B_LIST_ITEM_TEXT_COLOR);
 		}
 	}
 	owner->FillRect(frame);
 
 	if (IsSelected()) {
-		owner->SetHighColor(100, 100, 100);
+		owner->SetHighUIColor(B_CONTROL_MARK_COLOR);
 		owner->StrokeRect(frame);
 	}
 
 	if (IsEnabled())
-		owner->SetHighColor(0, 0, 0);
+		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 	else
-		owner->SetHighColor(200, 200, 200);
+		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, B_DISABLED_MARK_TINT);
+
 	owner->SetFont(be_bold_font);
 	BFont font;
 	owner->DrawString(fAccount->Name(), BPoint(frame.left + 5, frame.top + (font.Size())));

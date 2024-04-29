@@ -26,7 +26,7 @@ enum
 
 RegisterView::RegisterView(const char* name, int32 flags) : BView(name, flags | B_FRAME_EVENTS)
 {
-	SetViewColor(240, 240, 240);
+	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	BStringView* accountlabel = new BStringView("accountlabel", B_TRANSLATE("Accounts"));
 

@@ -25,15 +25,15 @@ void
 ReconcileItem::DrawItem(BView* owner, BRect frame, bool complete)
 {
 	if (IsSelected()) {
-		owner->SetHighColor(GetColor(BC_SELECTION_FOCUS));
-		owner->SetLowColor(GetColor(BC_SELECTION_FOCUS));
+		owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
+		owner->SetLowUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
 	} else {
-		owner->SetHighColor(255, 255, 255);
-		owner->SetLowColor(255, 255, 255);
+		owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR);
+		owner->SetLowUIColor(B_LIST_BACKGROUND_COLOR);
 	}
 	owner->FillRect(frame);
 	if (IsSelected()) {
-		owner->SetHighColor(100, 100, 100);
+		owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
 		owner->StrokeRect(frame);
 	}
 
@@ -42,7 +42,7 @@ ReconcileItem::DrawItem(BView* owner, BRect frame, bool complete)
 	else
 		owner->SetFont(be_plain_font);
 
-	owner->SetHighColor(0, 0, 0);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 
 	// Draw amount first
 	BString string;

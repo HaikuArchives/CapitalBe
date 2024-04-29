@@ -47,40 +47,30 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	BRect r(frame);
 	r.right--;
 
-	rgb_color linecolor;
-
 	if (IsSelected()) {
-		linecolor.red = 120;
-		linecolor.green = 120;
-		linecolor.blue = 120;
-		owner->SetHighColor(GetColor(BC_SELECTION_FOCUS));
-		owner->SetLowColor(GetColor(BC_SELECTION_FOCUS));
+		owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
+		owner->SetLowUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR);
 		owner->FillRect(frame);
-		owner->SetHighColor(linecolor);
+		owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
 		owner->StrokeRect(frame);
-		owner->SetHighColor(255, 255, 255);
+		owner->SetHighUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR);
 	} else {
-		linecolor.red = 200;
-		linecolor.green = 200;
-		linecolor.blue = 200;
-
 		if (fStatus == TRANS_RECONCILED) {
-			owner->SetHighColor(232, 232, 232);
-			owner->SetLowColor(232, 232, 232);
+			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR, B_DISABLED_MARK_TINT);
+			owner->SetLowUIColor(B_LIST_BACKGROUND_COLOR, B_DISABLED_MARK_TINT);
 			owner->FillRect(frame);
-			owner->SetHighColor(linecolor);
+			owner->SetHighUIColor(B_CONTROL_BORDER_COLOR, B_DISABLED_MARK_TINT);
 			owner->StrokeLine(r.LeftBottom(), r.RightBottom());
-			owner->SetHighColor(255, 255, 255);
+			owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 		} else {
-			owner->SetHighColor(255, 255, 255);
-			owner->SetLowColor(255, 255, 255);
+			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR);
+			owner->SetLowUIColor(B_LIST_BACKGROUND_COLOR);
 			owner->FillRect(frame);
-			//			owner->SetHighColor(222, 222, 222);
-			owner->SetHighColor(linecolor);
+			owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
 			owner->StrokeLine(r.LeftBottom(), r.RightBottom());
 		}
 	}
-	owner->SetHighColor(0, 0, 0);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 
 	BRect cliprect;
 	BRegion clip(cliprect);
@@ -100,21 +90,20 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	owner->ConstrainClippingRegion(NULL);
 
 	xpos += TDateWidth();
-	owner->SetHighColor(linecolor);
+	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
 
 	// Line Between Date & Type
 	owner->StrokeLine(BPoint(xpos, ypos - TRowHeight()), BPoint(xpos, ypos));
 
 	owner->StrokeLine(BPoint(0, ypos), BPoint(r.right, ypos));
-	owner->SetHighColor(0, 0, 0);
 
 	// Type
-	owner->SetHighColor(0, 0, 0);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 	owner->DrawString(fType.String(), BPoint(xpos + 5, ypos - 6));
 
 	// Line between Type and Payee
 	xpos += TNumWidth();
-	owner->SetHighColor(linecolor);
+	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
 	owner->StrokeLine(BPoint(xpos, ypos - TRowHeight()), BPoint(xpos, ypos));
 
 	// Calculate the rectangle for the payee, but this field depends on the
@@ -128,16 +117,16 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	cliprect.right = r.right;
 	cliprect.left = xpos;
 	clip = cliprect;
-	owner->SetHighColor(0, 0, 0);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 
 	Fixed balance = fAccount->BalanceAtTransaction(fDate, fPayee.String());
 	if (balance.AsFixed() < 0)
-		owner->SetHighColor(150, 0, 0);
+		owner->SetHighUIColor(B_FAILURE_COLOR);
 	locale.CurrencyToString(balance, string);
 	owner->DrawString(string.String(), BPoint(xpos + 5, ypos - 6));
 
 	// Line between Balance and Amount
-	owner->SetHighColor(linecolor);
+	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
 	owner->StrokeLine(BPoint(xpos, ypos - TRowHeight()), BPoint(xpos, ypos));
 
 	// Amount
@@ -145,7 +134,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	cliprect.right = cliprect.left;
 	cliprect.left = xpos;
 	clip = cliprect;
-	owner->SetHighColor(0, 0, 0);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 	fAccount->GetLocale().CurrencyToString(fAmount.AbsoluteValue(), string);
 
 	owner->ConstrainClippingRegion(&clip);
@@ -153,7 +142,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	owner->ConstrainClippingRegion(NULL);
 
 	// Line between Amount and Payee
-	owner->SetHighColor(linecolor);
+	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
 	owner->StrokeLine(BPoint(xpos, ypos - TRowHeight()), BPoint(xpos, ypos));
 
 	// Payee
@@ -162,17 +151,17 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	payee_rect.bottom = ypos;
 	xpos = payee_rect.left;
 
-	owner->SetHighColor(0, 0, 0);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 	clip = payee_rect;
 	owner->ConstrainClippingRegion(&clip);
 	owner->DrawString(fPayee.String(), BPoint(xpos + 5, ypos - 6));
 	owner->ConstrainClippingRegion(NULL);
 
-	owner->SetHighColor(linecolor);
+	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
 	owner->StrokeLine(BPoint(r.left, ypos), BPoint(r.right, ypos));
 
 	// Category
-	owner->SetHighColor(0, 0, 0);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 	ypos += TRowHeight();
 	xpos = TLeftPadding();
 	cliprect.left = TLeftPadding();
@@ -189,17 +178,17 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	cliprect.right = r.right;
 
 	// Line between Category and Memo
-	owner->SetHighColor(linecolor);
+	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
 	owner->StrokeLine(BPoint(xpos, ypos - TRowHeight()), BPoint(xpos, ypos));
 
 	// Memo
 	clip = cliprect;
 	owner->ConstrainClippingRegion(&clip);
 	if (fMemo.CountChars() > 0) {
-		owner->SetHighColor(0, 0, 0);
+		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 6));
 	} else {
-		owner->SetHighColor(linecolor);
+		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, B_DISABLED_LABEL_TINT);
 		owner->DrawString(B_TRANSLATE("No Memo"), BPoint(xpos + 5, ypos - 6));
 	}
 	owner->ConstrainClippingRegion(NULL);

@@ -46,7 +46,7 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 
 	BView* back = new BView("backview", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
-	back->SetViewColor(240, 240, 240);
+	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	BString label;
 	label.SetToFormat(B_TRANSLATE("Type: %s"), data.Type().Type());

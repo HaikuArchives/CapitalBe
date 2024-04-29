@@ -584,8 +584,7 @@ DAlert::InitObject(const char* text, const char* button0, const char* button1, c
 		textViewRect, "_tv_", textViewRect, B_FOLLOW_LEFT | B_FOLLOW_TOP, B_WILL_DRAW);
 	masterView->AddChild(fTextView);
 
-	//	fTextView->SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
-	fTextView->SetViewColor(240, 240, 240);
+	fTextView->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	fTextView->MakeEditable(false);
 	fTextView->SetStylable(true);
 	fTextView->MakeSelectable(true);
@@ -654,8 +653,7 @@ DAlert::InitIcon()
 TAlertView::TAlertView(BRect frame)
 	: BView(frame, "TAlertView", B_FOLLOW_ALL_SIDES, B_WILL_DRAW), fIconBitmap(NULL)
 {
-	//	SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));
-	SetViewColor(240, 240, 240);
+	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 }
 
 

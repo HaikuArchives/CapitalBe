@@ -10,6 +10,7 @@
 #include <Path.h>
 #include <Roster.h>
 #include <private/interface/AboutWindow.h>
+#include <TranslationUtils.h>
 
 #include <stdlib.h>
 
@@ -18,6 +19,7 @@
 #include "CBLocale.h"
 #include "CategoryWindow.h"
 #include "DAlert.h"
+#include "IconMenuItem.h"
 #include "Layout.h"
 #include "PrefWindow.h"
 #include "Preferences.h"
@@ -88,7 +90,7 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_TITLED_WINDOW, 0)
 	r.bottom = 20;
 	BMenuBar* bar = new BMenuBar("keybar");
 
-	BMenu* menu = new BMenu(B_TRANSLATE("CapitalBe"));
+	BMenu* menu = new BMenu("");
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Report a bug" B_UTF8_ELLIPSIS), new BMessage(M_REPORT_BUG)));
 	menu->AddItem(new BMenuItem(
@@ -97,8 +99,20 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_TITLED_WINDOW, 0)
 	menu->AddItem(new BMenuItem(B_TRANSLATE("About CapitalBe"), new BMessage(M_SHOW_ABOUT)));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(B_QUIT_REQUESTED), 'Q'));
-	bar->AddItem(menu);
 
+// ---------
+
+
+	IconMenuItem* iconMenu = nullptr;
+	BBitmap* icon = new BBitmap(BRect(16), B_RGBA32);
+	//GetVectorIcon("xmas-icon", iconXMAS);
+	icon = BTranslationUtils::GetBitmap('PNG ', "cb_info_icon.png");
+
+	iconMenu = new IconMenuItem(menu, NULL, icon, B_MINI_ICON);
+	bar->AddItem(iconMenu);
+
+
+// ------
 	menu = new BMenu(B_TRANSLATE("File"));
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Categories" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_CATEGORY_WINDOW)));

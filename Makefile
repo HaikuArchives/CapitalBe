@@ -52,6 +52,7 @@ SRCS = \
 	 src/Fixed.cpp  \
 	 src/HelpButton.cpp  \
 	 src/Import.cpp  \
+	 src/IconMenuItem.cpp \
 	 src/Locale.cpp  \
 	 src/MainWindow.cpp  \
 	 src/NavTextBox.cpp  \
