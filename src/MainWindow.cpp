@@ -1,13 +1,16 @@
 #include "MainWindow.h"
 
 #include <Catalog.h>
+#include <ControlLook.h>
 #include <Directory.h>
 #include <Entry.h>
+#include <IconUtils.h>
 #include <LayoutBuilder.h>
 #include <MenuBar.h>
 #include <Messenger.h>
 #include <NetPositive.h>
 #include <Path.h>
+#include <Resources.h>
 #include <Roster.h>
 #include <private/interface/AboutWindow.h>
 #include <TranslationUtils.h>
@@ -100,19 +103,10 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_TITLED_WINDOW, 0)
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(B_QUIT_REQUESTED), 'Q'));
 
-// ---------
-
-
 	IconMenuItem* iconMenu = nullptr;
-	BBitmap* icon = new BBitmap(BRect(16), B_RGBA32);
-	//GetVectorIcon("xmas-icon", iconXMAS);
-	icon = BTranslationUtils::GetBitmap('PNG ', "cb_info_icon.png");
-
-	iconMenu = new IconMenuItem(menu, NULL, icon, B_MINI_ICON);
+	iconMenu = new IconMenuItem(menu, nullptr, "application/x-vnd.wgp-CapitalBe", B_MINI_ICON);
 	bar->AddItem(iconMenu);
 
-
-// ------
 	menu = new BMenu(B_TRANSLATE("File"));
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Categories" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_CATEGORY_WINDOW)));

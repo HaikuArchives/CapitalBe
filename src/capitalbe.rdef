@@ -1,3 +1,4 @@
+resource app_signature "application/x-vnd.wgp-CapitalBe";
 
 resource app_flags B_SINGLE_LAUNCH;
 
@@ -12,6 +13,7 @@ resource app_version {
 	short_info = "Finance application for Haiku",
 	long_info = "A personal finance application for Haiku"
 };
+
 resource vector_icon array {
 	$"6E63696604020106023DE0000000000000003DC0004860004860000032D705FF"
 	$"146302050105FF0401930402044030C34530BC3A30304030BC3A30C3454050BC"
@@ -86,8 +88,6 @@ resource(1, "check.jpg") #'JPEG' array {
 	$"D59D4A53C4517859E3710E4B095A84715194218C8E221468469FF4EF451457A0"
 	$"7C89FFD9"
 };
-
-resource app_signature "application/x-vnd.wgp-CapitalBe";
 
 resource file_types message;
 
