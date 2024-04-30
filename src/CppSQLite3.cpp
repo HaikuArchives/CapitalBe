@@ -433,14 +433,12 @@ CppSQLite3Query::getFloatField(int nField, double fNullValue /*=0.0*/)
 }
 
 
-
 double
 CppSQLite3Query::getFloatField(const char* szField, double fNullValue /*=0.0*/)
 {
 	int nField = fieldIndex(szField);
 	return getFloatField(nField, fNullValue);
 }
-
 
 
 const char*
@@ -454,14 +452,12 @@ CppSQLite3Query::getStringField(int nField, const char* szNullValue /*=""*/)
 }
 
 
-
 const char*
 CppSQLite3Query::getStringField(const char* szField, const char* szNullValue /*=""*/)
 {
 	int nField = fieldIndex(szField);
 	return getStringField(nField, szNullValue);
 }
-
 
 
 const unsigned char*
@@ -479,14 +475,12 @@ CppSQLite3Query::getBlobField(int nField, int& nLen)
 }
 
 
-
 const unsigned char*
 CppSQLite3Query::getBlobField(const char* szField, int& nLen)
 {
 	int nField = fieldIndex(szField);
 	return getBlobField(nField, nLen);
 }
-
 
 
 bool
@@ -496,14 +490,12 @@ CppSQLite3Query::fieldIsNull(int nField)
 }
 
 
-
 bool
 CppSQLite3Query::fieldIsNull(const char* szField)
 {
 	int nField = fieldIndex(szField);
 	return (fieldDataType(nField) == SQLITE_NULL);
 }
-
 
 
 int
@@ -525,7 +517,6 @@ CppSQLite3Query::fieldIndex(const char* szField)
 }
 
 
-
 const char*
 CppSQLite3Query::fieldName(int nCol)
 {
@@ -538,7 +529,6 @@ CppSQLite3Query::fieldName(int nCol)
 
 	return sqlite3_column_name(mpVM, nCol);
 }
-
 
 
 const char*
@@ -555,7 +545,6 @@ CppSQLite3Query::fieldDeclType(int nCol)
 }
 
 
-
 int
 CppSQLite3Query::fieldDataType(int nCol)
 {
@@ -570,14 +559,12 @@ CppSQLite3Query::fieldDataType(int nCol)
 }
 
 
-
 bool
 CppSQLite3Query::eof()
 {
 	checkVM();
 	return mbEof;
 }
-
 
 
 void
@@ -601,7 +588,6 @@ CppSQLite3Query::nextRow()
 }
 
 
-
 void
 CppSQLite3Query::finalize()
 {
@@ -614,7 +600,6 @@ CppSQLite3Query::finalize()
 		}
 	}
 }
-
 
 
 void
@@ -662,7 +647,6 @@ CppSQLite3Table::~CppSQLite3Table()
 }
 
 
-
 CppSQLite3Table&
 CppSQLite3Table::operator=(const CppSQLite3Table& rTable)
 {
@@ -680,7 +664,6 @@ CppSQLite3Table::operator=(const CppSQLite3Table& rTable)
 }
 
 
-
 void
 CppSQLite3Table::finalize()
 {
@@ -691,7 +674,6 @@ CppSQLite3Table::finalize()
 }
 
 
-
 int
 CppSQLite3Table::numFields()
 {
@@ -700,14 +682,12 @@ CppSQLite3Table::numFields()
 }
 
 
-
 int
 CppSQLite3Table::numRows()
 {
 	checkResults();
 	return mnRows;
 }
-
 
 
 const char*
@@ -723,7 +703,6 @@ CppSQLite3Table::fieldValue(int nField)
 	int nIndex = (mnCurrentRow * mnCols) + mnCols + nField;
 	return mpaszResults[nIndex];
 }
-
 
 
 const char*
@@ -744,7 +723,6 @@ CppSQLite3Table::fieldValue(const char* szField)
 }
 
 
-
 int
 CppSQLite3Table::getIntField(int nField, int nNullValue /*=0*/)
 {
@@ -754,7 +732,6 @@ CppSQLite3Table::getIntField(int nField, int nNullValue /*=0*/)
 		return atoi(fieldValue(nField));
 	}
 }
-
 
 
 int
@@ -768,7 +745,6 @@ CppSQLite3Table::getIntField(const char* szField, int nNullValue /*=0*/)
 }
 
 
-
 double
 CppSQLite3Table::getFloatField(int nField, double fNullValue /*=0.0*/)
 {
@@ -778,7 +754,6 @@ CppSQLite3Table::getFloatField(int nField, double fNullValue /*=0.0*/)
 		return atof(fieldValue(nField));
 	}
 }
-
 
 
 double
@@ -792,7 +767,6 @@ CppSQLite3Table::getFloatField(const char* szField, double fNullValue /*=0.0*/)
 }
 
 
-
 const char*
 CppSQLite3Table::getStringField(int nField, const char* szNullValue /*=""*/)
 {
@@ -802,7 +776,6 @@ CppSQLite3Table::getStringField(int nField, const char* szNullValue /*=""*/)
 		return fieldValue(nField);
 	}
 }
-
 
 
 const char*
@@ -816,7 +789,6 @@ CppSQLite3Table::getStringField(const char* szField, const char* szNullValue /*=
 }
 
 
-
 bool
 CppSQLite3Table::fieldIsNull(int nField)
 {
@@ -825,14 +797,12 @@ CppSQLite3Table::fieldIsNull(int nField)
 }
 
 
-
 bool
 CppSQLite3Table::fieldIsNull(const char* szField)
 {
 	checkResults();
 	return (fieldValue(szField) == 0);
 }
-
 
 
 const char*
@@ -849,7 +819,6 @@ CppSQLite3Table::fieldName(int nCol)
 }
 
 
-
 void
 CppSQLite3Table::setRow(int nRow)
 {
@@ -861,7 +830,6 @@ CppSQLite3Table::setRow(int nRow)
 
 	mnCurrentRow = nRow;
 }
-
 
 
 void
@@ -903,7 +871,6 @@ CppSQLite3Statement::~CppSQLite3Statement()
 }
 
 
-
 CppSQLite3Statement&
 CppSQLite3Statement::operator=(const CppSQLite3Statement& rStatement)
 {
@@ -913,7 +880,6 @@ CppSQLite3Statement::operator=(const CppSQLite3Statement& rStatement)
 	const_cast<CppSQLite3Statement&>(rStatement).mpVM = 0;
 	return *this;
 }
-
 
 
 int
@@ -945,7 +911,6 @@ CppSQLite3Statement::execDML()
 }
 
 
-
 CppSQLite3Query
 CppSQLite3Statement::execQuery()
 {
@@ -968,7 +933,6 @@ CppSQLite3Statement::execQuery()
 }
 
 
-
 void
 CppSQLite3Statement::bind(int nParam, const char* szValue)
 {
@@ -979,7 +943,6 @@ CppSQLite3Statement::bind(int nParam, const char* szValue)
 		throw CppSQLite3Exception(nRes, "Error binding string param", DONT_DELETE_MSG);
 	}
 }
-
 
 
 void
@@ -994,7 +957,6 @@ CppSQLite3Statement::bind(int nParam, const int nValue)
 }
 
 
-
 void
 CppSQLite3Statement::bind(int nParam, const double dValue)
 {
@@ -1005,7 +967,6 @@ CppSQLite3Statement::bind(int nParam, const double dValue)
 		throw CppSQLite3Exception(nRes, "Error binding double param", DONT_DELETE_MSG);
 	}
 }
-
 
 
 void
@@ -1020,7 +981,6 @@ CppSQLite3Statement::bind(int nParam, const unsigned char* blobValue, int nLen)
 }
 
 
-
 void
 CppSQLite3Statement::bindNull(int nParam)
 {
@@ -1031,7 +991,6 @@ CppSQLite3Statement::bindNull(int nParam)
 		throw CppSQLite3Exception(nRes, "Error binding NULL param", DONT_DELETE_MSG);
 	}
 }
-
 
 
 int
@@ -1055,14 +1014,12 @@ CppSQLite3Statement::bindParameterIndex(const char* szParam)
 }
 
 
-
 void
 CppSQLite3Statement::bind(const char* szParam, const char* szValue)
 {
 	int nParam = bindParameterIndex(szParam);
 	bind(nParam, szValue);
 }
-
 
 
 void
@@ -1087,14 +1044,12 @@ CppSQLite3Statement::bind(const char* szParam, const unsigned char* blobValue, i
 }
 
 
-
 void
 CppSQLite3Statement::bindNull(const char* szParam)
 {
 	int nParam = bindParameterIndex(szParam);
 	bindNull(nParam);
 }
-
 
 
 void
@@ -1109,7 +1064,6 @@ CppSQLite3Statement::reset()
 		}
 	}
 }
-
 
 
 void
@@ -1127,7 +1081,6 @@ CppSQLite3Statement::finalize()
 }
 
 
-
 void
 CppSQLite3Statement::checkDB()
 {
@@ -1135,7 +1088,6 @@ CppSQLite3Statement::checkDB()
 		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Database not open", DONT_DELETE_MSG);
 	}
 }
-
 
 
 void
@@ -1169,7 +1121,6 @@ CppSQLite3DB::~CppSQLite3DB()
 }
 
 
-
 CppSQLite3DB&
 CppSQLite3DB::operator=(const CppSQLite3DB& db)
 {
@@ -1177,7 +1128,6 @@ CppSQLite3DB::operator=(const CppSQLite3DB& db)
 	mnBusyTimeoutMs = 60000;  // 60 seconds
 	return *this;
 }
-
 
 
 void
@@ -1194,7 +1144,6 @@ CppSQLite3DB::open(const char* szFile)
 }
 
 
-
 void
 CppSQLite3DB::close()
 {
@@ -1208,7 +1157,6 @@ CppSQLite3DB::close()
 }
 
 
-
 CppSQLite3Statement
 CppSQLite3DB::compileStatement(const char* szSQL)
 {
@@ -1219,7 +1167,6 @@ CppSQLite3DB::compileStatement(const char* szSQL)
 }
 
 
-
 bool
 CppSQLite3DB::tableExists(const char* szTable)
 {
@@ -1228,7 +1175,6 @@ CppSQLite3DB::tableExists(const char* szTable)
 	int nRet = execScalar(szSQL);
 	return (nRet > 0);
 }
-
 
 
 int
@@ -1246,7 +1192,6 @@ CppSQLite3DB::execDML(const char* szSQL)
 		throw CppSQLite3Exception(nRet, szError);
 	}
 }
-
 
 
 CppSQLite3Query
@@ -1272,7 +1217,6 @@ CppSQLite3DB::execQuery(const char* szSQL)
 }
 
 
-
 int
 CppSQLite3DB::execScalar(const char* szSQL, int nNullValue /*=0*/)
 {
@@ -1284,7 +1228,6 @@ CppSQLite3DB::execScalar(const char* szSQL, int nNullValue /*=0*/)
 
 	return q.getIntField(0, nNullValue);
 }
-
 
 
 CppSQLite3Table
@@ -1308,13 +1251,11 @@ CppSQLite3DB::getTable(const char* szSQL)
 }
 
 
-
 sqlite_int64
 CppSQLite3DB::lastRowId()
 {
 	return sqlite3_last_insert_rowid(mpDB);
 }
-
 
 
 void
@@ -1325,7 +1266,6 @@ CppSQLite3DB::setBusyTimeout(int nMillisecs)
 }
 
 
-
 void
 CppSQLite3DB::checkDB()
 {
@@ -1333,7 +1273,6 @@ CppSQLite3DB::checkDB()
 		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Database not open", DONT_DELETE_MSG);
 	}
 }
-
 
 
 sqlite3_stmt*

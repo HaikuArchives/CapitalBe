@@ -1,5 +1,3 @@
-#include "App.h"
-#include "CBLocale.h"
 #include <AppFileInfo.h>
 #include <Catalog.h>
 #include <Debug.h>
@@ -12,6 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "App.h"
+#include "CBLocale.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "Locale"

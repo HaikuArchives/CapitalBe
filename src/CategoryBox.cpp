@@ -1,9 +1,9 @@
 #include "CategoryBox.h"
+#include <Catalog.h>
 #include "CBLocale.h"
 #include "Database.h"
 #include "MsgDefs.h"
 #include "TimeSupport.h"
-#include <Catalog.h>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CategoryBox"
