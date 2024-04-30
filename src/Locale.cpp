@@ -1,16 +1,21 @@
 #include <AppFileInfo.h>
+#include <Catalog.h>
 #include <Debug.h>
-#include <E-mail.h>
 #include <File.h>
 #include <OS.h>
 #include <Roster.h>
 #include <String.h>
+#include <Url.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include "App.h"
 #include "CBLocale.h"
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "Locale"
+
 
 Locale::Locale(void)
 {
@@ -801,17 +806,17 @@ GetVersionString(BString& string)
 void
 ShowBug(const char* string)
 {
-	BString message =
+	BString message = B_TRANSLATE(
 		"CapitalBe has run into a bug. This shouldn't happen, but it has.\n"
-		"Would you like to:\n\n1) Have CapitalBe make an e-mail to send to Support\n"
-		"2) Save the bug to a text file for e-mailing later\n"
-		"3) Just quit and do nothing\n";
+		"Would you like to:\n\n1) Save the bug to a text file for uploading to\n"
+		"CapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n"
+		"2) Just quit and do nothing\n");
 
-	DAlert* alert =
-		new DAlert("Agh! Bug!", message.String(), "Make an E-mail", "Save to File", "Quit");
+	DAlert* alert = new DAlert(B_TRANSLATE("Agh! Bug!"), message.String(),
+		B_TRANSLATE("Save bugreport"), B_TRANSLATE("Quit"));
 	int32 value = alert->Go();
 
-	if (value == 0) {
+	if (value == 1) {
 		be_app->PostMessage(M_QUIT_NOW);
 		return;
 	}
@@ -825,19 +830,15 @@ ShowBug(const char* string)
 	message << "Error: " << string << "\n";
 
 	if (value == 0) {
-		// Make an e-mail to myself. :D
-
-		BString cmdstring("/boot/beos/apps/BeMail mailto:support@capitalbe.com ");
-		cmdstring << "-subject 'CapitalBe Bug Report' -body '" << message << "'";
-		cmdstring << " &";
-		system(cmdstring.String());
-	} else if (value == 1) {
 		// Generate a text file of the bug on the Desktop
 		BString filename("/boot/home/Desktop/CapitalBe Bug Report ");
 		filename << real_time_clock() << ".txt";
 		BFile file(filename.String(), B_READ_WRITE | B_CREATE_FILE | B_ERASE_FILE);
 		file.Write(message.String(), message.Length());
 		file.Unset();
+
+		// Open GitHub in browser
+		BUrl("https://github.com/HaikuArchives/CapitalBe/issues/").OpenWithPreferredApplication();
 	}
 
 	be_app->PostMessage(M_QUIT_NOW);

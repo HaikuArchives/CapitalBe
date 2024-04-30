@@ -929,7 +929,7 @@ Database::GetTransaction(const uint32& transid, const uint32& accountid, Transac
 	}
 
 	if ((data.CountCategories() == 1) && strlen(data.MemoAt(0)) > 0)
-		data.SetMemo(data.MemoAt(0));
+		data.SetMemo(DeescapeIllegalCharacters(data.MemoAt(0)));
 
 	UNLOCK;
 	return true;
