@@ -9,6 +9,7 @@
 #include <NetPositive.h>
 #include <Path.h>
 #include <Roster.h>
+#include <Url.h>
 #include <private/interface/AboutWindow.h>
 
 #include <stdlib.h>
@@ -239,8 +240,8 @@ MainWindow::MessageReceived(BMessage* msg)
 	switch (msg->what) {
 		case M_REPORT_BUG:
 		{
-			char* argv[2] = {(char*)"https://github.com/HaikuArchives/CapitalBe", NULL};
-			be_roster->Launch("text/html", 1, argv);
+			BUrl("https://github.com/HaikuArchives/CapitalBe/issues/")
+				.OpenWithPreferredApplication();
 			break;
 		}
 		case M_SHOW_NEW_ACCOUNT:

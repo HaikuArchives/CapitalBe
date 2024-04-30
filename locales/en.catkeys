@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	513412878
+1	English	application/x-vnd.wgp-CapitalBe	3199364022
 Year	ReportWindow		Year
 Edit transaction	TransactionEditWindow		Edit transaction
 None	ReportWindow		None
@@ -57,10 +57,12 @@ You need to have at least 2 accounts to perform a transfer.	MainWindow		You need
 Monthly	ScheduleListWindow		Monthly
 Category	BudgetWindow		Category
 Frequency	BudgetWindow		Frequency
+Category is missing.	CategoryBox		Category is missing.
 Subtotal	ReportWindow		Subtotal
 Memo:	ScheduleAddWindow		Memo:
 Uncategorized	SplitView		Uncategorized
 Frequency	ScheduleListWindow		Frequency
+Add	CategoryBox		Add
 Cancel	ReconcileWindow		Cancel
 Category	TransactionReport		Category
 Amount	ScheduleListWindow		Amount
@@ -82,8 +84,10 @@ Import	MainWindow		Import
 Interest earned	ReconcileWindow		Interest earned
 CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ReportWindow		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
 Could not import the data in the file %%FILENAME%%.	MainWindow		Could not import the data in the file %%FILENAME%%.
+Quit	Locale		Quit
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Once deleted, you will not be able to get back any data on this account.
 Total deposits: %s	ReconcileWindow		Total deposits: %s
+Save bugreport	Locale		Save bugreport
 Amount	CheckView		Amount
 Indefinitely	ScheduleAddWindow		Indefinitely
 Cancel	MainWindow		Cancel
@@ -92,8 +96,8 @@ Appears before amount	PrefWindow		Appears before amount
 Unreconciled total: %s	ReconcileWindow		Unreconciled total: %s
 Date	TransactionReport		Date
 There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		There may be a typo or the wrong kind of currency symbol for this account.
-Really delete account?	MainWindow		Really delete account?
 Payee	CheckView		Payee
+Really delete account?	MainWindow		Really delete account?
 DEP	ReconcileWindow		DEP
 Income	BudgetWindow		Income
 This really shouldn't happen, so you probably should e-mail support about this.	MainWindow		This really shouldn't happen, so you probably should e-mail support about this.
@@ -161,8 +165,8 @@ Numbered transactions cannot be scheduled.	MainWindow		Numbered transactions can
 New…	MainWindow		New…
 English	ReconcileWindow	Path to localized helpfiles. Only translate if available in your language.	English
 Quick Balance failed. This doesn't mean that you did something wrong - it's just that Quick Balance works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Quick Balance failed. This doesn't mean that you did something wrong - it's just that Quick Balance works on simpler cases in balancing an account than this one. Sorry.
-Transfer	BudgetWindow		Transfer
 Amount: %s	ScheduleAddWindow		Amount: %s
+Transfer	BudgetWindow		Transfer
 Starting date:	ScheduleAddWindow		Starting date:
 Settings…	MainWindow		Settings…
 Monthly	Budget		Monthly
@@ -179,8 +183,8 @@ Amount	TransactionReport		Amount
 Transaction	MainWindow		Transaction
 Edit transfer	TransferWindow		Edit transfer
 Amount	TransferWindow		Amount
-Reports	MainWindow		Reports
 Categories	CategoryWindow		Categories
+Reports	MainWindow		Reports
 Date	CheckView		Date
 Account	MainWindow		Account
 Currency format: %s	PrefWindow		Currency format: %s
@@ -196,6 +200,7 @@ You can schedule transfers, deposits, or ATM transactions.	MainWindow		You can s
 Success!	ReconcileWindow		Success!
 Income	CategoryWindow		Income
 Edit category	CategoryWindow		Edit category
+Do you want to add this transaction without a category?	CategoryBox		Do you want to add this transaction without a category?
 QuickTracker	RegisterView		QuickTracker
 Schedule transaction	ScheduleAddWindow		Schedule transaction
 Type: %s	ScheduleAddWindow		Type: %s
@@ -222,17 +227,21 @@ Enter a transfer…	MainWindow		Enter a transfer…
 File	MainWindow		File
 Tools	MainWindow		Tools
 Transaction type is missing.	CheckNumBox		Transaction type is missing.
+Uncategorized	CategoryBox		Uncategorized
 Split	TransactionItem		Split
 CapitalBe didn't understand the amount for Interest Earned.	ReconcileWindow		CapitalBe didn't understand the amount for Interest Earned.
 Split	SplitView		Split
 The split total must match the amount box.	SplitView		The split total must match the amount box.
 Delete…	MainWindow		Delete…
+CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n	Locale		CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n
 Amount	BudgetWindow		Amount
+Cancel	CategoryBox		Cancel
 Scheduled transactions	ScheduleListWindow		Scheduled transactions
+Agh! Bug!	Locale		Agh! Bug!
 Starting date:	ReportWindow		Starting date:
 Starting balance	ReconcileWindow		Starting balance
-Amount	CashFlowReport		Amount
 Quarterly	ScheduleAddWindow		Quarterly
+Amount	CashFlowReport		Amount
 Hide Split	SplitView		Hide Split
 Reconcile:	ReconcileWindow		Reconcile:
 Total charges:	ReconcileWindow		Total charges:
@@ -259,9 +268,9 @@ English	ReportWindow	Path to localized helpfiles. Only translate if available in
 Quarterly	BudgetWindow		Quarterly
 Remove category	CategoryWindow		Remove category
 Decimal:	PrefWindow		Decimal:
+Split	ScheduleAddWindow		Split
 Month, Day, Year	PrefWindow		Month, Day, Year
 You need to enter the date for the statement to Quick Balance.	ReconcileWindow		You need to enter the date for the statement to Quick Balance.
-Split	ScheduleAddWindow		Split
 Use default currency settings	AccountSettingsWindow		Use default currency settings
 CapitalBe didn't understand the date you entered.	ReportWindow		CapitalBe didn't understand the date you entered.
 Unknown	ScheduleListWindow		Unknown
