@@ -773,6 +773,7 @@ BudgetWindow::BuildBudgetSummary(void)
 	fBudgetSummary->UpdateRow(fSummaryTotalRow);
 }
 
+
 void
 BudgetWindow::BuildCategoryList(void)
 {

@@ -1,15 +1,13 @@
 #include "AccountListItem.h"
+#include "Account.h"
+#include "CBLocale.h"
+#include "Preferences.h"
+#include "TransactionLayout.h"
 #include <Catalog.h>
 #include <Font.h>
 #include <ListView.h>
 #include <String.h>
 #include <View.h>
-#include <stdio.h>
-#include "Account.h"
-#include "CBLocale.h"
-#include "Database.h"
-#include "Preferences.h"
-#include "TransactionLayout.h"
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -19,61 +17,42 @@
 AccountListItem::AccountListItem(Account* acc) : BListItem()
 {
 	fAccount = acc;
-	//fEnabled = true;
-	fEnabled = acc->IsUsingDefaultLocale();
+	fEnabled = true;
 }
 
 void
 AccountListItem::SetEnabled(bool enabled)
 {
-	fEnabled = true;
+	fEnabled = enabled;
 }
 
 void
 AccountListItem::DrawItem(BView* owner, BRect frame, bool complete)
 {
-	if (IsSelected()) {
-		if (IsEnabled()) {
-			if (fAccount->IsClosed()) {
-				owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR, B_DISABLED_MARK_TINT);
-				owner->SetLowUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR, B_DISABLED_MARK_TINT);
-			} else {
-				owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
-				owner->SetLowUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR);
-			}
-		} else {
-			owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR, B_DISABLED_MARK_TINT);
-			owner->SetLowUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR, B_DISABLED_MARK_TINT);
-		}
-	} else {
-		if (fAccount->IsClosed()) {
-			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR, B_DISABLED_MARK_TINT);
-			owner->SetLowUIColor(B_LIST_ITEM_TEXT_COLOR, B_DISABLED_MARK_TINT);
-		} else {
-			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR);
-			owner->SetLowUIColor(B_LIST_ITEM_TEXT_COLOR);
-		}
-	}
+	// Draw item background
+	owner->SetHighUIColor(
+		IsSelected() ? B_LIST_SELECTED_BACKGROUND_COLOR : B_LIST_BACKGROUND_COLOR);
 	owner->FillRect(frame);
 
+	// Draw item border
 	if (IsSelected()) {
-		owner->SetHighUIColor(B_CONTROL_MARK_COLOR);
+		owner->SetHighUIColor(fAccount->IsClosed() ? B_FAILURE_COLOR : B_CONTROL_MARK_COLOR);
 		owner->StrokeRect(frame);
 	}
 
-	if (IsEnabled())
-		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
-	else
-		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, B_DISABLED_MARK_TINT);
-
+	// Draw account title
 	owner->SetFont(be_bold_font);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR,
+		fAccount->IsClosed() ? GetMutedTint(CB_MUTED_TEXT) : B_NO_TINT);
+
 	BFont font;
 	owner->DrawString(fAccount->Name(), BPoint(frame.left + 5, frame.top + (font.Size())));
-	owner->SetFont(be_plain_font);
 
+	// Draw Balance (or "Closed")
+	owner->SetFont(be_plain_font);
 	if (fAccount->IsClosed()) {
-		owner->DrawString(
-			B_TRANSLATE("Closed"), BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
+		owner->DrawString(B_TRANSLATE("Closed"),
+			BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
 	} else {
 		BString text;
 		fAccount->GetLocale().CurrencyToString(fAccount->Balance(), text);

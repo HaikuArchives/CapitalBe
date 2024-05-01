@@ -25,9 +25,11 @@
 //------------------------------------------------------------------------------
 
 // Standard Includes -----------------------------------------------------------
+#include <ControlLook.h>
 #include <string.h>
 
 // System Includes -------------------------------------------------------------
+#include <IconUtils.h>
 #include <Invoker.h>
 #include <Looper.h>
 #include <Message.h>
@@ -271,6 +273,7 @@ DAlert::Go()
 
 	// Get the originating window, if it exists
 	BWindow* window = dynamic_cast<BWindow*>(BLooper::LooperForThread(find_thread(NULL)));
+	this->CenterIn(window->Frame());
 
 	Show();
 
@@ -396,26 +399,6 @@ DAlert::QuitRequested()
 	return BWindow::QuitRequested();
 }
 
-BPoint
-DAlert::AlertPosition(float width, float height)
-{
-	BPoint result(100, 100);
-
-	BWindow* window = dynamic_cast<BWindow*>(BLooper::LooperForThread(find_thread(NULL)));
-
-	BScreen screen(window);
-	BRect screenFrame(0, 0, 640, 480);
-	if (screen.IsValid())
-		screenFrame = screen.Frame();
-
-	// Horizontally, we're smack in the middle
-	result.x = screenFrame.left + (screenFrame.Width() / 2.0) - (width / 2.0);
-
-	// This is probably sooo wrong, but it looks right on 1024 x 768
-	result.y = screenFrame.top + (screenFrame.Height() / 4.0) - ceil(height / 3.0);
-
-	return result;
-}
 
 status_t
 DAlert::Perform(perform_code d, void* arg)
@@ -609,8 +592,6 @@ DAlert::InitObject(const char* text, const char* button0, const char* button1, c
 	fTextView->SetTextRect(textViewRect);
 
 	AddCommonFilter(new _DAlertFilter_(this));
-
-	MoveTo(AlertPosition(Frame().Width(), Frame().Height()));
 }
 
 BBitmap*
@@ -618,18 +599,19 @@ DAlert::InitIcon()
 {
 	BBitmap* icon = NULL;
 
+	const char* iconName;
 	switch (fMsgType) {
 		case B_INFO_ALERT:
-			icon = BTranslationUtils::GetBitmap('PNG ', "cb_info_icon.png");
+			icon = BTranslationUtils::GetBitmap('VICN', "dialog-information");
 			break;
 		case B_IDEA_ALERT:
-			icon = BTranslationUtils::GetBitmap('PNG ', "cb_idea_icon.png");
+			icon = BTranslationUtils::GetBitmap('VICN', "dialog-idea");
 			break;
 		case B_WARNING_ALERT:
-			icon = BTranslationUtils::GetBitmap('PNG ', "cb_warning_icon.png");
+			icon = BTranslationUtils::GetBitmap('VICN', "dialog-warning");
 			break;
 		case B_STOP_ALERT:
-			icon = BTranslationUtils::GetBitmap('PNG ', "cb_stop_icon.png");
+			icon = BTranslationUtils::GetBitmap('VICN', "dialog-error");
 			break;
 
 		default:

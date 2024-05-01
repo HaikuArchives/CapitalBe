@@ -19,37 +19,35 @@ class BNodeInfo;
 const bigtime_t kSynchMenuInvokeTimeout = 5000000;
 const color_space kDefaultIconDepth = B_RGBA32;
 
-class IconMenuItem : public BMenuItem {
-	public:
-		IconMenuItem(const char* label, BMessage* message, BBitmap* icon,
-			icon_size which = B_MINI_ICON);
-		IconMenuItem(const char* label, BMessage* message,
-			const char* iconType, icon_size which = B_MINI_ICON);
-		IconMenuItem(const char* label, BMessage* message,
-			const BNodeInfo* nodeInfo, icon_size which);
-		IconMenuItem(BMenu*, BMessage*, const char* iconType,
-			icon_size which = B_MINI_ICON);
-		IconMenuItem(BMenu*, BMessage*, BBitmap* icon,
-			icon_size which = B_MINI_ICON);
-		IconMenuItem(BMessage* data);
-		virtual ~IconMenuItem();
+class IconMenuItem : public BMenuItem
+{
+public:
+	IconMenuItem(const char* label, BMessage* message, BBitmap* icon,
+		icon_size which = B_MINI_ICON);
+	IconMenuItem(const char* label, BMessage* message, const char* iconType,
+		icon_size which = B_MINI_ICON);
+	IconMenuItem(const char* label, BMessage* message, const BNodeInfo* nodeInfo, icon_size which);
+	IconMenuItem(BMenu*, BMessage*, const char* iconType, icon_size which = B_MINI_ICON);
+	IconMenuItem(BMenu*, BMessage*, BBitmap* icon, icon_size which = B_MINI_ICON);
+	IconMenuItem(BMessage* data);
+	virtual ~IconMenuItem();
 
-		static BArchivable* Instantiate(BMessage* data);
-		virtual status_t Archive(BMessage* data, bool deep = true) const;
+	static BArchivable* Instantiate(BMessage* data);
+	virtual status_t Archive(BMessage* data, bool deep = true) const;
 
-		virtual void GetContentSize(float* width, float* height);
-		virtual void DrawContent();
-		virtual void SetMarked(bool mark);
+	virtual void GetContentSize(float* width, float* height);
+	virtual void DrawContent();
+	virtual void SetMarked(bool mark);
 
 private:
-		virtual void SetIcon(BBitmap* icon);
+	virtual void SetIcon(BBitmap* icon);
 
-	private:
-		BBitmap* fDeviceIcon;
-		float fHeightDelta;
-		icon_size fWhich;
+private:
+	BBitmap* fDeviceIcon;
+	float fHeightDelta;
+	icon_size fWhich;
 
-		typedef BMenuItem _inherited;
+	typedef BMenuItem _inherited;
 };
 
-#endif	// ICON_MENU_ITEM_H
+#endif // ICON_MENU_ITEM_H

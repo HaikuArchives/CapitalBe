@@ -4,7 +4,6 @@
 #include <ControlLook.h>
 #include <Directory.h>
 #include <Entry.h>
-#include <IconUtils.h>
 #include <LayoutBuilder.h>
 #include <MenuBar.h>
 #include <Messenger.h>
@@ -14,7 +13,6 @@
 #include <Roster.h>
 #include <Url.h>
 #include <private/interface/AboutWindow.h>
-#include <TranslationUtils.h>
 
 #include <stdlib.h>
 
@@ -104,8 +102,8 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_TITLED_WINDOW, 0)
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(B_QUIT_REQUESTED), 'Q'));
 
-	IconMenuItem* iconMenu = nullptr;
-	iconMenu = new IconMenuItem(menu, nullptr, "application/x-vnd.wgp-CapitalBe", B_MINI_ICON);
+	IconMenuItem* iconMenu;
+	iconMenu = new IconMenuItem(menu, NULL, "application/x-vnd.wgp-CapitalBe", B_MINI_ICON);
 	bar->AddItem(iconMenu);
 
 	menu = new BMenu(B_TRANSLATE("File"));
@@ -212,6 +210,7 @@ MainWindow::OpenAbout(void)
 	abwin->AddText("https://github.com/HaikuArchives/CapitalBe");
 	abwin->AddAuthors(authors);
 	abwin->AddSpecialThanks(thanks);
+	abwin->CenterIn(Frame());
 	abwin->Show();
 }
 

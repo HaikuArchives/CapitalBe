@@ -24,24 +24,16 @@ ReconcileItem::~ReconcileItem(void) {}
 void
 ReconcileItem::DrawItem(BView* owner, BRect frame, bool complete)
 {
-	if (IsSelected()) {
-		owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
-		owner->SetLowUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
-	} else {
-		owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR);
-		owner->SetLowUIColor(B_LIST_BACKGROUND_COLOR);
-	}
+	owner->SetHighUIColor(
+		IsSelected() ? B_LIST_SELECTED_BACKGROUND_COLOR : B_LIST_BACKGROUND_COLOR);
 	owner->FillRect(frame);
+
 	if (IsSelected()) {
-		owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
+		owner->SetHighUIColor(B_CONTROL_HIGHLIGHT_COLOR);
 		owner->StrokeRect(frame);
 	}
 
-	if (IsReconciled())
-		owner->SetFont(be_bold_font);
-	else
-		owner->SetFont(be_plain_font);
-
+	owner->SetFont(IsReconciled() ? be_bold_font : be_plain_font);
 	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 
 	// Draw amount first

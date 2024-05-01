@@ -1,18 +1,16 @@
 #include "TransactionItem.h"
+#include "Account.h"
+#include "CBLocale.h"
+#include "Database.h"
+#include "Preferences.h"
+#include "TransactionData.h"
+#include "TransactionLayout.h"
 #include <Catalog.h>
 #include <ListView.h>
 #include <Region.h>
 #include <View.h>
-#include <stdio.h>
 #include <ctime>
-#include "Account.h"
-#include "CBLocale.h"
-#include "Category.h"
-#include "Database.h"
-#include "MainWindow.h"
-#include "Preferences.h"
-#include "TransactionData.h"
-#include "TransactionLayout.h"
+#include <stdio.h>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -44,33 +42,33 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	BString string;
 	Locale locale = fAccount->GetLocale();
 
+	float textTint = B_NO_TINT;
+	if (fAccount->IsClosed()) {
+		// Gray out all transactions from closed accounts
+		// Todo: disable editing of transactions from closed accounts
+		textTint = GetMutedTint(CB_MUTED_TEXT);
+	}
+
 	BRect r(frame);
 	r.right--;
 
 	if (IsSelected()) {
 		owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
-		owner->SetLowUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR);
 		owner->FillRect(frame);
-		owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
+		owner->SetHighUIColor(
+			fStatus == TRANS_RECONCILED ? B_TOOL_TIP_BACKGROUND_COLOR : B_CONTROL_HIGHLIGHT_COLOR);
 		owner->StrokeRect(frame);
-		owner->SetHighUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR);
+	} else if (fStatus == TRANS_RECONCILED) {
+		owner->SetHighUIColor(B_MENU_BACKGROUND_COLOR, GetMutedTint(CB_MUTED_BG));
+		owner->FillRect(frame);
+		owner->SetHighUIColor(B_CONTROL_TEXT_COLOR);
+		owner->StrokeLine(r.LeftBottom(), r.RightBottom());
 	} else {
-		if (fStatus == TRANS_RECONCILED) {
-			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR, B_DISABLED_MARK_TINT);
-			owner->SetLowUIColor(B_LIST_BACKGROUND_COLOR, B_DISABLED_MARK_TINT);
-			owner->FillRect(frame);
-			owner->SetHighUIColor(B_CONTROL_BORDER_COLOR, B_DISABLED_MARK_TINT);
-			owner->StrokeLine(r.LeftBottom(), r.RightBottom());
-			owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
-		} else {
-			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR);
-			owner->SetLowUIColor(B_LIST_BACKGROUND_COLOR);
-			owner->FillRect(frame);
-			owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
-			owner->StrokeLine(r.LeftBottom(), r.RightBottom());
-		}
+		owner->SetHighUIColor(B_CONTROL_TEXT_COLOR);
+		owner->StrokeLine(r.LeftBottom(), r.RightBottom());
 	}
-	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
+
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, textTint);
 
 	BRect cliprect;
 	BRegion clip(cliprect);
@@ -90,15 +88,13 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	owner->ConstrainClippingRegion(NULL);
 
 	xpos += TDateWidth();
-	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
 
 	// Line Between Date & Type
+	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
 	owner->StrokeLine(BPoint(xpos, ypos - TRowHeight()), BPoint(xpos, ypos));
 
-	owner->StrokeLine(BPoint(0, ypos), BPoint(r.right, ypos));
-
 	// Type
-	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, textTint);
 	owner->DrawString(fType.String(), BPoint(xpos + 5, ypos - 6));
 
 	// Line between Type and Payee
@@ -117,11 +113,11 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	cliprect.right = r.right;
 	cliprect.left = xpos;
 	clip = cliprect;
-	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, textTint);
 	Fixed balance = fAccount->BalanceAtTransaction(fDate, fPayee.String());
 	if (balance.AsFixed() < 0)
-		owner->SetHighUIColor(B_FAILURE_COLOR);
+		owner->SetHighUIColor(B_FAILURE_COLOR, textTint);
 	locale.CurrencyToString(balance, string);
 	owner->DrawString(string.String(), BPoint(xpos + 5, ypos - 6));
 
@@ -134,7 +130,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	cliprect.right = cliprect.left;
 	cliprect.left = xpos;
 	clip = cliprect;
-	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, textTint);
 	fAccount->GetLocale().CurrencyToString(fAmount.AbsoluteValue(), string);
 
 	owner->ConstrainClippingRegion(&clip);
@@ -151,7 +147,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	payee_rect.bottom = ypos;
 	xpos = payee_rect.left;
 
-	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, textTint);
 	clip = payee_rect;
 	owner->ConstrainClippingRegion(&clip);
 	owner->DrawString(fPayee.String(), BPoint(xpos + 5, ypos - 6));
@@ -161,7 +157,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	owner->StrokeLine(BPoint(r.left, ypos), BPoint(r.right, ypos));
 
 	// Category
-	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, textTint);
 	ypos += TRowHeight();
 	xpos = TLeftPadding();
 	cliprect.left = TLeftPadding();
@@ -179,16 +175,16 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 	// Line between Category and Memo
 	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
-	owner->StrokeLine(BPoint(xpos, ypos - TRowHeight()), BPoint(xpos, ypos));
+	owner->StrokeLine(BPoint(xpos, ypos - TRowHeight()), BPoint(xpos, ypos - 2));
 
 	// Memo
 	clip = cliprect;
 	owner->ConstrainClippingRegion(&clip);
 	if (fMemo.CountChars() > 0) {
-		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
+		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, textTint);
 		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 6));
 	} else {
-		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, B_DISABLED_LABEL_TINT);
+		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, GetMutedTint(CB_MUTED_TEXT));
 		owner->DrawString(B_TRANSLATE("No Memo"), BPoint(xpos + 5, ypos - 6));
 	}
 	owner->ConstrainClippingRegion(NULL);

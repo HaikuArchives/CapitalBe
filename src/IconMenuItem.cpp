@@ -15,10 +15,9 @@
 #include <MenuField.h>
 
 
-//#include "IconCache.h"
+// #include "IconCache.h"
 
-IconMenuItem::IconMenuItem(const char* label, BMessage* message, BBitmap* icon,
-	icon_size which)
+IconMenuItem::IconMenuItem(const char* label, BMessage* message, BBitmap* icon, icon_size which)
 	:
 	BMenuItem(label, message),
 	fDeviceIcon(NULL),
@@ -33,8 +32,8 @@ IconMenuItem::IconMenuItem(const char* label, BMessage* message, BBitmap* icon,
 }
 
 
-IconMenuItem::IconMenuItem(const char* label, BMessage* message,
-	const BNodeInfo* nodeInfo, icon_size which)
+IconMenuItem::IconMenuItem(const char* label, BMessage* message, const BNodeInfo* nodeInfo,
+	icon_size which)
 	:
 	BMenuItem(label, message),
 	fDeviceIcon(NULL),
@@ -42,9 +41,9 @@ IconMenuItem::IconMenuItem(const char* label, BMessage* message,
 	fWhich(which)
 {
 	if (nodeInfo != NULL) {
-		fDeviceIcon = new BBitmap(BRect(BPoint(0, 0),
-			be_control_look->ComposeIconSize(which)), kDefaultIconDepth);
-		if (nodeInfo->GetTrackerIcon(fDeviceIcon, (icon_size)-1) != B_OK) {
+		fDeviceIcon = new BBitmap(BRect(BPoint(0, 0), be_control_look->ComposeIconSize(which)),
+			kDefaultIconDepth);
+		if (nodeInfo->GetTrackerIcon(fDeviceIcon, (icon_size) -1) != B_OK) {
 			delete fDeviceIcon;
 			fDeviceIcon = NULL;
 		}
@@ -56,8 +55,8 @@ IconMenuItem::IconMenuItem(const char* label, BMessage* message,
 }
 
 
-IconMenuItem::IconMenuItem(const char* label, BMessage* message,
-	const char* iconType, icon_size which)
+IconMenuItem::IconMenuItem(const char* label, BMessage* message, const char* iconType,
+	icon_size which)
 	:
 	BMenuItem(label, message),
 	fDeviceIcon(NULL),
@@ -83,8 +82,7 @@ IconMenuItem::IconMenuItem(const char* label, BMessage* message,
 }
 
 
-IconMenuItem::IconMenuItem(BMenu* submenu, BMessage* message,
-							const char* iconType, icon_size which)
+IconMenuItem::IconMenuItem(BMenu* submenu, BMessage* message, const char* iconType, icon_size which)
 	:
 	BMenuItem(submenu, message),
 	fDeviceIcon(NULL),
@@ -111,11 +109,11 @@ IconMenuItem::IconMenuItem(BMenu* submenu, BMessage* message,
 
 
 IconMenuItem::IconMenuItem(BMenu* menu, BMessage* message, BBitmap* icon, icon_size which)
-			:
-			BMenuItem(menu, message),
-			fDeviceIcon(NULL),
-			fHeightDelta(0),
-			fWhich(which)
+	:
+	BMenuItem(menu, message),
+	fDeviceIcon(NULL),
+	fHeightDelta(0),
+	fWhich(which)
 {
 	SetIcon(icon);
 
@@ -123,6 +121,7 @@ IconMenuItem::IconMenuItem(BMenu* menu, BMessage* message, BBitmap* icon, icon_s
 	// we invoke with a timeout
 	SetTimeout(kSynchMenuInvokeTimeout);
 }
+
 
 IconMenuItem::IconMenuItem(BMessage* data)
 	:
@@ -132,7 +131,7 @@ IconMenuItem::IconMenuItem(BMessage* data)
 	fWhich(B_MINI_ICON)
 {
 	if (data != NULL) {
-		fWhich = (icon_size)data->GetInt32("_which", B_MINI_ICON);
+		fWhich = (icon_size) data->GetInt32("_which", B_MINI_ICON);
 
 		fDeviceIcon = new BBitmap(BRect(BPoint(0, 0), be_control_look->ComposeIconSize(fWhich)),
 			kDefaultIconDepth);
@@ -140,11 +139,8 @@ IconMenuItem::IconMenuItem(BMessage* data)
 		if (data->HasData("_deviceIconBits", B_RAW_TYPE)) {
 			ssize_t numBytes;
 			const void* bits;
-			if (data->FindData("_deviceIconBits", B_RAW_TYPE, &bits, &numBytes)
-					== B_OK) {
-				fDeviceIcon->SetBits(bits, numBytes, (int32)0,
-					kDefaultIconDepth);
-			}
+			if (data->FindData("_deviceIconBits", B_RAW_TYPE, &bits, &numBytes) == B_OK)
+				fDeviceIcon->SetBits(bits, numBytes, (int32) 0, kDefaultIconDepth);
 		}
 	}
 
@@ -157,8 +153,8 @@ IconMenuItem::IconMenuItem(BMessage* data)
 BArchivable*
 IconMenuItem::Instantiate(BMessage* data)
 {
-	//if (validate_instantiation(data, "IconMenuItem"))
-		return new IconMenuItem(data);
+	// if (validate_instantiation(data, "IconMenuItem"))
+	return new IconMenuItem(data);
 
 	return NULL;
 }
@@ -170,11 +166,11 @@ IconMenuItem::Archive(BMessage* data, bool deep) const
 	status_t result = _inherited::Archive(data, deep);
 
 	if (result == B_OK)
-		result = data->AddInt32("_which", (int32)fWhich);
+		result = data->AddInt32("_which", (int32) fWhich);
 
 	if (result == B_OK && fDeviceIcon != NULL) {
-		result = data->AddData("_deviceIconBits", B_RAW_TYPE,
-			fDeviceIcon->Bits(), fDeviceIcon->BitsLength());
+		result = data->AddData("_deviceIconBits", B_RAW_TYPE, fDeviceIcon->Bits(),
+			fDeviceIcon->BitsLength());
 	}
 
 	return result;
@@ -224,9 +220,9 @@ IconMenuItem::DrawContent()
 	where.y += ceilf(deltaHeight / 2);
 
 	if (fDeviceIcon != NULL) {
-		if (IsEnabled())
+		if (IsEnabled()) {
 			Menu()->SetDrawingMode(B_OP_ALPHA);
-		else {
+		} else {
 			Menu()->SetDrawingMode(B_OP_ALPHA);
 			Menu()->SetHighColor(0, 0, 0, 64);
 			Menu()->SetBlendingMode(B_CONSTANT_ALPHA, B_ALPHA_OVERLAY);
@@ -270,15 +266,14 @@ IconMenuItem::SetMarked(bool mark)
 
 	// our topmost menu's parent is a BMenuField
 
-	BMenuItem* topLevelItem = menu->ItemAt((int32)0);
+	BMenuItem* topLevelItem = menu->ItemAt((int32) 0);
 
 	if (topLevelItem == NULL)
 		return;
 
 	// our topmost menu has a menu item
 
-	IconMenuItem* topLevelIconMenuItem
-		= dynamic_cast<IconMenuItem*>(topLevelItem);
+	IconMenuItem* topLevelIconMenuItem = dynamic_cast<IconMenuItem*>(topLevelItem);
 	if (topLevelIconMenuItem == NULL)
 		return;
 
@@ -297,8 +292,8 @@ IconMenuItem::SetIcon(BBitmap* icon)
 		if (fDeviceIcon != NULL)
 			delete fDeviceIcon;
 
-		fDeviceIcon = new BBitmap(BRect(BPoint(0, 0),
-			be_control_look->ComposeIconSize(fWhich)), icon->ColorSpace());
+		fDeviceIcon = new BBitmap(BRect(BPoint(0, 0), be_control_look->ComposeIconSize(fWhich)),
+			icon->ColorSpace());
 		fDeviceIcon->ImportBits(icon);
 	} else {
 		delete fDeviceIcon;

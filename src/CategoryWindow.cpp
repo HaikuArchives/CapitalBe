@@ -110,10 +110,13 @@ CategoryView::CategoryView(const char* name, const int32& flags) : BView(name, f
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	// the buttons
-	fEditButton = new BButton("editbutton", B_TRANSLATE("Edit" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_EDIT_WINDOW));
-	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_REMOVE_WINDOW));
+	fEditButton = new BButton("editbutton", B_TRANSLATE("Edit" B_UTF8_ELLIPSIS),
+		new BMessage(M_SHOW_EDIT_WINDOW));
+	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove" B_UTF8_ELLIPSIS),
+		new BMessage(M_SHOW_REMOVE_WINDOW));
 
-	fAddButton = new BButton("addbutton", B_TRANSLATE("Add" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_ADD_WINDOW));
+	fAddButton = new BButton("addbutton", B_TRANSLATE("Add" B_UTF8_ELLIPSIS),
+		new BMessage(M_SHOW_ADD_WINDOW));
 
 	// the category list
 	fListView = new BOutlineListView("categorylist", B_SINGLE_SELECTION_LIST,
@@ -327,32 +330,30 @@ CategoryItem::CategoryItem(const BString& name) : BStringItem(name.String()) {}
 void
 CategoryItem::DrawItem(BView* owner, BRect frame, bool complete)
 {
-	if (IsSelected()) {
-		owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
-		owner->SetLowUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR);
-	} else {
-		owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR);
-		owner->SetLowUIColor(B_LIST_ITEM_TEXT_COLOR);
-	}
+	owner->SetHighUIColor(
+		IsSelected() ? B_LIST_SELECTED_BACKGROUND_COLOR : B_LIST_BACKGROUND_COLOR);
 	owner->FillRect(frame);
+
 	if (IsSelected()) {
-		owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
+		owner->SetHighUIColor(B_CONTROL_HIGHLIGHT_COLOR);
 		owner->StrokeRect(frame);
 	}
 
-	owner->SetHighUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 
 	BRegion region(frame);
 	owner->ConstrainClippingRegion(&region);
-	owner->DrawString(Text(), BPoint(frame.left + 1, frame.bottom - 2));
+	owner->DrawString(Text(), BPoint(frame.left + 3, frame.bottom - 4));
 	owner->ConstrainClippingRegion(NULL);
 }
 
+
 CategoryInputWindow::CategoryInputWindow(const BRect& frame, BView* target)
-	: BWindow(frame, B_TRANSLATE("Add Category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_V_RESIZABLE |
-			  B_AUTO_UPDATE_SIZE_LIMITS),
-	  fTarget(target)
+	:
+	BWindow(frame, B_TRANSLATE("Add Category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+		B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_V_RESIZABLE
+			| B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
+	fTarget(target)
 {
 	BString temp;
 	AddCommonFilter(new EscapeCancelFilter);
@@ -362,7 +363,8 @@ CategoryInputWindow::CategoryInputWindow(const BRect& frame, BView* target)
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 	view->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	fNameBox = new AutoTextControl("namebox", B_TRANSLATE("Category name:"), "", new BMessage(M_NAME_CHANGED));
+	fNameBox = new AutoTextControl("namebox", B_TRANSLATE("Category name:"), "",
+		new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
 	fExpenseBox = new BCheckBox("expensebox", B_TRANSLATE("Spending category"), NULL);
@@ -504,6 +506,7 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect& frame, const char* from,
 		.End();
 }
 
+
 void
 CategoryRemoveWindow::MessageReceived(BMessage* msg)
 {
@@ -551,10 +554,12 @@ CategoryEditWindow::CategoryEditWindow(const BRect& frame, const char* oldname, 
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 	view->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	BStringView* oldnameView = new BStringView("oldname", B_TRANSLATE("Category name:"));
+	temp = B_TRANSLATE("Category name:");
+	temp << " " << fOldName;
+	BStringView* oldnameView = new BStringView("oldname", temp.String());
 
-	temp = B_TRANSLATE("New category name:");
-	fNameBox = new AutoTextControl("namebox", temp.String(), "", new BMessage(M_NAME_CHANGED));
+	fNameBox = new AutoTextControl("namebox", B_TRANSLATE("New category name:"), "",
+		new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
 	fOKButton = new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_EDIT_CATEGORY));

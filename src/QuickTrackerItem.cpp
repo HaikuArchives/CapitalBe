@@ -249,7 +249,7 @@ QuickTrackerItem::~QuickTrackerItem(void)
 void
 QuickTrackerItem::AttachedToWindow(void)
 {
-	SetViewColor(Parent()->ViewColor());
+	SetViewUIColor(Parent()->ViewUIColor());
 }
 
 void
