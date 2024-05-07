@@ -124,8 +124,9 @@ IsDark()
 	// Useful in particular to decide if the color is "light" or "dark"
 	// by checking if the perceptual brightness is > 127.
 
-	int32 brightness = (uint8) roundf(sqrtf(0.299f * color.red * color.red
-		+ 0.587f * color.green * color.green + 0.114 * color.blue * color.blue));
+	int32 brightness =
+		(uint8)roundf(sqrtf(0.299f * color.red * color.red + 0.587f * color.green * color.green +
+							0.114 * color.blue * color.blue));
 
 	return brightness <= 127;
 }

@@ -110,13 +110,13 @@ CategoryView::CategoryView(const char* name, const int32& flags) : BView(name, f
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	// the buttons
-	fEditButton = new BButton("editbutton", B_TRANSLATE("Edit" B_UTF8_ELLIPSIS),
-		new BMessage(M_SHOW_EDIT_WINDOW));
-	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove" B_UTF8_ELLIPSIS),
-		new BMessage(M_SHOW_REMOVE_WINDOW));
+	fEditButton = new BButton(
+		"editbutton", B_TRANSLATE("Edit" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_EDIT_WINDOW));
+	fRemoveButton = new BButton(
+		"removebutton", B_TRANSLATE("Remove" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_REMOVE_WINDOW));
 
-	fAddButton = new BButton("addbutton", B_TRANSLATE("Add" B_UTF8_ELLIPSIS),
-		new BMessage(M_SHOW_ADD_WINDOW));
+	fAddButton = new BButton(
+		"addbutton", B_TRANSLATE("Add" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_ADD_WINDOW));
 
 	// the category list
 	fListView = new BOutlineListView("categorylist", B_SINGLE_SELECTION_LIST,
@@ -349,11 +349,10 @@ CategoryItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 
 CategoryInputWindow::CategoryInputWindow(const BRect& frame, BView* target)
-	:
-	BWindow(frame, B_TRANSLATE("Add Category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-		B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_V_RESIZABLE
-			| B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
-	fTarget(target)
+	: BWindow(frame, B_TRANSLATE("Add Category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_V_RESIZABLE |
+			  B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
+	  fTarget(target)
 {
 	BString temp;
 	AddCommonFilter(new EscapeCancelFilter);
@@ -363,8 +362,8 @@ CategoryInputWindow::CategoryInputWindow(const BRect& frame, BView* target)
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 	view->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	fNameBox = new AutoTextControl("namebox", B_TRANSLATE("Category name:"), "",
-		new BMessage(M_NAME_CHANGED));
+	fNameBox = new AutoTextControl(
+		"namebox", B_TRANSLATE("Category name:"), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
 	fExpenseBox = new BCheckBox("expensebox", B_TRANSLATE("Spending category"), NULL);
@@ -427,7 +426,6 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect& frame, const char* from,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS),
 	  fTarget(target)
 {
-
 	AddCommonFilter(new EscapeCancelFilter);
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	BView* view = new BView("background", B_WILL_DRAW | B_FRAME_EVENTS);
@@ -558,8 +556,8 @@ CategoryEditWindow::CategoryEditWindow(const BRect& frame, const char* oldname, 
 	temp << " " << fOldName;
 	BStringView* oldnameView = new BStringView("oldname", temp.String());
 
-	fNameBox = new AutoTextControl("namebox", B_TRANSLATE("New category name:"), "",
-		new BMessage(M_NAME_CHANGED));
+	fNameBox = new AutoTextControl(
+		"namebox", B_TRANSLATE("New category name:"), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
 	fOKButton = new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_EDIT_CATEGORY));

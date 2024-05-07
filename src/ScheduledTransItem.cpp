@@ -1,16 +1,16 @@
 #include "ScheduledTransItem.h"
+#include <Catalog.h>
+#include <ListView.h>
+#include <Region.h>
+#include <View.h>
+#include <stdio.h>
+#include <ctime>
 #include "Account.h"
 #include "CBLocale.h"
 #include "Database.h"
 #include "Preferences.h"
 #include "TransactionData.h"
 #include "TransactionLayout.h"
-#include <Catalog.h>
-#include <ListView.h>
-#include <Region.h>
-#include <View.h>
-#include <ctime>
-#include <stdio.h>
 
 
 #undef B_TRANSLATION_CONTEXT

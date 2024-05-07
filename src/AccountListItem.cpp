@@ -1,13 +1,13 @@
 #include "AccountListItem.h"
-#include "Account.h"
-#include "CBLocale.h"
-#include "Preferences.h"
-#include "TransactionLayout.h"
 #include <Catalog.h>
 #include <Font.h>
 #include <ListView.h>
 #include <String.h>
 #include <View.h>
+#include "Account.h"
+#include "CBLocale.h"
+#include "Preferences.h"
+#include "TransactionLayout.h"
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -42,8 +42,8 @@ AccountListItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 	// Draw account title
 	owner->SetFont(be_bold_font);
-	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR,
-		fAccount->IsClosed() ? GetMutedTint(CB_MUTED_TEXT) : B_NO_TINT);
+	owner->SetHighUIColor(
+		B_LIST_ITEM_TEXT_COLOR, fAccount->IsClosed() ? GetMutedTint(CB_MUTED_TEXT) : B_NO_TINT);
 
 	BFont font;
 	owner->DrawString(fAccount->Name(), BPoint(frame.left + 5, frame.top + (font.Size())));
@@ -51,8 +51,8 @@ AccountListItem::DrawItem(BView* owner, BRect frame, bool complete)
 	// Draw Balance (or "Closed")
 	owner->SetFont(be_plain_font);
 	if (fAccount->IsClosed()) {
-		owner->DrawString(B_TRANSLATE("Closed"),
-			BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
+		owner->DrawString(
+			B_TRANSLATE("Closed"), BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
 	} else {
 		BString text;
 		fAccount->GetLocale().CurrencyToString(fAccount->Balance(), text);
