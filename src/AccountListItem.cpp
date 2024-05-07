@@ -1,15 +1,13 @@
 #include "AccountListItem.h"
+#include "Account.h"
+#include "CBLocale.h"
+#include "Preferences.h"
+#include "TransactionLayout.h"
 #include <Catalog.h>
 #include <Font.h>
 #include <ListView.h>
 #include <String.h>
 #include <View.h>
-#include <stdio.h>
-#include "Account.h"
-#include "CBLocale.h"
-#include "Database.h"
-#include "Preferences.h"
-#include "TransactionLayout.h"
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -31,47 +29,30 @@ AccountListItem::SetEnabled(bool enabled)
 void
 AccountListItem::DrawItem(BView* owner, BRect frame, bool complete)
 {
-	if (IsSelected()) {
-		if (IsEnabled()) {
-			if (fAccount->IsClosed()) {
-				owner->SetHighColor(GetColor(BC_SELECTION_NOFOCUS));
-				owner->SetLowColor(GetColor(BC_SELECTION_NOFOCUS));
-			} else {
-				owner->SetHighColor(GetColor(BC_SELECTION_FOCUS));
-				owner->SetLowColor(GetColor(BC_SELECTION_FOCUS));
-			}
-		} else {
-			owner->SetHighColor(230, 230, 230);
-			owner->SetLowColor(230, 230, 230);
-		}
-	} else {
-		if (fAccount->IsClosed()) {
-			owner->SetHighColor(240, 240, 240, 128);
-			owner->SetLowColor(240, 240, 240, 128);
-		} else {
-			owner->SetHighColor(255, 255, 255, 128);
-			owner->SetLowColor(255, 255, 255, 128);
-		}
-	}
+	// Draw item background
+	owner->SetHighUIColor(
+		IsSelected() ? B_LIST_SELECTED_BACKGROUND_COLOR : B_LIST_BACKGROUND_COLOR);
 	owner->FillRect(frame);
 
+	// Draw item border
 	if (IsSelected()) {
-		owner->SetHighColor(100, 100, 100);
+		owner->SetHighUIColor(fAccount->IsClosed() ? B_FAILURE_COLOR : B_CONTROL_MARK_COLOR);
 		owner->StrokeRect(frame);
 	}
 
-	if (IsEnabled())
-		owner->SetHighColor(0, 0, 0);
-	else
-		owner->SetHighColor(200, 200, 200);
+	// Draw account title
 	owner->SetFont(be_bold_font);
+	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR,
+		fAccount->IsClosed() ? GetMutedTint(CB_MUTED_TEXT) : B_NO_TINT);
+
 	BFont font;
 	owner->DrawString(fAccount->Name(), BPoint(frame.left + 5, frame.top + (font.Size())));
-	owner->SetFont(be_plain_font);
 
+	// Draw Balance (or "Closed")
+	owner->SetFont(be_plain_font);
 	if (fAccount->IsClosed()) {
-		owner->DrawString(
-			B_TRANSLATE("Closed"), BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
+		owner->DrawString(B_TRANSLATE("Closed"),
+			BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
 	} else {
 		BString text;
 		fAccount->GetLocale().CurrencyToString(fAccount->Balance(), text);

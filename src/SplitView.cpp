@@ -90,7 +90,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	fHelpButton = new HelpButton("splithelp", splithelp.String());
 
 	fSplitContainer = new BView("splitcontainer", B_WILL_DRAW);
-	fSplitContainer->SetViewColor(240, 240, 240);
+	fSplitContainer->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	fAddSplit = new BButton("addsplit", B_TRANSLATE("Add Item"), new BMessage(M_ADD_SPLIT));
 
@@ -191,7 +191,7 @@ SplitView::~SplitView(void)
 void
 SplitView::AttachedToWindow(void)
 {
-	SetViewColor(240, 240, 240);
+	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	Window()->AddCommonFilter(fKeyFilter);
 	fMessenger = new BMessenger(this);
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));

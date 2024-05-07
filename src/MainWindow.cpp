@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 
 #include <Catalog.h>
+#include <ControlLook.h>
 #include <Directory.h>
 #include <Entry.h>
 #include <LayoutBuilder.h>
@@ -8,6 +9,7 @@
 #include <Messenger.h>
 #include <NetPositive.h>
 #include <Path.h>
+#include <Resources.h>
 #include <Roster.h>
 #include <Url.h>
 #include <private/interface/AboutWindow.h>
@@ -19,6 +21,7 @@
 #include "CBLocale.h"
 #include "CategoryWindow.h"
 #include "DAlert.h"
+#include "IconMenuItem.h"
 #include "Layout.h"
 #include "PrefWindow.h"
 #include "Preferences.h"
@@ -89,7 +92,7 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_TITLED_WINDOW, 0)
 	r.bottom = 20;
 	BMenuBar* bar = new BMenuBar("keybar");
 
-	BMenu* menu = new BMenu(B_TRANSLATE("CapitalBe"));
+	BMenu* menu = new BMenu("");
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Report a bug" B_UTF8_ELLIPSIS), new BMessage(M_REPORT_BUG)));
 	menu->AddItem(new BMenuItem(
@@ -98,7 +101,10 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_TITLED_WINDOW, 0)
 	menu->AddItem(new BMenuItem(B_TRANSLATE("About CapitalBe"), new BMessage(M_SHOW_ABOUT)));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(B_QUIT_REQUESTED), 'Q'));
-	bar->AddItem(menu);
+
+	IconMenuItem* iconMenu;
+	iconMenu = new IconMenuItem(menu, NULL, "application/x-vnd.wgp-CapitalBe", B_MINI_ICON);
+	bar->AddItem(iconMenu);
 
 	menu = new BMenu(B_TRANSLATE("File"));
 	menu->AddItem(new BMenuItem(
@@ -204,6 +210,7 @@ MainWindow::OpenAbout(void)
 	abwin->AddText("https://github.com/HaikuArchives/CapitalBe");
 	abwin->AddAuthors(authors);
 	abwin->AddSpecialThanks(thanks);
+	abwin->CenterIn(Frame());
 	abwin->Show();
 }
 

@@ -13,7 +13,6 @@
 #include <TextView.h>
 #include <View.h>
 
-#include "AutoTextControl.h"
 #include "ColumnListView.h"
 #include "ColumnTypes.h"
 #include "Database.h"
@@ -55,22 +54,17 @@ private:
 
 ScheduleListView::ScheduleListView(const char* name, const int32& flags) : BView(name, flags)
 {
-	BString temp;
-	SetViewColor(240, 240, 240);
+	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	// the buttons
-	temp = B_TRANSLATE("Remove" B_UTF8_ELLIPSIS);
-	fRemoveButton = new BButton("removebutton", temp.String(), new BMessage(M_REMOVE_ITEM));
+	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove" B_UTF8_ELLIPSIS),
+		new BMessage(M_REMOVE_ITEM));
 
 	// the transaction list
 	fListView = new BColumnListView("listview", B_FANCY_BORDER);
 
 	fListView->SetSortingEnabled(false);
 	fListView->SetEditMode(false);
-
-	rgb_color white = {255, 255, 255, 255};
-	fListView->SetColor(B_COLOR_BACKGROUND, white);
-	fListView->SetColor(B_COLOR_SELECTION, GetColor(BC_SELECTION_FOCUS));
 
 	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Payee"), 100, 25, 300, B_ALIGN_LEFT), 0);
 

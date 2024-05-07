@@ -41,10 +41,9 @@ PrefWindow::PrefWindow(const BRect& frame)
 	AddCommonFilter(new EscapeCancelFilter());
 
 	BView* back = new BView(NULL, B_WILL_DRAW);
-	back->SetViewColor(240, 240, 240);
+	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	temp = B_TRANSLATE("Default account settings:");
-	fLabel = new BStringView("windowlabel", temp.String());
+	fLabel = new BStringView("windowlabel", B_TRANSLATE("Default account settings:"));
 	fLabel->SetFont(be_bold_font);
 
 	fDatePrefView = new DatePrefView("dateview", &gDefaultLocale);
@@ -101,7 +100,7 @@ DatePrefView::DatePrefView(const char* name, Locale* locale, const int32& flags)
 	: BView(name, flags)
 {
 	BString temp;
-	SetViewColor(240, 240, 240);
+	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	if (locale)
 		fLocale = *locale;
@@ -207,7 +206,7 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 	: BView(name, flags), fSampleAmount((long)12345678, true)
 {
 	BString temp;
-	SetViewColor(240, 240, 240);
+	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	if (locale)
 		fLocale = *locale;

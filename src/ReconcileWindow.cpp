@@ -66,7 +66,7 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
 	BView* back = new BView("backview", B_WILL_DRAW);
-	back->SetViewColor(240, 240, 240);
+	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
 
 	fDateLabel = new BStringView("datelabel", B_TRANSLATE("Date"));

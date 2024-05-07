@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	3199364022
+1	English	application/x-vnd.wgp-CapitalBe	3496226923
 Year	ReportWindow		Year
 Edit transaction	TransactionEditWindow		Edit transaction
 None	ReportWindow		None
@@ -11,7 +11,6 @@ Report a bug…	MainWindow		Report a bug…
 OK	PrefWindow		OK
 CapitalBe didn't understand the date you entered.	DateBox		CapitalBe didn't understand the date you entered.
 To account	TransferWindow		To account
-CapitalBe	MainWindow		CapitalBe
 Category	CheckView		Category
 Cancel	TransferWindow		Cancel
 Weekly	BudgetWindow		Weekly
@@ -116,6 +115,7 @@ Schedule this transaction…	MainWindow		Schedule this transaction…
 Payee	ScheduleListWindow		Payee
 Symbol:	PrefWindow		Symbol:
 Transactions	TransactionReport		Transactions
+No Memo	ScheduledTransItem		No Memo
 English	ScheduleListWindow	Path to localized helpfiles. Only translate if available in your language.	English
 Split Transaction	SplitView		Split Transaction
 Average	BudgetWindow		Average

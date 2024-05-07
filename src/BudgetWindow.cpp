@@ -49,7 +49,7 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 {
 	fBackView = new BView("background", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f).SetInsets(0).Add(fBackView).End();
-	fBackView->SetViewColor(240, 240, 240);
+	fBackView->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	fBar = new BMenuBar("menubar");
 	fBar->AddItem(
@@ -677,7 +677,6 @@ BudgetWindow::BuildStatsAndEditor(void)
 {
 	// Add the category statistics
 	BString temp;
-	rgb_color white = {255, 255, 255, 255};
 	float statwidth = fBackView->StringWidth(B_TRANSLATE("12 month statistics")) + 20;
 	float amountwidth = fBackView->StringWidth("000,000.00") + 20;
 
@@ -699,13 +698,6 @@ BudgetWindow::BuildStatsAndEditor(void)
 	fStatAverageRow->SetField(new BStringField(B_TRANSLATE("Average")), 0);
 	fStatHighestRow->SetField(new BStringField(B_TRANSLATE("Highest")), 0);
 	fStatLowestRow->SetField(new BStringField(B_TRANSLATE("Lowest")), 0);
-
-	fCatStat->SetColor(B_COLOR_BACKGROUND, white);
-	fCatStat->SetColor(B_COLOR_SELECTION, white);
-	fCatStat->SetColor(B_COLOR_NON_FOCUS_SELECTION, white);
-	fCatStat->SetColor(B_COLOR_SEPARATOR_BORDER, white);
-	fCatStat->SetColor(B_COLOR_SEPARATOR_LINE, white);
-	fCatStat->SetColor(B_COLOR_HEADER_BACKGROUND, GetColor(BC_GRID_HEADER));
 
 	// Add the category editor
 	fCatBox = new BBox("catbox");
@@ -732,8 +724,6 @@ BudgetWindow::BuildStatsAndEditor(void)
 void
 BudgetWindow::BuildBudgetSummary(void)
 {
-	rgb_color white = {255, 255, 255, 255};
-
 	fSummaryIncomeRow = new BRow();
 	fSummarySpendingRow = new BRow();
 	fSummaryTotalRow = new BRow();
@@ -753,13 +743,6 @@ BudgetWindow::BuildBudgetSummary(void)
 	fSummaryIncomeRow->SetField(new BStringField(B_TRANSLATE("Income")), 0);
 	fSummarySpendingRow->SetField(new BStringField(B_TRANSLATE("Spending")), 0);
 	fSummaryTotalRow->SetField(new BStringField(B_TRANSLATE("Total")), 0);
-
-	fBudgetSummary->SetColor(B_COLOR_BACKGROUND, white);
-	fBudgetSummary->SetColor(B_COLOR_SELECTION, white);
-	fBudgetSummary->SetColor(B_COLOR_NON_FOCUS_SELECTION, white);
-	fBudgetSummary->SetColor(B_COLOR_SEPARATOR_BORDER, white);
-	fBudgetSummary->SetColor(B_COLOR_SEPARATOR_LINE, white);
-	fBudgetSummary->SetColor(B_COLOR_HEADER_BACKGROUND, GetColor(BC_GRID_HEADER));
 
 	// Add all the calendar stuff
 	time_t rawtime;
@@ -790,11 +773,10 @@ BudgetWindow::BuildBudgetSummary(void)
 	fBudgetSummary->UpdateRow(fSummaryTotalRow);
 }
 
+
 void
 BudgetWindow::BuildCategoryList(void)
 {
-	rgb_color white = {255, 255, 255, 255};
-
 	fCategoryList =
 		new BColumnListView("categorylist", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER, true);
 	fCategoryList->SetSortingEnabled(false);
@@ -819,11 +801,4 @@ BudgetWindow::BuildCategoryList(void)
 	fCategoryList->AddRow(fSpendingRow);
 	fIncomeRow->SetField(new BStringField(B_TRANSLATE("Income")), 0);
 	fSpendingRow->SetField(new BStringField(B_TRANSLATE("Spending")), 0);
-
-	fCategoryList->SetColor(B_COLOR_BACKGROUND, white);
-	fCategoryList->SetColor(B_COLOR_SELECTION, GetColor(BC_SELECTION_FOCUS));
-	fCategoryList->SetColor(B_COLOR_NON_FOCUS_SELECTION, GetColor(BC_SELECTION_NOFOCUS));
-	fCategoryList->SetColor(B_COLOR_SEPARATOR_BORDER, white);
-	fCategoryList->SetColor(B_COLOR_SEPARATOR_LINE, white);
-	fCategoryList->SetColor(B_COLOR_HEADER_BACKGROUND, GetColor(BC_GRID_HEADER));
 }

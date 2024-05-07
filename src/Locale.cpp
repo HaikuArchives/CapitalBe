@@ -36,7 +36,7 @@ Locale::operator==(const Locale& other) const
 	if (fDateFormat != other.fDateFormat || fCurrencySymbol != other.fCurrencySymbol ||
 		fPrefixSymbol != other.fPrefixSymbol || fCurrencySeparator != other.fCurrencySeparator ||
 		fCurrencyDecimal != other.fCurrencyDecimal || fDateSeparator != other.fDateSeparator ||
-		fCurrencyDecimalPlace != fCurrencyDecimalPlace || fUseDST != other.fUseDST)
+		fCurrencyDecimalPlace != other.fCurrencyDecimalPlace || fUseDST != other.fUseDST)
 		return false;
 	return true;
 }

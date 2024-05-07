@@ -52,7 +52,7 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
 	BView* back = new BView("back", B_WILL_DRAW);
-	back->SetViewColor(240, 240, 240);
+	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
 
 	temp = B_TRANSLATE("From account");
