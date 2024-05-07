@@ -19,8 +19,7 @@
 #define M_EDIT_OPTIONS 'edop'
 
 // PrefView
-enum
-{
+enum {
 	M_DMY_FORMAT = 'dmyf',
 	M_MDY_FORMAT,
 	M_NEW_DATE_SEPARATOR,

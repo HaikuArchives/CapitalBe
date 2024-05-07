@@ -22,8 +22,7 @@ class DateBox;
 // This is ordered from smallest interval to largest for a reason. :^)
 // Note that if this is changed, you need to also change the BUDGET_ enum in
 // Budget.h. The BudgetReport code depends on them having the same values
-enum
-{
+enum {
 	SUBTOTAL_WEEK = 0,
 	SUBTOTAL_MONTH,
 	SUBTOTAL_QUARTER,
@@ -31,8 +30,7 @@ enum
 	SUBTOTAL_NONE
 };
 
-enum
-{
+enum {
 	REPORT_CASH_FLOW = 0,
 	REPORT_NET_WORTH,
 	REPORT_TRANSACTIONS,

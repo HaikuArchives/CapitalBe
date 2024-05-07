@@ -7,8 +7,7 @@
 // This is ordered from smallest interval to largest for a reason. :^)
 // Note that if this is changed, you need to also change the SUBTOTAL_ enum in
 // ReportWindow.h. The BudgetReport code depends on them having the same values
-typedef enum
-{
+typedef enum {
 	BUDGET_WEEKLY = 0,
 	BUDGET_MONTHLY,
 	BUDGET_QUARTERLY,

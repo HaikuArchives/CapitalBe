@@ -48,8 +48,7 @@ class BInvoker;
 class BTextView;
 
 // enum for flavors of alert ---------------------------------------------------
-enum alert_type
-{
+enum alert_type {
 	B_EMPTY_ALERT = 0,
 	B_INFO_ALERT,
 	B_IDEA_ALERT,
@@ -58,8 +57,7 @@ enum alert_type
 };
 
 
-enum button_spacing
-{
+enum button_spacing {
 	B_EVEN_SPACING = 0,
 	B_OFFSET_SPACING
 };

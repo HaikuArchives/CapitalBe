@@ -3,8 +3,7 @@
 
 #include "AutoTextControl.h"
 
-enum
-{
+enum {
 	M_TYPE_AUTOCOMPLETE = 'tyac'
 };
 

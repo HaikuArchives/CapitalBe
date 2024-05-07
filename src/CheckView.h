@@ -13,8 +13,7 @@
 #include "HelpButton.h"
 #include "Notifier.h"
 
-enum
-{
+enum {
 	M_DATE_CHANGED = 'dtch',
 	M_TYPE_CHANGED = 'tych',
 	M_PAYEE_CHANGED = 'pych',

@@ -22,8 +22,7 @@
 #define B_TRANSLATION_CONTEXT "BudgetWindow"
 
 
-enum
-{
+enum {
 	M_CATEGORIES_CHANGED = 'mccc',
 
 	M_BUDGET_CATEGORIES,

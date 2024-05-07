@@ -24,8 +24,7 @@
 #define B_TRANSLATION_CONTEXT "CategoryWindow"
 
 
-enum
-{
+enum {
 	M_SHOW_ADD_WINDOW = 'shaw',
 	M_SHOW_REMOVE_WINDOW,
 	M_SHOW_EDIT_WINDOW,

@@ -21,8 +21,7 @@
 #define B_TRANSLATION_CONTEXT "ReconcileWindow"
 
 
-enum
-{
+enum {
 	M_TOGGLE_DEPOSIT = 'tgdp',
 	M_TOGGLE_CHECK,
 	M_TOGGLE_CHARGE,

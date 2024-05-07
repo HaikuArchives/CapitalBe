@@ -8,8 +8,7 @@
 #include "DAlert.h"
 #include "Fixed.h"
 
-typedef enum
-{
+typedef enum {
 	DATE_MDY = 1,
 	DATE_DMY = 2
 } date_format;

@@ -27,8 +27,7 @@
 	in the budget defaulting to a Weekly period?
 */
 
-typedef enum
-{
+typedef enum {
 	MAP_UNCHANGED = 0,
 	MAP_CHANGED = 1,
 	MAP_BAD_VALUE = -1

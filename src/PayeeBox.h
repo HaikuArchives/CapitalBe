@@ -3,8 +3,7 @@
 
 #include "AutoTextControl.h"
 
-enum
-{
+enum {
 	M_PAYEE_AUTOCOMPLETE = 'acpy'
 };
 

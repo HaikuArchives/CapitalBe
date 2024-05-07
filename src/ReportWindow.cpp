@@ -25,8 +25,7 @@
 
 int compare_stringitem(const void* item1, const void* item2);
 
-enum
-{
+enum {
 	M_REPORT_CASH_FLOW = 'csfl',
 	M_REPORT_NET_WORTH,
 	M_REPORT_TRANSACTIONS,

@@ -27,8 +27,7 @@
 #define B_TRANSLATION_CONTEXT "CheckView"
 
 
-enum
-{
+enum {
 	M_ENTER_TRANSACTION = 'entr'
 };
 

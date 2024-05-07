@@ -19,16 +19,14 @@ status_t LoadPreferences(const char* path);
 
 void ConstrainWindowFrameToScreen(BRect* rect);
 
-typedef enum
-{
+typedef enum {
 	BC_SELECTION_FOCUS = 0,
 	BC_SELECTION_NOFOCUS,
 	BC_GRID_HEADER
 
 } CapitalBeColor;
 
-typedef enum
-{
+typedef enum {
 	CB_MUTED_TEXT = 0,
 	CB_MUTED_BG
 } CapitalBeMuted;

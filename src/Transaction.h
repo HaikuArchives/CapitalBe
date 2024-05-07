@@ -11,8 +11,7 @@ class Account;
 #define TRANS_CLEARED 1
 #define TRANS_RECONCILED 2
 
-enum
-{
+enum {
 	TRANS_NUMERIC = 0,
 	TRANS_ATM,
 	TRANS_XFER,
@@ -21,8 +20,7 @@ enum
 	TRANS_INIT
 };
 
-typedef enum
-{
+typedef enum {
 	SCHEDULED_MONTHLY = 0,
 	SCHEDULED_WEEKLY,
 	SCHEDULED_QUARTERLY,

@@ -18,8 +18,7 @@
 #define B_TRANSLATION_CONTEXT "RegisterView"
 
 
-enum
-{
+enum {
 	M_SELECT_ACCOUNT = 'slac',
 	M_SELECT_CURRENT
 };

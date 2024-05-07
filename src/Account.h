@@ -8,8 +8,7 @@
 #include "Transaction.h"
 #include "TransactionData.h"
 
-typedef enum
-{
+typedef enum {
 	ACCOUNT_BANK = 0,
 	ACCOUNT_CASH,
 	ACCOUNT_CREDIT

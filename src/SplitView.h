@@ -13,8 +13,7 @@
 #include "Notifier.h"
 #include "TransactionData.h"
 
-enum
-{
+enum {
 	M_ADD_SPLIT = 'mads',
 	M_REMOVE_SPLIT,
 	M_ENTER_TRANSACTION = 'metr',

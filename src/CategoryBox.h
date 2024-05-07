@@ -5,8 +5,7 @@
 
 class CategoryBox;
 
-enum
-{
+enum {
 	M_CATEGORY_AUTOCOMPLETE = 'cata'
 };
 

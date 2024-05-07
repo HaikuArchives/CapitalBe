@@ -28,8 +28,7 @@
 #define B_TRANSLATION_CONTEXT "ScheduleListWindow"
 
 
-enum
-{
+enum {
 	M_REMOVE_ITEM = 'rmit'
 };
 

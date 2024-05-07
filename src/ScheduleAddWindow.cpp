@@ -23,8 +23,7 @@
 #define B_TRANSLATION_CONTEXT "ScheduleAddWindow"
 
 
-enum
-{
+enum {
 	M_SCHEDULED_MONTHLY = 'schm',
 	M_SCHEDULED_WEEKLY,
 	M_SCHEDULED_QUARTERLY,

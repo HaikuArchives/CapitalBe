@@ -13,8 +13,7 @@
 
 class RegisterView;
 
-enum
-{
+enum {
 	M_FILE_NEW = 1000,
 	M_FILE_OPEN,
 	M_FILE_BACKUP,
