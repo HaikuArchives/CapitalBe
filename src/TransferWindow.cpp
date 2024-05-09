@@ -13,9 +13,6 @@
 #include "Fixed.h"
 #include "MsgDefs.h"
 
-#include "TimeSupport.h"
-
-
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "TransferWindow"
 
@@ -25,21 +22,27 @@
 #define M_DATE_CHANGED 'dtch'
 #define M_AMOUNT_CHANGED 'amch'
 
+
 TransferWindow::TransferWindow(BHandler* target)
-	: BWindow(BRect(100, 100, 500, 350), B_TRANSLATE("Add account transfer"), B_TITLED_WINDOW_LOOK,
-		  B_MODAL_APP_WINDOW_FEEL,
-		  B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS),
-	  fMessenger(target),
-	  fMessage(M_CREATE_TRANSFER)
+	:
+	BWindow(BRect(100, 100, 500, 350), B_TRANSLATE("Add account transfer"), B_TITLED_WINDOW_LOOK,
+		B_MODAL_APP_WINDOW_FEEL,
+		B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
+			| B_CLOSE_ON_ESCAPE),
+	fMessenger(target),
+	fMessage(M_CREATE_TRANSFER)
 {
 	InitObject(NULL, NULL, Fixed(0));
 }
 
+
 TransferWindow::TransferWindow(BHandler* target, Account* src, Account* dest, const Fixed& amount)
-	: BWindow(BRect(100, 100, 300, 300), B_TRANSLATE("Edit transfer"), B_TITLED_WINDOW_LOOK,
-		  B_MODAL_APP_WINDOW_FEEL,
-		  B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS),
-	  fMessenger(target)
+	:
+	BWindow(BRect(100, 100, 300, 300), B_TRANSLATE("Edit transfer"), B_TITLED_WINDOW_LOOK,
+		B_MODAL_APP_WINDOW_FEEL,
+		B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
+			| B_CLOSE_ON_ESCAPE),
+	fMessenger(target)
 {
 	InitObject(src, dest, amount);
 }
@@ -47,7 +50,6 @@ TransferWindow::TransferWindow(BHandler* target, Account* src, Account* dest, co
 void
 TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 {
-	BString temp;
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
@@ -55,36 +57,25 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
 
-	temp = B_TRANSLATE("From account");
-	temp += ":";
-	fFromLabel = new BStringView("fromlabel", temp.String());
+	fFromLabel = new BStringView("fromlabel", B_TRANSLATE("From account:"));
 
 	BRect r(Bounds());
-	temp = B_TRANSLATE("To account");
-	temp += ":";
-	fToLabel = new BStringView("tolabel", temp.String());
+	fToLabel = new BStringView("tolabel", B_TRANSLATE("To account:"));
 
-	fOK = new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_CREATE_TRANSFER));
-	fOK->SetLabel(B_TRANSLATE("OK"));
+	fOK = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_CREATE_TRANSFER));
 	fOK->SetEnabled(false);
 	fOK->MakeDefault(true);
 
 	fCancel = new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
-	temp = B_TRANSLATE("Memo");
-	temp += ":";
-	fMemo = new BTextControl("memobox", temp.String(), NULL, NULL);
+	fMemo = new BTextControl("memobox", B_TRANSLATE("Memo:"), NULL, NULL);
 
 	BString amt;
 	gCurrentLocale.CurrencyToString(amount, amt);
-	temp = B_TRANSLATE("Amount");
-	temp += ":";
-	fAmount = new CurrencyBox("amountbox", temp.String(), amt.String(), NULL);
+	fAmount = new CurrencyBox("amountbox", B_TRANSLATE("Amount:"), amt.String(), NULL);
 	fAmount->GetFilter()->SetMessenger(new BMessenger(this));
 
-	temp = B_TRANSLATE("Date");
-	temp += ":";
-	fDate = new DateBox("datebox", temp.String(), "", NULL);
+	fDate = new DateBox("datebox", B_TRANSLATE("Date:"), "", NULL);
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
 	//	fDate->SetEscapeCancel(true);
 
@@ -153,6 +144,7 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 		.End()
 		.End();
 }
+
 
 void
 TransferWindow::SetMessage(BMessage msg)

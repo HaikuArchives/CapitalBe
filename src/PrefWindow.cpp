@@ -8,7 +8,6 @@
 #include <MenuItem.h>
 
 #include "Database.h"
-#include "EscapeCancelFilter.h"
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -30,14 +29,16 @@ enum {
 	M_TOGGLE_PREFIX
 };
 
+
 PrefWindow::PrefWindow(const BRect& frame)
-	: BWindow(frame, B_TRANSLATE("Options"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-		  B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS)
+	:
+	BWindow(frame, B_TRANSLATE("Options"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+		B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
+			| B_CLOSE_ON_ESCAPE)
 {
 	BString temp;
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
-	AddCommonFilter(new EscapeCancelFilter());
 
 	BView* back = new BView(NULL, B_WILL_DRAW);
 	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
@@ -68,6 +69,7 @@ PrefWindow::PrefWindow(const BRect& frame)
 		.End()
 		.End();
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(back).End();
+	this->CenterIn(Frame());
 }
 
 void
@@ -127,9 +129,8 @@ DatePrefView::DatePrefView(const char* name, Locale* locale, const int32& flags)
 	else
 		fDateDMY->SetValue(B_CONTROL_ON);
 
-	temp = B_TRANSLATE("Separator:");
-	fDateSeparatorBox = new AutoTextControl(
-		"datesep", temp.String(), fLocale.DateSeparator(), new BMessage(M_NEW_DATE_SEPARATOR));
+	fDateSeparatorBox = new AutoTextControl("datesep", B_TRANSLATE("Separator:"),
+		fLocale.DateSeparator(), new BMessage(M_NEW_DATE_SEPARATOR));
 	fDateSeparatorBox->SetDivider(StringWidth(temp.String()) + 5);
 	fDateSeparatorBox->SetCharacterLimit(2);
 
@@ -220,9 +221,8 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 	temp.SetToFormat(B_TRANSLATE("Currency format: %s"), curstr.String());
 	fCurrencyLabel = new BStringView("datelabel", temp.String());
 
-	temp = B_TRANSLATE("Symbol:");
-	fCurrencySymbolBox = new AutoTextControl(
-		"moneysym", temp.String(), fLocale.CurrencySymbol(), new BMessage(M_NEW_CURRENCY_SYMBOL));
+	fCurrencySymbolBox = new AutoTextControl("moneysym", B_TRANSLATE("Symbol:"),
+		fLocale.CurrencySymbol(), new BMessage(M_NEW_CURRENCY_SYMBOL));
 	fCurrencySymbolBox->SetDivider(StringWidth(temp.String()) + 5);
 	fCurrencySymbolBox->SetCharacterLimit(2);
 
@@ -231,14 +231,12 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 	fCurrencySymbolPrefix->SetValue(
 		(fLocale.IsCurrencySymbolPrefix()) ? B_CONTROL_ON : B_CONTROL_OFF);
 
-	temp = B_TRANSLATE("Separator:");
-	fCurrencySeparatorBox = new AutoTextControl("moneysep", temp.String(),
+	fCurrencySeparatorBox = new AutoTextControl("moneysep", B_TRANSLATE("Separator:"),
 		fLocale.CurrencySeparator(), new BMessage(M_NEW_CURRENCY_SEPARATOR));
 	fCurrencySeparatorBox->SetDivider(StringWidth(temp.String()) + 5);
 	fCurrencySeparatorBox->SetCharacterLimit(2);
 
-	temp = B_TRANSLATE("Decimal:");
-	fCurrencyDecimalBox = new AutoTextControl("moneydecimal", temp.String(),
+	fCurrencyDecimalBox = new AutoTextControl("moneydecimal", B_TRANSLATE("Decimal:"),
 		fLocale.CurrencyDecimal(), new BMessage(M_NEW_CURRENCY_DECIMAL));
 	fCurrencyDecimalBox->SetDivider(StringWidth(temp.String()) + 5);
 	fCurrencyDecimalBox->SetCharacterLimit(2);
