@@ -82,7 +82,7 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_TITLED_WINDOW, 0)
 	AddShortcut(B_HOME, B_COMMAND_KEY, new BMessage(M_FIRST_TRANSACTION));
 	AddShortcut(B_END, B_COMMAND_KEY, new BMessage(M_LAST_TRANSACTION));
 
-	SetSizeLimits(520, 30000, 260, 30000);
+	SetSizeLimits(520, 30000, 290, 30000);
 	if (frame.Width() < 520)
 		ResizeBy(520 - frame.Width(), 0);
 	if (frame.Height() < 260)

@@ -2,13 +2,10 @@
 #include <Catalog.h>
 #include <LayoutBuilder.h>
 #include <MessageFilter.h>
-#include "Fixed.h"
 
 #include "AutoTextControl.h"
 #include "CBLocale.h"
 #include "Database.h"
-#include "EscapeCancelFilter.h"
-#include "Fixed.h"
 #include "PrefWindow.h"
 
 
@@ -20,15 +17,15 @@
 #define M_NAME_CHANGED 'nmch'
 #define M_TOGGLE_USE_DEFAULT 'tgud'
 
-AccountSettingsWindow::AccountSettingsWindow(Account* account)
-	: BWindow(BRect(0, 0, 1, 1), B_TRANSLATE("Account settings"), B_FLOATING_WINDOW_LOOK,
-		  B_MODAL_APP_WINDOW_FEEL,
-		  B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS),
-	  fAccount(account)
-{
-	AddCommonFilter(new EscapeCancelFilter);
 
-	BString temp;
+AccountSettingsWindow::AccountSettingsWindow(Account* account)
+	:
+	BWindow(BRect(0, 0, 1, 1), B_TRANSLATE("Account settings"), B_FLOATING_WINDOW_LOOK,
+		B_MODAL_APP_WINDOW_FEEL,
+		B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
+			| B_CLOSE_ON_ESCAPE),
+	fAccount(account)
+{
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
@@ -38,9 +35,6 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	fAccountName = new AutoTextControl("accname", B_TRANSLATE("Account name:"),
 		(fAccount ? fAccount->Name() : NULL), new BMessage(M_NAME_CHANGED));
 	fAccountName->SetCharacterLimit(32);
-
-	fAccountName->MakeFocus(true);
-	fAccountName->SetDivider(fAccountName->StringWidth(temp.String()) + 3);
 
 	fUseDefault = new BCheckBox("usedefault", B_TRANSLATE("Use default currency settings"),
 		new BMessage(M_TOGGLE_USE_DEFAULT));
@@ -52,8 +46,7 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 		templocale = fAccount->GetLocale();
 	fPrefView = new CurrencyPrefView("prefview", &templocale);
 
-	fOK = new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_EDIT_ACCOUNT_SETTINGS));
-	fOK->SetLabel(B_TRANSLATE("OK"));
+	fOK = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_ACCOUNT_SETTINGS));
 
 	if (strlen(fAccountName->Text()) < 1)
 		fOK->SetEnabled(false);
@@ -80,7 +73,10 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 		.End()
 		.End();
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f).SetInsets(0).Add(back).End();
+	CenterIn(Frame());
+	fAccountName->MakeFocus(true);
 }
+
 
 void
 AccountSettingsWindow::MessageReceived(BMessage* msg)

@@ -9,9 +9,11 @@
 
 #define M_TOGGLE_SPLIT 'tspl'
 
+
 TransactionEditWindow::TransactionEditWindow(const BRect& frame, const TransactionData& trans)
-	: BWindow(frame, B_TRANSLATE("Edit transaction"), B_DOCUMENT_WINDOW_LOOK,
-		  B_FLOATING_APP_WINDOW_FEEL, B_AUTO_UPDATE_SIZE_LIMITS)
+	:
+	BWindow(frame, B_TRANSLATE("Edit transaction"), B_DOCUMENT_WINDOW_LOOK,
+		B_FLOATING_APP_WINDOW_FEEL, B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
 	fSplitView = new SplitView("splitview", trans, B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(fSplitView).End();

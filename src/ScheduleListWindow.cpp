@@ -16,7 +16,6 @@
 #include "ColumnListView.h"
 #include "ColumnTypes.h"
 #include "Database.h"
-#include "EscapeCancelFilter.h"
 #include "HelpButton.h"
 #include "Preferences.h"
 #include "ScheduledTransData.h"
@@ -53,8 +52,6 @@ private:
 
 ScheduleListView::ScheduleListView(const char* name, const int32& flags) : BView(name, flags)
 {
-	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
-
 	// the buttons
 	fRemoveButton = new BButton(
 		"removebutton", B_TRANSLATE("Remove" B_UTF8_ELLIPSIS), new BMessage(M_REMOVE_ITEM));
@@ -85,8 +82,6 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags) : BView
 	float maxwidth = RefreshScheduleList();
 	fBestWidth = (fRemoveButton->Frame().Width() * 2) + 45;
 	fBestWidth = MAX(fBestWidth, maxwidth + 35);
-	fBestWidth += TDateWidth() + TAmountWidth() + TLeftPadding() + TLeftPadding();
-	fBestWidth += StringWidth("XFER") + 5;
 
 	prefsLock.Lock();
 	BString schedhelp = gAppPath;
@@ -109,6 +104,7 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags) : BView
 		.End()
 		.End();
 }
+
 
 void
 ScheduleListView::AttachedToWindow(void)
@@ -265,17 +261,18 @@ ScheduleListView::RefreshScheduleList(void)
 		row->SetField(new BStringField(string.String()), 4);
 	}
 
-	return maxwidth;
+	return fListView->PreferredSize().Width();
 }
 
-ScheduleListWindow::ScheduleListWindow(const BRect& frame)
-	: BWindow(frame, B_TRANSLATE("Scheduled transactions"), B_DOCUMENT_WINDOW_LOOK,
-		  B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS)
-{
-	AddCommonFilter(new EscapeCancelFilter);
 
+ScheduleListWindow::ScheduleListWindow(const BRect& frame)
+	:
+	BWindow(frame, B_TRANSLATE("Scheduled transactions"), B_DOCUMENT_WINDOW_LOOK,
+		B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE)
+{
 	ScheduleListView* view = new ScheduleListView("schedview", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
+	CenterIn(Frame());
 
 	//	AddShortcut('A',B_COMMAND_KEY, new BMessage(M_SHOW_ADD_WINDOW),view);
 	//	AddShortcut('R',B_COMMAND_KEY, new BMessage(M_REMOVE_CATEGORY),view);
