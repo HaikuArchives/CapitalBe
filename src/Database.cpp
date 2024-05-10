@@ -9,7 +9,7 @@
 #include "Import.h"
 #include "ScheduledTransData.h"
 #include "TimeSupport.h"
-#include "Transaction.h"
+#include "Account.h"
 #include "TransactionData.h"
 
 // #define LOCK_DATABASE
@@ -199,9 +199,10 @@ Database::OpenFile(const char* path)
 
 		Account* account = new Account(name.String(), status.ICompare("open") != 0);
 		account->SetID(id);
-		if (UsesDefaultLocale(id)) {
+		if (!UsesDefaultLocale(id)) {
+			Locale accountLocale = LocaleForAccount(id);
 			account->UseDefaultLocale(false);
-			account->SetLocale(LocaleForAccount(id));
+			account->SetLocale(accountLocale);
 		}
 		fList.AddItem(account);
 
@@ -330,8 +331,6 @@ Database::AddAccount(
 
 	if (locale)
 		SetAccountLocale(id, *locale);
-	else
-		SetAccountLocale(id, gDefaultLocale);
 
 	command = "";
 	command << "create table account_" << id
@@ -343,6 +342,7 @@ Database::AddAccount(
 
 	Account* account = new Account(name);
 	account->SetID(id);
+	account->UseDefaultLocale(!locale);
 	if (strcmp(status, "closed") == 0)
 		account->SetClosed(true);
 	fList.AddItem(account);
@@ -352,7 +352,7 @@ Database::AddAccount(
 
 	BMessage msg;
 	msg.AddPointer("item", (void*)account);
-	Notify(WATCH_CREATE | WATCH_ACCOUNT, &msg);
+	Notify(WATCH_CREATE | WATCH_ACCOUNT | WATCH_LOCALE, &msg);
 	UNLOCK;
 
 	return account;
@@ -611,7 +611,6 @@ Database::LocaleForAccount(const uint32& id)
 	locale.SetCurrencySymbol(query.getStringField(3));
 	locale.SetCurrencySeparator(query.getStringField(4));
 	locale.SetCurrencyDecimal(query.getStringField(5));
-
 	temp = query.getStringField(6);
 	locale.SetCurrencySymbolPrefix(temp.Compare("true") == 0 ? true : false);
 	UNLOCK;
@@ -898,6 +897,15 @@ Database::GetTransaction(const uint32& transid, const uint32& accountid, Transac
 
 	BString command;
 	CppSQLite3Query query;
+
+	// Make sure the account exists. We might not have all tables from account_0 to account_N,
+	// if an account was deleted.
+	command << "SELECT accountid FROM accountlist WHERE accountid = " << accountid << ";";
+	query = DBQuery(command.String(), "Database::GetTransaction: check for account table");
+	if (query.eof()) {
+		UNLOCK;
+		return false;
+	}
 
 	command = "select date,payee,amount,category,memo,type,timestamp from account_";
 	command << accountid << " where transid = " << transid << ";";

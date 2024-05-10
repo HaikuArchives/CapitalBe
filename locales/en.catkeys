@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	2426942269
+1	English	application/x-vnd.wgp-CapitalBe	2699911572
 Year	ReportWindow		Year
 Edit transaction	TransactionEditWindow		Edit transaction
 None	ReportWindow		None
@@ -158,6 +158,7 @@ Total:	SplitView		Total:
 Unlimited	ScheduleListWindow		Unlimited
 Account settings	AccountSettingsWindow		Account settings
 Account name:	AccountSettingsWindow		Account name:
+Balance	QuickTrackerItem		Balance
 Set all to zero	BudgetWindow		Set all to zero
 When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%
 Date is missing.	ReconcileWindow		Date is missing.
@@ -178,6 +179,7 @@ Not transferring any money	TransferWindow		Not transferring any money
 Split	CategoryWindow		Split
 Income	ReportWindow		Income
 Memo	SplitView		Memo
+<No accounts>	QuickTrackerItem		<No accounts>
 Total checks:	ReconcileWindow		Total checks:
 Not enough accounts for a transfer.	MainWindow		Not enough accounts for a transfer.
 Amount	TransactionReport		Amount
@@ -200,9 +202,9 @@ You can schedule transfers, deposits, or ATM transactions.	MainWindow		You can s
 Success!	ReconcileWindow		Success!
 Income	CategoryWindow		Income
 Edit category	CategoryWindow		Edit category
+Schedule transaction	ScheduleAddWindow		Schedule transaction
 Do you want to add this transaction without a category?	CategoryBox		Do you want to add this transaction without a category?
 QuickTracker	RegisterView		QuickTracker
-Schedule transaction	ScheduleAddWindow		Schedule transaction
 Type: %s	ScheduleAddWindow		Type: %s
 Weekly	Budget		Weekly
 Split	SplitFilterView		Split
