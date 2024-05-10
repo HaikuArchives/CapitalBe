@@ -83,20 +83,24 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 	switch (msg->what) {
 		case M_EDIT_ACCOUNT_SETTINGS:
 		{
-			Locale temp;
+			Locale customLocale;
+			Locale defaultLocale;
 
 			if (!fAccount) {
-				temp = gDefaultLocale;
-				fPrefView->GetSettings(temp);
-				gDatabase.AddAccount(fAccountName->Text(), ACCOUNT_BANK, "Open", &temp);
+				fPrefView->GetSettings(customLocale);
+				gDatabase.AddAccount(fAccountName->Text(), ACCOUNT_BANK, "Open",
+					defaultLocale == customLocale ? NULL : &customLocale);
 			} else {
 				if (strcmp(fAccountName->Text(), fAccount->Name()) != 0)
 					gDatabase.RenameAccount(fAccount, fAccountName->Text());
 
-				temp = fAccount->GetLocale();
-				fPrefView->GetSettings(temp);
-				if (temp != fAccount->GetLocale())
-					fAccount->SetLocale(temp);
+				fPrefView->GetSettings(customLocale);
+				if (fUseDefault->Value() != B_CONTROL_ON) {
+					fAccount->UseDefaultLocale(false);
+					fAccount->SetLocale(customLocale);
+				} else {
+					fAccount->UseDefaultLocale(true);
+				}
 			}
 
 			PostMessage(B_QUIT_REQUESTED);
@@ -110,9 +114,6 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 				fPrefView->Hide();
 			else
 				fPrefView->Show();
-
-			if (fAccount != NULL)
-				fAccount->UseDefaultLocale(useDefault);
 
 			break;
 		}

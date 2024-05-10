@@ -58,10 +58,8 @@ Account::Balance(void)
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::Balance");
 
 	int64 amount = 0;
-	if (query.eof())
-		return Fixed();
-
-	amount = query.getInt64Field(0);
+	if (!query.eof())
+		amount = query.getInt64Field(0);
 
 	Fixed f;
 	f.SetPremultiplied(amount);
@@ -326,10 +324,15 @@ Account::UseDefaultLocale(const bool& usedefault)
 	if (fUseDefaultLocale) {
 		command = "delete from accountlocale where accountid = ";
 		command << fID << ";";
+		gDatabase.DBCommand(command.String(), "Account::UseDefaultLocale");
 	} else {
 		// update the local copy in case it changed since the program was opened
 		fLocale = gDefaultLocale;
 
 		gDatabase.SetAccountLocale(fID, fLocale);
 	}
+
+	BMessage msg;
+	msg.AddPointer("item", this);
+	Notify(WATCH_ACCOUNT | WATCH_LOCALE | WATCH_CHANGE, &msg);
 }

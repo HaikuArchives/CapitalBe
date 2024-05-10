@@ -255,9 +255,7 @@ MainWindow::MessageReceived(BMessage* msg)
 		case M_SHOW_NEW_ACCOUNT:
 		{
 			AccountSettingsWindow* newaccwin = new AccountSettingsWindow(NULL);
-			BRect r(Frame());
-			newaccwin->MoveTo(r.left + ((Bounds().Width() - newaccwin->Bounds().Width()) / 2),
-				r.top + ((Bounds().Height() - newaccwin->Bounds().Height()) / 2));
+			newaccwin->CenterIn(Frame());
 			newaccwin->Show();
 			break;
 		}
@@ -267,9 +265,7 @@ MainWindow::MessageReceived(BMessage* msg)
 				break;
 
 			AccountSettingsWindow* accwin = new AccountSettingsWindow(acc);
-			BRect r(Frame());
-			accwin->MoveTo(r.left + ((Bounds().Width() - accwin->Bounds().Width()) / 2),
-				r.top + ((Bounds().Height() - accwin->Bounds().Height()) / 2));
+			accwin->CenterIn(Frame());
 			accwin->Show();
 			break;
 		}
@@ -441,9 +437,7 @@ MainWindow::MessageReceived(BMessage* msg)
 			}
 
 			TransferWindow* tnwin = new TransferWindow(this);
-			BRect r(Frame());
-			tnwin->MoveTo(r.left + ((Bounds().Width() - tnwin->Bounds().Width()) / 2),
-				r.top + ((Bounds().Height() - tnwin->Bounds().Height()) / 2));
+			tnwin->CenterIn(Frame());
 			tnwin->Show();
 			break;
 		}
@@ -463,8 +457,7 @@ MainWindow::MessageReceived(BMessage* msg)
 			r.right = r.left + 400;
 			r.bottom = r.top + 300;
 			TransactionEditWindow* transwin = new TransactionEditWindow(r, data);
-			transwin->MoveTo(r.left + ((Bounds().Width() - transwin->Bounds().Width()) / 2),
-				r.top + ((Bounds().Height() - transwin->Bounds().Height()) / 2));
+			transwin->CenterIn(Frame());
 			transwin->Show();
 			break;
 		}
@@ -492,8 +485,7 @@ MainWindow::MessageReceived(BMessage* msg)
 			r.bottom = r.top + 300;
 
 			ScheduleAddWindow* schedwin = new ScheduleAddWindow(r, data);
-			schedwin->MoveTo(r.left + ((Bounds().Width() - schedwin->Bounds().Width()) / 2),
-				r.top + ((Bounds().Height() - schedwin->Bounds().Height()) / 2));
+			schedwin->CenterIn(Frame());
 			schedwin->Show();
 			break;
 		}
@@ -537,10 +529,8 @@ MainWindow::MessageReceived(BMessage* msg)
 		}
 		case M_SHOW_SCHEDULED_WINDOW:
 		{
-			BRect r(Frame());
 			ScheduleListWindow* schedwin = new ScheduleListWindow(BRect(100, 100, 600, 425));
-			schedwin->MoveTo(r.left + ((Bounds().Width() - schedwin->Bounds().Width()) / 2),
-				r.top + ((Bounds().Height() - schedwin->Bounds().Height()) / 2));
+			schedwin->CenterIn(Frame());
 			schedwin->Show();
 			break;
 		}
@@ -552,10 +542,8 @@ MainWindow::MessageReceived(BMessage* msg)
 		}
 		case M_SHOW_CATEGORY_WINDOW:
 		{
-			BRect r(Frame());
 			CategoryWindow* catwin = new CategoryWindow(BRect(100, 100, 600, 425));
-			catwin->MoveTo(r.left + ((Bounds().Width() - catwin->Bounds().Width()) / 2),
-				r.top + ((Bounds().Height() - catwin->Bounds().Height()) / 2));
+			catwin->CenterIn(Frame());
 			catwin->Show();
 			break;
 		}

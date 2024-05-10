@@ -6,6 +6,7 @@
 #include "Fixed.h"
 
 #include <Catalog.h>
+#include <vector>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -73,12 +74,13 @@ QTNetWorthItem::HandleNotify(const uint64& value, const BMessage* msg)
 			acc->AddObserver(this);
 		} else if (value & WATCH_DELETE) {
 			acc->RemoveObserver(this);
-			if (gDatabase.CountAccounts() == 1) {
+			Calculate();
+			if (gDatabase.CountAccounts() >= 1) {
 				if (Window())
 					Window()->Lock();
 
 				BString label, temp;
-				temp << B_TRANSLATE("Account total:") << " ";
+				temp << B_TRANSLATE("Balance") << " (" << gDefaultLocale.CurrencySymbol() << "): ";
 				if (gCurrentLocale.CurrencyToString(Fixed(), label) == B_OK)
 					temp << label;
 				SetText(temp.String());
@@ -96,37 +98,85 @@ QTNetWorthItem::HandleNotify(const uint64& value, const BMessage* msg)
 void
 QTNetWorthItem::Calculate(void)
 {
-	BString label, temp;
+	BString balanceText, balanceLabel;
 	Fixed balance;
 
-	temp << B_TRANSLATE("Account total:") << " ";
-
-	if (gDatabase.CountAccounts() == 0) {
+	if (gDatabase.CountAccounts() == 0) { // No accounts
 		if (Window())
 			Window()->Lock();
 
-		if (gCurrentLocale.CurrencyToString(balance, label) == B_OK)
-			temp << " \n" << label;
+		if (gCurrentLocale.CurrencyToString(balance, balanceText) == B_OK)
+			balanceLabel = B_TRANSLATE("<No accounts>");
 
-		SetText(temp.String());
+		SetText(balanceLabel.String());
 
 		if (Window())
 			Window()->Unlock();
 		return;
 	}
 
-	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account* account = gDatabase.AccountAt(i);
-		if (!account->IsClosed())
-			balance += account->Balance();
+	BString command;
+	std::vector<BString> currencies;
+	BString currency;
+	CppSQLite3Query query;
+
+
+	// Get list of currencies
+	command = "SELECT DISTINCT currencysymbol FROM accountlocale";
+	query = gDatabase.DBQuery(command.String(), "Database::Calculate");
+
+	while (!query.eof()) {
+		currency = query.getStringField(0);
+		currencies.push_back(currency);
+		query.nextRow();
 	}
 
-	if (gDefaultLocale.CurrencyToString(balance, label) == B_OK) {
-		temp << " \n" << label;
+	// Get sum of default currency accounts that are open:
+	command = "SELECT a.accountid FROM accountlist AS a LEFT JOIN accountlocale AS al ON "
+			  "a.accountid = al.accountid WHERE al.accountid IS NULL AND a.status = \"Open\";";
+	query = gDatabase.DBQuery(command.String(), "Database::Calculate");
 
+	balance = 0;
+	bool accountsFound = false;
+	while (!query.eof()) {
+		accountsFound = true;
+		Account* account = gDatabase.AccountAt(query.getIntField(0));
+		balance += account->Balance();
+		query.nextRow();
+	}
+
+	if (accountsFound && gDefaultLocale.CurrencyToString(balance, balanceText) == B_OK) {
+		balanceLabel << B_TRANSLATE("Balance") << " (" << gDefaultLocale.CurrencySymbol()
+					 << "): " << balanceText << "\n";
+	}
+
+	// Get sum of other currency accounts:
+	for (int32 i = 0; i < currencies.size(); i++) {
+		command = "SELECT a1.accountid FROM accountlist AS a1 JOIN accountlocale AS a2 ON "
+				  "a1.accountid=a2.accountid WHERE a2.currencysymbol = \"";
+		command << currencies.at(i) << "\" AND a1.status = \"Open\";";
+		query = gDatabase.DBQuery(command.String(), "Database::Calculate");
+
+		balance = 0;
+		Locale accLocale;
+
+		while (!query.eof()) {
+			Account* account = gDatabase.AccountAt(query.getIntField(0));
+			balance += account->Balance();
+			accLocale = account->GetLocale();
+			query.nextRow();
+		}
+
+		if (accLocale.CurrencyToString(balance, balanceText) == B_OK) {
+			balanceLabel << B_TRANSLATE("Balance") << " (" << accLocale.CurrencySymbol()
+						 << "): " << balanceText << "\n";
+		}
+	}
+
+	if (gDefaultLocale.CurrencyToString(balance, balanceText) == B_OK) {
 		if (Window()) {
 			Window()->Lock();
-			SetText(label.String());
+			SetText(balanceLabel.String());
 			Invalidate();
 			Window()->Unlock();
 		}
