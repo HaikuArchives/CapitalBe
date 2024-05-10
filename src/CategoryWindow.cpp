@@ -306,9 +306,8 @@ CategoryView::RefreshCategoryList(void)
 
 
 CategoryWindow::CategoryWindow(const BRect& frame)
-	:
-	BWindow(frame, B_TRANSLATE("Categories"), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
-		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
+	: BWindow(frame, B_TRANSLATE("Categories"), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
+		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
 	CategoryView* view = new CategoryView("categoryview", B_WILL_DRAW);
 
@@ -413,11 +412,11 @@ CategoryInputWindow::MessageReceived(BMessage* msg)
 
 
 CategoryRemoveWindow::CategoryRemoveWindow(const BRect& frame, const char* from, BView* target)
-	:
-	BWindow(frame, B_TRANSLATE("Remove category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-		B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS
-			| B_CLOSE_ON_ESCAPE),
-	fTarget(target)
+	: BWindow(frame, B_TRANSLATE("Remove category"), B_FLOATING_WINDOW_LOOK,
+		  B_MODAL_APP_WINDOW_FEEL,
+		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS |
+			  B_CLOSE_ON_ESCAPE),
+	  fTarget(target)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	BView* view = new BView("background", B_WILL_DRAW | B_FRAME_EVENTS);
@@ -530,12 +529,11 @@ CategoryRemoveWindow::FrameResized(float w, float h)
 
 
 CategoryEditWindow::CategoryEditWindow(const BRect& frame, const char* oldname, BView* target)
-	:
-	BWindow(frame, B_TRANSLATE("Edit category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-		B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE
-			| B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
-	fOldName(oldname),
-	fTarget(target)
+	: BWindow(frame, B_TRANSLATE("Edit category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE |
+			  B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
+	  fOldName(oldname),
+	  fTarget(target)
 {
 	BString temp;
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));

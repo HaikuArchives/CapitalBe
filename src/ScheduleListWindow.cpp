@@ -266,9 +266,8 @@ ScheduleListView::RefreshScheduleList(void)
 
 
 ScheduleListWindow::ScheduleListWindow(const BRect& frame)
-	:
-	BWindow(frame, B_TRANSLATE("Scheduled transactions"), B_DOCUMENT_WINDOW_LOOK,
-		B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE)
+	: BWindow(frame, B_TRANSLATE("Scheduled transactions"), B_DOCUMENT_WINDOW_LOOK,
+		  B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE)
 {
 	ScheduleListView* view = new ScheduleListView("schedview", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();

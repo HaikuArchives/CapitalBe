@@ -36,12 +36,11 @@ enum {
 
 
 ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& data)
-	:
-	BWindow(frame, B_TRANSLATE("Schedule transaction"), B_TITLED_WINDOW_LOOK,
-		B_MODAL_APP_WINDOW_FEEL,
-		B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS
-			| B_CLOSE_ON_ESCAPE),
-	fTransData(data)
+	: BWindow(frame, B_TRANSLATE("Schedule transaction"), B_TITLED_WINDOW_LOOK,
+		  B_MODAL_APP_WINDOW_FEEL,
+		  B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS |
+			  B_CLOSE_ON_ESCAPE),
+	  fTransData(data)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
@@ -88,11 +87,11 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	fIntervalMenu->ItemAt(0)->SetMarked(true);
 	fIntervalMenu->SetLabelFromMarked(true);
 
-	BMenuField* intervalfield
-		= new BMenuField("intervalfield", B_TRANSLATE("Frequency:"), fIntervalMenu);
+	BMenuField* intervalfield =
+		new BMenuField("intervalfield", B_TRANSLATE("Frequency:"), fIntervalMenu);
 
-	fStartDate
-		= new DateBox("startdate", B_TRANSLATE("Starting date:"), "", new BMessage(M_DATE_CHANGED));
+	fStartDate =
+		new DateBox("startdate", B_TRANSLATE("Starting date:"), "", new BMessage(M_DATE_CHANGED));
 	fStartDate->UseTabFiltering(false);
 	gDefaultLocale.DateToString(data.Date(), temp);
 	fStartDate->SetText(temp.String());
@@ -109,12 +108,12 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	BStringView* timeslabel = new BStringView("timeslabel", B_TRANSLATE("times"));
 	fRepeatAlways->SetValue(B_CONTROL_ON);
 
-	BButton* okbutton
-		= new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_SCHEDULE_TRANSACTION));
+	BButton* okbutton =
+		new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_SCHEDULE_TRANSACTION));
 	okbutton->MakeDefault(true);
 
-	BButton* cancelbutton
-		= new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+	BButton* cancelbutton =
+		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
 	BLayoutBuilder::Group<>(back, B_VERTICAL)
 		.SetInsets(10)
