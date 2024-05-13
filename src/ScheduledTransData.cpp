@@ -2,7 +2,10 @@
 #include "CBLocale.h"
 #include "TimeSupport.h"
 
-ScheduledTransData::ScheduledTransData(void) : fInterval(SCHEDULED_UNKNOWN), fCount(0), fNextDate(0)
+ScheduledTransData::ScheduledTransData(void)
+	: fInterval(SCHEDULED_UNKNOWN),
+	  fCount(0),
+	  fNextDate(0)
 {
 }
 
@@ -23,7 +26,10 @@ ScheduledTransData::ScheduledTransData(const ScheduledTransData& trans)
 
 ScheduledTransData::ScheduledTransData(
 	const TransactionData& data, const TransactionInterval& interval, const int32& count)
-	: TransactionData(data), fInterval(interval), fCount(count), fNextDate(0)
+	: TransactionData(data),
+	  fInterval(interval),
+	  fCount(count),
+	  fNextDate(0)
 {
 }
 

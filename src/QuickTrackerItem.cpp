@@ -14,7 +14,8 @@
 
 // Calculates the user's net worth by adding up the balances of all accounts
 QTNetWorthItem::QTNetWorthItem(const char* name, uint32 flags)
-	: QuickTrackerItem(name, flags), fIgnore(false)
+	: QuickTrackerItem(name, flags),
+	  fIgnore(false)
 {
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* account = gDatabase.AccountAt(i);
@@ -134,7 +135,8 @@ QTNetWorthItem::Calculate(void)
 
 // Calculates the budget variance for one category
 QTBudgetCategoryItem::QTBudgetCategoryItem(const char* category, const char* name, uint32 flags)
-	: QuickTrackerItem(name, flags), fIgnore(false)
+	: QuickTrackerItem(name, flags),
+	  fIgnore(false)
 {
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* account = gDatabase.AccountAt(i);
@@ -234,7 +236,8 @@ QTBudgetCategoryItem::Calculate(void)
 	}
 }
 
-QuickTrackerItem::QuickTrackerItem(const char* name, uint32 flags) : BTextView(name, flags)
+QuickTrackerItem::QuickTrackerItem(const char* name, uint32 flags)
+	: BTextView(name, flags)
 {
 	MakeEditable(false);
 	MakeSelectable(false);

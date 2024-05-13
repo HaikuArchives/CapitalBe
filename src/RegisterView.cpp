@@ -23,7 +23,8 @@ enum {
 	M_SELECT_CURRENT
 };
 
-RegisterView::RegisterView(const char* name, int32 flags) : BView(name, flags | B_FRAME_EVENTS)
+RegisterView::RegisterView(const char* name, int32 flags)
+	: BView(name, flags | B_FRAME_EVENTS)
 {
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 

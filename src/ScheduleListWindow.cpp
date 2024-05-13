@@ -50,7 +50,8 @@ private:
 	float fBestWidth;
 };
 
-ScheduleListView::ScheduleListView(const char* name, const int32& flags) : BView(name, flags)
+ScheduleListView::ScheduleListView(const char* name, const int32& flags)
+	: BView(name, flags)
 {
 	// the buttons
 	fRemoveButton = new BButton(

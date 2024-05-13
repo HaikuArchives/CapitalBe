@@ -13,7 +13,10 @@
 #define STRACE(x) /* nothing */
 #endif
 
-Transaction::Transaction(void) : fID(0) {}
+Transaction::Transaction(void)
+	: fID(0)
+{
+}
 
 void
 TransactionType::SetType(const char* data)

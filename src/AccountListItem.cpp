@@ -14,7 +14,8 @@
 #define B_TRANSLATION_CONTEXT "AccountListItem"
 
 
-AccountListItem::AccountListItem(Account* acc) : BListItem()
+AccountListItem::AccountListItem(Account* acc)
+	: BListItem()
 {
 	fAccount = acc;
 	fEnabled = true;

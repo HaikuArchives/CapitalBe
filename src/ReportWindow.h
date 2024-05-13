@@ -77,7 +77,8 @@ private:
 
 class AccountItem : public BStringItem {
 public:
-	AccountItem(Account* acc) : BStringItem("")
+	AccountItem(Account* acc)
+		: BStringItem("")
 	{
 		if (acc)
 			SetText(acc->Name());

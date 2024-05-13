@@ -65,7 +65,8 @@ CppSQLite3Exception::CppSQLite3Exception(
 }
 
 
-CppSQLite3Exception::CppSQLite3Exception(const CppSQLite3Exception& e) : mnErrCode(e.mnErrCode)
+CppSQLite3Exception::CppSQLite3Exception(const CppSQLite3Exception& e)
+	: mnErrCode(e.mnErrCode)
 {
 	mpszErrMess = 0;
 	if (e.mpszErrMess) {
@@ -186,7 +187,11 @@ CppSQLite3Buffer::format(const char* szFormat, ...)
 ////////////////////////////////////////////////////////////////////////////////
 
 CppSQLite3Binary::CppSQLite3Binary()
-	: mpBuf(0), mnBinaryLen(0), mnBufferLen(0), mnEncodedLen(0), mbEncoded(false)
+	: mpBuf(0),
+	  mnBinaryLen(0),
+	  mnBufferLen(0),
+	  mnEncodedLen(0),
+	  mbEncoded(false)
 {
 }
 

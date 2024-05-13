@@ -13,7 +13,8 @@
 #include "TransactionLayout.h"
 
 TransactionView::TransactionView()
-	: BView("transactionview", B_WILL_DRAW | B_SUBPIXEL_PRECISE | B_FRAME_EVENTS), fCurrent(NULL)
+	: BView("transactionview", B_WILL_DRAW | B_SUBPIXEL_PRECISE | B_FRAME_EVENTS),
+	  fCurrent(NULL)
 {
 	InitTransactionItemLayout(this);
 

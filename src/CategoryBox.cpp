@@ -9,7 +9,10 @@
 #define B_TRANSLATION_CONTEXT "CategoryBox"
 
 
-CategoryBoxFilter::CategoryBoxFilter(CategoryBox* box) : AutoTextControlFilter(box) {}
+CategoryBoxFilter::CategoryBoxFilter(CategoryBox* box)
+	: AutoTextControlFilter(box)
+{
+}
 
 filter_result
 CategoryBoxFilter::KeyFilter(const int32& key, const int32& mod)

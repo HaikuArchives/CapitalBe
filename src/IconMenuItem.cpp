@@ -18,7 +18,10 @@
 // #include "IconCache.h"
 
 IconMenuItem::IconMenuItem(const char* label, BMessage* message, BBitmap* icon, icon_size which)
-	: BMenuItem(label, message), fDeviceIcon(NULL), fHeightDelta(0), fWhich(which)
+	: BMenuItem(label, message),
+	  fDeviceIcon(NULL),
+	  fHeightDelta(0),
+	  fWhich(which)
 {
 	SetIcon(icon);
 
@@ -30,7 +33,10 @@ IconMenuItem::IconMenuItem(const char* label, BMessage* message, BBitmap* icon, 
 
 IconMenuItem::IconMenuItem(
 	const char* label, BMessage* message, const BNodeInfo* nodeInfo, icon_size which)
-	: BMenuItem(label, message), fDeviceIcon(NULL), fHeightDelta(0), fWhich(which)
+	: BMenuItem(label, message),
+	  fDeviceIcon(NULL),
+	  fHeightDelta(0),
+	  fWhich(which)
 {
 	if (nodeInfo != NULL) {
 		fDeviceIcon = new BBitmap(
@@ -49,7 +55,10 @@ IconMenuItem::IconMenuItem(
 
 IconMenuItem::IconMenuItem(
 	const char* label, BMessage* message, const char* iconType, icon_size which)
-	: BMenuItem(label, message), fDeviceIcon(NULL), fHeightDelta(0), fWhich(which)
+	: BMenuItem(label, message),
+	  fDeviceIcon(NULL),
+	  fHeightDelta(0),
+	  fWhich(which)
 {
 	BMimeType mime(iconType);
 	fDeviceIcon = new BBitmap(
@@ -71,7 +80,10 @@ IconMenuItem::IconMenuItem(
 
 
 IconMenuItem::IconMenuItem(BMenu* submenu, BMessage* message, const char* iconType, icon_size which)
-	: BMenuItem(submenu, message), fDeviceIcon(NULL), fHeightDelta(0), fWhich(which)
+	: BMenuItem(submenu, message),
+	  fDeviceIcon(NULL),
+	  fHeightDelta(0),
+	  fWhich(which)
 {
 	BMimeType mime(iconType);
 	fDeviceIcon = new BBitmap(
@@ -93,7 +105,10 @@ IconMenuItem::IconMenuItem(BMenu* submenu, BMessage* message, const char* iconTy
 
 
 IconMenuItem::IconMenuItem(BMenu* menu, BMessage* message, BBitmap* icon, icon_size which)
-	: BMenuItem(menu, message), fDeviceIcon(NULL), fHeightDelta(0), fWhich(which)
+	: BMenuItem(menu, message),
+	  fDeviceIcon(NULL),
+	  fHeightDelta(0),
+	  fWhich(which)
 {
 	SetIcon(icon);
 
@@ -104,7 +119,10 @@ IconMenuItem::IconMenuItem(BMenu* menu, BMessage* message, BBitmap* icon, icon_s
 
 
 IconMenuItem::IconMenuItem(BMessage* data)
-	: BMenuItem(data), fDeviceIcon(NULL), fHeightDelta(0), fWhich(B_MINI_ICON)
+	: BMenuItem(data),
+	  fDeviceIcon(NULL),
+	  fHeightDelta(0),
+	  fWhich(B_MINI_ICON)
 {
 	if (data != NULL) {
 		fWhich = (icon_size)data->GetInt32("_which", B_MINI_ICON);

@@ -11,7 +11,10 @@
 #define B_TRANSLATION_CONTEXT "CurrencyBox"
 
 
-CurrencyBoxFilter::CurrencyBoxFilter(CurrencyBox* box) : NavTextBoxFilter(box) {}
+CurrencyBoxFilter::CurrencyBoxFilter(CurrencyBox* box)
+	: NavTextBoxFilter(box)
+{
+}
 
 filter_result
 CurrencyBoxFilter::KeyFilter(const int32& key, const int32& mod)

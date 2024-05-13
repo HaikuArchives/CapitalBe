@@ -15,7 +15,8 @@
 
 
 SplitViewFilter::SplitViewFilter(SplitView* checkview)
-	: BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN), fView(checkview)
+	: BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN),
+	  fView(checkview)
 {
 }
 

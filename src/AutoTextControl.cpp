@@ -22,7 +22,9 @@ static property_info sProperties[] = {
 
 AutoTextControl::AutoTextControl(
 	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
-	: BTextControl(name, label, text, msg, flags), fFilter(NULL), fCharLimit(0)
+	: BTextControl(name, label, text, msg, flags),
+	  fFilter(NULL),
+	  fCharLimit(0)
 {
 	SetFilter(new AutoTextControlFilter(this));
 }
@@ -36,7 +38,8 @@ AutoTextControl::~AutoTextControl(void)
 }
 
 
-AutoTextControl::AutoTextControl(BMessage* data) : BTextControl(data)
+AutoTextControl::AutoTextControl(BMessage* data)
+	: BTextControl(data)
 {
 	if (data->FindInt32("_charlimit", (int32*)&fCharLimit) != B_OK)
 		fCharLimit = 0;

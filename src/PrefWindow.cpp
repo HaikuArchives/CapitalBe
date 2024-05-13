@@ -202,7 +202,8 @@ DatePrefView::GetSettings(Locale& locale)
 
 
 CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32& flags)
-	: BView(name, flags), fSampleAmount((long)12345678, true)
+	: BView(name, flags),
+	  fSampleAmount((long)12345678, true)
 {
 	BString temp;
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);

@@ -31,7 +31,12 @@ Locale gCurrentLocale;
 // This global is used to hold all financial data for CapitalBe.
 Database gDatabase;
 
-Database::Database(const char* path) : fCurrent(NULL), fList(20, true), fPath(path) {}
+Database::Database(const char* path)
+	: fCurrent(NULL),
+	  fList(20, true),
+	  fPath(path)
+{
+}
 
 Database::~Database(void) {}
 

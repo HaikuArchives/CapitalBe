@@ -11,7 +11,10 @@
 #define B_TRANSLATION_CONTEXT "CheckNumBox"
 
 
-CheckNumBoxFilter::CheckNumBoxFilter(CheckNumBox* box) : AutoTextControlFilter(box) {}
+CheckNumBoxFilter::CheckNumBoxFilter(CheckNumBox* box)
+	: AutoTextControlFilter(box)
+{
+}
 
 filter_result
 CheckNumBoxFilter::KeyFilter(const int32& key, const int32& mod)

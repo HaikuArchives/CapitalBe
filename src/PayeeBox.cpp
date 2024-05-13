@@ -11,7 +11,10 @@
 #define B_TRANSLATION_CONTEXT "PayeeBox"
 
 
-PayeeBoxFilter::PayeeBoxFilter(PayeeBox* box) : AutoTextControlFilter(box) {}
+PayeeBoxFilter::PayeeBoxFilter(PayeeBox* box)
+	: AutoTextControlFilter(box)
+{
+}
 
 filter_result
 PayeeBoxFilter::KeyFilter(const int32& key, const int32& mod)

@@ -14,7 +14,9 @@
 #include "TransactionLayout.h"
 
 
-ReconcileItem::ReconcileItem(const TransactionData& trans) : BStringItem(""), fTransaction(trans)
+ReconcileItem::ReconcileItem(const TransactionData& trans)
+	: BStringItem(""),
+	  fTransaction(trans)
 {
 	fValue = fTransaction.Status();
 }

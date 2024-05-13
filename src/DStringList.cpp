@@ -1,7 +1,11 @@
 #include "DStringList.h"
 #include <stdio.h>
 
-DStringList::DStringList(int32 itemsPerBlock, bool owner) : fList(itemsPerBlock), fOwner(owner) {}
+DStringList::DStringList(int32 itemsPerBlock, bool owner)
+	: fList(itemsPerBlock),
+	  fOwner(owner)
+{
+}
 
 DStringList::~DStringList()
 {

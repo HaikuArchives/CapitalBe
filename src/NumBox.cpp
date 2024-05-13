@@ -4,7 +4,10 @@
 #include "MsgDefs.h"
 #include "TimeSupport.h"
 
-NumBoxFilter::NumBoxFilter(NumBox* box) : AutoTextControlFilter(box) {}
+NumBoxFilter::NumBoxFilter(NumBox* box)
+	: AutoTextControlFilter(box)
+{
+}
 
 filter_result
 NumBoxFilter::KeyFilter(const int32& key, const int32& mod)
@@ -35,7 +38,9 @@ NumBoxFilter::KeyFilter(const int32& key, const int32& mod)
 }
 
 NumBox::NumBox(const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
-	: AutoTextControl(name, label, text, msg, flags), fFilterTab(true), fAllowNegatives(true)
+	: AutoTextControl(name, label, text, msg, flags),
+	  fFilterTab(true),
+	  fAllowNegatives(true)
 {
 	SetFilter(new NumBoxFilter(this));
 

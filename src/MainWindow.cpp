@@ -51,7 +51,8 @@
 int32 gTextViewHeight = 20;
 int32 gStringViewHeight = 20;
 
-MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_TITLED_WINDOW, 0)
+MainWindow::MainWindow(BRect frame)
+	: BWindow(frame, "", B_TITLED_WINDOW, 0)
 {
 	BString temp;
 	SetTitle(B_TRANSLATE_SYSTEM_NAME("CapitalBe"));

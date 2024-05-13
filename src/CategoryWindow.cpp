@@ -102,7 +102,8 @@ private:
 	BScrollView* fScrollView;
 };
 
-CategoryView::CategoryView(const char* name, const int32& flags) : BView(name, flags)
+CategoryView::CategoryView(const char* name, const int32& flags)
+	: BView(name, flags)
 {
 	// the buttons
 	fEditButton = new BButton(
@@ -318,7 +319,10 @@ CategoryWindow::CategoryWindow(const BRect& frame)
 }
 
 
-CategoryItem::CategoryItem(const BString& name) : BStringItem(name.String()) {}
+CategoryItem::CategoryItem(const BString& name)
+	: BStringItem(name.String())
+{
+}
 
 void
 CategoryItem::DrawItem(BView* owner, BRect frame, bool complete)

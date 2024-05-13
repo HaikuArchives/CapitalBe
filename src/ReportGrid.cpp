@@ -1,7 +1,9 @@
 #include "ReportGrid.h"
 #include <stdio.h>
 
-ReportGrid::ReportGrid(const uint32& width, const uint32& height) : fList(20, true), fWidth(width)
+ReportGrid::ReportGrid(const uint32& width, const uint32& height)
+	: fList(20, true),
+	  fWidth(width)
 {
 	for (uint32 i = 0; i < height; i++)
 		AddItem();
@@ -133,7 +135,8 @@ ReportGrid::PrintToStream(void)
 
 
 ReportGrid::GridRecord::GridRecord(const uint32& size, const char* title)
-	: fList(size), fTitle(title)
+	: fList(size),
+	  fTitle(title)
 {
 	for (uint32 i = 0; i < size; i++)
 		fList.AddItem(new Fixed());

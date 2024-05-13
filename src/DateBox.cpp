@@ -11,7 +11,10 @@
 #define B_TRANSLATION_CONTEXT "DateBox"
 
 
-DateBoxFilter::DateBoxFilter(DateBox* box) : AutoTextControlFilter(box) {}
+DateBoxFilter::DateBoxFilter(DateBox* box)
+	: AutoTextControlFilter(box)
+{
+}
 
 filter_result
 DateBoxFilter::KeyFilter(const int32& key, const int32& mod)
@@ -97,7 +100,8 @@ DateBoxFilter::KeyFilter(const int32& key, const int32& mod)
 }
 
 DateBox::DateBox(const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
-	: AutoTextControl(name, label, text, msg, flags), fFilterTab(true)
+	: AutoTextControl(name, label, text, msg, flags),
+	  fFilterTab(true)
 {
 	SetFilter(new DateBoxFilter(this));
 	fCurrentDate = GetCurrentDate();

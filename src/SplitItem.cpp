@@ -1,7 +1,13 @@
 #include "SplitItem.h"
 #include "Database.h"
 
-SplitItem::SplitItem(void) : BStringItem(""), fName(""), fAmount(0L), fMemo("") {}
+SplitItem::SplitItem(void)
+	: BStringItem(""),
+	  fName(""),
+	  fAmount(0L),
+	  fMemo("")
+{
+}
 
 SplitItem::~SplitItem(void) {}
 

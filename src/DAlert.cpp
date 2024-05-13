@@ -163,7 +163,8 @@ DAlert::~DAlert()
 }
 
 
-DAlert::DAlert(BMessage* data) : BWindow(data)
+DAlert::DAlert(BMessage* data)
+	: BWindow(data)
 {
 	fInvoker = NULL;
 	fAlertSem = -1;
@@ -633,13 +634,18 @@ DAlert::InitIcon()
 
 
 TAlertView::TAlertView(BRect frame)
-	: BView(frame, "TAlertView", B_FOLLOW_ALL_SIDES, B_WILL_DRAW), fIconBitmap(NULL)
+	: BView(frame, "TAlertView", B_FOLLOW_ALL_SIDES, B_WILL_DRAW),
+	  fIconBitmap(NULL)
 {
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 }
 
 
-TAlertView::TAlertView(BMessage* archive) : BView(archive), fIconBitmap(NULL) {}
+TAlertView::TAlertView(BMessage* archive)
+	: BView(archive),
+	  fIconBitmap(NULL)
+{
+}
 
 TAlertView::~TAlertView()
 {
@@ -682,7 +688,11 @@ TAlertView::Draw(BRect updateRect)
 //	#pragma mark - _DAlertFilter_
 
 
-_DAlertFilter_::_DAlertFilter_(DAlert* alert) : BMessageFilter(B_KEY_DOWN), fAlert(alert) {}
+_DAlertFilter_::_DAlertFilter_(DAlert* alert)
+	: BMessageFilter(B_KEY_DOWN),
+	  fAlert(alert)
+{
+}
 
 _DAlertFilter_::~_DAlertFilter_() {}
 

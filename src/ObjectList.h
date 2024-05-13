@@ -374,12 +374,14 @@ _PointerList_::Owning() const
 }
 
 template <class T>
-BObjectList<T>::BObjectList(int32 itemsPerBlock, bool owning) : _PointerList_(itemsPerBlock, owning)
+BObjectList<T>::BObjectList(int32 itemsPerBlock, bool owning)
+	: _PointerList_(itemsPerBlock, owning)
 {
 }
 
 template <class T>
-BObjectList<T>::BObjectList(const BObjectList<T>& list) : _PointerList_(list)
+BObjectList<T>::BObjectList(const BObjectList<T>& list)
+	: _PointerList_(list)
 {
 	owning = list.owning;
 	if (owning) {

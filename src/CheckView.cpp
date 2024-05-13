@@ -31,7 +31,8 @@ enum {
 	M_ENTER_TRANSACTION = 'entr'
 };
 
-CheckView::CheckView(const char* name, int32 flags) : BView(name, flags | B_FRAME_EVENTS)
+CheckView::CheckView(const char* name, int32 flags)
+	: BView(name, flags | B_FRAME_EVENTS)
 {
 	fDateLabel = new BStringView("datelabel", B_TRANSLATE("Date"));
 	fDate = new DateBox("dateentry", "", NULL, new BMessage(M_DATE_CHANGED));

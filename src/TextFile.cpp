@@ -8,13 +8,15 @@
 #include <stdio.h>
 #include <string.h>
 
-TextFile::TextFile(const char* path, const uint32& openmode) : BFile(path, openmode)
+TextFile::TextFile(const char* path, const uint32& openmode)
+	: BFile(path, openmode)
 {
 	InitObject();
 }
 
 
-TextFile::TextFile(const entry_ref& ref, const uint32& openmode) : BFile(&ref, openmode)
+TextFile::TextFile(const entry_ref& ref, const uint32& openmode)
+	: BFile(&ref, openmode)
 {
 	InitObject();
 }

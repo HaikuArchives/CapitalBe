@@ -16,7 +16,8 @@
 
 bool gRestartApp = false;
 
-App::App(void) : BApplication("application/x-vnd.wgp-CapitalBe")
+App::App(void)
+	: BApplication("application/x-vnd.wgp-CapitalBe")
 {
 	// Load preferences and then initialize the translation system
 	LoadPreferences(PREFERENCES_PATH "/CapitalBeSettings");
