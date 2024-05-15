@@ -184,9 +184,9 @@ MainWindow::MainWindow(BRect frame) : BWindow(frame, "", B_TITLED_WINDOW, 0)
 	fExportPanel->Window()->SetTitle(temp.String());
 	gDatabase.AddObserver(this);
 
-	HandleScheduledTransactions();
-
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(bar).Add(fRegisterView).End();
+
+	HandleScheduledTransactions();
 }
 
 MainWindow::~MainWindow(void)
