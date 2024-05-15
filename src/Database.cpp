@@ -278,6 +278,7 @@ Database::SetCurrentAccount(const int32& index)
 	LOCK;
 	Account* acc = (Account*)fList.ItemAt(index);
 	fCurrent = acc;
+	gCurrentLocale = acc->GetLocale();
 
 	BMessage msg;
 	msg.AddPointer("item", (void*)acc);
@@ -304,6 +305,7 @@ Database::SetCurrentAccount(Account* account)
 
 	LOCK;
 	fCurrent = account;
+	gCurrentLocale = account->GetLocale();
 
 	BMessage msg;
 	msg.AddPointer("item", (void*)account);
@@ -549,6 +551,8 @@ Database::CountBudgetEntries(void)
 void
 Database::SetAccountLocale(const uint32& accountid, const Locale& data)
 {
+	gCurrentLocale = data;
+
 	LOCK;
 	BString command("select accountid from accountlocale where accountid = ");
 	command << accountid << ";";
