@@ -110,6 +110,8 @@ RegisterView::MessageReceived(BMessage* msg)
 			if (fAccountView->CurrentSelection() < 0)
 				break;
 			gDatabase.SetCurrentAccount(fAccountView->CurrentSelection());
+			fCheckView->SetFieldsEnabled(!gDatabase.CurrentAccount()->IsClosed());
+
 			break;
 		}
 		case M_SHOW_ACCOUNT_SETTINGS:

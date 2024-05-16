@@ -43,6 +43,7 @@ public:
 	void MakeEmpty(void);
 	void MakeFocus(bool value = true);
 	void FrameResized(float width, float height);
+	void SetFieldsEnabled(bool enabled);
 
 private:
 	void DoNextField(void);

@@ -294,6 +294,8 @@ CheckView::HandleNotify(const uint64& value, const BMessage* msg)
 				}
 			}
 		}
+	} else if (value & WATCH_CHANGE) {
+		SetFieldsEnabled(!gDatabase.CurrentAccount()->IsClosed());
 	}
 }
 
@@ -355,4 +357,18 @@ CheckView::DoNextField(void)
 		// We should *never* be here
 		ShowBug("M_NEXT_FIELD received for unknown view in CheckView");
 	}
+}
+
+
+void
+CheckView::SetFieldsEnabled(bool enabled)
+{
+	fDate->SetEnabled(enabled);
+	fDate->MakeFocus(enabled);
+	fType->SetEnabled(enabled);
+	fPayee->SetEnabled(enabled);
+	fAmount->SetEnabled(enabled);
+	fCategory->SetEnabled(enabled);
+	fMemo->SetEnabled(enabled);
+	fEnter->SetEnabled(enabled);
 }

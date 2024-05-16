@@ -100,7 +100,7 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	int32 current = -1;
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* acc = gDatabase.AccountAt(i);
-		if (acc) {
+		if (acc && !acc->IsClosed()) {
 			fSourceList->AddItem(new AccountListItem(acc));
 			fDestList->AddItem(new AccountListItem(acc));
 			if (acc == gDatabase.CurrentAccount())
