@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	2699911572
+1	English	application/x-vnd.wgp-CapitalBe	3952487706
 Year	ReportWindow		Year
 Edit transaction	TransactionEditWindow		Edit transaction
 None	ReportWindow		None
@@ -41,9 +41,11 @@ Category	SplitView		Category
 Transactions	ReportWindow		Transactions
 Date	ReconcileWindow		Date
 Budget:	QuickTrackerItem		Budget:
+This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.	MainWindow		This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.
 Couldn't quick balance.	ReconcileWindow		Couldn't quick balance.
 Total	BudgetWindow		Total
 Memo	TransactionReport		Memo
+Closed account	MainWindow		Closed account
 Enter	SplitView		Enter
 Category	CashFlowReport		Category
 Reports:	ReportWindow		Reports:
@@ -78,8 +80,8 @@ English	CheckView	Path to localized helpfiles. Only translate if available in yo
 Closed	AccountListItem		Closed
 CapitalBe didn't understand the amount for Bank Charges.	ReconcileWindow		CapitalBe didn't understand the amount for Bank Charges.
 Import	MainWindow		Import
-Interest earned	ReconcileWindow		Interest earned
 CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ReportWindow		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
+Interest earned	ReconcileWindow		Interest earned
 Could not import the data in the file %%FILENAME%%.	MainWindow		Could not import the data in the file %%FILENAME%%.
 Quit	Locale		Quit
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Once deleted, you will not be able to get back any data on this account.
@@ -98,6 +100,7 @@ Really delete account?	MainWindow		Really delete account?
 DEP	ReconcileWindow		DEP
 Income	BudgetWindow		Income
 This really shouldn't happen, so you probably should e-mail support about this.	MainWindow		This really shouldn't happen, so you probably should e-mail support about this.
+Remove	ScheduleListWindow		Remove
 Quick balance	ReconcileWindow		Quick balance
 This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.	MainWindow		This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.
 Payments	ScheduleListWindow		Payments
@@ -196,7 +199,6 @@ Categories…	MainWindow		Categories…
 No Memo	TransactionItem		No Memo
 CapitalBe didn't understand the amount.	CurrencyBox		CapitalBe didn't understand the amount.
 Day, Month, Year	PrefWindow		Day, Month, Year
-Remove…	ScheduleListWindow		Remove…
 If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		If you intend to transfer money, it will need to be an amount that is not zero.
 You can schedule transfers, deposits, or ATM transactions.	MainWindow		You can schedule transfers, deposits, or ATM transactions.
 Success!	ReconcileWindow		Success!
@@ -204,6 +206,7 @@ Income	CategoryWindow		Income
 Edit category	CategoryWindow		Edit category
 Schedule transaction	ScheduleAddWindow		Schedule transaction
 Do you want to add this transaction without a category?	CategoryBox		Do you want to add this transaction without a category?
+This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.	MainWindow		This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.
 QuickTracker	RegisterView		QuickTracker
 Type: %s	ScheduleAddWindow		Type: %s
 Weekly	Budget		Weekly
@@ -239,8 +242,8 @@ CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like
 Amount	BudgetWindow		Amount
 Cancel	CategoryBox		Cancel
 Scheduled transactions	ScheduleListWindow		Scheduled transactions
-Agh! Bug!	Locale		Agh! Bug!
 Starting date:	ReportWindow		Starting date:
+Agh! Bug!	Locale		Agh! Bug!
 Starting balance	ReconcileWindow		Starting balance
 Quarterly	ScheduleAddWindow		Quarterly
 Amount	CashFlowReport		Amount
@@ -270,10 +273,11 @@ Total checks: %s	ReconcileWindow		Total checks: %s
 English	ReportWindow	Path to localized helpfiles. Only translate if available in your language.	English
 Quarterly	BudgetWindow		Quarterly
 Remove category	CategoryWindow		Remove category
+You cannot schedule transactions on a closed account.	MainWindow		You cannot schedule transactions on a closed account.
 Decimal:	PrefWindow		Decimal:
 Split	ScheduleAddWindow		Split
 Month, Day, Year	PrefWindow		Month, Day, Year
 You need to enter the date for the statement to Quick Balance.	ReconcileWindow		You need to enter the date for the statement to Quick Balance.
-Use default currency settings	AccountSettingsWindow		Use default currency settings
 CapitalBe didn't understand the date you entered.	ReportWindow		CapitalBe didn't understand the date you entered.
+Use default currency settings	AccountSettingsWindow		Use default currency settings
 Unknown	ScheduleListWindow		Unknown

@@ -148,7 +148,7 @@ MainWindow::MainWindow(BRect frame)
 		B_TRANSLATE("Enter a transfer" B_UTF8_ELLIPSIS), new BMessage(M_ENTER_TRANSFER), 'T'));
 	menu->AddSeparatorItem();
 	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("Delete" B_UTF8_ELLIPSIS), new BMessage(M_DELETE_TRANSACTION)));
+		new BMenuItem(B_TRANSLATE("Delete"), new BMessage(M_DELETE_TRANSACTION)));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Schedule this transaction" B_UTF8_ELLIPSIS),
 		new BMessage(M_SCHEDULE_TRANSACTION)));
@@ -263,6 +263,14 @@ MainWindow::MessageReceived(BMessage* msg)
 		{
 			if (!acc)
 				break;
+
+			if (acc->IsClosed()) {
+				ShowAlert(B_TRANSLATE("Closed account"),
+					B_TRANSLATE("This account is closed, and the settings cannot be edited. Please "
+								"reopen the account if you need to make changes."),
+					B_WARNING_ALERT);
+				break;
+			}
 
 			AccountSettingsWindow* accwin = new AccountSettingsWindow(acc);
 			accwin->CenterIn(Frame());
@@ -451,6 +459,14 @@ MainWindow::MessageReceived(BMessage* msg)
 					break;
 			}
 
+			if (acc->IsClosed()) {
+				ShowAlert(B_TRANSLATE("Closed account"),
+					B_TRANSLATE("This transaction belongs to a closed account and cannot be "
+								"edited. Please reopen the account if you need to make changes."),
+					B_WARNING_ALERT);
+				break;
+			}
+
 			TransactionData data;
 			gDatabase.GetTransaction(acc->CurrentTransaction(), data);
 			BRect r(Frame());
@@ -469,6 +485,13 @@ MainWindow::MessageReceived(BMessage* msg)
 			if (!acc->CurrentTransaction()) {
 				if (!acc->CountTransactions())
 					break;
+			}
+
+			if (acc->IsClosed()) {
+				ShowAlert(B_TRANSLATE("Closed account"),
+					B_TRANSLATE("You cannot schedule transactions on a closed account."),
+					B_WARNING_ALERT);
+				break;
 			}
 
 			TransactionData data;
