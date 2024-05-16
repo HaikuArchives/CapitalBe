@@ -54,8 +54,7 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	: BView(name, flags)
 {
 	// the buttons
-	fRemoveButton = new BButton(
-		"removebutton", B_TRANSLATE("Remove"), new BMessage(M_REMOVE_ITEM));
+	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove"), new BMessage(M_REMOVE_ITEM));
 
 	// the transaction list
 	fListView = new BColumnListView("listview", B_FANCY_BORDER);

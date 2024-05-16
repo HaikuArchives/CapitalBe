@@ -147,8 +147,7 @@ MainWindow::MainWindow(BRect frame)
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Enter a transfer" B_UTF8_ELLIPSIS), new BMessage(M_ENTER_TRANSFER), 'T'));
 	menu->AddSeparatorItem();
-	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("Delete"), new BMessage(M_DELETE_TRANSACTION)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Delete"), new BMessage(M_DELETE_TRANSACTION)));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Schedule this transaction" B_UTF8_ELLIPSIS),
 		new BMessage(M_SCHEDULE_TRANSACTION)));
