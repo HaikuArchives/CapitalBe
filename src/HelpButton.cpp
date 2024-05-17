@@ -16,15 +16,16 @@
 
 class HelpButtonWindow : public BWindow {
 public:
-	HelpButtonWindow(const BRect& frame, const entry_ref& helpfileref);
+	HelpButtonWindow(const BRect& frame, const char* title, const entry_ref& helpfileref);
 
 private:
 	BTextView* fTextView;
 };
 
-HelpButton::HelpButton(const char* name, const char* helpfilename)
-	: BButton(name, "", new BMessage(M_HELPBUTTON_PRESSED))
+HelpButton::HelpButton(const char* title, const char* helpfilename)
+	: BButton(helpfilename, "", new BMessage(M_HELPBUTTON_PRESSED))
 {
+	fWindowTitle = title;
 	fRef = GetHelpFile(helpfilename);
 	SetIcon(BTranslationUtils::GetBitmap('PNG ', "HelpButtonUp.png"));
 }
@@ -45,7 +46,7 @@ HelpButton::MessageReceived(BMessage* msg)
 {
 	if (msg->what == M_HELPBUTTON_PRESSED) {
 		BRect frame = Window()->Frame();
-		HelpButtonWindow* help = new HelpButtonWindow(frame, fRef);
+		HelpButtonWindow* help = new HelpButtonWindow(frame, fWindowTitle, fRef);
 		help->Show();
 	} else {
 		BButton::MessageReceived(msg);
@@ -110,13 +111,15 @@ HelpButton::GetHelpFile(const char* helpfilename)
 }
 
 
-HelpButtonWindow::HelpButtonWindow(const BRect& frame, const entry_ref& helpfileref)
-	: BWindow(BRect(0, 0, 600, 400), B_TRANSLATE("Help"), B_DOCUMENT_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL,
+HelpButtonWindow::HelpButtonWindow(const BRect& frame, const char* title, const entry_ref& helpfileref)
+	: BWindow(BRect(0, 0, 600, 400), title, B_DOCUMENT_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
 	BView* view = new BView("back", B_WILL_DRAW | B_FRAME_EVENTS);
 	view->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
-	BLayoutBuilder::Group<>(this, B_VERTICAL).Add(view).End();
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.Add(view)
+		.End();
 
 	fTextView = new BTextView("textview", B_WILL_DRAW);
 	fTextView->MakeEditable(false);
@@ -126,7 +129,6 @@ HelpButtonWindow::HelpButtonWindow(const BRect& frame, const entry_ref& helpfile
 	BScrollView* sv = new BScrollView("scrollview", fTextView, B_FRAME_EVENTS, false, true);
 
 	BFile file(&helpfileref, B_READ_ONLY);
-	SetTitle(helpfileref.name);
 	BTranslationUtils::GetStyledText(&file, fTextView);
 	fTextView->MakeFocus(true);
 

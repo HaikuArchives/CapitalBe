@@ -135,7 +135,7 @@ ReportWindow::ReportWindow(BRect frame)
 	fSubtotalField = new BMenuField("subtotalfield", "", subtotalmenu);
 	subtotalLayout->AddView(fSubtotalField);
 
-	HelpButton* help = new HelpButton("reporthelp", "Report Window Help");
+	HelpButton* help = new HelpButton(B_TRANSLATE("Help: Report"), "Report Window Help");
 
 	temp = B_TRANSLATE("Categories");
 	temp += ": ";

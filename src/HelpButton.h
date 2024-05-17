@@ -9,7 +9,7 @@
 
 class HelpButton : public BButton {
 public:
-	HelpButton(const char* name, const char* path);
+	HelpButton(const char* title, const char* helpfilename);
 	~HelpButton(void);
 
 	virtual void AttachedToWindow();
@@ -18,6 +18,7 @@ public:
 private:
 	entry_ref GetHelpFile(const char* helpfilename);
 	entry_ref fRef;
+	const char* fWindowTitle;
 };
 
 #endif

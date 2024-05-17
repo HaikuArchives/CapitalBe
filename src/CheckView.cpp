@@ -54,7 +54,7 @@ CheckView::CheckView(const char* name, int32 flags)
 	fMemo->TextView()->DisallowChar(B_ESCAPE);
 	fMemo->SetCharacterLimit(21);
 
-	fHelpButton = new HelpButton("rechelp", "Main Window Help");
+	fHelpButton = new HelpButton(B_TRANSLATE("Help: Main window"), "Main Window Help");
 
 	fEnter = new BButton("enterbutton", B_TRANSLATE("Enter"), new BMessage(M_ENTER_TRANSACTION));
 
