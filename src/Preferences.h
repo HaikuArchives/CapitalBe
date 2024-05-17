@@ -10,7 +10,6 @@
 
 extern BLocker prefsLock;
 extern BMessage gPreferences;
-extern BString gAppPath;
 
 #define PREFERENCES_PATH "/boot/home/config/settings/CapitalBe"
 

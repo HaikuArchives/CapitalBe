@@ -5,13 +5,9 @@
 #include <Roster.h>
 #include <Screen.h>
 #include <math.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string>
 
 BLocker prefsLock;
 BMessage gPreferences;
-BString gAppPath;
 
 static rgb_color sSelectionFocusColor = {205, 205, 255, 255};
 static rgb_color sSelectionNoFocusColor = {205, 205, 230, 255};
@@ -83,19 +79,6 @@ LoadPreferences(const char* path)
 		return B_ERROR;
 
 	prefsLock.Lock();
-
-	app_info ai;
-	be_app->GetAppInfo(&ai);
-
-	BEntry entry(&ai.ref);
-	entry_ref ref;
-	BEntry parent;
-
-	entry.GetParent(&parent);
-	parent.GetRef(&ref);
-	BPath pathobj(&ref);
-	gAppPath = pathobj.Path();
-	gAppPath += "/";
 
 	BFile file(path, B_READ_ONLY);
 

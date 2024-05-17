@@ -135,14 +135,7 @@ ReportWindow::ReportWindow(BRect frame)
 	fSubtotalField = new BMenuField("subtotalfield", "", subtotalmenu);
 	subtotalLayout->AddView(fSubtotalField);
 
-	prefsLock.Lock();
-	BString reporthelp = gAppPath;
-	prefsLock.Unlock();
-	reporthelp << "helpfiles/"
-			   << B_TRANSLATE_COMMENT("English",
-					  "Path to localized helpfiles. Only translate if available in your language.")
-			   << "/Report Window Help";
-	HelpButton* help = new HelpButton("reporthelp", reporthelp.String());
+	HelpButton* help = new HelpButton("reporthelp", "Report Window Help");
 
 	temp = B_TRANSLATE("Categories");
 	temp += ": ";

@@ -122,7 +122,8 @@ Name:	CategoryWindow		Name:
 Symbol:	PrefWindow		Symbol:
 Transactions	TransactionReport		Transactions
 English	ScheduleListWindow	Path to localized helpfiles. Only translate if available in your language.	English
-CapitalBe didn't understand the amount	TextInput		CapitalBe didn't understand the amount
+No Memo	ScheduledTransItem		No Memo
+Split Transaction	SplitView		Split Transaction
 Average	BudgetWindow		Average
 Currency	PrefWindow		Currency
 Summary	BudgetWindow		Summary
@@ -134,7 +135,6 @@ Accounts:	ReportWindow		Accounts:
 CapitalBe didn't understand the date you entered	ReportWindow		CapitalBe didn't understand the date you entered
 Cancel	Account		Cancel
 Options	PrefWindow		Options
-English	SplitView	Path to localized helpfiles. Only translate if available in your language.	English
 Edit category	BudgetWindow		Edit category
 Reconcile	ReconcileWindow		Reconcile
 CapitalBe uses the words 'Income', 'Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.	CategoryWindow		CapitalBe uses the words 'Income', 'Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.
@@ -260,7 +260,6 @@ Income	CashFlowReport		Income
 Hide split	SplitView		Hide split
 Split transaction	SplitView		Split transaction
 Total checks: %s	ReconcileWindow		Total checks: %s
-English	ReportWindow	Path to localized helpfiles. Only translate if available in your language.	English
 Quarterly	BudgetWindow		Quarterly
 Remove category	CategoryWindow		Remove category
 You cannot schedule transactions on a closed account.	MainWindow		You cannot schedule transactions on a closed account.

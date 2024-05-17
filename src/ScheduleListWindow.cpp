@@ -83,14 +83,7 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	fBestWidth = (fRemoveButton->Frame().Width() * 2) + 45;
 	fBestWidth = MAX(fBestWidth, maxwidth + 35);
 
-	prefsLock.Lock();
-	BString schedhelp = gAppPath;
-	prefsLock.Unlock();
-	schedhelp << "helpfiles/"
-			  << B_TRANSLATE_COMMENT("English",
-					 "Path to localized helpfiles. Only translate if available in your language.")
-			  << "/Scheduled Transaction Window Help";
-	fHelpButton = new HelpButton("schedhelp", schedhelp.String());
+	fHelpButton = new HelpButton("schedhelp", "Scheduled Transaction Window Help");
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(15, 15)
