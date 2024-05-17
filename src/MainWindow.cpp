@@ -345,7 +345,8 @@ MainWindow::MessageReceived(BMessage* msg)
 				break;
 
 			if (!gDatabase.ImportFile(ref)) {
-				BString errmsg(B_TRANSLATE("Could not import the data in the file '%%FILENAME%%'."));
+				BString errmsg(
+					B_TRANSLATE("Could not import the data in the file '%%FILENAME%%'."));
 				errmsg.ReplaceFirst("%%FILENAME%%", ref.name);
 				ShowAlert(errmsg.String(),
 					B_TRANSLATE("This happens when the kind of file is not "
@@ -374,8 +375,8 @@ MainWindow::MessageReceived(BMessage* msg)
 			entry.GetRef(&dir);
 
 			if (!gDatabase.ExportFile(dir)) {
-				BString errmsg(
-					B_TRANSLATE("Could not export your financial data to the file '%%FILENAME%%'."));
+				BString errmsg(B_TRANSLATE(
+					"Could not export your financial data to the file '%%FILENAME%%'."));
 				errmsg.ReplaceFirst("%%FILENAME%%", dir.name);
 				ShowAlert(
 					errmsg.String(), B_TRANSLATE("This really shouldn't happen, so you probably "

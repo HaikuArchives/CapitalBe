@@ -356,8 +356,8 @@ CategoryInputWindow::CategoryInputWindow(const BRect& frame, BView* target)
 	BView* view = new BView("background", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 
-	fNameBox = new AutoTextControl(
-		"namebox", B_TRANSLATE("Name:"), "", new BMessage(M_NAME_CHANGED));
+	fNameBox =
+		new AutoTextControl("namebox", B_TRANSLATE("Name:"), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
 	fExpenseBox = new BCheckBox("expensebox", B_TRANSLATE("Spending category"), NULL);
@@ -549,8 +549,8 @@ CategoryEditWindow::CategoryEditWindow(const BRect& frame, const char* oldname, 
 	temp << " " << fOldName;
 	BStringView* oldnameView = new BStringView("oldname", temp.String());
 
-	fNameBox = new AutoTextControl(
-		"namebox", B_TRANSLATE("New name:"), "", new BMessage(M_NAME_CHANGED));
+	fNameBox =
+		new AutoTextControl("namebox", B_TRANSLATE("New name:"), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
 	fOKButton = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_CATEGORY));
