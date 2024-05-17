@@ -24,12 +24,12 @@ App::App(void)
 
 	// We can skip locking because nothing else is open at this point :)
 	BRect winframe;
-	if (gPreferences.FindRect("mainframe", &winframe) == B_OK)
-		ConstrainWindowFrameToScreen(&winframe);
-	else
-		winframe.Set(100, 100, 620, 360);
+	if (gPreferences.FindRect("mainframe", &winframe) != B_OK)
+		winframe.Set(100, 100, 720, 660);
 
 	MainWindow* win = new MainWindow(winframe);
+	// Make sure the window is visible on screen
+	win->MoveOnScreen();
 	win->Show();
 }
 
