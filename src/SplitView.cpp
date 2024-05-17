@@ -92,10 +92,10 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	fSplitContainer = new BView("splitcontainer", B_WILL_DRAW);
 	fSplitContainer->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	fAddSplit = new BButton("addsplit", B_TRANSLATE("Add Item"), new BMessage(M_ADD_SPLIT));
+	fAddSplit = new BButton("addsplit", B_TRANSLATE("Add item"), new BMessage(M_ADD_SPLIT));
 
 	fRemoveSplit =
-		new BButton("removesplit", B_TRANSLATE("Remove Item"), new BMessage(M_REMOVE_SPLIT));
+		new BButton("removesplit", B_TRANSLATE("Remove item"), new BMessage(M_REMOVE_SPLIT));
 
 	fSplitCategory = new BTextControl("splitcategory", NULL, NULL, NULL, B_WILL_DRAW);
 
@@ -138,7 +138,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 
 	if (fTransaction.CountCategories() > 1 ||
 		strcmp(fTransaction.NameAt(0), B_TRANSLATE("Split")) == 0) {
-		fCategory->SetText(B_TRANSLATE("Split Transaction"));
+		fCategory->SetText(B_TRANSLATE("Split transaction"));
 		fStartExpanded = true;
 	}
 
@@ -687,7 +687,7 @@ void
 SplitView::ToggleSplit(void)
 {
 	if (fSplitContainer->IsHidden()) {
-		fSplit->SetLabel(B_TRANSLATE("Hide Split"));
+		fSplit->SetLabel(B_TRANSLATE("Hide split"));
 
 		fSplitContainer->Show();
 		fCategory->SetEnabled(false);
@@ -698,7 +698,7 @@ SplitView::ToggleSplit(void)
 		Invalidate();
 		fEnter->Invalidate();
 	} else {
-		fSplit->SetLabel(B_TRANSLATE("Show Split"));
+		fSplit->SetLabel(B_TRANSLATE("Show split"));
 
 		fSplitContainer->Hide();
 		fCategory->SetEnabled(true);

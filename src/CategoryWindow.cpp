@@ -204,7 +204,7 @@ CategoryView::MessageReceived(BMessage* msg)
 				name.ICompare(B_TRANSLATE("Spending")) == 0 ||
 				name.ICompare(B_TRANSLATE("Split")) == 0) {
 				ShowAlert(B_TRANSLATE("Can't use this category name"),
-					B_TRANSLATE("CapitalBe uses the words 'Income','Spending', and 'Split' "
+					B_TRANSLATE("CapitalBe uses the words 'Income', 'Spending', and 'Split' "
 								"for managing categories, so you can't use them as category names. "
 								"Please choose a different name for your new category."));
 				break;
@@ -346,7 +346,7 @@ CategoryItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 
 CategoryInputWindow::CategoryInputWindow(const BRect& frame, BView* target)
-	: BWindow(frame, B_TRANSLATE("Add Category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+	: BWindow(frame, B_TRANSLATE("Add category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_V_RESIZABLE |
 			  B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fTarget(target)
@@ -357,7 +357,7 @@ CategoryInputWindow::CategoryInputWindow(const BRect& frame, BView* target)
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 
 	fNameBox = new AutoTextControl(
-		"namebox", B_TRANSLATE("Category name:"), "", new BMessage(M_NAME_CHANGED));
+		"namebox", B_TRANSLATE("Name:"), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
 	fExpenseBox = new BCheckBox("expensebox", B_TRANSLATE("Spending category"), NULL);
@@ -432,7 +432,7 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect& frame, const char* from,
 
 	BString directions(
 		B_TRANSLATE("Please choose a new category for all transactions currently in the "
-					"%%CATEGORY_NAME%% category."));
+					"'%%CATEGORY_NAME%%' category."));
 	directions.ReplaceFirst("%%CATEGORY_NAME%%", from);
 	fDirections->SetText(directions.String());
 	fDirections->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
@@ -545,12 +545,12 @@ CategoryEditWindow::CategoryEditWindow(const BRect& frame, const char* oldname, 
 	BView* view = new BView("background", B_WILL_DRAW | B_FRAME_EVENTS);
 	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
 
-	temp = B_TRANSLATE("Category name:");
+	temp = B_TRANSLATE("Name:");
 	temp << " " << fOldName;
 	BStringView* oldnameView = new BStringView("oldname", temp.String());
 
 	fNameBox = new AutoTextControl(
-		"namebox", B_TRANSLATE("New category name:"), "", new BMessage(M_NAME_CHANGED));
+		"namebox", B_TRANSLATE("New name:"), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
 	fOKButton = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_CATEGORY));
