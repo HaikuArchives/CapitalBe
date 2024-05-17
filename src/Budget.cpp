@@ -4,7 +4,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "Budget"
+#define B_TRANSLATION_CONTEXT "BudgetWindow"
 
 
 BudgetEntry::BudgetEntry(void)

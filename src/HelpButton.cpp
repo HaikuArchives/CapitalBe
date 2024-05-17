@@ -9,7 +9,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "HelpButton"
+#define B_TRANSLATION_CONTEXT "MainWindow"
 
 
 class HelpButtonWindow : public BWindow {

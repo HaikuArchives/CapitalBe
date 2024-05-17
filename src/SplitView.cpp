@@ -609,7 +609,7 @@ SplitView::ValidateSplitAmountField(void)
 
 	Fixed amount;
 	if (gCurrentLocale.StringToCurrency(fSplitAmount->Text(), amount) != B_OK) {
-		ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount."),
+		ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount"),
 			B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
 						"for this account."));
 		fSplitAmount->MakeFocus(true);
@@ -635,7 +635,7 @@ SplitView::ValidateSplitItems(void)
 	Fixed amount;
 	if (gCurrentLocale.StringToCurrency(fAmount->Text(), amount) != B_OK) {
 		fAmount->MakeFocus(true);
-		ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount."),
+		ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount"),
 			B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
 						"for this account."));
 		return false;
@@ -651,7 +651,7 @@ SplitView::ValidateSplitItems(void)
 		errormsg.ReplaceFirst("%%ENTERED_AMOUNT%%", fAmount->Text());
 		errormsg.ReplaceFirst("%%TOTAL_AMOUNT%%", totalstr.String());
 
-		ShowAlert(B_TRANSLATE("The split total must match the amount box."), errormsg.String());
+		ShowAlert(B_TRANSLATE("The split total must match the amount box"), errormsg.String());
 		fSplitAmount->MakeFocus(true);
 		return false;
 	}

@@ -8,7 +8,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "PayeeBox"
+#define B_TRANSLATION_CONTEXT "TextInput"
 
 
 PayeeBoxFilter::PayeeBoxFilter(PayeeBox* box)
@@ -82,7 +82,7 @@ bool
 PayeeBox::Validate(const bool& showalert)
 {
 	if (showalert && (Text() == NULL || strlen(Text()) < 1)) {
-		ShowAlert(B_TRANSLATE("Payee is missing."), B_TRANSLATE("You need to enter a payee."));
+		ShowAlert(B_TRANSLATE("Payee is missing"), B_TRANSLATE("You need to enter a payee."));
 		MakeFocus(true);
 		return false;
 	}

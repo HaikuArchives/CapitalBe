@@ -591,7 +591,7 @@ ReconcileWindow::AutoReconcile(void)
 	if (gDefaultLocale.StringToDate(fDate->Text(), statdate) != B_OK) {
 		// Do we have an empty date box?
 		if (strlen(fDate->Text()) < 1) {
-			ShowAlert(B_TRANSLATE("Date is missing."),
+			ShowAlert(B_TRANSLATE("Date is missing"),
 				B_TRANSLATE("You need to enter the date for the statement to 'Quick balance'."));
 			return false;
 		}
@@ -604,7 +604,7 @@ ReconcileWindow::AutoReconcile(void)
 		if (gCurrentLocale.StringToCurrency(fCharges->Text(), bankchrg) == B_OK)
 			bankchrg.Invert();
 		else {
-			ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount for 'Bank charges'."),
+			ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount for 'Bank charges'"),
 				B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
 							"for this account."));
 			return false;
@@ -613,7 +613,7 @@ ReconcileWindow::AutoReconcile(void)
 
 	if (strlen(fInterest->Text()) > 0) {
 		if (gCurrentLocale.StringToCurrency(fInterest->Text(), interest) != B_OK) {
-			ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount for 'Interest earned'."),
+			ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount for 'Interest earned'"),
 				B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
 							"for this account."));
 			return false;
@@ -664,7 +664,7 @@ ReconcileWindow::AutoReconcile(void)
 		return true;
 	}
 
-	ShowAlert(B_TRANSLATE("Couldn't Quick balance."),
+	ShowAlert(B_TRANSLATE("Couldn't Quick balance"),
 		B_TRANSLATE("Quick balance failed. This doesn't mean "
 					"that you did something wrong - it's just that 'Quick balance' works on "
 					"simpler cases in balancing an account than this one. Sorry."));

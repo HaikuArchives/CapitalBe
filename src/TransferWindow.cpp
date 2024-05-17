@@ -69,8 +69,10 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	fMemo = new BTextControl("memobox", B_TRANSLATE("Memo:"), NULL, NULL);
 
 	BString amt;
+	BString temp = B_TRANSLATE("Amount");
+	temp << ":";
 	gCurrentLocale.CurrencyToString(amount, amt);
-	fAmount = new CurrencyBox("amountbox", B_TRANSLATE("Amount:"), amt.String(), NULL);
+	fAmount = new CurrencyBox("amountbox", temp.String(), amt.String(), NULL);
 	fAmount->GetFilter()->SetMessenger(new BMessenger(this));
 
 	fDate = new DateBox("datebox", B_TRANSLATE("Date:"), "", NULL);

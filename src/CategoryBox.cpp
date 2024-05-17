@@ -6,7 +6,7 @@
 #include "TimeSupport.h"
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "CategoryBox"
+#define B_TRANSLATION_CONTEXT "CategoryWindow"
 
 
 CategoryBoxFilter::CategoryBoxFilter(CategoryBox* box)
@@ -79,7 +79,7 @@ bool
 CategoryBox::Validate(void)
 {
 	if (strlen(Text()) < 1) {
-		DAlert* alert = new DAlert(B_TRANSLATE("Category is missing."),
+		DAlert* alert = new DAlert(B_TRANSLATE("Category is missing"),
 			B_TRANSLATE("Do you want to add this transaction without a category?"),
 			B_TRANSLATE("Add"), B_TRANSLATE("Cancel"), NULL, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 		int32 value = alert->Go();

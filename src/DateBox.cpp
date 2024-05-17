@@ -8,7 +8,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "DateBox"
+#define B_TRANSLATION_CONTEXT "TextInput"
 
 
 DateBoxFilter::DateBoxFilter(DateBox* box)
@@ -132,7 +132,7 @@ DateBox::Validate(const bool& alert)
 		SetText(date.String());
 	} else if (gDefaultLocale.StringToDate(Text(), tdate) != B_OK) {
 		if (alert) {
-			ShowAlert(B_TRANSLATE("CapitalBe didn't understand the date you entered."),
+			ShowAlert(B_TRANSLATE("CapitalBe didn't understand the date you entered"),
 				B_TRANSLATE("CapitalBe understands lots of different ways of entering dates. "
 							"Apparently, this wasn't one of them. You'll need to change how you "
 							"entered this date. Sorry."));

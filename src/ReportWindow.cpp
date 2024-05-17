@@ -118,8 +118,8 @@ ReportWindow::ReportWindow(BRect frame)
 	//	account added when the report window is shown initially
 	//	fAccountList->SetSelectionMessage(new BMessage(M_TOGGLE_ACCOUNT));
 
-	temp = B_TRANSLATE("Subtotal:");
-	temp += " ";
+	temp = B_TRANSLATE("Subtotal");
+	temp += ": ";
 	sv = new BStringView("subtotalsv", temp.String());
 	subtotalLayout->AddView(sv);
 
@@ -345,7 +345,7 @@ ReportWindow::MessageReceived(BMessage* msg)
 					fStartDate = fEndDate;
 				RenderReport();
 			} else {
-				ShowAlert(B_TRANSLATE("CapitalBe didn't understand the date you entered."),
+				ShowAlert(B_TRANSLATE("CapitalBe didn't understand the date you entered"),
 					B_TRANSLATE(
 						"CapitalBe understands lots of different ways of entering dates. "
 						"Apparently, this wasn't one of them. You'll need to change how you "
@@ -369,7 +369,7 @@ ReportWindow::MessageReceived(BMessage* msg)
 					fStartDate = fEndDate;
 				RenderReport();
 			} else {
-				ShowAlert(B_TRANSLATE("CapitalBe didn't understand the date you entered."),
+				ShowAlert(B_TRANSLATE("CapitalBe didn't understand the date you entered"),
 					B_TRANSLATE(
 						"CapitalBe understands lots of different ways of entering dates. "
 						"Apparently, this wasn't one of them. You'll need to change how you "

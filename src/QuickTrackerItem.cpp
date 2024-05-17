@@ -10,7 +10,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "QuickTrackerItem"
+#define B_TRANSLATION_CONTEXT "MainWindow"
 
 
 // Calculates the user's net worth by adding up the balances of all accounts
@@ -253,7 +253,7 @@ QTBudgetCategoryItem::HandleNotify(const uint64& value, const BMessage* msg)
 					Window()->Lock();
 
 				BString label, temp;
-				temp << B_TRANSLATE("Account total:") << " ";
+				temp << B_TRANSLATE("Account total") << ": ";
 				if (gCurrentLocale.CurrencyToString(Fixed(), label) == B_OK)
 					temp << label;
 				SetText(temp.String());
@@ -274,7 +274,7 @@ QTBudgetCategoryItem::Calculate(void)
 	BString label, temp;
 	Fixed variance;
 
-	temp << B_TRANSLATE("Budget:") << " " << fEntry.name;
+	temp << B_TRANSLATE("Budget") << ": " << fEntry.name;
 
 	if (gDefaultLocale.CurrencyToString(variance, label) == B_OK) {
 		temp << " \n" << label;

@@ -11,7 +11,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "AccountListItem"
+#define B_TRANSLATION_CONTEXT "Account"
 
 
 AccountListItem::AccountListItem(Account* acc)
