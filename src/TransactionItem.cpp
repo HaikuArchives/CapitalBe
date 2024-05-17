@@ -185,7 +185,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 6));
 	} else {
 		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, GetMutedTint(CB_MUTED_TEXT));
-		owner->DrawString(B_TRANSLATE("No Memo"), BPoint(xpos + 5, ypos - 6));
+		owner->DrawString(B_TRANSLATE("No memo"), BPoint(xpos + 5, ypos - 6));
 	}
 	owner->ConstrainClippingRegion(NULL);
 }

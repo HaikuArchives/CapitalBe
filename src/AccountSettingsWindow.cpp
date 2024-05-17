@@ -31,7 +31,7 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	BView* back = new BView("back", B_WILL_DRAW);
 	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	fAccountName = new AutoTextControl("accname", B_TRANSLATE("Account name:"),
+	fAccountName = new AutoTextControl("accname", B_TRANSLATE("Name:"),
 		(fAccount ? fAccount->Name() : NULL), new BMessage(M_NAME_CHANGED));
 	fAccountName->SetCharacterLimit(32);
 

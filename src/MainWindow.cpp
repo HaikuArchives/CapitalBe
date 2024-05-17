@@ -345,7 +345,7 @@ MainWindow::MessageReceived(BMessage* msg)
 				break;
 
 			if (!gDatabase.ImportFile(ref)) {
-				BString errmsg(B_TRANSLATE("Could not import the data in the file %%FILENAME%%."));
+				BString errmsg(B_TRANSLATE("Could not import the data in the file '%%FILENAME%%'."));
 				errmsg.ReplaceFirst("%%FILENAME%%", ref.name);
 				ShowAlert(errmsg.String(),
 					B_TRANSLATE("This happens when the kind of file is not "
@@ -375,11 +375,11 @@ MainWindow::MessageReceived(BMessage* msg)
 
 			if (!gDatabase.ExportFile(dir)) {
 				BString errmsg(
-					B_TRANSLATE("Could not export your financial data to the file %%FILENAME%%."));
+					B_TRANSLATE("Could not export your financial data to the file '%%FILENAME%%'."));
 				errmsg.ReplaceFirst("%%FILENAME%%", dir.name);
 				ShowAlert(
 					errmsg.String(), B_TRANSLATE("This really shouldn't happen, so you probably "
-												 "should e-mail support about this."));
+												 "should report a bug for this."));
 			}
 			break;
 		}
@@ -617,7 +617,7 @@ MainWindow::CreateTransfer(BMessage* msg)
 
 	// Now that we've gathered all the data from the message sent to us by TransferWindow,
 	// we create the transactions needed for each account.
-	BString payee = B_TRANSLATE("Transfer to %%PAYEE%%");
+	BString payee = B_TRANSLATE("Transfer to '%%PAYEE%%'");
 	payee.ReplaceFirst("%%PAYEE%%", to->Name());
 
 	uint32 transid = gDatabase.NextTransactionID();
@@ -625,7 +625,7 @@ MainWindow::CreateTransfer(BMessage* msg)
 	gDatabase.AddTransaction(from->GetID(), transid, date, type, payee.String(),
 		fixed.InvertAsCopy(), "Transfer", memo.String());
 
-	payee = B_TRANSLATE("Transfer from %%PAYEE%%");
+	payee = B_TRANSLATE("Transfer from '%%PAYEE%%'");
 	payee.ReplaceFirst("%%PAYEE%%", to->Name());
 	payee << from->Name();
 	gDatabase.AddTransaction(

@@ -1,9 +1,8 @@
-1	English	application/x-vnd.wgp-CapitalBe	3952487706
+1	English	application/x-vnd.wgp-CapitalBe	2081549796
 Year	ReportWindow		Year
 Edit transaction	TransactionEditWindow		Edit transaction
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
-Transfer from %%PAYEE%%	MainWindow		Transfer from %%PAYEE%%
 Reports	ReportWindow		Reports
 Monthly	ScheduleAddWindow		Monthly
 Annually	BudgetWindow		Annually
@@ -14,9 +13,12 @@ Category	CheckView		Category
 Cancel	TransferWindow		Cancel
 Weekly	BudgetWindow		Weekly
 Enter	CheckView		Enter
+This really shouldn't happen, so you probably should report a bug for this.	MainWindow		This really shouldn't happen, so you probably should report a bug for this.
 Next	MainWindow		Next
 Remove…	CategoryWindow		Remove…
 Cancel	CategoryWindow		Cancel
+Transfer from '%%PAYEE%%'	MainWindow		Transfer from '%%PAYEE%%'
+You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow		You need to enter the date for the statement to 'Quick balance'.
 Amount	BudgetReport		Amount
 Cancel	ScheduleAddWindow		Cancel
 Payee: %s	ScheduleAddWindow		Payee: %s
@@ -26,9 +28,9 @@ Import from QIF file…	MainWindow		Import from QIF file…
 Ending date:	ReportWindow		Ending date:
 You need to enter a payee.	PayeeBox		You need to enter a payee.
 Split	ScheduledTransItem		Split
-Could not export your financial data to the file %%FILENAME%%.	MainWindow		Could not export your financial data to the file %%FILENAME%%.
 Separator:	PrefWindow		Separator:
 Bank charges	ReconcileWindow		Bank charges
+Transfer to '%%PAYEE%%'	MainWindow		Transfer to '%%PAYEE%%'
 CapitalBe uses the words 'Income','Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.	CategoryWindow		CapitalBe uses the words 'Income','Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.
 Total charges: %s	ReconcileWindow		Total charges: %s
 CapitalBe:	MainWindow		CapitalBe:
@@ -37,10 +39,12 @@ You need to select an account in order to reconcile it.	MainWindow		You need to 
 Spending category	CategoryWindow		Spending category
 Add…	CategoryWindow		Add…
 Total	NetWorthReport		Total
+Could not import the data in the file '%%FILENAME%%'.	MainWindow		Could not import the data in the file '%%FILENAME%%'.
 Category	SplitView		Category
 Transactions	ReportWindow		Transactions
 Date	ReconcileWindow		Date
 Budget:	QuickTrackerItem		Budget:
+Add item	SplitView		Add item
 This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.	MainWindow		This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.
 Couldn't quick balance.	ReconcileWindow		Couldn't quick balance.
 Total	BudgetWindow		Total
@@ -66,7 +70,6 @@ Add	CategoryBox		Add
 Cancel	ReconcileWindow		Cancel
 Category	TransactionReport		Category
 Amount	ScheduleListWindow		Amount
-Add Category	CategoryWindow		Add Category
 Spending	CategoryWindow		Spending
 There may be a typo or the wrong kind of currency symbol for this account.	SplitView		There may be a typo or the wrong kind of currency symbol for this account.
 Reconcile…	MainWindow		Reconcile…
@@ -78,13 +81,12 @@ Annually	ScheduleAddWindow		Annually
 Close	MainWindow		Close
 English	CheckView	Path to localized helpfiles. Only translate if available in your language.	English
 Closed	AccountListItem		Closed
-CapitalBe didn't understand the amount for Bank Charges.	ReconcileWindow		CapitalBe didn't understand the amount for Bank Charges.
 Import	MainWindow		Import
 CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ReportWindow		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
 Interest earned	ReconcileWindow		Interest earned
-Could not import the data in the file %%FILENAME%%.	MainWindow		Could not import the data in the file %%FILENAME%%.
 Quit	Locale		Quit
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Once deleted, you will not be able to get back any data on this account.
+Add category	CategoryWindow		Add category
 Total deposits: %s	ReconcileWindow		Total deposits: %s
 Save bugreport	Locale		Save bugreport
 Amount	CheckView		Amount
@@ -99,13 +101,11 @@ Payee	CheckView		Payee
 Really delete account?	MainWindow		Really delete account?
 DEP	ReconcileWindow		DEP
 Income	BudgetWindow		Income
-This really shouldn't happen, so you probably should e-mail support about this.	MainWindow		This really shouldn't happen, so you probably should e-mail support about this.
 Remove	ScheduleListWindow		Remove
 Quick balance	ReconcileWindow		Quick balance
 This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.	MainWindow		This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.
 Payments	ScheduleListWindow		Payments
 Month	ReportWindow		Month
-Add Item	SplitView		Add Item
 Scheduled transactions…	MainWindow		Scheduled transactions…
 Delete	MainWindow		Delete
 Date format: %s	PrefWindow		Date format: %s
@@ -115,17 +115,17 @@ Quarter	ReportWindow		Quarter
 Account interest	ReconcileWindow		Account interest
 Schedule this transaction…	MainWindow		Schedule this transaction…
 Payee	ScheduleListWindow		Payee
+Name:	CategoryWindow		Name:
 Symbol:	PrefWindow		Symbol:
 Transactions	TransactionReport		Transactions
-No Memo	ScheduledTransItem		No Memo
 English	ScheduleListWindow	Path to localized helpfiles. Only translate if available in your language.	English
-Split Transaction	SplitView		Split Transaction
 Average	BudgetWindow		Average
 Quarterly	Budget		Quarterly
 Currency	PrefWindow		Currency
 Summary	BudgetWindow		Summary
 Ending balance	ReconcileWindow		Ending balance
 Frequency	ScheduleAddWindow		Frequency
+Name:	AccountSettingsWindow		Name:
 Category	BudgetReport		Category
 Accounts:	ReportWindow		Accounts:
 Options	PrefWindow		Options
@@ -134,17 +134,19 @@ Edit category	BudgetWindow		Edit category
 Reconcile	ReconcileWindow		Reconcile
 Weekly	ScheduleListWindow		Weekly
 Amount	SplitView		Amount
+Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.
 Reset	ReconcileWindow		Reset
 Frequency:	ScheduleAddWindow		Frequency:
 Category:	ScheduleAddWindow		Category:
 OK	AccountSettingsWindow		OK
 About CapitalBe	MainWindow		About CapitalBe
+No memo	ScheduledTransItem		No memo
 Annually	Budget		Annually
 Payee	SplitView		Payee
 Can't use this category name	CategoryWindow		Can't use this category name
 Budget	BudgetWindow		Budget
 Monthly	BudgetWindow		Monthly
-Transfer to %%PAYEE%%	MainWindow		Transfer to %%PAYEE%%
+CapitalBe didn't understand the amount for 'Interest earned'.	ReconcileWindow		CapitalBe didn't understand the amount for 'Interest earned'.
 OK	TransferWindow		OK
 Total worth	NetWorthReport		Total worth
 Memo	CheckView		Memo
@@ -160,7 +162,6 @@ Help	HelpButton		Help
 Total:	SplitView		Total:
 Unlimited	ScheduleListWindow		Unlimited
 Account settings	AccountSettingsWindow		Account settings
-Account name:	AccountSettingsWindow		Account name:
 Balance	QuickTrackerItem		Balance
 Set all to zero	BudgetWindow		Set all to zero
 When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%
@@ -169,6 +170,7 @@ Numbered transactions cannot be scheduled.	MainWindow		Numbered transactions can
 New…	MainWindow		New…
 English	ReconcileWindow	Path to localized helpfiles. Only translate if available in your language.	English
 Quick Balance failed. This doesn't mean that you did something wrong - it's just that Quick Balance works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Quick Balance failed. This doesn't mean that you did something wrong - it's just that Quick Balance works on simpler cases in balancing an account than this one. Sorry.
+Show split	SplitView		Show split
 Amount: %s	ScheduleAddWindow		Amount: %s
 Transfer	BudgetWindow		Transfer
 Amount:	BudgetWindow		Amount:
@@ -184,6 +186,7 @@ Income	ReportWindow		Income
 Memo	SplitView		Memo
 <No accounts>	QuickTrackerItem		<No accounts>
 Total checks:	ReconcileWindow		Total checks:
+Remove item	SplitView		Remove item
 Not enough accounts for a transfer.	MainWindow		Not enough accounts for a transfer.
 Amount	TransactionReport		Amount
 Transaction	MainWindow		Transaction
@@ -191,12 +194,12 @@ Edit transfer	TransferWindow		Edit transfer
 Categories	CategoryWindow		Categories
 Reports	MainWindow		Reports
 Date	CheckView		Date
+CapitalBe didn't understand the amount for 'Bank charges'.	ReconcileWindow		CapitalBe didn't understand the amount for 'Bank charges'.
 Account	MainWindow		Account
 Currency format: %s	PrefWindow		Currency format: %s
 Payee	TransactionReport		Payee
 Total deposits:	ReconcileWindow		Total deposits:
 Categories…	MainWindow		Categories…
-No Memo	TransactionItem		No Memo
 CapitalBe didn't understand the amount.	CurrencyBox		CapitalBe didn't understand the amount.
 Day, Month, Year	PrefWindow		Day, Month, Year
 If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		If you intend to transfer money, it will need to be an amount that is not zero.
@@ -209,6 +212,7 @@ Do you want to add this transaction without a category?	CategoryBox		Do you want
 This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.	MainWindow		This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.
 QuickTracker	RegisterView		QuickTracker
 Type: %s	ScheduleAddWindow		Type: %s
+New name:	CategoryWindow		New name:
 Weekly	Budget		Weekly
 Split	SplitFilterView		Split
 Bank charge	ReconcileWindow		Bank charge
@@ -220,8 +224,6 @@ Date	SplitView		Date
 Quit	MainWindow		Quit
 Lowest	BudgetWindow		Lowest
 Previous	MainWindow		Previous
-New category name:	CategoryWindow		New category name:
-Remove Item	SplitView		Remove Item
 Accounts	RegisterView		Accounts
 Payee is missing.	PayeeBox		Payee is missing.
 Type	CheckView		Type
@@ -234,7 +236,6 @@ Tools	MainWindow		Tools
 Transaction type is missing.	CheckNumBox		Transaction type is missing.
 Uncategorized	CategoryBox		Uncategorized
 Split	TransactionItem		Split
-CapitalBe didn't understand the amount for Interest Earned.	ReconcileWindow		CapitalBe didn't understand the amount for Interest Earned.
 Split	SplitView		Split
 The split total must match the amount box.	SplitView		The split total must match the amount box.
 Delete…	MainWindow		Delete…
@@ -242,20 +243,17 @@ CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like
 Amount	BudgetWindow		Amount
 Cancel	CategoryBox		Cancel
 Scheduled transactions	ScheduleListWindow		Scheduled transactions
-Starting date:	ReportWindow		Starting date:
 Agh! Bug!	Locale		Agh! Bug!
+Starting date:	ReportWindow		Starting date:
 Starting balance	ReconcileWindow		Starting balance
 Quarterly	ScheduleAddWindow		Quarterly
 Amount	CashFlowReport		Amount
-Hide Split	SplitView		Hide Split
 Reconcile:	ReconcileWindow		Reconcile:
 Total charges:	ReconcileWindow		Total charges:
 Total worth	ReportWindow		Total worth
-Category name:	CategoryWindow		Category name:
 Expense	CashFlowReport		Expense
 No transactions	TransactionReport		No transactions
 Date:	TransferWindow		Date:
-Please choose a new category for all transactions currently in the %%CATEGORY_NAME%% category.	CategoryWindow		Please choose a new category for all transactions currently in the %%CATEGORY_NAME%% category.
 To account:	TransferWindow		To account:
 Add account transfer	TransferWindow		Add account transfer
 You need to have an account created in order to reconcile it.	MainWindow		You need to have an account created in order to reconcile it.
@@ -264,11 +262,13 @@ CapitalBe understands lots of different ways of entering dates. Apparently, this
 There may be a typo or the wrong kind of currency symbol for this account.	CurrencyBox		There may be a typo or the wrong kind of currency symbol for this account.
 Next Payment	ScheduleListWindow		Next Payment
 Type	SplitView		Type
-Bank Charge	ReconcileWindow		Bank Charge
 Recalculate all	BudgetWindow		Recalculate all
 Date	NetWorthReport		Date
 CapitalBe didn't understand the date you entered.	ScheduleAddWindow		CapitalBe didn't understand the date you entered.
 Income	CashFlowReport		Income
+Hide split	SplitView		Hide split
+Split transaction	SplitView		Split transaction
+Could not export your financial data to the file '%%FILENAME%%'.	MainWindow		Could not export your financial data to the file '%%FILENAME%%'.
 Total checks: %s	ReconcileWindow		Total checks: %s
 English	ReportWindow	Path to localized helpfiles. Only translate if available in your language.	English
 Quarterly	BudgetWindow		Quarterly
@@ -277,7 +277,7 @@ You cannot schedule transactions on a closed account.	MainWindow		You cannot sch
 Decimal:	PrefWindow		Decimal:
 Split	ScheduleAddWindow		Split
 Month, Day, Year	PrefWindow		Month, Day, Year
-You need to enter the date for the statement to Quick Balance.	ReconcileWindow		You need to enter the date for the statement to Quick Balance.
 CapitalBe didn't understand the date you entered.	ReportWindow		CapitalBe didn't understand the date you entered.
 Use default currency settings	AccountSettingsWindow		Use default currency settings
 Unknown	ScheduleListWindow		Unknown
+No memo	TransactionItem		No memo
