@@ -16,6 +16,7 @@ public:
 	virtual void MessageReceived(BMessage* msg);
 
 private:
+	entry_ref GetHelpFile(const char* helpfilename);
 	entry_ref fRef;
 };
 
