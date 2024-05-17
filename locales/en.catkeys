@@ -27,6 +27,7 @@ Import from QIF file…	MainWindow		Import from QIF file…
 Ending date:	ReportWindow		Ending date:
 Split	ScheduledTransItem		Split
 Separator:	PrefWindow		Separator:
+Help: Report	ReportWindow		Help: Report
 Bank charges	ReconcileWindow		Bank charges
 Transfer to '%%PAYEE%%'	MainWindow		Transfer to '%%PAYEE%%'
 Could not import the data in the file '%%FILENAME%%'	MainWindow		Could not import the data in the file '%%FILENAME%%'
@@ -64,6 +65,8 @@ CapitalBe understands lots of different ways of entering dates. Apparently, this
 Cancel	ReconcileWindow		Cancel
 Category	TransactionReport		Category
 Amount	ScheduleListWindow		Amount
+Help: Main window	CheckView		Help: Main window
+Add Category	CategoryWindow		Add Category
 Spending	CategoryWindow		Spending
 There may be a typo or the wrong kind of currency symbol for this account.	SplitView		There may be a typo or the wrong kind of currency symbol for this account.
 Reconcile…	MainWindow		Reconcile…
