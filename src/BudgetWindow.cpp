@@ -713,7 +713,9 @@ BudgetWindow::BuildStatsAndEditor(void)
 
 	fMonthly->SetValue(B_CONTROL_ON);
 
-	fAmountLabel = new BStringView("amountlabel", B_TRANSLATE("Amount:"));
+	temp = B_TRANSLATE("Amount");
+	temp << ":";
+	fAmountLabel = new BStringView("amountlabel", temp.String());
 
 	fAmountBox = new CurrencyBox("amountbox", NULL, "$00,000.00", new BMessage(M_AMOUNT_CHANGED));
 }

@@ -8,7 +8,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "CurrencyBox"
+#define B_TRANSLATION_CONTEXT "TextInput"
 
 
 CurrencyBoxFilter::CurrencyBoxFilter(CurrencyBox* box)
@@ -68,7 +68,7 @@ CurrencyBox::Validate(bool alert)
 	Fixed amount;
 	if (gCurrentLocale.StringToCurrency(Text(), amount) != B_OK) {
 		if (alert) {
-			ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount."),
+			ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount"),
 				B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
 							"for this account."));
 			MakeFocus(true);

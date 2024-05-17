@@ -4,7 +4,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "TransactionEditWindow"
+#define B_TRANSLATION_CONTEXT "TransactionEdit"
 
 
 #define M_TOGGLE_SPLIT 'tspl'

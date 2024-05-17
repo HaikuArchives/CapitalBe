@@ -185,7 +185,7 @@ Database::OpenFile(const char* path)
 		fDB.open(path);
 	} catch (...) {
 		UNLOCK;
-		ShowAlert("Couldn't open account data.",
+		ShowAlert("Couldn't open account data",
 			"CapitalBe couldn't open your financial data. "
 			"If your data is in the old storage format from the Preview Edition 1.0, you "
 			"will need to run the conversion program before you can use your data.");

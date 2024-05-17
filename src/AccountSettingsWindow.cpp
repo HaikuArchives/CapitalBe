@@ -10,7 +10,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "AccountSettingsWindow"
+#define B_TRANSLATION_CONTEXT "Account"
 
 
 #define M_EDIT_ACCOUNT_SETTINGS 'east'

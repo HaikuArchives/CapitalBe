@@ -1,14 +1,13 @@
-1	English	application/x-vnd.wgp-CapitalBe	2081549796
+1	English	application/x-vnd.wgp-CapitalBe	1737071390
 Year	ReportWindow		Year
-Edit transaction	TransactionEditWindow		Edit transaction
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
 Reports	ReportWindow		Reports
 Monthly	ScheduleAddWindow		Monthly
 Annually	BudgetWindow		Annually
 Report a bug…	MainWindow		Report a bug…
+Category is missing	CategoryWindow		Category is missing
 OK	PrefWindow		OK
-CapitalBe didn't understand the date you entered.	DateBox		CapitalBe didn't understand the date you entered.
 Category	CheckView		Category
 Cancel	TransferWindow		Cancel
 Weekly	BudgetWindow		Weekly
@@ -19,54 +18,49 @@ Remove…	CategoryWindow		Remove…
 Cancel	CategoryWindow		Cancel
 Transfer from '%%PAYEE%%'	MainWindow		Transfer from '%%PAYEE%%'
 You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow		You need to enter the date for the statement to 'Quick balance'.
-Amount	BudgetReport		Amount
 Cancel	ScheduleAddWindow		Cancel
 Payee: %s	ScheduleAddWindow		Payee: %s
 Default account settings:	PrefWindow		Default account settings:
+Account total	MainWindow		Account total
 CapitalBe	System name		CapitalBe
 Import from QIF file…	MainWindow		Import from QIF file…
 Ending date:	ReportWindow		Ending date:
-You need to enter a payee.	PayeeBox		You need to enter a payee.
 Split	ScheduledTransItem		Split
 Separator:	PrefWindow		Separator:
 Bank charges	ReconcileWindow		Bank charges
 Transfer to '%%PAYEE%%'	MainWindow		Transfer to '%%PAYEE%%'
-CapitalBe uses the words 'Income','Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.	CategoryWindow		CapitalBe uses the words 'Income','Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.
+Could not import the data in the file '%%FILENAME%%'	MainWindow		Could not import the data in the file '%%FILENAME%%'
 Total charges: %s	ReconcileWindow		Total charges: %s
-CapitalBe:	MainWindow		CapitalBe:
-CapitalBe didn't understand the amount.	SplitView		CapitalBe didn't understand the amount.
 You need to select an account in order to reconcile it.	MainWindow		You need to select an account in order to reconcile it.
 Spending category	CategoryWindow		Spending category
 Add…	CategoryWindow		Add…
 Total	NetWorthReport		Total
-Could not import the data in the file '%%FILENAME%%'.	MainWindow		Could not import the data in the file '%%FILENAME%%'.
 Category	SplitView		Category
 Transactions	ReportWindow		Transactions
 Date	ReconcileWindow		Date
-Budget:	QuickTrackerItem		Budget:
 Add item	SplitView		Add item
 This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.	MainWindow		This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.
-Couldn't quick balance.	ReconcileWindow		Couldn't quick balance.
+Help	MainWindow		Help
 Total	BudgetWindow		Total
 Memo	TransactionReport		Memo
+Edit transaction	TransactionEdit		Edit transaction
 Closed account	MainWindow		Closed account
 Enter	SplitView		Enter
 Category	CashFlowReport		Category
 Reports:	ReportWindow		Reports:
-Subtotal:	ReportWindow		Subtotal:
 CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ScheduleAddWindow		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
 Highest	BudgetWindow		Highest
-Unknown	Budget		Unknown
 You need to have at least 2 accounts to perform a transfer.	MainWindow		You need to have at least 2 accounts to perform a transfer.
 Monthly	ScheduleListWindow		Monthly
 Category	BudgetWindow		Category
 Frequency	BudgetWindow		Frequency
-Category is missing.	CategoryBox		Category is missing.
+CapitalBe didn't understand the amount for 'Bank charges'	ReconcileWindow		CapitalBe didn't understand the amount for 'Bank charges'
 Subtotal	ReportWindow		Subtotal
-Memo:	ScheduleAddWindow		Memo:
+You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	CheckView		You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.
 Uncategorized	SplitView		Uncategorized
 Frequency	ScheduleListWindow		Frequency
-Add	CategoryBox		Add
+Split	TransactionEdit		Split
+CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	TextInput		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
 Cancel	ReconcileWindow		Cancel
 Category	TransactionReport		Category
 Amount	ScheduleListWindow		Amount
@@ -80,22 +74,28 @@ Edit…	CategoryWindow		Edit…
 Annually	ScheduleAddWindow		Annually
 Close	MainWindow		Close
 English	CheckView	Path to localized helpfiles. Only translate if available in your language.	English
-Closed	AccountListItem		Closed
 Import	MainWindow		Import
-CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ReportWindow		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
 Interest earned	ReconcileWindow		Interest earned
+CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ReportWindow		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
 Quit	Locale		Quit
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Once deleted, you will not be able to get back any data on this account.
 Add category	CategoryWindow		Add category
+Could not export your financial data to the file '%%FILENAME%%'	MainWindow		Could not export your financial data to the file '%%FILENAME%%'
+CapitalBe didn't understand the amount	SplitView		CapitalBe didn't understand the amount
+Name:	Account		Name:
 Total deposits: %s	ReconcileWindow		Total deposits: %s
 Save bugreport	Locale		Save bugreport
 Amount	CheckView		Amount
 Indefinitely	ScheduleAddWindow		Indefinitely
 Cancel	MainWindow		Cancel
+<No accounts>	MainWindow		<No accounts>
+There may be a typo or the wrong kind of currency symbol for this account.	TextInput		There may be a typo or the wrong kind of currency symbol for this account.
 Categories	ReportWindow		Categories
 Appears before amount	PrefWindow		Appears before amount
 Unreconciled total: %s	ReconcileWindow		Unreconciled total: %s
 Date	TransactionReport		Date
+CapitalBe didn't understand the date you entered	ScheduleAddWindow		CapitalBe didn't understand the date you entered
+Couldn't Quick balance	ReconcileWindow		Couldn't Quick balance
 There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		There may be a typo or the wrong kind of currency symbol for this account.
 Payee	CheckView		Payee
 Really delete account?	MainWindow		Really delete account?
@@ -106,6 +106,9 @@ Quick balance	ReconcileWindow		Quick balance
 This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.	MainWindow		This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.
 Payments	ScheduleListWindow		Payments
 Month	ReportWindow		Month
+No memo	TransactionEdit		No memo
+Closed	Account		Closed
+Memo	ScheduleAddWindow		Memo
 Scheduled transactions…	MainWindow		Scheduled transactions…
 Delete	MainWindow		Delete
 Date format: %s	PrefWindow		Date format: %s
@@ -119,34 +122,35 @@ Name:	CategoryWindow		Name:
 Symbol:	PrefWindow		Symbol:
 Transactions	TransactionReport		Transactions
 English	ScheduleListWindow	Path to localized helpfiles. Only translate if available in your language.	English
+CapitalBe didn't understand the amount	TextInput		CapitalBe didn't understand the amount
 Average	BudgetWindow		Average
-Quarterly	Budget		Quarterly
 Currency	PrefWindow		Currency
 Summary	BudgetWindow		Summary
+You need to enter a payee.	TextInput		You need to enter a payee.
 Ending balance	ReconcileWindow		Ending balance
+Category	ScheduleAddWindow		Category
 Frequency	ScheduleAddWindow		Frequency
-Name:	AccountSettingsWindow		Name:
-Category	BudgetReport		Category
 Accounts:	ReportWindow		Accounts:
+CapitalBe didn't understand the date you entered	ReportWindow		CapitalBe didn't understand the date you entered
+Cancel	Account		Cancel
 Options	PrefWindow		Options
 English	SplitView	Path to localized helpfiles. Only translate if available in your language.	English
 Edit category	BudgetWindow		Edit category
 Reconcile	ReconcileWindow		Reconcile
+CapitalBe uses the words 'Income', 'Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.	CategoryWindow		CapitalBe uses the words 'Income', 'Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.
 Weekly	ScheduleListWindow		Weekly
 Amount	SplitView		Amount
 Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.
 Reset	ReconcileWindow		Reset
 Frequency:	ScheduleAddWindow		Frequency:
-Category:	ScheduleAddWindow		Category:
-OK	AccountSettingsWindow		OK
+The split total must match the amount box	SplitView		The split total must match the amount box
 About CapitalBe	MainWindow		About CapitalBe
 No memo	ScheduledTransItem		No memo
-Annually	Budget		Annually
 Payee	SplitView		Payee
 Can't use this category name	CategoryWindow		Can't use this category name
+Do you want to add this transaction without a category?	CategoryWindow		Do you want to add this transaction without a category?
 Budget	BudgetWindow		Budget
 Monthly	BudgetWindow		Monthly
-CapitalBe didn't understand the amount for 'Interest earned'.	ReconcileWindow		CapitalBe didn't understand the amount for 'Interest earned'.
 OK	TransferWindow		OK
 Total worth	NetWorthReport		Total worth
 Memo	CheckView		Memo
@@ -158,90 +162,77 @@ Memo:	TransferWindow		Memo:
 Edit…	MainWindow		Edit…
 OK	CategoryWindow		OK
 Spending	ReportWindow		Spending
-Help	HelpButton		Help
 Total:	SplitView		Total:
 Unlimited	ScheduleListWindow		Unlimited
-Account settings	AccountSettingsWindow		Account settings
-Balance	QuickTrackerItem		Balance
 Set all to zero	BudgetWindow		Set all to zero
 When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%
-Date is missing.	ReconcileWindow		Date is missing.
-Numbered transactions cannot be scheduled.	MainWindow		Numbered transactions cannot be scheduled.
 New…	MainWindow		New…
 English	ReconcileWindow	Path to localized helpfiles. Only translate if available in your language.	English
-Quick Balance failed. This doesn't mean that you did something wrong - it's just that Quick Balance works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Quick Balance failed. This doesn't mean that you did something wrong - it's just that Quick Balance works on simpler cases in balancing an account than this one. Sorry.
 Show split	SplitView		Show split
-Amount: %s	ScheduleAddWindow		Amount: %s
 Transfer	BudgetWindow		Transfer
-Amount:	BudgetWindow		Amount:
+Amount: %s	ScheduleAddWindow		Amount: %s
 Starting date:	ScheduleAddWindow		Starting date:
+Account settings	Account		Account settings
 Settings…	MainWindow		Settings…
-Monthly	Budget		Monthly
 Cancel	PrefWindow		Cancel
 Quarterly	ScheduleListWindow		Quarterly
 12 month statistics	BudgetWindow		12 month statistics
 Not transferring any money	TransferWindow		Not transferring any money
 Split	CategoryWindow		Split
+OK	Account		OK
 Income	ReportWindow		Income
 Memo	SplitView		Memo
-<No accounts>	QuickTrackerItem		<No accounts>
+Unknown	BudgetWindow		Unknown
+Numbered transactions cannot be scheduled	MainWindow		Numbered transactions cannot be scheduled
 Total checks:	ReconcileWindow		Total checks:
 Remove item	SplitView		Remove item
-Not enough accounts for a transfer.	MainWindow		Not enough accounts for a transfer.
 Amount	TransactionReport		Amount
 Transaction	MainWindow		Transaction
 Edit transfer	TransferWindow		Edit transfer
-Categories	CategoryWindow		Categories
+Amount	TransferWindow		Amount
 Reports	MainWindow		Reports
+Categories	CategoryWindow		Categories
 Date	CheckView		Date
-CapitalBe didn't understand the amount for 'Bank charges'.	ReconcileWindow		CapitalBe didn't understand the amount for 'Bank charges'.
 Account	MainWindow		Account
+Uncategorized	CategoryWindow		Uncategorized
 Currency format: %s	PrefWindow		Currency format: %s
 Payee	TransactionReport		Payee
 Total deposits:	ReconcileWindow		Total deposits:
 Categories…	MainWindow		Categories…
-CapitalBe didn't understand the amount.	CurrencyBox		CapitalBe didn't understand the amount.
 Day, Month, Year	PrefWindow		Day, Month, Year
 If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		If you intend to transfer money, it will need to be an amount that is not zero.
 You can schedule transfers, deposits, or ATM transactions.	MainWindow		You can schedule transfers, deposits, or ATM transactions.
 Success!	ReconcileWindow		Success!
 Income	CategoryWindow		Income
 Edit category	CategoryWindow		Edit category
-Schedule transaction	ScheduleAddWindow		Schedule transaction
-Do you want to add this transaction without a category?	CategoryBox		Do you want to add this transaction without a category?
 This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.	MainWindow		This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.
 QuickTracker	RegisterView		QuickTracker
+Schedule transaction	ScheduleAddWindow		Schedule transaction
 Type: %s	ScheduleAddWindow		Type: %s
 New name:	CategoryWindow		New name:
-Weekly	Budget		Weekly
 Split	SplitFilterView		Split
 Bank charge	ReconcileWindow		Bank charge
 Budget	MainWindow		Budget
-Cancel	AccountSettingsWindow		Cancel
 Date	PrefWindow		Date
 OK	ScheduleAddWindow		OK
 Date	SplitView		Date
+Add	CategoryWindow		Add
 Quit	MainWindow		Quit
 Lowest	BudgetWindow		Lowest
 Previous	MainWindow		Previous
+Transaction type is missing	CheckView		Transaction type is missing
 Accounts	RegisterView		Accounts
-Payee is missing.	PayeeBox		Payee is missing.
 Type	CheckView		Type
-Account total:	QuickTrackerItem		Account total:
+Balance	MainWindow		Balance
 Export	MainWindow		Export
-You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	CheckNumBox		You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.
 Enter a transfer…	MainWindow		Enter a transfer…
 File	MainWindow		File
 Tools	MainWindow		Tools
-Transaction type is missing.	CheckNumBox		Transaction type is missing.
-Uncategorized	CategoryBox		Uncategorized
-Split	TransactionItem		Split
+Not enough accounts for a transfer	MainWindow		Not enough accounts for a transfer
 Split	SplitView		Split
-The split total must match the amount box.	SplitView		The split total must match the amount box.
 Delete…	MainWindow		Delete…
 CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n	Locale		CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n
 Amount	BudgetWindow		Amount
-Cancel	CategoryBox		Cancel
 Scheduled transactions	ScheduleListWindow		Scheduled transactions
 Agh! Bug!	Locale		Agh! Bug!
 Starting date:	ReportWindow		Starting date:
@@ -249,6 +240,7 @@ Starting balance	ReconcileWindow		Starting balance
 Quarterly	ScheduleAddWindow		Quarterly
 Amount	CashFlowReport		Amount
 Reconcile:	ReconcileWindow		Reconcile:
+Use default currency settings	Account		Use default currency settings
 Total charges:	ReconcileWindow		Total charges:
 Total worth	ReportWindow		Total worth
 Expense	CashFlowReport		Expense
@@ -256,28 +248,25 @@ No transactions	TransactionReport		No transactions
 Date:	TransferWindow		Date:
 To account:	TransferWindow		To account:
 Add account transfer	TransferWindow		Add account transfer
+Quick balance failed. This doesn't mean that you did something wrong - it's just that 'Quick balance' works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Quick balance failed. This doesn't mean that you did something wrong - it's just that 'Quick balance' works on simpler cases in balancing an account than this one. Sorry.
 You need to have an account created in order to reconcile it.	MainWindow		You need to have an account created in order to reconcile it.
-Amount:	TransferWindow		Amount:
-CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	DateBox		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
-There may be a typo or the wrong kind of currency symbol for this account.	CurrencyBox		There may be a typo or the wrong kind of currency symbol for this account.
+Payee is missing	TextInput		Payee is missing
 Next Payment	ScheduleListWindow		Next Payment
+CapitalBe didn't understand the date you entered	TextInput		CapitalBe didn't understand the date you entered
 Type	SplitView		Type
 Recalculate all	BudgetWindow		Recalculate all
 Date	NetWorthReport		Date
-CapitalBe didn't understand the date you entered.	ScheduleAddWindow		CapitalBe didn't understand the date you entered.
 Income	CashFlowReport		Income
 Hide split	SplitView		Hide split
 Split transaction	SplitView		Split transaction
-Could not export your financial data to the file '%%FILENAME%%'.	MainWindow		Could not export your financial data to the file '%%FILENAME%%'.
 Total checks: %s	ReconcileWindow		Total checks: %s
 English	ReportWindow	Path to localized helpfiles. Only translate if available in your language.	English
 Quarterly	BudgetWindow		Quarterly
 Remove category	CategoryWindow		Remove category
 You cannot schedule transactions on a closed account.	MainWindow		You cannot schedule transactions on a closed account.
 Decimal:	PrefWindow		Decimal:
-Split	ScheduleAddWindow		Split
+CapitalBe didn't understand the amount for 'Interest earned'	ReconcileWindow		CapitalBe didn't understand the amount for 'Interest earned'
 Month, Day, Year	PrefWindow		Month, Day, Year
-CapitalBe didn't understand the date you entered.	ReportWindow		CapitalBe didn't understand the date you entered.
-Use default currency settings	AccountSettingsWindow		Use default currency settings
+Split	ScheduleAddWindow		Split
+Date is missing	ReconcileWindow		Date is missing
 Unknown	ScheduleListWindow		Unknown
-No memo	TransactionItem		No memo

@@ -60,8 +60,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	label.SetToFormat(B_TRANSLATE("Amount: %s"), temp.String());
 	BStringView* amountlabel = new BStringView("amountlabel", label.String());
 
-	label = B_TRANSLATE("Category:");
-	label << " ";
+	label = B_TRANSLATE("Category");
+	label << ": ";
 	if (data.CountCategories() > 1)
 		label << B_TRANSLATE("Split");
 	else
@@ -69,8 +69,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 
 	BStringView* categorylabel = new BStringView("categorylabel", label.String());
 
-	label = B_TRANSLATE("Memo:");
-	label << " " << data.Memo();
+	label = B_TRANSLATE("Memo");
+	label << ": " << data.Memo();
 	BStringView* memolabel = new BStringView("memolabel", label.String());
 
 	//	Since layout-api, we need other way to make divider
@@ -207,7 +207,7 @@ ScheduleAddWindow::MessageReceived(BMessage* msg)
 			BString datestr = fStartDate->Text();
 			if (datestr.CountChars() < 3 ||
 				gDefaultLocale.StringToDate(datestr.String(), tempdate) != B_OK) {
-				ShowAlert(B_TRANSLATE("CapitalBe didn't understand the date you entered."),
+				ShowAlert(B_TRANSLATE("CapitalBe didn't understand the date you entered"),
 					B_TRANSLATE(
 						"CapitalBe understands lots of different ways of entering dates. "
 						"Apparently, this wasn't one of them. You'll need to change how you "

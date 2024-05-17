@@ -172,15 +172,13 @@ MainWindow::MainWindow(BRect frame)
 
 	fImportPanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL, B_FILE_NODE, false,
 		new BMessage(M_IMPORT_ACCOUNT));
-	temp = B_TRANSLATE("CapitalBe:");
-	temp += " ";
-	temp += B_TRANSLATE("Import");
+	temp = B_TRANSLATE_SYSTEM_NAME("CapitalBe");
+	temp << ": " << B_TRANSLATE("Import");
 	fImportPanel->Window()->SetTitle(temp.String());
 	fExportPanel = new BFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL, B_FILE_NODE, false,
 		new BMessage(M_EXPORT_ACCOUNT));
-	temp = B_TRANSLATE("CapitalBe:");
-	temp += " ";
-	temp += B_TRANSLATE("Export");
+	temp = B_TRANSLATE_SYSTEM_NAME("CapitalBe");
+	temp << ": " << B_TRANSLATE("Export");
 	fExportPanel->Window()->SetTitle(temp.String());
 	gDatabase.AddObserver(this);
 
@@ -346,7 +344,7 @@ MainWindow::MessageReceived(BMessage* msg)
 
 			if (!gDatabase.ImportFile(ref)) {
 				BString errmsg(
-					B_TRANSLATE("Could not import the data in the file '%%FILENAME%%'."));
+					B_TRANSLATE("Could not import the data in the file '%%FILENAME%%'"));
 				errmsg.ReplaceFirst("%%FILENAME%%", ref.name);
 				ShowAlert(errmsg.String(),
 					B_TRANSLATE("This happens when the kind of file is not "
@@ -376,7 +374,7 @@ MainWindow::MessageReceived(BMessage* msg)
 
 			if (!gDatabase.ExportFile(dir)) {
 				BString errmsg(B_TRANSLATE(
-					"Could not export your financial data to the file '%%FILENAME%%'."));
+					"Could not export your financial data to the file '%%FILENAME%%'"));
 				errmsg.ReplaceFirst("%%FILENAME%%", dir.name);
 				ShowAlert(
 					errmsg.String(), B_TRANSLATE("This really shouldn't happen, so you probably "
@@ -439,7 +437,7 @@ MainWindow::MessageReceived(BMessage* msg)
 		case M_ENTER_TRANSFER:
 		{
 			if (gDatabase.CountAccounts() < 2) {
-				ShowAlert(B_TRANSLATE("Not enough accounts for a transfer."),
+				ShowAlert(B_TRANSLATE("Not enough accounts for a transfer"),
 					B_TRANSLATE("You need to have at least 2 accounts to perform a transfer."));
 				break;
 			}
@@ -498,7 +496,7 @@ MainWindow::MessageReceived(BMessage* msg)
 			gDatabase.GetTransaction(acc->CurrentTransaction(), data);
 
 			if (data.Type().TypeCode() == TRANS_NUMERIC) {
-				ShowAlert(B_TRANSLATE("Numbered transactions cannot be scheduled."),
+				ShowAlert(B_TRANSLATE("Numbered transactions cannot be scheduled"),
 					B_TRANSLATE("You can schedule transfers, deposits, or ATM transactions."));
 				break;
 			}

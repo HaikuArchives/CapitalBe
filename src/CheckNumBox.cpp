@@ -8,7 +8,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "CheckNumBox"
+#define B_TRANSLATION_CONTEXT "CheckView"
 
 
 CheckNumBoxFilter::CheckNumBoxFilter(CheckNumBox* box)
@@ -120,7 +120,7 @@ bool
 CheckNumBox::Validate(void)
 {
 	if (strlen(Text()) < 1) {
-		ShowAlert(B_TRANSLATE("Transaction type is missing."),
+		ShowAlert(B_TRANSLATE("Transaction type is missing"),
 			B_TRANSLATE("You need to enter a check number or transaction type, such as "
 						"ATM (for debit card transactions and the like), DEP (for deposits), "
 						"or your own code for some other kind of expense."));

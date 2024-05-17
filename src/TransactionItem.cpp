@@ -14,7 +14,7 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "TransactionItem"
+#define B_TRANSLATION_CONTEXT "TransactionEdit"
 
 
 TransactionItem::TransactionItem(const TransactionData& trans)
