@@ -16,8 +16,6 @@ extern BMessage gPreferences;
 status_t SavePreferences(const char* path);
 status_t LoadPreferences(const char* path);
 
-void ConstrainWindowFrameToScreen(BRect* rect);
-
 typedef enum {
 	BC_SELECTION_FOCUS = 0,
 	BC_SELECTION_NOFOCUS,
