@@ -70,7 +70,8 @@ CurrencyBox::Validate(bool alert)
 		if (alert) {
 			ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the amount", "TextInput"),
 				B_TRANSLATE_CONTEXT("There may be a typo or the wrong kind of currency symbol "
-							"for this account.", "TextInput"));
+									"for this account.",
+					"TextInput"));
 			MakeFocus(true);
 		}
 		return false;

@@ -338,12 +338,13 @@ ReportWindow::MessageReceived(BMessage* msg)
 					fStartDate = fEndDate;
 				RenderReport();
 			} else {
-				ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the date you entered",
-					"TextInput"),
+				ShowAlert(B_TRANSLATE_CONTEXT(
+							  "CapitalBe didn't understand the date you entered", "TextInput"),
 					B_TRANSLATE_CONTEXT(
 						"CapitalBe understands lots of different ways of entering dates. "
 						"Apparently, this wasn't one of them. You'll need to change how you "
-						"entered this date. Sorry.", "TextInput"));
+						"entered this date. Sorry.",
+						"TextInput"));
 				fStartDateBox->MakeFocus(true);
 				break;
 			}
@@ -363,12 +364,13 @@ ReportWindow::MessageReceived(BMessage* msg)
 					fStartDate = fEndDate;
 				RenderReport();
 			} else {
-				ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the date you entered",
-					"TextInput"),
+				ShowAlert(B_TRANSLATE_CONTEXT(
+							  "CapitalBe didn't understand the date you entered", "TextInput"),
 					B_TRANSLATE_CONTEXT(
 						"CapitalBe understands lots of different ways of entering dates. "
 						"Apparently, this wasn't one of them. You'll need to change how you "
-						"entered this date. Sorry.", "TextInput"));
+						"entered this date. Sorry.",
+						"TextInput"));
 				fEndDateBox->MakeFocus(true);
 				break;
 			}

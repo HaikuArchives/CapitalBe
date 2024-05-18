@@ -604,7 +604,8 @@ SplitView::ValidateSplitAmountField(void)
 	if (gCurrentLocale.StringToCurrency(fSplitAmount->Text(), amount) != B_OK) {
 		ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the amount", "TextInput"),
 			B_TRANSLATE_CONTEXT("There may be a typo or the wrong kind of currency symbol "
-						"for this account.", "TextInput"));
+								"for this account.",
+				"TextInput"));
 		fSplitAmount->MakeFocus(true);
 		return false;
 	} else {
@@ -630,7 +631,8 @@ SplitView::ValidateSplitItems(void)
 		fAmount->MakeFocus(true);
 		ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the amount", "TextInput"),
 			B_TRANSLATE_CONTEXT("There may be a typo or the wrong kind of currency symbol "
-						"for this account.", "TextInput"));
+								"for this account.",
+				"TextInput"));
 
 		return false;
 	}
