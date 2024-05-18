@@ -29,6 +29,6 @@ typedef enum {
 } CapitalBeMuted;
 
 rgb_color GetColor(const CapitalBeColor& color);
-const float GetMutedTint(const CapitalBeMuted& type);
+const float GetMutedTint(const rgb_color color, const CapitalBeMuted& type);
 
 #endif
