@@ -68,9 +68,9 @@ CurrencyBox::Validate(bool alert)
 	Fixed amount;
 	if (gCurrentLocale.StringToCurrency(Text(), amount) != B_OK) {
 		if (alert) {
-			ShowAlert(B_TRANSLATE("CapitalBe didn't understand the amount"),
-				B_TRANSLATE("There may be a typo or the wrong kind of currency symbol "
-							"for this account."));
+			ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the amount", "TextInput"),
+				B_TRANSLATE_CONTEXT("There may be a typo or the wrong kind of currency symbol "
+							"for this account.", "TextInput"));
 			MakeFocus(true);
 		}
 		return false;

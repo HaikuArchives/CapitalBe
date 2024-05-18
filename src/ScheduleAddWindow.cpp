@@ -207,11 +207,12 @@ ScheduleAddWindow::MessageReceived(BMessage* msg)
 			BString datestr = fStartDate->Text();
 			if (datestr.CountChars() < 3 ||
 				gDefaultLocale.StringToDate(datestr.String(), tempdate) != B_OK) {
-				ShowAlert(B_TRANSLATE("CapitalBe didn't understand the date you entered"),
-					B_TRANSLATE(
+				ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the date you entered",
+					"TextInput"),
+					B_TRANSLATE_CONTEXT(
 						"CapitalBe understands lots of different ways of entering dates. "
 						"Apparently, this wasn't one of them. You'll need to change how you "
-						"entered this date. Sorry."));
+						"entered this date. Sorry.", "TextInput"));
 				break;
 			}
 

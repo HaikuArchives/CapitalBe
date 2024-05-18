@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	2056153558
+1	English	application/x-vnd.wgp-CapitalBe	1719023140
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -48,7 +48,6 @@ Closed account	MainWindow		Closed account
 Enter	SplitView		Enter
 Category	CashFlowReport		Category
 Reports:	ReportWindow		Reports:
-CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ScheduleAddWindow		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
 Highest	BudgetWindow		Highest
 You need to have at least 2 accounts to perform a transfer.	MainWindow		You need to have at least 2 accounts to perform a transfer.
 Monthly	ScheduleListWindow		Monthly
@@ -66,7 +65,6 @@ Category	TransactionReport		Category
 Amount	ScheduleListWindow		Amount
 Help: Main window	CheckView		Help: Main window
 Spending	CategoryWindow		Spending
-There may be a typo or the wrong kind of currency symbol for this account.	SplitView		There may be a typo or the wrong kind of currency symbol for this account.
 Reconcile…	MainWindow		Reconcile…
 Spending	BudgetWindow		Spending
 Type	TransactionReport		Type
@@ -76,12 +74,10 @@ Annually	ScheduleAddWindow		Annually
 Close	MainWindow		Close
 Import	MainWindow		Import
 Interest earned	ReconcileWindow		Interest earned
-CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ReportWindow		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
 Quit	Locale		Quit
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Once deleted, you will not be able to get back any data on this account.
 Add category	CategoryWindow		Add category
 Could not export your financial data to the file '%%FILENAME%%'	MainWindow		Could not export your financial data to the file '%%FILENAME%%'
-CapitalBe didn't understand the amount	SplitView		CapitalBe didn't understand the amount
 Name:	Account		Name:
 Total deposits: %s	ReconcileWindow		Total deposits: %s
 Save bugreport	Locale		Save bugreport
@@ -94,7 +90,6 @@ Categories	ReportWindow		Categories
 Appears before amount	PrefWindow		Appears before amount
 Unreconciled total: %s	ReconcileWindow		Unreconciled total: %s
 Date	TransactionReport		Date
-CapitalBe didn't understand the date you entered	ScheduleAddWindow		CapitalBe didn't understand the date you entered
 Couldn't Quick balance	ReconcileWindow		Couldn't Quick balance
 There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		There may be a typo or the wrong kind of currency symbol for this account.
 Payee	CheckView		Payee
@@ -130,7 +125,6 @@ Ending balance	ReconcileWindow		Ending balance
 Category	ScheduleAddWindow		Category
 Frequency	ScheduleAddWindow		Frequency
 Accounts:	ReportWindow		Accounts:
-CapitalBe didn't understand the date you entered	ReportWindow		CapitalBe didn't understand the date you entered
 Cancel	Account		Cancel
 Options	PrefWindow		Options
 Edit category	BudgetWindow		Edit category
@@ -237,8 +231,8 @@ Scheduled transactions	ScheduleListWindow		Scheduled transactions
 Agh! Bug!	Locale		Agh! Bug!
 Starting date:	ReportWindow		Starting date:
 Starting balance	ReconcileWindow		Starting balance
-Quarterly	ScheduleAddWindow		Quarterly
 Amount	CashFlowReport		Amount
+Quarterly	ScheduleAddWindow		Quarterly
 Reconcile:	ReconcileWindow		Reconcile:
 Use default currency settings	Account		Use default currency settings
 Total charges:	ReconcileWindow		Total charges:
