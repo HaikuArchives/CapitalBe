@@ -43,8 +43,13 @@ AccountListItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 	// Draw account title
 	owner->SetFont(be_bold_font);
-	owner->SetHighUIColor(
-		B_LIST_ITEM_TEXT_COLOR, fAccount->IsClosed() ? GetMutedTint(CB_MUTED_TEXT) : B_NO_TINT);
+	if (IsSelected()) {
+		owner->SetHighUIColor(B_LIST_SELECTED_ITEM_TEXT_COLOR, fAccount->IsClosed()
+			? GetMutedTint(ui_color(B_LIST_SELECTED_BACKGROUND_COLOR), CB_MUTED_TEXT) : B_NO_TINT);
+	} else {
+		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR, fAccount->IsClosed()
+			? GetMutedTint(ui_color(B_LIST_BACKGROUND_COLOR), CB_MUTED_TEXT) : B_NO_TINT);
+	}
 
 	BFont font;
 	owner->DrawString(fAccount->Name(), BPoint(frame.left + 5, frame.top + (font.Size())));

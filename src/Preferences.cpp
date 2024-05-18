@@ -63,12 +63,12 @@ LoadPreferences(const char* path)
 
 
 bool
-IsDark()
+IsDark(rgb_color color)
 {
-	rgb_color color = ui_color(B_PANEL_BACKGROUND_COLOR);
 	// From http://alienryderflex.com/hsp.html
 	// Useful in particular to decide if the color is "light" or "dark"
 	// by checking if the perceptual brightness is > 127.
+	// TODO: Once Haiku Beta5 is out, we can use its IsDark()
 
 	int32 brightness =
 		(uint8)roundf(sqrtf(0.299f * color.red * color.red + 0.587f * color.green * color.green +
@@ -79,16 +79,16 @@ IsDark()
 
 
 const float
-GetMutedTint(const CapitalBeMuted& type)
+GetMutedTint(const rgb_color color, const CapitalBeMuted& type)
 {
 	switch (type) {
 		case CB_MUTED_TEXT:
 		{
-			return IsDark() ? B_DARKEN_2_TINT : B_LIGHTEN_1_TINT;
+			return IsDark(color) ? B_DARKEN_2_TINT : B_LIGHTEN_1_TINT;
 		}
 		case CB_MUTED_BG:
 		{
-			return IsDark() ? B_LIGHTEN_2_TINT : B_DARKEN_1_TINT;
+			return IsDark(color) ? B_LIGHTEN_2_TINT : B_DARKEN_1_TINT;
 		}
 		default:
 			return B_NO_TINT;
