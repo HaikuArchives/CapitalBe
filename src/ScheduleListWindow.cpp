@@ -83,8 +83,8 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	fBestWidth = (fRemoveButton->Frame().Width() * 2) + 45;
 	fBestWidth = MAX(fBestWidth, maxwidth + 35);
 
-	fHelpButton = new HelpButton(B_TRANSLATE("Help: Scheduled transaction"),
-		"Scheduled Transaction.txt");
+	fHelpButton =
+		new HelpButton(B_TRANSLATE("Help: Scheduled transaction"), "Scheduled Transaction.txt");
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(15, 15)
