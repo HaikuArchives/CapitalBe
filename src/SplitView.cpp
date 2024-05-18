@@ -81,7 +81,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		"expander", B_TRANSLATE("Show Split"), new BMessage(M_EXPANDER_CHANGED), B_WILL_DRAW);
 
 	fHelpButton = new HelpButton(B_TRANSLATE("Help: Transaction editor"),
-		"Transaction Editor Window Help");
+		"Transaction Editor.txt");
 
 	fSplitContainer = new BView("splitcontainer", B_WILL_DRAW);
 	fSplitContainer->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);

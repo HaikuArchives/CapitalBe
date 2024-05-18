@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	1737071390
+1	English	application/x-vnd.wgp-CapitalBe	2056153558
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -41,7 +41,6 @@ Transactions	ReportWindow		Transactions
 Date	ReconcileWindow		Date
 Add item	SplitView		Add item
 This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.	MainWindow		This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.
-Help	MainWindow		Help
 Total	BudgetWindow		Total
 Memo	TransactionReport		Memo
 Edit transaction	TransactionEdit		Edit transaction
@@ -66,7 +65,6 @@ Cancel	ReconcileWindow		Cancel
 Category	TransactionReport		Category
 Amount	ScheduleListWindow		Amount
 Help: Main window	CheckView		Help: Main window
-Add Category	CategoryWindow		Add Category
 Spending	CategoryWindow		Spending
 There may be a typo or the wrong kind of currency symbol for this account.	SplitView		There may be a typo or the wrong kind of currency symbol for this account.
 Reconcile…	MainWindow		Reconcile…
@@ -76,7 +74,6 @@ Reopen	MainWindow		Reopen
 Edit…	CategoryWindow		Edit…
 Annually	ScheduleAddWindow		Annually
 Close	MainWindow		Close
-English	CheckView	Path to localized helpfiles. Only translate if available in your language.	English
 Import	MainWindow		Import
 Interest earned	ReconcileWindow		Interest earned
 CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ReportWindow		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
@@ -124,9 +121,7 @@ Payee	ScheduleListWindow		Payee
 Name:	CategoryWindow		Name:
 Symbol:	PrefWindow		Symbol:
 Transactions	TransactionReport		Transactions
-English	ScheduleListWindow	Path to localized helpfiles. Only translate if available in your language.	English
-No Memo	ScheduledTransItem		No Memo
-Split Transaction	SplitView		Split Transaction
+CapitalBe didn't understand the amount	TextInput		CapitalBe didn't understand the amount
 Average	BudgetWindow		Average
 Currency	PrefWindow		Currency
 Summary	BudgetWindow		Summary
@@ -165,12 +160,13 @@ Memo:	TransferWindow		Memo:
 Edit…	MainWindow		Edit…
 OK	CategoryWindow		OK
 Spending	ReportWindow		Spending
+Help: Transaction editor	SplitView		Help: Transaction editor
 Total:	SplitView		Total:
 Unlimited	ScheduleListWindow		Unlimited
 Set all to zero	BudgetWindow		Set all to zero
 When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%
+Help: Scheduled transaction	ScheduleListWindow		Help: Scheduled transaction
 New…	MainWindow		New…
-English	ReconcileWindow	Path to localized helpfiles. Only translate if available in your language.	English
 Show split	SplitView		Show split
 Transfer	BudgetWindow		Transfer
 Amount: %s	ScheduleAddWindow		Amount: %s
@@ -213,6 +209,7 @@ QuickTracker	RegisterView		QuickTracker
 Schedule transaction	ScheduleAddWindow		Schedule transaction
 Type: %s	ScheduleAddWindow		Type: %s
 New name:	CategoryWindow		New name:
+Help: Reconcile	ReconcileWindow		Help: Reconcile
 Split	SplitFilterView		Split
 Bank charge	ReconcileWindow		Bank charge
 Budget	MainWindow		Budget
