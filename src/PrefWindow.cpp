@@ -19,8 +19,6 @@
 
 // PrefView
 enum {
-	M_DMY_FORMAT = 'dmyf',
-	M_MDY_FORMAT,
 	M_NEW_DATE_SEPARATOR,
 
 	M_NEW_CURRENCY_SYMBOL,
@@ -44,8 +42,6 @@ PrefWindow::PrefWindow(const BRect& frame)
 	font.SetSize(font.Size() * 1.2f);
 	fLabel->SetFont(&font);
 
-	fDatePrefView = new DatePrefView("dateview", &gDefaultLocale);
-
 	fCurrencyPrefView = new CurrencyPrefView("dateview", &gDefaultLocale);
 
 	fOK = new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_EDIT_OPTIONS));
@@ -64,7 +60,7 @@ PrefWindow::PrefWindow(const BRect& frame)
 		.Add(fLabel)
 		.AddGlue()
 		.End()
-		.Add(fDatePrefView)
+
 		.Add(fCurrencyPrefView)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
 		.AddGlue()
@@ -84,7 +80,6 @@ PrefWindow::MessageReceived(BMessage* msg)
 		case M_EDIT_OPTIONS:
 		{
 			Locale temp = gDefaultLocale;
-			fDatePrefView->GetSettings(temp);
 			fCurrencyPrefView->GetSettings(temp);
 
 			if (temp != gDefaultLocale) {
@@ -102,115 +97,6 @@ PrefWindow::MessageReceived(BMessage* msg)
 	}
 }
 
-DatePrefView::DatePrefView(const char* name, Locale* locale, const int32& flags)
-	: BView(name, flags)
-{
-	BString temp;
-	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
-
-	if (locale)
-		fLocale = *locale;
-	else
-		fLocale = gDefaultLocale;
-
-	fDateBox = new BBox("DateBox");
-
-	BString datestr;
-	fLocale.DateToString(640180800, datestr);
-	temp = "";
-	temp.SetToFormat(B_TRANSLATE("Date format: %s"), datestr.String());
-	fDateBox->SetLabel(temp.String());
-
-	temp = "";
-	temp.SetToFormat(B_TRANSLATE("Month, Day, Year"));
-	fDateMDY = new BRadioButton("mdybutton", temp.String(), new BMessage(M_MDY_FORMAT));
-
-	temp = "";
-	temp.SetToFormat(B_TRANSLATE("Day, Month, Year"));
-	fDateDMY = new BRadioButton("dmybutton", temp.String(), new BMessage(M_DMY_FORMAT));
-	if (fLocale.DateFormat() == DATE_MDY)
-		fDateMDY->SetValue(B_CONTROL_ON);
-	else
-		fDateDMY->SetValue(B_CONTROL_ON);
-
-	fDateSeparatorBox = new AutoTextControl("datesep", B_TRANSLATE("Separator:"),
-		fLocale.DateSeparator(), new BMessage(M_NEW_DATE_SEPARATOR));
-	fDateSeparatorBox->SetDivider(StringWidth(temp.String()) + 5);
-	fDateSeparatorBox->SetCharacterLimit(2);
-
-	// clang off
-	BLayoutBuilder::Group<>(fDateBox, B_VERTICAL, 0.0f)
-		.SetInsets(
-			B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING, B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
-		.Add(fDateMDY)
-		.Add(fDateDMY)
-		.AddGroup(B_HORIZONTAL)
-		.Add(fDateSeparatorBox)
-		.AddGlue()
-		.End()
-		.End();
-
-	BLayoutBuilder::Group<>(this, B_VERTICAL).Add(fDateBox).End();
-	// clang on
-}
-
-void
-DatePrefView::AttachedToWindow(void)
-{
-	fDateMDY->SetTarget(this);
-	fDateDMY->SetTarget(this);
-	fDateSeparatorBox->SetTarget(this);
-}
-
-void
-DatePrefView::MessageReceived(BMessage* msg)
-{
-	switch (msg->what) {
-		case M_DMY_FORMAT:
-		{
-			fLocale.SetDateFormat(DATE_DMY);
-			UpdateDateLabel();
-			break;
-		}
-		case M_MDY_FORMAT:
-		{
-			fLocale.SetDateFormat(DATE_MDY);
-			UpdateDateLabel();
-			break;
-		}
-		case M_NEW_DATE_SEPARATOR:
-		{
-			if (strlen(fDateSeparatorBox->Text()) < 1)
-				break;
-
-			fLocale.SetDateSeparator(fDateSeparatorBox->Text());
-			UpdateDateLabel();
-			break;
-		}
-		default:
-			BView::MessageReceived(msg);
-			break;
-	}
-}
-
-void
-DatePrefView::UpdateDateLabel(void)
-{
-	BString temp, label;
-	fLocale.DateToString(640180800, temp);
-	label.SetToFormat(B_TRANSLATE("Date format: %s"), temp.String());
-	fDateBox->SetLabel(label.String());
-}
-
-void
-DatePrefView::GetSettings(Locale& locale)
-{
-	if (strlen(fDateSeparatorBox->Text()) > 0)
-		locale.SetDateSeparator(fDateSeparatorBox->Text());
-	locale.SetDateFormat((fDateDMY->Value() == B_CONTROL_ON) ? DATE_DMY : DATE_MDY);
-}
-
-
 CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32& flags)
 	: BView(name, flags),
 	  fSampleAmount((long)12345678, true)
@@ -224,6 +110,7 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 		fLocale = gDefaultLocale;
 
 	fCurrencyBox = new BBox("CurrencyBox");
+
 	BString curstr;
 	fLocale.CurrencyToString(fSampleAmount, curstr);
 	temp.SetToFormat(B_TRANSLATE("Currency format: %s"), curstr.String());

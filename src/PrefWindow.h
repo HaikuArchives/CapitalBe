@@ -25,28 +25,9 @@ public:
 	void MessageReceived(BMessage* msg);
 
 private:
-	DatePrefView* fDatePrefView;
 	CurrencyPrefView* fCurrencyPrefView;
 	BButton* fOK;
 	BStringView* fLabel;
-};
-
-class DatePrefView : public BView {
-public:
-	DatePrefView(const char* name, Locale* locale = NULL, const int32& flags = B_WILL_DRAW);
-	void AttachedToWindow(void);
-	void MessageReceived(BMessage* msg);
-
-	void GetSettings(Locale& locale);
-
-private:
-	void UpdateDateLabel(void);
-
-	BBox* fDateBox;
-	BRadioButton *fDateMDY, *fDateDMY;
-	AutoTextControl* fDateSeparatorBox;
-
-	Locale fLocale;
 };
 
 class CurrencyPrefView : public BView {
