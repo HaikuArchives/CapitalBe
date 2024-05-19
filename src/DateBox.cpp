@@ -62,14 +62,6 @@ DateBoxFilter::KeyFilter(const int32& key, const int32& mod)
 		box->TextView()->SelectAll();
 		TextControl()->Invoke();
 		return B_SKIP_MESSAGE;
-	} else if (keystring == "-") {
-		if (strlen(box->Text()) > 0)
-			box->fCurrentDate = DecrementDateByDay(box->fCurrentDate);
-		gDefaultLocale.DateToString(box->fCurrentDate, string);
-		box->SetText(string.String());
-		box->TextView()->SelectAll();
-		TextControl()->Invoke();
-		return B_SKIP_MESSAGE;
 	} else if (key == B_PAGE_UP) {
 		if (strlen(box->Text()) > 0) {
 			if (mod & B_SHIFT_KEY)
@@ -108,7 +100,7 @@ DateBox::DateBox(const char* name, const char* label, const char* text, BMessage
 
 	const char date_disallowed[] =
 		"`~!@#$%^&*()_=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
-		"ZXCVBNM,.<>?qwertyuiopasdfghjklzxcvbnm";
+		"ZXCVBNM,<>?qwertyuiopasdfghjklzxcvbnm";
 	int32 i = 0;
 	while (date_disallowed[i]) {
 		TextView()->DisallowChar(date_disallowed[i]);
