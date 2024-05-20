@@ -24,10 +24,9 @@
 
 
 TransferWindow::TransferWindow(BHandler* target)
-	: BWindow(BRect(100, 100, 500, 350), B_TRANSLATE("Add account transfer"), B_TITLED_WINDOW_LOOK,
-		  B_MODAL_APP_WINDOW_FEEL,
-		  B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS |
-			  B_CLOSE_ON_ESCAPE),
+	: BWindow(BRect(0, 0, 400, 350), B_TRANSLATE("Add account transfer"),
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+		B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fMessenger(target),
 	  fMessage(M_CREATE_TRANSFER)
 {
@@ -36,10 +35,9 @@ TransferWindow::TransferWindow(BHandler* target)
 
 
 TransferWindow::TransferWindow(BHandler* target, Account* src, Account* dest, const Fixed& amount)
-	: BWindow(BRect(100, 100, 300, 300), B_TRANSLATE("Edit transfer"), B_TITLED_WINDOW_LOOK,
-		  B_MODAL_APP_WINDOW_FEEL,
-		  B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS |
-			  B_CLOSE_ON_ESCAPE),
+	: BWindow(BRect(0, 0, 400, 350), B_TRANSLATE("Edit transfer"),
+		B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+		B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fMessenger(target)
 {
 	InitObject(src, dest, amount);
@@ -51,14 +49,11 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BView* back = new BView("back", B_WILL_DRAW);
-	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
-	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
-
 	fFromLabel = new BStringView("fromlabel", B_TRANSLATE("From account:"));
+	fFromLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
-	BRect r(Bounds());
 	fToLabel = new BStringView("tolabel", B_TRANSLATE("To account:"));
+	fToLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fOK = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_CREATE_TRANSFER));
 	fOK->SetEnabled(false);
@@ -92,12 +87,10 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	fSourceList = new BListView("sourcelist");
 	BScrollView* scrollsrc = new BScrollView("sourcescroll", fSourceList, 0, false, true);
 	fSourceList->SetSelectionMessage(new BMessage(M_SOURCE_SELECTED));
-	scrollsrc->SetViewColor(back->ViewColor());
 
 	fDestList = new BListView("destlist");
 	BScrollView* scrolldest = new BScrollView("destscroll", fDestList, 0, false, true);
 	fDestList->SetSelectionMessage(new BMessage(M_DEST_SELECTED));
-	scrolldest->SetViewColor(back->ViewColor());
 
 	int32 current = -1;
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
@@ -126,22 +119,33 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	} else
 		fDestList->MakeFocus(true);
 
-	BLayoutBuilder::Group<>(back, B_VERTICAL, 0)
-		.SetInsets(10)
-		.AddGrid(4.0f, 1.0f)
-		.Add(fFromLabel, 0, 0)
-		.Add(scrollsrc, 0, 1, 2)
-		.Add(fDate, 0, 2, 2)
-		.Add(fMemo, 0, 3, 2)
-		.Add(fToLabel, 2, 0)
-		.Add(scrolldest, 2, 1, 2)
-		.Add(fAmount, 2, 2, 2)
-		.AddGrid(1.0f, 1.0f, 2, 3, 2)
-		.AddGlue(0, 0)
-		.Add(fCancel, 1, 0)
-		.Add(fOK, 2, 0)
-		.End()
-		.End()
+	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_HALF_ITEM_SPACING)
+		.SetInsets(B_USE_WINDOW_SPACING)
+		.AddGroup(B_HORIZONTAL)
+			.AddGroup(B_VERTICAL, 0)
+				.Add(fFromLabel)
+				.Add(scrollsrc)
+				.End()
+			.AddGroup(B_VERTICAL, 0)
+				.Add(fToLabel)
+				.Add(scrolldest)
+				.End()
+			.End()
+		.AddGrid(B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
+			.Add(fDate->CreateLabelLayoutItem(), 0, 0)
+			.Add(fDate->CreateTextViewLayoutItem(), 1, 0)
+			.Add(fAmount->CreateLabelLayoutItem(), 2, 0)
+			.Add(fAmount->CreateTextViewLayoutItem(), 3, 0)
+			.Add(fMemo->CreateLabelLayoutItem(), 0, 1)
+			.Add(fMemo->CreateTextViewLayoutItem(), 1, 1, 3, 1)
+			.End()
+		.AddStrut(B_USE_DEFAULT_SPACING)
+		.AddGroup(B_HORIZONTAL)
+			.AddGlue()
+			.Add(fCancel)
+			.Add(fOK)
+			.AddGlue()
+			.End()
 		.End();
 }
 
