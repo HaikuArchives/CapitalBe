@@ -74,10 +74,10 @@ private:
 	CurrencyBox* fAmount;
 	CategoryBox* fCategory;
 	NavTextBox* fMemo;
-	BStringView *fDateLabel, *fTypeLabel, *fPayeeLabel, *fAmountLabel, *fCategoryLabel, *fMemoLabel;
 	SplitViewFilter* fKeyFilter;
 	BMessenger* fMessenger;
-	BButton *fEnter, *fTransfer, *fSplit;
+	BButton *fEnter, *fTransfer;
+	BCheckBox* fSplit;
 
 	BView* fSplitContainer;
 	BTextControl *fSplitCategory, *fSplitAmount, *fSplitMemo;
@@ -86,7 +86,6 @@ private:
 	BButton *fAddSplit, *fRemoveSplit;
 	BStringView* fSplitTotal;
 	BCheckBox* fReconciled;
-	HelpButton* fHelpButton;
 
 	time_t fCurrentDate;
 	bool fStartExpanded;

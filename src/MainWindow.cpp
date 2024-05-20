@@ -466,10 +466,7 @@ MainWindow::MessageReceived(BMessage* msg)
 
 			TransactionData data;
 			gDatabase.GetTransaction(acc->CurrentTransaction(), data);
-			BRect r(Frame());
-			r.right = r.left + 400;
-			r.bottom = r.top + 300;
-			TransactionEditWindow* transwin = new TransactionEditWindow(r, data);
+			TransactionEditWindow* transwin = new TransactionEditWindow(data);
 			transwin->CenterIn(Frame());
 			transwin->Show();
 			break;

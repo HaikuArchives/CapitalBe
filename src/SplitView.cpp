@@ -4,6 +4,7 @@
 #include <LayoutBuilder.h>
 #include <MessageFilter.h>
 #include <Messenger.h>
+#include <SeparatorView.h>
 #include <StringView.h>
 #include <Window.h>
 
@@ -39,78 +40,101 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	fStartExpanded = false;
 	fCheckNum = fTransaction.GetAccount()->LastCheckNumber();
 
-	fDateLabel = new BStringView("datelabel", B_TRANSLATE("Date"));
+	// Date
+	BStringView* dateLabel = new BStringView("datelabel", B_TRANSLATE("Date"));
+	dateLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fDate = new DateBox("dateentry", "", "text", new BMessage(M_DATE_CHANGED));
-	//	fDate->SetEscapeCancel(true);
 	fDate->SetDate(trans.Date());
-
 	BString tempstr;
 	gDefaultLocale.DateToString(fTransaction.Date(), tempstr);
 	fDate->SetText(tempstr.String());
 
-	fType = new CheckNumBox("typeentry", "", NULL, new BMessage(M_TYPE_CHANGED));
+	// Type
+	BStringView* typeLabel = new BStringView("typelabel", B_TRANSLATE("Type"));
+	typeLabel->SetExplicitSize(BSize(StringWidth("ShortType"), B_SIZE_UNSET));
 
+	fType = new CheckNumBox("typeentry", "", NULL, new BMessage(M_TYPE_CHANGED));
 	fType->SetText(fTransaction.Type().Type());
 
-	fTypeLabel = new BStringView("typelabel", B_TRANSLATE("Type"));
+	// Payee
+	BStringView* payeeLabel = new BStringView("payeelabel", B_TRANSLATE("Payee"));
+	payeeLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fPayee = new PayeeBox("payeeentry", "", fTransaction.Payee(), new BMessage(M_PAYEE_CHANGED));
+	fPayee->SetExplicitMinSize(BSize(StringWidth("QuiteLongPayeesName"), B_SIZE_UNSET));
 
-	fPayeeLabel = new BStringView("payeelabel", B_TRANSLATE("Payee"));
+	// Amount
+	BStringView* amountLabel = new BStringView("amountlabel", B_TRANSLATE("Amount"));
+	amountLabel->SetExplicitSize(BSize(StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));
 
 	fAmount = new CurrencyBox("amountentry", "", NULL, new BMessage(M_AMOUNT_CHANGED));
-
 	gCurrentLocale.CurrencyToString(
 		(fTransaction.Amount() < 0) ? fTransaction.Amount().InvertAsCopy() : fTransaction.Amount(),
 		tempstr);
 	fAmount->SetText(tempstr.String());
 
-	fAmountLabel = new BStringView("amountlabel", B_TRANSLATE("Amount"));
-
-	fCategoryLabel = new BStringView("categorylabel", B_TRANSLATE("Category"));
+	// Category
+	BStringView* categoryLabel = new BStringView("categorylabel", B_TRANSLATE("Category"));
+	categoryLabel->SetExplicitSize(BSize(StringWidth("aVeryLongCategoryName"), B_SIZE_UNSET));
 
 	fCategory = new CategoryBox(
 		"categoryentry", "", fTransaction.NameAt(0), new BMessage(M_CATEGORY_CHANGED));
 
-	fMemoLabel = new BStringView("memolabel", B_TRANSLATE("Memo"));
+	// Memo
+	BStringView* memoLabel = new BStringView("memolabel", B_TRANSLATE("Memo"));
+	memoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fMemo = new NavTextBox("memoentry", "", fTransaction.Memo(), new BMessage(M_MEMO_CHANGED));
 
-	fSplit = new BButton(
-		"expander", B_TRANSLATE("Show Split"), new BMessage(M_EXPANDER_CHANGED), B_WILL_DRAW);
+	// Controls
+	fSplit = new BCheckBox(
+		"expander", B_TRANSLATE("Show split"), new BMessage(M_EXPANDER_CHANGED), B_WILL_DRAW);
+	fSplit->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
-	fHelpButton = new HelpButton(B_TRANSLATE("Help: Transaction editor"), "Transaction Editor.txt");
+	HelpButton* helpButton = new HelpButton(B_TRANSLATE("Help: Transaction editor"),
+		"Transaction Editor.txt");
 
+	// SplitContainer
 	fSplitContainer = new BView("splitcontainer", B_WILL_DRAW);
-	fSplitContainer->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
+	fSplitContainer->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	fSplitContainer->Hide();
 
 	fAddSplit = new BButton("addsplit", B_TRANSLATE("Add item"), new BMessage(M_ADD_SPLIT));
-
 	fRemoveSplit =
 		new BButton("removesplit", B_TRANSLATE("Remove item"), new BMessage(M_REMOVE_SPLIT));
 
-	fSplitCategory = new BTextControl("splitcategory", NULL, NULL, NULL, B_WILL_DRAW);
-
-
-	fSplitAmount = new BTextControl("splitamount", NULL, NULL, NULL, B_WILL_DRAW);
-
-	fSplitMemo = new BTextControl("splitmemo", NULL, NULL, NULL, B_WILL_DRAW);
-
-	fSplitItems = new BListView("splititems");
-	fSplitItems->SetSelectionMessage(new BMessage(M_SELECT_SPLIT));
-	fSplitScroller = new BScrollView("split scroller", fSplitItems, 0, false, true);
-
-	BString totallabel(B_TRANSLATE("Total:"));
-	totallabel << " " << fTransaction.Amount().AbsoluteValue().AsFloat();
-	fSplitTotal = new BStringView("splittotal", totallabel.String());
-	fSplitContainer->Hide();
+	BString totalLabel(B_TRANSLATE("Total:"));
+	totalLabel << " " << fTransaction.Amount().AbsoluteValue().AsFloat();
+	fSplitTotal = new BStringView("splittotal", totalLabel.String());
+	fSplitTotal->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fEnter = new BButton("enterbutton", B_TRANSLATE("Enter"), new BMessage(M_ENTER_TRANSACTION));
 
 #ifndef ENTER_NAVIGATION
 	fEnter->MakeDefault(true);
 #endif
+
+	// Split category
+	BStringView* splitCategoryLabel = new BStringView("categorylabel", B_TRANSLATE("Category"));
+	splitCategoryLabel->SetExplicitSize(BSize(StringWidth("aVeryLongCategoryName"), B_SIZE_UNSET));
+	fSplitCategory = new BTextControl("splitcategory", NULL, NULL, NULL, B_WILL_DRAW);
+
+	// Split amount
+	BStringView* splitAmountLabel = new BStringView("amountlabel", B_TRANSLATE("Amount"));
+	splitAmountLabel->SetExplicitSize(BSize(StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));
+	fSplitAmount = new BTextControl("splitamount", NULL, NULL, NULL, B_WILL_DRAW);
+
+	// Split memo
+	BStringView* splitMemoLabel = new BStringView("memolabel", B_TRANSLATE("Memo"));
+	splitMemoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	fSplitMemo = new BTextControl("splitmemo", NULL, NULL, NULL, B_WILL_DRAW);
+
+	// Split list
+	fSplitItems = new BListView("splititems");
+	fSplitItems->SetSelectionMessage(new BMessage(M_SELECT_SPLIT));
+	fSplitScroller = new BScrollView("split scroller", fSplitItems, 0, false, true);
+	fSplitScroller->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fKeyFilter = new SplitViewFilter(this);
 
@@ -128,53 +152,68 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		fSplitItems->AddItem(item);
 	}
 
-
 	if (fTransaction.CountCategories() > 1 ||
 		strcmp(fTransaction.NameAt(0), B_TRANSLATE("Split")) == 0) {
 		fCategory->SetText(B_TRANSLATE("Split transaction"));
 		fStartExpanded = true;
 	}
 
+// clang-format off
 	BLayoutBuilder::Group<>(fSplitContainer, B_VERTICAL, 0)
 		.SetInsets(0)
+		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))
+		.AddStrut(B_USE_SMALL_SPACING)
 		.AddGrid(1.0f, 0.0f)
-		.Add(fAddSplit, 0, 0)
-		.Add(fRemoveSplit, 1, 0)
-		.AddGlue(2, 0)
-		.Add(fSplitTotal, 3, 0)
-		.AddGlue(4, 0)
-		.End()
+			.Add(fAddSplit, 0, 0)
+			.Add(fRemoveSplit, 1, 0)
+			.AddGlue(2, 0)
+			.Add(fSplitTotal, 3, 0)
+			.AddGlue(4, 0)
+			.End()
+		.AddStrut(B_USE_SMALL_SPACING)
 		.AddGrid(1.0f, 0.0f)
-		.Add(fSplitCategory, 0, 0)
-		.Add(fSplitAmount, 1, 0)
-		.Add(fSplitMemo, 3, 0)
-		.End()
+			.SetColumnWeight(2, 2.0f)
+			.Add(splitCategoryLabel, 0, 0)
+			.Add(fSplitCategory, 0, 1)
+			.Add(splitAmountLabel, 1, 0)
+			.Add(fSplitAmount, 1, 1)
+			.Add(splitMemoLabel, 2, 0)
+			.Add(fSplitMemo, 2, 1)
+			.End()
 		.Add(fSplitScroller)
 		.End();
-	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
-		.SetInsets(10)
+
+	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
+		.SetInsets(B_USE_WINDOW_SPACING)
 		.AddGrid(1.0f, 0.0f)
-		.Add(fDateLabel, 0, 0)
-		.Add(fDate, 0, 1, 2)
-		.Add(fTypeLabel, 2, 0)
-		.Add(fType, 2, 1)
-		.Add(fPayeeLabel, 3, 0)
-		.Add(fPayee, 3, 1, 2)
-		.Add(fAmountLabel, 5, 0)
-		.Add(fAmount, 5, 1, 2)
-		.Add(fCategoryLabel, 0, 2)
-		.Add(fCategory, 0, 3, 3)
-		.Add(fMemoLabel, 3, 2)
-		.Add(fMemo, 3, 3, 4)
-		.Add(fSplit, 0, 5)
-		.Add(fHelpButton, 1, 5)
-		.Add(fEnter, 6, 5)
-		.End()
+			// .SetColumnWeight(1, 0.5f)
+			.SetColumnWeight(2, 2.0f)
+			.SetColumnWeight(3, 1.0f)
+			.Add(dateLabel, 0, 0)
+			.Add(fDate, 0, 1)
+			.Add(typeLabel, 1, 0)
+			.Add(fType, 1, 1)
+			.Add(payeeLabel, 2, 0)
+			.Add(fPayee, 2, 1)
+			.Add(amountLabel, 3, 0)
+			.Add(fAmount, 3, 1)
+			.Add(categoryLabel, 0, 2)
+			.Add(fCategory, 0, 3)
+			.Add(memoLabel, 1, 2, 3)
+			.Add(fMemo, 1, 3, 3)
+			.End()
+		.AddGroup(B_HORIZONTAL)
+			.Add(fSplit)
+			.AddGlue()
+			.Add(helpButton)
+			.Add(fEnter)
+			.End()
 		.AddGroup(B_VERTICAL, 0.0f)
-		.Add(fSplitContainer)
-		.End()
+			.Add(fSplitContainer)
+			.End()
 		.End();
 }
+// clang-format on
 
 SplitView::~SplitView(void)
 {
@@ -683,18 +722,14 @@ void
 SplitView::ToggleSplit(void)
 {
 	if (fSplitContainer->IsHidden()) {
-		fSplit->SetLabel(B_TRANSLATE("Hide split"));
+		fSplit->SetValue(B_CONTROL_ON);
 
 		fSplitContainer->Show();
 		fCategory->SetEnabled(false);
 		if (fCategory->ChildAt(0)->IsFocus())
 			fMemo->MakeFocus();
-
-		// These calls are needed because of some stupid resize-related bugs in Zeta. :/
-		Invalidate();
-		fEnter->Invalidate();
 	} else {
-		fSplit->SetLabel(B_TRANSLATE("Show split"));
+		fSplit->SetValue(B_CONTROL_OFF);
 
 		fSplitContainer->Hide();
 		fCategory->SetEnabled(true);

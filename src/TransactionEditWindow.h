@@ -9,7 +9,7 @@ class TransactionData;
 
 class TransactionEditWindow : public BWindow {
 public:
-	TransactionEditWindow(const BRect& frame, const TransactionData& trans);
+	TransactionEditWindow(const TransactionData& trans);
 	void MessageReceived(BMessage* msg);
 
 private:

@@ -10,12 +10,15 @@
 #define M_TOGGLE_SPLIT 'tspl'
 
 
-TransactionEditWindow::TransactionEditWindow(const BRect& frame, const TransactionData& trans)
-	: BWindow(frame, B_TRANSLATE("Edit transaction"), B_DOCUMENT_WINDOW_LOOK,
+TransactionEditWindow::TransactionEditWindow(const TransactionData& trans)
+	: BWindow(BRect(), B_TRANSLATE("Edit transaction"), B_DOCUMENT_WINDOW_LOOK,
 		  B_FLOATING_APP_WINDOW_FEEL, B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
 	fSplitView = new SplitView("splitview", trans, B_WILL_DRAW);
-	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(fSplitView).End();
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.SetInsets(0)
+		.Add(fSplitView)
+		.End();
 
 	AddShortcut('S', B_COMMAND_KEY, new BMessage(M_TOGGLE_SPLIT));
 	AddShortcut('A', B_COMMAND_KEY, new BMessage(M_ADD_SPLIT));
