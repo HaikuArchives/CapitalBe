@@ -101,11 +101,8 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	fRemoveSplit =
 		new BButton("removesplit", B_TRANSLATE("Remove item"), new BMessage(M_REMOVE_SPLIT));
 
-	BString totalLabel(B_TRANSLATE("Total: %sum%"));
-	BString tempAmount;
-	gCurrentLocale.CurrencyToString(fTransaction.Amount().AbsoluteValue(), tempAmount);
-	totalLabel.ReplaceFirst("%sum%", tempAmount);
-
+	BString totalLabel(B_TRANSLATE("Total:"));
+	totalLabel << " " << fTransaction.Amount().AbsoluteValue().AsFloat();
 	fSplitTotal = new BStringView("splittotal", totalLabel.String());
 	fSplitTotal->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
@@ -158,7 +155,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		fStartExpanded = true;
 	}
 
-	// clang-format off
+// clang-format off
 	BLayoutBuilder::Group<>(fSplitContainer, B_VERTICAL, 0)
 		.SetInsets(0)
 		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))

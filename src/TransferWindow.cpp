@@ -119,7 +119,7 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	} else
 		fDestList->MakeFocus(true);
 
-	// clang-format off
+// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_HALF_ITEM_SPACING)
 		.SetInsets(B_USE_WINDOW_SPACING)
 		.AddGroup(B_HORIZONTAL)
