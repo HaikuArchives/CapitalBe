@@ -4,22 +4,17 @@
 
 #ifndef DEBUG_DATABASE
 
-#include <Roster.h>
 #include "App.h"
-#include "BuildOptions.h"
-#include "CBLocale.h"
 #include "MainWindow.h"
 #include "Preferences.h"
-#include "TimeSupport.h"
-
-#include "ReportWindow.h"
+#include <Roster.h>
 
 bool gRestartApp = false;
 
 App::App(void)
 	: BApplication("application/x-vnd.wgp-CapitalBe")
 {
-	// Load preferences and then initialize the translation system
+	// Load preferences
 	LoadPreferences(PREFERENCES_PATH "/CapitalBeSettings");
 
 	// We can skip locking because nothing else is open at this point :)

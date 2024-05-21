@@ -18,7 +18,6 @@
 #include "MsgDefs.h"
 #include "NavTextBox.h"
 #include "PayeeBox.h"
-#include "Preferences.h"
 #include "TimeSupport.h"
 #include "TransactionData.h"
 

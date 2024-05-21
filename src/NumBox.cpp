@@ -1,8 +1,6 @@
 #include "NumBox.h"
-#include "CBLocale.h"
-#include "Database.h"
 #include "MsgDefs.h"
-#include "TimeSupport.h"
+
 
 NumBoxFilter::NumBoxFilter(NumBox* box)
 	: AutoTextControlFilter(box)

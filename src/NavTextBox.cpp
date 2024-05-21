@@ -1,8 +1,6 @@
 #include "NavTextBox.h"
-#include "CBLocale.h"
-#include "Database.h"
 #include "MsgDefs.h"
-#include "TimeSupport.h"
+
 
 NavTextBoxFilter::NavTextBoxFilter(NavTextBox* box)
 	: AutoTextControlFilter(box)

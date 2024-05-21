@@ -4,7 +4,6 @@
 #include "ColumnListView.h"
 #include "ColumnTypes.h"
 #include "Database.h"
-#include "ReportGrid.h"
 #include "ReportWindow.h"
 #include "TimeSupport.h"
 

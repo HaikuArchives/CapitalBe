@@ -120,7 +120,7 @@ TransactionData::PrintToStream(void)
 	str.Prepend("<TRANS>");
 
 	str << "  " << fType.Type() << "  " << fPayee << "  " << (float)(fAmount.AsFloat()) << "  ";
-	printf(str.String());
+	printf("%s", str.String());
 
 	fCategory.PrintToStream();
 
@@ -135,7 +135,7 @@ TransactionData::PrintToStream(void)
 
 	str << "  "
 		<< "</TRANS>\n";
-	printf(str.String());
+	printf("%s", str.String());
 }
 
 void
