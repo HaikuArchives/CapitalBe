@@ -853,14 +853,14 @@ Database::RemoveTransaction(const uint32& transid)
 		command << accountid << " where transid = " << transid << ";";
 		DBCommand(command.String(), "Database::RemoveTransaction:delete from account");
 
-		// determine if the account is empty and set the current to 0 if it is.
+		// determine if the account is empty and set the current to -1 if it is.
 		Account* account = AccountByID(accountid);
 		if (account) {
 			command = "select * from account_";
 			command << accountid << ";";
 			query = DBQuery(command.String(), "Database::RemoveTransaction:check account empty");
 			if (query.eof())
-				account->SetCurrentTransaction(0);
+				account->SetCurrentTransaction(-1);
 			query.finalize();
 		}
 	}
@@ -1468,7 +1468,7 @@ Database::DBCommand(const char* command, const char* functionname)
 		BString msg("Database Exception in ");
 		msg << functionname << ".\n\n"
 			<< e.errorMessage() << "\n\nDatabase Exception Command: " << command << "\n";
-		printf(msg.String());
+		printf("%s\n", msg.String());
 		ShowBug(msg.String());
 	}
 }
@@ -1487,7 +1487,7 @@ Database::DBQuery(const char* query, const char* functionname)
 		BString msg("Database Exception in ");
 		msg << functionname << ".\n\n"
 			<< e.errorMessage() << "\n\nDatabase Exception Query: " << query << "\n";
-		printf(msg.String());
+		printf("%s\n", msg.String());
 		ShowBug(msg.String());
 	}
 	// this will never be reached - just to shut up the compiler

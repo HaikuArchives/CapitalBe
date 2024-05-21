@@ -170,7 +170,7 @@ Category::PrintToStream(void) const
 			str << "|";
 	}
 	str << "</CAT>";
-	printf(str.String());
+	printf("%s", str.String());
 }
 
 Category&

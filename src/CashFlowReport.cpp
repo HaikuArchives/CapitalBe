@@ -1,5 +1,3 @@
-#include <Catalog.h>
-#include <stdlib.h>
 #include "Account.h"
 #include "CBLocale.h"
 #include "ColumnListView.h"
@@ -8,6 +6,7 @@
 #include "ReportGrid.h"
 #include "ReportWindow.h"
 #include "TimeSupport.h"
+#include <Catalog.h>
 
 
 #undef B_TRANSLATION_CONTEXT

@@ -72,6 +72,7 @@ QTNetWorthItem::HandleNotify(const uint64& value, const BMessage* msg)
 
 		if (value & WATCH_CREATE) {
 			acc->AddObserver(this);
+			Calculate();
 		} else if (value & WATCH_DELETE) {
 			acc->RemoveObserver(this);
 			Calculate();
@@ -105,10 +106,7 @@ QTNetWorthItem::Calculate(void)
 		if (Window())
 			Window()->Lock();
 
-		if (gCurrentLocale.CurrencyToString(balance, balanceText) == B_OK)
-			balanceLabel = B_TRANSLATE("<No accounts>");
-
-		SetText(balanceLabel.String());
+		SetText(B_TRANSLATE("<No accounts>"));
 
 		if (Window())
 			Window()->Unlock();

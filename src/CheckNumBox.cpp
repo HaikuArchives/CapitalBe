@@ -2,7 +2,6 @@
 #include "CBLocale.h"
 #include "Database.h"
 #include "MsgDefs.h"
-#include "TimeSupport.h"
 
 #include <Catalog.h>
 

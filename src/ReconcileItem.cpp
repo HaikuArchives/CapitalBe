@@ -1,17 +1,12 @@
 #include "ReconcileItem.h"
+#include "CBLocale.h"
+#include "Database.h"
+#include "TransactionData.h"
 #include <ListView.h>
 #include <Region.h>
 #include <View.h>
-#include <stdio.h>
 #include <ctime>
-#include "Account.h"
-#include "CBLocale.h"
-#include "Category.h"
-#include "Database.h"
-#include "MainWindow.h"
-#include "Preferences.h"
-#include "TransactionData.h"
-#include "TransactionLayout.h"
+#include <stdio.h>
 
 
 ReconcileItem::ReconcileItem(const TransactionData& trans)

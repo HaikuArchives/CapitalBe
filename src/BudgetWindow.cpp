@@ -10,11 +10,8 @@
 #include "Account.h"
 #include "Budget.h"
 #include "CurrencyBox.h"
-#include "DStringList.h"
 #include "Database.h"
-#include "HelpButton.h"
 #include "MsgDefs.h"
-#include "Preferences.h"
 #include "TimeSupport.h"
 
 

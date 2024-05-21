@@ -16,12 +16,9 @@
 #include "Database.h"
 #include "DateBox.h"
 #include "HelpButton.h"
-#include "Layout.h"
-#include "MainWindow.h"
 #include "MsgDefs.h"
 #include "NavTextBox.h"
 #include "PayeeBox.h"
-#include "Preferences.h"
 #include "SplitItem.h"
 #include "SplitViewFilter.h"
 
@@ -279,7 +276,6 @@ SplitView::MessageReceived(BMessage* msg)
 
 			if (!ValidateSplitItems())
 				break;
-
 			Account* account = fTransaction.GetAccount();
 			if (!account)
 				ShowBug("NULL transaction account in SplitView::M_ENTER_TRANSACTION");
