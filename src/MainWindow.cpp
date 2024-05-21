@@ -621,8 +621,7 @@ MainWindow::CreateTransfer(BMessage* msg)
 		fixed.InvertAsCopy(), "Transfer", memo.String());
 
 	payee = B_TRANSLATE("Transfer from '%%PAYEE%%'");
-	payee.ReplaceFirst("%%PAYEE%%", to->Name());
-	payee << from->Name();
+	payee.ReplaceFirst("%%PAYEE%%", from->Name());
 	gDatabase.AddTransaction(
 		to->GetID(), transid, date, type, payee.String(), fixed, "Transfer", memo.String());
 }
