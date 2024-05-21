@@ -169,6 +169,7 @@ TransferWindow::MessageReceived(BMessage* msg)
 				fDestList->ItemAt(fSourceList->CurrentSelection())->SetEnabled(false);
 				fDestList->InvalidateItem(fSourceList->CurrentSelection());
 			}
+			HandleOKButton();
 			break;
 		}
 		case M_DEST_SELECTED:
