@@ -13,6 +13,7 @@ static rgb_color sSelectionFocusColor = {205, 205, 255, 255};
 static rgb_color sSelectionNoFocusColor = {205, 205, 230, 255};
 static rgb_color sGridHeaderColor = {225, 225, 255, 255};
 
+
 status_t
 SavePreferences(const char* path)
 {
