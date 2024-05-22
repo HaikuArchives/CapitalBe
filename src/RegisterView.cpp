@@ -163,6 +163,7 @@ RegisterView::HandleNotify(const uint64& value, const BMessage* msg)
 					break;
 				}
 			}
+			fCheckView->SetFieldsEnabled(!acc->IsClosed());
 		}
 
 		// Adjust the horizontal scroll bar every time there is a change

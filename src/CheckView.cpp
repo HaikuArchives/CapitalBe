@@ -286,8 +286,6 @@ CheckView::HandleNotify(const uint64& value, const BMessage* msg)
 				}
 			}
 		}
-	} else if (value & WATCH_CHANGE) {
-		SetFieldsEnabled(!gDatabase.CurrentAccount()->IsClosed());
 	}
 }
 
