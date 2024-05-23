@@ -1,3 +1,5 @@
+#include "App.h"
+#include "CBLocale.h"
 #include <AppFileInfo.h>
 #include <Catalog.h>
 #include <DateFormat.h>
@@ -11,8 +13,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "App.h"
-#include "CBLocale.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "Locale"
@@ -34,11 +34,12 @@ Locale::operator!=(const Locale& other) const
 bool
 Locale::operator==(const Locale& other) const
 {
-	if (fDateFormat != other.fDateFormat || fCurrencySymbol != other.fCurrencySymbol ||
-		fPrefixSymbol != other.fPrefixSymbol || fCurrencySeparator != other.fCurrencySeparator ||
-		fCurrencyDecimal != other.fCurrencyDecimal || fDateSeparator != other.fDateSeparator ||
-		fCurrencyDecimalPlace != other.fCurrencyDecimalPlace || fUseDST != other.fUseDST)
+	if (fCurrencySymbol != other.fCurrencySymbol || fPrefixSymbol != other.fPrefixSymbol
+		|| fCurrencySeparator != other.fCurrencySeparator
+		|| fCurrencyDecimal != other.fCurrencyDecimal
+		|| fCurrencyDecimalPlace != other.fCurrencyDecimalPlace || fUseDST != other.fUseDST) {
 		return false;
+	}
 	return true;
 }
 
@@ -47,15 +48,11 @@ Locale::Flatten(BFile* file)
 {
 	BString str("\t<Locale>\n");
 
-	if (fDateFormat == DATE_MDY)
-		str << "\t\t<DateFormat Value=\"mmddyyyy\" />\n";
-	else
-		str << "\t\t<DateFormat Value=\"ddmmyyyy\" />\n";
+	str << "\t\t<DateFormat Value=\"ddmmyyyy\" />\n";
 
 	str << "\t\t<CurrencySymbol Value=\"" << fCurrencySymbol << "\" />\n";
 	str << "\t\t<CurrencyDecimal Value=\"" << fCurrencyDecimal << "\" />\n";
 	str << "\t\t<CurrencySeparator Value=\"" << fCurrencySeparator << "\" />\n";
-	str << "\t\t<DateSeparator Value=\"" << fDateSeparator << "\" />\n";
 
 	if (!fPrefixSymbol)
 		str << "\t\t<CurrencySuffixFlag />\n";
@@ -165,7 +162,7 @@ Locale::DateToString(time_t date, BString& string)
 status_t
 Locale::StringToDate(const char* instring, time_t& date)
 {
-	if (!instring || (fDateFormat != DATE_MDY && fDateFormat != DATE_DMY))
+	if (instring == NULL)
 		return B_BAD_VALUE;
 
 	BDateFormat dateFormatter;
@@ -209,15 +206,14 @@ Locale::NumberToCurrency(const Fixed& number, BString& string)
 void
 Locale::SetDefaults(void)
 {
-	fDateFormat = DATE_MDY;
 	fCurrencySymbol = "$";
 	fPrefixSymbol = true;
 	fCurrencySeparator = ",";
 	fCurrencyDecimal = ".";
-	fDateSeparator = "/";
 	fCurrencyDecimalPlace = 2;
 	fUseDST = false;
 }
+
 
 void
 ShowAlert(const char* header, const char* message, alert_type type)
@@ -345,11 +341,6 @@ CapitalizeEachWord(BString& string)
 	string.UnlockBuffer();
 }
 
-void
-Locale::SetDateFormat(const date_format& format)
-{
-	fDateFormat = format;
-}
 
 void
 Locale::SetCurrencySymbol(const char* symbol)
@@ -384,12 +375,6 @@ Locale::SetCurrencyDecimalPlace(const uint8& place)
 	fCurrencyDecimalPlace = place;
 }
 
-void
-Locale::SetDateSeparator(const char* symbol)
-{
-	if (symbol)
-		fDateSeparator = symbol;
-}
 
 void
 Locale::SetDST(const bool& value)
@@ -405,11 +390,6 @@ GetCurrencyOnlyMask(void)
 		   "à¡™∞ô¶•«»–≠œ∑é®†øπ‘¬å∫∂ƒ©Ωﬁ∆◊æäñ≈ç√ßñµ…÷";
 }
 
-const char*
-GetDateOnlyMask(void)
-{
-	return "`~!@#$%^&*()_=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\"ZXCVBNM,.<>?qwertyuiopasdfghjklzxcvbnm";
-}
 
 void
 IllegalCharsToEntities(BString* string)

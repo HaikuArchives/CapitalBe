@@ -98,9 +98,8 @@ DateBox::DateBox(const char* name, const char* label, const char* text, BMessage
 	SetFilter(new DateBoxFilter(this));
 	fCurrentDate = GetCurrentDate();
 
-	const char date_disallowed[] =
-		"`~!@#$%^&*()_=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
-		"ZXCVBNM,<>?qwertyuiopasdfghjklzxcvbnm";
+	const char date_disallowed[] = "`~!@#$%^&*()_=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
+								   "ZXCVBNM,<>?qwertyuiopasdfghjklzxcvbnm";
 	int32 i = 0;
 	while (date_disallowed[i]) {
 		TextView()->DisallowChar(date_disallowed[i]);

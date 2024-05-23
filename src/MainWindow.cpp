@@ -30,8 +30,6 @@
 #include "ScheduleAddWindow.h"
 #include "ScheduleListWindow.h"
 #include "ScheduledExecutor.h"
-#include "StringView.h"
-#include "TextControl.h"
 #include "TransactionEditWindow.h"
 #include "TransferWindow.h"
 
