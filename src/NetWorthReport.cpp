@@ -8,6 +8,7 @@
 #include "TimeSupport.h"
 
 #include <Catalog.h>
+#include <FormattingConventions.h>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -64,16 +65,9 @@ ReportWindow::ComputeNetWorth(void)
 		char rowtitle[128];
 		struct tm* timestruct = localtime(&subtotal_start);
 
-		BString formatstring;
-		if (gCurrentLocale.DateFormat() == DATE_MDY) {
-			formatstring << "%m" << gCurrentLocale.DateSeparator() << "%d"
-						 << gCurrentLocale.DateSeparator() << "%Y";
-		} else {
-			formatstring << "%d" << gCurrentLocale.DateSeparator() << "%m"
-						 << gCurrentLocale.DateSeparator() << "%Y";
-		}
-		strftime(rowtitle, 128, formatstring.String(), timestruct);
-		accountgrid.SetRowTitle(subtotal_index, rowtitle);
+		BString datestring;
+		gDefaultLocale.DateToString(subtotal_start, datestring);
+		accountgrid.SetRowTitle(subtotal_index, datestring);
 
 		int length = strlen(rowtitle);
 		if (length > longestnamelength) {

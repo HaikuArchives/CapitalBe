@@ -19,8 +19,6 @@
 
 // PrefView
 enum {
-	M_NEW_DATE_SEPARATOR,
-
 	M_NEW_CURRENCY_SYMBOL,
 	M_NEW_CURRENCY_SEPARATOR,
 	M_NEW_CURRENCY_DECIMAL,
@@ -44,8 +42,7 @@ PrefWindow::PrefWindow(const BRect& frame)
 
 	fCurrencyPrefView = new CurrencyPrefView("dateview", &gDefaultLocale);
 
-	fOK = new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_EDIT_OPTIONS));
-	fOK->SetLabel(B_TRANSLATE("OK"));
+	fOK = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_OPTIONS));
 
 	BButton* cancel =
 		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
@@ -60,7 +57,6 @@ PrefWindow::PrefWindow(const BRect& frame)
 		.Add(fLabel)
 		.AddGlue()
 		.End()
-
 		.Add(fCurrencyPrefView)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
 		.AddGlue()
@@ -69,8 +65,8 @@ PrefWindow::PrefWindow(const BRect& frame)
 		.End()
 		.End();
 	// clang on
-
-	CenterIn(Frame());
+	ResizeToPreferred();
+	CenterIn(frame);
 }
 
 void
@@ -102,7 +98,6 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 	  fSampleAmount((long)12345678, true)
 {
 	BString temp;
-	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	if (locale)
 		fLocale = *locale;

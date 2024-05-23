@@ -558,11 +558,11 @@ Database::SetAccountLocale(const uint32& accountid, const Locale& data)
 	command << accountid << ";";
 	CppSQLite3Query query = DBQuery(command.String(), "Database::SetAccountLocale:find accountid");
 
+	// Todo: remove table columns for date format
 	if (query.eof()) {
-		command << "insert into accountlocale values(" << accountid << ",'"
-				<< (data.DateFormat() == DATE_DMY ? "ddmmyyyy" : "mmddyyyy") << "','"
-				<< data.DateSeparator() << "','" << data.CurrencySymbol() << "','"
-				<< data.CurrencySeparator() << "','" << data.CurrencyDecimal() << "','"
+		command << "insert into accountlocale values(" << accountid << ",'ddmmyyyy','/','"
+				<< data.CurrencySymbol() << "','" << data.CurrencySeparator() << "','"
+				<< data.CurrencyDecimal() << "','"
 				<< (data.IsCurrencySymbolPrefix() ? "true" : "false") << "');";
 		DBCommand(command.String(), "Database::SetAccountLocale:insert into accountlocale");
 		UNLOCK;
@@ -572,13 +572,12 @@ Database::SetAccountLocale(const uint32& accountid, const Locale& data)
 	query.finalize();
 
 	// This already has the locale data in the table, so we'll just update it and return
-	command << "update accountlocale set dateformat = '"
-			<< (data.DateFormat() == 1 ? "ddmmyyyy" : "mmddyyyy")
-			<< "' where accountid = " << accountid << ";";
+	command << "update accountlocale set dateformat = 'ddmmyyyy' where accountid = " << accountid
+			<< ";";
 	DBCommand(command.String(), "Database::SetAccountLocale:update dateformat");
 
-	command << "update accountlocale set dateseparator = '" << data.DateSeparator()
-			<< "' where accountid = " << accountid << ";";
+	command << "update accountlocale set dateseparator = '/' where accountid = " << accountid
+			<< ";";
 	DBCommand(command.String(), "Database::SetAccountLocale:update dateseparator");
 
 	command << "update accountlocale set currencysymbol = '" << data.CurrencySymbol()
@@ -615,8 +614,6 @@ Database::LocaleForAccount(const uint32& id)
 	}
 
 	BString temp = query.getStringField(1);
-	locale.SetDateFormat((temp.Compare("ddmmyyyy") == 0) ? DATE_DMY : DATE_MDY);
-	locale.SetDateSeparator(query.getStringField(2));
 	locale.SetCurrencySymbol(query.getStringField(3));
 	locale.SetCurrencySeparator(query.getStringField(4));
 	locale.SetCurrencyDecimal(query.getStringField(5));
@@ -633,13 +630,6 @@ Database::SetDefaultLocale(const Locale& data)
 	BString command;
 
 	// This already has the locale data in the table, so we'll just update it and return
-	command << "update defaultlocale set dateformat = '"
-			<< (data.DateFormat() == DATE_MDY ? "mmddyyyy" : "ddmmyyyy") << "';";
-	DBCommand(command.String(), "Database::SetAccountLocale:update dateformat");
-
-	command << "update defaultlocale set dateseparator = '" << data.DateSeparator() << "';";
-	DBCommand(command.String(), "Database::SetAccountLocale:update dateseparator");
-
 	command << "update defaultlocale set currencysymbol = '" << data.CurrencySymbol() << "';";
 	DBCommand(command.String(), "Database::SetAccountLocale:update currencysymbol");
 
@@ -672,8 +662,6 @@ Database::GetDefaultLocale(void)
 	}
 
 	BString temp = query.getStringField(0);
-	locale.SetDateFormat((temp.Compare("ddmmyyyy") == 0) ? DATE_DMY : DATE_MDY);
-	locale.SetDateSeparator(query.getStringField(1));
 	locale.SetCurrencySymbol(query.getStringField(2));
 	locale.SetCurrencySeparator(query.getStringField(3));
 	locale.SetCurrencyDecimal(query.getStringField(4));
