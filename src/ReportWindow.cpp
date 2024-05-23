@@ -3,9 +3,11 @@
 #include <Catalog.h>
 #include <GridLayoutBuilder.h>
 #include <LayoutBuilder.h>
+#include <SeparatorView.h>
 #include <StringView.h>
 #include <TranslationUtils.h>
 #include <View.h>
+
 #include "ColumnTypes.h"
 #include "Database.h"
 #include "DateBox.h"
@@ -58,28 +60,38 @@ ReportWindow::ReportWindow(BRect frame)
 
 	fHeaderFont.SetFace(B_ITALIC_FACE);
 
-	BView* view = new BView("back", B_WILL_DRAW);
-	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f).SetInsets(0).Add(view).End();
-	view->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
-
-	BGroupLayout* reportsLayout = new BGroupLayout(B_VERTICAL, 0);
 	BGroupLayout* accountsLayout = new BGroupLayout(B_VERTICAL, 0);
 	BGroupLayout* subtotalLayout = new BGroupLayout(B_VERTICAL, 0);
 	BGroupLayout* categoriesLayout = new BGroupLayout(B_VERTICAL, 0);
+	BGroupLayout* reportsLayout = new BGroupLayout(B_VERTICAL, 0);
+	BGridLayout* datesLayout = new BGridLayout(B_USE_DEFAULT_SPACING, 1.0f);
 
-	BGroupLayout* layout_ = new BGroupLayout(B_VERTICAL, 1.0f);
-	BLayoutBuilder::Group<>(view, B_HORIZONTAL)
-		.SetInsets(10)
-		.AddGroup(B_VERTICAL, 1.0f)
-		.Add(reportsLayout, 1)
-		.Add(accountsLayout, 5)
-		.Add(subtotalLayout, 1)
-		.Add(categoriesLayout, 5)
-		.End()
-		.Add(layout_)
+	BGroupLayout* listLayout = new BGroupLayout(B_VERTICAL, 1.0f);
+
+	HelpButton* help = new HelpButton(B_TRANSLATE("Help: Report"), "Report.txt");
+
+// clang-format off
+	BLayoutBuilder::Group<>(this, B_HORIZONTAL)
+		.SetInsets(B_USE_WINDOW_INSETS)
+		.AddGroup(B_VERTICAL, B_USE_SMALL_SPACING)
+			.Add(accountsLayout, 5)
+			.Add(subtotalLayout, 1)
+			.Add(categoriesLayout, 5)
+			.End()
+		.AddGroup(B_VERTICAL)
+			.AddGroup(B_HORIZONTAL, B_USE_BIG_SPACING)
+				.Add(reportsLayout)
+				.Add(new BSeparatorView(B_VERTICAL, B_PLAIN_BORDER))
+				.Add(datesLayout)
+				.AddGlue()
+				.Add(help)
+				.End()
+			.Add(listLayout)
 		.End();
+// clang-format on
 
-	BMenu* reportmenu = new BMenu(B_TRANSLATE("Reports"));
+	// Reports
+	BMenu* reportmenu = new BMenu("Reports");
 	reportmenu->SetLabelFromMarked(true);
 
 	// 	TODO: Re-enable the Budget report
@@ -95,35 +107,30 @@ ReportWindow::ReportWindow(BRect frame)
 
 	fReportMode = REPORT_BUDGET;
 
-	BRect r(10, 10, reportmenu->StringWidth(temp.String()) + 45, 60);
-
-	temp = B_TRANSLATE("Reports:");
-	temp += " ";
-	BStringView* sv = new BStringView("reportsv", temp.String());
-	reportsLayout->AddView(sv);
+	reportsLayout->AddView(new BStringView("reportsv", B_TRANSLATE("Reports:")));
+	reportsLayout->SetExplicitSize(BSize(be_plain_font->StringWidth(temp.String()) + 64,
+		B_SIZE_UNSET));
 
 	fReportField = new BMenuField("reportfield", "", reportmenu);
 	reportsLayout->AddView(fReportField);
 
-	temp = B_TRANSLATE("Accounts:");
-	temp += " ";
-	sv = new BStringView("accountsv", temp.String());
-	accountsLayout->AddView(sv);
+	// Accounts
+	accountsLayout->AddView(new BStringView("accountsv", B_TRANSLATE("Accounts:")));
 
 	fAccountList = new BListView("reportaccountlist", B_MULTIPLE_SELECTION_LIST);
 	BScrollView* scrollview = new BScrollView("accountscroller", fAccountList, 0, false, true);
+	scrollview->SetExplicitSize(BSize(be_plain_font->StringWidth("aQuiteLongishAccountName"),
+		B_SIZE_UNSET));
 	accountsLayout->AddView(scrollview);
 
 	//	This is disabled because otherwise the report is rendered once for each
 	//	account added when the report window is shown initially
 	//	fAccountList->SetSelectionMessage(new BMessage(M_TOGGLE_ACCOUNT));
 
-	temp = B_TRANSLATE("Subtotal");
-	temp += ": ";
-	sv = new BStringView("subtotalsv", temp.String());
-	subtotalLayout->AddView(sv);
+	// Subtotal
+	subtotalLayout->AddView(new BStringView("subtotalsv", B_TRANSLATE("Subtotal:")));
 
-	BMenu* subtotalmenu = new BMenu(B_TRANSLATE("Subtotal"));
+	BMenu* subtotalmenu = new BMenu("Subtotal");
 	subtotalmenu->AddItem(new BMenuItem(B_TRANSLATE("None"), new BMessage(M_SUBTOTAL_NONE)));
 	subtotalmenu->AddItem(new BMenuItem(B_TRANSLATE("Month"), new BMessage(M_SUBTOTAL_MONTH)));
 	subtotalmenu->AddItem(new BMenuItem(B_TRANSLATE("Quarter"), new BMessage(M_SUBTOTAL_QUARTER)));
@@ -135,12 +142,8 @@ ReportWindow::ReportWindow(BRect frame)
 	fSubtotalField = new BMenuField("subtotalfield", "", subtotalmenu);
 	subtotalLayout->AddView(fSubtotalField);
 
-	HelpButton* help = new HelpButton(B_TRANSLATE("Help: Report"), "Report.txt");
-
-	temp = B_TRANSLATE("Categories");
-	temp += ": ";
-	sv = new BStringView("catsv", temp.String());
-	categoriesLayout->AddView(sv);
+	// Categories
+	categoriesLayout->AddView(new BStringView("catsv", B_TRANSLATE("Categories:")));
 
 	fCategoryList = new BListView("reportcattlist", B_MULTIPLE_SELECTION_LIST,
 		B_WILL_DRAW | B_FULL_UPDATE_ON_RESIZE | B_NAVIGABLE);
@@ -149,6 +152,7 @@ ReportWindow::ReportWindow(BRect frame)
 	fCategoryList->SetSelectionMessage(new BMessage(M_CATEGORIES_CHANGED));
 	fCategoryList->SetInvocationMessage(new BMessage(M_CATEGORIES_CHANGED));
 
+	// Dates
 	BString datestring;
 	gDefaultLocale.DateToString(GetCurrentYear(), datestring);
 
@@ -157,8 +161,11 @@ ReportWindow::ReportWindow(BRect frame)
 	fStartDateBox = new DateBox(
 		"startdate", temp.String(), datestring.String(), new BMessage(M_START_DATE_CHANGED));
 	fStartDateBox->SetDate(GetCurrentYear());
+	// fStartDateBox->SetExplicitSize(BSize(be_plain_font->StringWidth("Starting date: 29.09.5038") + 164,
+		// B_SIZE_UNSET));
 	//	fStartDateBox->SetEscapeCancel(true);
-	layout_->AddView(fStartDateBox);
+	datesLayout->AddItem(fStartDateBox->CreateLabelLayoutItem(), 0, 0);
+	datesLayout->AddItem(fStartDateBox->CreateTextViewLayoutItem(), 1, 0);
 	fStartDateBox->GetFilter()->SetMessenger(new BMessenger(this));
 
 	gDefaultLocale.DateToString(GetCurrentDate(), datestring);
@@ -167,40 +174,37 @@ ReportWindow::ReportWindow(BRect frame)
 	fEndDateBox = new DateBox(
 		"enddate", temp.String(), datestring.String(), new BMessage(M_END_DATE_CHANGED));
 	fEndDateBox->SetDate(GetCurrentDate());
-	layout_->AddView(fEndDateBox);
+	datesLayout->AddItem(fEndDateBox->CreateLabelLayoutItem(), 0, 1);
+	datesLayout->AddItem(fEndDateBox->CreateTextViewLayoutItem(), 1, 1);
 	fEndDateBox->GetFilter()->SetMessenger(new BMessenger(this));
 
-	BBitmap *up, *down;
-	BRect brect(0, 0, 16, 16);
-	up = BTranslationUtils::GetBitmap('PNG ', "BarGraphUp.png");
-	if (!up)
-		up = new BBitmap(brect, B_RGB32);
-	down = BTranslationUtils::GetBitmap('PNG ', "BarGraphDown.png");
-	if (!down)
-		down = new BBitmap(brect, B_RGB32);
-
-	brect.OffsetTo(
-		Bounds().right - 10 - brect.Width(), 10 + ((fEndDateBox->Frame().Height() - 16) / 2));
-	fGraphButton = new StickyDrawButton(brect, "graphbutton", up, down,
-		new BMessage(M_TOGGLE_GRAPH), B_FOLLOW_TOP | B_FOLLOW_RIGHT, B_WILL_DRAW);
+	// TODO: Implement graph support
+	// BBitmap *up, *down;
+	// BRect brect(0, 0, 16, 16);
+	// up = BTranslationUtils::GetBitmap('PNG ', "BarGraphUp.png");
+	// if (!up)
+		// up = new BBitmap(brect, B_RGB32);
+	// down = BTranslationUtils::GetBitmap('PNG ', "BarGraphDown.png");
+	// if (!down)
+		// down = new BBitmap(brect, B_RGB32);
+	// 
+	// brect.OffsetTo(
+		// Bounds().right - 10 - brect.Width(), 10 + ((fEndDateBox->Frame().Height() - 16) / 2));
+	// fGraphButton = new StickyDrawButton(brect, "graphbutton", up, down,
+		// new BMessage(M_TOGGLE_GRAPH), B_FOLLOW_TOP | B_FOLLOW_RIGHT, B_WILL_DRAW);
 	//	view->AddChild(fGraphButton);
 
-	// 	TODO: This needs to be unhidden when graph support is finally added
-	fGraphButton->Hide();
-
 	fGridView = new BColumnListView("gridview", B_WILL_DRAW, B_FANCY_BORDER);
-	layout_->AddView(fGridView);
-	layout_->AddItem(
-		BGridLayoutBuilder(0.0f, 0.0f).Add(BSpaceLayoutItem::CreateGlue(), 0, 0).Add(help, 1, 0));
+	listLayout->AddView(fGridView);
 
 	// Configuring to make it look good and not like a grid
 	fGridView->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 	fGridView->SetSortingEnabled(false);
 	fGridView->SetEditMode(false);
 
-	fGraphView = new BView(r, "As Graph", B_FOLLOW_ALL, B_WILL_DRAW);
+	// fGraphView = new BView(r, "As Graph", B_FOLLOW_ALL, B_WILL_DRAW);
 	//	view->AddChild(fGraphView);
-	fGraphView->Hide();
+	// fGraphView->Hide();
 
 	gDatabase.AddObserver(this);
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
