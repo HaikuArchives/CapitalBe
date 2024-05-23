@@ -7,6 +7,7 @@
 #include <MenuBar.h>
 #include <MenuField.h>
 #include <MenuItem.h>
+#include <SeparatorView.h>
 #include <String.h>
 #include <StringView.h>
 #include <stdlib.h>
@@ -38,46 +39,60 @@ enum {
 ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& data)
 	: BWindow(frame, B_TRANSLATE("Schedule transaction"), B_TITLED_WINDOW_LOOK,
 		  B_MODAL_APP_WINDOW_FEEL,
-		  B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS |
-			  B_CLOSE_ON_ESCAPE),
+		  B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fTransData(data)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BView* back = new BView("backview", B_WILL_DRAW);
-	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
-	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "SplitView"
 
-	BString label;
-	label.SetToFormat(B_TRANSLATE("Type: %s"), data.Type().Type());
-	BStringView* typelabel = new BStringView("typelabel", label.String());
+	// Type
+	BStringView* typeLabel = new BStringView("typelabel",B_TRANSLATE("Type"));
+	typeLabel->SetExplicitSize(BSize(be_plain_font->StringWidth("ShortType"), B_SIZE_UNSET));
+	BTextControl* type = new BTextControl("type", NULL, data.Type().Type(), NULL);
+	type->SetEnabled(false);
 
-	label.SetToFormat(B_TRANSLATE("Payee: %s"), data.Payee());
-	BStringView* payeelabel = new BStringView("payeelabel", label.String());
+	// Payee
+	BStringView* payeeLabel = new BStringView("payeelabel",B_TRANSLATE("Payee"));
+	payeeLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	payeeLabel->SetExplicitMinSize(BSize(be_plain_font->StringWidth("anAveragelyLongPayee"),
+		B_SIZE_UNSET));	BTextControl* payee = new BTextControl("payee", NULL, data.Payee(), NULL);
+	payee->SetEnabled(false);
 
+	// Amount
+	BStringView* amountLabel = new BStringView("amountlabel",B_TRANSLATE("Amount"));
+	amountLabel->SetExplicitSize(BSize(be_plain_font->StringWidth("$10,000,000,000.00"),
+		B_SIZE_UNSET));
 	BString temp;
 	gCurrentLocale.CurrencyToString(data.Amount().AbsoluteValue(), temp);
-	label.SetToFormat(B_TRANSLATE("Amount: %s"), temp.String());
-	BStringView* amountlabel = new BStringView("amountlabel", label.String());
+	BTextControl* amount = new BTextControl("amount", NULL, temp.String(), NULL);
+	amount->SetEnabled(false);
 
-	label = B_TRANSLATE("Category");
-	label << ": ";
+	// Category
+	BStringView* categoryLabel = new BStringView("categorylabel",B_TRANSLATE("Category"));
+	categoryLabel->SetExplicitSize(BSize(be_plain_font->StringWidth("aLongCategoryName"),
+		B_SIZE_UNSET));
+	BString label;
 	if (data.CountCategories() > 1)
 		label << B_TRANSLATE("Split");
 	else
 		label << data.NameAt(0);
+	BTextControl* category = new BTextControl("category", NULL, label.String(), NULL);
+	category->SetEnabled(false);
 
-	BStringView* categorylabel = new BStringView("categorylabel", label.String());
+	// Memo
+	BStringView* memoLabel = new BStringView("memolabel",B_TRANSLATE("Memo"));
+	memoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	memoLabel->SetExplicitMinSize(BSize(be_plain_font->StringWidth("$10,000,000,000.00"),
+		B_SIZE_UNSET));
+	BTextControl* memo = new BTextControl("memo", NULL, data.Memo(), NULL);
+	memo->SetEnabled(false);
 
-	label = B_TRANSLATE("Memo");
-	label << ": " << data.Memo();
-	BStringView* memolabel = new BStringView("memolabel", label.String());
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "ScheduleAddWindow"
 
-	//	Since layout-api, we need other way to make divider
-	//	BBox *divider = new BBox(r);
-	//	AddChild(divider);
-
-	fIntervalMenu = new BMenu(B_TRANSLATE("Frequency"));
+	fIntervalMenu = new BMenu("Frequency");
 	fIntervalMenu->AddItem(
 		new BMenuItem(B_TRANSLATE("Monthly"), new BMessage(M_SCHEDULED_MONTHLY)));
 	fIntervalMenu->AddItem(
@@ -98,47 +113,76 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 
 	fRepeatAlways =
 		new BRadioButton("inftimes", B_TRANSLATE("Indefinitely"), new BMessage(M_REPEAT_ALWAYS));
+	fRepeatAlways->SetValue(B_CONTROL_ON);
 
-	fRepeatLimited = new BRadioButton("limitedtimes", "", new BMessage(M_REPEAT_LIMITED));
+	fRepeatLimited = new BRadioButton("limitedtimes", " ", new BMessage(M_REPEAT_LIMITED));
 
 	fRepeatCount = new NumBox("repeatcount", NULL, "999", new BMessage(M_COUNT_CHANGED));
 	fRepeatCount->UseTabFiltering(false);
 	fRepeatCount->SetEnabled(false);
+	temp = " ";
+	temp << B_TRANSLATE("times");
+	BStringView* timesLabel = new BStringView("timeslabel", temp);
+	timesLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	BStringView* repeatLabel = new BStringView("repeatlabel", B_TRANSLATE("Repeat:"));
+	repeatLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	BStringView* dummy = new BStringView("dummy", ""); // used to align "Repeat" label
+	dummy->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
-	BStringView* timeslabel = new BStringView("timeslabel", B_TRANSLATE("times"));
-	fRepeatAlways->SetValue(B_CONTROL_ON);
-
-	BButton* okbutton =
+	BButton* okButton =
 		new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_SCHEDULE_TRANSACTION));
-	okbutton->MakeDefault(true);
+	okButton->MakeDefault(true);
 
-	BButton* cancelbutton =
+	BButton* cancelButton =
 		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
-	BLayoutBuilder::Group<>(back, B_VERTICAL)
-		.SetInsets(10)
-		.AddGrid(8.0f, 1.0f)
-		.Add(typelabel, 0, 0)
-		.Add(payeelabel, 1, 0)
-		.Add(amountlabel, 2, 0)
-		.Add(categorylabel, 0, 1)
-		.Add(memolabel, 1, 1)
-		.End()
-		.AddGrid(1.0f, 1.0f)
-		.Add(intervalfield, 0, 0)
-		.Add(fRepeatAlways, 1, 0)
-		.Add(fStartDate, 0, 1)
-		.AddGrid(1.0f, 1.0f, 1, 1)
-		.Add(fRepeatLimited, 0, 0)
-		.Add(fRepeatCount, 1, 0)
-		.End()
-		.End()
-		.AddGrid(1.0f, 1.0f)
-		.AddGlue(0, 0)
-		.Add(cancelbutton, 1, 0)
-		.Add(okbutton, 2, 0)
-		.End()
+// clang-format off 
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.SetInsets(B_USE_WINDOW_SPACING)
+		.AddGrid(1.0f, 0.0f)
+			.Add(typeLabel, 0, 0)
+			.Add(type->CreateTextViewLayoutItem(), 0, 1)
+			.Add(payeeLabel, 1, 0)
+			.Add(payee->CreateTextViewLayoutItem(), 1, 1)
+			.Add(amountLabel, 2, 0)
+			.Add(amount->CreateTextViewLayoutItem(), 2, 1)
+			.End()
+		.AddGrid(1.0f, 0.0f)
+			.Add(categoryLabel, 0, 0)
+			.Add(category->CreateTextViewLayoutItem(), 0, 1)
+			.Add(memoLabel, 1, 0)
+			.Add(memo->CreateTextViewLayoutItem(), 1, 1)
+			.End()
+		.AddStrut(B_USE_DEFAULT_SPACING)
+		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))
+		.AddStrut(B_USE_DEFAULT_SPACING)
+		.AddGrid(1.0f, B_USE_DEFAULT_SPACING)
+			.SetColumnWeight(1, 2.0f)
+			.Add(intervalfield->CreateLabelLayoutItem(), 0, 0)
+			.Add(intervalfield->CreateMenuBarLayoutItem(), 1, 0, 3)
+			.Add(fStartDate->CreateLabelLayoutItem(), 0, 1)
+			.Add(fStartDate->CreateTextViewLayoutItem(), 1, 1, 3)
+			.Add(repeatLabel, 0, 2)
+			.Add(dummy, 0, 3)
+			.AddGroup(B_VERTICAL, 1.0f, 1, 2, 1, 2)
+				.Add(fRepeatAlways)
+				.AddGroup(B_HORIZONTAL, 0)
+					.Add(fRepeatLimited)
+					.Add(fRepeatCount)
+					.Add(timesLabel)
+					.End()
+				.End()
+			.AddGlue(4, 0, 4)
+			.End()
+		.AddStrut(B_USE_BIG_SPACING)
+		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+			.AddGlue()
+			.Add(cancelButton)
+			.Add(okButton)
+			.End()
 		.End();
+// clang-format on
+
 	CenterIn(Frame());
 }
 
