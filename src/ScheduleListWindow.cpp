@@ -75,8 +75,8 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Frequency"),
 							 StringWidth(B_TRANSLATE("Frequency")) + 20, 25, 300, B_ALIGN_LEFT),
 		3);
-	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Next Payment"),
-							 StringWidth(B_TRANSLATE("Next Payment")) + 20, 25, 300, B_ALIGN_LEFT),
+	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Next Ppyment"),
+							 StringWidth(B_TRANSLATE("Next payment")) + 20, 25, 300, B_ALIGN_LEFT),
 		4);
 
 	float maxwidth = RefreshScheduleList();

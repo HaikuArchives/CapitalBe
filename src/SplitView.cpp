@@ -101,8 +101,11 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	fRemoveSplit =
 		new BButton("removesplit", B_TRANSLATE("Remove item"), new BMessage(M_REMOVE_SPLIT));
 
-	BString totalLabel(B_TRANSLATE("Total:"));
-	totalLabel << " " << fTransaction.Amount().AbsoluteValue().AsFloat();
+	BString totalLabel(B_TRANSLATE("Total: %sum%"));
+	BString tempAmount;
+	gCurrentLocale.CurrencyToString(fTransaction.Amount().AbsoluteValue(), tempAmount);
+	totalLabel.ReplaceFirst("%sum%", tempAmount);
+
 	fSplitTotal = new BStringView("splittotal", totalLabel.String());
 	fSplitTotal->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
@@ -532,9 +535,18 @@ SplitView::MessageReceived(BMessage* msg)
 
 			fTransaction.SetAmountAt(selection, fixed);
 
-			BString label("Total:");
-			label << CalculateTotal().AbsoluteValue().AsFloat();
-			fSplitTotal->SetText(label.String());
+			BString totalLable(B_TRANSLATE("Total: %sum%"));
+			BString tempTotal;
+			Fixed totalFixed(CalculateTotal().AbsoluteValue());
+			gCurrentLocale.CurrencyToString(totalFixed, tempTotal);
+			totalLable.ReplaceFirst("%sum%", tempTotal);
+			fSplitTotal->SetText(totalLable.String());
+
+			// Color total if the splits don't add up to the transaction amount
+			float totalAmount = CalculateTotal().AbsoluteValue().AsFloat();
+			rgb_color totalColor = (totalFixed == fTransaction.Amount().AbsoluteValue())
+				? ui_color(B_PANEL_TEXT_COLOR) : ui_color(B_FAILURE_COLOR);
+			fSplitTotal->SetHighColor(totalColor);
 			break;
 		}
 		case M_SPLIT_MEMO_CHANGED:
