@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	1719023140
+1	English	application/x-vnd.wgp-CapitalBe	2547615332
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -23,6 +23,7 @@ Payee: %s	ScheduleAddWindow		Payee: %s
 Default account settings:	PrefWindow		Default account settings:
 Account total	MainWindow		Account total
 CapitalBe	System name		CapitalBe
+Total: %sum%	SplitView		Total: %sum%
 Import from QIF file…	MainWindow		Import from QIF file…
 Ending date:	ReportWindow		Ending date:
 Split	ScheduledTransItem		Split
@@ -146,7 +147,6 @@ Monthly	BudgetWindow		Monthly
 OK	TransferWindow		OK
 Total worth	NetWorthReport		Total worth
 Memo	CheckView		Memo
-Show Split	SplitView		Show Split
 times	ScheduleAddWindow		times
 Annually	ScheduleListWindow		Annually
 Oops!	MainWindow		Oops!
@@ -155,7 +155,6 @@ Edit…	MainWindow		Edit…
 OK	CategoryWindow		OK
 Spending	ReportWindow		Spending
 Help: Transaction editor	SplitView		Help: Transaction editor
-Total:	SplitView		Total:
 Unlimited	ScheduleListWindow		Unlimited
 Set all to zero	BudgetWindow		Set all to zero
 When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%
@@ -251,7 +250,6 @@ Type	SplitView		Type
 Recalculate all	BudgetWindow		Recalculate all
 Date	NetWorthReport		Date
 Income	CashFlowReport		Income
-Hide split	SplitView		Hide split
 Split transaction	SplitView		Split transaction
 Total checks: %s	ReconcileWindow		Total checks: %s
 Quarterly	BudgetWindow		Quarterly
