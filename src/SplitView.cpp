@@ -92,8 +92,8 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		"expander", B_TRANSLATE("Show split"), new BMessage(M_EXPANDER_CHANGED), B_WILL_DRAW);
 	fSplit->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
-	HelpButton* helpButton = new HelpButton(B_TRANSLATE("Help: Transaction editor"),
-		"Transaction Editor.txt");
+	HelpButton* helpButton =
+		new HelpButton(B_TRANSLATE("Help: Transaction editor"), "Transaction Editor.txt");
 
 	// SplitContainer
 	fSplitContainer = new BView("splitcontainer", B_WILL_DRAW);
@@ -158,7 +158,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		fStartExpanded = true;
 	}
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(fSplitContainer, B_VERTICAL, 0)
 		.SetInsets(0)
 		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))
