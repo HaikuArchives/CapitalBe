@@ -38,38 +38,39 @@ enum {
 extern int compare_stringitem(const void* item1, const void* item2);
 
 BudgetWindow::BudgetWindow(const BRect& frame)
-	: BWindow(frame, B_TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
+	: BWindow(BRect(0, 0, 1000, 400), B_TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
 		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
 	  fIncomeGrid(13, 0),
 	  fSpendingGrid(13, 0)
 {
-	fBackView = new BView("background", B_WILL_DRAW);
-	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f).SetInsets(0).Add(fBackView).End();
-	fBackView->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
-
 	fBar = new BMenuBar("menubar");
 	fBar->AddItem(
 		new BMenuItem(B_TRANSLATE("Recalculate all"), new BMessage(M_BUDGET_RECALCULATE)));
 	fBar->AddItem(new BMenuItem(B_TRANSLATE("Set all to zero"), new BMessage(M_BUDGET_ZERO)));
+
+	HelpButton* help = new HelpButton(B_TRANSLATE("Help: Budget"), "Budget.txt");
 
 	BuildBudgetSummary();
 	BuildStatsAndEditor();
 	BuildCategoryList();
 
 	BFont font;
+
+// clang-format off
 	BLayoutBuilder::Group<>(fCatBox, B_VERTICAL, 0.0f)
-		.SetInsets(10, font.Size() * 1.3, 10, 10)
+		.SetInsets(B_USE_DEFAULT_SPACING, font.Size() * 1.3,
+			B_USE_DEFAULT_SPACING, B_USE_SMALL_SPACING)
 		.Add(fAmountLabel)
 		.Add(fAmountBox)
 		.AddGrid(B_USE_DEFAULT_SPACING, 1.0f)
-		.Add(fMonthly, 0, 0)
-		.Add(fWeekly, 1, 0)
-		.Add(fQuarterly, 0, 1)
-		.Add(fAnnually, 1, 1)
-		.End()
+			.Add(fMonthly, 0, 0)
+			.Add(fWeekly, 1, 0)
+			.Add(fQuarterly, 0, 1)
+			.Add(fAnnually, 1, 1)
+			.End()
 		.End();
+// clang-format on
 	fAmountBox->SetText("");
-
 	fAmountBox->GetFilter()->SetMessenger(new BMessenger(this));
 
 	if (gDatabase.CountBudgetEntries() == 0)
@@ -80,21 +81,29 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 	RefreshBudgetSummary();
 	fCategoryList->MakeFocus(true);
 
-	BLayoutBuilder::Group<>(fBackView, B_VERTICAL, 0.0f)
+// clang-format off
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f)
 		.SetInsets(0)
-		.Add(fBar)
+		.AddGrid(0.f, 0.f)
+			.Add(fBar, 0, 0)
+			.AddGlue(0, 1)
+			.Add(help, 1, 0, 1, 2)
+			.End()
 		.AddGroup(B_VERTICAL)
-		.SetInsets(10, 10, 10, 10)
-		.AddGroup(B_HORIZONTAL)
-		.Add(fCategoryList)
-		.AddGroup(B_VERTICAL)
-		.Add(fCatBox)
-		.Add(fCatStat)
-		.End()
-		.End()
-		.Add(fBudgetSummary)
-		.End()
+			.SetInsets(B_USE_DEFAULT_SPACING, 0, B_USE_DEFAULT_SPACING,
+				B_USE_DEFAULT_SPACING)
+			.AddGroup(B_HORIZONTAL)
+				.Add(fCategoryList)
+				.AddGroup(B_VERTICAL)
+					.Add(fCatBox)
+					.Add(fCatStat)
+					.End()
+				.End()
+			.Add(fBudgetSummary)
+			.End()
 		.End();
+// clang-format on
+	CenterIn(frame);
 }
 
 BudgetWindow::~BudgetWindow(void) {}
@@ -213,6 +222,10 @@ BudgetWindow::HandleCategorySelection(void)
 	BStringField* strfield = (BStringField*)row->GetField(0);
 	if (!gDatabase.GetBudgetEntry(strfield->String(), entry))
 		return;
+
+	BString label(B_TRANSLATE("Budget category: %category%"));
+	label.ReplaceFirst("%category%", strfield->String());
+	fCatBox->SetLabel(label);
 
 	switch (entry.period) {
 		case BUDGET_WEEKLY:
@@ -673,10 +686,17 @@ BudgetWindow::BuildStatsAndEditor(void)
 {
 	// Add the category statistics
 	BString temp;
-	float statwidth = fBackView->StringWidth(B_TRANSLATE("12 month statistics")) + 20;
-	float amountwidth = fBackView->StringWidth("000,000.00") + 20;
+	float statwidth = be_plain_font->StringWidth(B_TRANSLATE("12 month statistics")) + 20;
+	float amountwidth = be_plain_font->StringWidth("000,000.00") + 20;
 
-	fCatStat = new BColumnListView("categorystats", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER);
+	fCatStat = new BColumnListView("categorystats", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER,
+		false);
+
+	font_height fh;
+	fCatStat->GetFontHeight(&fh);
+	float rowheight = fh.ascent + fh.descent + fh.leading + 3;
+	fCatStat->SetExplicitMinSize(BSize(statwidth + amountwidth + 50, rowheight * 4));
+
 	fCatStat->AddColumn(
 		new BStringColumn(B_TRANSLATE("12 month statistics"), statwidth, 10, 300, B_TRUNCATE_END),
 		0);
@@ -697,7 +717,7 @@ BudgetWindow::BuildStatsAndEditor(void)
 
 	// Add the category editor
 	fCatBox = new BBox("catbox");
-	fCatBox->SetLabel(B_TRANSLATE("Edit category"));
+	fCatBox->SetLabel(B_TRANSLATE("Budget category:"));
 
 	fMonthly =
 		new BRadioButton("monthoption", B_TRANSLATE("Monthly"), new BMessage(M_SET_PERIOD_MONTH));
@@ -777,18 +797,14 @@ BudgetWindow::BuildCategoryList(void)
 		new BColumnListView("categorylist", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER, true);
 	fCategoryList->SetSortingEnabled(false);
 	fCategoryList->SetSelectionMessage(new BMessage(M_SELECT_CATEGORY));
-	fCategoryList->AddColumn(
-		new BStringColumn(B_TRANSLATE("Category"),
-			fCategoryList->StringWidth(B_TRANSLATE("Category")) + 20, 10, 300, B_TRUNCATE_END),
-		0);
+	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE("Category"),
+		fCategoryList->StringWidth(B_TRANSLATE("Category")) + 20, 40, 300, B_TRUNCATE_END), 0);
 	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE("Amount"),
-								 fCategoryList->StringWidth(B_TRANSLATE("Amount")) + 20, 10, 300,
-								 B_TRUNCATE_END, B_ALIGN_RIGHT),
-		1);
+		fCategoryList->StringWidth(B_TRANSLATE("Amount")) + 20, 40, 300, B_TRUNCATE_END,
+		B_ALIGN_RIGHT), 1);
 	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE("Frequency"),
-								 fCategoryList->StringWidth(B_TRANSLATE("Frequency")) + 20, 10, 300,
-								 B_TRUNCATE_END, B_ALIGN_RIGHT),
-		2);
+		fCategoryList->StringWidth(B_TRANSLATE("Frequency")) + 20, 40, 300, B_TRUNCATE_END,
+		B_ALIGN_RIGHT), 2);
 	fCategoryList->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 
 	fIncomeRow = new BRow();
