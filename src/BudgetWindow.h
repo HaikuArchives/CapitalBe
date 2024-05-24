@@ -40,7 +40,6 @@ private:
 	void SetPeriod(const BudgetPeriod& period);
 
 	BMenuBar* fBar;
-	BView* fBackView;
 
 	BColumnListView* fCategoryList;
 	BRow *fIncomeRow, *fSpendingRow;
