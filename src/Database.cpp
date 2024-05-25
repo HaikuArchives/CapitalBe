@@ -1,4 +1,5 @@
 #include "Database.h"
+#include <Directory.h>
 #include <Entry.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,9 +9,12 @@
 #include "DStringList.h"
 #include "Fixed.h"
 #include "Import.h"
+#include "Preferences.h"
 #include "ScheduledTransData.h"
 #include "TimeSupport.h"
 #include "TransactionData.h"
+#include <vector>
+#include <ctime>
 
 // #define LOCK_DATABASE
 #ifdef LOCK_DATABASE
@@ -21,8 +25,10 @@
 #define UNLOCK ;
 #endif
 
-// This is the system default locale, which is US-style. It is used for storage
-// and the default preferred locale
+#define DB_VERSION 1
+
+// This is the default locale. It uses the system settings from the Haiku locale kit
+// for currency and date formatting.
 Locale gDefaultLocale;
 
 // This is the locale is set to whatever is used by the active account in the database
@@ -124,15 +130,19 @@ Database::CreateFile(const char* path)
 	// Transaction Status: 10
 	// Currency Symbol/Decimal: 2
 
+	DBCommand("CREATE TABLE db_version (version INTEGER PRIMARY KEY);",
+		"DatabaseCreateFile:create db_version");
+	BString command;
+	command << "INSERT INTO db_version (version) VALUES (" << DB_VERSION << ");";
+	DBCommand(command.String(), "Database::CreateFile:create db_version");
+
 	DBCommand(
 		"CREATE TABLE accountlist (accountid INT PRIMARY KEY, name VARCHAR(96), "
 		"type VARCHAR(12), status VARCHAR(30));",
 		"Database::CreateFile:create accountlist");
 	DBCommand(
-		"CREATE TABLE accountlocale (accountid INT PRIMARY KEY, dateformat VARCHAR(8), "
-		"dateseparator CHAR(6), currencysymbol CHAR(6),	"
-		"currencyseparator CHAR(6), currencydecimal CHAR(6), "
-		"currencyprefix CHAR(1));",
+		"CREATE TABLE accountlocale (accountid INT PRIMARY KEY, "
+		"currencysymbol CHAR(6), currencydecimal CHAR(6), currencyprefix CHAR(1));",
 		"Database::CreateFile:create accountlocale");
 	DBCommand("CREATE TABLE memorizedlist (transactionid INT);",
 		"Database::CreateFile:create memorizedlist");
@@ -140,7 +150,7 @@ Database::CreateFile(const char* path)
 		"CREATE TABLE scheduledlist (timestamp INT PRIMARY KEY, accountid INT, transid INT,"
 		"date INT, type VARCHAR(24), payee VARCHAR(96), amount INT,"
 		"category VARCHAR(96),memo VARCHAR(63), interval INT, count INT,"
-		"nextdate INT);",
+		"nextdate INT, destination INT);",
 		"Database::CreateFile:create scheduledlist");
 	DBCommand(
 		"CREATE TABLE budgetlist (entryid INT PRIMARY KEY, category VARCHAR(96), "
@@ -180,6 +190,13 @@ Database::OpenFile(const char* path)
 			"CapitalBe couldn't open your financial data. "
 			"If your data is in the old storage format from the Preview Edition 1.0, you "
 			"will need to run the conversion program before you can use your data.");
+		return B_ERROR;
+	}
+
+	// Check for and apply DB migrations
+	if (ApplyMigrations() != B_OK) {
+		UNLOCK;
+		ShowBug("Database::ApplyMigrations() failed");
 		return B_ERROR;
 	}
 
@@ -546,9 +563,9 @@ Database::SetAccountLocale(const uint32& accountid, const Locale& data)
 
 	// Todo: remove table columns for date format
 	if (query.eof()) {
-		command << "INSERT INTO accountlocale VALUES(" << accountid << ",'-','-','"
-				<< data.CurrencySymbol() << "','-','" << data.CurrencyDecimalPlace() << "','"
-				<< (data.IsCurrencySymbolPrefix() ? "true" : "false") << "');";
+		command << "INSERT INTO accountlocale VALUES(" << accountid << ",'"
+			<< data.CurrencySymbol() << "'," << data.CurrencyDecimalPlace() << ",'"
+			<< (data.IsCurrencySymbolPrefix() ? "true" : "false") << "');";
 		DBCommand(command.String(), "Database::SetAccountLocale:insert into accountlocale");
 		UNLOCK;
 		return;
@@ -581,15 +598,13 @@ Database::LocaleForAccount(const uint32& id)
 		return locale;
 	}
 
-	BString temp;
-	locale.SetCurrencySymbol(query.getStringField(3));
-	locale.SetCurrencyDecimalPlace(query.getIntField(5));
-	temp = query.getStringField(6);
-	locale.SetCurrencySymbolPrefix(temp.Compare("true") == 0 ? true : false);
+	locale.SetCurrencySymbol(query.getStringField(1));
+	locale.SetCurrencyDecimalPlace(query.getIntField(2));
+	BString isCurrencyPrefix = query.getStringField(3);
+	locale.SetCurrencySymbolPrefix(isCurrencyPrefix.Compare("true") == 0 ? true : false);
 	UNLOCK;
 	return locale;
 }
-
 
 bool
 Database::UsesDefaultLocale(const uint32& id)
@@ -1100,7 +1115,7 @@ bool
 Database::InsertSchedTransaction(const uint32& id, const uint32& accountid, const time_t& startdate,
 	const TransactionType& type, const char* payee, const Fixed& amount, const char* category,
 	const char* memo, const TransactionInterval& interval, const time_t& nextdate,
-	const int32& count)
+	const int32& count, const int32& destination)
 {
 	// Internal method. No locking required
 	if (!payee || !category)
@@ -1112,11 +1127,12 @@ Database::InsertSchedTransaction(const uint32& id, const uint32& accountid, cons
 	CppSQLite3Buffer bufSQL;
 	BString _memo = memo;
 	bufSQL.format(
-		"INSERT INTO scheduledlist VALUES(%ld, %u, %u, %ld, %Q, %Q, %ld, %Q, %Q, %u, %d, %ld);",
+		"INSERT INTO scheduledlist VALUES(%ld, %u, %u, %ld, %Q, %Q, %ld, %Q, %Q, %u, %d, %ld, %i);",
 		timestamp, accountid, id, startdate, type.Type(), payee, amount.AsFixed(), category,
-		_memo.String(), interval, count, nextdate);
+		_memo.String(), interval, count, nextdate, destination);
 	CppSQLite3Query query
 		= gDatabase.DBQuery(bufSQL, "Database::InsertSchedTransaction:insert into table");
+		// TODO: Implement destination for transfers between accounts (WIP)
 
 	return true;
 }
@@ -1389,4 +1405,108 @@ Database::DBQuery(const char* query, const char* functionname)
 	}
 	// this will never be reached - just to shut up the compiler
 	return CppSQLite3Query();
+}
+
+
+status_t
+Database::ApplyMigrations(void)
+{
+	int currentVersion = 0;
+
+	// Look for db_version, create if it doesn't exist. Set version to 0,
+	// all migrations will be applied.
+	if (!fDB.tableExists("db_version")) {
+		if (CreateDBBackup(currentVersion) != B_OK)
+			return B_ERROR;
+
+		DBCommand("CREATE TABLE db_version (version INTEGER PRIMARY KEY);",
+			"Database::ApplyMigrations:create db_version");
+		DBCommand("INSERT INTO db_version (version) VALUES (0);",
+			"Database::ApplyMigrations:insert db_version");
+	}
+
+	// Get current db_version
+	CppSQLite3Query query = DBQuery("SELECT version FROM db_version",
+		"Database::ApplyMigrations: get currentVersion");
+
+	if (query.eof())
+		return B_ERROR;
+
+	currentVersion = query.getIntField(0);
+
+	// Apply all missing migrations
+	if (currentVersion < 1) {
+		// Remove unused tables from accountlocale
+		DBCommand("ALTER TABLE accountlocale DROP COLUMN dateformat;",
+			"Database::ApplyMigrations: accountlocale:remove dateformat");
+		DBCommand("ALTER TABLE accountlocale DROP COLUMN dateseparator;",
+			"Database::ApplyMigrations: accountlocale:remove dateseparator");
+		DBCommand("ALTER TABLE accountlocale DROP COLUMN currencyseparator;",
+			"Database::ApplyMigrations: accountlocale:remove currencyseparator");
+		// Set decimal count to 2 by default
+		DBCommand("UPDATE accountlocale SET currencydecimal = 2;",
+			"Database::ApplyMigrations: accountlocale:set default currency decimal");
+
+		// Add column for transfer destination in scheduled transactions
+		DBCommand("ALTER TABLE scheduledlist ADD COLUMN destination;",
+			"Database::ApplyMigrations: scheduledlist:add destination column");
+
+		// TODO: Drop table for default date settings - we're always using system settings
+		// Fails with error "SQLITE_LOCKED[6]: database table is locked"
+		// DBCommand("DROP TABLE defaultlocale;",
+		// 		"Database::ApplyMigrations: defaultlocale:remove dateformat");
+
+		// Update version number
+		DBCommand("UPDATE db_version SET version = 1;", "Database::ApplyMigrations:update version");
+		currentVersion = 1;
+	}
+
+	return B_OK;
+}
+
+
+status_t
+Database::CreateDBBackup(int32 version)
+{
+	BString sourcePath = PREFERENCES_PATH "/MyAccountData";
+	BString destinationPath;
+	destinationPath << sourcePath << "_backup_" << version;
+
+	BFile sourceFile;
+	BFile destinationFile;
+	ssize_t bytesRead, bytesWritten;
+
+	// Open the database file for reading
+	status_t result = sourceFile.SetTo(sourcePath, B_READ_ONLY);
+	if (result != B_OK)
+		return B_ERROR;
+
+	// Get the size of the database file and set buffer size
+	off_t fileSize;
+	if (sourceFile.GetSize(&fileSize) != B_OK)
+		return B_ERROR;
+
+	size_t bufferSize = static_cast<size_t>(fileSize);
+	std::vector<char> buffer(bufferSize);
+
+	// Create and open the destination file for writing
+	result = destinationFile.SetTo(destinationPath, B_WRITE_ONLY | B_CREATE_FILE | B_ERASE_FILE);
+	if (result != B_OK)
+		return B_ERROR;
+
+	// Read from source and write to destination
+	while ((bytesRead = sourceFile.Read(&buffer[0], buffer.size())) > 0) {
+		bytesWritten = destinationFile.Write(&buffer[0], bytesRead);
+		if (bytesWritten < 0)
+			return B_ERROR;
+	}
+
+	return B_OK;
+}
+
+status_t
+Database::DeescapeDatabase(void)
+{
+	// TODO: implement function
+	return B_OK;
 }

@@ -108,13 +108,16 @@ public:
 	CppSQLite3Query DBQuery(const char* query, const char* functionname);
 
 private:
+	status_t ApplyMigrations(void);
+	status_t CreateDBBackup(int32 version);
+	status_t DeescapeDatabase(void);
 	int32 GetLastKey(const char* table, const char* column);
 
 	// Used to allow split scheduled transactions
 	bool InsertSchedTransaction(const uint32& id, const uint32& accountid, const time_t& startdate,
 		const TransactionType& type, const char* payee, const Fixed& amount, const char* category,
 		const char* memo, const TransactionInterval& interval, const time_t& nextdate,
-		const int32& count = -1);
+		const int32& count = -1, const int32& destination = -1);
 
 	Account* fCurrent;
 	BObjectList<Account> fList;

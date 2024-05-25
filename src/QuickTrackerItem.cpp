@@ -157,7 +157,7 @@ QTNetWorthItem::Calculate(void)
 		Locale accLocale;
 
 		while (!query.eof()) {
-			Account* account = gDatabase.AccountAt(query.getIntField(0));
+			Account* account = gDatabase.AccountByID(query.getIntField(0));
 			balance += account->Balance();
 			accLocale = account->GetLocale();
 			query.nextRow();
