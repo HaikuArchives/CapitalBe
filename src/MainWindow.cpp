@@ -71,11 +71,13 @@ MainWindow::MainWindow(BRect frame)
 	BMenuBar* bar = new BMenuBar("keybar");
 
 	BMenu* menu = new BMenu("");
-	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("Report a bug" B_UTF8_ELLIPSIS), new BMessage(M_REPORT_BUG)));
+	menu->AddItem(new BMenuItem(
+		B_TRANSLATE("Categories" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_CATEGORY_WINDOW)));
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Settings" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_OPTIONS_WINDOW), ','));
 	menu->AddSeparatorItem();
+	menu->AddItem(
+		new BMenuItem(B_TRANSLATE("Report a bug" B_UTF8_ELLIPSIS), new BMessage(M_REPORT_BUG)));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("About CapitalBe"), new BMessage(M_SHOW_ABOUT)));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(B_QUIT_REQUESTED), 'Q'));
@@ -85,11 +87,7 @@ MainWindow::MainWindow(BRect frame)
 	bar->AddItem(iconMenu);
 
 	menu = new BMenu(B_TRANSLATE("File"));
-	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("Categories" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_CATEGORY_WINDOW)));
-	menu->AddItem(new BMenuItem(B_TRANSLATE("Scheduled transactions" B_UTF8_ELLIPSIS),
-		new BMessage(M_SHOW_SCHEDULED_WINDOW)));
-	menu->AddSeparatorItem();
+
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Import from QIF file" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_IMPORT_PANEL)));
 	menu->AddItem(new BMenuItem(
@@ -138,7 +136,9 @@ MainWindow::MainWindow(BRect frame)
 	bar->AddItem(menu);
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Budget"), new BMessage(M_SHOW_BUDGET_WINDOW)));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Reports"), new BMessage(M_SHOW_REPORTS_WINDOW)));
-
+	menu->AddSeparatorItem();
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Scheduled transactions"),
+		new BMessage(M_SHOW_SCHEDULED_WINDOW)));
 	// We load the financial data before we create any of the views because the
 	// notifications are not sent and startup time is *significantly* reduced
 	LoadData();
