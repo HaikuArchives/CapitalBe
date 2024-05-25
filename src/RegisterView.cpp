@@ -56,11 +56,9 @@ RegisterView::RegisterView(const char* name, int32 flags)
 	QTNetWorthItem* item;
 	item = new QTNetWorthItem("networth");
 
-	BFont font;
-
 // clang-format off
 	BLayoutBuilder::Group<>(fTrackBox, B_VERTICAL, 0)
-		.SetInsets(B_USE_DEFAULT_SPACING, font.Size() * 1.3,
+		.SetInsets(B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING,
 			B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
 		.Add(item)
 		.AddGlue(1024 * 1024 * 2014)

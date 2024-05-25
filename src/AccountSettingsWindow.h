@@ -20,7 +20,7 @@ private:
 	friend class NewAccountFilter;
 
 	AutoTextControl* fAccountName;
-	BButton *fCancel, *fOK;
+	BButton* fOK;
 	CurrencyPrefView* fPrefView;
 	Account* fAccount;
 	BCheckBox* fUseDefault;

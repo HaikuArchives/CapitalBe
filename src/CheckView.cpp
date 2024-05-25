@@ -362,7 +362,10 @@ void
 CheckView::SetFieldsEnabled(bool enabled)
 {
 	fDate->SetEnabled(enabled);
-	fDate->MakeFocus(enabled);
+	if (fDate->LockLooper())
+		fDate->MakeFocus(enabled);
+	fDate->UnlockLooper();
+
 	fType->SetEnabled(enabled);
 	fPayee->SetEnabled(enabled);
 	fAmount->SetEnabled(enabled);

@@ -28,8 +28,8 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BView* back = new BView("back", B_WILL_DRAW);
-	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
+	if (fAccount == NULL)
+		SetTitle(B_TRANSLATE("New account"));
 
 	fAccountName = new AutoTextControl("accname", B_TRANSLATE("Name:"),
 		(fAccount ? fAccount->Name() : NULL), new BMessage(M_NAME_CHANGED));
@@ -50,28 +50,29 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	if (strlen(fAccountName->Text()) < 1)
 		fOK->SetEnabled(false);
 
-	fCancel = new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+	BButton* cancel = new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
 	SetDefaultButton(fOK);
 
 	if (!fAccount || fAccount->IsUsingDefaultLocale()) {
 		fPrefView->Hide();
 	}
-
-	BLayoutBuilder::Group<>(back, B_VERTICAL, 0.0f)
-		.SetInsets(10)
-		.AddGroup(B_VERTICAL, 0.0f)
-		.Add(fAccountName)
-		.Add(fUseDefault)
-		.Add(fPrefView)
-		.End()
-		.AddGrid(0.0f, 0.0f)
-		.AddGlue(0, 0)
-		.Add(fCancel, 1, 0)
-		.Add(fOK, 2, 0)
-		.End()
+// clang off
+	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
+		.SetInsets(B_USE_DEFAULT_SPACING)
+		.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING)
+			.Add(fAccountName)
+			.Add(fUseDefault)
+			.Add(fPrefView)
+			.End()
+		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+			.AddGlue()
+			.Add(cancel)
+			.Add(fOK)
+			.End()
 		.End();
-	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f).SetInsets(0).Add(back).End();
+// clang on
+
 	CenterIn(Frame());
 	fAccountName->MakeFocus(true);
 }

@@ -2,6 +2,7 @@
 #define PREFWIN_H
 
 #include <Button.h>
+#include <Box.h>
 #include <CheckBox.h>
 #include <MenuField.h>
 #include <Message.h>
@@ -26,7 +27,7 @@ public:
 private:
 	DatePrefView* fDatePrefView;
 	CurrencyPrefView* fCurrencyPrefView;
-	BButton *fOK, *fCancel;
+	BButton* fOK;
 	BStringView* fLabel;
 };
 
@@ -41,7 +42,7 @@ public:
 private:
 	void UpdateDateLabel(void);
 
-	BStringView* fDateLabel;
+	BBox* fDateBox;
 	BRadioButton *fDateMDY, *fDateDMY;
 	AutoTextControl* fDateSeparatorBox;
 
@@ -59,7 +60,7 @@ public:
 private:
 	void UpdateCurrencyLabel(void);
 
-	BStringView* fCurrencyLabel;
+	BBox* fCurrencyBox;
 	AutoTextControl *fCurrencySymbolBox, *fCurrencyDecimalBox, *fCurrencySeparatorBox;
 	BCheckBox* fCurrencySymbolPrefix;
 
