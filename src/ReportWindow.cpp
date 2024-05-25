@@ -201,10 +201,6 @@ ReportWindow::ReportWindow(BRect frame)
 	fGridView->SetSortingEnabled(false);
 	fGridView->SetEditMode(false);
 
-	// fGraphView = new BView(r, "As Graph", B_FOLLOW_ALL, B_WILL_DRAW);
-	//	view->AddChild(fGraphView);
-	// fGraphView->Hide();
-
 	gDatabase.AddObserver(this);
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* acc = gDatabase.AccountAt(i);

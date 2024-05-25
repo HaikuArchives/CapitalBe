@@ -2,7 +2,6 @@
 
 #include <Button.h>
 #include <Catalog.h>
-// #include <CheckBox.h>
 #include <LayoutBuilder.h>
 #include <ListItem.h>
 #include <Message.h>

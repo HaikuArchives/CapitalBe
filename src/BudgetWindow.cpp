@@ -11,6 +11,7 @@
 #include "Budget.h"
 #include "CurrencyBox.h"
 #include "Database.h"
+#include "HelpButton.h"
 #include "MsgDefs.h"
 #include "TimeSupport.h"
 
@@ -54,11 +55,9 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 	BuildStatsAndEditor();
 	BuildCategoryList();
 
-	BFont font;
-
 // clang-format off
 	BLayoutBuilder::Group<>(fCatBox, B_VERTICAL, 0.0f)
-		.SetInsets(B_USE_DEFAULT_SPACING, font.Size() * 1.3,
+		.SetInsets(B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING,
 			B_USE_DEFAULT_SPACING, B_USE_SMALL_SPACING)
 		.Add(fAmountLabel)
 		.Add(fAmountBox)
