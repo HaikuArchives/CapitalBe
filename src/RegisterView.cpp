@@ -57,26 +57,30 @@ RegisterView::RegisterView(const char* name, int32 flags)
 	item = new QTNetWorthItem("networth");
 
 	BFont font;
+
+// clang-format off
 	BLayoutBuilder::Group<>(fTrackBox, B_VERTICAL, 0)
-		.SetInsets(10, font.Size() * 1.3, 10, 10)
+		.SetInsets(B_USE_DEFAULT_SPACING, font.Size() * 1.3,
+			B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
 		.Add(item)
 		.AddGlue(1024 * 1024 * 2014)
 		.End();
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
-		.SetInsets(10)
+		.SetInsets(B_USE_DEFAULT_SPACING, 0, B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
 		.Add(accountlabel)
 		.AddGroup(B_HORIZONTAL)
-		.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING, 1)
-		.Add(fAccountScroller)
-		.Add(fTrackBox)
-		.End()
-		.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING, 3)
-		.Add(fTransactionView)
-		.Add(fCheckView)
-		.End()
-		.End()
+			.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING, 1)
+				.Add(fAccountScroller)
+				.Add(fTrackBox)
+				.End()
+			.AddGroup(B_VERTICAL, 0, 3)
+				.Add(fTransactionView)
+				.Add(fCheckView)
+				.End()
+			.End()
 		.End();
 }
+// clang-format on
 
 RegisterView::~RegisterView(void) {}
 
