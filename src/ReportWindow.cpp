@@ -12,7 +12,6 @@
 #include "Database.h"
 #include "DateBox.h"
 #include "HelpButton.h"
-#include "Layout.h"
 #include "MsgDefs.h"
 #include "ObjectList.h"
 #include "Preferences.h"

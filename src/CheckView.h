@@ -55,10 +55,7 @@ private:
 	CategoryBox* fCategory;
 	NavTextBox* fMemo;
 
-	BStringView *fDateLabel, *fTypeLabel, *fPayeeLabel, *fAmountLabel, *fCategoryLabel, *fMemoLabel;
 	BButton *fEnter, *fTransfer;
-
-	HelpButton* fHelpButton;
 };
 
 

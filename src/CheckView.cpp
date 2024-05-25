@@ -33,29 +33,34 @@ enum {
 CheckView::CheckView(const char* name, int32 flags)
 	: BView(name, flags | B_FRAME_EVENTS)
 {
-	fDateLabel = new BStringView("datelabel", B_TRANSLATE("Date"));
+	BStringView* dateLabel = new BStringView("datelabel", B_TRANSLATE("Date"));
+	dateLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fDate = new DateBox("dateentry", "", NULL, new BMessage(M_DATE_CHANGED));
 
-	fTypeLabel = new BStringView("typelabel", B_TRANSLATE("Type"));
+	BStringView* typeLabel = new BStringView("typelabel", B_TRANSLATE("Type"));
+	typeLabel->SetExplicitSize(BSize(StringWidth("ShortType"), B_SIZE_UNSET));
 	fType = new CheckNumBox("typeentry", "", NULL, new BMessage(M_TYPE_CHANGED));
 
-	fPayeeLabel = new BStringView("payeelabel", B_TRANSLATE("Payee"));
+	BStringView* payeeLabel = new BStringView("payeelabel", B_TRANSLATE("Payee"));
+	payeeLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fPayee = new PayeeBox("payeeentry", "", NULL, new BMessage(M_PAYEE_CHANGED));
 
-	fAmountLabel = new BStringView("amountlabel", B_TRANSLATE("Amount"));
+	BStringView* amountLabel = new BStringView("amountlabel", B_TRANSLATE("Amount"));
+	amountLabel->SetExplicitSize(BSize(StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));
 	fAmount = new CurrencyBox("amountentry", "", "", new BMessage(M_AMOUNT_CHANGED));
 
-	fCategoryLabel = new BStringView("categorylabel", B_TRANSLATE("Category"));
+	BStringView* categoryLabel = new BStringView("categorylabel", B_TRANSLATE("Category"));
+	categoryLabel->SetExplicitSize(BSize(StringWidth("aVeryLongCategoryName"), B_SIZE_UNSET));
 	fCategory = new CategoryBox("categoryentry", "", NULL, new BMessage(M_CATEGORY_CHANGED));
 
-	fMemoLabel = new BStringView("memolabel", B_TRANSLATE("Memo"));
+	BStringView* memoLabel = new BStringView("memolabel", B_TRANSLATE("Memo"));
+	memoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fMemo = new NavTextBox("memoentry", "", NULL, new BMessage(M_MEMO_CHANGED));
 	fMemo->TextView()->DisallowChar(B_ESCAPE);
 	fMemo->SetCharacterLimit(21);
 
-	fHelpButton = new HelpButton(B_TRANSLATE("Help: Main window"), "Main Window.txt");
-
 	fEnter = new BButton("enterbutton", B_TRANSLATE("Enter"), new BMessage(M_ENTER_TRANSACTION));
+	fEnter->SetExplicitMaxSize(BSize(B_SIZE_UNSET, B_SIZE_UNLIMITED));
 
 #ifndef ENTER_NAVIGATION
 	fEnter->MakeDefault(true);
@@ -66,27 +71,30 @@ CheckView::CheckView(const char* name, int32 flags)
 	//	#endif
 
 	gDatabase.AddObserver(this);
-
+// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(0)
 		.AddGrid(1.0f, 0.0f)
-		.Add(fDateLabel, 0, 0)
-		.Add(fDate, 0, 1, 2)
-		.Add(fTypeLabel, 2, 0)
-		.Add(fType, 2, 1)
-		.Add(fPayeeLabel, 3, 0)
-		.Add(fPayee, 3, 1, 2)
-		.Add(fAmountLabel, 5, 0)
-		.Add(fAmount, 5, 1, 2)
-		.Add(fCategoryLabel, 0, 2)
-		.Add(fCategory, 0, 3, 3)
-		.Add(fMemoLabel, 3, 2)
-		.Add(fMemo, 3, 3, 4)
-		.Add(fHelpButton, 0, 5)
-		.Add(fEnter, 6, 5)
-		.End()
+			// .SetColumnWeight(1, 0.5f)
+			.SetColumnWeight(2, 2.0f)
+			.SetColumnWeight(3, 1.0f)
+			.Add(dateLabel, 0, 0)
+			.Add(fDate, 0, 1)
+			.Add(typeLabel, 1, 0)
+			.Add(fType, 1, 1)
+			.Add(payeeLabel, 2, 0)
+			.Add(fPayee, 2, 1)
+			.Add(amountLabel, 3, 0)
+			.Add(fAmount, 3, 1)
+			.Add(categoryLabel, 0, 2)
+			.Add(fCategory, 0, 3)
+			.Add(memoLabel, 1, 2, 3)
+			.Add(fMemo, 1, 3, 3)
+			.Add(fEnter, 4, 1, 1, 3)
+			.End()
 		.End();
 }
+// clang-format on
 
 CheckView::~CheckView(void) {}
 

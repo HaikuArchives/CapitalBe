@@ -22,7 +22,6 @@
 #include "CategoryWindow.h"
 #include "DAlert.h"
 #include "IconMenuItem.h"
-#include "Layout.h"
 #include "PrefWindow.h"
 #include "Preferences.h"
 #include "ReconcileWindow.h"
@@ -52,30 +51,10 @@ int32 gTextViewHeight = 20;
 int32 gStringViewHeight = 20;
 
 MainWindow::MainWindow(BRect frame)
-	: BWindow(frame, "", B_TITLED_WINDOW, 0)
+	: BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 {
 	BString temp;
 	SetTitle(B_TRANSLATE_SYSTEM_NAME("CapitalBe"));
-
-	// These chunks of code will save a lot of headache later on --
-	// we cache the preferred size of BTextControls to make control layout *much* easier.
-	// If it gets much more complicated than these couple of chunks, then it should
-	// be moved into its own init function that is called from here.
-	float pw, ph;
-
-	BTextControl* temptc = new BTextControl(BRect(0, 0, 1, 1), "temptc", "", "", NULL);
-	AddChild(temptc);
-	temptc->GetPreferredSize(&pw, &ph);
-	gTextViewHeight = (int32)ph;
-	RemoveChild(temptc);
-	delete temptc;
-
-	BStringView* tempsv = new BStringView(BRect(0, 0, 1, 1), "tempsv", "Foo");
-	AddChild(tempsv);
-	tempsv->GetPreferredSize(&pw, &ph);
-	gStringViewHeight = (int32)ph;
-	RemoveChild(tempsv);
-	delete tempsv;
 
 	fLoadError = false;
 	InitSettings();
@@ -89,8 +68,6 @@ MainWindow::MainWindow(BRect frame)
 	if (frame.Height() < 260)
 		ResizeBy(0, 260 - frame.Height());
 
-	BRect r(Bounds());
-	r.bottom = 20;
 	BMenuBar* bar = new BMenuBar("keybar");
 
 	BMenu* menu = new BMenu("");
@@ -166,8 +143,6 @@ MainWindow::MainWindow(BRect frame)
 	// notifications are not sent and startup time is *significantly* reduced
 	LoadData();
 
-	r = Bounds();
-	r.top = bar->Frame().bottom + 1;
 	fRegisterView = new RegisterView("registerview", B_WILL_DRAW);
 
 	fImportPanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL, B_FILE_NODE, false,
@@ -182,7 +157,19 @@ MainWindow::MainWindow(BRect frame)
 	fExportPanel->Window()->SetTitle(temp.String());
 	gDatabase.AddObserver(this);
 
-	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(bar).Add(fRegisterView).End();
+	HelpButton* helpButton = new HelpButton(B_TRANSLATE("Help: Main window"), "Main Window.txt");
+
+// clang-format off
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f)
+		.SetInsets(0)
+		.AddGrid(0.f, 0.f)
+			.Add(bar, 0, 0)
+			.AddGlue(0, 1)
+			.Add(helpButton, 1, 0, 1, 2)
+			.End()
+		.Add(fRegisterView)
+		.End();
+// clang-format on
 
 	HandleScheduledTransactions();
 }
