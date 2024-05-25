@@ -84,7 +84,7 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 
 	fCurrencySymbolBox = new AutoTextControl("moneysym", B_TRANSLATE("Symbol:"),
 		fLocale.CurrencySymbol(), new BMessage(M_NEW_CURRENCY_SYMBOL));
-	fCurrencySymbolBox->SetCharacterLimit(2);
+	fCurrencySymbolBox->SetCharacterLimit(4);
 
 	fCurrencySymbolPrefix = new BCheckBox(
 		"prefixcheck", B_TRANSLATE("Appears before amount"), new BMessage(M_NEW_CURRENCY_SYMBOL));
