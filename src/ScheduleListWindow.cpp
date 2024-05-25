@@ -45,7 +45,6 @@ private:
 
 	BButton* fRemoveButton;
 	BList fTransList;
-	HelpButton* fHelpButton;
 
 	float fBestWidth;
 };
@@ -75,7 +74,7 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Frequency"),
 							 StringWidth(B_TRANSLATE("Frequency")) + 20, 25, 300, B_ALIGN_LEFT),
 		3);
-	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Next Ppyment"),
+	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Next Payment"),
 							 StringWidth(B_TRANSLATE("Next payment")) + 20, 25, 300, B_ALIGN_LEFT),
 		4);
 
@@ -83,20 +82,20 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	fBestWidth = (fRemoveButton->Frame().Width() * 2) + 45;
 	fBestWidth = MAX(fBestWidth, maxwidth + 35);
 
-	fHelpButton =
+	HelpButton* helpButton =
 		new HelpButton(B_TRANSLATE("Help: Scheduled transaction"), "Scheduled Transaction.txt");
 
+// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
-		.SetInsets(15, 15)
-		.AddGrid(1.0f, 1.0f)
-		.Add(fListView, 0, 0, 3)
-		.AddGrid(1.0f, 1.0f, 0, 1, 3)
-		.AddGlue(0, 0)
-		.Add(fHelpButton, 1, 0)
-		.Add(fRemoveButton, 2, 0)
-		.End()
-		.End()
+		.SetInsets(B_USE_DEFAULT_SPACING)
+		.Add(fListView)
+		.AddGroup(B_HORIZONTAL)
+			.AddGlue()
+			.Add(helpButton)
+			.Add(fRemoveButton)
+			.End()
 		.End();
+// clang-format on
 }
 
 
@@ -254,6 +253,8 @@ ScheduleListView::RefreshScheduleList(void)
 		gDefaultLocale.DateToString(sdata->GetNextDueDate(), string);
 		row->SetField(new BStringField(string.String()), 4);
 	}
+
+	fListView->ColumnAt(0)->SetWidth(maxwidth + 30);
 
 	return fListView->PreferredSize().Width();
 }
