@@ -2,12 +2,13 @@
 
 #include <Button.h>
 #include <Catalog.h>
-#include <CheckBox.h>
+// #include <CheckBox.h>
 #include <LayoutBuilder.h>
 #include <ListItem.h>
 #include <Message.h>
 #include <Messenger.h>
 #include <OutlineListView.h>
+#include <RadioButton.h>
 #include <Region.h>
 #include <ScrollView.h>
 #include <StringView.h>
@@ -29,7 +30,8 @@ enum {
 	M_EDIT_CATEGORY,
 	M_ADD_CATEGORY,
 	M_REMOVE_CATEGORY,
-	M_NAME_CHANGED
+	M_NAME_CHANGED,
+	M_SELECT_ITEM
 };
 
 class CategoryItem : public BStringItem {
@@ -57,36 +59,35 @@ private:
 
 class CategoryInputWindow : public BWindow {
 public:
-	CategoryInputWindow(const BRect& frame, BView* target);
+	CategoryInputWindow(BView* target);
 	void MessageReceived(BMessage* msg);
 
 private:
 	AutoTextControl* fNameBox;
 
-	BButton *fOKButton, *fCancelButton;
+	BButton* fOKButton;
 
-	BCheckBox* fExpenseBox;
+	BRadioButton* fSpending;
+	BRadioButton* fIncome;
 	BView* fTarget;
 };
 
 class CategoryEditWindow : public BWindow {
 public:
-	CategoryEditWindow(const BRect& frame, const char* oldname, BView* target);
+	CategoryEditWindow(const char* oldname, BView* target);
 	void MessageReceived(BMessage* msg);
 
 private:
 	AutoTextControl* fNameBox;
 
-	BButton *fOKButton, *fCancelButton;
-
+	BButton* fOKButton;
 	BString fOldName;
-
 	BView* fTarget;
 };
 
 class CategoryRemoveWindow : public BWindow {
 public:
-	CategoryRemoveWindow(const BRect& frame, const char* from, BView* target);
+	CategoryRemoveWindow(const char* from, BView* target);
 	void MessageReceived(BMessage* msg);
 	void FrameResized(float w, float h);
 
@@ -95,11 +96,8 @@ private:
 
 	CategoryItem *fIncomeItem, *fSpendingItem;
 
-	BTextView* fDirections;
-
-	BButton *fOKButton, *fCancelButton;
+	BButton* fOKButton;
 	BView* fTarget;
-	BScrollView* fScrollView;
 };
 
 CategoryView::CategoryView(const char* name, const int32& flags)
@@ -114,28 +112,33 @@ CategoryView::CategoryView(const char* name, const int32& flags)
 	fAddButton = new BButton(
 		"addbutton", B_TRANSLATE("Add" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_ADD_WINDOW));
 
+	fEditButton->SetEnabled(false);
+	fRemoveButton->SetEnabled(false);
+	
 	// the category list
 	fListView = new BOutlineListView("categorylist", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW | B_FRAME_EVENTS | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE);
-	BScrollView* sv = new BScrollView("scrollview", fListView, 0, false, true);
+	BScrollView* scrollView = new BScrollView("scrollview", fListView, 0, false, true);
+	fListView->SetSelectionMessage(new BMessage(M_SELECT_ITEM));
 
 	fIncomeItem = new CategoryItem(B_TRANSLATE("Income"));
 	fSpendingItem = new CategoryItem(B_TRANSLATE("Spending"));
 
 	RefreshCategoryList();
 
-	BLayoutBuilder::Group<>(this, B_VERTICAL)
-		.SetInsets(15, 15)
-		.AddGrid(1.0f, 1.0f)
-		.Add(sv, 0, 0, 4)
-		.AddGrid(1.0f, 1.0f, 0, 1, 4)
-		.Add(fEditButton, 0, 0)
-		.Add(fRemoveButton, 1, 0)
-		.Add(fAddButton, 2, 0)
-		.AddGlue(3, 0)
-		.End()
-		.End()
+// clang-format off
+	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
+		.SetInsets(B_USE_DEFAULT_SPACING)
+		.Add(scrollView)
+		.AddGroup(B_HORIZONTAL)
+			.AddGlue()
+			.Add(fEditButton)
+			.Add(fRemoveButton)
+			.Add(fAddButton)
+			.AddGlue()
+			.End()
 		.End();
+// clang-format on
 }
 
 
@@ -147,8 +150,6 @@ CategoryView::AttachedToWindow(void)
 	fAddButton->SetTarget(this);
 	fRemoveButton->SetTarget(this);
 
-	fListView->Select(0);
-
 	fListView->MakeFocus(true);
 }
 
@@ -156,11 +157,27 @@ void
 CategoryView::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
+		case M_SELECT_ITEM:
+		{
+			int32 index = fListView->CurrentSelection();
+			if (fListView->CurrentSelection() < 0)
+				break;
+
+			CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
+
+			if (!item || item == fIncomeItem || item == fSpendingItem) {
+				fEditButton->SetEnabled(false);
+				fRemoveButton->SetEnabled(false);
+			} else {
+				fEditButton->SetEnabled(true);
+				fRemoveButton->SetEnabled(true);
+			}
+			break;
+		}
 		case M_SHOW_ADD_WINDOW:
 		{
-			BRect r(Window()->Frame());
-			CategoryInputWindow* catwin = new CategoryInputWindow(BRect(100, 100, 600, 225), this);
-			catwin->CenterIn(r);
+			CategoryInputWindow* catwin = new CategoryInputWindow(this);
+			catwin->CenterIn(Window()->Frame());
 			catwin->Show();
 			break;
 		}
@@ -172,9 +189,8 @@ CategoryView::MessageReceived(BMessage* msg)
 			if (!item || item == fIncomeItem || item == fSpendingItem)
 				break;
 
-			BRect r(Window()->Frame());
-			CategoryRemoveWindow* catwin = new CategoryRemoveWindow(r, item->Text(), this);
-			catwin->CenterIn(r);
+			CategoryRemoveWindow* catwin = new CategoryRemoveWindow(item->Text(), this);
+			catwin->CenterIn(Window()->Frame());
 			catwin->Show();
 			break;
 		}
@@ -186,9 +202,8 @@ CategoryView::MessageReceived(BMessage* msg)
 			if (!item || item == fIncomeItem || item == fSpendingItem)
 				break;
 
-			BRect r(Window()->Frame());
-			CategoryEditWindow* catwin = new CategoryEditWindow(r, item->Text(), this);
-			catwin->CenterIn(r);
+			CategoryEditWindow* catwin = new CategoryEditWindow(item->Text(), this);
+			catwin->CenterIn(Window()->Frame());
 			catwin->Show();
 			break;
 		}
@@ -345,39 +360,49 @@ CategoryItem::DrawItem(BView* owner, BRect frame, bool complete)
 }
 
 
-CategoryInputWindow::CategoryInputWindow(const BRect& frame, BView* target)
-	: BWindow(frame, B_TRANSLATE("Add category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+CategoryInputWindow::CategoryInputWindow(BView* target)
+	: BWindow(BRect(), B_TRANSLATE("Add category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_V_RESIZABLE |
 			  B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fTarget(target)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BView* view = new BView("background", B_WILL_DRAW);
-	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
-
 	fNameBox =
 		new AutoTextControl("namebox", B_TRANSLATE("Name:"), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
-	fExpenseBox = new BCheckBox("expensebox", B_TRANSLATE("Spending category"), NULL);
-	fExpenseBox->SetValue(B_CONTROL_ON);
+	fSpending =
+		new BRadioButton("spendingoption", B_TRANSLATE("Spending category"), NULL);
+	fIncome =
+		new BRadioButton("incomeoption", B_TRANSLATE("Income category"), NULL);
+
+	fSpending->SetValue(B_CONTROL_ON);
 
 	fOKButton = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_ADD_CATEGORY));
 	fOKButton->MakeDefault(true);
+	fOKButton->SetEnabled(false);
 
-	fCancelButton =
+	BButton* cancelButton =
 		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
-	BLayoutBuilder::Group<>(this, B_VERTICAL)
-		.SetInsets(10)
-		.Add(fNameBox)
-		.Add(fExpenseBox)
-		.AddGrid(1.0f, 1.0f)
-		.Add(fCancelButton, 0, 0)
-		.Add(fOKButton, 1, 0)
-		.End()
+// clang-format off
+	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
+		.SetInsets(B_USE_DEFAULT_SPACING)
+		.AddGrid(0.f, 0.f)
+			.Add(fNameBox->CreateLabelLayoutItem(), 0, 0)
+			.Add(fNameBox->CreateTextViewLayoutItem(), 1, 0)
+			.Add(BSpaceLayoutItem::CreateVerticalStrut(B_USE_DEFAULT_SPACING), 0, 1)
+			.Add(fSpending, 1, 2)
+			.Add(fIncome, 1, 3)
+			.End()
+		.AddStrut(B_USE_BIG_SPACING)
+		.AddGroup(B_HORIZONTAL)
+			.Add(cancelButton)
+			.Add(fOKButton)
+			.End()
 		.End();
+// clang-format on
 
 	fNameBox->MakeFocus(true);
 }
@@ -402,8 +427,9 @@ CategoryInputWindow::MessageReceived(BMessage* msg)
 		{
 			BMessenger msgr(fTarget);
 			msg->AddString("name", fNameBox->Text());
-			msg->AddBool("expense", fExpenseBox->Value() == B_CONTROL_ON);
+			msg->AddBool("expense", fSpending->Value() == B_CONTROL_ON);
 			msgr.SendMessage(msg);
+			Quit();
 			break;
 		}
 		default:
@@ -415,36 +441,36 @@ CategoryInputWindow::MessageReceived(BMessage* msg)
 }
 
 
-CategoryRemoveWindow::CategoryRemoveWindow(const BRect& frame, const char* from, BView* target)
-	: BWindow(frame, B_TRANSLATE("Remove category"), B_FLOATING_WINDOW_LOOK,
+CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
+	: BWindow(BRect(0, 0, 440, 380), B_TRANSLATE("Remove category"), B_FLOATING_WINDOW_LOOK,
 		  B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS |
 			  B_CLOSE_ON_ESCAPE),
 	  fTarget(target)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
-	BView* view = new BView("background", B_WILL_DRAW | B_FRAME_EVENTS);
-	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
-	view->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	fDirections = new BTextView("directions");
-	fDirections->MakeEditable(false);
-
-	BString directions(
+	BTextView* directions = new BTextView("directions");
+	BString text(
 		B_TRANSLATE("Please choose a new category for all transactions currently in the "
 					"'%%CATEGORY_NAME%%' category."));
-	directions.ReplaceFirst("%%CATEGORY_NAME%%", from);
-	fDirections->SetText(directions.String());
-	fDirections->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
-	fDirections->SetWordWrap(true);
+	text.ReplaceFirst("%%CATEGORY_NAME%%", from);
+	directions->SetText(text.String());
+	directions->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
+	directions->SetWordWrap(true);
+	directions->MakeEditable(false);
+	directions->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fOKButton = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_REMOVE_CATEGORY));
-	fCancelButton =
+	fOKButton->SetEnabled(false);
+
+	BButton* cancelButton =
 		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
 	fListView = new BOutlineListView("categorylist", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW | B_FRAME_EVENTS | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE);
-	fScrollView = new BScrollView("scrollview", fListView, 0, false, true);
+	BScrollView* scrollView = new BScrollView("scrollview", fListView, 0, false, true);
+	fListView->SetSelectionMessage(new BMessage(M_SELECT_ITEM));
 
 	fIncomeItem = new CategoryItem(B_TRANSLATE("Income"));
 	fSpendingItem = new CategoryItem(B_TRANSLATE("Spending"));
@@ -458,10 +484,10 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect& frame, const char* from,
 	float maxlength;
 	if (strlen(B_TRANSLATE("Income")) > strlen(B_TRANSLATE("Spending"))) {
 		maxchars = strlen(B_TRANSLATE("Income"));
-		maxlength = view->StringWidth(B_TRANSLATE("Income"));
+		maxlength = be_plain_font->StringWidth(B_TRANSLATE("Income"));
 	} else {
 		maxchars = strlen(B_TRANSLATE("Spending"));
-		maxlength = view->StringWidth(B_TRANSLATE("Spending"));
+		maxlength = be_plain_font->StringWidth(B_TRANSLATE("Spending"));
 	}
 
 	while (!query.eof()) {
@@ -480,22 +506,25 @@ CategoryRemoveWindow::CategoryRemoveWindow(const BRect& frame, const char* from,
 
 		if (name.CountChars() > maxchars) {
 			maxchars = name.CountChars();
-			maxlength = view->StringWidth(name.String());
+			maxlength = be_plain_font->StringWidth(name.String());
 		}
 
 		query.nextRow();
 	}
 
-	BLayoutBuilder::Group<>(view, B_VERTICAL, 2.0f)
-		.SetInsets(10)
-		.Add(fDirections, 1)
-		.Add(fScrollView, 2)
-		.AddGrid(1.0f, 1.0f)
-		.AddGlue(0, 0)
-		.Add(fCancelButton, 1, 0)
-		.Add(fOKButton, 2, 0)
-		.End()
+// clang-format off
+	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
+		.SetInsets(B_USE_DEFAULT_SPACING)
+		.Add(directions, 0)
+		.Add(scrollView, 5.0)
+		// .AddStrut(B_USE_DEFAULT_SPACING)
+		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+			.AddGlue()
+			.Add(cancelButton)
+			.Add(fOKButton)
+			.End()
 		.End();
+// clang-format on
 }
 
 
@@ -503,6 +532,20 @@ void
 CategoryRemoveWindow::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
+		case M_SELECT_ITEM:
+		{
+			int32 index = fListView->CurrentSelection();
+			if (fListView->CurrentSelection() < 0)
+				break;
+
+			CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
+
+			if (!item || item == fIncomeItem || item == fSpendingItem)
+				fOKButton->SetEnabled(false);
+			else
+				fOKButton->SetEnabled(true);
+			break;
+		}
 		case M_REMOVE_CATEGORY:
 		{
 			int32 index = fListView->CurrentSelection();
@@ -532,8 +575,8 @@ CategoryRemoveWindow::FrameResized(float w, float h)
 }
 
 
-CategoryEditWindow::CategoryEditWindow(const BRect& frame, const char* oldname, BView* target)
-	: BWindow(frame, B_TRANSLATE("Edit category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+CategoryEditWindow::CategoryEditWindow(const char* oldname, BView* target)
+	: BWindow(BRect(), B_TRANSLATE("Edit category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE |
 			  B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fOldName(oldname),
@@ -542,12 +585,10 @@ CategoryEditWindow::CategoryEditWindow(const BRect& frame, const char* oldname, 
 	BString temp;
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BView* view = new BView("background", B_WILL_DRAW | B_FRAME_EVENTS);
-	BLayoutBuilder::Group<>(this, B_VERTICAL).SetInsets(0).Add(view).End();
-
-	temp = B_TRANSLATE("Name:");
-	temp << " " << fOldName;
-	BStringView* oldnameView = new BStringView("oldname", temp.String());
+	BStringView* oldLabel = new BStringView("oldlabel", B_TRANSLATE("Name:"));
+	BStringView* oldName = new BStringView("oldname", fOldName.String());
+	oldName->SetExplicitMinSize(BSize(be_plain_font->StringWidth("aQuiteLongCategoryName"),
+		B_SIZE_UNSET));
 
 	fNameBox =
 		new AutoTextControl("namebox", B_TRANSLATE("New name:"), "", new BMessage(M_NAME_CHANGED));
@@ -557,21 +598,28 @@ CategoryEditWindow::CategoryEditWindow(const BRect& frame, const char* oldname, 
 	fOKButton->SetFlags(fOKButton->Flags() | B_FRAME_EVENTS);
 	fOKButton->MakeDefault(true);
 
-	fCancelButton =
+	BButton* cancelButton =
 		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
 	fOKButton->SetEnabled(false);
 	fNameBox->MakeFocus(true);
 
-	BLayoutBuilder::Group<>(view, B_VERTICAL)
-		.SetInsets(10)
-		.Add(oldnameView)
-		.Add(fNameBox)
-		.AddGrid(1.0f, 1.0f)
-		.Add(fCancelButton, 0, 0)
-		.Add(fOKButton, 1, 0)
-		.End()
+// clang-format off
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(B_USE_DEFAULT_SPACING)
+		.AddGrid(1.0f, B_USE_SMALL_SPACING)
+			.Add(oldLabel, 0, 0)
+			.Add(oldName, 1, 0)
+			.Add(fNameBox->CreateLabelLayoutItem(), 0, 1)
+			.Add(fNameBox->CreateTextViewLayoutItem(), 1, 1)
+			.End()
+		.AddStrut(B_USE_DEFAULT_SPACING)
+		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
+			.Add(cancelButton)
+			.Add(fOKButton)
+			.End()
 		.End();
+// clang-format on
 
 	fNameBox->MakeFocus(true);
 }
