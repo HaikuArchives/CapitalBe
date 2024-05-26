@@ -85,7 +85,7 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	HelpButton* helpButton =
 		new HelpButton(B_TRANSLATE("Help: Scheduled transaction"), "Scheduled Transaction.txt");
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.Add(fListView)
@@ -95,7 +95,7 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 			.Add(fRemoveButton)
 			.End()
 		.End();
-// clang-format on
+	// clang-format on
 }
 
 

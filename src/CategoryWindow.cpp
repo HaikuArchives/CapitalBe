@@ -113,7 +113,7 @@ CategoryView::CategoryView(const char* name, const int32& flags)
 
 	fEditButton->SetEnabled(false);
 	fRemoveButton->SetEnabled(false);
-	
+
 	// the category list
 	fListView = new BOutlineListView("categorylist", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW | B_FRAME_EVENTS | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE);
@@ -125,7 +125,7 @@ CategoryView::CategoryView(const char* name, const int32& flags)
 
 	RefreshCategoryList();
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.Add(scrollView)
@@ -137,7 +137,7 @@ CategoryView::CategoryView(const char* name, const int32& flags)
 			.AddGlue()
 			.End()
 		.End();
-// clang-format on
+	// clang-format on
 }
 
 
@@ -371,10 +371,8 @@ CategoryInputWindow::CategoryInputWindow(BView* target)
 		new AutoTextControl("namebox", B_TRANSLATE("Name:"), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
-	fSpending =
-		new BRadioButton("spendingoption", B_TRANSLATE("Spending category"), NULL);
-	fIncome =
-		new BRadioButton("incomeoption", B_TRANSLATE("Income category"), NULL);
+	fSpending = new BRadioButton("spendingoption", B_TRANSLATE("Spending category"), NULL);
+	fIncome = new BRadioButton("incomeoption", B_TRANSLATE("Income category"), NULL);
 
 	fSpending->SetValue(B_CONTROL_ON);
 
@@ -385,7 +383,7 @@ CategoryInputWindow::CategoryInputWindow(BView* target)
 	BButton* cancelButton =
 		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.AddGrid(0.f, 0.f)
@@ -401,7 +399,7 @@ CategoryInputWindow::CategoryInputWindow(BView* target)
 			.Add(fOKButton)
 			.End()
 		.End();
-// clang-format on
+	// clang-format on
 
 	fNameBox->MakeFocus(true);
 }
@@ -511,7 +509,7 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 		query.nextRow();
 	}
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.Add(directions, 0)
@@ -523,7 +521,7 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 			.Add(fOKButton)
 			.End()
 		.End();
-// clang-format on
+	// clang-format on
 }
 
 
@@ -575,7 +573,8 @@ CategoryRemoveWindow::FrameResized(float w, float h)
 
 
 CategoryEditWindow::CategoryEditWindow(const char* oldname, BView* target)
-	: BWindow(BRect(), B_TRANSLATE("Edit category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+	: BWindow(BRect(), B_TRANSLATE("Edit category"), B_FLOATING_WINDOW_LOOK,
+		  B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE |
 			  B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fOldName(oldname),
@@ -586,8 +585,8 @@ CategoryEditWindow::CategoryEditWindow(const char* oldname, BView* target)
 
 	BStringView* oldLabel = new BStringView("oldlabel", B_TRANSLATE("Name:"));
 	BStringView* oldName = new BStringView("oldname", fOldName.String());
-	oldName->SetExplicitMinSize(BSize(be_plain_font->StringWidth("aQuiteLongCategoryName"),
-		B_SIZE_UNSET));
+	oldName->SetExplicitMinSize(
+		BSize(be_plain_font->StringWidth("aQuiteLongCategoryName"), B_SIZE_UNSET));
 
 	fNameBox =
 		new AutoTextControl("namebox", B_TRANSLATE("New name:"), "", new BMessage(M_NAME_CHANGED));
@@ -603,7 +602,7 @@ CategoryEditWindow::CategoryEditWindow(const char* oldname, BView* target)
 	fOKButton->SetEnabled(false);
 	fNameBox->MakeFocus(true);
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.AddGrid(1.0f, B_USE_SMALL_SPACING)
@@ -618,7 +617,7 @@ CategoryEditWindow::CategoryEditWindow(const char* oldname, BView* target)
 			.Add(fOKButton)
 			.End()
 		.End();
-// clang-format on
+	// clang-format on
 
 	fNameBox->MakeFocus(true);
 }

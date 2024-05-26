@@ -48,31 +48,32 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 #define B_TRANSLATION_CONTEXT "SplitView"
 
 	// Type
-	BStringView* typeLabel = new BStringView("typelabel",B_TRANSLATE("Type"));
+	BStringView* typeLabel = new BStringView("typelabel", B_TRANSLATE("Type"));
 	typeLabel->SetExplicitSize(BSize(be_plain_font->StringWidth("ShortType"), B_SIZE_UNSET));
 	BTextControl* type = new BTextControl("type", NULL, data.Type().Type(), NULL);
 	type->SetEnabled(false);
 
 	// Payee
-	BStringView* payeeLabel = new BStringView("payeelabel",B_TRANSLATE("Payee"));
+	BStringView* payeeLabel = new BStringView("payeelabel", B_TRANSLATE("Payee"));
 	payeeLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
-	payeeLabel->SetExplicitMinSize(BSize(be_plain_font->StringWidth("anAveragelyLongPayee"),
-		B_SIZE_UNSET));	BTextControl* payee = new BTextControl("payee", NULL, data.Payee(), NULL);
+	payeeLabel->SetExplicitMinSize(
+		BSize(be_plain_font->StringWidth("anAveragelyLongPayee"), B_SIZE_UNSET));
+	BTextControl* payee = new BTextControl("payee", NULL, data.Payee(), NULL);
 	payee->SetEnabled(false);
 
 	// Amount
-	BStringView* amountLabel = new BStringView("amountlabel",B_TRANSLATE("Amount"));
-	amountLabel->SetExplicitSize(BSize(be_plain_font->StringWidth("$10,000,000,000.00"),
-		B_SIZE_UNSET));
+	BStringView* amountLabel = new BStringView("amountlabel", B_TRANSLATE("Amount"));
+	amountLabel->SetExplicitSize(
+		BSize(be_plain_font->StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));
 	BString temp;
 	gCurrentLocale.CurrencyToString(data.Amount().AbsoluteValue(), temp);
 	BTextControl* amount = new BTextControl("amount", NULL, temp.String(), NULL);
 	amount->SetEnabled(false);
 
 	// Category
-	BStringView* categoryLabel = new BStringView("categorylabel",B_TRANSLATE("Category"));
-	categoryLabel->SetExplicitSize(BSize(be_plain_font->StringWidth("aLongCategoryName"),
-		B_SIZE_UNSET));
+	BStringView* categoryLabel = new BStringView("categorylabel", B_TRANSLATE("Category"));
+	categoryLabel->SetExplicitSize(
+		BSize(be_plain_font->StringWidth("aLongCategoryName"), B_SIZE_UNSET));
 	BString label;
 	if (data.CountCategories() > 1)
 		label << B_TRANSLATE("Split");
@@ -82,10 +83,10 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	category->SetEnabled(false);
 
 	// Memo
-	BStringView* memoLabel = new BStringView("memolabel",B_TRANSLATE("Memo"));
+	BStringView* memoLabel = new BStringView("memolabel", B_TRANSLATE("Memo"));
 	memoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
-	memoLabel->SetExplicitMinSize(BSize(be_plain_font->StringWidth("$10,000,000,000.00"),
-		B_SIZE_UNSET));
+	memoLabel->SetExplicitMinSize(
+		BSize(be_plain_font->StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));
 	BTextControl* memo = new BTextControl("memo", NULL, data.Memo(), NULL);
 	memo->SetEnabled(false);
 
@@ -126,7 +127,7 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	timesLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	BStringView* repeatLabel = new BStringView("repeatlabel", B_TRANSLATE("Repeat:"));
 	repeatLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
-	BStringView* dummy = new BStringView("dummy", ""); // used to align "Repeat" label
+	BStringView* dummy = new BStringView("dummy", "");	// used to align "Repeat" label
 	dummy->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	BButton* okButton =
@@ -136,52 +137,52 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	BButton* cancelButton =
 		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
-// clang-format off 
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(B_USE_WINDOW_SPACING)
 		.AddGrid(1.0f, 0.0f)
-			.Add(typeLabel, 0, 0)
-			.Add(type->CreateTextViewLayoutItem(), 0, 1)
-			.Add(payeeLabel, 1, 0)
-			.Add(payee->CreateTextViewLayoutItem(), 1, 1)
-			.Add(amountLabel, 2, 0)
-			.Add(amount->CreateTextViewLayoutItem(), 2, 1)
-			.End()
+		.Add(typeLabel, 0, 0)
+		.Add(type->CreateTextViewLayoutItem(), 0, 1)
+		.Add(payeeLabel, 1, 0)
+		.Add(payee->CreateTextViewLayoutItem(), 1, 1)
+		.Add(amountLabel, 2, 0)
+		.Add(amount->CreateTextViewLayoutItem(), 2, 1)
+		.End()
 		.AddGrid(1.0f, 0.0f)
-			.Add(categoryLabel, 0, 0)
-			.Add(category->CreateTextViewLayoutItem(), 0, 1)
-			.Add(memoLabel, 1, 0)
-			.Add(memo->CreateTextViewLayoutItem(), 1, 1)
-			.End()
+		.Add(categoryLabel, 0, 0)
+		.Add(category->CreateTextViewLayoutItem(), 0, 1)
+		.Add(memoLabel, 1, 0)
+		.Add(memo->CreateTextViewLayoutItem(), 1, 1)
+		.End()
 		.AddStrut(B_USE_DEFAULT_SPACING)
 		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))
 		.AddStrut(B_USE_DEFAULT_SPACING)
 		.AddGrid(1.0f, B_USE_DEFAULT_SPACING)
-			.SetColumnWeight(1, 2.0f)
-			.Add(intervalfield->CreateLabelLayoutItem(), 0, 0)
-			.Add(intervalfield->CreateMenuBarLayoutItem(), 1, 0, 3)
-			.Add(fStartDate->CreateLabelLayoutItem(), 0, 1)
-			.Add(fStartDate->CreateTextViewLayoutItem(), 1, 1, 3)
-			.Add(repeatLabel, 0, 2)
-			.Add(dummy, 0, 3)
-			.AddGroup(B_VERTICAL, 1.0f, 1, 2, 1, 2)
-				.Add(fRepeatAlways)
-				.AddGroup(B_HORIZONTAL, 0)
-					.Add(fRepeatLimited)
-					.Add(fRepeatCount)
-					.Add(timesLabel)
-					.End()
-				.End()
-			.AddGlue(4, 0, 4)
-			.End()
+		.SetColumnWeight(1, 2.0f)
+		.Add(intervalfield->CreateLabelLayoutItem(), 0, 0)
+		.Add(intervalfield->CreateMenuBarLayoutItem(), 1, 0, 3)
+		.Add(fStartDate->CreateLabelLayoutItem(), 0, 1)
+		.Add(fStartDate->CreateTextViewLayoutItem(), 1, 1, 3)
+		.Add(repeatLabel, 0, 2)
+		.Add(dummy, 0, 3)
+		.AddGroup(B_VERTICAL, 1.0f, 1, 2, 1, 2)
+		.Add(fRepeatAlways)
+		.AddGroup(B_HORIZONTAL, 0)
+		.Add(fRepeatLimited)
+		.Add(fRepeatCount)
+		.Add(timesLabel)
+		.End()
+		.End()
+		.AddGlue(4, 0, 4)
+		.End()
 		.AddStrut(B_USE_BIG_SPACING)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-			.AddGlue()
-			.Add(cancelButton)
-			.Add(okButton)
-			.End()
+		.AddGlue()
+		.Add(cancelButton)
+		.Add(okButton)
+		.End()
 		.End();
-// clang-format on
+	// clang-format on
 
 	CenterIn(Frame());
 }

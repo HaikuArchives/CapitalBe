@@ -69,7 +69,7 @@ ReportWindow::ReportWindow(BRect frame)
 
 	HelpButton* help = new HelpButton(B_TRANSLATE("Help: Report"), "Report.txt");
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL)
 		.SetInsets(B_USE_WINDOW_INSETS)
 		.AddGroup(B_VERTICAL, B_USE_SMALL_SPACING)
@@ -87,7 +87,7 @@ ReportWindow::ReportWindow(BRect frame)
 				.End()
 			.Add(listLayout)
 		.End();
-// clang-format on
+	// clang-format on
 
 	// Reports
 	BMenu* reportmenu = new BMenu("Reports");
@@ -107,8 +107,8 @@ ReportWindow::ReportWindow(BRect frame)
 	fReportMode = REPORT_BUDGET;
 
 	reportsLayout->AddView(new BStringView("reportsv", B_TRANSLATE("Reports:")));
-	reportsLayout->SetExplicitSize(BSize(be_plain_font->StringWidth(temp.String()) + 64,
-		B_SIZE_UNSET));
+	reportsLayout->SetExplicitSize(
+		BSize(be_plain_font->StringWidth(temp.String()) + 64, B_SIZE_UNSET));
 
 	fReportField = new BMenuField("reportfield", "", reportmenu);
 	reportsLayout->AddView(fReportField);
@@ -118,8 +118,8 @@ ReportWindow::ReportWindow(BRect frame)
 
 	fAccountList = new BListView("reportaccountlist", B_MULTIPLE_SELECTION_LIST);
 	BScrollView* scrollview = new BScrollView("accountscroller", fAccountList, 0, false, true);
-	scrollview->SetExplicitSize(BSize(be_plain_font->StringWidth("aQuiteLongishAccountName"),
-		B_SIZE_UNSET));
+	scrollview->SetExplicitSize(
+		BSize(be_plain_font->StringWidth("aQuiteLongishAccountName"), B_SIZE_UNSET));
 	accountsLayout->AddView(scrollview);
 
 	//	This is disabled because otherwise the report is rendered once for each
@@ -160,8 +160,8 @@ ReportWindow::ReportWindow(BRect frame)
 	fStartDateBox = new DateBox(
 		"startdate", temp.String(), datestring.String(), new BMessage(M_START_DATE_CHANGED));
 	fStartDateBox->SetDate(GetCurrentYear());
-	// fStartDateBox->SetExplicitSize(BSize(be_plain_font->StringWidth("Starting date: 29.09.5038") + 164,
-		// B_SIZE_UNSET));
+	// fStartDateBox->SetExplicitSize(BSize(be_plain_font->StringWidth("Starting date: 29.09.5038")
+	// + 164, B_SIZE_UNSET));
 	//	fStartDateBox->SetEscapeCancel(true);
 	datesLayout->AddItem(fStartDateBox->CreateLabelLayoutItem(), 0, 0);
 	datesLayout->AddItem(fStartDateBox->CreateTextViewLayoutItem(), 1, 0);
@@ -182,15 +182,15 @@ ReportWindow::ReportWindow(BRect frame)
 	// BRect brect(0, 0, 16, 16);
 	// up = BTranslationUtils::GetBitmap('PNG ', "BarGraphUp.png");
 	// if (!up)
-		// up = new BBitmap(brect, B_RGB32);
+	// up = new BBitmap(brect, B_RGB32);
 	// down = BTranslationUtils::GetBitmap('PNG ', "BarGraphDown.png");
 	// if (!down)
-		// down = new BBitmap(brect, B_RGB32);
-	// 
+	// down = new BBitmap(brect, B_RGB32);
+	//
 	// brect.OffsetTo(
-		// Bounds().right - 10 - brect.Width(), 10 + ((fEndDateBox->Frame().Height() - 16) / 2));
+	// Bounds().right - 10 - brect.Width(), 10 + ((fEndDateBox->Frame().Height() - 16) / 2));
 	// fGraphButton = new StickyDrawButton(brect, "graphbutton", up, down,
-		// new BMessage(M_TOGGLE_GRAPH), B_FOLLOW_TOP | B_FOLLOW_RIGHT, B_WILL_DRAW);
+	// new BMessage(M_TOGGLE_GRAPH), B_FOLLOW_TOP | B_FOLLOW_RIGHT, B_WILL_DRAW);
 	//	view->AddChild(fGraphButton);
 
 	fGridView = new BColumnListView("gridview", B_WILL_DRAW, B_FANCY_BORDER);

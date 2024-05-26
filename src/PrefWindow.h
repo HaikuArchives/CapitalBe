@@ -1,8 +1,8 @@
 #ifndef PREFWIN_H
 #define PREFWIN_H
 
-#include <Button.h>
 #include <Box.h>
+#include <Button.h>
 #include <CheckBox.h>
 #include <MenuField.h>
 #include <Message.h>

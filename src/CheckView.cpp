@@ -71,7 +71,7 @@ CheckView::CheckView(const char* name, int32 flags)
 	//	#endif
 
 	gDatabase.AddObserver(this);
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(0)
 		.AddGrid(1.0f, 0.0f)

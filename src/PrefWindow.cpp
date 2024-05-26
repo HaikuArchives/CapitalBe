@@ -51,28 +51,28 @@ PrefWindow::PrefWindow(const BRect& frame)
 	fOK = new BButton("okbutton", B_TRANSLATE("Cancel"), new BMessage(M_EDIT_OPTIONS));
 	fOK->SetLabel(B_TRANSLATE("OK"));
 
-	BButton* cancel = new BButton("cancelbutton", B_TRANSLATE("Cancel"),
-		new BMessage(B_QUIT_REQUESTED));
+	BButton* cancel =
+		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
 	SetDefaultButton(fOK);
 
-// clang off
+	// clang off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-			.AddGlue()
-			.Add(fLabel)
-			.AddGlue()
-			.End()
+		.AddGlue()
+		.Add(fLabel)
+		.AddGlue()
+		.End()
 		.Add(fDatePrefView)
 		.Add(fCurrencyPrefView)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-			.AddGlue()
-			.Add(cancel)
-			.Add(fOK)
-			.End()
+		.AddGlue()
+		.Add(cancel)
+		.Add(fOK)
+		.End()
 		.End();
-// clang on
+	// clang on
 
 	CenterIn(Frame());
 }
@@ -138,22 +138,20 @@ DatePrefView::DatePrefView(const char* name, Locale* locale, const int32& flags)
 	fDateSeparatorBox->SetDivider(StringWidth(temp.String()) + 5);
 	fDateSeparatorBox->SetCharacterLimit(2);
 
-// clang off
+	// clang off
 	BLayoutBuilder::Group<>(fDateBox, B_VERTICAL, 0.0f)
-		.SetInsets(B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING, B_USE_DEFAULT_SPACING,
-			B_USE_DEFAULT_SPACING)
+		.SetInsets(
+			B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING, B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
 		.Add(fDateMDY)
 		.Add(fDateDMY)
 		.AddGroup(B_HORIZONTAL)
-			.Add(fDateSeparatorBox)
-			.AddGlue()
-			.End()
+		.Add(fDateSeparatorBox)
+		.AddGlue()
+		.End()
 		.End();
 
-	BLayoutBuilder::Group<>(this, B_VERTICAL)
-		.Add(fDateBox)
-		.End();
-// clang on
+	BLayoutBuilder::Group<>(this, B_VERTICAL).Add(fDateBox).End();
+	// clang on
 }
 
 void
@@ -248,25 +246,24 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 		fLocale.CurrencyDecimal(), new BMessage(M_NEW_CURRENCY_DECIMAL));
 	fCurrencyDecimalBox->SetCharacterLimit(2);
 
-// clang off
+	// clang off
 	BLayoutBuilder::Group<>(fCurrencyBox, B_VERTICAL, B_USE_DEFAULT_SPACING)
-		.SetInsets(B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING, B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
+		.SetInsets(
+			B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING, B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
 		.AddGrid(B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
-			.Add(fCurrencySymbolBox->CreateLabelLayoutItem(), 0, 0)
-			.Add(fCurrencySymbolBox->CreateTextViewLayoutItem(), 1, 0)
-			.Add(fCurrencySymbolPrefix, 2, 0, 3, 1)
-			.Add(fCurrencySeparatorBox->CreateLabelLayoutItem(), 0, 1)
-			.Add(fCurrencySeparatorBox->CreateTextViewLayoutItem(), 1, 1)
-			.Add(fCurrencyDecimalBox->CreateLabelLayoutItem(), 2, 1)
-			.Add(fCurrencyDecimalBox->CreateTextViewLayoutItem(), 3, 1)
-			.AddGlue(4, 1)
-			.End()
+		.Add(fCurrencySymbolBox->CreateLabelLayoutItem(), 0, 0)
+		.Add(fCurrencySymbolBox->CreateTextViewLayoutItem(), 1, 0)
+		.Add(fCurrencySymbolPrefix, 2, 0, 3, 1)
+		.Add(fCurrencySeparatorBox->CreateLabelLayoutItem(), 0, 1)
+		.Add(fCurrencySeparatorBox->CreateTextViewLayoutItem(), 1, 1)
+		.Add(fCurrencyDecimalBox->CreateLabelLayoutItem(), 2, 1)
+		.Add(fCurrencyDecimalBox->CreateTextViewLayoutItem(), 3, 1)
+		.AddGlue(4, 1)
+		.End()
 		.End();
 
-	BLayoutBuilder::Group<>(this, B_VERTICAL)
-		.Add(fCurrencyBox)
-		.End();
-// clang on
+	BLayoutBuilder::Group<>(this, B_VERTICAL).Add(fCurrencyBox).End();
+	// clang on
 }
 
 void

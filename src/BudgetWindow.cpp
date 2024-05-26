@@ -55,7 +55,7 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 	BuildStatsAndEditor();
 	BuildCategoryList();
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(fCatBox, B_VERTICAL, 0.0f)
 		.SetInsets(B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING,
 			B_USE_DEFAULT_SPACING, B_USE_SMALL_SPACING)
@@ -68,7 +68,7 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 			.Add(fAnnually, 1, 1)
 			.End()
 		.End();
-// clang-format on
+	// clang-format on
 	fAmountBox->SetText("");
 	fAmountBox->GetFilter()->SetMessenger(new BMessenger(this));
 
@@ -80,7 +80,7 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 	RefreshBudgetSummary();
 	fCategoryList->MakeFocus(true);
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f)
 		.SetInsets(0)
 		.AddGrid(0.f, 0.f)
@@ -101,7 +101,7 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 			.Add(fBudgetSummary)
 			.End()
 		.End();
-// clang-format on
+	// clang-format on
 	CenterIn(frame);
 }
 
@@ -688,8 +688,8 @@ BudgetWindow::BuildStatsAndEditor(void)
 	float statwidth = be_plain_font->StringWidth(B_TRANSLATE("12 month statistics")) + 20;
 	float amountwidth = be_plain_font->StringWidth("000,000.00") + 20;
 
-	fCatStat = new BColumnListView("categorystats", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER,
-		false);
+	fCatStat =
+		new BColumnListView("categorystats", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER, false);
 
 	font_height fh;
 	fCatStat->GetFontHeight(&fh);
@@ -796,14 +796,18 @@ BudgetWindow::BuildCategoryList(void)
 		new BColumnListView("categorylist", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER, true);
 	fCategoryList->SetSortingEnabled(false);
 	fCategoryList->SetSelectionMessage(new BMessage(M_SELECT_CATEGORY));
-	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE("Category"),
-		fCategoryList->StringWidth(B_TRANSLATE("Category")) + 20, 40, 300, B_TRUNCATE_END), 0);
+	fCategoryList->AddColumn(
+		new BStringColumn(B_TRANSLATE("Category"),
+			fCategoryList->StringWidth(B_TRANSLATE("Category")) + 20, 40, 300, B_TRUNCATE_END),
+		0);
 	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE("Amount"),
-		fCategoryList->StringWidth(B_TRANSLATE("Amount")) + 20, 40, 300, B_TRUNCATE_END,
-		B_ALIGN_RIGHT), 1);
+								 fCategoryList->StringWidth(B_TRANSLATE("Amount")) + 20, 40, 300,
+								 B_TRUNCATE_END, B_ALIGN_RIGHT),
+		1);
 	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE("Frequency"),
-		fCategoryList->StringWidth(B_TRANSLATE("Frequency")) + 20, 40, 300, B_TRUNCATE_END,
-		B_ALIGN_RIGHT), 2);
+								 fCategoryList->StringWidth(B_TRANSLATE("Frequency")) + 20, 40, 300,
+								 B_TRUNCATE_END, B_ALIGN_RIGHT),
+		2);
 	fCategoryList->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 
 	fIncomeRow = new BRow();

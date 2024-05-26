@@ -137,8 +137,8 @@ MainWindow::MainWindow(BRect frame)
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Budget"), new BMessage(M_SHOW_BUDGET_WINDOW)));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Reports"), new BMessage(M_SHOW_REPORTS_WINDOW)));
 	menu->AddSeparatorItem();
-	menu->AddItem(new BMenuItem(B_TRANSLATE("Scheduled transactions"),
-		new BMessage(M_SHOW_SCHEDULED_WINDOW)));
+	menu->AddItem(new BMenuItem(
+		B_TRANSLATE("Scheduled transactions"), new BMessage(M_SHOW_SCHEDULED_WINDOW)));
 	// We load the financial data before we create any of the views because the
 	// notifications are not sent and startup time is *significantly* reduced
 	LoadData();
@@ -159,7 +159,7 @@ MainWindow::MainWindow(BRect frame)
 
 	HelpButton* helpButton = new HelpButton(B_TRANSLATE("Help: Main window"), "Main Window.txt");
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f)
 		.SetInsets(0)
 		.AddGrid(0.f, 0.f)
@@ -169,7 +169,7 @@ MainWindow::MainWindow(BRect frame)
 			.End()
 		.Add(fRegisterView)
 		.End();
-// clang-format on
+	// clang-format on
 
 	HandleScheduledTransactions();
 }

@@ -50,28 +50,29 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	if (strlen(fAccountName->Text()) < 1)
 		fOK->SetEnabled(false);
 
-	BButton* cancel = new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+	BButton* cancel =
+		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
 	SetDefaultButton(fOK);
 
 	if (!fAccount || fAccount->IsUsingDefaultLocale()) {
 		fPrefView->Hide();
 	}
-// clang off
+	// clang off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING)
-			.Add(fAccountName)
-			.Add(fUseDefault)
-			.Add(fPrefView)
-			.End()
+		.Add(fAccountName)
+		.Add(fUseDefault)
+		.Add(fPrefView)
+		.End()
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-			.AddGlue()
-			.Add(cancel)
-			.Add(fOK)
-			.End()
+		.AddGlue()
+		.Add(cancel)
+		.Add(fOK)
+		.End()
 		.End();
-// clang on
+	// clang on
 
 	CenterIn(Frame());
 	fAccountName->MakeFocus(true);

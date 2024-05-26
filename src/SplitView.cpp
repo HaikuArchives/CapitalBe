@@ -89,8 +89,8 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		"expander", B_TRANSLATE("Show split"), new BMessage(M_EXPANDER_CHANGED), B_WILL_DRAW);
 	fSplit->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
-	HelpButton* helpButton = new HelpButton(B_TRANSLATE("Help: Transaction editor"),
-		"Transaction Editor.txt");
+	HelpButton* helpButton =
+		new HelpButton(B_TRANSLATE("Help: Transaction editor"), "Transaction Editor.txt");
 
 	// SplitContainer
 	fSplitContainer = new BView("splitcontainer", B_WILL_DRAW);
@@ -155,7 +155,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		fStartExpanded = true;
 	}
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(fSplitContainer, B_VERTICAL, 0)
 		.SetInsets(0)
 		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))
@@ -542,7 +542,8 @@ SplitView::MessageReceived(BMessage* msg)
 			// Color total if the splits don't add up to the transaction amount
 			float totalAmount = CalculateTotal().AbsoluteValue().AsFloat();
 			rgb_color totalColor = (totalFixed == fTransaction.Amount().AbsoluteValue())
-				? ui_color(B_PANEL_TEXT_COLOR) : ui_color(B_FAILURE_COLOR);
+									   ? ui_color(B_PANEL_TEXT_COLOR)
+									   : ui_color(B_FAILURE_COLOR);
 			fSplitTotal->SetHighColor(totalColor);
 			break;
 		}

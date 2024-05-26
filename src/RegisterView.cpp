@@ -56,7 +56,7 @@ RegisterView::RegisterView(const char* name, int32 flags)
 	QTNetWorthItem* item;
 	item = new QTNetWorthItem("networth");
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(fTrackBox, B_VERTICAL, 0)
 		.SetInsets(B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING,
 			B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
