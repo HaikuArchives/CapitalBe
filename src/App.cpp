@@ -4,10 +4,10 @@
 
 #ifndef DEBUG_DATABASE
 
+#include <Roster.h>
 #include "App.h"
 #include "MainWindow.h"
 #include "Preferences.h"
-#include <Roster.h>
 
 bool gRestartApp = false;
 
