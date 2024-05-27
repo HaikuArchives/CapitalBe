@@ -1,5 +1,3 @@
-#include "App.h"
-#include "CBLocale.h"
 #include <AppFileInfo.h>
 #include <Catalog.h>
 #include <DateFormat.h>
@@ -13,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "App.h"
+#include "CBLocale.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "Locale"
@@ -34,10 +34,10 @@ Locale::operator!=(const Locale& other) const
 bool
 Locale::operator==(const Locale& other) const
 {
-	if (fCurrencySymbol != other.fCurrencySymbol || fPrefixSymbol != other.fPrefixSymbol
-		|| fCurrencySeparator != other.fCurrencySeparator
-		|| fCurrencyDecimal != other.fCurrencyDecimal
-		|| fCurrencyDecimalPlace != other.fCurrencyDecimalPlace || fUseDST != other.fUseDST) {
+	if (fCurrencySymbol != other.fCurrencySymbol || fPrefixSymbol != other.fPrefixSymbol ||
+		fCurrencySeparator != other.fCurrencySeparator ||
+		fCurrencyDecimal != other.fCurrencyDecimal ||
+		fCurrencyDecimalPlace != other.fCurrencyDecimalPlace || fUseDST != other.fUseDST) {
 		return false;
 	}
 	return true;
