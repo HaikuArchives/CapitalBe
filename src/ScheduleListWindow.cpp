@@ -61,7 +61,9 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	fListView->SetSortingEnabled(false);
 	fListView->SetEditMode(false);
 
-	fListView->AddColumn(new BStringColumn(B_TRANSLATE_CONTEXT("Payee", "CommonTerms"), 100, 25, 300, B_ALIGN_LEFT), 0);
+	fListView->AddColumn(
+		new BStringColumn(B_TRANSLATE_CONTEXT("Payee", "CommonTerms"), 100, 25, 300, B_ALIGN_LEFT),
+		0);
 
 	float amountwidth = StringWidth("$000,000.00");
 	float amountlabelwidth = StringWidth(B_TRANSLATE_CONTEXT("Amount", "CommonTerms"));

@@ -33,27 +33,33 @@ enum {
 CheckView::CheckView(const char* name, int32 flags)
 	: BView(name, flags | B_FRAME_EVENTS)
 {
-	BStringView* dateLabel = new BStringView("datelabel", B_TRANSLATE_CONTEXT("Date", "CommonTerms"));
+	BStringView* dateLabel =
+		new BStringView("datelabel", B_TRANSLATE_CONTEXT("Date", "CommonTerms"));
 	dateLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fDate = new DateBox("dateentry", "", NULL, new BMessage(M_DATE_CHANGED));
 
-	BStringView* typeLabel = new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
+	BStringView* typeLabel =
+		new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
 	typeLabel->SetExplicitSize(BSize(StringWidth("ShortType"), B_SIZE_UNSET));
 	fType = new CheckNumBox("typeentry", "", NULL, new BMessage(M_TYPE_CHANGED));
 
-	BStringView* payeeLabel = new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
+	BStringView* payeeLabel =
+		new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
 	payeeLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fPayee = new PayeeBox("payeeentry", "", NULL, new BMessage(M_PAYEE_CHANGED));
 
-	BStringView* amountLabel = new BStringView("amountlabel", B_TRANSLATE_CONTEXT("Amount", "CommonTerms"));
+	BStringView* amountLabel =
+		new BStringView("amountlabel", B_TRANSLATE_CONTEXT("Amount", "CommonTerms"));
 	amountLabel->SetExplicitSize(BSize(StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));
 	fAmount = new CurrencyBox("amountentry", "", "", new BMessage(M_AMOUNT_CHANGED));
 
-	BStringView* categoryLabel = new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
+	BStringView* categoryLabel =
+		new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	categoryLabel->SetExplicitSize(BSize(StringWidth("aVeryLongCategoryName"), B_SIZE_UNSET));
 	fCategory = new CategoryBox("categoryentry", "", NULL, new BMessage(M_CATEGORY_CHANGED));
 
-	BStringView* memoLabel = new BStringView("memolabel", B_TRANSLATE_CONTEXT("Memo", "CommonTerms"));
+	BStringView* memoLabel =
+		new BStringView("memolabel", B_TRANSLATE_CONTEXT("Memo", "CommonTerms"));
 	memoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fMemo = new NavTextBox("memoentry", "", NULL, new BMessage(M_MEMO_CHANGED));
 	fMemo->TextView()->DisallowChar(B_ESCAPE);

@@ -95,7 +95,8 @@ ReportWindow::ReportWindow(BRect frame)
 
 	// 	TODO: Re-enable the Budget report
 	//	reportmenu->AddItem(new BMenuItem(B_TRANSLATE("Budget"), new BMessage(M_REPORT_BUDGET)));
-	temp << B_TRANSLATE_CONTEXT("Income", "CommonTerms") << " / " << B_TRANSLATE_CONTEXT("Spending", "CommonTerms");
+	temp << B_TRANSLATE_CONTEXT("Income", "CommonTerms") << " / "
+		 << B_TRANSLATE_CONTEXT("Spending", "CommonTerms");
 	reportmenu->AddItem(new BMenuItem(temp.String(), new BMessage(M_REPORT_CASH_FLOW)));
 	reportmenu->AddItem(
 		new BMenuItem(B_TRANSLATE("Total worth"), new BMessage(M_REPORT_NET_WORTH)));

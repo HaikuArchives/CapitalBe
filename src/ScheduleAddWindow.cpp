@@ -45,13 +45,15 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
 	// Type
-	BStringView* typeLabel = new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
+	BStringView* typeLabel =
+		new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
 	typeLabel->SetExplicitSize(BSize(be_plain_font->StringWidth("ShortType"), B_SIZE_UNSET));
 	BTextControl* type = new BTextControl("type", NULL, data.Type().Type(), NULL);
 	type->SetEnabled(false);
 
 	// Payee
-	BStringView* payeeLabel = new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
+	BStringView* payeeLabel =
+		new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
 	payeeLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	payeeLabel->SetExplicitMinSize(
 		BSize(be_plain_font->StringWidth("anAveragelyLongPayee"), B_SIZE_UNSET));
@@ -68,7 +70,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	amount->SetEnabled(false);
 
 	// Category
-	BStringView* categoryLabel = new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
+	BStringView* categoryLabel =
+		new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	categoryLabel->SetExplicitSize(
 		BSize(be_plain_font->StringWidth("aLongCategoryName"), B_SIZE_UNSET));
 	BString label;
@@ -80,7 +83,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	category->SetEnabled(false);
 
 	// Memo
-	BStringView* memoLabel = new BStringView("memolabel", B_TRANSLATE_CONTEXT("Memo", "CommonTerms"));
+	BStringView* memoLabel =
+		new BStringView("memolabel", B_TRANSLATE_CONTEXT("Memo", "CommonTerms"));
 	memoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	memoLabel->SetExplicitMinSize(
 		BSize(be_plain_font->StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));

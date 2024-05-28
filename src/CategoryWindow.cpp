@@ -287,7 +287,8 @@ CategoryView::RefreshCategoryList(void)
 
 	int32 maxchars;
 	float maxlength;
-	if (strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms")) > strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"))) {
+	if (strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms")) >
+		strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"))) {
 		maxchars = strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 		maxlength = StringWidth(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 	} else {
@@ -479,7 +480,8 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 
 	int32 maxchars;
 	float maxlength;
-	if (strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms")) > strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"))) {
+	if (strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms")) >
+		strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"))) {
 		maxchars = strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 		maxlength = be_plain_font->StringWidth(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 	} else {

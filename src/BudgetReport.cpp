@@ -96,8 +96,9 @@ ReportWindow::ComputeBudget(void)
 	// The rest of the array will be initialized in the column-adding loop
 	float maxwidths[count + 1];
 	maxwidths[0] = be_plain_font->StringWidth("Category") + 20;
-	fGridView->AddColumn(
-		new BStringColumn(B_TRANSLATE_CONTEXT("Category", "CommonTerms"), maxwidths[0], 10, 300, B_TRUNCATE_END), 0);
+	fGridView->AddColumn(new BStringColumn(B_TRANSLATE_CONTEXT("Category", "CommonTerms"),
+							 maxwidths[0], 10, 300, B_TRUNCATE_END),
+		0);
 
 	int32 i;
 	for (i = 0; i < timelist.CountItems() - 1; i++) {

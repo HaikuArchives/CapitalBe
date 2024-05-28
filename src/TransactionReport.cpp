@@ -62,23 +62,26 @@ ReportWindow::ComputeTransactions(void)
 	BColumn* col = new BStringColumn("", fGridView->StringWidth(B_TRANSLATE("Transactions")) + 20,
 		10, 300, B_TRUNCATE_END, B_ALIGN_RIGHT);
 	fGridView->AddColumn(col, 0);
-	col = new BStringColumn(
-		B_TRANSLATE_CONTEXT("Date", "CommonTerms"), fGridView->StringWidth("00-00-0000") + 15, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE_CONTEXT("Date", "CommonTerms"),
+		fGridView->StringWidth("00-00-0000") + 15, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 1);
-	col = new BStringColumn(B_TRANSLATE_CONTEXT("Type", "CommonTerms"), fGridView->StringWidth(B_TRANSLATE_CONTEXT("Type", "CommonTerms")) + 20,
-		10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE_CONTEXT("Type", "CommonTerms"),
+		fGridView->StringWidth(B_TRANSLATE_CONTEXT("Type", "CommonTerms")) + 20, 10, 300,
+		B_TRUNCATE_END);
 	fGridView->AddColumn(col, 2);
-	col = new BStringColumn(B_TRANSLATE_CONTEXT("Payee", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
+	col =
+		new BStringColumn(B_TRANSLATE_CONTEXT("Payee", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 3);
 
 	// The string we use for calculating width here should work well enough for general purposes
-	col = new BStringColumn(
-		B_TRANSLATE_CONTEXT("Amount", "CommonTerms"), fGridView->StringWidth("$00,000.00") + 15, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE_CONTEXT("Amount", "CommonTerms"),
+		fGridView->StringWidth("$00,000.00") + 15, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 4);
-	col = new BStringColumn(B_TRANSLATE_CONTEXT("Category", "CommonTerms"), fGridView->StringWidth("0000000000") + 20, 10,
-		300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE_CONTEXT("Category", "CommonTerms"),
+		fGridView->StringWidth("0000000000") + 20, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 5);
-	col = new BStringColumn(B_TRANSLATE_CONTEXT("Memo", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
+	col =
+		new BStringColumn(B_TRANSLATE_CONTEXT("Memo", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 6);
 
 	fGridView->AddRow(new BRow());
@@ -88,7 +91,8 @@ ReportWindow::ComputeTransactions(void)
 	fGridView->AddRow(new BRow());
 
 
-	int32 payeechars = strlen(B_TRANSLATE_CONTEXT("Payee", "CommonTerms")), memochars = strlen(B_TRANSLATE_CONTEXT("Memo", "CommonTerms")),
+	int32 payeechars = strlen(B_TRANSLATE_CONTEXT("Payee", "CommonTerms")),
+		  memochars = strlen(B_TRANSLATE_CONTEXT("Memo", "CommonTerms")),
 		  categorychars = strlen(B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	float maxpayee = fGridView->StringWidth(B_TRANSLATE_CONTEXT("Payee", "CommonTerms")),
 		  maxmemo = fGridView->StringWidth(B_TRANSLATE_CONTEXT("Memo", "CommonTerms")),
