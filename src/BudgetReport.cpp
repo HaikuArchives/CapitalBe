@@ -97,7 +97,7 @@ ReportWindow::ComputeBudget(void)
 	float maxwidths[count + 1];
 	maxwidths[0] = be_plain_font->StringWidth("Category") + 20;
 	fGridView->AddColumn(
-		new BStringColumn(B_TRANSLATE("Category"), maxwidths[0], 10, 300, B_TRUNCATE_END), 0);
+		new BStringColumn(B_TRANSLATE_CONTEXT("Category", "CommonTerms"), maxwidths[0], 10, 300, B_TRUNCATE_END), 0);
 
 	int32 i;
 	for (i = 0; i < timelist.CountItems() - 1; i++) {
@@ -126,7 +126,7 @@ ReportWindow::ComputeBudget(void)
 			}
 			default:
 			{
-				sprintf(columntitle, B_TRANSLATE("Amount"));
+				sprintf(columntitle, B_TRANSLATE_CONTEXT("Amount", "CommonTerms"));
 				break;
 			}
 		}

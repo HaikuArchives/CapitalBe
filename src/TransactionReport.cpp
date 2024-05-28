@@ -63,22 +63,22 @@ ReportWindow::ComputeTransactions(void)
 		10, 300, B_TRUNCATE_END, B_ALIGN_RIGHT);
 	fGridView->AddColumn(col, 0);
 	col = new BStringColumn(
-		B_TRANSLATE("Date"), fGridView->StringWidth("00-00-0000") + 15, 10, 300, B_TRUNCATE_END);
+		B_TRANSLATE_CONTEXT("Date", "CommonTerms"), fGridView->StringWidth("00-00-0000") + 15, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 1);
-	col = new BStringColumn(B_TRANSLATE("Type"), fGridView->StringWidth(B_TRANSLATE("Type")) + 20,
+	col = new BStringColumn(B_TRANSLATE_CONTEXT("Type", "CommonTerms"), fGridView->StringWidth(B_TRANSLATE_CONTEXT("Type", "CommonTerms")) + 20,
 		10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 2);
-	col = new BStringColumn(B_TRANSLATE("Payee"), 75, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE_CONTEXT("Payee", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 3);
 
 	// The string we use for calculating width here should work well enough for general purposes
 	col = new BStringColumn(
-		B_TRANSLATE("Amount"), fGridView->StringWidth("$00,000.00") + 15, 10, 300, B_TRUNCATE_END);
+		B_TRANSLATE_CONTEXT("Amount", "CommonTerms"), fGridView->StringWidth("$00,000.00") + 15, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 4);
-	col = new BStringColumn(B_TRANSLATE("Category"), fGridView->StringWidth("0000000000") + 20, 10,
+	col = new BStringColumn(B_TRANSLATE_CONTEXT("Category", "CommonTerms"), fGridView->StringWidth("0000000000") + 20, 10,
 		300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 5);
-	col = new BStringColumn(B_TRANSLATE("Memo"), 75, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE_CONTEXT("Memo", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 6);
 
 	fGridView->AddRow(new BRow());
@@ -88,11 +88,11 @@ ReportWindow::ComputeTransactions(void)
 	fGridView->AddRow(new BRow());
 
 
-	int32 payeechars = strlen(B_TRANSLATE("Payee")), memochars = strlen(B_TRANSLATE("Memo")),
-		  categorychars = strlen(B_TRANSLATE("Category"));
-	float maxpayee = fGridView->StringWidth(B_TRANSLATE("Payee")),
-		  maxmemo = fGridView->StringWidth(B_TRANSLATE("Memo")),
-		  maxcategory = fGridView->StringWidth(B_TRANSLATE("Category"));
+	int32 payeechars = strlen(B_TRANSLATE_CONTEXT("Payee", "CommonTerms")), memochars = strlen(B_TRANSLATE_CONTEXT("Memo", "CommonTerms")),
+		  categorychars = strlen(B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
+	float maxpayee = fGridView->StringWidth(B_TRANSLATE_CONTEXT("Payee", "CommonTerms")),
+		  maxmemo = fGridView->StringWidth(B_TRANSLATE_CONTEXT("Memo", "CommonTerms")),
+		  maxcategory = fGridView->StringWidth(B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 
 	int32 count = timelist.CountItems() - 1;
 	for (int32 subtotal_index = 0; subtotal_index < count; subtotal_index++) {

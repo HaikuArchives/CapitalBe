@@ -92,7 +92,7 @@ ReportWindow::ComputeNetWorth(void)
 	if (fGraphView->IsHidden()) {
 		// Now that we have all the data, we need to set up the rows and columns for the report grid
 
-		BColumn* col = new BStringColumn(B_TRANSLATE("Date"),
+		BColumn* col = new BStringColumn(B_TRANSLATE_CONTEXT("Date", "CommonTerms"),
 			fGridView->StringWidth(longestname.String()) + 20, 10, 300, B_TRUNCATE_END);
 		fGridView->AddColumn(col, 0);
 		col = new BStringColumn(B_TRANSLATE("Total"), 75, 10, 300, B_TRUNCATE_END);

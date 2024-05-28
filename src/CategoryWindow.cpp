@@ -120,8 +120,8 @@ CategoryView::CategoryView(const char* name, const int32& flags)
 	BScrollView* scrollView = new BScrollView("scrollview", fListView, 0, false, true);
 	fListView->SetSelectionMessage(new BMessage(M_SELECT_ITEM));
 
-	fIncomeItem = new CategoryItem(B_TRANSLATE("Income"));
-	fSpendingItem = new CategoryItem(B_TRANSLATE("Spending"));
+	fIncomeItem = new CategoryItem(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
+	fSpendingItem = new CategoryItem(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
 
 	RefreshCategoryList();
 
@@ -214,9 +214,9 @@ CategoryView::MessageReceived(BMessage* msg)
 				msg->FindBool("expense", &expense) != B_OK)
 				break;
 
-			if (name.ICompare(B_TRANSLATE("Income")) == 0 ||
-				name.ICompare(B_TRANSLATE("Spending")) == 0 ||
-				name.ICompare(B_TRANSLATE("Split")) == 0) {
+			if (name.ICompare(B_TRANSLATE_CONTEXT("Income", "CommonTerms")) == 0 ||
+				name.ICompare(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")) == 0 ||
+				name.ICompare(B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0) {
 				ShowAlert(B_TRANSLATE("Can't use this category name"),
 					B_TRANSLATE("CapitalBe uses the words 'Income', 'Spending', and 'Split' "
 								"for managing categories, so you can't use them as category names. "
@@ -287,12 +287,12 @@ CategoryView::RefreshCategoryList(void)
 
 	int32 maxchars;
 	float maxlength;
-	if (strlen(B_TRANSLATE("Income")) > strlen(B_TRANSLATE("Spending"))) {
-		maxchars = strlen(B_TRANSLATE("Income"));
-		maxlength = StringWidth(B_TRANSLATE("Income"));
+	if (strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms")) > strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"))) {
+		maxchars = strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
+		maxlength = StringWidth(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 	} else {
-		maxchars = strlen(B_TRANSLATE("Spending"));
-		maxlength = StringWidth(B_TRANSLATE("Spending"));
+		maxchars = strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
+		maxlength = StringWidth(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
 	}
 
 	CppSQLite3Query query = gDatabase.DBQuery(
@@ -469,8 +469,8 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 	BScrollView* scrollView = new BScrollView("scrollview", fListView, 0, false, true);
 	fListView->SetSelectionMessage(new BMessage(M_SELECT_ITEM));
 
-	fIncomeItem = new CategoryItem(B_TRANSLATE("Income"));
-	fSpendingItem = new CategoryItem(B_TRANSLATE("Spending"));
+	fIncomeItem = new CategoryItem(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
+	fSpendingItem = new CategoryItem(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
 	fListView->AddItem(fIncomeItem);
 	fListView->AddItem(fSpendingItem);
 
@@ -479,12 +479,12 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 
 	int32 maxchars;
 	float maxlength;
-	if (strlen(B_TRANSLATE("Income")) > strlen(B_TRANSLATE("Spending"))) {
-		maxchars = strlen(B_TRANSLATE("Income"));
-		maxlength = be_plain_font->StringWidth(B_TRANSLATE("Income"));
+	if (strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms")) > strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"))) {
+		maxchars = strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
+		maxlength = be_plain_font->StringWidth(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 	} else {
-		maxchars = strlen(B_TRANSLATE("Spending"));
-		maxlength = be_plain_font->StringWidth(B_TRANSLATE("Spending"));
+		maxchars = strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
+		maxlength = be_plain_font->StringWidth(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
 	}
 
 	while (!query.eof()) {

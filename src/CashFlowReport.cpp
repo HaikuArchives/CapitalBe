@@ -159,7 +159,7 @@ ReportWindow::ComputeCashFlow(void)
 	expensegrid.Sort();
 
 	// Now that we have all the data, we need to set up the rows and columns for the report grid
-	BColumn* col = new BStringColumn(B_TRANSLATE("Category"),
+	BColumn* col = new BStringColumn(B_TRANSLATE_CONTEXT("Category", "CommonTerms"),
 		fGridView->StringWidth(longestname.String()) + 20, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 0);
 
@@ -190,7 +190,7 @@ ReportWindow::ComputeCashFlow(void)
 			}
 			default:
 			{
-				sprintf(columntitle, B_TRANSLATE("Amount"));
+				sprintf(columntitle, B_TRANSLATE_CONTEXT("Amount", "CommonTerms"));
 				break;
 			}
 		}
@@ -202,7 +202,7 @@ ReportWindow::ComputeCashFlow(void)
 	fGridView->AddRow(new BRow());
 	BRow* titlerow = new BRow();
 	fGridView->AddRow(titlerow);
-	titlerow->SetField(new BStringField(B_TRANSLATE("Income")), 0);
+	titlerow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Income", "CommonTerms")), 0);
 	fGridView->AddRow(new BRow());
 
 	if (!fGridView->IsHidden()) {

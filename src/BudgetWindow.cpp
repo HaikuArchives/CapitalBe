@@ -281,8 +281,8 @@ BudgetWindow::RefreshCategories(void)
 	fCategoryList->AddRow(fIncomeRow);
 	fSpendingRow = new BRow();
 	fCategoryList->AddRow(fSpendingRow);
-	fIncomeRow->SetField(new BStringField(B_TRANSLATE("Income")), 0);
-	fSpendingRow->SetField(new BStringField(B_TRANSLATE("Spending")), 0);
+	fIncomeRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Income", "CommonTerms")), 0);
+	fSpendingRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")), 0);
 
 	CppSQLite3Query query = gDatabase.DBQuery(
 		"select category,amount,period,isexpense from "
@@ -473,7 +473,7 @@ BudgetWindow::GenerateBudget(const bool& zero)
 	if (query.eof())
 		return;
 
-	float maxwidth = fCategoryList->StringWidth(B_TRANSLATE("Category"));
+	float maxwidth = fCategoryList->StringWidth(B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	while (!query.eof()) {
 		BString catname = DeescapeIllegalCharacters(query.getStringField(0));
 
@@ -700,7 +700,7 @@ BudgetWindow::BuildStatsAndEditor(void)
 		new BStringColumn(B_TRANSLATE("12 month statistics"), statwidth, 10, 300, B_TRUNCATE_END),
 		0);
 	fCatStat->AddColumn(
-		new BStringColumn(B_TRANSLATE("Amount"), amountwidth, 10, 300, B_TRUNCATE_END), 1);
+		new BStringColumn(B_TRANSLATE_CONTEXT("Amount", "CommonTerms"), amountwidth, 10, 300, B_TRUNCATE_END), 1);
 	fCatStat->SetSortingEnabled(false);
 	fCatStat->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 	fStatAverageRow = new BRow();
@@ -729,7 +729,7 @@ BudgetWindow::BuildStatsAndEditor(void)
 
 	fMonthly->SetValue(B_CONTROL_ON);
 
-	temp = B_TRANSLATE("Amount");
+	temp = B_TRANSLATE_CONTEXT("Amount", "CommonTerms");
 	temp << ":";
 	fAmountLabel = new BStringView("amountlabel", temp.String());
 
@@ -748,15 +748,15 @@ BudgetWindow::BuildBudgetSummary(void)
 	fBudgetSummary->SetSortingEnabled(false);
 	fBudgetSummary->AddColumn(
 		new BStringColumn(B_TRANSLATE("Summary"),
-			fBudgetSummary->StringWidth(B_TRANSLATE("Spending")) + 20, 10, 300, B_TRUNCATE_END),
+			fBudgetSummary->StringWidth(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")) + 20, 10, 300, B_TRUNCATE_END),
 		0);
 	fBudgetSummary->AddRow(fSummaryIncomeRow);
 	fBudgetSummary->AddRow(fSummarySpendingRow);
 	fBudgetSummary->AddRow(fSummaryTotalRow);
 	fBudgetSummary->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 
-	fSummaryIncomeRow->SetField(new BStringField(B_TRANSLATE("Income")), 0);
-	fSummarySpendingRow->SetField(new BStringField(B_TRANSLATE("Spending")), 0);
+	fSummaryIncomeRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Income", "CommonTerms")), 0);
+	fSummarySpendingRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")), 0);
 	fSummaryTotalRow->SetField(new BStringField(B_TRANSLATE("Total")), 0);
 
 	// Add all the calendar stuff
@@ -797,11 +797,11 @@ BudgetWindow::BuildCategoryList(void)
 	fCategoryList->SetSortingEnabled(false);
 	fCategoryList->SetSelectionMessage(new BMessage(M_SELECT_CATEGORY));
 	fCategoryList->AddColumn(
-		new BStringColumn(B_TRANSLATE("Category"),
-			fCategoryList->StringWidth(B_TRANSLATE("Category")) + 20, 40, 300, B_TRUNCATE_END),
+		new BStringColumn(B_TRANSLATE_CONTEXT("Category", "CommonTerms"),
+			fCategoryList->StringWidth(B_TRANSLATE_CONTEXT("Category", "CommonTerms")) + 20, 40, 300, B_TRUNCATE_END),
 		0);
-	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE("Amount"),
-								 fCategoryList->StringWidth(B_TRANSLATE("Amount")) + 20, 40, 300,
+	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE_CONTEXT("Amount", "CommonTerms"),
+								 fCategoryList->StringWidth(B_TRANSLATE_CONTEXT("Amount", "CommonTerms")) + 20, 40, 300,
 								 B_TRUNCATE_END, B_ALIGN_RIGHT),
 		1);
 	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE("Frequency"),
@@ -814,6 +814,6 @@ BudgetWindow::BuildCategoryList(void)
 	fCategoryList->AddRow(fIncomeRow);
 	fSpendingRow = new BRow();
 	fCategoryList->AddRow(fSpendingRow);
-	fIncomeRow->SetField(new BStringField(B_TRANSLATE("Income")), 0);
+	fIncomeRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Income", "CommonTerms")), 0);
 	fSpendingRow->SetField(new BStringField(B_TRANSLATE("Spending")), 0);
 }

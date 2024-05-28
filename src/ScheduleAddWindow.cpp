@@ -44,17 +44,14 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-#undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "SplitView"
-
 	// Type
-	BStringView* typeLabel = new BStringView("typelabel", B_TRANSLATE("Type"));
+	BStringView* typeLabel = new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
 	typeLabel->SetExplicitSize(BSize(be_plain_font->StringWidth("ShortType"), B_SIZE_UNSET));
 	BTextControl* type = new BTextControl("type", NULL, data.Type().Type(), NULL);
 	type->SetEnabled(false);
 
 	// Payee
-	BStringView* payeeLabel = new BStringView("payeelabel", B_TRANSLATE("Payee"));
+	BStringView* payeeLabel = new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
 	payeeLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	payeeLabel->SetExplicitMinSize(
 		BSize(be_plain_font->StringWidth("anAveragelyLongPayee"), B_SIZE_UNSET));
@@ -71,27 +68,24 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	amount->SetEnabled(false);
 
 	// Category
-	BStringView* categoryLabel = new BStringView("categorylabel", B_TRANSLATE("Category"));
+	BStringView* categoryLabel = new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	categoryLabel->SetExplicitSize(
 		BSize(be_plain_font->StringWidth("aLongCategoryName"), B_SIZE_UNSET));
 	BString label;
 	if (data.CountCategories() > 1)
-		label << B_TRANSLATE("Split");
+		label << B_TRANSLATE_CONTEXT("Split", "CommonTerms");
 	else
 		label << data.NameAt(0);
 	BTextControl* category = new BTextControl("category", NULL, label.String(), NULL);
 	category->SetEnabled(false);
 
 	// Memo
-	BStringView* memoLabel = new BStringView("memolabel", B_TRANSLATE("Memo"));
+	BStringView* memoLabel = new BStringView("memolabel", B_TRANSLATE_CONTEXT("Memo", "CommonTerms"));
 	memoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	memoLabel->SetExplicitMinSize(
 		BSize(be_plain_font->StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));
 	BTextControl* memo = new BTextControl("memo", NULL, data.Memo(), NULL);
 	memo->SetEnabled(false);
-
-#undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "ScheduleAddWindow"
 
 	fIntervalMenu = new BMenu("Frequency");
 	fIntervalMenu->AddItem(

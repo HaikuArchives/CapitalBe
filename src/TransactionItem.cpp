@@ -31,7 +31,7 @@ TransactionItem::TransactionItem(const TransactionData& trans)
 	  fTimeStamp(trans.GetTimeStamp())
 {
 	if (trans.CountCategories() > 1)
-		fCategory = B_TRANSLATE("Split");
+		fCategory = B_TRANSLATE_CONTEXT("Split", "CommonTerms");
 	else
 		fCategory = trans.NameAt(0);
 }
@@ -206,7 +206,7 @@ TransactionItem::SetData(const TransactionData& trans)
 	fPayee = trans.Payee();
 	fAmount = trans.Amount();
 	if (trans.CountCategories() > 1)
-		fCategory = B_TRANSLATE("Split");
+		fCategory = B_TRANSLATE_CONTEXT("Split", "CommonTerms");
 	else
 		fCategory = trans.NameAt(0);
 	fMemo = trans.Memo();

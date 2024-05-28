@@ -64,7 +64,7 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	fMemo = new BTextControl("memobox", B_TRANSLATE("Memo:"), NULL, NULL);
 
 	BString amt;
-	BString temp = B_TRANSLATE("Amount");
+	BString temp = B_TRANSLATE_CONTEXT("Amount", "CommonTerms");
 	temp << ":";
 	gCurrentLocale.CurrencyToString(amount, amt);
 	fAmount = new CurrencyBox("amountbox", temp.String(), amt.String(), NULL);

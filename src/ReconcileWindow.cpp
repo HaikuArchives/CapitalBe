@@ -68,7 +68,7 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
 
-	fDateLabel = new BStringView("datelabel", B_TRANSLATE("Date"));
+	fDateLabel = new BStringView("datelabel", B_TRANSLATE_CONTEXT("Date", "CommonTerms"));
 	BString datestr;
 	gDefaultLocale.DateToString(fCurrentDate, datestr);
 	fDate = new DateBox("dateentry", NULL, datestr.String(), NULL);

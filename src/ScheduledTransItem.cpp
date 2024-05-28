@@ -33,7 +33,7 @@ ScheduledTransItem::ScheduledTransItem(const ScheduledTransData& data)
 	gDefaultLocale.DateToString(data.Date(), fDate);
 
 	if (data.CountCategories() > 1)
-		fCategory = B_TRANSLATE("Split");
+		fCategory = B_TRANSLATE_CONTEXT("Split", "CommonTerms");
 	else
 		fCategory = data.NameAt(0);
 }
@@ -200,7 +200,7 @@ ScheduledTransItem::SetData(const TransactionData& trans)
 	fPayee = trans.Payee();
 	locale.CurrencyToString(trans.Amount().AbsoluteValue(), fAmount);
 	if (trans.CountCategories() > 1)
-		fCategory = B_TRANSLATE("Split");
+		fCategory = B_TRANSLATE_CONTEXT("Split", "CommonTerms");
 	else
 		fCategory = trans.NameAt(0);
 	fMemo = trans.Memo();

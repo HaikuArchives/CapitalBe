@@ -38,7 +38,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	fCheckNum = fTransaction.GetAccount()->LastCheckNumber();
 
 	// Date
-	BStringView* dateLabel = new BStringView("datelabel", B_TRANSLATE("Date"));
+	BStringView* dateLabel = new BStringView("datelabel", B_TRANSLATE_CONTEXT("Date", "CommonTerms"));
 	dateLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fDate = new DateBox("dateentry", "", "text", new BMessage(M_DATE_CHANGED));
@@ -48,21 +48,21 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	fDate->SetText(tempstr.String());
 
 	// Type
-	BStringView* typeLabel = new BStringView("typelabel", B_TRANSLATE("Type"));
+	BStringView* typeLabel = new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
 	typeLabel->SetExplicitSize(BSize(StringWidth("ShortType"), B_SIZE_UNSET));
 
 	fType = new CheckNumBox("typeentry", "", NULL, new BMessage(M_TYPE_CHANGED));
 	fType->SetText(fTransaction.Type().Type());
 
 	// Payee
-	BStringView* payeeLabel = new BStringView("payeelabel", B_TRANSLATE("Payee"));
+	BStringView* payeeLabel = new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
 	payeeLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fPayee = new PayeeBox("payeeentry", "", fTransaction.Payee(), new BMessage(M_PAYEE_CHANGED));
 	fPayee->SetExplicitMinSize(BSize(StringWidth("QuiteLongPayeesName"), B_SIZE_UNSET));
 
 	// Amount
-	BStringView* amountLabel = new BStringView("amountlabel", B_TRANSLATE("Amount"));
+	BStringView* amountLabel = new BStringView("amountlabel", B_TRANSLATE_CONTEXT("Amount", "CommonTerms"));
 	amountLabel->SetExplicitSize(BSize(StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));
 
 	fAmount = new CurrencyBox("amountentry", "", NULL, new BMessage(M_AMOUNT_CHANGED));
@@ -72,14 +72,14 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	fAmount->SetText(tempstr.String());
 
 	// Category
-	BStringView* categoryLabel = new BStringView("categorylabel", B_TRANSLATE("Category"));
+	BStringView* categoryLabel = new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	categoryLabel->SetExplicitSize(BSize(StringWidth("aVeryLongCategoryName"), B_SIZE_UNSET));
 
 	fCategory = new CategoryBox(
 		"categoryentry", "", fTransaction.NameAt(0), new BMessage(M_CATEGORY_CHANGED));
 
 	// Memo
-	BStringView* memoLabel = new BStringView("memolabel", B_TRANSLATE("Memo"));
+	BStringView* memoLabel = new BStringView("memolabel", B_TRANSLATE_CONTEXT("Memo", "CommonTerms"));
 	memoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fMemo = new NavTextBox("memoentry", "", fTransaction.Memo(), new BMessage(M_MEMO_CHANGED));
@@ -113,17 +113,17 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 #endif
 
 	// Split category
-	BStringView* splitCategoryLabel = new BStringView("categorylabel", B_TRANSLATE("Category"));
+	BStringView* splitCategoryLabel = new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	splitCategoryLabel->SetExplicitSize(BSize(StringWidth("aVeryLongCategoryName"), B_SIZE_UNSET));
 	fSplitCategory = new BTextControl("splitcategory", NULL, NULL, NULL, B_WILL_DRAW);
 
 	// Split amount
-	BStringView* splitAmountLabel = new BStringView("amountlabel", B_TRANSLATE("Amount"));
+	BStringView* splitAmountLabel = new BStringView("amountlabel", B_TRANSLATE_CONTEXT("Amount", "CommonTerms"));
 	splitAmountLabel->SetExplicitSize(BSize(StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));
 	fSplitAmount = new BTextControl("splitamount", NULL, NULL, NULL, B_WILL_DRAW);
 
 	// Split memo
-	BStringView* splitMemoLabel = new BStringView("memolabel", B_TRANSLATE("Memo"));
+	BStringView* splitMemoLabel = new BStringView("memolabel", B_TRANSLATE_CONTEXT("Memo", "CommonTerms"));
 	splitMemoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fSplitMemo = new BTextControl("splitmemo", NULL, NULL, NULL, B_WILL_DRAW);
 
@@ -150,7 +150,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	}
 
 	if (fTransaction.CountCategories() > 1 ||
-		strcmp(fTransaction.NameAt(0), B_TRANSLATE("Split")) == 0) {
+		strcmp(fTransaction.NameAt(0), B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0) {
 		fCategory->SetText(B_TRANSLATE("Split transaction"));
 		fStartExpanded = true;
 	}
