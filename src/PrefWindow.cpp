@@ -49,22 +49,22 @@ PrefWindow::PrefWindow(const BRect& frame)
 
 	SetDefaultButton(fOK);
 
-	// clang off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-		.AddGlue()
-		.Add(fLabel)
-		.AddGlue()
-		.End()
+			.AddGlue()
+			.Add(fLabel)
+			.AddGlue()
+			.End()
 		.Add(fCurrencyPrefView)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-		.AddGlue()
-		.Add(cancel)
-		.Add(fOK)
-		.End()
+			.AddGlue()
+			.Add(cancel)
+			.Add(fOK)
+			.End()
 		.End();
-	// clang on
+	// clang-format on
 	ResizeToPreferred();
 	CenterIn(frame);
 }
@@ -128,24 +128,26 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 		fLocale.CurrencyDecimal(), new BMessage(M_NEW_CURRENCY_DECIMAL));
 	fCurrencyDecimalBox->SetCharacterLimit(2);
 
-	// clang off
+	// clang-format off
 	BLayoutBuilder::Group<>(fCurrencyBox, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(
 			B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING, B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
 		.AddGrid(B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
-		.Add(fCurrencySymbolBox->CreateLabelLayoutItem(), 0, 0)
-		.Add(fCurrencySymbolBox->CreateTextViewLayoutItem(), 1, 0)
-		.Add(fCurrencySymbolPrefix, 2, 0, 3, 1)
-		.Add(fCurrencySeparatorBox->CreateLabelLayoutItem(), 0, 1)
-		.Add(fCurrencySeparatorBox->CreateTextViewLayoutItem(), 1, 1)
-		.Add(fCurrencyDecimalBox->CreateLabelLayoutItem(), 2, 1)
-		.Add(fCurrencyDecimalBox->CreateTextViewLayoutItem(), 3, 1)
-		.AddGlue(4, 1)
-		.End()
+			.Add(fCurrencySymbolBox->CreateLabelLayoutItem(), 0, 0)
+			.Add(fCurrencySymbolBox->CreateTextViewLayoutItem(), 1, 0)
+			.Add(fCurrencySymbolPrefix, 2, 0, 3, 1)
+			.Add(fCurrencySeparatorBox->CreateLabelLayoutItem(), 0, 1)
+			.Add(fCurrencySeparatorBox->CreateTextViewLayoutItem(), 1, 1)
+			.Add(fCurrencyDecimalBox->CreateLabelLayoutItem(), 2, 1)
+			.Add(fCurrencyDecimalBox->CreateTextViewLayoutItem(), 3, 1)
+			.AddGlue(4, 1)
+			.End()
 		.End();
 
-	BLayoutBuilder::Group<>(this, B_VERTICAL).Add(fCurrencyBox).End();
-	// clang on
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.Add(fCurrencyBox)
+		.End();
+	// clang-format on
 }
 
 void

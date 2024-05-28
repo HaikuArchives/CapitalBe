@@ -58,21 +58,21 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	if (!fAccount || fAccount->IsUsingDefaultLocale()) {
 		fPrefView->Hide();
 	}
-	// clang off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING)
-		.Add(fAccountName)
-		.Add(fUseDefault)
-		.Add(fPrefView)
-		.End()
+			.Add(fAccountName)
+			.Add(fUseDefault)
+			.Add(fPrefView)
+			.End()
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-		.AddGlue()
-		.Add(cancel)
-		.Add(fOK)
-		.End()
+			.AddGlue()
+			.Add(cancel)
+			.Add(fOK)
+			.End()
 		.End();
-	// clang on
+	// clang-format on
 
 	CenterIn(Frame());
 	fAccountName->MakeFocus(true);
