@@ -52,8 +52,8 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 			fStatus == TRANS_RECONCILED ? B_TOOL_TIP_BACKGROUND_COLOR : B_CONTROL_HIGHLIGHT_COLOR);
 		owner->StrokeRect(frame);
 	} else if (fStatus == TRANS_RECONCILED) {
-		owner->SetHighUIColor(B_MENU_BACKGROUND_COLOR,
-			GetMutedTint(ui_color(B_MENU_BACKGROUND_COLOR), CB_MUTED_BG));
+		owner->SetHighUIColor(
+			B_MENU_BACKGROUND_COLOR, GetMutedTint(ui_color(B_MENU_BACKGROUND_COLOR), CB_MUTED_BG));
 		owner->FillRect(frame);
 		owner->SetHighUIColor(B_CONTROL_TEXT_COLOR);
 		owner->StrokeLine(r.LeftBottom(), r.RightBottom());
@@ -192,7 +192,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	if (fMemo.CountChars() > 0) {
 		owner->SetHighColor(tint_color(textColor, textTint));
 		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 6));
-	} else { // Always mute "No memo"
+	} else {  // Always mute "No memo"
 		if (IsSelected())
 			textTint = GetMutedTint(ui_color(B_LIST_SELECTED_BACKGROUND_COLOR), CB_MUTED_TEXT);
 		else
