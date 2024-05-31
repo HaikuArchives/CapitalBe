@@ -53,7 +53,9 @@ SRCS = \
 	 src/HelpButton.cpp  \
 	 src/Import.cpp  \
 	 src/IconMenuItem.cpp \
+	 src/LanguageListView \
 	 src/Locale.cpp  \
+	 src/LocaleView.cpp \
 	 src/MainWindow.cpp  \
 	 src/NavTextBox.cpp  \
 	 src/NetWorthReport.cpp  \

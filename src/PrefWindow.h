@@ -15,8 +15,8 @@
 #include "AutoTextControl.h"
 #include "CBLocale.h"
 #include "Fixed.h"
+#include "LocaleView.h"
 
-class DatePrefView;
 class CurrencyPrefView;
 
 class PrefWindow : public BWindow {
@@ -26,6 +26,7 @@ public:
 
 private:
 	CurrencyPrefView* fCurrencyPrefView;
+	LocaleView* fLocaleView;
 	BButton* fOK;
 	BStringView* fLabel;
 };

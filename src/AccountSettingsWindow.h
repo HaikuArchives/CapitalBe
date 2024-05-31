@@ -6,6 +6,7 @@
 #include <View.h>
 #include <Window.h>
 #include "Fixed.h"
+#include "LocaleView.h"
 
 class AutoTextControl;
 class CurrencyPrefView;
@@ -22,6 +23,7 @@ private:
 	AutoTextControl* fAccountName;
 	BButton* fOK;
 	CurrencyPrefView* fPrefView;
+	LocaleView* fLocaleView;
 	Account* fAccount;
 	BCheckBox* fUseDefault;
 };

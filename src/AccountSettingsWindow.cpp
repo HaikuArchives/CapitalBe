@@ -44,6 +44,7 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	if (fAccount)
 		templocale = fAccount->GetLocale();
 	fPrefView = new CurrencyPrefView("prefview", &templocale);
+	fLocaleView = new LocaleView("localeview");
 
 	fOK = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_ACCOUNT_SETTINGS));
 
@@ -57,6 +58,7 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 
 	if (!fAccount || fAccount->IsUsingDefaultLocale()) {
 		fPrefView->Hide();
+		fLocaleView->Hide();
 	}
 	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
@@ -64,7 +66,7 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 		.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING)
 			.Add(fAccountName)
 			.Add(fUseDefault)
-			.Add(fPrefView)
+			.Add(fLocaleView)
 			.End()
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
 			.AddGlue()
@@ -113,9 +115,9 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 			bool useDefault = fUseDefault->Value() == B_CONTROL_ON;
 
 			if (useDefault)
-				fPrefView->Hide();
+				fLocaleView->Hide();
 			else
-				fPrefView->Show();
+				fLocaleView->Show();
 
 			break;
 		}

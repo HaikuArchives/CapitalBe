@@ -40,7 +40,8 @@ PrefWindow::PrefWindow(const BRect& frame)
 	font.SetSize(font.Size() * 1.2f);
 	fLabel->SetFont(&font);
 
-	fCurrencyPrefView = new CurrencyPrefView("dateview", &gDefaultLocale);
+	//fCurrencyPrefView = new CurrencyPrefView("dateview", &gDefaultLocale);
+	fLocaleView = new LocaleView("localeview");
 
 	fOK = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_OPTIONS));
 
@@ -57,7 +58,7 @@ PrefWindow::PrefWindow(const BRect& frame)
 			.Add(fLabel)
 			.AddGlue()
 			.End()
-		.Add(fCurrencyPrefView)
+		.Add(fLocaleView)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
 			.AddGlue()
 			.Add(cancel)
