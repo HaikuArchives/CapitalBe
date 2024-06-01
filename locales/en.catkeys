@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	248763939
+1	English	application/x-vnd.wgp-CapitalBe	3882412825
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -22,9 +22,11 @@ Account total	MainWindow		Account total
 CapitalBe	System name		CapitalBe
 Total: %sum%	SplitView		Total: %sum%
 Import from QIF file…	MainWindow		Import from QIF file…
+Preview:	PrefWindow		Preview:
 Ending date:	ReportWindow		Ending date:
 Scheduled transactions	MainWindow		Scheduled transactions
 Separator:	PrefWindow		Separator:
+Closed account:	PrefWindow		Closed account:
 Help: Report	ReportWindow		Help: Report
 Bank charges	ReconcileWindow		Bank charges
 Transfer to '%%PAYEE%%'	MainWindow		Transfer to '%%PAYEE%%'
@@ -69,9 +71,11 @@ Quit	Locale		Quit
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Once deleted, you will not be able to get back any data on this account.
 Add category	CategoryWindow		Add category
 Could not export your financial data to the file '%%FILENAME%%'	MainWindow		Could not export your financial data to the file '%%FILENAME%%'
+Currency format:	PrefWindow		Currency format:
 Name:	Account		Name:
 Total deposits: %s	ReconcileWindow		Total deposits: %s
 Memo	CommonTerms		Memo
+Selected:	PrefWindow		Selected:
 Save bugreport	Locale		Save bugreport
 Type	CommonTerms		Type
 Indefinitely	ScheduleAddWindow		Indefinitely
@@ -142,6 +146,7 @@ Show split	SplitView		Show split
 Transfer	BudgetWindow		Transfer
 Starting date:	ScheduleAddWindow		Starting date:
 Account settings	Account		Account settings
+Color for negative amounts	PrefWindow		Color for negative amounts
 Settings…	MainWindow		Settings…
 Cancel	PrefWindow		Cancel
 Budget category:	BudgetWindow		Budget category:
@@ -160,7 +165,7 @@ Reports	MainWindow		Reports
 Categories	CategoryWindow		Categories
 Account	MainWindow		Account
 Uncategorized	CategoryWindow		Uncategorized
-Currency format: %s	PrefWindow		Currency format: %s
+Unselected:	PrefWindow		Unselected:
 Total deposits:	ReconcileWindow		Total deposits:
 Categories…	MainWindow		Categories…
 Help: Budget	BudgetWindow		Help: Budget

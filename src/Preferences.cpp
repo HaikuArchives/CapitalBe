@@ -9,10 +9,6 @@
 BLocker prefsLock;
 BMessage gPreferences;
 
-static rgb_color sSelectionFocusColor = {205, 205, 255, 255};
-static rgb_color sSelectionNoFocusColor = {205, 205, 230, 255};
-static rgb_color sGridHeaderColor = {225, 225, 255, 255};
-
 
 status_t
 SavePreferences(const char* path)
@@ -93,31 +89,4 @@ GetMutedTint(const rgb_color color, const CapitalBeMuted& type)
 		default:
 			return B_NO_TINT;
 	}
-}
-
-
-rgb_color
-GetColor(const CapitalBeColor& color)
-{
-	rgb_color returncolor = {0, 0, 0, 0};
-
-	switch (color) {
-		case BC_SELECTION_NOFOCUS:
-		{
-			returncolor = sSelectionNoFocusColor;
-			break;
-		}
-		case BC_SELECTION_FOCUS:
-		{
-			returncolor = sSelectionFocusColor;
-			break;
-		}
-		case BC_GRID_HEADER:
-		{
-			returncolor = sGridHeaderColor;
-		}
-		default:
-			break;
-	}
-	return returncolor;
 }
