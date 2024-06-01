@@ -8,6 +8,7 @@
 
 BLocker prefsLock;
 BMessage gPreferences;
+rgb_color gNegativeColor;
 
 
 status_t

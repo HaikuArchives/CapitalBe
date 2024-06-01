@@ -24,11 +24,9 @@ PrefWindow::PrefWindow(const BRect& frame, BMessenger target)
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	InitSettings();
-
 	fCurrencyPrefView = new CurrencyPrefView("currencyview", &gDefaultLocale);
 
-	fNegNumberView = new NegativeNumberView("negcolor", fNegativeColor);
+	fNegNumberView = new NegativeNumberView("negcolor", gNegativeColor);
 
 	BButton* cancel = new BButton("cancelbutton", B_TRANSLATE("Cancel"),
 		new BMessage(B_QUIT_REQUESTED));
@@ -71,10 +69,10 @@ PrefWindow::MessageReceived(BMessage* msg)
 				gDatabase.SetDefaultLocale(gDefaultLocale);
 			}
 
-			fNegNumberView->GetColor(fNegativeColor);
+			fNegNumberView->GetColor(gNegativeColor);
 			prefsLock.Lock();
 			gPreferences.RemoveData("negativecolor");
-			gPreferences.AddColor("negativecolor", fNegativeColor);
+			gPreferences.AddColor("negativecolor", gNegativeColor);
 			prefsLock.Unlock();
 
 			fTarget.SendMessage(M_NEG_COLOR_CHANGED);
@@ -86,12 +84,6 @@ PrefWindow::MessageReceived(BMessage* msg)
 	}
 }
 
-void
-PrefWindow::InitSettings(void)
-{
-	if (gPreferences.FindColor("negativecolor", &fNegativeColor) != B_OK)
-		fNegativeColor = ui_color(B_FAILURE_COLOR);
-}
 
 CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32& flags)
 	: BView(name, flags),
@@ -247,9 +239,9 @@ NegativeNumberView::NegativeNumberView(const char* name, rgb_color negColor)
 	negColorBox->SetLabel(B_TRANSLATE("Color for negative amounts"));
 
 	// Color picker
-	fNegativeColor =
+	fColorPicker =
 		new BColorControl(B_ORIGIN, B_CELLS_32x8, 8.0, "colorpicker", new BMessage(M_UPDATE_COLOR));
-	fNegativeColor->SetValue(negColor);
+	fColorPicker->SetValue(negColor);
 
 	// Preview of the colored text on different background colors
 	BStringView* label = new BStringView("label", B_TRANSLATE("Preview:"));
@@ -274,7 +266,7 @@ NegativeNumberView::NegativeNumberView(const char* name, rgb_color negColor)
 	BLayoutBuilder::Group<>(negColorBox, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(
 			B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING, B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
-		.Add(fNegativeColor)
+		.Add(fColorPicker)
 		.Add(label)
 		.AddGrid(B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
 			.Add(new BStringView("labelunselected", B_TRANSLATE("Unselected:")), 0, 0)
@@ -295,7 +287,7 @@ NegativeNumberView::NegativeNumberView(const char* name, rgb_color negColor)
 void
 NegativeNumberView::AttachedToWindow(void)
 {
-	fNegativeColor->SetTarget(this);
+	fColorPicker->SetTarget(this);
 
 	BView::AttachedToWindow();
 }
@@ -305,7 +297,7 @@ NegativeNumberView::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
 		case M_UPDATE_COLOR:
-			UpdateColor(fNegativeColor->ValueAsColor());
+			UpdateColor(fColorPicker->ValueAsColor());
 			break;
 
 		case M_CURRENCY_UPADTED:
@@ -323,7 +315,7 @@ NegativeNumberView::MessageReceived(BMessage* msg)
 void
 NegativeNumberView::GetColor(rgb_color& color)
 {
-	color = fNegativeColor->ValueAsColor();
+	color = fColorPicker->ValueAsColor();
 }
 
 void
