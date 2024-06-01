@@ -1,7 +1,9 @@
 #include "Database.h"
 #include <Entry.h>
+#include <FormattingConventions.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <Locale.h>
 
 #include "Account.h"
 #include "Budget.h"
@@ -192,6 +194,8 @@ Database::OpenFile(const char* path)
 		return B_ERROR;
 	}
 
+	gDefaultLocale = GetDefaultLocale();
+
 	// Populate account list
 	CppSQLite3Query query =
 		DBQuery("select * from accountlist", "Database::OpenFile:get accounts from list");
@@ -205,8 +209,8 @@ Database::OpenFile(const char* path)
 		Account* account = new Account(name.String(), status.ICompare("open") != 0);
 		account->SetID(id);
 		if (!UsesDefaultLocale(id)) {
-			Locale accountLocale = LocaleForAccount(id);
 			account->UseDefaultLocale(false);
+			Locale accountLocale = LocaleForAccount(id);
 			account->SetLocale(accountLocale);
 		}
 		fList.AddItem(account);
@@ -232,8 +236,6 @@ Database::OpenFile(const char* path)
 
 		acc->SetLastCheckNumber(acc->LookupLastCheckNumber());
 	}
-
-	gDefaultLocale = GetDefaultLocale();
 
 	fCurrent = (Account*)fList.ItemAt(0);
 	UNLOCK;
@@ -336,7 +338,7 @@ Database::AddAccount(
 			<< AccountTypeToString(type) << "', '" << estatus << "');";
 	DBCommand(command.String(), "Database::AddAccount:insert accountlist");
 
-	if (locale)
+	if (locale != &gDefaultLocale)
 		SetAccountLocale(id, *locale);
 
 	command = "";
@@ -349,7 +351,7 @@ Database::AddAccount(
 
 	Account* account = new Account(name);
 	account->SetID(id);
-	account->UseDefaultLocale(!locale);
+	account->UseDefaultLocale(locale == &gDefaultLocale);
 	if (strcmp(status, "closed") == 0)
 		account->SetClosed(true);
 	fList.AddItem(account);
@@ -560,10 +562,8 @@ Database::SetAccountLocale(const uint32& accountid, const Locale& data)
 
 	// Todo: remove table columns for date format
 	if (query.eof()) {
-		command << "insert into accountlocale values(" << accountid << ",'ddmmyyyy','/','"
-				<< data.CurrencySymbol() << "','" << data.CurrencySeparator() << "','"
-				<< data.CurrencyDecimal() << "','"
-				<< (data.IsCurrencySymbolPrefix() ? "true" : "false") << "');";
+		command << "insert into accountlocale values(" << accountid << ",'" << data.AccountLocale()
+				<< "','-','-','-','-','-');";
 		DBCommand(command.String(), "Database::SetAccountLocale:insert into accountlocale");
 		UNLOCK;
 		return;
@@ -572,32 +572,11 @@ Database::SetAccountLocale(const uint32& accountid, const Locale& data)
 	query.finalize();
 
 	// This already has the locale data in the table, so we'll just update it and return
-	command << "update accountlocale set dateformat = 'ddmmyyyy' where accountid = " << accountid
-			<< ";";
+	command << "update accountlocale set dateformat = '" << data.AccountLocale() << "' where accountid = " << accountid	<< ";";
 	DBCommand(command.String(), "Database::SetAccountLocale:update dateformat");
-
-	command << "update accountlocale set dateseparator = '/' where accountid = " << accountid
-			<< ";";
-	DBCommand(command.String(), "Database::SetAccountLocale:update dateseparator");
-
-	command << "update accountlocale set currencysymbol = '" << data.CurrencySymbol()
-			<< "' where accountid = " << accountid << ";";
-	DBCommand(command.String(), "Database::SetAccountLocale:update currencysymbol");
-
-	command << "update accountlocale set currencyseparator = '" << data.CurrencySeparator()
-			<< "' where accountid = " << accountid << ";";
-	DBCommand(command.String(), "Database::SetAccountLocale:update currencyseparator");
-
-	command << "update accountlocale set currencydecimal = '" << data.CurrencyDecimal()
-			<< "' where accountid = " << accountid << ";";
-	DBCommand(command.String(), "Database::SetAccountLocale:update currencydecimal");
-
-	command << "update accountlocale set currencyprefix = '"
-			<< (data.IsCurrencySymbolPrefix() ? "true" : "false")
-			<< "' where accountid = " << accountid << ";";
-	DBCommand(command.String(), "Database::SetAccountLocale:update currencyprefix");
 	UNLOCK;
 }
+
 
 Locale
 Database::LocaleForAccount(const uint32& id)
@@ -613,7 +592,8 @@ Database::LocaleForAccount(const uint32& id)
 		return locale;
 	}
 
-	BString temp = query.getStringField(1);
+	BString temp;
+	locale.SetAccountLocale(query.getStringField(1));
 	locale.SetCurrencySymbol(query.getStringField(3));
 	locale.SetCurrencySeparator(query.getStringField(4));
 	locale.SetCurrencyDecimal(query.getStringField(5));
@@ -626,49 +606,16 @@ Database::LocaleForAccount(const uint32& id)
 void
 Database::SetDefaultLocale(const Locale& data)
 {
-	LOCK;
-	BString command;
-
-	// This already has the locale data in the table, so we'll just update it and return
-	command << "update defaultlocale set currencysymbol = '" << data.CurrencySymbol() << "';";
-	DBCommand(command.String(), "Database::SetAccountLocale:update currencysymbol");
-
-	command << "update defaultlocale set currencyseparator = '" << data.CurrencySeparator() << "';";
-	DBCommand(command.String(), "Database::SetAccountLocale:update currencyseparator");
-
-	command << "update defaultlocale set currencydecimal = '" << data.CurrencyDecimal() << "';";
-	DBCommand(command.String(), "Database::SetAccountLocale:update currencydecimal");
-
-	command << "update defaultlocale set currencyprefix = '"
-			<< (data.IsCurrencySymbolPrefix() ? "true" : "false") << "';";
-	DBCommand(command.String(), "Database::SetAccountLocale:update currencyprefix");
-
-	BMessage msg;
-	msg.AddPointer("locale", &gDefaultLocale);
-	Notify(WATCH_LOCALE | WATCH_CHANGE, &msg);
-	UNLOCK;
+	// TODO: remove
+	return;
 }
 
 Locale
 Database::GetDefaultLocale(void)
 {
-	LOCK;
-	CppSQLite3Query query = DBQuery("select * from defaultlocale;", "Database::GetDefaultLocale");
+	//TODO: remove?
 
 	Locale locale;
-	if (query.eof()) {
-		UNLOCK;
-		return locale;
-	}
-
-	BString temp = query.getStringField(0);
-	locale.SetCurrencySymbol(query.getStringField(2));
-	locale.SetCurrencySeparator(query.getStringField(3));
-	locale.SetCurrencyDecimal(query.getStringField(4));
-
-	temp = query.getStringField(5);
-	locale.SetCurrencySymbolPrefix(temp.Compare("true") == 0 ? true : false);
-	UNLOCK;
 	return locale;
 }
 

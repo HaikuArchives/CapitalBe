@@ -18,13 +18,14 @@ public:
 	LocaleView(const char* name, const int32& flags = B_WILL_DRAW);
 	void 				AttachedToWindow(void);
 	void 				MessageReceived(BMessage* message);
+	void				GetCurrentLocale(BString& currentLocale) { currentLocale = fCurrentLocale; }
 private:
 	LanguageListView*	fConventionsListView;
 	BBox* fLocaleBox;
 	LanguageListItem*	fInitialConventionsItem;
 	LanguageListItem*	fDefaultConventionsItem;
-	double				fSampleAmount;
-	void 				UpdateCurrencyLabel(BFormattingConventions conventions);
+	void 				UpdateCurrencyLabel(BString code);
+	BString				fCurrentLocale;
 };
 
 #endif // _H

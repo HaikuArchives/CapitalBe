@@ -30,6 +30,9 @@ public:
 	status_t StringToDate(const char* instring, time_t& date);
 	void NumberToCurrency(const Fixed& number, BString& string);
 
+	void SetAccountLocale(const char* languageID);
+	const char* AccountLocale(void) const { return fAccountLocale.String(); }
+
 	void SetCurrencySymbol(const char* symbol);
 
 	const char* CurrencySymbol(void) const { return fCurrencySymbol.String(); }
@@ -62,6 +65,7 @@ private:
 	status_t ConstructDateStringDMY(const char* in, BString& out);
 
 	BString fCurrencySymbol;
+	BString fAccountLocale;
 	bool fPrefixSymbol;
 	BString fCurrencySeparator;
 	BString fCurrencyDecimal;

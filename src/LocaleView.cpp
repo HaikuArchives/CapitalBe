@@ -16,6 +16,7 @@
 #include <cstdio>
 #include <Language.h>
 #include "CBLocale.h"
+#include "Database.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "PrefWindow"
@@ -38,11 +39,10 @@ compare_typed_list_items(const BListItem* _a, const BListItem* _b)
 LocaleView::LocaleView(const char* name, const int32& flags)
 	: BView(name, flags)
 {
-	BFormattingConventions initialConventions;
-	BLocale::Default()->GetFormattingConventions(&initialConventions);
+	BFormattingConventions initialConventions(gCurrentLocale.AccountLocale());
 
 	fLocaleBox = new BBox("LocaleBox");
-	UpdateCurrencyLabel(initialConventions);
+	UpdateCurrencyLabel(initialConventions.ID());
 
 	fConventionsListView = new LanguageListView("formatting",
 		B_SINGLE_SELECTION_LIST);
@@ -148,10 +148,9 @@ LocaleView::MessageReceived(BMessage* message)
 				break;
 
 			BFormattingConventions conventions(item->ID());
-			printf("Convention: %s\n", conventions.CountryCode());
 
-			// _SettingsChanged();
-			UpdateCurrencyLabel(conventions);
+			fCurrentLocale = conventions.ID();
+			UpdateCurrencyLabel(fCurrentLocale);
 			break;
 		}
 		default:
@@ -161,10 +160,11 @@ LocaleView::MessageReceived(BMessage* message)
 }
 
 void
-LocaleView::UpdateCurrencyLabel(BFormattingConventions conventions)
+LocaleView::UpdateCurrencyLabel(BString code)
 {
-	BLanguage* language = new BLanguage(conventions.LanguageCode());
-	BLocale* locale = new BLocale(language, &conventions);
+	BFormattingConventions conv(code.String());
+	BLanguage* language = new BLanguage(code.String());
+	BLocale* locale = new BLocale(language, &conv);
 	BNumberFormat numberFormatter(locale);
 	BString curstr;
 

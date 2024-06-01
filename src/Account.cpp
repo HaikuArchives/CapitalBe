@@ -197,6 +197,7 @@ Account::GetLocale(void) const
 	return fUseDefaultLocale ? gDefaultLocale : fLocale;
 }
 
+
 void
 Account::SetLocale(const Locale& locale)
 {
@@ -322,15 +323,13 @@ Account::UseDefaultLocale(const bool& usedefault)
 
 	BString command;
 	if (fUseDefaultLocale) {
-		command = "delete from accountlocale where accountid = ";
+		command = "DELETE FROM accountlocale WHERE accountid = ";
 		command << fID << ";";
 		gDatabase.DBCommand(command.String(), "Account::UseDefaultLocale");
 		gCurrentLocale = gDefaultLocale;
 	} else {
 		// update the local copy in case it changed since the program was opened
-		fLocale = gDefaultLocale;
-
-		gDatabase.SetAccountLocale(fID, fLocale);
+		fLocale = gCurrentLocale;
 	}
 
 	BMessage msg;

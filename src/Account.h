@@ -68,6 +68,7 @@ private:
 	uint32 fCurrentTransaction;
 	uint32 fLastCheckNumber;
 	Locale fLocale;
+	BString fAccountLocale;
 	bool fUseDefaultLocale;
 };
 

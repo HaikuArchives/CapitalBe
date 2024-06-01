@@ -87,21 +87,22 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 	switch (msg->what) {
 		case M_EDIT_ACCOUNT_SETTINGS:
 		{
-			Locale customLocale;
-			Locale defaultLocale;
+			Locale locale;
+			BString customSystemLocale; // from select list
+			fLocaleView->GetCurrentLocale(customSystemLocale);
 
 			if (!fAccount) {
-				fPrefView->GetSettings(customLocale);
-				gDatabase.AddAccount(fAccountName->Text(), ACCOUNT_BANK, "Open",
-					defaultLocale == customLocale ? NULL : &customLocale);
+				if (fUseDefault->Value() == B_CONTROL_ON);
+					locale.SetAccountLocale(customSystemLocale);
+				gDatabase.AddAccount(fAccountName->Text(), ACCOUNT_BANK, "Open", &locale);
 			} else {
 				if (strcmp(fAccountName->Text(), fAccount->Name()) != 0)
 					gDatabase.RenameAccount(fAccount, fAccountName->Text());
 
-				fPrefView->GetSettings(customLocale);
 				if (fUseDefault->Value() != B_CONTROL_ON) {
 					fAccount->UseDefaultLocale(false);
-					fAccount->SetLocale(customLocale);
+					locale.SetAccountLocale(customSystemLocale);
+					fAccount->SetLocale(locale);
 				} else {
 					fAccount->UseDefaultLocale(true);
 				}

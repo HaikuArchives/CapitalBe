@@ -3,6 +3,8 @@
 #include <DateFormat.h>
 #include <Debug.h>
 #include <File.h>
+#include <Locale.h>
+#include <NumberFormat.h>
 #include <OS.h>
 #include <Roster.h>
 #include <String.h>
@@ -13,6 +15,13 @@
 #include <time.h>
 #include "App.h"
 #include "CBLocale.h"
+
+#include <cstdlib>
+#include <cctype>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <locale>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "Locale"
@@ -34,7 +43,7 @@ Locale::operator!=(const Locale& other) const
 bool
 Locale::operator==(const Locale& other) const
 {
-	if (fCurrencySymbol != other.fCurrencySymbol || fPrefixSymbol != other.fPrefixSymbol ||
+	if (fAccountLocale != other.fAccountLocale || fCurrencySymbol != other.fCurrencySymbol || fPrefixSymbol != other.fPrefixSymbol ||
 		fCurrencySeparator != other.fCurrencySeparator ||
 		fCurrencyDecimal != other.fCurrencyDecimal ||
 		fCurrencyDecimalPlace != other.fCurrencyDecimalPlace || fUseDST != other.fUseDST) {
@@ -66,68 +75,46 @@ Locale::Flatten(BFile* file)
 status_t
 Locale::CurrencyToString(const Fixed& amount, BString& string)
 {
-	string = "";
+	BFormattingConventions conv(fAccountLocale.String());
+	BLanguage* language = new BLanguage(fAccountLocale.String());
+	BLocale* locale = new BLocale(language, &conv);
+	BNumberFormat numberFormatter(locale);
+	BString curstr;
 
-	BString dollars;
-	dollars << (amount.IsPositive() ? amount.AsLong() : -amount.AsLong());
-
-	char cents[20];
-	BString formatstring("%.");
-	formatstring << (int)fCurrencyDecimalPlace << "f";
-	sprintf(cents, formatstring.String(), amount.DecimalPart());
-
-	string = cents + ((amount.IsNegative() && amount.DecimalPart() != 0) ? 2 : 1);
-	if (fCurrencyDecimal != ".")
-		string.ReplaceSet(".", fCurrencyDecimal.String());
-
-	for (int32 i = dollars.CountChars() - 3; i > 0; i -= 3)
-		dollars.Insert(fCurrencySeparator, i);
-
-	string.Prepend(dollars);
-
-	if (fPrefixSymbol)
-		string.Prepend(fCurrencySymbol);
-	else
-		string.Append(fCurrencySymbol);
-
-	if (amount < 0)
-		string.Prepend("-");
-
-	return B_OK;
+	return numberFormatter.FormatMonetary(string, amount.AsDouble());
 }
 
 status_t
 Locale::StringToCurrency(const char* string, Fixed& amount)
 {
-	// This is going to be a royal pain. We have to deal with separators (or lack
-	// thereof) and the mere possibility of a cents separator. Yuck.
-
 	if (!string)
-		return B_ERROR;
+        return B_ERROR;
 
-	BString dollars(string), cents;
+    std::string input(string);
+    std::string digits;
+    bool decimalPointSeen = false;
 
-	dollars.RemoveAll(fCurrencySymbol);
-	dollars.RemoveAll(fCurrencySeparator);
+    for (char ch : input) {
+        if (std::isdigit(ch)) {
+            digits += ch;
+        } else if ((ch == ',' || ch == '.') && !decimalPointSeen) {
+            decimalPointSeen = true;
+            digits += '.';
+        }
+    }
 
-	int32 index = dollars.FindFirst(fCurrencyDecimal);
-	if (index < 0) {
-		// We're working with whole dollars here. :)
-		cents = "00";
-	} else {
-		cents = dollars.String() + index + 1;
-		dollars.Truncate(index);
-		if (dollars == "-0")
-			cents.Prepend("-");
-	}
+    if (digits.empty())
+        return B_ERROR;
 
-	amount = atol(dollars.String());
-	float temp = atol(cents.String());
-	if (amount < 0)
-		temp = -temp;
+    double value = std::stod(digits) * 100;
+    long premultipliedValue = static_cast<long>(std::round(value));
 
-	amount.AddPremultiplied(temp);
-	return B_OK;
+    if (premultipliedValue < 0)
+        premultipliedValue = -premultipliedValue;
+
+    amount.SetPremultiplied(premultipliedValue);
+
+    return B_OK;
 }
 
 status_t
@@ -212,6 +199,9 @@ Locale::SetDefaults(void)
 	fCurrencyDecimal = ".";
 	fCurrencyDecimalPlace = 2;
 	fUseDST = false;
+
+	BLanguage lang;
+	fAccountLocale = lang.ID();
 }
 
 
@@ -341,6 +331,12 @@ CapitalizeEachWord(BString& string)
 	string.UnlockBuffer();
 }
 
+void
+Locale::SetAccountLocale(const char* languageID)
+{
+	if (languageID != NULL)
+		fAccountLocale = languageID;
+}
 
 void
 Locale::SetCurrencySymbol(const char* symbol)
