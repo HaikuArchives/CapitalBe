@@ -45,9 +45,6 @@
 #define B_SERVICES_DAEMON_RESTART 'SDRS'
 
 
-int32 gTextViewHeight = 20;
-int32 gStringViewHeight = 20;
-
 MainWindow::MainWindow(BRect frame)
 	: BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
 {
@@ -219,6 +216,9 @@ MainWindow::InitSettings(void)
 	// is non-existent or invalid
 	if (gPreferences.FindString("lastfile", &fLastFile) != B_OK)
 		fLastFile = PREFERENCES_PATH "/MyAccountData";
+
+	if (gPreferences.FindColor("negativecolor", &gNegativeColor) != B_OK)
+		gNegativeColor = ui_color(B_FAILURE_COLOR);
 }
 
 

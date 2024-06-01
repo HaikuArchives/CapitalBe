@@ -10,6 +10,7 @@
 
 extern BLocker prefsLock;
 extern BMessage gPreferences;
+extern rgb_color gNegativeColor;
 
 #define PREFERENCES_PATH "/boot/home/config/settings/CapitalBe"
 

@@ -51,10 +51,7 @@ public:
 	void MessageReceived(BMessage* msg);
 
 private:
-	void InitSettings(void);
-
 	BMessenger fTarget;
-	rgb_color fNegativeColor;
 	CurrencyPrefView* fCurrencyPrefView;
 	NegativeNumberView* fNegNumberView;
 };
@@ -94,7 +91,7 @@ private:
 	void UpdateText(BString text);
 	void UpdateColor(rgb_color color);
 
-	BColorControl* fNegativeColor;
+	BColorControl* fColorPicker;
 	BTextView *fSelectedPreview, *fUnselectedPreview, *fClosedPreview;
 };
 
