@@ -498,7 +498,7 @@ MainWindow::MessageReceived(BMessage* msg)
 		}
 		case M_SHOW_OPTIONS_WINDOW:
 		{
-			PrefWindow* pwin = new PrefWindow(Frame());
+			PrefWindow* pwin = new PrefWindow(Frame(), this);
 			pwin->Show();
 			break;
 		}
@@ -547,6 +547,16 @@ MainWindow::MessageReceived(BMessage* msg)
 			CategoryWindow* catwin = new CategoryWindow(BRect(100, 100, 600, 425));
 			catwin->CenterIn(Frame());
 			catwin->Show();
+			break;
+		}
+		case M_NEG_COLOR_CHANGED:
+		{
+			BView* view = fRegisterView->FindView("transactionview");
+			if (view != NULL) {
+				view = view->FindView("RegisterList");
+				if (view != NULL)
+					view->Invalidate();
+			}
 			break;
 		}
 		default:

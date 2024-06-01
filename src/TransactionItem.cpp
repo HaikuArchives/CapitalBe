@@ -124,8 +124,15 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 	owner->SetHighColor(tint_color(textColor, textTint));
 	Fixed balance = fAccount->BalanceAtTransaction(fDate, fPayee.String());
-	if (balance.AsFixed() < 0)
-		owner->SetHighUIColor(B_FAILURE_COLOR, textTint);
+	if (balance.AsFixed() < 0) {
+		rgb_color negativeColor;
+		if (gPreferences.FindColor("negativecolor", &negativeColor) != B_OK)
+			negativeColor = ui_color(B_FAILURE_COLOR);
+		if (IsSelected())
+			owner->SetHighColor(negativeColor);
+		else
+			owner->SetHighColor(tint_color(negativeColor, textTint));
+	}
 	locale.CurrencyToString(balance, string);
 	owner->DrawString(string.String(), BPoint(xpos + 5, ypos - 6));
 
