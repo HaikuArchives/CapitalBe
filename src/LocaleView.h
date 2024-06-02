@@ -6,26 +6,28 @@
 #define LOCALEWINDOW_H
 
 
+#include "LanguageListView.h"
 #include <Box.h>
 #include <FormattingConventions.h>
 #include <SupportDefs.h>
 #include <View.h>
-#include "LanguageListView.h"
 
 
-class LocaleView : public BView {
+class LocaleView : public BView
+{
 public:
 	LocaleView(const char* name, const int32& flags = B_WILL_DRAW);
-	void 				AttachedToWindow(void);
-	void 				MessageReceived(BMessage* message);
-	void				GetCurrentLocale(BString& currentLocale) { currentLocale = fCurrentLocale; }
+	void AttachedToWindow(void);
+	void MessageReceived(BMessage* message);
+	void GetCurrentLocale(BString& currentLocale) { currentLocale = fCurrentLocale; }
+
 private:
-	LanguageListView*	fConventionsListView;
+	LanguageListView* fConventionsListView;
 	BBox* fLocaleBox;
-	LanguageListItem*	fInitialConventionsItem;
-	LanguageListItem*	fDefaultConventionsItem;
-	void 				UpdateCurrencyLabel(BString code);
-	BString				fCurrentLocale;
+	LanguageListItem* fInitialConventionsItem;
+	LanguageListItem* fDefaultConventionsItem;
+	void UpdateCurrencyLabel(BString code);
+	BString fCurrentLocale;
 };
 
 #endif // _H

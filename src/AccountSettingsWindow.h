@@ -1,12 +1,12 @@
 #ifndef NEW_ACCOUNT_WINDOW_H
 #define NEW_ACCOUNT_WINDOW_H
 
+#include "Fixed.h"
+#include "LocaleView.h"
 #include <Button.h>
 #include <CheckBox.h>
 #include <View.h>
 #include <Window.h>
-#include "Fixed.h"
-#include "LocaleView.h"
 
 class AutoTextControl;
 class CurrencyPrefView;

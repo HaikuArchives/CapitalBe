@@ -1,9 +1,9 @@
 #include "Database.h"
 #include <Entry.h>
 #include <FormattingConventions.h>
+#include <Locale.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <Locale.h>
 
 #include "Account.h"
 #include "Budget.h"
@@ -153,16 +153,6 @@ Database::CreateFile(const char* path)
 		"Database::CreateFile:create transactionlist");
 	DBCommand("create table categorylist (name varchar(96), type int(2));",
 		"Database::CreateFile:create categorylist");
-
-	// now that the tables have all been created, create the default locale
-	DBCommand(
-		"create table defaultlocale (dateformat varchar(8), "
-		"dateseparator char(6), currencysymbol char(6),	"
-		"currencyseparator char(6), currencydecimal char(6), "
-		"currencyprefix char(1));",
-		"Database::CreateFile:create defaultlocale");
-	DBCommand("insert into defaultlocale values('mmddyyyy', '/', '$', ',', '.', 'true');",
-		"Database::CreateFile insert defaultlocale values");
 	UNLOCK;
 }
 
@@ -194,7 +184,9 @@ Database::OpenFile(const char* path)
 		return B_ERROR;
 	}
 
-	gDefaultLocale = GetDefaultLocale();
+	// Set default locale
+	Locale defaultLocale;
+	gDefaultLocale = defaultLocale;
 
 	// Populate account list
 	CppSQLite3Query query =
@@ -203,7 +195,6 @@ Database::OpenFile(const char* path)
 	while (!query.eof()) {
 		uint32 id = query.getIntField(0);
 		BString name = DeescapeIllegalCharacters(query.getStringField(1));
-		//		BString type = query.getStringField(2);
 		BString status = DeescapeIllegalCharacters(query.getStringField(3));
 
 		Account* account = new Account(name.String(), status.ICompare("open") != 0);
@@ -572,7 +563,8 @@ Database::SetAccountLocale(const uint32& accountid, const Locale& data)
 	query.finalize();
 
 	// This already has the locale data in the table, so we'll just update it and return
-	command << "update accountlocale set dateformat = '" << data.AccountLocale() << "' where accountid = " << accountid	<< ";";
+	command << "update accountlocale set dateformat = '" << data.AccountLocale()
+			<< "' where accountid = " << accountid << ";";
 	DBCommand(command.String(), "Database::SetAccountLocale:update dateformat");
 	UNLOCK;
 }
@@ -583,7 +575,7 @@ Database::LocaleForAccount(const uint32& id)
 {
 	LOCK;
 	BString command;
-	command << "select * from accountlocale where accountid = " << id << ";";
+	command << "SELECT dateformat FROM accountlocale WHERE accountid = " << id << ";";
 	CppSQLite3Query query = DBQuery(command.String(), "Database::LocaleForAccount:find account");
 
 	Locale locale;
@@ -592,30 +584,8 @@ Database::LocaleForAccount(const uint32& id)
 		return locale;
 	}
 
-	BString temp;
-	locale.SetAccountLocale(query.getStringField(1));
-	locale.SetCurrencySymbol(query.getStringField(3));
-	locale.SetCurrencySeparator(query.getStringField(4));
-	locale.SetCurrencyDecimal(query.getStringField(5));
-	temp = query.getStringField(6);
-	locale.SetCurrencySymbolPrefix(temp.Compare("true") == 0 ? true : false);
+	locale.SetAccountLocale(query.getStringField(0));
 	UNLOCK;
-	return locale;
-}
-
-void
-Database::SetDefaultLocale(const Locale& data)
-{
-	// TODO: remove
-	return;
-}
-
-Locale
-Database::GetDefaultLocale(void)
-{
-	//TODO: remove?
-
-	Locale locale;
 	return locale;
 }
 

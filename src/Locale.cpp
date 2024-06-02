@@ -1,3 +1,5 @@
+#include "App.h"
+#include "CBLocale.h"
 #include <AppFileInfo.h>
 #include <Catalog.h>
 #include <DateFormat.h>
@@ -13,15 +15,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "App.h"
-#include "CBLocale.h"
 
-#include <cstdlib>
 #include <cctype>
-#include <iostream>
-#include <sstream>
+#include <cstdlib>
 #include <iomanip>
+#include <iostream>
 #include <locale>
+#include <sstream>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "Locale"
@@ -43,12 +43,8 @@ Locale::operator!=(const Locale& other) const
 bool
 Locale::operator==(const Locale& other) const
 {
-	if (fAccountLocale != other.fAccountLocale || fCurrencySymbol != other.fCurrencySymbol || fPrefixSymbol != other.fPrefixSymbol ||
-		fCurrencySeparator != other.fCurrencySeparator ||
-		fCurrencyDecimal != other.fCurrencyDecimal ||
-		fCurrencyDecimalPlace != other.fCurrencyDecimalPlace || fUseDST != other.fUseDST) {
+	if (fAccountLocale != other.fAccountLocale)
 		return false;
-	}
 	return true;
 }
 
@@ -57,16 +53,8 @@ Locale::Flatten(BFile* file)
 {
 	BString str("\t<Locale>\n");
 
-	str << "\t\t<DateFormat Value=\"ddmmyyyy\" />\n";
+	str << "\t\t<AccountLocale Value=\"" << fAccountLocale << "\" />\n";
 
-	str << "\t\t<CurrencySymbol Value=\"" << fCurrencySymbol << "\" />\n";
-	str << "\t\t<CurrencyDecimal Value=\"" << fCurrencyDecimal << "\" />\n";
-	str << "\t\t<CurrencySeparator Value=\"" << fCurrencySeparator << "\" />\n";
-
-	if (!fPrefixSymbol)
-		str << "\t\t<CurrencySuffixFlag />\n";
-	if (fUseDST)
-		str << "\t\t<DaylightSavingsFlag />\n";
 	str << "\t</Locale>\n";
 
 	file->Write(str.String(), str.Length());
@@ -88,56 +76,35 @@ status_t
 Locale::StringToCurrency(const char* string, Fixed& amount)
 {
 	if (!string)
-        return B_ERROR;
-
-    std::string input(string);
-    std::string digits;
-    bool decimalPointSeen = false;
-
-    for (char ch : input) {
-        if (std::isdigit(ch)) {
-            digits += ch;
-        } else if ((ch == ',' || ch == '.') && !decimalPointSeen) {
-            decimalPointSeen = true;
-            digits += '.';
-        }
-    }
-
-    if (digits.empty())
-        return B_ERROR;
-
-    double value = std::stod(digits) * 100;
-    long premultipliedValue = static_cast<long>(std::round(value));
-
-    if (premultipliedValue < 0)
-        premultipliedValue = -premultipliedValue;
-
-    amount.SetPremultiplied(premultipliedValue);
-
-    return B_OK;
-}
-
-status_t
-Locale::PremultipliedStringToCurrency(const char* string, Fixed& amount)
-{
-	// This function is an optimized version of StringToCurrency which expects
-	// the input string to represent the premultiplied version of a Fixed value.
-	// As a result, everything which is not a number is stripped out, converted
-	// to a number and added to the amount parameter
-	if (!string)
 		return B_ERROR;
 
-	// TODO: See if using the string set version of RemoveAll would be faster
+	std::string input(string);
+	std::string digits;
+	bool decimalPointSeen = false;
 
-	BString valuestr(string);
-	valuestr.RemoveAll(fCurrencySymbol);
-	valuestr.RemoveAll(fCurrencySeparator);
-	valuestr.RemoveAll(fCurrencyDecimal);
+	for (char ch : input) {
+		if (std::isdigit(ch)) {
+			digits += ch;
+		} else if ((ch == ',' || ch == '.') && !decimalPointSeen) {
+			decimalPointSeen = true;
+			digits += '.';
+		}
+	}
 
-	int32 value = atoi(valuestr.String());
-	amount.SetPremultiplied(value);
+	if (digits.empty())
+		return B_ERROR;
+
+	double value = std::stod(digits) * 100;
+	long premultipliedValue = static_cast<long>(std::round(value));
+
+	if (premultipliedValue < 0)
+		premultipliedValue = -premultipliedValue;
+
+	amount.SetPremultiplied(premultipliedValue);
+
 	return B_OK;
 }
+
 
 status_t
 Locale::DateToString(time_t date, BString& string)
@@ -169,36 +136,13 @@ Locale::StringToDate(const char* instring, time_t& date)
 	return B_OK;
 }
 
-void
-Locale::NumberToCurrency(const Fixed& number, BString& string)
-{
-	string = "";
-	string << number.IntegerPart();
-
-	for (int32 i = string.CountChars() - 3; i > 0; i -= 3)
-		string.Insert(fCurrencySeparator, i);
-
-	string << fCurrencyDecimal;
-
-	// We have to do this to eliminate the leading zero and the decimal point
-	BString decimal;
-	decimal << (float)number.DecimalPart();
-
-	if (number.IsNegative())
-		string += decimal.String() + 3;
-	else
-		string += decimal.String() + 2;
-}
 
 void
 Locale::SetDefaults(void)
 {
 	fCurrencySymbol = "$";
-	fPrefixSymbol = true;
 	fCurrencySeparator = ",";
 	fCurrencyDecimal = ".";
-	fCurrencyDecimalPlace = 2;
-	fUseDST = false;
 
 	BLanguage lang;
 	fAccountLocale = lang.ID();
@@ -331,6 +275,7 @@ CapitalizeEachWord(BString& string)
 	string.UnlockBuffer();
 }
 
+
 void
 Locale::SetAccountLocale(const char* languageID)
 {
@@ -338,45 +283,6 @@ Locale::SetAccountLocale(const char* languageID)
 		fAccountLocale = languageID;
 }
 
-void
-Locale::SetCurrencySymbol(const char* symbol)
-{
-	if (symbol)
-		fCurrencySymbol = symbol;
-}
-
-void
-Locale::SetCurrencySeparator(const char* symbol)
-{
-	if (symbol)
-		fCurrencySeparator = symbol;
-}
-
-void
-Locale::SetCurrencyDecimal(const char* symbol)
-{
-	if (symbol)
-		fCurrencyDecimal = symbol;
-}
-
-void
-Locale::SetCurrencySymbolPrefix(const bool& value)
-{
-	fPrefixSymbol = value;
-}
-
-void
-Locale::SetCurrencyDecimalPlace(const uint8& place)
-{
-	fCurrencyDecimalPlace = place;
-}
-
-
-void
-Locale::SetDST(const bool& value)
-{
-	fUseDST = value;
-}
 
 const char*
 GetCurrencyOnlyMask(void)

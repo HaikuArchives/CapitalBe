@@ -81,7 +81,7 @@ QTNetWorthItem::HandleNotify(const uint64& value, const BMessage* msg)
 					Window()->Lock();
 
 				BString label, temp;
-				temp << B_TRANSLATE("Balance") << " (" << gDefaultLocale.CurrencySymbol() << "): ";
+				temp << B_TRANSLATE("Balance") << ": ";
 				if (gCurrentLocale.CurrencyToString(Fixed(), label) == B_OK)
 					temp << label;
 				SetText(temp.String());
@@ -120,7 +120,8 @@ QTNetWorthItem::Calculate(void)
 
 
 	// Get list of currencies
-	command = "SELECT DISTINCT currencysymbol FROM accountlocale";
+	// Todo: Update database table
+	command = "SELECT DISTINCT dateformat FROM accountlocale";
 	query = gDatabase.DBQuery(command.String(), "Database::Calculate");
 
 	while (!query.eof()) {
@@ -145,15 +146,14 @@ QTNetWorthItem::Calculate(void)
 	}
 
 	if (accountsFound && gDefaultLocale.CurrencyToString(balance, balanceText) == B_OK) {
-		balanceLabel << B_TRANSLATE("Balance") << " (" << gDefaultLocale.CurrencySymbol()
-					 << "): " << balanceText << "\n";
+		balanceLabel << B_TRANSLATE("Balance") << ": " << balanceText << "\n";
 	}
 
 	// Get sum of other currency accounts:
 	for (int32 i = 0; i < currencies.size(); i++) {
 		command =
 			"SELECT a1.accountid FROM accountlist AS a1 JOIN accountlocale AS a2 ON "
-			"a1.accountid=a2.accountid WHERE a2.currencysymbol = \"";
+			"a1.accountid=a2.accountid WHERE a2.dateformat = \"";
 		command << currencies.at(i) << "\" AND a1.status = \"Open\";";
 		query = gDatabase.DBQuery(command.String(), "Database::Calculate");
 
@@ -168,8 +168,7 @@ QTNetWorthItem::Calculate(void)
 		}
 
 		if (accLocale.CurrencyToString(balance, balanceText) == B_OK) {
-			balanceLabel << B_TRANSLATE("Balance") << " (" << accLocale.CurrencySymbol()
-						 << "): " << balanceText << "\n";
+			balanceLabel << B_TRANSLATE("Balance") << ": " << balanceText << "\n";
 		}
 	}
 

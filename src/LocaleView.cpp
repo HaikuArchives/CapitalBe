@@ -7,23 +7,22 @@
 
 
 #include "LocaleView.h"
-#include <Catalog.h>
-#include <FormattingConventions.h>
-#include <LayoutBuilder.h>
-#include <NumberFormat.h>
-#include <ScrollView.h>
-#include <Locale.h>
-#include <cstdio>
-#include <Language.h>
 #include "CBLocale.h"
 #include "Database.h"
+#include <Catalog.h>
+#include <FormattingConventions.h>
+#include <Language.h>
+#include <LayoutBuilder.h>
+#include <Locale.h>
+#include <NumberFormat.h>
+#include <ScrollView.h>
+#include <cstdio>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "PrefWindow"
 
-enum {
-	M_NEW_CURRENCY_LOCALE
-};
+enum { M_NEW_CURRENCY_LOCALE };
+
 
 static int
 compare_typed_list_items(const BListItem* _a, const BListItem* _b)
@@ -36,31 +35,28 @@ compare_typed_list_items(const BListItem* _a, const BListItem* _b)
 	return collator.Compare(a->Text(), b->Text());
 }
 
+
 LocaleView::LocaleView(const char* name, const int32& flags)
-	: BView(name, flags)
+	:
+	BView(name, flags)
 {
 	BFormattingConventions initialConventions(gCurrentLocale.AccountLocale());
 
 	fLocaleBox = new BBox("LocaleBox");
 	UpdateCurrencyLabel(initialConventions.ID());
 
-	fConventionsListView = new LanguageListView("formatting",
-		B_SINGLE_SELECTION_LIST);
+	fConventionsListView = new LanguageListView("formatting", B_SINGLE_SELECTION_LIST);
 	BScrollView* scrollView = new BScrollView("scroller", fConventionsListView,
 		B_WILL_DRAW | B_FRAME_EVENTS, true, true);
-	fConventionsListView->SetSelectionMessage(
-		new BMessage(M_NEW_CURRENCY_LOCALE));
+	fConventionsListView->SetSelectionMessage(new BMessage(M_NEW_CURRENCY_LOCALE));
 
 	// get all available formatting conventions (by language)
 	BMessage availableLanguages;
 	BString conventionsID;
 	fInitialConventionsItem = NULL;
 	LanguageListItem* currentToplevelItem = NULL;
-	if (BLocaleRoster::Default()->GetAvailableLanguages(&availableLanguages)
-			== B_OK) {
-		for (int i = 0;
-			availableLanguages.FindString("language", i, &conventionsID) == B_OK;
-			i++) {
+	if (BLocaleRoster::Default()->GetAvailableLanguages(&availableLanguages) == B_OK) {
+		for (int i = 0; availableLanguages.FindString("language", i, &conventionsID) == B_OK; i++) {
 			BFormattingConventions conventions(conventionsID);
 			BString conventionsName;
 			conventions.GetName(conventionsName);
@@ -75,8 +71,7 @@ LocaleView::LocaleView(const char* name, const int32& flags)
 			}
 			if (!strcmp(conventionsID, "en_US"))
 				fDefaultConventionsItem = item;
-			if (conventions.AreCountrySpecific()
-				&& currentToplevelItem != NULL
+			if (conventions.AreCountrySpecific() && currentToplevelItem != NULL
 				&& currentToplevelItem->Code() == item->Code()) {
 				if (!strcmp(conventionsID, initialConventions.ID())) {
 					fConventionsListView->Expand(currentToplevelItem);
@@ -95,35 +90,33 @@ LocaleView::LocaleView(const char* name, const int32& flags)
 	} else {
 		ShowAlert(B_TRANSLATE("No available languages"),
 			B_TRANSLATE("CapitalBe couldn't find any available languages. "
-				"You will not be able to set custom currencies."));
+						"You will not be able to set custom currencies."));
 	}
 
 	fConventionsListView->FullListSortItems(compare_typed_list_items);
-	if (fInitialConventionsItem != NULL) {
-		fConventionsListView->Select(fConventionsListView->IndexOf(
-			fInitialConventionsItem));
-	}
+	if (fInitialConventionsItem != NULL)
+		fConventionsListView->Select(fConventionsListView->IndexOf(fInitialConventionsItem));
 	int size = 21 * be_plain_font->Size();
 	fConventionsListView->SetExplicitMinSize(BSize(size, size));
 
 	BLayoutBuilder::Group<>(fLocaleBox, B_VERTICAL, B_USE_DEFAULT_SPACING)
-		.SetInsets(
-			B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING, B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
+		.SetInsets(B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING, B_USE_DEFAULT_SPACING,
+			B_USE_DEFAULT_SPACING)
 		.AddGrid(B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
-			.Add(scrollView, 0, 0)
-			.End()
+		.Add(scrollView, 0, 0)
+		.End()
 		.End();
 
-	BLayoutBuilder::Group<>(this, B_VERTICAL)
-		.Add(fLocaleBox)
-		.End();
+	BLayoutBuilder::Group<>(this, B_VERTICAL).Add(fLocaleBox).End();
 }
+
 
 void
 LocaleView::AttachedToWindow(void)
 {
 	fConventionsListView->SetTarget(this);
 }
+
 
 void
 LocaleView::MessageReceived(BMessage* message)
@@ -142,8 +135,8 @@ LocaleView::MessageReceived(BMessage* message)
 			if (conventionsList == NULL)
 				break;
 
-			LanguageListItem* item = static_cast<LanguageListItem*>
-				(conventionsList->ItemAt(conventionsList->CurrentSelection()));
+			LanguageListItem* item = static_cast<LanguageListItem*>(
+				conventionsList->ItemAt(conventionsList->CurrentSelection()));
 			if (item == NULL)
 				break;
 
@@ -158,6 +151,7 @@ LocaleView::MessageReceived(BMessage* message)
 			break;
 	}
 }
+
 
 void
 LocaleView::UpdateCurrencyLabel(BString code)
@@ -174,3 +168,4 @@ LocaleView::UpdateCurrencyLabel(BString code)
 		fLocaleBox->SetLabel(temp.String());
 	}
 }
+ 

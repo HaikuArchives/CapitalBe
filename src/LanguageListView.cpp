@@ -26,15 +26,14 @@
 #include <Window.h>
 
 
-#define MAX_DRAG_HEIGHT		200.0
-#define ALPHA				170
+#define MAX_DRAG_HEIGHT 200.0
+#define ALPHA 170
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "LanguageListView"
 
 
-LanguageListItem::LanguageListItem(const char* text, const char* id,
-	const char* languageCode)
+LanguageListItem::LanguageListItem(const char* text, const char* id, const char* languageCode)
 	:
 	BStringItem(text),
 	fID(id),
@@ -60,8 +59,7 @@ LanguageListItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 
 void
-LanguageListItem::DrawItemWithTextOffset(BView* owner, BRect frame,
-	bool complete, float textOffset)
+LanguageListItem::DrawItemWithTextOffset(BView* owner, BRect frame, bool complete, float textOffset)
 {
 	rgb_color highColor = owner->HighColor();
 	rgb_color lowColor = owner->LowColor();
@@ -76,8 +74,9 @@ LanguageListItem::DrawItemWithTextOffset(BView* owner, BRect frame,
 		owner->SetHighColor(color);
 		owner->SetLowColor(color);
 		owner->FillRect(frame);
-	} else
+	} else {
 		owner->SetLowColor(owner->ViewColor());
+	}
 
 	BString text = Text();
 	if (!IsEnabled()) {
@@ -95,8 +94,7 @@ LanguageListItem::DrawItemWithTextOffset(BView* owner, BRect frame,
 			owner->SetHighColor(ui_color(B_LIST_ITEM_TEXT_COLOR));
 	}
 
-	owner->MovePenTo(
-		frame.left + be_control_look->DefaultLabelSpacing() + textOffset,
+	owner->MovePenTo(frame.left + be_control_look->DefaultLabelSpacing() + textOffset,
 		frame.top + BaselineOffset());
 	owner->DrawString(text.String());
 
@@ -108,8 +106,8 @@ LanguageListItem::DrawItemWithTextOffset(BView* owner, BRect frame,
 // #pragma mark -
 
 
-LanguageListItemWithFlag::LanguageListItemWithFlag(const char* text,
-	const char* id, const char* languageCode, const char* countryCode)
+LanguageListItemWithFlag::LanguageListItemWithFlag(const char* text, const char* id,
+	const char* languageCode, const char* countryCode)
 	:
 	LanguageListItem(text, id, languageCode),
 	fCountryCode(countryCode),
@@ -118,8 +116,7 @@ LanguageListItemWithFlag::LanguageListItemWithFlag(const char* text,
 }
 
 
-LanguageListItemWithFlag::LanguageListItemWithFlag(
-	const LanguageListItemWithFlag& other)
+LanguageListItemWithFlag::LanguageListItemWithFlag(const LanguageListItemWithFlag& other)
 	:
 	LanguageListItem(other),
 	fCountryCode(other.fCountryCode),
@@ -145,10 +142,9 @@ LanguageListItemWithFlag::Update(BView* owner, const BFont* font)
 	if (fCountryCode.IsEmpty())
 		return;
 
-	fIcon = new(std::nothrow) BBitmap(BRect(0, 0, iconSize - 1, iconSize - 1),
-		B_RGBA32);
-	if (fIcon != NULL && BLocaleRoster::Default()->GetFlagIconForCountry(fIcon,
-			fCountryCode.String()) != B_OK) {
+	fIcon = new(std::nothrow) BBitmap(BRect(0, 0, iconSize - 1, iconSize - 1), B_RGBA32);
+	if (fIcon != NULL
+		&& BLocaleRoster::Default()->GetFlagIconForCountry(fIcon, fCountryCode.String()) != B_OK) {
 		delete fIcon;
 		fIcon = NULL;
 	}
@@ -167,8 +163,7 @@ LanguageListItemWithFlag::DrawItem(BView* owner, BRect frame, bool complete)
 	DrawItemWithTextOffset(owner, frame, complete,
 		iconSize + be_control_look->DefaultLabelSpacing());
 
-	BRect iconFrame(frame.left + be_control_look->DefaultLabelSpacing(),
-		frame.top,
+	BRect iconFrame(frame.left + be_control_look->DefaultLabelSpacing(), frame.top,
 		frame.left + iconSize - 1 + be_control_look->DefaultLabelSpacing(),
 		frame.top + iconSize - 1);
 	owner->SetDrawingMode(B_OP_OVER);
@@ -201,8 +196,7 @@ LanguageListItem*
 LanguageListView::ItemForLanguageID(const char* id, int32* _index) const
 {
 	for (int32 index = 0; index < FullListCountItems(); index++) {
-		LanguageListItem* item
-			= static_cast<LanguageListItem*>(FullListItemAt(index));
+		LanguageListItem* item = static_cast<LanguageListItem*>(FullListItemAt(index));
 
 		if (item->ID() == id) {
 			if (_index != NULL)
@@ -219,8 +213,7 @@ LanguageListItem*
 LanguageListView::ItemForLanguageCode(const char* code, int32* _index) const
 {
 	for (int32 index = 0; index < FullListCountItems(); index++) {
-		LanguageListItem* item
-			= static_cast<LanguageListItem*>(FullListItemAt(index));
+		LanguageListItem* item = static_cast<LanguageListItem*>(FullListItemAt(index));
 
 		if (item->Code() == code) {
 			if (_index != NULL)
@@ -273,8 +266,9 @@ LanguageListView::MessageReceived(BMessage* message)
 		dragMessage.AddInt32("drop_index", fDropIndex);
 		dragMessage.AddPointer("drop_target", this);
 		Messenger().SendMessage(&dragMessage);
-	} else
+	} else {
 		BOutlineListView::MessageReceived(message);
+	}
 }
 
 
@@ -288,9 +282,10 @@ LanguageListView::Draw(BRect updateRect)
 		//       into ControlLook
 		BGradientLinear gradient;
 		int step = fGlobalDropTargetIndicator ? 64 : 128;
-		for (int i = 0; i < 256; i += step)
-			gradient.AddColor(i % (step * 2) == 0
-				? ViewColor() : ui_color(B_CONTROL_HIGHLIGHT_COLOR), i);
+		for (int i = 0; i < 256; i += step) {
+			gradient.AddColor(
+				i % (step * 2) == 0 ? ViewColor() : ui_color(B_CONTROL_HIGHLIGHT_COLOR), i);
+		}
 		gradient.AddColor(ViewColor(), 255);
 		gradient.SetStart(fDropTargetHighlightFrame.LeftTop());
 		gradient.SetEnd(fDropTargetHighlightFrame.RightBottom());
@@ -300,15 +295,15 @@ LanguageListView::Draw(BRect updateRect)
 			ConstrainClippingRegion(&region);
 			FillRect(fDropTargetHighlightFrame, gradient);
 			ConstrainClippingRegion(NULL);
-		} else
+		} else {
 			FillRect(fDropTargetHighlightFrame, gradient);
+		}
 	}
 }
 
 
 bool
-LanguageListView::InitiateDrag(BPoint point, int32 dragIndex,
-	bool /*wasSelected*/)
+LanguageListView::InitiateDrag(BPoint point, int32 dragIndex, bool /*wasSelected*/)
 {
 	if (fDragMessage == NULL)
 		return false;
@@ -342,8 +337,7 @@ LanguageListView::InitiateDrag(BPoint point, int32 dragIndex,
 	bool fade = false;
 
 	// figure out, how many items fit into our bitmap
-	for (int32 i = 0, index; message.FindInt32("index", i, &index) == B_OK;
-			i++) {
+	for (int32 i = 0, index; message.FindInt32("index", i, &index) == B_OK; i++) {
 		BListItem* item = ItemAt(index);
 		if (item == NULL)
 			break;
@@ -360,17 +354,15 @@ LanguageListView::InitiateDrag(BPoint point, int32 dragIndex,
 
 	BBitmap* dragBitmap = new BBitmap(dragRect, B_RGB32, true);
 	if (dragBitmap->IsValid()) {
-		BView* view = new BView(dragBitmap->Bounds(), "helper", B_FOLLOW_NONE,
-			B_WILL_DRAW);
+		BView* view = new BView(dragBitmap->Bounds(), "helper", B_FOLLOW_NONE, B_WILL_DRAW);
 		dragBitmap->AddChild(view);
 		dragBitmap->Lock();
-		BRect itemBounds(dragRect) ;
+		BRect itemBounds(dragRect);
 		itemBounds.bottom = 0.0;
 		// let all selected items, that fit into our drag_bitmap, draw
 		for (int32 i = 0; i < numItems; i++) {
 			int32 index = message.FindInt32("index", i);
-			LanguageListItem* item
-				= static_cast<LanguageListItem*>(ItemAt(index));
+			LanguageListItem* item = static_cast<LanguageListItem*>(ItemAt(index));
 			itemBounds.bottom = itemBounds.top + ceilf(item->Height());
 			if (itemBounds.bottom > dragRect.bottom)
 				itemBounds.bottom = dragRect.bottom;
@@ -393,8 +385,7 @@ LanguageListView::InitiateDrag(BPoint point, int32 dragIndex,
 				for (uint8* end = line + 4 * width; line < end; line += 4)
 					*line = ALPHA;
 			}
-			for (int32 y = height - ALPHA / 2; y < height;
-				y++, bits += bpr) {
+			for (int32 y = height - ALPHA / 2; y < height; y++, bits += bpr) {
 				uint8* line = bits + 3;
 				for (uint8* end = line + 4 * width; line < end; line += 4)
 					*line = (height - y) << 1;
@@ -422,8 +413,7 @@ LanguageListView::InitiateDrag(BPoint point, int32 dragIndex,
 
 
 void
-LanguageListView::MouseMoved(BPoint where, uint32 transit,
-	const BMessage* dragMessage)
+LanguageListView::MouseMoved(BPoint where, uint32 transit, const BMessage* dragMessage)
 {
 	if (dragMessage != NULL && _AcceptsDragMessage(dragMessage)) {
 		switch (transit) {
@@ -444,13 +434,13 @@ LanguageListView::MouseMoved(BPoint where, uint32 transit,
 					if (index < 0)
 						index = CountItems();
 					highlightFrame = ItemFrame(index);
-					if (highlightFrame.IsValid())
+					if (highlightFrame.IsValid()) {
 						highlightFrame.bottom = highlightFrame.top;
-					else {
+					} else {
 						highlightFrame = ItemFrame(index - 1);
-						if (highlightFrame.IsValid())
+						if (highlightFrame.IsValid()) {
 							highlightFrame.top = highlightFrame.bottom;
-						else {
+						} else {
 							// empty view, show indicator at top
 							highlightFrame = Bounds();
 							highlightFrame.bottom = highlightFrame.top;
@@ -506,6 +496,5 @@ bool
 LanguageListView::_AcceptsDragMessage(const BMessage* message) const
 {
 	LanguageListView* sourceView = NULL;
-	return message != NULL
-		&& message->FindPointer("listview", (void**)&sourceView) == B_OK;
+	return message != NULL && message->FindPointer("listview", (void**)&sourceView) == B_OK;
 }

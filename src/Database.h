@@ -69,8 +69,6 @@ public:
 
 	void SetAccountLocale(const uint32& accountid, const Locale& data);
 	Locale LocaleForAccount(const uint32& id);
-	void SetDefaultLocale(const Locale& data);
-	Locale GetDefaultLocale(void);
 	bool UsesDefaultLocale(const uint32& id);
 
 	bool AddTransaction(const uint32& accountid, const uint32& id, const time_t& date,

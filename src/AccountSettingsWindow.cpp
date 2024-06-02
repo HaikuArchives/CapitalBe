@@ -43,7 +43,6 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	Locale templocale;
 	if (fAccount)
 		templocale = fAccount->GetLocale();
-	fPrefView = new CurrencyPrefView("prefview", &templocale);
 	fLocaleView = new LocaleView("localeview");
 
 	fOK = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_ACCOUNT_SETTINGS));
@@ -57,7 +56,6 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	SetDefaultButton(fOK);
 
 	if (!fAccount || fAccount->IsUsingDefaultLocale()) {
-		fPrefView->Hide();
 		fLocaleView->Hide();
 	}
 	// clang-format off
@@ -92,8 +90,9 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 			fLocaleView->GetCurrentLocale(customSystemLocale);
 
 			if (!fAccount) {
-				if (fUseDefault->Value() == B_CONTROL_ON);
-					locale.SetAccountLocale(customSystemLocale);
+				if (fUseDefault->Value() == B_CONTROL_ON)
+					;
+				locale.SetAccountLocale(customSystemLocale);
 				gDatabase.AddAccount(fAccountName->Text(), ACCOUNT_BANK, "Open", &locale);
 			} else {
 				if (strcmp(fAccountName->Text(), fAccount->Name()) != 0)
