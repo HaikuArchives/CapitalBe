@@ -19,7 +19,7 @@ PrefWindow::PrefWindow(const BRect& frame, BMessenger target)
 	: BWindow(frame, B_TRANSLATE("Settings"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		  B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS |
 			  B_CLOSE_ON_ESCAPE),
-	fTarget(target)
+	  fTarget(target)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
@@ -28,8 +28,8 @@ PrefWindow::PrefWindow(const BRect& frame, BMessenger target)
 
 	fNegNumberView = new NegativeNumberView("negcolor", gNegativeColor);
 
-	BButton* cancel = new BButton("cancelbutton", B_TRANSLATE("Cancel"),
-		new BMessage(B_QUIT_REQUESTED));
+	BButton* cancel =
+		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 	BButton* ok = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_OPTIONS));
 
 	SetDefaultButton(ok);
@@ -262,7 +262,7 @@ NegativeNumberView::NegativeNumberView(const char* name, rgb_color negColor)
 
 	UpdateColor(negColor);
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(negColorBox, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(
 			B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING, B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
@@ -281,7 +281,7 @@ NegativeNumberView::NegativeNumberView(const char* name, rgb_color negColor)
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.Add(negColorBox)
 		.End();
-// clang-format on
+	// clang-format on
 }
 
 void
