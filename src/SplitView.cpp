@@ -9,6 +9,7 @@
 #include <Window.h>
 
 #include "Account.h"
+#include "CalendarButton.h"
 #include "CategoryBox.h"
 #include "CheckNumBox.h"
 #include "CheckView.h"
@@ -47,6 +48,8 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	BString tempstr;
 	gDefaultLocale.DateToString(fTransaction.Date(), tempstr);
 	fDate->SetText(tempstr.String());
+
+	CalendarButton* calendarButton = new CalendarButton(fDate);
 
 	// Type
 	BStringView* typeLabel
@@ -164,7 +167,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		fStartExpanded = true;
 	}
 
-	// clang-format off
+// clang-format off
 	BLayoutBuilder::Group<>(fSplitContainer, B_VERTICAL, 0)
 		.SetInsets(0)
 		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))
@@ -197,16 +200,17 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 			.SetColumnWeight(3, 1.0f)
 			.Add(dateLabel, 0, 0)
 			.Add(fDate, 0, 1)
-			.Add(typeLabel, 1, 0)
-			.Add(fType, 1, 1)
-			.Add(payeeLabel, 2, 0)
-			.Add(fPayee, 2, 1)
-			.Add(amountLabel, 3, 0)
-			.Add(fAmount, 3, 1)
-			.Add(categoryLabel, 0, 2)
-			.Add(fCategory, 0, 3)
-			.Add(memoLabel, 1, 2, 3)
-			.Add(fMemo, 1, 3, 3)
+			.Add(calendarButton, 1, 1)
+			.Add(typeLabel, 2, 0)
+			.Add(fType, 2, 1)
+			.Add(payeeLabel, 3, 0)
+			.Add(fPayee, 3, 1)
+			.Add(amountLabel, 4, 0)
+			.Add(fAmount, 4, 1)
+			.Add(categoryLabel, 0, 2, 2, 1)
+			.Add(fCategory, 0, 3, 2, 1)
+			.Add(memoLabel, 2, 2, 3)
+			.Add(fMemo, 2, 3, 3)
 			.End()
 		.AddGroup(B_HORIZONTAL)
 			.Add(fSplit)

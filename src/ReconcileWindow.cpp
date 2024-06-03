@@ -4,6 +4,7 @@
 #include <ScrollView.h>
 #include <String.h>
 
+#include "CalendarButton.h"
 #include "CBLocale.h"
 #include "CurrencyBox.h"
 #include "DAlert.h"
@@ -60,53 +61,51 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	}
 	fAccount = account;
 
-
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BView* back = new BView("backview", B_WILL_DRAW);
-	back->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
-	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(back).End();
-
-	fDateLabel = new BStringView("datelabel", B_TRANSLATE_CONTEXT("Date", "CommonTerms"));
+	BStringView* dateLabel = new BStringView("datelabel", B_TRANSLATE_CONTEXT("Date", "CommonTerms"));
 	BString datestr;
 	gDefaultLocale.DateToString(fCurrentDate, datestr);
 	fDate = new DateBox("dateentry", NULL, datestr.String(), NULL);
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
 
-	fOpeningLabel = new BStringView("startinglabel", B_TRANSLATE("Starting balance"));
+	CalendarButton* calendarButton = new CalendarButton(fDate);
+
+	BStringView* openingLabel = new BStringView("startinglabel", B_TRANSLATE("Starting balance"));
+	openingLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fOpening = new CurrencyBox("starting", NULL, NULL, new BMessage(M_SET_BALANCES));
 	fOpening->GetFilter()->SetMessenger(new BMessenger(this));
 
-	fClosingLabel = new BStringView("closinglabel", B_TRANSLATE("Ending balance"));
+	BStringView* closingLabel = new BStringView("closinglabel", B_TRANSLATE("Ending balance"));
+	closingLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fClosing = new CurrencyBox("closing", NULL, NULL, new BMessage(M_SET_BALANCES));
 	fClosing->GetFilter()->SetMessenger(new BMessenger(this));
 
-	fChargesLabel = new BStringView("chargeslabel", B_TRANSLATE("Bank charges"));
+	BStringView* chargesLabel = new BStringView("chargeslabel", B_TRANSLATE("Bank charges"));
 	fCharges = new CurrencyBox("charges", NULL, NULL, NULL);
 	fCharges->GetFilter()->SetMessenger(new BMessenger(this));
+	fCharges->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
-	fInterestLabel = new BStringView("interestlabel", B_TRANSLATE("Interest earned"));
+	BStringView* interestLabel = new BStringView("interestlabel", B_TRANSLATE("Interest earned"));
 	fInterest = new CurrencyBox("interest", NULL, NULL, NULL);
 	fInterest->GetFilter()->SetMessenger(new BMessenger(this));
+	fInterest->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fDepositList = new BListView("depositlist", B_SINGLE_SELECTION_LIST);
 	fDepositList->SetFlags(fDepositList->Flags() | B_FULL_UPDATE_ON_RESIZE);
 	fDepositList->SetInvocationMessage(new BMessage(M_TOGGLE_DEPOSIT));
 	fDepScroll = new BScrollView("fDepScroll", fDepositList, 0, false, true);
-	fDepScroll->SetViewColor(back->ViewColor());
 
 	fCheckList = new BListView("checklist", B_SINGLE_SELECTION_LIST);
 	fCheckList->SetFlags(fDepositList->Flags() | B_FULL_UPDATE_ON_RESIZE);
 	fCheckList->SetInvocationMessage(new BMessage(M_TOGGLE_CHECK));
 	fCheckScroll = new BScrollView("fCheckScroll", fCheckList, 0, false, true);
-	fCheckScroll->SetViewColor(back->ViewColor());
 
 	fChargeList = new BListView("chargelist", B_SINGLE_SELECTION_LIST);
 	fChargeList->SetFlags(fDepositList->Flags() | B_FULL_UPDATE_ON_RESIZE);
 	fChargeList->SetInvocationMessage(new BMessage(M_TOGGLE_CHARGE));
 	fChargeScroll = new BScrollView("fChargeScroll", fChargeList, 0, false, true);
-	fChargeScroll->SetViewColor(back->ViewColor());
 
 	BString label;
 
@@ -147,43 +146,47 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 
 	fDate->MakeFocus(true);
 
-	BLayoutBuilder::Group<>(back, B_VERTICAL)
-		.SetInsets(10)
+// clang-format off
+	BLayoutBuilder::Group<>(this, B_VERTICAL)
+		.SetInsets(B_USE_DEFAULT_SPACING)
 		.AddGrid(1.0f, 1.0f)
-		.Add(fDateLabel, 0, 0)
-		.Add(fDate, 0, 1, 2)
-		.Add(fOpeningLabel, 2, 0)
-		.Add(fOpening, 2, 1, 2)
-		.Add(fClosingLabel, 4, 0)
-		.Add(fClosing, 4, 1, 2)
-		.End()
+			.Add(dateLabel, 0, 0, 2, 1)
+			.Add(fDate, 0, 1)
+			.Add(calendarButton, 1, 1)
+			.Add(openingLabel, 2, 0)
+			.Add(fOpening, 2, 1)
+			.Add(closingLabel, 3, 0)
+			.Add(fClosing, 3, 1)
+			.End()
 		.AddGrid(1.0f, 1.0f)
-		.Add(fChargesLabel, 2, 0)
-		.Add(fCharges, 2, 1, 2)
-		.Add(fInterestLabel, 4, 0)
-		.Add(fInterest, 4, 1, 2)
-		.End()
+			.Add(chargesLabel, 2, 0)
+			.Add(fCharges, 2, 1, 2)
+			.Add(interestLabel, 4, 0)
+			.Add(fInterest, 4, 1, 2)
+			.End()
 		.AddGrid(1.0f, 2.0f)
-		.Add(fDepScroll, 0, 0)
-		.Add(fDepLabel, 0, 1)
-		.Add(fCheckScroll, 2, 0)
-		.Add(fCheckLabel, 2, 1)
-		.Add(fChargeScroll, 4, 0)
-		.Add(fChargeLabel, 4, 1)
-		.End()
-		.AddGrid(1.0f, 1.0f)
-		.Add(fTotalLabel, 0, 0)
-		.End()
-		.AddGrid(1.0f, 1.0f)
-		.Add(fAutoReconcile, 0, 1)
-		.Add(fHelpButton, 1, 1)
-		.AddGlue(2, 1, 2)
-		.Add(fReset, 4, 1)
-		.AddGlue(5, 1)
-		.Add(fCancel, 6, 1)
-		.Add(fReconcile, 7, 1)
-		.End()
+			.Add(fDepScroll, 0, 0)
+			.Add(fDepLabel, 0, 1)
+			.Add(fCheckScroll, 2, 0)
+			.Add(fCheckLabel, 2, 1)
+			.Add(fChargeScroll, 4, 0)
+			.Add(fChargeLabel, 4, 1)
+			.End()
+		.AddGroup(B_HORIZONTAL)
+			.Add(fTotalLabel)
+			.AddGlue()
+			.End()
+		.AddGroup(B_HORIZONTAL)
+			.Add(fAutoReconcile)
+			.Add(fHelpButton)
+			.AddGlue()
+			.Add(fReset)
+			.AddGlue()
+			.Add(fCancel)
+			.Add(fReconcile)
+			.End()
 		.End();
+// clang-format on
 }
 
 ReconcileWindow::~ReconcileWindow(void)
@@ -192,45 +195,6 @@ ReconcileWindow::~ReconcileWindow(void)
 	gPreferences.RemoveData("reconcileframe");
 	gPreferences.AddRect("reconcileframe", Frame());
 	prefsLock.Unlock();
-}
-
-void
-ReconcileWindow::FrameResized(float w, float h)
-{
-	// We implement our own resizing routines because all the controls need to be resized in a
-	// proportional manner of the window being resized, such as the 3 listviews each taking up just
-	// a little less than 1/3 of the window's width
-	/*
-		fDate->ResizeTo(w * fDateMultiplier, fDate->Frame().Height());
-		fOpening->ResizeTo(w * fOpeningMultiplier, fOpening->Frame().Height());
-		fOpening->MoveTo(fDate->Frame().right + 10,fOpening->Frame().top);
-		fClosing->MoveTo(fOpening->Frame().right + 10,fClosing->Frame().top);
-		fClosing->ResizeTo(w - 10 - fClosing->Frame().left, fClosing->Frame().Height());
-
-
-		fCharges->ResizeTo((w/2)-15,fCharges->Frame().Height());
-		fInterest->MoveTo(fCharges->Frame().right + 10,fInterest->Frame().top);
-		fInterest->ResizeTo(w - 10 - fInterest->Frame().left,fInterest->Frame().Height());
-
-		float listwidth = (Bounds().Width() - 40)/3;
-		float height = fDepScroll->Frame().Height();
-
-		fDepScroll->ResizeTo(listwidth, height);
-		fCheckScroll->ResizeTo(listwidth, height);
-		fChargeScroll->ResizeTo(listwidth, height);
-
-		float top = fCheckList->Parent()->Frame().top;
-		fCheckScroll->MoveTo(fDepScroll->Frame().right + 10,top);
-		fChargeScroll->MoveTo(fCheckScroll->Frame().right + 10,top);
-
-		fDepLabel->MoveTo(fDepScroll->Frame().left, fDepScroll->Frame().bottom+5);
-		fCheckLabel->MoveTo(fCheckScroll->Frame().left, fCheckScroll->Frame().bottom+5);
-		fChargeLabel->MoveTo(fChargeScroll->Frame().left, fChargeScroll->Frame().bottom+5);
-
-		fDepLabel->ResizeTo(fDepScroll->Frame().Width(),fDepLabel->Frame().Height());
-		fCheckLabel->ResizeTo(fCheckScroll->Frame().Width(),fCheckLabel->Frame().Height());
-		fChargeLabel->ResizeTo(fChargeScroll->Frame().Width(),fChargeLabel->Frame().Height());
-	*/
 }
 
 void

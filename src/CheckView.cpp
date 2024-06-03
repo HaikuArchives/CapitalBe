@@ -1,4 +1,5 @@
 #include <Catalog.h>
+#include <DateFormat.h>
 #include <GridLayout.h>
 #include <LayoutBuilder.h>
 #include <Messenger.h>
@@ -7,6 +8,7 @@
 #include <stdlib.h>
 
 #include "Account.h"
+#include "CalendarButton.h"
 #include "CategoryBox.h"
 #include "CheckNumBox.h"
 #include "CheckView.h"
@@ -38,8 +40,10 @@ CheckView::CheckView(const char* name, int32 flags)
 	dateLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fDate = new DateBox("dateentry", "", NULL, new BMessage(M_DATE_CHANGED));
 
-	BStringView* typeLabel
-		= new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
+	CalendarButton* calendarButton = new CalendarButton(fDate);
+
+	BStringView* typeLabel =
+		new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
 	typeLabel->SetExplicitSize(BSize(StringWidth("ShortType"), B_SIZE_UNSET));
 	fType = new CheckNumBox("typeentry", "", NULL, new BMessage(M_TYPE_CHANGED));
 
@@ -81,22 +85,22 @@ CheckView::CheckView(const char* name, int32 flags)
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(0)
 		.AddGrid(1.0f, 0.0f)
-			// .SetColumnWeight(1, 0.5f)
 			.SetColumnWeight(2, 2.0f)
 			.SetColumnWeight(3, 1.0f)
 			.Add(dateLabel, 0, 0)
 			.Add(fDate, 0, 1)
-			.Add(typeLabel, 1, 0)
-			.Add(fType, 1, 1)
-			.Add(payeeLabel, 2, 0)
-			.Add(fPayee, 2, 1)
-			.Add(amountLabel, 3, 0)
-			.Add(fAmount, 3, 1)
-			.Add(categoryLabel, 0, 2)
-			.Add(fCategory, 0, 3)
-			.Add(memoLabel, 1, 2, 3)
-			.Add(fMemo, 1, 3, 3)
-			.Add(fEnter, 4, 1, 1, 3)
+			.Add(calendarButton, 1, 1)
+			.Add(typeLabel, 2, 0)
+			.Add(fType, 2, 1)
+			.Add(payeeLabel, 3, 0)
+			.Add(fPayee, 3, 1)
+			.Add(amountLabel, 4, 0)
+			.Add(fAmount, 4, 1)
+			.Add(categoryLabel, 0, 2, 2, 1)
+			.Add(fCategory, 0, 3, 2, 1)
+			.Add(memoLabel, 2, 2, 3)
+			.Add(fMemo, 2, 3, 3)
+			.Add(fEnter, 5, 1, 1, 3)
 			.End()
 		.End();
 }
@@ -362,7 +366,6 @@ CheckView::DoNextField(void)
 		ShowBug("M_NEXT_FIELD received for unknown view in CheckView");
 	}
 }
-
 
 void
 CheckView::SetFieldsEnabled(bool enabled)

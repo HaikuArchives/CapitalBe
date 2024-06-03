@@ -1,10 +1,13 @@
 #include "TransferWindow.h"
+
 #include <Catalog.h>
+#include <DateFormat.h>
 #include <LayoutBuilder.h>
 #include <MessageFilter.h>
 #include <Messenger.h>
 #include <ScrollView.h>
 
+#include "CalendarButton.h"
 #include "CBLocale.h"
 #include "CurrencyBox.h"
 #include "DAlert.h"
@@ -21,6 +24,8 @@
 #define M_DEST_SELECTED 'dssl'
 #define M_DATE_CHANGED 'dtch'
 #define M_AMOUNT_CHANGED 'amch'
+#define M_SHOW_CALENDER 'shca'
+#define M_SET_DATE 'stdt'
 
 
 TransferWindow::TransferWindow(BHandler* target)
@@ -74,6 +79,8 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
 	//	fDate->SetEscapeCancel(true);
 
+	CalendarButton* calendarButton = new CalendarButton(fDate);
+	
 	if (src && dest) {
 		BString datestr;
 		gDefaultLocale.DateToString(fDate->GetDate(), datestr);
@@ -119,7 +126,7 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	} else
 		fDestList->MakeFocus(true);
 
-	// clang-format off
+// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_HALF_ITEM_SPACING)
 		.SetInsets(B_USE_WINDOW_SPACING)
 		.AddGroup(B_HORIZONTAL)
@@ -132,13 +139,15 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 				.Add(scrolldest)
 				.End()
 			.End()
-		.AddGrid(B_USE_SMALL_SPACING, B_USE_SMALL_SPACING)
+		.AddGrid(0.0, B_USE_SMALL_SPACING)
 			.Add(fDate->CreateLabelLayoutItem(), 0, 0)
 			.Add(fDate->CreateTextViewLayoutItem(), 1, 0)
-			.Add(fAmount->CreateLabelLayoutItem(), 2, 0)
-			.Add(fAmount->CreateTextViewLayoutItem(), 3, 0)
+			.Add(calendarButton, 2, 0)
+			.Add(BSpaceLayoutItem::CreateHorizontalStrut(B_USE_DEFAULT_SPACING), 3, 0)
+			.Add(fAmount->CreateLabelLayoutItem(), 4, 0)
+			.Add(fAmount->CreateTextViewLayoutItem(), 5, 0)
 			.Add(fMemo->CreateLabelLayoutItem(), 0, 1)
-			.Add(fMemo->CreateTextViewLayoutItem(), 1, 1, 3, 1)
+			.Add(fMemo->CreateTextViewLayoutItem(), 1, 1, 5, 1)
 			.End()
 		.AddStrut(B_USE_DEFAULT_SPACING)
 		.AddGroup(B_HORIZONTAL)

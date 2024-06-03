@@ -24,7 +24,9 @@ enum {
 	M_SPLIT_MEMO_CHANGED,
 	M_EDIT_KEY,
 	M_NEXT_SPLIT,
-	M_PREVIOUS_SPLIT
+	M_PREVIOUS_SPLIT,
+	M_SHOW_CALENDER,
+	M_SET_DATE
 };
 
 class SplitViewFilter;
@@ -67,7 +69,6 @@ private:
 	Fixed CalculateTotal(void);
 	Category* MakeCategory(void);
 
-	//	BTextControl *fType,*fPayee,*fAmount,*fCategory,*fMemo;
 	DateBox* fDate;
 	CheckNumBox* fType;
 	PayeeBox* fPayee;
@@ -77,6 +78,7 @@ private:
 	SplitViewFilter* fKeyFilter;
 	BMessenger* fMessenger;
 	BButton *fEnter, *fTransfer;
+
 	BCheckBox* fSplit;
 
 	BView* fSplitContainer;
