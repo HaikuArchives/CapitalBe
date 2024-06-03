@@ -1,15 +1,23 @@
 #include "DateBox.h"
+
+#include "CalendarMenuWindow.h"
 #include "CBLocale.h"
 #include "Database.h"
+#include <DateFormat.h>
 #include "MsgDefs.h"
 #include "TimeSupport.h"
 
 #include <Catalog.h>
+#include <LayoutBuilder.h>
 
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "TextInput"
 
+enum {
+	M_SHOW_CALENDER,
+	M_SET_DATE
+};
 
 DateBoxFilter::DateBoxFilter(DateBox* box)
 	: AutoTextControlFilter(box)
@@ -110,8 +118,54 @@ DateBox::DateBox(const char* name, const char* label, const char* text, BMessage
 	// Even though dates should have a limit of 10 characters, we want to give
 	// the user a little elbow room. ;^)
 	SetCharacterLimit(15);
+
+	fCalenderButton = new BButton("calenderbutton", "📅", new BMessage(M_SHOW_CALENDER));
+	float height;
+	GetPreferredSize(NULL, &height);
+	BSize size(height + 2, height);
+	fCalenderButton->SetExplicitSize(size);
+
+	BGroupLayout* textcontrolGroup;
+	BLayoutBuilder::Group<>(this, B_HORIZONTAL, 0)
+		.GetLayout(&textcontrolGroup)
+		.Add(fCalenderButton)
+		.End();
 }
 
+
+void
+DateBox::AttachedToWindow(void)
+{
+	fCalenderButton->SetTarget(this);
+}
+
+
+void
+DateBox::MessageReceived(BMessage* msg)
+{
+	switch (msg->what) {
+		case M_SHOW_CALENDER:
+		{
+			ShowPopUpCalendar();
+			break;
+		}
+		case M_SET_DATE:
+		{
+			int32 day, month, year;
+			msg->FindInt32("day", &day);
+			msg->FindInt32("month", &month);
+			msg->FindInt32("year", &year);
+			BString date;
+			date << day << "." << month << "." << year;
+			SetText(date);
+			break;
+		}
+		default:
+		{
+			BTextControl::MessageReceived(msg);
+		}
+	}
+}
 
 bool
 DateBox::Validate(const bool& alert)
@@ -137,4 +191,33 @@ DateBox::Validate(const bool& alert)
 		SetText(date.String());
 	}
 	return true;
+}
+
+
+void
+DateBox::ShowPopUpCalendar()
+{
+	if (fCalendarWindow.IsValid()) {
+		BMessage activate(B_SET_PROPERTY);
+		activate.AddSpecifier("Active");
+		activate.AddBool("data", true);
+
+		if (fCalendarWindow.SendMessage(&activate) == B_OK)
+			return;
+	}
+
+	BDate date = GetDate();
+	BMessage* invocationMessage = new BMessage(M_SET_DATE);
+	BPoint where = fCalenderButton->Frame().LeftTop();
+	ConvertToScreen(&where);
+
+	CalendarMenuWindow* window = new CalendarMenuWindow(this, where);
+	window->SetDate(date);
+	window->SetInvocationMessage(invocationMessage);
+	window->SetDate(date);
+	fCalendarWindow = BMessenger(window);
+	window->Show();
+
+	window->MoveBy(fCalenderButton->Bounds().Width() / 2, window->Bounds().Height() * -1.5);
+	window->MoveOnScreen(B_MOVE_IF_PARTIALLY_OFFSCREEN);
 }
