@@ -61,9 +61,9 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 		owner->SetHighUIColor(B_CONTROL_TEXT_COLOR);
 		owner->StrokeLine(r.LeftBottom(), r.RightBottom());
 	} else {
-		if (index % 2 == 1) { // darken odd row
-			owner->SetHighUIColor(
-				B_LIST_BACKGROUND_COLOR, GetMutedTint(ui_color(B_LIST_BACKGROUND_COLOR), CB_ALT_ROW));
+		if (index % 2 == 1) {  // darken odd row
+			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR,
+				GetMutedTint(ui_color(B_LIST_BACKGROUND_COLOR), CB_ALT_ROW));
 		} else
 			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR);
 
