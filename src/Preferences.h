@@ -19,7 +19,8 @@ status_t LoadPreferences(const char* path);
 
 typedef enum {
 	CB_MUTED_TEXT = 0,
-	CB_MUTED_BG
+	CB_MUTED_BG,
+	CB_ALT_ROW
 } CapitalBeMuted;
 
 const float GetMutedTint(const rgb_color color, const CapitalBeMuted& type);

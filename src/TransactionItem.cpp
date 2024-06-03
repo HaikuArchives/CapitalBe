@@ -42,14 +42,17 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	BString string;
 	Locale locale = fAccount->GetLocale();
 
+	BListView* list = (BListView*)owner;
+	int32 index = list->IndexOf(this);
+
 	BRect r(frame);
-	r.right--;
 
 	if (IsSelected()) {
 		owner->SetHighUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
 		owner->FillRect(frame);
 		owner->SetHighUIColor(
 			fStatus == TRANS_RECONCILED ? B_TOOL_TIP_BACKGROUND_COLOR : B_CONTROL_HIGHLIGHT_COLOR);
+		frame.bottom--;
 		owner->StrokeRect(frame);
 	} else if (fStatus == TRANS_RECONCILED) {
 		owner->SetHighUIColor(
@@ -58,9 +61,16 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 		owner->SetHighUIColor(B_CONTROL_TEXT_COLOR);
 		owner->StrokeLine(r.LeftBottom(), r.RightBottom());
 	} else {
-		owner->SetHighUIColor(B_CONTROL_TEXT_COLOR);
-		owner->StrokeLine(r.LeftBottom(), r.RightBottom());
+		if (index % 2 == 1) { // darken odd row
+			owner->SetHighUIColor(
+				B_LIST_BACKGROUND_COLOR, GetMutedTint(ui_color(B_LIST_BACKGROUND_COLOR), CB_ALT_ROW));
+		} else
+			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR);
+
+		owner->FillRect(frame);
 	}
+	owner->SetHighUIColor(B_CONTROL_TEXT_COLOR);
+	owner->StrokeLine(r.LeftBottom(), r.RightBottom());
 
 	float textTint = B_NO_TINT;
 	rgb_color textColor;
