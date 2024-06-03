@@ -87,6 +87,10 @@ GetMutedTint(const rgb_color color, const CapitalBeMuted& type)
 		{
 			return IsDark(color) ? B_LIGHTEN_2_TINT : B_DARKEN_1_TINT;
 		}
+		case CB_ALT_ROW:
+		{
+			return IsDark(color) ? 0.94 : 1.05;
+		}
 		default:
 			return B_NO_TINT;
 	}
