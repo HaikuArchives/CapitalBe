@@ -37,6 +37,7 @@ private:
 	CurrencyBox* fAmount;
 
 	BButton *fCancel, *fOK;
+
 	BStringView *fFromLabel, *fToLabel;
 	BListView *fSourceList, *fDestList;
 

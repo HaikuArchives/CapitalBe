@@ -12,6 +12,7 @@
 #include <StringView.h>
 #include <stdlib.h>
 
+#include "CalendarButton.h"
 #include "CBLocale.h"
 #include "Database.h"
 #include "DateBox.h"
@@ -111,8 +112,10 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	gDefaultLocale.DateToString(data.Date(), temp);
 	fStartDate->SetText(temp.String());
 
-	fRepeatAlways
-		= new BRadioButton("inftimes", B_TRANSLATE("Indefinitely"), new BMessage(M_REPEAT_ALWAYS));
+	CalendarButton* calendarButton = new CalendarButton(fStartDate);
+
+	fRepeatAlways =
+		new BRadioButton("inftimes", B_TRANSLATE("Indefinitely"), new BMessage(M_REPEAT_ALWAYS));
 	fRepeatAlways->SetValue(B_CONTROL_ON);
 
 	fRepeatLimited = new BRadioButton("limitedtimes", " ", new BMessage(M_REPEAT_LIMITED));
@@ -136,52 +139,53 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	BButton* cancelButton
 		= new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
-	// clang-format off
+// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(B_USE_WINDOW_SPACING)
 		.AddGrid(1.0f, 0.0f)
-		.Add(typeLabel, 0, 0)
-		.Add(type->CreateTextViewLayoutItem(), 0, 1)
-		.Add(payeeLabel, 1, 0)
-		.Add(payee->CreateTextViewLayoutItem(), 1, 1)
-		.Add(amountLabel, 2, 0)
-		.Add(amount->CreateTextViewLayoutItem(), 2, 1)
-		.End()
+			.Add(typeLabel, 0, 0)
+			.Add(type->CreateTextViewLayoutItem(), 0, 1)
+			.Add(payeeLabel, 1, 0)
+			.Add(payee->CreateTextViewLayoutItem(), 1, 1)
+			.Add(amountLabel, 2, 0)
+			.Add(amount->CreateTextViewLayoutItem(), 2, 1)
+			.End()
 		.AddGrid(1.0f, 0.0f)
-		.Add(categoryLabel, 0, 0)
-		.Add(category->CreateTextViewLayoutItem(), 0, 1)
-		.Add(memoLabel, 1, 0)
-		.Add(memo->CreateTextViewLayoutItem(), 1, 1)
-		.End()
+			.Add(categoryLabel, 0, 0)
+			.Add(category->CreateTextViewLayoutItem(), 0, 1)
+			.Add(memoLabel, 1, 0)
+			.Add(memo->CreateTextViewLayoutItem(), 1, 1)
+			.End()
 		.AddStrut(B_USE_DEFAULT_SPACING)
 		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))
 		.AddStrut(B_USE_DEFAULT_SPACING)
 		.AddGrid(1.0f, B_USE_DEFAULT_SPACING)
-		.SetColumnWeight(1, 2.0f)
-		.Add(intervalfield->CreateLabelLayoutItem(), 0, 0)
-		.Add(intervalfield->CreateMenuBarLayoutItem(), 1, 0, 3)
-		.Add(fStartDate->CreateLabelLayoutItem(), 0, 1)
-		.Add(fStartDate->CreateTextViewLayoutItem(), 1, 1, 3)
-		.Add(repeatLabel, 0, 2)
-		.Add(dummy, 0, 3)
-		.AddGroup(B_VERTICAL, 1.0f, 1, 2, 1, 2)
-		.Add(fRepeatAlways)
-		.AddGroup(B_HORIZONTAL, 0)
-		.Add(fRepeatLimited)
-		.Add(fRepeatCount)
-		.Add(timesLabel)
-		.End()
-		.End()
-		.AddGlue(4, 0, 4)
-		.End()
+			.SetColumnWeight(1, 2.0f)
+			.Add(intervalfield->CreateLabelLayoutItem(), 0, 0)
+			.Add(intervalfield->CreateMenuBarLayoutItem(), 1, 0, 2)
+			.Add(fStartDate->CreateLabelLayoutItem(), 0, 1)
+			.Add(fStartDate->CreateTextViewLayoutItem(), 1, 1)
+			.Add(calendarButton, 2, 1)
+			.Add(repeatLabel, 0, 2)
+			.Add(dummy, 0, 3)
+			.AddGroup(B_VERTICAL, 1.0f, 1, 2, 1, 2)
+				.Add(fRepeatAlways)
+				.AddGroup(B_HORIZONTAL, 0)
+					.Add(fRepeatLimited)
+					.Add(fRepeatCount)
+					.Add(timesLabel)
+					.End()
+				.End()
+			.AddGlue(4, 0, 4)
+			.End()
 		.AddStrut(B_USE_BIG_SPACING)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-		.AddGlue()
-		.Add(cancelButton)
-		.Add(okButton)
-		.End()
+			.AddGlue()
+			.Add(cancelButton)
+			.Add(okButton)
+			.End()
 		.End();
-	// clang-format on
+// clang-format on
 
 	CenterIn(Frame());
 }

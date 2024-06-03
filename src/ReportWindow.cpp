@@ -8,6 +8,7 @@
 #include <TranslationUtils.h>
 #include <View.h>
 
+#include "CalendarButton.h"
 #include "ColumnTypes.h"
 #include "Database.h"
 #include "DateBox.h"
@@ -63,7 +64,7 @@ ReportWindow::ReportWindow(BRect frame)
 	BGroupLayout* subtotalLayout = new BGroupLayout(B_VERTICAL, 0);
 	BGroupLayout* categoriesLayout = new BGroupLayout(B_VERTICAL, 0);
 	BGroupLayout* reportsLayout = new BGroupLayout(B_VERTICAL, 0);
-	BGridLayout* datesLayout = new BGridLayout(B_USE_DEFAULT_SPACING, 1.0f);
+	BGridLayout* datesLayout = new BGridLayout(1.0f, 1.0f);
 
 	BGroupLayout* listLayout = new BGroupLayout(B_VERTICAL, 1.0f);
 
@@ -161,12 +162,13 @@ ReportWindow::ReportWindow(BRect frame)
 	fStartDateBox = new DateBox(
 		"startdate", temp.String(), datestring.String(), new BMessage(M_START_DATE_CHANGED));
 	fStartDateBox->SetDate(GetCurrentYear());
-	// fStartDateBox->SetExplicitSize(BSize(be_plain_font->StringWidth("Starting date: 29.09.5038")
-	// + 164, B_SIZE_UNSET));
-	//	fStartDateBox->SetEscapeCancel(true);
+
 	datesLayout->AddItem(fStartDateBox->CreateLabelLayoutItem(), 0, 0);
 	datesLayout->AddItem(fStartDateBox->CreateTextViewLayoutItem(), 1, 0);
 	fStartDateBox->GetFilter()->SetMessenger(new BMessenger(this));
+
+	CalendarButton* calendarStartButton = new CalendarButton(fStartDateBox);
+	datesLayout->AddView(calendarStartButton, 2, 0);
 
 	gDefaultLocale.DateToString(GetCurrentDate(), datestring);
 	temp = B_TRANSLATE("Ending date:");
@@ -177,6 +179,9 @@ ReportWindow::ReportWindow(BRect frame)
 	datesLayout->AddItem(fEndDateBox->CreateLabelLayoutItem(), 0, 1);
 	datesLayout->AddItem(fEndDateBox->CreateTextViewLayoutItem(), 1, 1);
 	fEndDateBox->GetFilter()->SetMessenger(new BMessenger(this));
+
+	CalendarButton* calendarEndButton = new CalendarButton(fEndDateBox);
+	datesLayout->AddView(calendarEndButton, 2, 1);
 
 	// TODO: Implement graph support
 	// BBitmap *up, *down;

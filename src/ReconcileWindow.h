@@ -9,6 +9,7 @@
 #include <TextControl.h>
 #include <View.h>
 #include <Window.h>
+
 #include "Account.h"
 #include "HelpButton.h"
 #include "Notifier.h"
@@ -24,7 +25,6 @@ public:
 	ReconcileWindow(const BRect frame, Account* account);
 	~ReconcileWindow(void);
 	void MessageReceived(BMessage* msg);
-	void FrameResized(float w, float h);
 	void HandleNotify(const uint64& value, const BMessage* msg);
 	bool QuitRequested(void);
 
@@ -47,8 +47,7 @@ private:
 	// fTotal is the sum of all of the deposits, checks, and charges
 	// The way to tell if we are done is if fDifference + fTotal == 0
 	Fixed fDepositTotal, fCheckTotal, fChargeTotal, fDifference, fTotal;
-	BStringView *fDepLabel, *fCheckLabel, *fChargeLabel, *fTotalLabel, *fDateLabel, *fOpeningLabel,
-		*fClosingLabel, *fChargesLabel, *fInterestLabel;
+	BStringView *fDepLabel, *fCheckLabel, *fChargeLabel, *fTotalLabel, *fDateLabel, *fChargesLabel;
 	BScrollView *fDepScroll, *fCheckScroll, *fChargeScroll;
 
 	HelpButton* fHelpButton;
