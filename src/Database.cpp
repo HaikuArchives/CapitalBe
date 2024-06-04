@@ -47,8 +47,9 @@ Database::CloseAccount(Account* item)
 		return;
 
 	LOCK;
-	BString command = "update accountlist set status = 'Closed' where accountid = ";
-	command << item->GetID() << ";";
+	BString command;
+	command << "UPDATE accountlist SET status = 'Closed' WHERE accountid = " << item->GetID()
+			<< ";";
 	DBCommand(command.String(), "Database::CloseAccount");
 
 	item->SetClosed(true);
@@ -64,9 +65,9 @@ Database::RenameAccount(Account* item, const char* name)
 {
 	if (item && name) {
 		LOCK;
-		BString command = "update accountlist set name = '";
-		command << EscapeIllegalCharacters(name) << "' where accountid = ";
-		command << item->GetID() << ";";
+		BString command;
+		command << "UPDATE accountlist SET name = '" << EscapeIllegalCharacters(name)
+				<< "' WHERE accountid = " << item->GetID() << ";";
 		DBCommand(command.String(), "Database::RenameAccount");
 
 		item->SetName(name);
@@ -85,8 +86,8 @@ Database::ReopenAccount(Account* item)
 		return;
 
 	LOCK;
-	BString command = "update accountlist set status = 'Open' where accountid = ";
-	command << item->GetID() << ";";
+	BString command;
+	command << "UPDATE accountlist SET status = 'Open' WHERE accountid = " << item->GetID() << ";";
 	DBCommand(command.String(), "Database::ReopenAccount");
 
 	item->SetClosed(false);
@@ -123,35 +124,29 @@ Database::CreateFile(const char* path)
 	// Transaction Status: 10
 	// Currency Symbol/Decimal: 2
 
-	DBCommand(
-		"create table accountlist (accountid int primary key, name varchar(96), "
-		"type varchar(12), status varchar(30));",
+	DBCommand("CREATE TABLE accountlist (accountid INT PRIMARY KEY, name VARCHAR(96), "
+			  "type VARCHAR(12), status VARCHAR(30));",
 		"Database::CreateFile:create accountlist");
-	DBCommand(
-		"create table accountlocale (accountid int primary key, dateformat varchar(8), "
-		"dateseparator char(6), currencysymbol char(6),	"
-		"currencyseparator char(6), currencydecimal char(6), "
-		"currencyprefix char(1));",
+	DBCommand("CREATE TABLE accountlocale (accountid INT PRIMARY KEY, dateformat VARCHAR(8), "
+			  "dateseparator CHAR(6), currencysymbol CHAR(6),	"
+			  "currencyseparator CHAR(6), currencydecimal CHAR(6), "
+			  "currencyprefix CHAR(1));",
 		"Database::CreateFile:create accountlocale");
-	DBCommand("create table memorizedlist (transactionid int);",
+	DBCommand("CREATE TABLE memorizedlist (transactionid INT);",
 		"Database::CreateFile:create memorizedlist");
-	DBCommand(
-		"create table scheduledlist (timestamp int primary key, accountid int, transid int,"
-		"date int, type varchar(24), payee varchar(96), amount int,"
-		"category varchar(96),memo varchar(63), interval int, count int,"
-		"nextdate int);",
+	DBCommand("CREATE TABLE scheduledlist (timestamp INT PRIMARY KEY, accountid INT, transid INT,"
+			  "date INT, type VARCHAR(24), payee VARCHAR(96), amount INT,"
+			  "category VARCHAR(96),memo VARCHAR(63), interval INT, count INT,"
+			  "nextdate INT);",
 		"Database::CreateFile:create scheduledlist");
-	DBCommand(
-		"create table budgetlist (entryid int primary key, category varchar(96), "
-		"amount int, period int(2), isexpense int(1));",
+	DBCommand("CREATE TABLE budgetlist (entryid INT PRIMARY KEY, category VARCHAR(96), "
+			  "amount INT, period INT(2), isexpense INT(1));",
 		"Database::CreateFile:create budgetlist");
-	DBCommand(
-		"create table transactionlist (timestamp int primary key, transid int, "
-		"category varchar(96), accountid int);",
+	DBCommand("CREATE TABLE transactionlist (timestamp INT PRIMARY KEY, transid INT, "
+			  "category VARCHAR(96), accountid INT);",
 		"Database::CreateFile:create transactionlist");
-	DBCommand("create table categorylist (name varchar(96), type int(2));",
+	DBCommand("CREATE TABLE categorylist (name VARCHAR(96), type INT(2));",
 		"Database::CreateFile:create categorylist");
-
 	UNLOCK;
 }
 
@@ -184,8 +179,8 @@ Database::OpenFile(const char* path)
 	}
 
 	// Populate account list
-	CppSQLite3Query query =
-		DBQuery("select * from accountlist", "Database::OpenFile:get accounts from list");
+	CppSQLite3Query query
+		= DBQuery("SELECT * FROM accountlist", "Database::OpenFile:get accounts from list");
 
 	while (!query.eof()) {
 		uint32 id = query.getIntField(0);
@@ -212,10 +207,10 @@ Database::OpenFile(const char* path)
 	// Set the current transaction and last check number for each account
 	for (int32 i = 0; i < fList.CountItems(); i++) {
 		Account* acc = fList.ItemAt(i);
-		BString command("select transid from account_");
-		command << acc->GetID() << " order by date,transid;";
-
+		BString command;
+		command << "SELECT transid FROM account_" << acc->GetID() << " ORDER BY date,transid;";
 		query = DBQuery(command.String(), "Database::OpenFile:set current transaction");
+
 		if (!query.eof())
 			acc->SetCurrentTransaction(query.getInt64Field(0));
 		query.finalize();
@@ -320,7 +315,7 @@ Database::AddAccount(
 	id++;
 
 	BString command;
-	command << "insert into accountlist values(" << id << ", '" << ename << "', '"
+	command << "INSERT INTO accountlist VALUES(" << id << ", '" << ename << "', '"
 			<< AccountTypeToString(type) << "', '" << estatus << "');";
 	DBCommand(command.String(), "Database::AddAccount:insert accountlist");
 
@@ -328,10 +323,10 @@ Database::AddAccount(
 		SetAccountLocale(id, *locale);
 
 	command = "";
-	command << "create table account_" << id
-			<< " (timestamp int primary key, transid int, date int, type varchar(24), "
-			   "payee varchar(96), amount int, category varchar(96), memo varchar(63), "
-			   "status char(21));";
+	command << "CREATE TABLE account_" << id
+			<< " (timestamp INT PRIMARY KEY, transid INT, date INT, type VARCHAR(24), "
+			   "payee VARCHAR(96), amount INT, category VARCHAR(96), memo VARCHAR(63), "
+			   "status CHAR(21));";
 
 	DBCommand(command.String(), "Database::AddAccount:create account");
 
@@ -358,7 +353,7 @@ Database::RemoveAccount(const int& accountid)
 {
 	LOCK;
 	BString command;
-	command << "select accountid from accountlist where accountid = " << accountid << ";";
+	command << "SELECT accountid FROM accountlist WHERE accountid = " << accountid << ";";
 	CppSQLite3Query query = DBQuery(command.String(), "Database::RemoveAccount:accountid check");
 
 	if (!query.eof()) {
@@ -371,15 +366,15 @@ Database::RemoveAccount(const int& accountid)
 			Notify(WATCH_DELETE | WATCH_ACCOUNT, &msg);
 		}
 
-		command = "delete from accountlist where accountid = ";
+		command = "DELETE FROM accountlist WHERE accountid = ";
 		command << accountid << ";";
 		DBCommand(command.String(), "Database::RemoveAccount:delete accountlist item");
 
-		command = "delete from accountlocale where accountid = ";
+		command = "DELETE FROM accountlocale WHERE accountid = ";
 		command << accountid << ";";
 		DBCommand(command.String(), "Database::RemoveAccount:delete accountlocale item");
 
-		command = "drop table account_";
+		command = "DROP TABLE account_";
 		command << accountid;
 		DBCommand(command.String(), "Database::RemoveAccount:drop account table");
 
@@ -439,7 +434,7 @@ Database::AddBudgetEntry(const BudgetEntry& entry)
 	// See if the budget list already has the category and if it does, update the entry
 	// to the new value. Otherwise, add the entry to the list
 	BString command;
-	command << "select entryid from budgetlist where category = '" << ecategory << "';";
+	command << "SELECT entryid FROM budgetlist WHERE category = '" << ecategory << "';";
 	CppSQLite3Query query = DBQuery(command.String(), "Database::AddBudgetEntry:check existing");
 
 	int value = -1;
@@ -448,12 +443,12 @@ Database::AddBudgetEntry(const BudgetEntry& entry)
 	query.finalize();
 
 	if (value >= 0) {
-		command = "update budgetlist set amount = ";
-		command << entry.amount.AsFixed() << " where entryid = " << value << ";";
+		command = "UPDATE budgetlist SET amount = ";
+		command << entry.amount.AsFixed() << " WHERE entryid = " << value << ";";
 		DBCommand(command.String(), "Database::AddBudgetEntry:update budgetlist amount");
 
-		command = "update budgetlist set period = ";
-		command << (int)entry.period << " where entryid = " << value << ";";
+		command = "UPDATE budgetlist SET period = ";
+		command << (int)entry.period << " WHERE entryid = " << value << ";";
 		DBCommand(command.String(), "Database::AddBudgetEntry:update budgetlist period");
 		return;
 	}
@@ -461,7 +456,7 @@ Database::AddBudgetEntry(const BudgetEntry& entry)
 	// We got this far, so we just add the entry to the list
 	value = GetLastKey("budgetlist", "entryid");
 	value++;
-	command = "insert into budgetlist values(";
+	command = "INSERT INTO budgetlist VALUES(";
 	command << value << ", '" << ecategory << "', " << entry.amount.AsFixed() << ", "
 			<< (int)entry.period << ", " << (entry.isexpense ? 1 : 0) << ");";
 	DBCommand(command.String(), "Database::AddBudgetEntry:insert into budgetlist");
@@ -478,7 +473,7 @@ Database::RemoveBudgetEntry(const char* category)
 	BString ecategory = EscapeIllegalCharacters(category);
 
 	BString command;
-	command << "delete from budgetlist where category = '" << ecategory << "';";
+	command << "DELETE FROM budgetlist WHERE category = '" << ecategory << "';";
 	DBCommand(command.String(), "Database::RemoveBudgetEntry");
 	UNLOCK;
 	return true;
@@ -493,7 +488,7 @@ Database::HasBudgetEntry(const char* category)
 	LOCK;
 	BString ecategory = EscapeIllegalCharacters(category);
 	BString command;
-	command << "select entryid from budgetlist where category = '" << ecategory << "' order by 1;";
+	command << "SELECT entryid FROM budgetlist WHERE category = '" << ecategory << "' ORDER BY 1;";
 	CppSQLite3Query query = DBQuery(command.String(), "Database::HasBudgetEntry");
 
 	bool value = query.eof();
@@ -508,7 +503,7 @@ Database::GetBudgetEntry(const char* name, BudgetEntry& entry)
 		return false;
 
 	BString escaped = EscapeIllegalCharacters(name);
-	BString command = "select amount,period,isexpense from budgetlist where category = '";
+	BString command = "SELECT amount,period,isexpense FROM budgetlist WHERE category = '";
 	command << escaped << "';";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Database::GetBudgetEntry");
 
@@ -525,15 +520,13 @@ Database::GetBudgetEntry(const char* name, BudgetEntry& entry)
 int32
 Database::CountBudgetEntries(void)
 {
-	CppSQLite3Query query =
-		gDatabase.DBQuery("select category from budgetlist", "Database::CountBudgetEntries");
+	CppSQLite3Query query
+		= gDatabase.DBQuery("SELECT COUNT(*) FROM budgetlist", "Database::CountBudgetEntries");
 
-	int32 count = 0;
-	while (!query.eof()) {
-		count++;
-		query.nextRow();
-	}
-	return count;
+	if (query.eof())
+		return 0;
+
+	return query.getIntField(0);
 }
 
 void
@@ -547,7 +540,7 @@ Database::SetAccountLocale(const uint32& accountid, const Locale& data)
 
 	LOCK;
 	BString command;
-	command << ("SELECT accountid FROM accountlocale WHERE accountid = ") << accountid << ";";
+	command << "SELECT accountid FROM accountlocale WHERE accountid = " << accountid << ";";
 	CppSQLite3Query query = DBQuery(command.String(), "Database::SetAccountLocale:find accountid");
 
 	// Todo: remove table columns for date format
@@ -601,9 +594,8 @@ bool
 Database::UsesDefaultLocale(const uint32& id)
 {
 	LOCK;
-
-	BString command = "SELECT accountid FROM accountlocale WHERE accountid = ";
-	command << id << ";";
+	BString command;
+	command << "SELECT accountid FROM accountlocale WHERE accountid = " << id << ";";
 
 	CppSQLite3Query query = DBQuery(command.String(), "Database::UsesDefaultLocale");
 	return query.eof();
@@ -628,11 +620,11 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 	BString epayee = EscapeIllegalCharacters(payee);
 	BString ememo = EscapeIllegalCharacters(memo);
 
-	BString command = "insert into transactionlist values(";
+	BString command = "INSERT INTO transactionlist VALUES(";
 	command << timestamp << ", " << id << ", '" << ecategory << "', " << accountid << ");";
 	DBCommand(command.String(), "Database::AddTransaction:insert into transactionlist");
 
-	command = "insert into account_";
+	command = "INSERT INTO account_";
 	command << accountid << " values(" << timestamp << ", " << id << ", " << date << ",'"
 			<< type.Type() << "', '" << epayee << "', " << amount.AsFixed() << ", '" << ecategory;
 	if (memo)
@@ -654,7 +646,7 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 		if (account->CurrentTransaction() == 0) {
 			// It appears that the account is empty. Make sure and, if so, set the just-added
 			// transaction to the current one
-			command = "select * from account_";
+			command = "SELECT * FROM account_";
 			command << accountid << ";";
 			CppSQLite3Query query =
 				DBQuery(command.String(), "Database::AddTransaction:get current transaction");
@@ -738,7 +730,7 @@ Database::RemoveTransaction(const uint32& transid)
 	BString command;
 	BObjectList<uint32> idlist(20, true);
 
-	command << "select accountid from transactionlist where transid = " << transid << ";";
+	command << "SELECT accountid FROM transactionlist WHERE transid = " << transid << ";";
 	CppSQLite3Query query =
 		DBQuery(command.String(), "Database::RemoveTransaction:find transaction");
 
@@ -762,14 +754,14 @@ Database::RemoveTransaction(const uint32& transid)
 		msg.AddInt32("id", transid);
 		Notify(WATCH_TRANSACTION | WATCH_DELETE, &msg);
 
-		command = "delete from account_";
-		command << accountid << " where transid = " << transid << ";";
+		command = "DELETE FROM account_";
+		command << accountid << " WHERE transid = " << transid << ";";
 		DBCommand(command.String(), "Database::RemoveTransaction:delete from account");
 
 		// determine if the account is empty and set the current to -1 if it is.
 		Account* account = AccountByID(accountid);
 		if (account) {
-			command = "select * from account_";
+			command = "SELECT * FROM account_";
 			command << accountid << ";";
 			query = DBQuery(command.String(), "Database::RemoveTransaction:check account empty");
 			if (query.eof())
@@ -778,7 +770,7 @@ Database::RemoveTransaction(const uint32& transid)
 		}
 	}
 
-	command = "delete from transactionlist where transid = ";
+	command = "DELETE FROM transactionlist WHERE transid = ";
 	command << transid << ";";
 	DBCommand(command.String(), "Database::RemoveTransaction:delete from transactionlist");
 
@@ -804,7 +796,7 @@ Database::HasTransaction(const uint32& transid)
 
 	LOCK;
 	BString command;
-	command << "select transid from transactionlist where transid = " << transid << ";";
+	command << "SELECT transid FROM transactionlist WHERE transid = " << transid << ";";
 	CppSQLite3Query query = DBQuery(command.String(), "Database::HasTransaction");
 
 	bool value = !query.eof();
@@ -829,8 +821,8 @@ Database::GetTransaction(const uint32& transid, const uint32& accountid, Transac
 		return false;
 	}
 
-	command = "select date,payee,amount,category,memo,type,timestamp from account_";
-	command << accountid << " where transid = " << transid << ";";
+	command = "SELECT date,payee,amount,category,memo,type,timestamp FROM account_";
+	command << accountid << " WHERE transid = " << transid << ";";
 	query = DBQuery(command.String(), "Database::GetTransaction:get transaction data");
 
 	if (query.eof()) {
@@ -873,7 +865,7 @@ Database::GetTransaction(const uint32& transid, TransactionData& data)
 	BString command;
 	CppSQLite3Query query;
 
-	command << "select accountid from transactionlist where transid = " << transid << ";";
+	command << "SELECT accountid FROM transactionlist WHERE transid = " << transid << ";";
 	query = DBQuery(command.String(), "Database::GetTransaction:get accountid");
 
 	uint32 accountid = query.getIntField(0);
@@ -889,15 +881,15 @@ Database::SetTransactionStatus(const uint32& transid, const uint8& status)
 	LOCK;
 
 	BString command;
-	command << "select accountid from transactionlist where transid = " << transid << ";";
+	command << "SELECT accountid FROM transactionlist WHERE transid = " << transid << ";";
 	CppSQLite3Query query =
 		DBQuery(command.String(), "Database::SetTransactionStatus:get accountid");
 
 	uint32 accountid = query.getIntField(0);
 	query.finalize();
 
-	command = "update account_";
-	command << accountid << " set status = ";
+	command = "UPDATE account_";
+	command << accountid << " SET status = ";
 
 	if (status == TRANS_OPEN)
 		command << "'Open' ";
@@ -906,7 +898,7 @@ Database::SetTransactionStatus(const uint32& transid, const uint8& status)
 	else
 		command << "'Cleared'";
 
-	command << "where transid = " << transid << ";";
+	command << "WHERE transid = " << transid << ";";
 	DBCommand(command.String(), "Database::SetTransactionStatus:set status");
 
 	BMessage msg;
@@ -925,7 +917,7 @@ Database::GetTransferCounterpart(const uint32& transid, TransactionData& data)
 	LOCK;
 
 	BString command;
-	command << "select accountid from transactionlist where transid = " << transid << " and "
+	command << "SELECT accountid FROM transactionlist WHERE transid = " << transid << " AND "
 			<< "accountid != " << data.GetAccount()->GetID() << ";";
 	CppSQLite3Query query =
 		DBQuery(command.String(), "Database::SetTransferCounterpart:get accountid");
@@ -1022,7 +1014,7 @@ void
 Database::RemoveScheduledTransaction(const uint32& id)
 {
 	LOCK;
-	BString command = "delete from scheduledlist where transid = ";
+	BString command = "DELETE FROM scheduledlist WHERE transid = ";
 	command << id << ";";
 	DBCommand(command.String(), "Database::RemoveScheduledTransactionStatus");
 
@@ -1039,9 +1031,8 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 	BString command;
 	CppSQLite3Query query;
 
-	command =
-		"select accountid,date,payee,amount,category,memo,type,nextdate,"
-		"count,interval from scheduledlist where transid = ";
+	command = "SELECT accountid,date,payee,amount,category,memo,type,nextdate,"
+			  "count,interval FROM scheduledlist WHERE transid = ";
 	command << transid << ";";
 	query = DBQuery(command.String(), "Database::GetScheduledTransaction:get transaction data");
 
@@ -1083,7 +1074,7 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 uint32
 Database::CountScheduledTransactions(void)
 {
-	CppSQLite3Query query = gDatabase.DBQuery("select count(*) from scheduledlist",
+	CppSQLite3Query query = gDatabase.DBQuery("SELECT COUNT(*) FROM scheduledlist",
 		"ScheduleListView::RefreshScheduleList: count transactions");
 	if (query.eof())
 		return 0;
@@ -1108,7 +1099,7 @@ Database::InsertSchedTransaction(const uint32& id, const uint32& accountid, cons
 	BString epayee = EscapeIllegalCharacters(payee);
 	BString ememo = EscapeIllegalCharacters(memo);
 
-	BString command = "insert into scheduledlist values(";
+	BString command = "INSERT INTO scheduledlist VALUES(";
 	command << timestamp << ", " << accountid << ", " << id << ", " << startdate << ",'"
 			<< type.Type() << "', '" << epayee << "', " << amount.AsFixed() << ", '" << ecategory;
 	if (memo)
@@ -1131,7 +1122,7 @@ Database::GetLastKey(const char* table, const char* column)
 		return B_ERROR;
 
 	BString command;
-	command << "select " << column << " from " << table << " order by 1;";
+	command << "SELECT " << column << " FROM " << table << " ORDER BY 1;";
 	CppSQLite3Query query = DBQuery(command.String(), "Database::GetLastKey");
 
 	int value = B_ERROR;
@@ -1151,7 +1142,7 @@ Database::AddCategory(const char* name, const bool& isexpense)
 	if (strcasecmp(name, "split") == 0)
 		return;
 
-	BString command("insert into categorylist values('");
+	BString command("INSERT INTO categorylist VALUES('");
 	command << EscapeIllegalCharacters(name) << "', " << (isexpense ? 0 : 1) << ");";
 	DBCommand(command.String(), "Database::AddCategory");
 }
@@ -1162,7 +1153,7 @@ Database::RemoveCategory(const char* name)
 	if (!name || !HasCategory(name))
 		return;
 
-	BString command("delete from categorylist where name = '");
+	BString command("DELETE FROM categorylist WHERE name = '");
 	command << EscapeIllegalCharacters(name) << "';";
 	DBCommand(command.String(), "Database::RemoveCategory");
 }
@@ -1176,16 +1167,9 @@ Database::RenameCategory(const char* oldname, const char* newname)
 	if (!HasCategory(oldname) || HasCategory(newname))
 		return false;
 
-	BString command("update categorylist set name = '");
-	if (newname)
-		command << EscapeIllegalCharacters(newname);
-
-	command << "' where name = '";
-
-	if (oldname)
-		command << EscapeIllegalCharacters(oldname);
-
-	command << "';";
+	BString command;
+	command << "UPDATE categorylist SET name = '" << EscapeIllegalCharacters(newname)
+			<< "' WHERE name = '" << EscapeIllegalCharacters(oldname) << "';";
 
 	DBCommand(command.String(), "Database::RenameCategory");
 	return true;
@@ -1198,7 +1182,7 @@ Database::HasCategory(const char* name)
 	CppSQLite3Query query;
 
 	if (!name || strlen(name) == 0) {
-		command = "select * from categorylist;";
+		command = "SELECT * FROM categorylist;";
 		query = DBQuery(command.String(), "Database::HasCategory:find category");
 
 		while (!query.eof()) {
@@ -1212,7 +1196,7 @@ Database::HasCategory(const char* name)
 		return false;
 	}
 
-	command << "select name from categorylist where name = '" << EscapeIllegalCharacters(name)
+	command << "SELECT name FROM categorylist WHERE name = '" << EscapeIllegalCharacters(name)
 			<< "';";
 	query = DBQuery(command.String(), "Database::HasCategory:find category");
 
@@ -1228,8 +1212,9 @@ Database::IsCategoryExpense(const char* name)
 	if (!HasCategory(name))
 		ShowBug("Called IsCategoryExpense on a nonexistent category");
 
-	BString command("select type from categorylist where name = '");
-	command << EscapeIllegalCharacters(name) << "';";
+	BString command;
+	command << "SELECT type FROM categorylist WHERE name = '" << EscapeIllegalCharacters(name)
+			<< "';";
 	CppSQLite3Query query = DBQuery(command.String(), "Database::IsCategoryExpense");
 
 	if (query.eof())
@@ -1245,8 +1230,8 @@ Database::SetCategoryExpense(const char* name, const bool& isexpense)
 	if (!name || !HasCategory(name))
 		return;
 
-	BString command("update categorylist set type = ");
-	command << (isexpense ? 0 : 1) << " where name = '" << EscapeIllegalCharacters(name) << "';";
+	BString command("UPDATE categorylist SET type = ");
+	command << (isexpense ? 0 : 1) << " WHERE name = '" << EscapeIllegalCharacters(name) << "';";
 	command << EscapeIllegalCharacters(name) << "';";
 	DBCommand(command.String(), "Database::SetCategoryExpense");
 }
@@ -1268,12 +1253,11 @@ Database::RecategorizeTransactions(const char* from, const char* to)
 		if (!acc)
 			continue;
 
-		command = "update account_";
-		command << acc->GetID() << " set category = '";
+		command << "UPDATE account_" << acc->GetID() << " SET category = '";
 
 		if (to)
 			command << EscapeIllegalCharacters(to);
-		command << "' where category = '";
+		command << "' WHERE category = '";
 
 		if (from)
 			command << EscapeIllegalCharacters(from);

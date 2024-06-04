@@ -354,8 +354,8 @@ ExportQIF(const entry_ref& ref)
 
 	// Export categories and budget
 	DStringList incomelist, expenselist;
-	query = gDatabase.DBQuery(
-		"select * from categorylist order by name", "ExportQIF:get category list");
+	query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name",
+		"ExportQIF:get category list");
 	while (!query.eof()) {
 		if (query.getIntField(1) == 1)
 			incomelist.AddItem(query.getStringField(0));
@@ -391,8 +391,8 @@ ExportQIF(const entry_ref& ref)
 		Account* account = gDatabase.AccountAt(i);
 		text << "N" << account->Name() << "\nTBank\n^\n!Type:Bank\n";
 
-		command = "select * from account_";
-		command << account->GetID() << " order by date;";
+		command = "SELECT * FROM account_";
+		command << account->GetID() << " ORDER BY date;";
 		query = gDatabase.DBQuery(command.String(), "ExportQIF:get transactions from accounts");
 
 		while (!query.eof()) {

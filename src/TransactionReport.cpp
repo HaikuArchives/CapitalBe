@@ -128,13 +128,13 @@ ReportWindow::ComputeTransactions(void)
 			if (accountcount > 0)
 				command << " union all ";
 
-			command << "select date,type,payee,amount,category,memo,transid from account_"
-					<< item->account->GetID() << " where category in (" << fCategoryString
-					<< ") and date >= " << subtotal_start << " and date < " << subtotal_end;
+			command << "SELECT date,type,payee,amount,category,memo,transid FROM account_"
+					<< item->account->GetID() << " WHERE category IN (" << fCategoryString
+					<< ") AND date >= " << subtotal_start << " AND date < " << subtotal_end;
 
 			accountcount++;
 		}
-		command << " order by date,transid;";
+		command << " ORDER BY date,transid;";
 		CppSQLite3Query query =
 			gDatabase.DBQuery(command.String(), "ReportWindow::ComputeTransactions()");
 

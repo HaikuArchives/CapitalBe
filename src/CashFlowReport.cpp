@@ -95,18 +95,18 @@ ReportWindow::ComputeCashFlow(void)
 					continue;
 
 				if (accountcount > 0) {
-					command << " union all ";
-					expcommand << " union all ";
+					command << " UNION ALL ";
+					expcommand << " UNION ALL ";
 				}
 
-				command << "select sum(amount) from account_";
-				command << item->account->GetID() << " where category = '" << escaped
-						<< "' and amount > 0 and date >= " << subtotal_start << " and date < "
+				command << "SELECT SUM(amount) FROM account_";
+				command << item->account->GetID() << " WHERE category = '" << escaped
+						<< "' AND amount > 0 AND date >= " << subtotal_start << " AND date < "
 						<< subtotal_end;
 
-				expcommand << "select sum(amount) from account_";
-				expcommand << item->account->GetID() << " where category = '" << escaped
-						   << "' and amount < 0 and date >= " << subtotal_start << " and date < "
+				expcommand << "SELECT SUM(amount) FROM account_";
+				expcommand << item->account->GetID() << " WHERE category = '" << escaped
+						   << "' AND amount < 0 AND date >= " << subtotal_start << " AND date < "
 						   << subtotal_end;
 
 				accountcount++;
