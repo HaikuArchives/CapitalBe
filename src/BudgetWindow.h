@@ -57,6 +57,7 @@ private:
 	BRow *fStatAverageRow, *fStatHighestRow, *fStatLowestRow;
 
 	ReportGrid fIncomeGrid, fSpendingGrid;
+	BString fDecimalSymbol;
 };
 
 #endif

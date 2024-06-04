@@ -24,8 +24,6 @@ PrefWindow::PrefWindow(const BRect& frame, BMessenger target)
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	fCurrencyPrefView = new CurrencyPrefView("currencyview", &gDefaultLocale);
-
 	fNegNumberView = new NegativeNumberView("negcolor", gNegativeColor);
 
 	BButton* cancel =
@@ -37,7 +35,6 @@ PrefWindow::PrefWindow(const BRect& frame, BMessenger target)
 	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(B_USE_DEFAULT_SPACING)
-		.Add(fCurrencyPrefView)
 		.Add(fNegNumberView)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
 			.AddGlue()
@@ -54,21 +51,8 @@ void
 PrefWindow::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
-		case M_CURRENCY_UPADTED:
-		{
-			BMessenger(fNegNumberView).SendMessage(msg);
-			break;
-		}
 		case M_EDIT_OPTIONS:
 		{
-			Locale temp = gDefaultLocale;
-			fCurrencyPrefView->GetSettings(temp);
-
-			if (temp != gDefaultLocale) {
-				gDefaultLocale = temp;
-				gDatabase.SetDefaultLocale(gDefaultLocale);
-			}
-
 			fNegNumberView->GetColor(gNegativeColor);
 			prefsLock.Lock();
 			gPreferences.RemoveData("negativecolor");
@@ -97,31 +81,20 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 		fLocale = gDefaultLocale;
 
 	fCurrencyBox = new BBox("CurrencyBox");
-	fCurrencyBox->SetLabel(B_TRANSLATE("Default account settings"));
-
-	BStringView* previewLabel = new BStringView("currencylabel", B_TRANSLATE("Currency format:"));
-	previewLabel->SetAlignment(B_ALIGN_RIGHT);
-
-	BString curstr;
-	fLocale.CurrencyToString(fSampleAmount, curstr);
-	fCurrencyPreview = new BStringView("currencypreview", curstr.String());
 
 	fCurrencySymbolBox = new AutoTextControl("moneysym", B_TRANSLATE("Symbol:"),
 		fLocale.CurrencySymbol(), new BMessage(M_NEW_CURRENCY_SYMBOL));
 	fCurrencySymbolBox->SetCharacterLimit(2);
 
 	fCurrencySymbolPrefix = new BCheckBox(
-		"prefixcheck", B_TRANSLATE("Appears before amount"), new BMessage(M_TOGGLE_PREFIX));
+		"prefixcheck", B_TRANSLATE("Appears before amount"), new BMessage(M_NEW_CURRENCY_SYMBOL));
 	fCurrencySymbolPrefix->SetValue(
 		(fLocale.IsCurrencySymbolPrefix()) ? B_CONTROL_ON : B_CONTROL_OFF);
 
-	fCurrencySeparatorBox = new AutoTextControl("moneysep", B_TRANSLATE("Separator:"),
-		fLocale.CurrencySeparator(), new BMessage(M_NEW_CURRENCY_SEPARATOR));
-	fCurrencySeparatorBox->SetCharacterLimit(2);
-
-	fCurrencyDecimalBox = new AutoTextControl("moneydecimal", B_TRANSLATE("Decimal:"),
-		fLocale.CurrencyDecimal(), new BMessage(M_NEW_CURRENCY_DECIMAL));
-	fCurrencyDecimalBox->SetCharacterLimit(2);
+	fDecimalSpinner = new BSpinner("width", B_TRANSLATE("Decimals:"), new BMessage(M_NEW_CURRENCY_SYMBOL));
+	fDecimalSpinner->SetMinValue(0);
+	fDecimalSpinner->SetMaxValue(3);
+	fDecimalSpinner->SetValue(locale->CurrencyDecimalPlace());
 
 	// clang-format off
 	BLayoutBuilder::Group<>(fCurrencyBox, B_VERTICAL, B_USE_DEFAULT_SPACING)
@@ -130,15 +103,10 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 		.AddGroup(B_HORIZONTAL)
 			.AddGlue()
 			.AddGrid(B_USE_DEFAULT_SPACING, B_USE_SMALL_SPACING)
-				.Add(previewLabel, 0, 0, 2, 1)
-				.Add(fCurrencyPreview, 2, 0, 3, 1)
 				.Add(fCurrencySymbolBox->CreateLabelLayoutItem(), 0, 2)
 				.Add(fCurrencySymbolBox->CreateTextViewLayoutItem(), 1, 2)
 				.Add(fCurrencySymbolPrefix, 2, 2, 3, 1)
-				.Add(fCurrencySeparatorBox->CreateLabelLayoutItem(), 0, 3)
-				.Add(fCurrencySeparatorBox->CreateTextViewLayoutItem(), 1, 3)
-				.Add(fCurrencyDecimalBox->CreateLabelLayoutItem(), 2, 3)
-				.Add(fCurrencyDecimalBox->CreateTextViewLayoutItem(), 3, 3)
+				.Add(fDecimalSpinner, 0, 3, 2)
 				.End()
 			.AddGlue()
 			.End()
@@ -148,15 +116,20 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 		.Add(fCurrencyBox)
 		.End();
 	// clang-format on
+
+	if (strcmp(locale->CurrencySymbol(), "") == 0){
+		fLocale.SetCurrencySymbol("$");
+		fCurrencySymbolBox->SetText(fLocale.CurrencySymbol());
+		UpdateCurrencyLabel();
+	}
 }
 
 void
 CurrencyPrefView::AttachedToWindow(void)
 {
 	fCurrencySymbolBox->SetTarget(this);
-	fCurrencyDecimalBox->SetTarget(this);
-	fCurrencySeparatorBox->SetTarget(this);
 	fCurrencySymbolPrefix->SetTarget(this);
+	fDecimalSpinner->SetTarget(this);
 
 	UpdateCurrencyLabel();
 }
@@ -171,30 +144,8 @@ CurrencyPrefView::MessageReceived(BMessage* msg)
 				break;
 
 			fLocale.SetCurrencySymbol(fCurrencySymbolBox->Text());
-			UpdateCurrencyLabel();
-			break;
-		}
-		case M_NEW_CURRENCY_SEPARATOR:
-		{
-			if (strlen(fCurrencySeparatorBox->Text()) < 1)
-				break;
-
-			fLocale.SetCurrencySeparator(fCurrencySeparatorBox->Text());
-			UpdateCurrencyLabel();
-			break;
-		}
-		case M_NEW_CURRENCY_DECIMAL:
-		{
-			if (strlen(fCurrencyDecimalBox->Text()) < 1)
-				break;
-
-			fLocale.SetCurrencyDecimal(fCurrencyDecimalBox->Text());
-			UpdateCurrencyLabel();
-			break;
-		}
-		case M_TOGGLE_PREFIX:
-		{
 			fLocale.SetCurrencySymbolPrefix(fCurrencySymbolPrefix->Value() == B_CONTROL_ON);
+			fLocale.SetCurrencyDecimalPlace(fDecimalSpinner->Value());
 			UpdateCurrencyLabel();
 			break;
 		}
@@ -208,27 +159,18 @@ void
 CurrencyPrefView::UpdateCurrencyLabel(void)
 {
 	BString temp, label;
+	label = B_TRANSLATE("Currency format");
 	fLocale.CurrencyToString(fSampleAmount, temp);
-	fCurrencyPreview->SetText(temp.String());
-
-	// For the neg. number previews we need the fSampleAmount * -1
-	fLocale.CurrencyToString(fSampleAmount.InvertAsCopy(), temp);
-	BMessage msg(M_CURRENCY_UPADTED);
-	msg.AddString("currency", temp);
-	Window()->PostMessage(&msg);
+	label << ": " << temp;
+	fCurrencyBox->SetLabel(label.String());
 }
 
 void
 CurrencyPrefView::GetSettings(Locale& locale)
 {
-	if (strlen(fCurrencySeparatorBox->Text()) > 0)
-		locale.SetCurrencySeparator(fCurrencySeparatorBox->Text());
-	if (strlen(fCurrencyDecimalBox->Text()) > 0)
-		locale.SetCurrencyDecimal(fCurrencyDecimalBox->Text());
-	if (strlen(fCurrencySymbolBox->Text()) > 0)
-		locale.SetCurrencySymbol(fCurrencySymbolBox->Text());
-
+	locale.SetCurrencySymbol(fCurrencySymbolBox->Text());
 	locale.SetCurrencySymbolPrefix(fCurrencySymbolPrefix->Value() == B_CONTROL_ON);
+	locale.SetCurrencyDecimalPlace(fDecimalSpinner->Value());
 }
 
 
@@ -244,6 +186,10 @@ NegativeNumberView::NegativeNumberView(const char* name, rgb_color negColor)
 	fColorPicker->SetValue(negColor);
 
 	// Preview of the colored text on different background colors
+	Fixed sample((long)-12345678, true);
+	BString negativeAmount;
+	gDefaultLocale.CurrencyToString(sample, negativeAmount);
+
 	BStringView* label = new BStringView("label", B_TRANSLATE("Preview:"));
 	label->SetFont(be_bold_font);
 
@@ -251,14 +197,17 @@ NegativeNumberView::NegativeNumberView(const char* name, rgb_color negColor)
 	fUnselectedPreview = new BTextView("unselected");
 	fUnselectedPreview->SetAlignment(B_ALIGN_CENTER);
 	fUnselectedPreview->SetViewColor(ui_color(B_LIST_BACKGROUND_COLOR));
+	fUnselectedPreview->SetText(negativeAmount);
 
 	fSelectedPreview = new BTextView("selected");
 	fSelectedPreview->SetAlignment(B_ALIGN_CENTER);
 	fSelectedPreview->SetViewUIColor(B_LIST_SELECTED_BACKGROUND_COLOR);
+	fSelectedPreview->SetText(negativeAmount);
 
 	fClosedPreview = new BTextView("unselected-closed");
 	fClosedPreview->SetAlignment(B_ALIGN_CENTER);
 	fClosedPreview->SetViewColor(ui_color(B_LIST_BACKGROUND_COLOR));
+	fClosedPreview->SetText(negativeAmount);
 
 	UpdateColor(negColor);
 
@@ -300,13 +249,6 @@ NegativeNumberView::MessageReceived(BMessage* msg)
 			UpdateColor(fColorPicker->ValueAsColor());
 			break;
 
-		case M_CURRENCY_UPADTED:
-		{
-			BString text;
-			if (msg->FindString("currency", &text) == B_OK)
-				UpdateText(text);
-			break;
-		}
 		default:
 			BView::MessageReceived(msg);
 	}
@@ -316,14 +258,6 @@ void
 NegativeNumberView::GetColor(rgb_color& color)
 {
 	color = fColorPicker->ValueAsColor();
-}
-
-void
-NegativeNumberView::UpdateText(BString text)
-{
-	fUnselectedPreview->SetText(text);
-	fSelectedPreview->SetText(text);
-	fClosedPreview->SetText(text);
 }
 
 void

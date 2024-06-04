@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	3882412825
+1	English	application/x-vnd.wgp-CapitalBe	1546978192
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -25,7 +25,6 @@ Import from QIF file…	MainWindow		Import from QIF file…
 Preview:	PrefWindow		Preview:
 Ending date:	ReportWindow		Ending date:
 Scheduled transactions	MainWindow		Scheduled transactions
-Separator:	PrefWindow		Separator:
 Closed account:	PrefWindow		Closed account:
 Help: Report	ReportWindow		Help: Report
 Bank charges	ReconcileWindow		Bank charges
@@ -50,6 +49,7 @@ Highest	BudgetWindow		Highest
 You need to have at least 2 accounts to perform a transfer.	MainWindow		You need to have at least 2 accounts to perform a transfer.
 Monthly	ScheduleListWindow		Monthly
 Frequency	BudgetWindow		Frequency
+Decimals:	PrefWindow		Decimals:
 CapitalBe didn't understand the amount for 'Bank charges'	ReconcileWindow		CapitalBe didn't understand the amount for 'Bank charges'
 You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	CheckView		You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.
 Uncategorized	SplitView		Uncategorized
@@ -70,8 +70,8 @@ Interest earned	ReconcileWindow		Interest earned
 Quit	Locale		Quit
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Once deleted, you will not be able to get back any data on this account.
 Add category	CategoryWindow		Add category
+Use system currency format	Account		Use system currency format
 Could not export your financial data to the file '%%FILENAME%%'	MainWindow		Could not export your financial data to the file '%%FILENAME%%'
-Currency format:	PrefWindow		Currency format:
 Name:	Account		Name:
 Total deposits: %s	ReconcileWindow		Total deposits: %s
 Memo	CommonTerms		Memo
@@ -160,7 +160,6 @@ Total checks:	ReconcileWindow		Total checks:
 Remove item	SplitView		Remove item
 Transaction	MainWindow		Transaction
 Edit transfer	TransferWindow		Edit transfer
-Default account settings	PrefWindow		Default account settings
 Reports	MainWindow		Reports
 Categories	CategoryWindow		Categories
 Account	MainWindow		Account
@@ -169,6 +168,7 @@ Unselected:	PrefWindow		Unselected:
 Total deposits:	ReconcileWindow		Total deposits:
 Categories…	MainWindow		Categories…
 Help: Budget	BudgetWindow		Help: Budget
+Currency format	PrefWindow		Currency format
 Payee	CommonTerms		Payee
 If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		If you intend to transfer money, it will need to be an amount that is not zero.
 You can schedule transfers, deposits, or ATM transactions.	MainWindow		You can schedule transfers, deposits, or ATM transactions.
@@ -208,7 +208,6 @@ Starting date:	ReportWindow		Starting date:
 Starting balance	ReconcileWindow		Starting balance
 Quarterly	ScheduleAddWindow		Quarterly
 Reconcile:	ReconcileWindow		Reconcile:
-Use default currency settings	Account		Use default currency settings
 Total charges:	ReconcileWindow		Total charges:
 Total worth	ReportWindow		Total worth
 Expense	CashFlowReport		Expense
@@ -228,7 +227,6 @@ Total checks: %s	ReconcileWindow		Total checks: %s
 Quarterly	BudgetWindow		Quarterly
 Remove category	CategoryWindow		Remove category
 You cannot schedule transactions on a closed account.	MainWindow		You cannot schedule transactions on a closed account.
-Decimal:	PrefWindow		Decimal:
 CapitalBe didn't understand the amount for 'Interest earned'	ReconcileWindow		CapitalBe didn't understand the amount for 'Interest earned'
 Date is missing	ReconcileWindow		Date is missing
 Unknown	ScheduleListWindow		Unknown
