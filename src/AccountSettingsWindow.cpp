@@ -8,7 +8,6 @@
 #include "Database.h"
 #include "PrefWindow.h"
 
-
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "Account"
 
@@ -35,7 +34,7 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 		(fAccount ? fAccount->Name() : NULL), new BMessage(M_NAME_CHANGED));
 	fAccountName->SetCharacterLimit(32);
 
-	fUseDefault = new BCheckBox("usedefault", B_TRANSLATE("Use default currency settings"),
+	fUseDefault = new BCheckBox("usedefault", B_TRANSLATE("Use system currency format"),
 		new BMessage(M_TOGGLE_USE_DEFAULT));
 	if (!fAccount || fAccount->IsUsingDefaultLocale())
 		fUseDefault->SetValue(B_CONTROL_ON);
@@ -55,9 +54,9 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 
 	SetDefaultButton(fOK);
 
-	if (!fAccount || fAccount->IsUsingDefaultLocale()) {
+	if (!fAccount || fAccount->IsUsingDefaultLocale())
 		fPrefView->Hide();
-	}
+
 	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(B_USE_DEFAULT_SPACING)
@@ -86,17 +85,15 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 		case M_EDIT_ACCOUNT_SETTINGS:
 		{
 			Locale customLocale;
-			Locale defaultLocale;
+			fPrefView->GetSettings(customLocale);
 
 			if (!fAccount) {
-				fPrefView->GetSettings(customLocale);
 				gDatabase.AddAccount(fAccountName->Text(), ACCOUNT_BANK, "Open",
-					defaultLocale == customLocale ? NULL : &customLocale);
+					fUseDefault->Value() == B_CONTROL_ON ? NULL : &customLocale);
 			} else {
 				if (strcmp(fAccountName->Text(), fAccount->Name()) != 0)
 					gDatabase.RenameAccount(fAccount, fAccountName->Text());
 
-				fPrefView->GetSettings(customLocale);
 				if (fUseDefault->Value() != B_CONTROL_ON) {
 					fAccount->UseDefaultLocale(false);
 					fAccount->SetLocale(customLocale);

@@ -8,6 +8,7 @@
 #include <MenuField.h>
 #include <Message.h>
 #include <RadioButton.h>
+#include <Spinner.h>
 #include <String.h>
 #include <StringView.h>
 #include <View.h>
@@ -29,13 +30,7 @@ enum {
 };
 
 // CurrencyPrefView
-enum {
-	M_NEW_CURRENCY_SYMBOL,
-	M_NEW_CURRENCY_SEPARATOR,
-	M_NEW_CURRENCY_DECIMAL,
-	M_TOGGLE_PREFIX,
-	M_CURRENCY_UPADTED
-};
+enum { M_NEW_CURRENCY_SYMBOL, M_TOGGLE_PREFIX, M_CURRENCY_UPDATED, M_CURRENCY_DECIMAL_PLACE };
 
 // NegativeNumberView
 enum {
@@ -70,8 +65,9 @@ private:
 	void UpdateCurrencyLabel(void);
 
 	BBox* fCurrencyBox;
-	AutoTextControl *fCurrencySymbolBox, *fCurrencyDecimalBox, *fCurrencySeparatorBox;
+	AutoTextControl* fCurrencySymbolBox;
 	BCheckBox* fCurrencySymbolPrefix;
+	BSpinner* fDecimalSpinner;
 	BStringView* fCurrencyPreview;
 	Locale fLocale;
 	Fixed fSampleAmount;
@@ -88,7 +84,6 @@ public:
 	void GetColor(rgb_color& color);
 
 private:
-	void UpdateText(BString text);
 	void UpdateColor(rgb_color color);
 
 	BColorControl* fColorPicker;

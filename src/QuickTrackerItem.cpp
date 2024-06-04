@@ -81,7 +81,7 @@ QTNetWorthItem::HandleNotify(const uint64& value, const BMessage* msg)
 					Window()->Lock();
 
 				BString label, temp;
-				temp << B_TRANSLATE("Balance") << " (" << gDefaultLocale.CurrencySymbol() << "): ";
+				temp << B_TRANSLATE("Balance") << ": ";
 				if (gCurrentLocale.CurrencyToString(Fixed(), label) == B_OK)
 					temp << label;
 				SetText(temp.String());
@@ -145,8 +145,7 @@ QTNetWorthItem::Calculate(void)
 	}
 
 	if (accountsFound && gDefaultLocale.CurrencyToString(balance, balanceText) == B_OK) {
-		balanceLabel << B_TRANSLATE("Balance") << " (" << gDefaultLocale.CurrencySymbol()
-					 << "): " << balanceText << "\n";
+		balanceLabel << B_TRANSLATE("Balance") << ": " << balanceText << "\n";
 	}
 
 	// Get sum of other currency accounts:
@@ -168,8 +167,7 @@ QTNetWorthItem::Calculate(void)
 		}
 
 		if (accLocale.CurrencyToString(balance, balanceText) == B_OK) {
-			balanceLabel << B_TRANSLATE("Balance") << " (" << accLocale.CurrencySymbol()
-						 << "): " << balanceText << "\n";
+			balanceLabel << B_TRANSLATE("Balance") << ": " << balanceText << "\n";
 		}
 	}
 

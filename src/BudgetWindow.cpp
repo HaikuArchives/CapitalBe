@@ -5,6 +5,7 @@
 #include <LayoutBuilder.h>
 #include <MenuBar.h>
 #include <Message.h>
+#include <NumberFormat.h>
 #include <StringView.h>
 
 #include "Account.h"
@@ -44,6 +45,8 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 	  fIncomeGrid(13, 0),
 	  fSpendingGrid(13, 0)
 {
+	BNumberFormat numberFormatter;
+	fDecimalSymbol = numberFormatter.GetSeparator(B_DECIMAL_SEPARATOR);
 	fBar = new BMenuBar("menubar");
 	fBar->AddItem(
 		new BMenuItem(B_TRANSLATE("Recalculate all"), new BMessage(M_BUDGET_RECALCULATE)));
@@ -128,7 +131,7 @@ BudgetWindow::MessageReceived(BMessage* msg)
 				break;
 			f.Round();
 			gDefaultLocale.CurrencyToString(f, str);
-			str.Truncate(str.FindFirst(gDefaultLocale.CurrencyDecimal()));
+			str.Truncate(str.FindFirst(fDecimalSymbol));
 			str.RemoveFirst(gDefaultLocale.CurrencySymbol());
 
 			BRow* row = fCategoryList->CurrentSelection();
@@ -251,7 +254,7 @@ BudgetWindow::HandleCategorySelection(void)
 
 	BString str;
 	gDefaultLocale.CurrencyToString(entry.amount.AbsoluteValue(), str);
-	str.Truncate(str.FindFirst(gDefaultLocale.CurrencyDecimal()));
+	str.Truncate(str.FindFirst(fDecimalSymbol));
 	str.RemoveFirst(gDefaultLocale.CurrencySymbol());
 	fAmountBox->SetText(str.String());
 
@@ -306,7 +309,7 @@ BudgetWindow::RefreshCategories(void)
 
 		BString amountstr;
 		gDefaultLocale.CurrencyToString(amount.AbsoluteValue(), amountstr);
-		amountstr.Truncate(amountstr.FindFirst(gDefaultLocale.CurrencyDecimal()));
+		amountstr.Truncate(amountstr.FindFirst(fDecimalSymbol));
 		amountstr.RemoveFirst(gDefaultLocale.CurrencySymbol());
 
 		row->SetField(new BStringField(amountstr.String()), 1);
@@ -355,9 +358,9 @@ BudgetWindow::RefreshBudgetSummary(void)
 		gDefaultLocale.CurrencyToString(stotal, stemp);
 		gDefaultLocale.CurrencyToString(mtotal, mtemp);
 
-		itemp.Truncate(itemp.FindFirst(gDefaultLocale.CurrencyDecimal()));
-		stemp.Truncate(stemp.FindFirst(gDefaultLocale.CurrencyDecimal()));
-		mtemp.Truncate(mtemp.FindFirst(gDefaultLocale.CurrencyDecimal()));
+		itemp.Truncate(itemp.FindFirst(fDecimalSymbol));
+		stemp.Truncate(stemp.FindFirst(fDecimalSymbol));
+		mtemp.Truncate(mtemp.FindFirst(fDecimalSymbol));
 
 		itemp.RemoveFirst(gDefaultLocale.CurrencySymbol());
 		stemp.RemoveFirst(gDefaultLocale.CurrencySymbol());
@@ -387,17 +390,17 @@ BudgetWindow::RefreshBudgetSummary(void)
 	BString ttemp;
 
 	gDefaultLocale.CurrencyToString(irowtotal, ttemp);
-	ttemp.Truncate(ttemp.FindFirst(gDefaultLocale.CurrencyDecimal()));
+	ttemp.Truncate(ttemp.FindFirst(fDecimalSymbol));
 	ttemp.RemoveFirst(gDefaultLocale.CurrencySymbol());
 	fBudgetSummary->RowAt(0)->SetField(new BStringField(ttemp.String()), 13);
 
 	gDefaultLocale.CurrencyToString(srowtotal, ttemp);
-	ttemp.Truncate(ttemp.FindFirst(gDefaultLocale.CurrencyDecimal()));
+	ttemp.Truncate(ttemp.FindFirst(fDecimalSymbol));
 	ttemp.RemoveFirst(gDefaultLocale.CurrencySymbol());
 	fBudgetSummary->RowAt(1)->SetField(new BStringField(ttemp.String()), 13);
 
 	gDefaultLocale.CurrencyToString(ttotal, ttemp);
-	ttemp.Truncate(ttemp.FindFirst(gDefaultLocale.CurrencyDecimal()));
+	ttemp.Truncate(ttemp.FindFirst(fDecimalSymbol));
 	ttemp.RemoveFirst(gDefaultLocale.CurrencySymbol());
 	fBudgetSummary->RowAt(2)->SetField(new BStringField(ttemp.String()), 13);
 
@@ -670,7 +673,7 @@ BudgetWindow::SetPeriod(const BudgetPeriod& period)
 
 	BString str;
 	gDefaultLocale.CurrencyToString(entry.amount, str);
-	str.Truncate(str.FindFirst(gDefaultLocale.CurrencyDecimal()));
+	str.Truncate(str.FindFirst(fDecimalSymbol));
 	str.RemoveFirst(gDefaultLocale.CurrencySymbol());
 
 	row->SetField(new BStringField(str.String()), 1);

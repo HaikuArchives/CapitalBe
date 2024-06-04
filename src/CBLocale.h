@@ -8,11 +8,6 @@
 #include "DAlert.h"
 #include "Fixed.h"
 
-typedef enum {
-	DATE_MDY = 1,
-	DATE_DMY = 2
-} date_format;
-
 class Locale {
 public:
 	Locale(void);
@@ -31,42 +26,22 @@ public:
 	void NumberToCurrency(const Fixed& number, BString& string);
 
 	void SetCurrencySymbol(const char* symbol);
-
 	const char* CurrencySymbol(void) const { return fCurrencySymbol.String(); }
 
-	void SetCurrencySeparator(const char* symbol);
-
-	const char* CurrencySeparator(void) const { return fCurrencySeparator.String(); }
-
-	void SetCurrencyDecimal(const char* symbol);
-
-	const char* CurrencyDecimal(void) const { return fCurrencyDecimal.String(); }
-
 	void SetCurrencySymbolPrefix(const bool& value);
-
 	bool IsCurrencySymbolPrefix(void) const { return fPrefixSymbol; }
 
-	void SetCurrencyDecimalPlace(const uint8& place);
-
+	void SetCurrencyDecimalPlace(const uint8 place);
 	uint8 CurrencyDecimalPlace(void) const { return fCurrencyDecimalPlace; }
-
-	void SetDST(const bool& value);
-
-	bool UseDST(void) const { return fUseDST; }
 
 private:
 	friend class CapitalBeParser;
 
 	void SetDefaults(void);
-	status_t ConstructDateStringMDY(const char* in, BString& out);
-	status_t ConstructDateStringDMY(const char* in, BString& out);
 
 	BString fCurrencySymbol;
 	bool fPrefixSymbol;
-	BString fCurrencySeparator;
-	BString fCurrencyDecimal;
 	uint8 fCurrencyDecimalPlace;
-	bool fUseDST;
 };
 
 void ShowAlert(const char* header, const char* message, alert_type type = B_INFO_ALERT);
