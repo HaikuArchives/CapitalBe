@@ -78,7 +78,6 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 		textColor = ui_color(B_LIST_SELECTED_ITEM_TEXT_COLOR);
 		if (fAccount->IsClosed()) {
 			// Gray out all transactions from closed accounts
-			// Todo: disable editing of transactions from closed accounts
 			textTint = GetMutedTint(ui_color(B_LIST_SELECTED_BACKGROUND_COLOR), CB_MUTED_TEXT);
 		}
 	} else {

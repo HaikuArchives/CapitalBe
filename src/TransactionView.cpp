@@ -69,9 +69,9 @@ TransactionView::SetAccount(Account* acc)
 		return;
 
 	BList itemlist;
-	BString command("select * from account_");
-	command << acc->GetID() << " order by date,payee";
-	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "TransactionView::SetAcount");
+	BString command;
+	command << ("SELECT * FROM account_") << acc->GetID() << " ORDER BY date,payee";
+	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "TransactionView::SetAccount");
 
 	Locale locale = acc->GetLocale();
 
@@ -93,7 +93,8 @@ TransactionView::SetAccount(Account* acc)
 
 		if (!query.fieldIsNull(7))
 			data.SetMemoAt(data.CountCategories() - 1,
-				DeescapeIllegalCharacters(query.getStringField(7)).String());
+					DeescapeIllegalCharacters(query.getStringField(7)).String());
+
 		BString status = query.getStringField(8);
 		if (status.ICompare("Reconciled") == 0)
 			data.SetStatus(TRANS_RECONCILED);
@@ -101,6 +102,7 @@ TransactionView::SetAccount(Account* acc)
 			data.SetStatus(TRANS_CLEARED);
 		else
 			data.SetStatus(TRANS_OPEN);
+
 		query.nextRow();
 
 		while (!query.eof()) {
@@ -127,7 +129,7 @@ TransactionView::SetAccount(Account* acc)
 
 			if (!query.fieldIsNull(7))
 				data.SetMemoAt(data.CountCategories() - 1,
-					DeescapeIllegalCharacters(query.getStringField(7)).String());
+						DeescapeIllegalCharacters(query.getStringField(7)).String());
 
 			status = query.getStringField(8);
 			if (status.ICompare("Reconciled") == 0)
@@ -136,8 +138,13 @@ TransactionView::SetAccount(Account* acc)
 				data.SetStatus(TRANS_CLEARED);
 			else
 				data.SetStatus(TRANS_OPEN);
+
 			query.nextRow();
-		}
+        }
+
+        // Add the last transaction data to the item list
+		if (data.CountCategories() == 1)
+			data.SetMemo(data.MemoAt(0));
 
 		itemlist.AddItem(new TransactionItem(data));
 		fListView->AddList(&itemlist);
