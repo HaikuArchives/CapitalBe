@@ -39,9 +39,8 @@ Account::SetCurrentTransaction(const uint32& id)
 uint16
 Account::LookupLastCheckNumber(void)
 {
-	BString command("select max(type) from account_");
-	command << fID << " where type between 0 and 65536;";
-
+	BString command;
+	command << ("SELECT MAX(type) FROM account_") << fID << " WHERE type BETWEEN 0 AND 65536;";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::LookupLastCheckNumber");
 	if (query.eof())
 		return 0;
@@ -52,9 +51,8 @@ Account::LookupLastCheckNumber(void)
 Fixed
 Account::Balance(void)
 {
-	BString command("select sum(amount) from account_");
-	command << fID << ";";
-
+	BString command;
+	command << "SELECT SUM(amount) FROM account_" << fID << ";";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::Balance");
 
 	int64 amount = 0;
@@ -69,9 +67,9 @@ Account::Balance(void)
 Fixed
 Account::BalanceAt(const time_t& date)
 {
-	BString command("select sum(amount) from account_");
-	command << fID << " where date <= " << date << " order by payee;";
-
+	BString command;
+	command << "SELECT SUM(amount) FROM account_" << fID << " WHERE date <= " << date
+			<< " ORDER BY payee;";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::BalanceAt");
 
 	int64 amount = 0;
@@ -91,9 +89,9 @@ Account::BalanceAtTransaction(const time_t& time, const char* payee)
 	if (!payee)
 		return Fixed();
 
-	BString command("select date,payee,amount from account_");
-	command << fID << " where date <= " << time << " order by date,payee;";
-
+	BString command;
+	command << "SELECT date,payee,amount FROM account_" << fID << " WHERE date <= " << time
+			<< " ORDER BY date,payee;";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::BalanceAt");
 
 	int64 amount = 0;
@@ -130,9 +128,9 @@ Account::AutocompleteCategory(const char* input)
 			return "Split";
 	}
 
-	BString command("select name from categorylist where name like '");
-	command << EscapeIllegalCharacters(input) << "%' ;";
-
+	BString command;
+	command << ("SELECT name FROM categorylist WHERE name LIKE '") << EscapeIllegalCharacters(input)
+			<< "%' ;";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::AutocompleteCategory");
 
 	if (query.eof())
@@ -147,8 +145,9 @@ Account::AutocompletePayee(const char* input)
 	if (!input)
 		return BString();
 
-	BString command("select payee from account_");
-	command << fID << " where payee like '" << EscapeIllegalCharacters(input) << "%' ;";
+	BString command;
+	command << ("SELECT payee FROM account_") << fID << " WHERE payee LIKE '"
+			<< EscapeIllegalCharacters(input) << "%' ;";
 
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::AutocompletePayee");
 
@@ -180,8 +179,9 @@ Account::AutocompleteType(const char* input)
 			return str;
 	}
 
-	BString command("select type from account_");
-	command << fID << " where type like '" << EscapeIllegalCharacters(input) << "%' ;";
+	BString command;
+	command << ("SELECT type FROM account_") << fID << " WHERE type LIKE '"
+			<< EscapeIllegalCharacters(input) << "%' ;";
 
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::AutocompleteType");
 
@@ -218,29 +218,21 @@ Account::SetLocale(const Locale& locale)
 uint32
 Account::CountTransactions(void)
 {
-	BString command("select * from account_");
-	command << GetID() << " order by transid";
+	BString command;
+	command << ("SELECT COUNT(*) FROM account_") << GetID();
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::CountTransactions");
 
 	if (query.eof())
 		return 0;
 
-	uint32 currentid = 0, newid = 0, count = 0;
-	currentid = query.getIntField(1);
-	newid = query.getIntField(1);
-
-	while (!query.eof()) {
-		count++;
-		query.nextRow();
-	}
-	return count;
+	return query.getIntField(0);
 }
 
 void
 Account::DoForEachTransaction(void (*func)(const TransactionData&, void*), void* ptr)
 {
-	BString command("select * from account_");
-	command << GetID() << " order by date,transid";
+	BString command;
+	command << ("SELECT * FROM account_") << GetID() << " ORDER BY date,transid";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::DoForEachTransaction");
 
 	uint32 currentid = 0, newid = 0;

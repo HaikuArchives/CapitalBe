@@ -8,7 +8,7 @@ HandleScheduledTransactions(void)
 	// This function does one thing: enter any transactions which are
 	// scheduled for entry
 
-	CppSQLite3Query query = gDatabase.DBQuery("select count(*) from scheduledlist",
+	CppSQLite3Query query = gDatabase.DBQuery("SELECT COUNT(*) FROM scheduledlist",
 		"ScheduleListView::RefreshScheduleList: count transactions");
 
 	if (query.eof())
@@ -22,7 +22,7 @@ HandleScheduledTransactions(void)
 
 	uint32 idlist[transcount];
 
-	query = gDatabase.DBQuery("select transid from scheduledlist order by transid",
+	query = gDatabase.DBQuery("SELECT transid FROM scheduledlist ORDER BY transid",
 		"ScheduleListView::RefreshScheduleList: get transids");
 	uint32 count = 0;
 	idlist[count] = query.getInt64Field(0);

@@ -441,8 +441,8 @@ ReportWindow::AddAccount(Account* acc)
 	AccountItem* accountitem = new AccountItem(acc);
 	fAccountList->AddItem(accountitem);
 
-	BString command = "select category from account_";
-	command << acc->GetID() << ";";
+	BString command;
+	command << "SELECT category FROM account_" << acc->GetID() << ";";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "ReportWindow::AddAccount");
 
 	while (!query.eof()) {

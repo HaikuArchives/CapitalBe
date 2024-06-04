@@ -169,15 +169,15 @@ ReportWindow::ComputeBudget(void)
 			continue;
 
 		if (accountcount > 0)
-			command << " union all ";
+			command << " UNION ALL ";
 
-		command << "select date,amount from account_";
-		command << item->account->GetID() << " where category = '" << escaped
-				<< "' and date >= " << fStartDate << " and date < " << fEndDate;
+		command << "SELECT date,amount FROM account_";
+		command << item->account->GetID() << " WHERE category = '" << escaped
+				<< "' AND date >= " << fStartDate << " AND date < " << fEndDate;
 
 		accountcount++;
 	}
-	command << " order by date;";
+	command << " ORDER BY date;";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "ComputeBudget::Get amounts");
 	// printf("%s\n",command.String());
 	if (query.eof())
