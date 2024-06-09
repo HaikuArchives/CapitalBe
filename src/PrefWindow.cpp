@@ -91,7 +91,8 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 	fCurrencySymbolPrefix->SetValue(
 		(fLocale.IsCurrencySymbolPrefix()) ? B_CONTROL_ON : B_CONTROL_OFF);
 
-	fDecimalSpinner = new BSpinner("width", B_TRANSLATE("Decimals:"), new BMessage(M_NEW_CURRENCY_SYMBOL));
+	fDecimalSpinner =
+		new BSpinner("width", B_TRANSLATE("Decimals:"), new BMessage(M_NEW_CURRENCY_SYMBOL));
 	fDecimalSpinner->SetMinValue(0);
 	fDecimalSpinner->SetMaxValue(3);
 	fDecimalSpinner->SetValue(locale->CurrencyDecimalPlace());
@@ -117,7 +118,7 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 		.End();
 	// clang-format on
 
-	if (strcmp(locale->CurrencySymbol(), "") == 0){
+	if (strcmp(locale->CurrencySymbol(), "") == 0) {
 		fLocale.SetCurrencySymbol("$");
 		fCurrencySymbolBox->SetText(fLocale.CurrencySymbol());
 		UpdateCurrencyLabel();

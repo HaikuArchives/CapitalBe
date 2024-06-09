@@ -1,5 +1,3 @@
-#include "App.h"
-#include "CBLocale.h"
 #include <AppFileInfo.h>
 #include <Catalog.h>
 #include <DateFormat.h>
@@ -15,6 +13,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "App.h"
+#include "CBLocale.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "Locale"
@@ -36,8 +36,8 @@ Locale::operator!=(const Locale& other) const
 bool
 Locale::operator==(const Locale& other) const
 {
-	if (fCurrencySymbol != other.fCurrencySymbol || fPrefixSymbol != other.fPrefixSymbol
-		|| fCurrencyDecimalPlace != other.fCurrencyDecimalPlace) {
+	if (fCurrencySymbol != other.fCurrencySymbol || fPrefixSymbol != other.fPrefixSymbol ||
+		fCurrencyDecimalPlace != other.fCurrencyDecimalPlace) {
 		return false;
 	}
 	return true;
@@ -63,12 +63,11 @@ Locale::CurrencyToString(const Fixed& amount, BString& string)
 
 	// Determine the formatted number as a string
 	BString num;
-	if (strcmp(fCurrencySymbol, "") == 0) { // Using default locale
+	if (strcmp(fCurrencySymbol, "") == 0) {	 // Using default locale
 		return numberFormatter.FormatMonetary(string, amount.AsDouble());
-	} else { // Using custom locale
+	} else {  // Using custom locale
 		if (numberFormatter.Format(num,
-				fCurrencyDecimalPlace > 0 ? amount.AsDouble() : amount.IntegerPart())
-			!= B_OK) {
+				fCurrencyDecimalPlace > 0 ? amount.AsDouble() : amount.IntegerPart()) != B_OK) {
 			return B_ERROR;
 		}
 	}
