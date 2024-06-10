@@ -83,6 +83,7 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	float maxwidth = RefreshScheduleList();
 	fBestWidth = (fRemoveButton->Frame().Width() * 2) + 45;
 	fBestWidth = MAX(fBestWidth, maxwidth + 35);
+	fBestWidth = MAX(fBestWidth, 400);
 
 	HelpButton* helpButton =
 		new HelpButton(B_TRANSLATE("Help: Scheduled transaction"), "Scheduled Transaction.txt");
