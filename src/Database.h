@@ -89,6 +89,7 @@ public:
 	void RemoveScheduledTransaction(const uint32& id);
 	bool GetScheduledTransaction(const uint32& transid, ScheduledTransData& data);
 	uint32 CountScheduledTransactions(void);
+	uint32 CountScheduledTransactions(int accountid);
 
 	void AddCategory(const char* name, const bool& isexpense);
 	void RemoveCategory(const char* name);

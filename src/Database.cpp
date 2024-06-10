@@ -1088,6 +1088,19 @@ Database::CountScheduledTransactions(void)
 	return query.getInt64Field(0);
 }
 
+uint32
+Database::CountScheduledTransactions(int accountid)
+{
+	BString command;
+	command << "SELECT COUNT(*) FROM scheduledlist WHERE accountid = " << accountid;
+	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Database::CountScheduledTransactions");
+
+	if (query.eof())
+		return 0;
+
+	return query.getInt64Field(0);
+}
+
 bool
 Database::InsertSchedTransaction(const uint32& id, const uint32& accountid, const time_t& startdate,
 	const TransactionType& type, const char* payee, const Fixed& amount, const char* category,
