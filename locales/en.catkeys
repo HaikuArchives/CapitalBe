@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	338110697
+1	English	application/x-vnd.wgp-CapitalBe	2441433350
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -220,7 +220,6 @@ Amount	CommonTerms		Amount
 Quick balance failed. This doesn't mean that you did something wrong - it's just that 'Quick balance' works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Quick balance failed. This doesn't mean that you did something wrong - it's just that 'Quick balance' works on simpler cases in balancing an account than this one. Sorry.
 You need to have an account created in order to reconcile it.	MainWindow		You need to have an account created in order to reconcile it.
 Payee is missing	TextInput		Payee is missing
-Next Payment	ScheduleListWindow		Next Payment
 CapitalBe didn't understand the date you entered	TextInput		CapitalBe didn't understand the date you entered
 Recalculate all	BudgetWindow		Recalculate all
 Split transaction	SplitView		Split transaction
@@ -232,3 +231,4 @@ CapitalBe didn't understand the amount for 'Interest earned'	ReconcileWindow		Ca
 Date is missing	ReconcileWindow		Date is missing
 Unknown	ScheduleListWindow		Unknown
 Category	CommonTerms		Category
+Memo	ScheduleListWindow		Memo
