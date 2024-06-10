@@ -68,18 +68,20 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	float amountwidth = StringWidth("$000,000.00");
 	float amountlabelwidth = StringWidth(B_TRANSLATE_CONTEXT("Amount", "CommonTerms"));
 	fListView->AddColumn(new BStringColumn(B_TRANSLATE_CONTEXT("Amount", "CommonTerms"),
-							 MAX(amountwidth, amountlabelwidth), 25, 300, B_ALIGN_LEFT),
+							 MAX(amountwidth, amountlabelwidth) + 20, 25, 300, B_ALIGN_LEFT),
 		1);
 	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Payments"),
-							 StringWidth(B_TRANSLATE("Payments")) + 20, 25, 300, B_ALIGN_LEFT),
+							 StringWidth(B_TRANSLATE("Payments")) + 30, 25, 300, B_ALIGN_LEFT),
 		2);
 	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Frequency"),
-							 StringWidth(B_TRANSLATE("Frequency")) + 20, 25, 300, B_ALIGN_LEFT),
+							 StringWidth(B_TRANSLATE("Frequency")) + 30, 25, 300, B_ALIGN_LEFT),
 		3);
-	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Next Payment"),
+	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Next payment"),
 							 StringWidth(B_TRANSLATE("Next payment")) + 20, 25, 300, B_ALIGN_LEFT),
 		4);
-
+	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Memo"),
+							StringWidth("This is a relatively long memo text"), 25, 300, B_ALIGN_LEFT),
+		5);
 	float maxwidth = RefreshScheduleList();
 	fBestWidth = (fRemoveButton->Frame().Width() * 2) + 45;
 	fBestWidth = MAX(fBestWidth, maxwidth + 35);
@@ -255,6 +257,9 @@ ScheduleListView::RefreshScheduleList(void)
 		// next pay date
 		gDefaultLocale.DateToString(sdata->GetNextDueDate(), string);
 		row->SetField(new BStringField(string.String()), 4);
+
+		// memo
+		row->SetField(new BStringField(DeescapeIllegalCharacters(sdata->Memo())), 5);
 	}
 
 	fListView->ColumnAt(0)->SetWidth(maxwidth + 30);
