@@ -120,11 +120,25 @@ Locale::StringToCurrency(const char* string, Fixed& amount)
 	BNumberFormat numberFormatter;
 	BString decimalSymbol = numberFormatter.GetSeparator(B_DECIMAL_SEPARATOR);
 	BString groupingSeparator = numberFormatter.GetSeparator(B_GROUPING_SEPARATOR);
-
 	BString dollars(string), cents;
 
-	dollars.RemoveAll(fCurrencySymbol);
 	dollars.RemoveAll(groupingSeparator);
+	// Remove currency symbol
+	if (strcmp(fCurrencySymbol, "") == 0) {
+		// Remove currency symbol
+		// https://discuss.haiku-os.org/t/parsing-a-currency-formatted-string-to-number/15077/3
+		BString format5, format6;
+		numberFormatter.FormatMonetary(format5, 5.0);
+		numberFormatter.FormatMonetary(format6, 6.0);
+		int i = 0;
+		while (i < format5.Length() && format5[i] == format6[i])
+			i++;
+		while (i >= 0 && (format5[i] & 0xc0) == 0x80)
+			i--;
+		format5.Truncate(i);
+		dollars.RemoveFirst(format5);
+	} else
+		dollars.RemoveAll(fCurrencySymbol);
 
 	int32 index = dollars.FindFirst(decimalSymbol);
 	if (index < 0) {
@@ -169,7 +183,7 @@ Locale::StringToDate(const char* instring, time_t& date)
 		dateTime.SetDate(parseDate);
 
 	// Use current date if date is 1/1/70, parse failed
-	if (dateTime.Time_t() <= 14400)
+	if (dateTime.Time_t() == 14400)
 		date = now.Time_t();
 	else
 		date = dateTime.Time_t();
