@@ -379,9 +379,15 @@ Database::RemoveAccount(const int& accountid)
 		command << accountid << ";";
 		DBCommand(command.String(), "Database::RemoveAccount:delete accountlocale item");
 
+		command = "DELETE FROM scheduledlist WHERE accountid = ";
+		command << accountid << ";";
+		DBCommand(command.String(), "Database::RemoveAccount:delete scheduled items");
+
 		command = "DROP TABLE account_";
 		command << accountid;
 		DBCommand(command.String(), "Database::RemoveAccount:drop account table");
+
+
 
 		fList.RemoveItem(item);
 		if (fList.CountItems() == 0)
