@@ -6,6 +6,7 @@
 #include <Menu.h>
 #include <MenuItem.h>
 #include <Message.h>
+#include <MessageRunner.h>
 #include <String.h>
 #include <Window.h>
 #include "Database.h"
@@ -49,7 +50,8 @@ enum {
 	M_SHOW_ABOUT = 'msha',
 	M_SHOW_REPORTS_WINDOW,
 	M_SHOW_OPTIONS_WINDOW,
-	M_SHOW_SCHEDULED_WINDOW
+	M_SHOW_SCHEDULED_WINDOW,
+	M_RUN_SCHEDULED_TRANSACTIONS
 };
 
 class MainWindow : public BWindow, public Observer {
@@ -74,6 +76,7 @@ private:
 
 	BString fLastFile;
 	BMenuItem* fAccountClosedItem;
+	BMessageRunner* fRunner;
 
 	bool fLoadError;
 };

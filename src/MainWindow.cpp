@@ -168,6 +168,8 @@ MainWindow::MainWindow(BRect frame)
 	// clang-format on
 
 	HandleScheduledTransactions();
+	BMessage message(M_RUN_SCHEDULED_TRANSACTIONS);
+	fRunner = new BMessageRunner(this, &message, 30 * 1000 * 1000); // Every 30 seconds
 }
 
 MainWindow::~MainWindow(void)
@@ -502,6 +504,11 @@ MainWindow::MessageReceived(BMessage* msg)
 			ScheduleAddWindow* schedwin = new ScheduleAddWindow(r, data);
 			schedwin->CenterIn(Frame());
 			schedwin->Show();
+			break;
+		}
+		case M_RUN_SCHEDULED_TRANSACTIONS:
+		{
+			HandleScheduledTransactions();
 			break;
 		}
 		case M_CREATE_TRANSFER:

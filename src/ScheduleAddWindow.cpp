@@ -16,6 +16,7 @@
 #include "Database.h"
 #include "DateBox.h"
 #include "NumBox.h"
+#include "ScheduledExecutor.h"
 #include "ScheduledTransData.h"
 
 
@@ -269,6 +270,8 @@ ScheduleAddWindow::MessageReceived(BMessage* msg)
 				gDatabase.GetTransferCounterpart(stdata.GetID(), stdata);
 				gDatabase.AddScheduledTransaction(stdata);
 			}
+
+			HandleScheduledTransactions();
 
 			PostMessage(B_QUIT_REQUESTED);
 			break;
