@@ -75,24 +75,20 @@ QTNetWorthItem::HandleNotify(const uint64& value, const BMessage* msg)
 			Calculate();
 		} else if (value & WATCH_DELETE) {
 			acc->RemoveObserver(this);
-			Calculate();
 			if (gDatabase.CountAccounts() >= 1) {
 				if (Window())
 					Window()->Lock();
 
-				BString label, temp;
-				temp << B_TRANSLATE("Balance") << ": ";
-				if (gCurrentLocale.CurrencyToString(Fixed(), label) == B_OK)
-					temp << label;
-				SetText(temp.String());
+				Calculate();
 
 				if (Window())
 					Window()->Unlock();
 				return;
 			}
-		}
+		} else if (value & WATCH_LOCALE)
+			Calculate();
 	}
-	if (!(value & WATCH_SELECT))
+	if (value & WATCH_SELECT)
 		Calculate();
 }
 
@@ -132,14 +128,15 @@ QTNetWorthItem::Calculate(void)
 	// Get sum of default currency accounts that are open:
 	command =
 		"SELECT a.accountid FROM accountlist AS a LEFT JOIN accountlocale AS al ON "
-		"a.accountid = al.accountid WHERE al.accountid IS NULL AND a.status = \"Open\";";
+		"a.accountid = al.accountid WHERE al.accountid IS NULL AND a.status = \"Open\" "
+		"OR a.status = \"open\";";
 	query = gDatabase.DBQuery(command.String(), "Database::Calculate");
 
 	balance = 0;
 	bool accountsFound = false;
 	while (!query.eof()) {
 		accountsFound = true;
-		Account* account = gDatabase.AccountAt(query.getIntField(0));
+		Account* account = gDatabase.AccountByID(query.getIntField(0));
 		balance += account->Balance();
 		query.nextRow();
 	}
@@ -153,7 +150,7 @@ QTNetWorthItem::Calculate(void)
 		command =
 			"SELECT a1.accountid FROM accountlist AS a1 JOIN accountlocale AS a2 ON "
 			"a1.accountid=a2.accountid WHERE a2.currencysymbol = \"";
-		command << currencies.at(i) << "\" AND a1.status = \"Open\";";
+		command << currencies.at(i).String() << "\" AND a1.status = \"Open\";";
 		query = gDatabase.DBQuery(command.String(), "Database::Calculate");
 
 		balance = 0;
@@ -171,13 +168,11 @@ QTNetWorthItem::Calculate(void)
 		}
 	}
 
-	if (gDefaultLocale.CurrencyToString(balance, balanceText) == B_OK) {
-		if (Window()) {
-			Window()->Lock();
-			SetText(balanceLabel.String());
-			Invalidate();
-			Window()->Unlock();
-		}
+	if (Window()) {
+		Window()->Lock();
+		SetText(balanceLabel.String());
+		Invalidate();
+		Window()->Unlock();
 	}
 }
 

@@ -192,7 +192,7 @@ Database::OpenFile(const char* path)
 		BString name = DeescapeIllegalCharacters(query.getStringField(1));
 		BString status = DeescapeIllegalCharacters(query.getStringField(3));
 
-		Account* account = new Account(name.String(), status.ICompare("open") != 0);
+		Account* account = new Account(name.String(), status.ICompare("Open") != 0);
 		account->SetID(id);
 		if (!UsesDefaultLocale(id)) {
 			Locale accountLocale = LocaleForAccount(id);
