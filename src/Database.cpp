@@ -124,26 +124,31 @@ Database::CreateFile(const char* path)
 	// Transaction Status: 10
 	// Currency Symbol/Decimal: 2
 
-	DBCommand("CREATE TABLE accountlist (accountid INT PRIMARY KEY, name VARCHAR(96), "
-			  "type VARCHAR(12), status VARCHAR(30));",
+	DBCommand(
+		"CREATE TABLE accountlist (accountid INT PRIMARY KEY, name VARCHAR(96), "
+		"type VARCHAR(12), status VARCHAR(30));",
 		"Database::CreateFile:create accountlist");
-	DBCommand("CREATE TABLE accountlocale (accountid INT PRIMARY KEY, dateformat VARCHAR(8), "
-			  "dateseparator CHAR(6), currencysymbol CHAR(6),	"
-			  "currencyseparator CHAR(6), currencydecimal CHAR(6), "
-			  "currencyprefix CHAR(1));",
+	DBCommand(
+		"CREATE TABLE accountlocale (accountid INT PRIMARY KEY, dateformat VARCHAR(8), "
+		"dateseparator CHAR(6), currencysymbol CHAR(6),	"
+		"currencyseparator CHAR(6), currencydecimal CHAR(6), "
+		"currencyprefix CHAR(1));",
 		"Database::CreateFile:create accountlocale");
 	DBCommand("CREATE TABLE memorizedlist (transactionid INT);",
 		"Database::CreateFile:create memorizedlist");
-	DBCommand("CREATE TABLE scheduledlist (timestamp INT PRIMARY KEY, accountid INT, transid INT,"
-			  "date INT, type VARCHAR(24), payee VARCHAR(96), amount INT,"
-			  "category VARCHAR(96),memo VARCHAR(63), interval INT, count INT,"
-			  "nextdate INT);",
+	DBCommand(
+		"CREATE TABLE scheduledlist (timestamp INT PRIMARY KEY, accountid INT, transid INT,"
+		"date INT, type VARCHAR(24), payee VARCHAR(96), amount INT,"
+		"category VARCHAR(96),memo VARCHAR(63), interval INT, count INT,"
+		"nextdate INT);",
 		"Database::CreateFile:create scheduledlist");
-	DBCommand("CREATE TABLE budgetlist (entryid INT PRIMARY KEY, category VARCHAR(96), "
-			  "amount INT, period INT(2), isexpense INT(1));",
+	DBCommand(
+		"CREATE TABLE budgetlist (entryid INT PRIMARY KEY, category VARCHAR(96), "
+		"amount INT, period INT(2), isexpense INT(1));",
 		"Database::CreateFile:create budgetlist");
-	DBCommand("CREATE TABLE transactionlist (timestamp INT PRIMARY KEY, transid INT, "
-			  "category VARCHAR(96), accountid INT);",
+	DBCommand(
+		"CREATE TABLE transactionlist (timestamp INT PRIMARY KEY, transid INT, "
+		"category VARCHAR(96), accountid INT);",
 		"Database::CreateFile:create transactionlist");
 	DBCommand("CREATE TABLE categorylist (name VARCHAR(96), type INT(2));",
 		"Database::CreateFile:create categorylist");
@@ -179,8 +184,8 @@ Database::OpenFile(const char* path)
 	}
 
 	// Populate account list
-	CppSQLite3Query query
-		= DBQuery("SELECT * FROM accountlist", "Database::OpenFile:get accounts from list");
+	CppSQLite3Query query =
+		DBQuery("SELECT * FROM accountlist", "Database::OpenFile:get accounts from list");
 
 	while (!query.eof()) {
 		uint32 id = query.getIntField(0);
@@ -520,8 +525,8 @@ Database::GetBudgetEntry(const char* name, BudgetEntry& entry)
 int32
 Database::CountBudgetEntries(void)
 {
-	CppSQLite3Query query
-		= gDatabase.DBQuery("SELECT COUNT(*) FROM budgetlist", "Database::CountBudgetEntries");
+	CppSQLite3Query query =
+		gDatabase.DBQuery("SELECT COUNT(*) FROM budgetlist", "Database::CountBudgetEntries");
 
 	if (query.eof())
 		return 0;
@@ -1031,8 +1036,9 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 	BString command;
 	CppSQLite3Query query;
 
-	command = "SELECT accountid,date,payee,amount,category,memo,type,nextdate,"
-			  "count,interval FROM scheduledlist WHERE transid = ";
+	command =
+		"SELECT accountid,date,payee,amount,category,memo,type,nextdate,"
+		"count,interval FROM scheduledlist WHERE transid = ";
 	command << transid << ";";
 	query = DBQuery(command.String(), "Database::GetScheduledTransaction:get transaction data");
 

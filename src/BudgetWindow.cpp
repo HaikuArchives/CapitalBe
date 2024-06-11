@@ -412,8 +412,8 @@ BudgetWindow::RefreshBudgetGrid(void)
 	fIncomeGrid.MakeEmpty();
 	fSpendingGrid.MakeEmpty();
 
-	CppSQLite3Query query
-		= gDatabase.DBQuery("SELECT category,amount,period FROM budgetlist ORDER BY category",
+	CppSQLite3Query query =
+		gDatabase.DBQuery("SELECT category,amount,period FROM budgetlist ORDER BY category",
 			"BudgetWindow::RefreshCategories");
 	while (!query.eof()) {
 		BString cat = DeescapeIllegalCharacters(query.getStringField(0));
@@ -468,8 +468,8 @@ BudgetWindow::GenerateBudget(const bool& zero)
 	gDatabase.DBCommand("DELETE FROM budgetlist", "BudgetWindow::GenerateBudget:empty budget");
 
 	CppSQLite3Query query;
-	query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name",
-		"BudgetWindow::GenerateBudget:get categories");
+	query = gDatabase.DBQuery(
+		"SELECT * FROM categorylist ORDER BY name", "BudgetWindow::GenerateBudget:get categories");
 
 	if (query.eof())
 		return;

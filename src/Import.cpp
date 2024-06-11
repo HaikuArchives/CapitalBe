@@ -354,8 +354,8 @@ ExportQIF(const entry_ref& ref)
 
 	// Export categories and budget
 	DStringList incomelist, expenselist;
-	query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name",
-		"ExportQIF:get category list");
+	query = gDatabase.DBQuery(
+		"SELECT * FROM categorylist ORDER BY name", "ExportQIF:get category list");
 	while (!query.eof()) {
 		if (query.getIntField(1) == 1)
 			incomelist.AddItem(query.getStringField(0));

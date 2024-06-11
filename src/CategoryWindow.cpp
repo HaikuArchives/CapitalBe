@@ -296,8 +296,8 @@ CategoryView::RefreshCategoryList(void)
 		maxlength = StringWidth(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
 	}
 
-	CppSQLite3Query query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name DESC",
-		"CategoryView::CategoryView");
+	CppSQLite3Query query = gDatabase.DBQuery(
+		"SELECT * FROM categorylist ORDER BY name DESC", "CategoryView::CategoryView");
 	while (!query.eof()) {
 		int expense = query.getIntField(1);
 		BString name = query.getStringField(0);
@@ -475,8 +475,8 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 	fListView->AddItem(fIncomeItem);
 	fListView->AddItem(fSpendingItem);
 
-	CppSQLite3Query query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name DESC",
-		"CategoryView::CategoryView");
+	CppSQLite3Query query = gDatabase.DBQuery(
+		"SELECT * FROM categorylist ORDER BY name DESC", "CategoryView::CategoryView");
 
 	int32 maxchars;
 	float maxlength;
