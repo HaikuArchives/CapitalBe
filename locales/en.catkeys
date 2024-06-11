@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	1546978192
+1	English	application/x-vnd.wgp-CapitalBe	338110697
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -165,6 +165,7 @@ Categories	CategoryWindow		Categories
 Account	MainWindow		Account
 Uncategorized	CategoryWindow		Uncategorized
 Unselected:	PrefWindow		Unselected:
+{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}
 Total deposits:	ReconcileWindow		Total deposits:
 Categories…	MainWindow		Categories…
 Help: Budget	BudgetWindow		Help: Budget
