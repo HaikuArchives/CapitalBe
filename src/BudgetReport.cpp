@@ -139,7 +139,6 @@ ReportWindow::ComputeBudget(void)
 	// Later this will iterate over all items in the category list
 	BStringItem* stringitem = (BStringItem*)fCategoryList->ItemAt(0);
 	if (!stringitem) {
-		ShowBug("NULL category BStringItem in ReportWindow::ComputeBudget");
 		return;
 	}
 

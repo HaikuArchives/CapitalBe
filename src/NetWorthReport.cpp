@@ -54,7 +54,6 @@ ReportWindow::ComputeNetWorth(void)
 	timelist.AddItem(new time_t(fEndDate));
 
 	ReportGrid accountgrid(1, timelist.CountItems());
-
 	BString longestname(B_TRANSLATE("Total worth"));
 	int longestnamelength = longestname.CountChars();
 
@@ -89,37 +88,35 @@ ReportWindow::ComputeNetWorth(void)
 		accountgrid.SetValue(0, subtotal_index, accounttotal);
 	}
 
-	if (fGraphView->IsHidden()) {
-		// Now that we have all the data, we need to set up the rows and columns for the report grid
+	// Now that we have all the data, we need to set up the rows and columns for the report grid
 
-		BColumn* col = new BStringColumn(B_TRANSLATE_CONTEXT("Date", "CommonTerms"),
-			fGridView->StringWidth(longestname.String()) + 20, 10, 300, B_TRUNCATE_END);
-		fGridView->AddColumn(col, 0);
-		col = new BStringColumn(B_TRANSLATE("Total"), 75, 10, 300, B_TRUNCATE_END);
-		fGridView->AddColumn(col, 1);
+	BColumn* col = new BStringColumn(B_TRANSLATE_CONTEXT("Date", "CommonTerms"),
+		fGridView->StringWidth(longestname.String()) + 20, 10, 300, B_TRUNCATE_END);
+	fGridView->AddColumn(col, 0);
+	col = new BStringColumn(B_TRANSLATE("Total"), 75, 10, 300, B_TRUNCATE_END);
+	fGridView->AddColumn(col, 1);
 
-		fGridView->AddRow(new BRow());
-		BRow* titlerow = new BRow();
-		fGridView->AddRow(titlerow);
-		titlerow->SetField(new BStringField(B_TRANSLATE("Total worth")), 0);
-		fGridView->AddRow(new BRow());
+	fGridView->AddRow(new BRow());
+	BRow* titlerow = new BRow();
+	fGridView->AddRow(titlerow);
+	titlerow->SetField(new BStringField(B_TRANSLATE("Total worth")), 0);
+	fGridView->AddRow(new BRow());
 
-		// Now that the grid is set up, start adding data to the grid
-		for (int32 rowindex = 0; rowindex < accountgrid.CountItems(); rowindex++) {
-			BRow* row = new BRow();
-			fGridView->AddRow(row);
+	// Now that the grid is set up, start adding data to the grid
+	for (int32 rowindex = 0; rowindex < accountgrid.CountItems(); rowindex++) {
+		BRow* row = new BRow();
+		fGridView->AddRow(row);
 
-			BStringField* catname = new BStringField(accountgrid.RowTitle(rowindex));
-			row->SetField(catname, 0);
+		BStringField* catname = new BStringField(accountgrid.RowTitle(rowindex));
+		row->SetField(catname, 0);
 
-			BString temp;
-			Fixed f;
+		BString temp;
+		Fixed f;
 
-			accountgrid.ValueAt(0, rowindex, f);
-			gCurrentLocale.CurrencyToString(f, temp);
+		accountgrid.ValueAt(0, rowindex, f);
+		gCurrentLocale.CurrencyToString(f, temp);
 
-			BStringField* amountfield = new BStringField(temp.String());
-			row->SetField(amountfield, 1);
-		}
+		BStringField* amountfield = new BStringField(temp.String());
+		row->SetField(amountfield, 1);
 	}
 }
