@@ -388,7 +388,6 @@ Database::RemoveAccount(const int& accountid)
 		DBCommand(command.String(), "Database::RemoveAccount:drop account table");
 
 
-
 		fList.RemoveItem(item);
 		if (fList.CountItems() == 0)
 			fCurrent = 0;
@@ -1099,7 +1098,8 @@ Database::CountScheduledTransactions(int accountid)
 {
 	BString command;
 	command << "SELECT COUNT(*) FROM scheduledlist WHERE accountid = " << accountid;
-	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Database::CountScheduledTransactions");
+	CppSQLite3Query query =
+		gDatabase.DBQuery(command.String(), "Database::CountScheduledTransactions");
 
 	if (query.eof())
 		return 0;

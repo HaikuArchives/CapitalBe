@@ -169,7 +169,7 @@ MainWindow::MainWindow(BRect frame)
 
 	HandleScheduledTransactions();
 	BMessage message(M_RUN_SCHEDULED_TRANSACTIONS);
-	fRunner = new BMessageRunner(this, &message, 30 * 1000 * 1000); // Every 30 seconds
+	fRunner = new BMessageRunner(this, &message, 30 * 1000 * 1000);	 // Every 30 seconds
 }
 
 MainWindow::~MainWindow(void)
@@ -270,18 +270,18 @@ MainWindow::MessageReceived(BMessage* msg)
 			uint32 scheduledTransactions = gDatabase.CountScheduledTransactions(acc->GetID());
 			BString msg;
 			if (scheduledTransactions > 0) {
-
-				static BStringFormat format(B_TRANSLATE("{0, plural,"
+				static BStringFormat format(B_TRANSLATE(
+					"{0, plural,"
 					"one{This account has # scheduled transaction that will be removed.}"
 					"other{This account has # scheduled transactions that will be removed.}}"));
 				format.Format(msg, scheduledTransactions);
 				msg << "\n\n";
-		   }
+			}
 
-		   msg << B_TRANSLATE("Once deleted, you will not be able to get back any data on this account.");
+			msg << B_TRANSLATE(
+				"Once deleted, you will not be able to get back any data on this account.");
 
-			DAlert* alert = new DAlert(B_TRANSLATE("Really delete account?"),
-                               msg.String(),
+			DAlert* alert = new DAlert(B_TRANSLATE("Really delete account?"), msg.String(),
 				B_TRANSLATE("Delete"), B_TRANSLATE("Cancel"), NULL, B_WIDTH_AS_USUAL, B_STOP_ALERT);
 
 			if (alert->Go() == 0) {
