@@ -38,57 +38,44 @@ DateBoxFilter::KeyFilter(const int32& key, const int32& mod)
 	}
 #endif
 
-	//	if(key == B_ESCAPE && !IsEscapeCancel())
-	//		return B_SKIP_MESSAGE;
-
 	// Weed out navigation keys
-	if ((key < 32 && key != B_PAGE_UP && key != B_PAGE_DOWN))
+	if (key < 32 && key != B_PAGE_UP && key != B_PAGE_DOWN
+			&& key != B_UP_ARROW && key != B_DOWN_ARROW)
 		return B_DISPATCH_MESSAGE;
 
 	int32 start, end;
 	DateBox* box = (DateBox*)TextControl();
 	box->TextView()->GetSelection(&start, &end);
 
-	BString keystring;
-	GetCurrentMessage()->FindString("bytes", &keystring);
-
 	BString string;
-	if (keystring == "+") {
-		if (strlen(box->Text()) > 0)
-			box->fCurrentDate = IncrementDateByDay(box->fCurrentDate);
-
-		gDefaultLocale.DateToString(box->fCurrentDate, string);
-		box->SetText(string.String());
-		box->TextView()->SelectAll();
-		TextControl()->Invoke();
-		return B_SKIP_MESSAGE;
-	} else if (key == B_PAGE_UP) {
+	if (key == B_UP_ARROW) {
 		if (strlen(box->Text()) > 0) {
 			if (mod & B_SHIFT_KEY)
-				box->fCurrentDate = IncrementDateByYear(box->fCurrentDate);
-			else
 				box->fCurrentDate = IncrementDateByMonth(box->fCurrentDate);
+			else
+				box->fCurrentDate = IncrementDateByDay(box->fCurrentDate);
 		}
-		gDefaultLocale.DateToString(box->fCurrentDate, string);
-		box->SetText(string.String());
-		box->TextView()->SelectAll();
-		TextControl()->Invoke();
-		return B_SKIP_MESSAGE;
-	} else if (key == B_PAGE_DOWN) {
+	} else if (key == B_DOWN_ARROW) {
 		if (strlen(box->Text()) > 0) {
 			if (mod & B_SHIFT_KEY)
-				box->fCurrentDate = DecrementDateByYear(box->fCurrentDate);
-			else
 				box->fCurrentDate = DecrementDateByMonth(box->fCurrentDate);
+			else
+				box->fCurrentDate = DecrementDateByDay(box->fCurrentDate);
 		}
-		gDefaultLocale.DateToString(box->fCurrentDate, string);
-		box->SetText(string.String());
-		box->TextView()->SelectAll();
-		TextControl()->Invoke();
-		return B_SKIP_MESSAGE;
-	}
+	} else if (key == B_PAGE_UP) {
+		if (strlen(box->Text()) > 0)
+			box->fCurrentDate = IncrementDateByYear(box->fCurrentDate);
+	} else if (key == B_PAGE_DOWN) {
+		if (strlen(box->Text()) > 0)
+			box->fCurrentDate = DecrementDateByYear(box->fCurrentDate);
+	} else
+		return B_DISPATCH_MESSAGE;
 
-	return B_DISPATCH_MESSAGE;
+	gDefaultLocale.DateToString(box->fCurrentDate, string);
+	box->SetText(string.String());
+	box->TextView()->SelectAll();
+	TextControl()->Invoke();
+	return B_SKIP_MESSAGE;
 }
 
 DateBox::DateBox(const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
