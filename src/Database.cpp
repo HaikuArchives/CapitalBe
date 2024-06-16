@@ -184,8 +184,8 @@ Database::OpenFile(const char* path)
 	}
 
 	// Populate account list
-	CppSQLite3Query query =
-		DBQuery("SELECT * FROM accountlist", "Database::OpenFile:get accounts from list");
+	CppSQLite3Query query
+		= DBQuery("SELECT * FROM accountlist", "Database::OpenFile:get accounts from list");
 
 	while (!query.eof()) {
 		uint32 id = query.getIntField(0);
@@ -530,8 +530,8 @@ Database::GetBudgetEntry(const char* name, BudgetEntry& entry)
 int32
 Database::CountBudgetEntries(void)
 {
-	CppSQLite3Query query =
-		gDatabase.DBQuery("SELECT COUNT(*) FROM budgetlist", "Database::CountBudgetEntries");
+	CppSQLite3Query query
+		= gDatabase.DBQuery("SELECT COUNT(*) FROM budgetlist", "Database::CountBudgetEntries");
 
 	if (query.eof())
 		return 0;
@@ -658,8 +658,8 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 			// transaction to the current one
 			command = "SELECT * FROM account_";
 			command << accountid << ";";
-			CppSQLite3Query query =
-				DBQuery(command.String(), "Database::AddTransaction:get current transaction");
+			CppSQLite3Query query
+				= DBQuery(command.String(), "Database::AddTransaction:get current transaction");
 			if (query.eof()) {
 				// account is empty. make it the current one.
 				account->SetCurrentTransaction(id);
@@ -741,8 +741,8 @@ Database::RemoveTransaction(const uint32& transid)
 	BObjectList<uint32> idlist(20, true);
 
 	command << "SELECT accountid FROM transactionlist WHERE transid = " << transid << ";";
-	CppSQLite3Query query =
-		DBQuery(command.String(), "Database::RemoveTransaction:find transaction");
+	CppSQLite3Query query
+		= DBQuery(command.String(), "Database::RemoveTransaction:find transaction");
 
 	while (!query.eof()) {
 		idlist.AddItem(new uint32(query.getInt64Field(0)));
@@ -892,8 +892,8 @@ Database::SetTransactionStatus(const uint32& transid, const uint8& status)
 
 	BString command;
 	command << "SELECT accountid FROM transactionlist WHERE transid = " << transid << ";";
-	CppSQLite3Query query =
-		DBQuery(command.String(), "Database::SetTransactionStatus:get accountid");
+	CppSQLite3Query query
+		= DBQuery(command.String(), "Database::SetTransactionStatus:get accountid");
 
 	uint32 accountid = query.getIntField(0);
 	query.finalize();
@@ -929,8 +929,8 @@ Database::GetTransferCounterpart(const uint32& transid, TransactionData& data)
 	BString command;
 	command << "SELECT accountid FROM transactionlist WHERE transid = " << transid << " AND "
 			<< "accountid != " << data.GetAccount()->GetID() << ";";
-	CppSQLite3Query query =
-		DBQuery(command.String(), "Database::SetTransferCounterpart:get accountid");
+	CppSQLite3Query query
+		= DBQuery(command.String(), "Database::SetTransferCounterpart:get accountid");
 
 	uint32 accountid = query.getIntField(0);
 	query.finalize();
@@ -1041,9 +1041,9 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 	BString command;
 	CppSQLite3Query query;
 
-	command =
-		"SELECT accountid,date,payee,amount,category,memo,type,nextdate,"
-		"count,interval FROM scheduledlist WHERE transid = ";
+	command
+		= "SELECT accountid,date,payee,amount,category,memo,type,nextdate,"
+		  "count,interval FROM scheduledlist WHERE transid = ";
 	command << transid << ";";
 	query = DBQuery(command.String(), "Database::GetScheduledTransaction:get transaction data");
 
@@ -1098,8 +1098,8 @@ Database::CountScheduledTransactions(int accountid)
 {
 	BString command;
 	command << "SELECT COUNT(*) FROM scheduledlist WHERE accountid = " << accountid;
-	CppSQLite3Query query =
-		gDatabase.DBQuery(command.String(), "Database::CountScheduledTransactions");
+	CppSQLite3Query query
+		= gDatabase.DBQuery(command.String(), "Database::CountScheduledTransactions");
 
 	if (query.eof())
 		return 0;
@@ -1308,21 +1308,21 @@ AccountTypeToString(const AccountType& type)
 
 // This will prevent SQL injection attacks
 
-static const char* sIllegalCharacters[] = {"!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-",
-	"+", "=", "{", "}", "[", "]", "\\", "|", ";", ":", "'", "\"", "<", ">", ",", ".", "/", "?", "`",
-	"~", " ", NULL};
-static const char* sReplacementCharacters[] = {"£21£", "£40£", "£23£", "£24£", "£25£", "£5e£",
-	"£26£", "£2a£", "£28£", "£29£", "£2d£", "£2b£", "£3d£", "£7b£", "£7d£", "£5b£", "£5d£", "£5c£",
-	"£7c£", "£3b£", "£3a£", "£27£", "£22£", "£3c£", "£3e£", "£2c£", "£2e£", "£2f£", "£3f£", "£60£",
-	"£7e£", "£20£", NULL};
+static const char* sIllegalCharacters[]
+	= {"!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "+", "=", "{", "}", "[", "]", "\\",
+		"|", ";", ":", "'", "\"", "<", ">", ",", ".", "/", "?", "`", "~", " ", NULL};
+static const char* sReplacementCharacters[]
+	= {"£21£", "£40£", "£23£", "£24£", "£25£", "£5e£", "£26£", "£2a£", "£28£", "£29£", "£2d£",
+		"£2b£", "£3d£", "£7b£", "£7d£", "£5b£", "£5d£", "£5c£", "£7c£", "£3b£", "£3a£", "£27£",
+		"£22£", "£3c£", "£3e£", "£2c£", "£2e£", "£2f£", "£3f£", "£60£", "£7e£", "£20£", NULL};
 
 static const char* sIllegalWords[] = {" select ", " drop ", " create ", " delete ", " where ",
 	" update ", " order ", " by ", " and ", " or ", " in ", " between ", " aliases ", " join ",
 	" union ", " alter ", " functions ", " group ", " into ", " view ", NULL};
-static const char* sReplacementWords[] = {" ¥select ", " ¥drop ", " ¥create ", " ¥delete ",
-	" ¥where ", " ¥update ", " ¥order ", " ¥by ", " ¥and ", " ¥or ", " ¥in ", " ¥between ",
-	" ¥aliases ", " ¥join ", " ¥union ", " ¥alter ", " ¥functions ", " ¥group ", " ¥into ",
-	" ¥view ", NULL};
+static const char* sReplacementWords[]
+	= {" ¥select ", " ¥drop ", " ¥create ", " ¥delete ", " ¥where ", " ¥update ", " ¥order ",
+		" ¥by ", " ¥and ", " ¥or ", " ¥in ", " ¥between ", " ¥aliases ", " ¥join ", " ¥union ",
+		" ¥alter ", " ¥functions ", " ¥group ", " ¥into ", " ¥view ", NULL};
 
 BString
 EscapeIllegalCharacters(const char* instr)

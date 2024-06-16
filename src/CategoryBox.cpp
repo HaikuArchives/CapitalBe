@@ -36,8 +36,9 @@ CategoryBoxFilter::KeyFilter(const int32& key, const int32& mod)
 	//	if(key == B_ESCAPE && !IsEscapeCancel())
 	//		return B_SKIP_MESSAGE;
 
-	if (key < 32 || ((mod & B_COMMAND_KEY) && !(mod & B_SHIFT_KEY) && !(mod & B_OPTION_KEY) &&
-						!(mod & B_CONTROL_KEY)))
+	if (key < 32
+		|| ((mod & B_COMMAND_KEY) && !(mod & B_SHIFT_KEY) && !(mod & B_OPTION_KEY)
+			&& !(mod & B_CONTROL_KEY)))
 		return B_DISPATCH_MESSAGE;
 
 	Account* acc = gDatabase.CurrentAccount();

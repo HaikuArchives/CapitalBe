@@ -112,7 +112,7 @@ HelpButton::GetHelpFile(const char* helpfilename)
 HelpButtonWindow::HelpButtonWindow(
 	const BRect& frame, const char* title, const entry_ref& helpfileref)
 	: BWindow(BRect(0, 0, 600, 400), title, B_DOCUMENT_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL,
-		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
+		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
 	BView* view = new BView("back", B_WILL_DRAW | B_FRAME_EVENTS);
 	view->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);

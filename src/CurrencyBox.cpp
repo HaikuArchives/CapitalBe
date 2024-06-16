@@ -46,9 +46,9 @@ CurrencyBox::CurrencyBox(
 {
 	SetFilter(new CurrencyBoxFilter(this));
 
-	const char amount_disallowed[] =
-		" `~!@#%^&*()_-+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
-		"ZXCVBNM<>?/qwertyuiopasdfghjklzxcvbnm";
+	const char amount_disallowed[]
+		= " `~!@#%^&*()_-+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
+		  "ZXCVBNM<>?/qwertyuiopasdfghjklzxcvbnm";
 	int32 i = 0;
 	while (amount_disallowed[i]) {
 		TextView()->DisallowChar(amount_disallowed[i]);

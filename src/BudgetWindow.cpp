@@ -41,7 +41,7 @@ extern int compare_stringitem(const void* item1, const void* item2);
 
 BudgetWindow::BudgetWindow(const BRect& frame)
 	: BWindow(BRect(0, 0, 1000, 400), B_TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
-		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
+		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
 	  fIncomeGrid(13, 0),
 	  fSpendingGrid(13, 0)
 {
@@ -412,8 +412,8 @@ BudgetWindow::RefreshBudgetGrid(void)
 	fIncomeGrid.MakeEmpty();
 	fSpendingGrid.MakeEmpty();
 
-	CppSQLite3Query query =
-		gDatabase.DBQuery("SELECT category,amount,period FROM budgetlist ORDER BY category",
+	CppSQLite3Query query
+		= gDatabase.DBQuery("SELECT category,amount,period FROM budgetlist ORDER BY category",
 			"BudgetWindow::RefreshCategories");
 	while (!query.eof()) {
 		BString cat = DeescapeIllegalCharacters(query.getStringField(0));
@@ -689,8 +689,8 @@ BudgetWindow::BuildStatsAndEditor(void)
 	float statwidth = be_plain_font->StringWidth(B_TRANSLATE("12 month statistics")) + 20;
 	float amountwidth = be_plain_font->StringWidth("000,000.00") + 20;
 
-	fCatStat =
-		new BColumnListView("categorystats", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER, false);
+	fCatStat
+		= new BColumnListView("categorystats", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER, false);
 
 	font_height fh;
 	fCatStat->GetFontHeight(&fh);
@@ -720,14 +720,14 @@ BudgetWindow::BuildStatsAndEditor(void)
 	fCatBox = new BBox("catbox");
 	fCatBox->SetLabel(B_TRANSLATE("Budget category:"));
 
-	fMonthly =
-		new BRadioButton("monthoption", B_TRANSLATE("Monthly"), new BMessage(M_SET_PERIOD_MONTH));
-	fWeekly =
-		new BRadioButton("weekoption", B_TRANSLATE("Weekly"), new BMessage(M_SET_PERIOD_WEEK));
+	fMonthly
+		= new BRadioButton("monthoption", B_TRANSLATE("Monthly"), new BMessage(M_SET_PERIOD_MONTH));
+	fWeekly
+		= new BRadioButton("weekoption", B_TRANSLATE("Weekly"), new BMessage(M_SET_PERIOD_WEEK));
 	fQuarterly = new BRadioButton(
 		"quarteroption", B_TRANSLATE("Quarterly"), new BMessage(M_SET_PERIOD_QUARTER));
-	fAnnually =
-		new BRadioButton("yearoption", B_TRANSLATE("Annually"), new BMessage(M_SET_PERIOD_YEAR));
+	fAnnually
+		= new BRadioButton("yearoption", B_TRANSLATE("Annually"), new BMessage(M_SET_PERIOD_YEAR));
 
 	fMonthly->SetValue(B_CONTROL_ON);
 
@@ -745,8 +745,8 @@ BudgetWindow::BuildBudgetSummary(void)
 	fSummarySpendingRow = new BRow();
 	fSummaryTotalRow = new BRow();
 
-	fBudgetSummary =
-		new BColumnListView("budgetsummary", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER);
+	fBudgetSummary
+		= new BColumnListView("budgetsummary", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER);
 	fBudgetSummary->SetSortingEnabled(false);
 	fBudgetSummary->AddColumn(
 		new BStringColumn(B_TRANSLATE("Summary"),
@@ -796,8 +796,8 @@ BudgetWindow::BuildBudgetSummary(void)
 void
 BudgetWindow::BuildCategoryList(void)
 {
-	fCategoryList =
-		new BColumnListView("categorylist", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER, true);
+	fCategoryList
+		= new BColumnListView("categorylist", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER, true);
 	fCategoryList->SetSortingEnabled(false);
 	fCategoryList->SetSelectionMessage(new BMessage(M_SELECT_CATEGORY));
 	fCategoryList->AddColumn(

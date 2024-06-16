@@ -17,8 +17,8 @@
 
 PrefWindow::PrefWindow(const BRect& frame, BMessenger target)
 	: BWindow(frame, B_TRANSLATE("Settings"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-		  B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS |
-			  B_CLOSE_ON_ESCAPE),
+		B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
+			| B_CLOSE_ON_ESCAPE),
 	  fTarget(target)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
@@ -26,8 +26,8 @@ PrefWindow::PrefWindow(const BRect& frame, BMessenger target)
 
 	fNegNumberView = new NegativeNumberView("negcolor", gNegativeColor);
 
-	BButton* cancel =
-		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+	BButton* cancel
+		= new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 	BButton* ok = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_OPTIONS));
 
 	SetDefaultButton(ok);
@@ -91,8 +91,8 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 	fCurrencySymbolPrefix->SetValue(
 		(fLocale.IsCurrencySymbolPrefix()) ? B_CONTROL_ON : B_CONTROL_OFF);
 
-	fDecimalSpinner =
-		new BSpinner("width", B_TRANSLATE("Decimals:"), new BMessage(M_NEW_CURRENCY_SYMBOL));
+	fDecimalSpinner
+		= new BSpinner("width", B_TRANSLATE("Decimals:"), new BMessage(M_NEW_CURRENCY_SYMBOL));
 	fDecimalSpinner->SetMinValue(0);
 	fDecimalSpinner->SetMaxValue(3);
 	fDecimalSpinner->SetValue(locale->CurrencyDecimalPlace());
@@ -182,8 +182,8 @@ NegativeNumberView::NegativeNumberView(const char* name, rgb_color negColor)
 	negColorBox->SetLabel(B_TRANSLATE("Color for negative amounts"));
 
 	// Color picker
-	fColorPicker =
-		new BColorControl(B_ORIGIN, B_CELLS_32x8, 8.0, "colorpicker", new BMessage(M_UPDATE_COLOR));
+	fColorPicker = new BColorControl(
+		B_ORIGIN, B_CELLS_32x8, 8.0, "colorpicker", new BMessage(M_UPDATE_COLOR));
 	fColorPicker->SetValue(negColor);
 
 	// Preview of the colored text on different background colors

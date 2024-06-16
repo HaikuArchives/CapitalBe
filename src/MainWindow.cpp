@@ -614,12 +614,12 @@ MainWindow::CreateTransfer(BMessage* msg)
 	Fixed fixed;
 	time_t date;
 
-	if ((msg->FindPointer("from", (void**)&from) != B_OK) ||
-		(msg->FindPointer("to", (void**)&to) != B_OK) ||
-		(msg->FindString("amount", &amount) != B_OK) ||
-		(gCurrentLocale.StringToCurrency(amount.String(), fixed) != B_OK) ||
-		(msg->FindString("date", &datestr) != B_OK) ||
-		(gDefaultLocale.StringToDate(datestr.String(), date) != B_OK))
+	if ((msg->FindPointer("from", (void**)&from) != B_OK)
+		|| (msg->FindPointer("to", (void**)&to) != B_OK)
+		|| (msg->FindString("amount", &amount) != B_OK)
+		|| (gCurrentLocale.StringToCurrency(amount.String(), fixed) != B_OK)
+		|| (msg->FindString("date", &datestr) != B_OK)
+		|| (gDefaultLocale.StringToDate(datestr.String(), date) != B_OK))
 		return;
 
 	if (msg->FindString("memo", &memo) != B_OK)

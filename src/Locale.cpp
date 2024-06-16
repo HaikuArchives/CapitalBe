@@ -36,8 +36,8 @@ Locale::operator!=(const Locale& other) const
 bool
 Locale::operator==(const Locale& other) const
 {
-	if (fCurrencySymbol != other.fCurrencySymbol || fPrefixSymbol != other.fPrefixSymbol ||
-		fCurrencyDecimalPlace != other.fCurrencyDecimalPlace) {
+	if (fCurrencySymbol != other.fCurrencySymbol || fPrefixSymbol != other.fPrefixSymbol
+		|| fCurrencyDecimalPlace != other.fCurrencyDecimalPlace) {
 		return false;
 	}
 	return true;
@@ -66,8 +66,9 @@ Locale::CurrencyToString(const Fixed& amount, BString& string)
 	if (strcmp(fCurrencySymbol, "") == 0) {	 // Using default locale
 		return numberFormatter.FormatMonetary(string, amount.AsDouble());
 	} else {  // Using custom locale
-		if (numberFormatter.Format(num,
-				fCurrencyDecimalPlace > 0 ? amount.AsDouble() : amount.IntegerPart()) != B_OK) {
+		if (numberFormatter.Format(
+				num, fCurrencyDecimalPlace > 0 ? amount.AsDouble() : amount.IntegerPart())
+			!= B_OK) {
 			return B_ERROR;
 		}
 	}

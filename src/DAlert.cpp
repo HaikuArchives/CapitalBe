@@ -141,7 +141,7 @@ width_from_label(BButton* button)
 DAlert::DAlert(const char* title, const char* text, const char* button1, const char* button2,
 	const char* button3, button_width width, alert_type type)
 	: BWindow(DEFAULT_RECT, title, B_MODAL_WINDOW,
-		  B_NOT_CLOSABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS)
+		B_NOT_CLOSABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS)
 {
 	InitObject(text, button1, button2, button3, width, B_EVEN_SPACING, type);
 }
@@ -150,7 +150,7 @@ DAlert::DAlert(const char* title, const char* text, const char* button1, const c
 DAlert::DAlert(const char* title, const char* text, const char* button1, const char* button2,
 	const char* button3, button_width width, button_spacing spacing, alert_type type)
 	: BWindow(DEFAULT_RECT, title, B_MODAL_WINDOW,
-		  B_NOT_CLOSABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS)
+		B_NOT_CLOSABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS)
 {
 	InitObject(text, button1, button2, button3, width, spacing, type);
 }
@@ -328,8 +328,9 @@ DAlert::MessageReceived(BMessage* msg)
 			// Semaphore hasn't been created; we're running asynchronous
 			if (fInvoker) {
 				BMessage* out = fInvoker->Message();
-				if (out && (out->ReplaceInt32("which", which) == B_OK ||
-							   out->AddInt32("which", which) == B_OK))
+				if (out
+					&& (out->ReplaceInt32("which", which) == B_OK
+						|| out->AddInt32("which", which) == B_OK))
 					fInvoker->Invoke();
 			}
 			PostMessage(B_QUIT_REQUESTED);
@@ -509,8 +510,8 @@ DAlert::InitObject(const char* text, const char* button0, const char* button1, c
 			else
 				buttonY -= kDefButtonBottomOffset;
 		} else {
-			buttonX =
-				fButtons[i + 1]->Frame().left - fButtons[i]->Frame().Width() - kButtonSpaceOffset;
+			buttonX
+				= fButtons[i + 1]->Frame().left - fButtons[i]->Frame().Width() - kButtonSpaceOffset;
 			buttonY -= kButtonBottomOffset;
 			if (i == 0) {
 				if (spacing == B_OFFSET_SPACING) {
@@ -521,14 +522,13 @@ DAlert::InitObject(const char* text, const char* button0, const char* button1, c
 						// button0 needs to line up with the left wall
 						// of the TextView.
 						buttonX = (masterView->Bitmap()) ? kTextIconOffset : kTextLeftOffset;
-						if (fButtons[i + 1]->Frame().left -
-								(buttonX + fButtons[i]->Frame().Width()) <
-							kButtonMinOffsetSpaceOffset) {
+						if (fButtons[i + 1]->Frame().left - (buttonX + fButtons[i]->Frame().Width())
+							< kButtonMinOffsetSpaceOffset) {
 							// Recompute buttonX using min offset space
 							// if using the current buttonX would not
 							// provide enough space or cause an overlap.
-							buttonX = fButtons[i + 1]->Frame().left - fButtons[i]->Frame().Width() -
-									  kButtonMinOffsetSpaceOffset;
+							buttonX = fButtons[i + 1]->Frame().left - fButtons[i]->Frame().Width()
+									  - kButtonMinOffsetSpaceOffset;
 						}
 					}
 				} else if (buttonCount == 3)

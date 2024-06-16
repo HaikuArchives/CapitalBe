@@ -209,8 +209,8 @@ TransactionView::MessageReceived(BMessage* message)
 		{
 			Account* acc = gDatabase.CurrentAccount();
 			if (acc) {
-				TransactionItem* titem =
-					(TransactionItem*)fListView->ItemAt(fListView->CurrentSelection());
+				TransactionItem* titem
+					= (TransactionItem*)fListView->ItemAt(fListView->CurrentSelection());
 				if (titem)
 					acc->SetCurrentTransaction(titem->GetID());
 			}
@@ -416,8 +416,8 @@ TransactionView::FindIndexForDate(const time_t& time, const char* payee)
 	while (i < count) {
 		TransactionItem* item = (TransactionItem*)fListView->ItemAt(i);
 
-		if (time < item->GetDate() ||
-			(time == item->GetDate() && strcmp(payee, item->GetPayee()) < 1))
+		if (time < item->GetDate()
+			|| (time == item->GetDate() && strcmp(payee, item->GetPayee()) < 1))
 			return i;
 
 		i++;

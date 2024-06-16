@@ -42,9 +42,9 @@ NumBox::NumBox(const char* name, const char* label, const char* text, BMessage* 
 {
 	SetFilter(new NumBoxFilter(this));
 
-	const char num_disallowed[] =
-		" `~!@#%^&*()_+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
-		"ZXCVBNM<>?/qwertyuiopasdfghjklzxcvbnm$¥£";
+	const char num_disallowed[]
+		= " `~!@#%^&*()_+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
+		  "ZXCVBNM<>?/qwertyuiopasdfghjklzxcvbnm$¥£";
 	int32 i = 0;
 	while (num_disallowed[i]) {
 		TextView()->DisallowChar(num_disallowed[i]);

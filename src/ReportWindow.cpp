@@ -47,7 +47,7 @@ enum {
 
 ReportWindow::ReportWindow(BRect frame)
 	: BWindow(frame, B_TRANSLATE("Reports"), B_DOCUMENT_WINDOW,
-		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
+		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
 	  fSubtotalMode(SUBTOTAL_NONE),
 	  fReportMode(REPORT_CASH_FLOW),
 	  fStartDate(GetCurrentYear()),

@@ -153,8 +153,8 @@ RegisterView::HandleNotify(const uint64& value, const BMessage* msg)
 				fAccountView->Select(0);
 			acc->AddObserver(this);
 		} else if (value & WATCH_DELETE) {
-			AccountListItem* item =
-				(AccountListItem*)fAccountView->RemoveItem(gDatabase.IndexOf(acc));
+			AccountListItem* item
+				= (AccountListItem*)fAccountView->RemoveItem(gDatabase.IndexOf(acc));
 			delete item;
 			fAccountView->Select(0);
 		} else if (value & WATCH_CHANGE) {

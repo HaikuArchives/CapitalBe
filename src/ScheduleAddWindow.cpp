@@ -39,22 +39,22 @@ enum {
 
 ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& data)
 	: BWindow(frame, B_TRANSLATE("Schedule transaction"), B_TITLED_WINDOW_LOOK,
-		  B_MODAL_APP_WINDOW_FEEL,
-		  B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
+		B_MODAL_APP_WINDOW_FEEL,
+		B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fTransData(data)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
 	// Type
-	BStringView* typeLabel =
-		new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
+	BStringView* typeLabel
+		= new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
 	typeLabel->SetExplicitSize(BSize(be_plain_font->StringWidth("ShortType"), B_SIZE_UNSET));
 	BTextControl* type = new BTextControl("type", NULL, data.Type().Type(), NULL);
 	type->SetEnabled(false);
 
 	// Payee
-	BStringView* payeeLabel =
-		new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
+	BStringView* payeeLabel
+		= new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
 	payeeLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	payeeLabel->SetExplicitMinSize(
 		BSize(be_plain_font->StringWidth("anAveragelyLongPayee"), B_SIZE_UNSET));
@@ -71,8 +71,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	amount->SetEnabled(false);
 
 	// Category
-	BStringView* categoryLabel =
-		new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
+	BStringView* categoryLabel
+		= new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	categoryLabel->SetExplicitSize(
 		BSize(be_plain_font->StringWidth("aLongCategoryName"), B_SIZE_UNSET));
 	BString label;
@@ -84,8 +84,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	category->SetEnabled(false);
 
 	// Memo
-	BStringView* memoLabel =
-		new BStringView("memolabel", B_TRANSLATE_CONTEXT("Memo", "CommonTerms"));
+	BStringView* memoLabel
+		= new BStringView("memolabel", B_TRANSLATE_CONTEXT("Memo", "CommonTerms"));
 	memoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	memoLabel->SetExplicitMinSize(
 		BSize(be_plain_font->StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));
@@ -102,17 +102,17 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	fIntervalMenu->ItemAt(0)->SetMarked(true);
 	fIntervalMenu->SetLabelFromMarked(true);
 
-	BMenuField* intervalfield =
-		new BMenuField("intervalfield", B_TRANSLATE("Frequency:"), fIntervalMenu);
+	BMenuField* intervalfield
+		= new BMenuField("intervalfield", B_TRANSLATE("Frequency:"), fIntervalMenu);
 
-	fStartDate =
-		new DateBox("startdate", B_TRANSLATE("Starting date:"), "", new BMessage(M_DATE_CHANGED));
+	fStartDate
+		= new DateBox("startdate", B_TRANSLATE("Starting date:"), "", new BMessage(M_DATE_CHANGED));
 	fStartDate->UseTabFiltering(false);
 	gDefaultLocale.DateToString(data.Date(), temp);
 	fStartDate->SetText(temp.String());
 
-	fRepeatAlways =
-		new BRadioButton("inftimes", B_TRANSLATE("Indefinitely"), new BMessage(M_REPEAT_ALWAYS));
+	fRepeatAlways
+		= new BRadioButton("inftimes", B_TRANSLATE("Indefinitely"), new BMessage(M_REPEAT_ALWAYS));
 	fRepeatAlways->SetValue(B_CONTROL_ON);
 
 	fRepeatLimited = new BRadioButton("limitedtimes", " ", new BMessage(M_REPEAT_LIMITED));
@@ -129,12 +129,12 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	BStringView* dummy = new BStringView("dummy", "");	// used to align "Repeat" label
 	dummy->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
-	BButton* okButton =
-		new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_SCHEDULE_TRANSACTION));
+	BButton* okButton
+		= new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_SCHEDULE_TRANSACTION));
 	okButton->MakeDefault(true);
 
-	BButton* cancelButton =
-		new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
+	BButton* cancelButton
+		= new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
 	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
@@ -249,8 +249,8 @@ ScheduleAddWindow::MessageReceived(BMessage* msg)
 
 			time_t tempdate;
 			BString datestr = fStartDate->Text();
-			if (datestr.CountChars() < 3 ||
-				gDefaultLocale.StringToDate(datestr.String(), tempdate) != B_OK) {
+			if (datestr.CountChars() < 3
+				|| gDefaultLocale.StringToDate(datestr.String(), tempdate) != B_OK) {
 				ShowAlert(B_TRANSLATE_CONTEXT(
 							  "CapitalBe didn't understand the date you entered", "TextInput"),
 					B_TRANSLATE_CONTEXT(

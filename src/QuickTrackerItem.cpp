@@ -126,10 +126,10 @@ QTNetWorthItem::Calculate(void)
 	}
 
 	// Get sum of default currency accounts that are open:
-	command =
-		"SELECT a.accountid FROM accountlist AS a LEFT JOIN accountlocale AS al ON "
-		"a.accountid = al.accountid WHERE al.accountid IS NULL AND a.status = \"Open\" "
-		"OR a.status = \"open\";";
+	command
+		= "SELECT a.accountid FROM accountlist AS a LEFT JOIN accountlocale AS al ON "
+		  "a.accountid = al.accountid WHERE al.accountid IS NULL AND a.status = \"Open\" "
+		  "OR a.status = \"open\";";
 	query = gDatabase.DBQuery(command.String(), "Database::Calculate");
 
 	balance = 0;
@@ -147,9 +147,9 @@ QTNetWorthItem::Calculate(void)
 
 	// Get sum of other currency accounts:
 	for (int32 i = 0; i < currencies.size(); i++) {
-		command =
-			"SELECT a1.accountid FROM accountlist AS a1 JOIN accountlocale AS a2 ON "
-			"a1.accountid=a2.accountid WHERE a2.currencysymbol = \"";
+		command
+			= "SELECT a1.accountid FROM accountlist AS a1 JOIN accountlocale AS a2 ON "
+			  "a1.accountid=a2.accountid WHERE a2.currencysymbol = \"";
 		command << currencies.at(i).String() << "\" AND a1.status = \"Open\";";
 		query = gDatabase.DBQuery(command.String(), "Database::Calculate");
 

@@ -69,8 +69,8 @@ ReportWindow::ComputeTransactions(void)
 		fGridView->StringWidth(B_TRANSLATE_CONTEXT("Type", "CommonTerms")) + 20, 10, 300,
 		B_TRUNCATE_END);
 	fGridView->AddColumn(col, 2);
-	col =
-		new BStringColumn(B_TRANSLATE_CONTEXT("Payee", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(
+		B_TRANSLATE_CONTEXT("Payee", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 3);
 
 	// The string we use for calculating width here should work well enough for general purposes
@@ -80,8 +80,8 @@ ReportWindow::ComputeTransactions(void)
 	col = new BStringColumn(B_TRANSLATE_CONTEXT("Category", "CommonTerms"),
 		fGridView->StringWidth("0000000000") + 20, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 5);
-	col =
-		new BStringColumn(B_TRANSLATE_CONTEXT("Memo", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(
+		B_TRANSLATE_CONTEXT("Memo", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 6);
 
 	fGridView->AddRow(new BRow());
@@ -135,8 +135,8 @@ ReportWindow::ComputeTransactions(void)
 			accountcount++;
 		}
 		command << " ORDER BY date,transid;";
-		CppSQLite3Query query =
-			gDatabase.DBQuery(command.String(), "ReportWindow::ComputeTransactions()");
+		CppSQLite3Query query
+			= gDatabase.DBQuery(command.String(), "ReportWindow::ComputeTransactions()");
 
 		if (query.eof()) {
 			row = new BRow();

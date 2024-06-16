@@ -676,8 +676,8 @@ template <class T>
 bool
 BObjectList<T>::BinaryInsert(T* item, CompareFunctionWithState func, void* state)
 {
-	int32 index =
-		_PointerList_::BinarySearchIndex(item, (GenericCompareFunctionWithState)func, state);
+	int32 index
+		= _PointerList_::BinarySearchIndex(item, (GenericCompareFunctionWithState)func, state);
 	if (index >= 0) {
 		// already in list, add after existing
 		return AddItem(item, index + 1);
@@ -701,8 +701,8 @@ template <class T>
 bool
 BObjectList<T>::BinaryInsertUnique(T* item, CompareFunctionWithState func, void* state)
 {
-	int32 index =
-		_PointerList_::BinarySearchIndex(item, (GenericCompareFunctionWithState)func, state);
+	int32 index
+		= _PointerList_::BinarySearchIndex(item, (GenericCompareFunctionWithState)func, state);
 	if (index >= 0)
 		return false;
 
@@ -730,8 +730,8 @@ template <class T>
 T*
 BObjectList<T>::BinaryInsertCopy(const T& copyThis, CompareFunctionWithState func, void* state)
 {
-	int32 index =
-		_PointerList_::BinarySearchIndex(&copyThis, (GenericCompareFunctionWithState)func, state);
+	int32 index
+		= _PointerList_::BinarySearchIndex(&copyThis, (GenericCompareFunctionWithState)func, state);
 
 	if (index >= 0)
 		index++;
@@ -762,8 +762,8 @@ T*
 BObjectList<T>::BinaryInsertCopyUnique(
 	const T& copyThis, CompareFunctionWithState func, void* state)
 {
-	int32 index =
-		_PointerList_::BinarySearchIndex(&copyThis, (GenericCompareFunctionWithState)func, state);
+	int32 index
+		= _PointerList_::BinarySearchIndex(&copyThis, (GenericCompareFunctionWithState)func, state);
 	if (index >= 0)
 		return ItemAt(index);
 

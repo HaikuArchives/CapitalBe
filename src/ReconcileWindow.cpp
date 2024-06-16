@@ -46,7 +46,7 @@ private:
 
 ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	: BWindow(frame, "", B_TITLED_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
-		  B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_CLOSE_ON_ESCAPE)
+		B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_CLOSE_ON_ESCAPE)
 {
 	BString temp;
 	fCurrentDate = GetCurrentDate();
@@ -133,8 +133,8 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	fReconcile = new BButton("reconcile", B_TRANSLATE("Reconcile"), new BMessage(M_RECONCILE));
 	fCancel = new BButton("cancel", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 	fReset = new BButton("reset", B_TRANSLATE("Reset"), new BMessage(M_RESET));
-	fAutoReconcile =
-		new BButton("autoreconcile", B_TRANSLATE("Quick balance"), new BMessage(M_AUTORECONCILE));
+	fAutoReconcile
+		= new BButton("autoreconcile", B_TRANSLATE("Quick balance"), new BMessage(M_AUTORECONCILE));
 
 	fHelpButton = new HelpButton(B_TRANSLATE("Help: Reconcile"), "Reconcile.txt");
 
@@ -427,8 +427,8 @@ ReconcileWindow::MessageReceived(BMessage* msg)
 		case M_SET_BALANCES:
 		{
 			Fixed fixed, fixed2;
-			if (gCurrentLocale.StringToCurrency(fOpening->Text(), fixed) != B_OK ||
-				gCurrentLocale.StringToCurrency(fClosing->Text(), fixed2) != B_OK)
+			if (gCurrentLocale.StringToCurrency(fOpening->Text(), fixed) != B_OK
+				|| gCurrentLocale.StringToCurrency(fClosing->Text(), fixed2) != B_OK)
 				break;
 
 			fDifference = fixed - fixed2;
@@ -517,8 +517,8 @@ ReconcileWindow::HandleNotify(const uint64& value, const BMessage* msg)
 			}
 		} else if (value & WATCH_CREATE) {
 			uint32 accountid;
-			if (msg->FindInt32("accountid", (int32*)&accountid) != B_OK ||
-				accountid != fAccount->GetID()) {
+			if (msg->FindInt32("accountid", (int32*)&accountid) != B_OK
+				|| accountid != fAccount->GetID()) {
 				if (unlock)
 					Unlock();
 				return;
@@ -552,16 +552,16 @@ void
 ReconcileWindow::ApplyChargesAndInterest(void)
 {
 	Fixed charge;
-	if (strlen(fCharges->Text()) > 0 &&
-		gCurrentLocale.StringToCurrency(fCharges->Text(), charge) == B_OK) {
+	if (strlen(fCharges->Text()) > 0
+		&& gCurrentLocale.StringToCurrency(fCharges->Text(), charge) == B_OK) {
 		TransactionData chargetrans(fAccount, fDate->Text(), "ATM", B_TRANSLATE("Bank charge"),
 			fCharges->Text(), B_TRANSLATE("Bank charge"), NULL, TRANS_RECONCILED);
 		gDatabase.AddTransaction(chargetrans);
 	}
 
 	Fixed interest;
-	if (strlen(fInterest->Text()) > 0 &&
-		gCurrentLocale.StringToCurrency(fInterest->Text(), interest) == B_OK) {
+	if (strlen(fInterest->Text()) > 0
+		&& gCurrentLocale.StringToCurrency(fInterest->Text(), interest) == B_OK) {
 		TransactionData interesttrans(fAccount, fDate->Text(), B_TRANSLATE("DEP"),
 			B_TRANSLATE("Account interest"), fInterest->Text(), B_TRANSLATE("Account interest"),
 			NULL, TRANS_RECONCILED);
@@ -684,9 +684,9 @@ ReconcileWindow::InsertTransactionItem(BListView* target, ReconcileItem* item)
 		ReconcileItem* temp = (ReconcileItem*)target->ItemAt(i);
 		TransactionData* tempdata = temp->GetTransaction();
 
-		if (itemdata->Date() < tempdata->Date() ||
-			(itemdata->Date() == tempdata->Date() &&
-				strcmp(itemdata->Payee(), tempdata->Payee()) < 1)) {
+		if (itemdata->Date() < tempdata->Date()
+			|| (itemdata->Date() == tempdata->Date()
+				&& strcmp(itemdata->Payee(), tempdata->Payee()) < 1)) {
 			target->AddItem(item, i);
 			return;
 		}
