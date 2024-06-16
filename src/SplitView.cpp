@@ -167,7 +167,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		fStartExpanded = true;
 	}
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(fSplitContainer, B_VERTICAL, 0)
 		.SetInsets(0)
 		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))

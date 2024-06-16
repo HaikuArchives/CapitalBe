@@ -13,7 +13,7 @@ enum {
 
 CalendarButton::CalendarButton(DateBox* datebox)
 	: BButton("calenderbutton", "", new BMessage(M_SHOW_CALENDER)),
-	fDateBox(datebox)
+	  fDateBox(datebox)
 {
 	float height;
 	fDateBox->GetPreferredSize(NULL, &height);
@@ -93,8 +93,8 @@ CalendarButton::DrawIcon()
 
 	float dateWidth = view->StringWidth(fDay);
 	rect = view->Bounds();
-	view->DrawString(fDay.String(), BPoint(ceilf((rect.Width()  / 2) - dateWidth / 2),
-		ceilf(rect.bottom - rect.Height() / 8)));
+	view->DrawString(fDay.String(),
+		BPoint(ceilf((rect.Width() / 2) - dateWidth / 2), ceilf(rect.bottom - rect.Height() / 8)));
 
 	view->RemoveSelf();
 	bitmap->Unlock();
@@ -107,7 +107,7 @@ CalendarButton::DrawIcon()
 void
 CalendarButton::UpdateIcon()
 {
-	fDay ="";
+	fDay = "";
 	BDateTime now = BDateTime::CurrentDateTime(B_LOCAL_TIME);
 	BDate date = now.Time_t();
 	fDay << date.Day();
@@ -140,6 +140,6 @@ CalendarButton::ShowPopUpCalendar()
 	fCalendarWindow = BMessenger(window);
 	window->Show();
 
-	window->MoveBy(Bounds().Width() / 2, window->Bounds().Height() * - 1.5);
+	window->MoveBy(Bounds().Width() / 2, window->Bounds().Height() * -1.5);
 	window->MoveOnScreen(B_MOVE_IF_PARTIALLY_OFFSCREEN);
 }

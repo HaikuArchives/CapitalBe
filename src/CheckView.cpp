@@ -42,8 +42,8 @@ CheckView::CheckView(const char* name, int32 flags)
 
 	CalendarButton* calendarButton = new CalendarButton(fDate);
 
-	BStringView* typeLabel =
-		new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
+	BStringView* typeLabel
+		= new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
 	typeLabel->SetExplicitSize(BSize(StringWidth("ShortType"), B_SIZE_UNSET));
 	fType = new CheckNumBox("typeentry", "", NULL, new BMessage(M_TYPE_CHANGED));
 

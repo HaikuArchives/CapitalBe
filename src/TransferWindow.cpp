@@ -7,8 +7,8 @@
 #include <Messenger.h>
 #include <ScrollView.h>
 
-#include "CalendarButton.h"
 #include "CBLocale.h"
+#include "CalendarButton.h"
 #include "CurrencyBox.h"
 #include "DAlert.h"
 #include "Database.h"
@@ -80,7 +80,7 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	//	fDate->SetEscapeCancel(true);
 
 	CalendarButton* calendarButton = new CalendarButton(fDate);
-	
+
 	if (src && dest) {
 		BString datestr;
 		gDefaultLocale.DateToString(fDate->GetDate(), datestr);
@@ -126,7 +126,7 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	} else
 		fDestList->MakeFocus(true);
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_HALF_ITEM_SPACING)
 		.SetInsets(B_USE_WINDOW_SPACING)
 		.AddGroup(B_HORIZONTAL)

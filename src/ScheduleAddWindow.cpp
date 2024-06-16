@@ -12,8 +12,8 @@
 #include <StringView.h>
 #include <stdlib.h>
 
-#include "CalendarButton.h"
 #include "CBLocale.h"
+#include "CalendarButton.h"
 #include "Database.h"
 #include "DateBox.h"
 #include "NumBox.h"
@@ -114,8 +114,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 
 	CalendarButton* calendarButton = new CalendarButton(fStartDate);
 
-	fRepeatAlways =
-		new BRadioButton("inftimes", B_TRANSLATE("Indefinitely"), new BMessage(M_REPEAT_ALWAYS));
+	fRepeatAlways
+		= new BRadioButton("inftimes", B_TRANSLATE("Indefinitely"), new BMessage(M_REPEAT_ALWAYS));
 	fRepeatAlways->SetValue(B_CONTROL_ON);
 
 	fRepeatLimited = new BRadioButton("limitedtimes", " ", new BMessage(M_REPEAT_LIMITED));
@@ -139,7 +139,7 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	BButton* cancelButton
 		= new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(B_USE_WINDOW_SPACING)
 		.AddGrid(1.0f, 0.0f)
@@ -185,7 +185,7 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 			.Add(okButton)
 			.End()
 		.End();
-// clang-format on
+	// clang-format on
 
 	CenterIn(Frame());
 }

@@ -23,7 +23,6 @@ private:
 	DateBox* fDateBox;
 	BMessenger fCalendarWindow;
 	BString fDay;
-
 };
 
-#endif // CALENDARBUTTON_H
+#endif	// CALENDARBUTTON_H

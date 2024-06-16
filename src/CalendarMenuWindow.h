@@ -21,21 +21,20 @@ class BCalendarView;
 using BPrivate::BCalendarView;
 
 
-class CalendarMenuWindow : public BWindow
-{
+class CalendarMenuWindow : public BWindow {
 public:
-					CalendarMenuWindow(BHandler* handler, BPoint where);
-	virtual 		~CalendarMenuWindow();
+	CalendarMenuWindow(BHandler* handler, BPoint where);
+	virtual ~CalendarMenuWindow();
 
-	virtual void 	Show();
-	virtual void 	WindowActivated(bool active);
-	virtual void 	MessageReceived(BMessage* message);
-	void 			SetDate(const BDate& date);
-	void 			SetInvocationMessage(BMessage* message);
+	virtual void Show();
+	virtual void WindowActivated(bool active);
+	virtual void MessageReceived(BMessage* message);
+	void SetDate(const BDate& date);
+	void SetInvocationMessage(BMessage* message);
 
 private:
-	void 			_UpdateDate(const BDate& date);
-	BButton* 		_SetupButton(const char* label, uint32 what, float height);
+	void _UpdateDate(const BDate& date);
+	BButton* _SetupButton(const char* label, uint32 what, float height);
 
 private:
 	static const int kInvokationMessage = 1000;
@@ -45,12 +44,12 @@ private:
 	static const int kYearUpMessage = 1004;
 
 
-	BStringView*	fYearLabel;
-	BStringView*	fMonthLabel;
-	BCalendarView*	fCalendarView;
-	BHandler*		fHandler;
-	BMessage*		fInvocationMessage;
-	bool			fSuppressFirstClose;
+	BStringView* fYearLabel;
+	BStringView* fMonthLabel;
+	BCalendarView* fCalendarView;
+	BHandler* fHandler;
+	BMessage* fInvocationMessage;
+	bool fSuppressFirstClose;
 };
 
 

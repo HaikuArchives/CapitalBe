@@ -4,8 +4,8 @@
 #include <ScrollView.h>
 #include <String.h>
 
-#include "CalendarButton.h"
 #include "CBLocale.h"
+#include "CalendarButton.h"
 #include "CurrencyBox.h"
 #include "DAlert.h"
 #include "Database.h"
@@ -64,7 +64,8 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	BStringView* dateLabel = new BStringView("datelabel", B_TRANSLATE_CONTEXT("Date", "CommonTerms"));
+	BStringView* dateLabel
+		= new BStringView("datelabel", B_TRANSLATE_CONTEXT("Date", "CommonTerms"));
 	BString datestr;
 	gDefaultLocale.DateToString(fCurrentDate, datestr);
 	fDate = new DateBox("dateentry", NULL, datestr.String(), NULL);
@@ -146,7 +147,7 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 
 	fDate->MakeFocus(true);
 
-// clang-format off
+	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.AddGrid(1.0f, 1.0f)
@@ -186,7 +187,7 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 			.Add(fReconcile)
 			.End()
 		.End();
-// clang-format on
+	// clang-format on
 }
 
 ReconcileWindow::~ReconcileWindow(void)
