@@ -18,7 +18,7 @@ Entering a Transaction
 
 Adding a transaction to an account is just as simple as typing in information into the form in the bottom right part of the window and hitting the Enter key or clicking the Enter button.
 
-Tip: The + and - keys can change the date by one day. The Page Up and Page Down keys change it by one month.
+Tip: The Up or Down arrow can change the date by one day. Add the Shift keys to change the month. The Page Up and Page Down keys change the year.
 Tip: Jump to the next box with the Tab key or jump to the previous one with Shift + Tab.
 
 The QuickTracker Panel
