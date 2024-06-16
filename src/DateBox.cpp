@@ -39,8 +39,8 @@ DateBoxFilter::KeyFilter(const int32& key, const int32& mod)
 #endif
 
 	// Weed out navigation keys
-	if (key < 32 && key != B_PAGE_UP && key != B_PAGE_DOWN
-			&& key != B_UP_ARROW && key != B_DOWN_ARROW)
+	if (key < 32 && key != B_PAGE_UP && key != B_PAGE_DOWN && key != B_UP_ARROW
+		&& key != B_DOWN_ARROW)
 		return B_DISPATCH_MESSAGE;
 
 	int32 start, end;
