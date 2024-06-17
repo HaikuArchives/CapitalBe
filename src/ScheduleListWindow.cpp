@@ -17,10 +17,8 @@
 #include "ColumnTypes.h"
 #include "Database.h"
 #include "HelpButton.h"
-#include "Preferences.h"
 #include "ScheduledTransData.h"
 #include "ScheduledTransItem.h"
-#include "TransactionLayout.h"
 
 
 #undef B_TRANSLATION_CONTEXT
