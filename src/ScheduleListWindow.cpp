@@ -79,8 +79,9 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Next payment"),
 							 StringWidth(B_TRANSLATE("Next payment")) + 20, 25, 300, B_ALIGN_LEFT),
 		4);
-	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Memo"),
-							StringWidth("This is a relatively long memo text"), 25, 300, B_ALIGN_LEFT),
+	fListView->AddColumn(
+		new BStringColumn(B_TRANSLATE("Memo"), StringWidth("This is a relatively long memo text"),
+			25, 300, B_ALIGN_LEFT),
 		5);
 	float maxwidth = RefreshScheduleList();
 	fBestWidth = (fRemoveButton->Frame().Width() * 2) + 45;
