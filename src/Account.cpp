@@ -127,16 +127,16 @@ Account::AutocompleteCategory(const char* input)
 		if (strncasecmp(input, "Split", inputlength) == 0)
 			return "Split";
 	}
-
-	BString command;
-	command << ("SELECT name FROM categorylist WHERE name LIKE '") << EscapeIllegalCharacters(input)
-			<< "%' ;";
-	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::AutocompleteCategory");
+	CppSQLite3Buffer bufSQL;
+	BString searchString;
+	searchString << input << "%";
+	bufSQL.format("SELECT name FROM categorylist WHERE name LIKE %Q", searchString.String());
+	CppSQLite3Query query = gDatabase.DBQuery(bufSQL, "Account::AutocompleteCategory");
 
 	if (query.eof())
 		return NULL;
 
-	return DeescapeIllegalCharacters(query.getStringField(0));
+	return query.getStringField(0);
 }
 
 BString
@@ -145,16 +145,18 @@ Account::AutocompletePayee(const char* input)
 	if (!input)
 		return BString();
 
-	BString command;
-	command << ("SELECT payee FROM account_") << fID << " WHERE payee LIKE '"
-			<< EscapeIllegalCharacters(input) << "%' ;";
-
-	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::AutocompletePayee");
+	CppSQLite3Buffer bufSQL;
+	BString searchString, accountTable;
+	searchString << input << "%";
+	accountTable << "account_" << fID;
+	bufSQL.format("SELECT payee FROM %s WHERE payee LIKE %Q", accountTable.String(),
+		searchString.String());
+	CppSQLite3Query query = gDatabase.DBQuery(bufSQL, "Account::AutocompletePayee");
 
 	if (query.eof())
 		return NULL;
 
-	return DeescapeIllegalCharacters(query.getStringField(0));
+	return query.getStringField(0);
 }
 
 BString
@@ -179,16 +181,18 @@ Account::AutocompleteType(const char* input)
 			return str;
 	}
 
-	BString command;
-	command << ("SELECT type FROM account_") << fID << " WHERE type LIKE '"
-			<< EscapeIllegalCharacters(input) << "%' ;";
-
-	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::AutocompleteType");
+	CppSQLite3Buffer bufSQL;
+	BString searchString, accountTable;
+	searchString << input << "%";
+	accountTable << "account_" << fID;
+	bufSQL.format("SELECT type FROM %s WHERE type LIKE %Q", accountTable.String(),
+		searchString.String());
+	CppSQLite3Query query = gDatabase.DBQuery(bufSQL, "Account::AutocompleteType");
 
 	if (query.eof())
 		return BString();
 
-	return DeescapeIllegalCharacters(query.getStringField(0));
+	return query.getStringField(0);
 }
 
 Locale

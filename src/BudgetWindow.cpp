@@ -261,6 +261,10 @@ BudgetWindow::HandleCategorySelection(void)
 	Fixed high, low, avg;
 	CalcStats(entry.name.String(), high, low, avg);
 
+	gDefaultLocale.CurrencyToString(avg.AbsoluteValue(), str);
+	str.RemoveFirst(gDefaultLocale.CurrencySymbol());
+	fStatAverageRow->SetField(new BStringField(str.String()), 1);
+
 	gDefaultLocale.CurrencyToString(high.AbsoluteValue(), str);
 	str.RemoveFirst(gDefaultLocale.CurrencySymbol());
 	fStatHighestRow->SetField(new BStringField(str.String()), 1);
@@ -268,10 +272,6 @@ BudgetWindow::HandleCategorySelection(void)
 	gDefaultLocale.CurrencyToString(low.AbsoluteValue(), str);
 	str.RemoveFirst(gDefaultLocale.CurrencySymbol());
 	fStatLowestRow->SetField(new BStringField(str.String()), 1);
-
-	gDefaultLocale.CurrencyToString(avg.AbsoluteValue(), str);
-	str.RemoveFirst(gDefaultLocale.CurrencySymbol());
-	fStatAverageRow->SetField(new BStringField(str.String()), 1);
 
 	fCatStat->Invalidate();
 }
@@ -502,21 +502,22 @@ BudgetWindow::GenerateBudget(const bool& zero)
 	// Now that we have the list of categories, query for transactions for each
 	// account from each category
 
-	BString querystring;
+	BString accountName;
+	CppSQLite3Buffer bufSQL;
 	Fixed cattotal;
 	for (int32 i = 0; i < income.CountItems(); i++) {
-		querystring = "";
 		cattotal = 0;
 
 		if (!zero) {
 			for (int32 j = 0; j < gDatabase.CountAccounts(); j++) {
 				Account* acc = gDatabase.AccountAt(j);
-				querystring = "SELECT SUM(amount) FROM account_";
-				querystring << acc->GetID() << " WHERE category = '"
-							<< EscapeIllegalCharacters(income.RowTitle(i)) << "' AND date > "
-							<< DecrementDateByYear(GetCurrentDate()) << ";";
-				query = gDatabase.DBQuery(
-					querystring.String(), "BudgetWindow::GenerateBudget:get category");
+				accountName = "account_";
+				accountName << acc->GetID();
+				bufSQL.format("SELECT SUM(amount) FROM %s WHERE category = %Q AND date > %ld;",
+					accountName.String(), income.RowTitle(i),
+					DecrementDateByYear(GetCurrentDate()));
+
+				query = gDatabase.DBQuery(bufSQL, "BudgetWindow::GenerateBudget:get category");
 				cattotal.AddPremultiplied(query.getInt64Field(0));
 				query.finalize();
 			}
@@ -528,17 +529,17 @@ BudgetWindow::GenerateBudget(const bool& zero)
 	}
 
 	for (int32 i = 0; i < spending.CountItems(); i++) {
-		querystring = "";
 		cattotal = 0;
 
 		if (!zero) {
 			for (int32 j = 0; j < gDatabase.CountAccounts(); j++) {
 				Account* acc = gDatabase.AccountAt(j);
-				querystring = "SELECT SUM(amount) FROM account_";
-				querystring << acc->GetID() << " WHERE category = '"
-							<< EscapeIllegalCharacters(spending.RowTitle(i)) << "';";
-				query = gDatabase.DBQuery(
-					querystring.String(), "BudgetWindow::GenerateBudget:get category");
+				accountName = "account_";
+				accountName << acc->GetID();
+				bufSQL.format("SELECT SUM(amount) FROM %s WHERE category = %Q;",
+					accountName.String(), spending.RowTitle(i));
+
+				query = gDatabase.DBQuery(bufSQL, "BudgetWindow::GenerateBudget:get category");
 				cattotal.AddPremultiplied(query.getInt64Field(0));
 				query.finalize();
 			}
@@ -556,17 +557,19 @@ BudgetWindow::CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg)
 	if (!cat)
 		return;
 
-	BString querystring;
+	BString accountName;
 	Fixed cattotal;
+	CppSQLite3Buffer bufSQL;
 	CppSQLite3Query query;
 
 	// find the average amount
 	for (int32 j = 0; j < gDatabase.CountAccounts(); j++) {
 		Account* acc = gDatabase.AccountAt(j);
-		querystring = "SELECT SUM(amount) FROM account_";
-		querystring << acc->GetID() << " WHERE category = '" << EscapeIllegalCharacters(cat)
-					<< "';";
-		query = gDatabase.DBQuery(querystring.String(), "BudgetWindow::CalcStats:get average");
+		accountName = "account_";
+		accountName << acc->GetID();
+		bufSQL.format("SELECT SUM(amount) FROM %s WHERE category = %Q;", accountName.String(), cat);
+
+		query = gDatabase.DBQuery(bufSQL, "BudgetWindow::CalcStats:get average");
 		cattotal.AddPremultiplied(query.getInt64Field(0));
 		query.finalize();
 	}
@@ -577,10 +580,11 @@ BudgetWindow::CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg)
 	cattotal = 0;
 	for (int32 j = 0; j < gDatabase.CountAccounts(); j++) {
 		Account* acc = gDatabase.AccountAt(j);
-		querystring = "SELECT MAX(amount) FROM account_";
-		querystring << acc->GetID() << " WHERE category = '" << EscapeIllegalCharacters(cat)
-					<< "';";
-		query = gDatabase.DBQuery(querystring.String(), "BudgetWindow::CalcStats:get highest");
+		accountName = "account_";
+		accountName << acc->GetID();
+		bufSQL.format("SELECT MAX(amount) FROM %s WHERE category = %Q;", accountName.String(), cat);
+
+		query = gDatabase.DBQuery(bufSQL, "BudgetWindow::CalcStats:get highest");
 		Fixed value;
 		value.SetPremultiplied(query.getInt64Field(0));
 		cattotal = MAX(cattotal, value);
@@ -592,10 +596,11 @@ BudgetWindow::CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg)
 	cattotal = 0;
 	for (int32 j = 0; j < gDatabase.CountAccounts(); j++) {
 		Account* acc = gDatabase.AccountAt(j);
-		querystring = "SELECT MIN(amount) FROM account_";
-		querystring << acc->GetID() << " WHERE category = '" << EscapeIllegalCharacters(cat)
-					<< "';";
-		query = gDatabase.DBQuery(querystring.String(), "BudgetWindow::CalcStats:get highest");
+		accountName = "account_";
+		accountName << acc->GetID();
+		bufSQL.format("SELECT MIN(amount) FROM %s WHERE category = %Q;", accountName.String(), cat);
+
+		query = gDatabase.DBQuery(bufSQL, "BudgetWindow::CalcStats:get highest");
 		Fixed value;
 		value.SetPremultiplied(query.getInt64Field(0));
 		cattotal = MIN(cattotal, value);

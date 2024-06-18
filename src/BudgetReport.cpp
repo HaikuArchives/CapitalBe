@@ -158,8 +158,8 @@ ReportWindow::ComputeBudget(void)
 
 	// Construct and execute the query which finds all expense in the selected
 	// category
-	BString command;
-	BString escaped = EscapeIllegalCharacters(stringitem->Text());
+	BString command, account;
+	CppSQLite3Buffer bufSQL;
 	int32 accountcount = 0;
 	for (i = 0; i < fAccountList->CountItems(); i++) {
 		AccountItem* item = (AccountItem*)fAccountList->ItemAt(i);
@@ -169,15 +169,18 @@ ReportWindow::ComputeBudget(void)
 		if (accountcount > 0)
 			command << " UNION ALL ";
 
-		command << "SELECT date,amount FROM account_";
-		command << item->account->GetID() << " WHERE category = '" << escaped
-				<< "' AND date >= " << fStartDate << " AND date < " << fEndDate;
+		account = "account_";
+		account << item->account->GetID();
+
+		bufSQL.format(
+			"SELECT date,amount FROM %s WHERE category = %Q AND date >= %li AND date < %li;",
+			account.String(), stringitem->Text(), fStartDate, fEndDate);
+		command << bufSQL;
 
 		accountcount++;
 	}
 	command << " ORDER BY date;";
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "ComputeBudget::Get amounts");
-	// printf("%s\n",command.String());
 	if (query.eof())
 		return;
 

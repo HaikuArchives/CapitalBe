@@ -539,13 +539,14 @@ ReportWindow::CalcCategoryString(void)
 {
 	// Compile list of selected categories
 	fCategoryString = "";
+	CppSQLite3Buffer bufSQL;
 	for (int32 i = 0; i < fCategoryList->CountItems(); i++) {
 		BStringItem* catitem = (BStringItem*)fCategoryList->ItemAt(i);
 		if (catitem && catitem->IsSelected()) {
 			if (fCategoryString.CountChars() > 0)
-				fCategoryString << ",'" << EscapeIllegalCharacters(catitem->Text()) << "'";
+				fCategoryString << bufSQL.format(",%Q", catitem->Text());
 			else
-				fCategoryString << "'" << EscapeIllegalCharacters(catitem->Text()) << "'";
+				fCategoryString << bufSQL.format("%Q", catitem->Text());
 		}
 	}
 }
