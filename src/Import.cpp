@@ -1,9 +1,4 @@
 #include "Import.h"
-#include <File.h>
-#include <TypeConstants.h>
-#include <stdio.h>
-#include <time.h>
-#include <string>
 #include "Account.h"
 #include "Budget.h"
 #include "CBLocale.h"
@@ -14,6 +9,10 @@
 #include "TextFile.h"
 #include "Transaction.h"
 #include "TransactionData.h"
+#include <File.h>
+#include <TypeConstants.h>
+#include <stdio.h>
+#include <time.h>
 
 #define DEBUG_IMPORT
 
@@ -52,6 +51,7 @@ ImportQIF(const entry_ref& ref)
 	BObjectList<Category> catlist(20);
 	BObjectList<Account> accountlist(20);
 	int32 accountindex = 0;
+	bool importSuccess = false;
 
 	BString string = file.ReadLine();
 
@@ -66,28 +66,32 @@ ImportQIF(const entry_ref& ref)
 
 		if (string.FindFirst("!Type:Cat") != B_ERROR) {
 			string = ReadCategories(catlist, file);
+			importSuccess = true;
 		} else if (string.FindFirst("!Type:Bank") != B_ERROR) {
 			STRACE(("Bank Account\n"));
 			accountindex++;
 			accountname = "Bank Account ";
 			accountname << accountindex;
 
-			currentaccount = gDatabase.AddAccount(accountname.String(), ACCOUNT_BANK, "open");
+			currentaccount = gDatabase.AddAccount(accountname.String(), ACCOUNT_BANK, "Open");
 			string = ReadTransactions(currentaccount, file);
+			importSuccess = true;
 		} else if (string.FindFirst("!Type:Cash") != B_ERROR) {
 			accountindex++;
 			accountname = "Cash Account ";
 			accountname << accountindex;
 
-			currentaccount = gDatabase.AddAccount(accountname.String(), ACCOUNT_CASH, "open");
+			currentaccount = gDatabase.AddAccount(accountname.String(), ACCOUNT_CASH, "Open");
 			string = ReadTransactions(currentaccount, file);
+			importSuccess = true;
 		} else if (string.FindFirst("!Type:CCard") != B_ERROR) {
 			accountindex++;
 			accountname = "Credit Card Account ";
 			accountname << accountindex;
 
-			currentaccount = gDatabase.AddAccount(accountname.String(), ACCOUNT_CREDIT, "open");
+			currentaccount = gDatabase.AddAccount(accountname.String(), ACCOUNT_CREDIT, "Open");
 			string = ReadTransactions(currentaccount, file);
+			importSuccess = true;
 		}
 		/*		else
 				if(string=="!Account")
@@ -114,7 +118,7 @@ ImportQIF(const entry_ref& ref)
 		}
 	}
 
-	return true;
+	return importSuccess;
 }
 
 BString
