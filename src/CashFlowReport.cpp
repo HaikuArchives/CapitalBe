@@ -59,7 +59,7 @@ ReportWindow::ComputeCashFlow(void)
 		if ((uint32)longestname.CountChars() < strlen(catitem->Text()))
 			longestname = catitem->Text();
 
-		BString escaped = EscapeIllegalCharacters(catitem->Text());
+		BString escaped = catitem->Text();
 
 		CppSQLite3Query query;
 
@@ -89,6 +89,8 @@ ReportWindow::ComputeCashFlow(void)
 
 			accountcount = 0;
 			command = expcommand = "";
+			CppSQLite3Buffer commandBuffer, expcommandBuffer;
+
 			for (int32 i = 0; i < fAccountList->CountItems(); i++) {
 				AccountItem* item = (AccountItem*)fAccountList->ItemAt(i);
 				if (!item || !item->IsSelected())
@@ -99,15 +101,17 @@ ReportWindow::ComputeCashFlow(void)
 					expcommand << " UNION ALL ";
 				}
 
-				command << "SELECT SUM(amount) FROM account_";
-				command << item->account->GetID() << " WHERE category = '" << escaped
-						<< "' AND amount > 0 AND date >= " << subtotal_start << " AND date < "
-						<< subtotal_end;
+				BString account;
+				account << "account_" << item->account->GetID();
+				commandBuffer.format("SELECT SUM(amount) from %s WHERE category = %Q AND amount > "
+									 "0 AND date >= %li AND date < %li",
+					account.String(), escaped.String(), subtotal_start, subtotal_end);
+				command << commandBuffer;
 
-				expcommand << "SELECT SUM(amount) FROM account_";
-				expcommand << item->account->GetID() << " WHERE category = '" << escaped
-						   << "' AND amount < 0 AND date >= " << subtotal_start << " AND date < "
-						   << subtotal_end;
+				expcommandBuffer.format("SELECT SUM(amount) from %s WHERE category = %Q AND amount "
+										"< 0 AND date >= %li AND date < %li",
+					account.String(), escaped.String(), subtotal_start, subtotal_end);
+				expcommand << expcommandBuffer;
 
 				accountcount++;
 			}

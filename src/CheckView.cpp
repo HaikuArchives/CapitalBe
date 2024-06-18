@@ -164,7 +164,7 @@ CheckView::MessageReceived(BMessage* msg)
 			msg->FindInt32("start", &start);
 			msg->FindString("string", &string);
 			fCategory->SetText(string.String());
-			fCategory->TextView()->Select(start, string.CountChars());
+			fCategory->TextView()->Select(start, string.CountChars() + 2);
 			break;
 		}
 
