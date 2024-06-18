@@ -1070,7 +1070,8 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 		data.AddCategory(DeescapeIllegalCharacters(query.getStringField(4)).String(), f, true);
 
 		if (!query.fieldIsNull(4))
-			data.SetMemoAt(data.CountCategories() - 1, DeescapeIllegalCharacters(query.getStringField(5)));
+			data.SetMemoAt(
+				data.CountCategories() - 1, DeescapeIllegalCharacters(query.getStringField(5)));
 
 		query.nextRow();
 	}
@@ -1126,7 +1127,8 @@ Database::InsertSchedTransaction(const uint32& id, const uint32& accountid, cons
 
 	BString command = "INSERT INTO scheduledlist VALUES(";
 	command << timestamp << ", " << accountid << ", " << id << ", " << startdate << ",'"
-			<< type.Type() << "', '" << epayee.String() << "', " << amount.AsFixed() << ", '" << ecategory.String();
+			<< type.Type() << "', '" << epayee.String() << "', " << amount.AsFixed() << ", '"
+			<< ecategory.String();
 	if (memo)
 		command << "', '" << ememo.String() << "', ";
 	else
