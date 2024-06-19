@@ -156,12 +156,10 @@ ReportWindow::ComputeTransactions(void)
 				row->SetField(new BStringField(tempstr.String()), 1);
 
 				// type
-				row->SetField(
-					new BStringField(DeescapeIllegalCharacters(query.getStringField(1)).String()),
-					2);
+				row->SetField(new BStringField(query.getStringField(1)), 2);
 
 				// payee
-				tempstr = DeescapeIllegalCharacters(query.getStringField(2));
+				tempstr = query.getStringField(2);
 				if (tempstr.CountChars() > payeechars) {
 					payeechars = tempstr.CountChars();
 					maxpayee = fGridView->StringWidth(tempstr.String());
@@ -174,7 +172,7 @@ ReportWindow::ComputeTransactions(void)
 				row->SetField(new BStringField(tempstr.String()), 4);
 
 				// category
-				tempstr = DeescapeIllegalCharacters(query.getStringField(4));
+				tempstr = query.getStringField(4);
 				if (tempstr.CountChars() > categorychars) {
 					categorychars = tempstr.CountChars();
 					maxcategory = fGridView->StringWidth(tempstr.String());
@@ -183,7 +181,7 @@ ReportWindow::ComputeTransactions(void)
 
 				// memo
 				if (!query.fieldIsNull(5)) {
-					tempstr = DeescapeIllegalCharacters(query.getStringField(5));
+					tempstr = query.getStringField(5);
 					if (tempstr.CountChars() > memochars) {
 						memochars = tempstr.CountChars();
 						maxmemo = fGridView->StringWidth(tempstr.String());

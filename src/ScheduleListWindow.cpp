@@ -260,7 +260,7 @@ ScheduleListView::RefreshScheduleList(void)
 		row->SetField(new BStringField(string.String()), 4);
 
 		// memo
-		row->SetField(new BStringField(DeescapeIllegalCharacters(sdata->Memo())), 5);
+		row->SetField(new BStringField(sdata->Memo()), 5);
 	}
 
 	fListView->ColumnAt(0)->SetWidth(maxwidth + 30);

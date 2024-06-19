@@ -464,7 +464,7 @@ ReportWindow::AddAccount(Account* acc)
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "ReportWindow::AddAccount");
 
 	while (!query.eof()) {
-		BString catstr = DeescapeIllegalCharacters(query.getStringField(0));
+		BString catstr = query.getStringField(0);
 		if (catstr.CountChars() < 1) {
 			query.nextRow();
 			continue;

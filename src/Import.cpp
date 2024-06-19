@@ -410,14 +410,14 @@ ExportQIF(const entry_ref& ref)
 			temp.RemoveFirst(gDefaultLocale.CurrencySymbol());
 			text << "U" << temp << "\nT" << temp << "\n";
 
-			text << "N" << DeescapeIllegalCharacters(query.getStringField(3)) << "\n";
-			text << "P" << DeescapeIllegalCharacters(query.getStringField(4)) << "\n";
+			text << "N" << query.getStringField(3) << "\n";
+			text << "P" << query.getStringField(4) << "\n";
 
-			temp = DeescapeIllegalCharacters(query.getStringField(7));
+			temp = query.getStringField(7);
 			if (temp.CountChars() > 0)
 				text << "M" << temp << "\n";
 
-			text << "L" << DeescapeIllegalCharacters(query.getStringField(6)) << "\n^\n";
+			text << "L" << query.getStringField(6) << "\n^\n";
 			query.nextRow();
 		}
 
@@ -467,8 +467,9 @@ MakeCategoryString(const DStringList& list, const bool& isexpense)
 
 	for (int32 i = 0; i < list.CountItems(); i++) {
 		BString* category = list.ItemAt(i);
-		BString unescaped(DeescapeIllegalCharacters(category->String()));
-		text << "N" << unescaped << "\nD" << unescaped << "\n" << (isexpense ? "E" : "I") << "\n";
+		BString unescaped(category->String());
+		text << "N" << unescaped.String() << "\nD" << unescaped.String() << "\n"
+			 << (isexpense ? "E" : "I") << "\n";
 
 		// See if the category is in the budget and, if so, write it to disk if nonzero
 		BudgetEntry entry;

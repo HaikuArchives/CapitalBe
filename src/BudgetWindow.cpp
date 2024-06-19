@@ -292,7 +292,7 @@ BudgetWindow::RefreshCategories(void)
 		"BudgetWindow::RefreshCategories");
 	float maxwidth = fCategoryList->StringWidth("Category");
 	while (!query.eof()) {
-		BString cat = DeescapeIllegalCharacters(query.getStringField(0));
+		BString cat = query.getStringField(0);
 		Fixed amount;
 		amount.SetPremultiplied(query.getInt64Field(1));
 		BudgetPeriod period = (BudgetPeriod)query.getIntField(2);
@@ -416,7 +416,7 @@ BudgetWindow::RefreshBudgetGrid(void)
 		= gDatabase.DBQuery("SELECT category,amount,period FROM budgetlist ORDER BY category",
 			"BudgetWindow::RefreshCategories");
 	while (!query.eof()) {
-		BString cat = DeescapeIllegalCharacters(query.getStringField(0));
+		BString cat = query.getStringField(0);
 		Fixed amount;
 		amount.SetPremultiplied(query.getInt64Field(1));
 		BudgetPeriod period = (BudgetPeriod)query.getIntField(2);
@@ -476,7 +476,7 @@ BudgetWindow::GenerateBudget(const bool& zero)
 
 	float maxwidth = fCategoryList->StringWidth(B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	while (!query.eof()) {
-		BString catname = DeescapeIllegalCharacters(query.getStringField(0));
+		BString catname = query.getStringField(0);
 
 		if (catname.ICompare(B_TRANSLATE("Transfer")) == 0) {
 			query.nextRow();

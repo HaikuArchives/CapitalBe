@@ -83,17 +83,16 @@ TransactionView::SetAccount(Account* acc)
 		newid = query.getIntField(1);
 		data.SetID(currentid);
 		data.SetDate(atol(query.getStringField(2)));
-		data.SetType(DeescapeIllegalCharacters(query.getStringField(3)).String());
-		data.SetPayee(DeescapeIllegalCharacters(query.getStringField(4)).String());
+		data.SetType(query.getStringField(3));
+		data.SetPayee(query.getStringField(4));
 		data.SetAccount(acc);
 
 		Fixed f;
 		f.SetPremultiplied(atol(query.getStringField(5)));
-		data.AddCategory(DeescapeIllegalCharacters(query.getStringField(6)).String(), f, true);
+		data.AddCategory(query.getStringField(6), f, true);
 
 		if (!query.fieldIsNull(7))
-			data.SetMemoAt(data.CountCategories() - 1,
-				DeescapeIllegalCharacters(query.getStringField(7)).String());
+			data.SetMemoAt(data.CountCategories() - 1, query.getStringField(7));
 
 		BString status = query.getStringField(8);
 		if (status.ICompare("Reconciled") == 0)
@@ -119,17 +118,16 @@ TransactionView::SetAccount(Account* acc)
 				newid = query.getIntField(1);
 				data.SetID(currentid);
 				data.SetDate(atol(query.getStringField(2)));
-				data.SetType(DeescapeIllegalCharacters(query.getStringField(3)).String());
-				data.SetPayee(DeescapeIllegalCharacters(query.getStringField(4)).String());
+				data.SetType(query.getStringField(3));
+				data.SetPayee(query.getStringField(4));
 				data.SetAccount(acc);
 			}
 
 			f.SetPremultiplied(atol(query.getStringField(5)));
-			data.AddCategory(DeescapeIllegalCharacters(query.getStringField(6)).String(), f, true);
+			data.AddCategory(query.getStringField(6), f, true);
 
 			if (!query.fieldIsNull(7))
-				data.SetMemoAt(data.CountCategories() - 1,
-					DeescapeIllegalCharacters(query.getStringField(7)).String());
+				data.SetMemoAt(data.CountCategories() - 1, query.getStringField(7));
 
 			status = query.getStringField(8);
 			if (status.ICompare("Reconciled") == 0)

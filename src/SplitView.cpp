@@ -159,7 +159,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		SplitItem* item = new SplitItem();
 		item->SetCategory(fTransaction.NameAt(i));
 		item->SetAmount(fTransaction.AmountAt(i));
-		item->SetMemo(DeescapeIllegalCharacters(fTransaction.MemoAt(i)));
+		item->SetMemo(fTransaction.MemoAt(i));
 
 		fSplitItems->AddItem(item);
 	}
@@ -515,7 +515,7 @@ SplitView::MessageReceived(BMessage* msg)
 			gCurrentLocale.CurrencyToString(item->GetAmount().AbsoluteValue(), amount);
 			fSplitAmount->SetText(amount.String());
 
-			fSplitMemo->SetText(DeescapeIllegalCharacters(item->GetMemo()));
+			fSplitMemo->SetText(item->GetMemo());
 			fSplitCategory->TextView()->SelectAll();
 			break;
 		}
