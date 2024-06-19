@@ -9,6 +9,7 @@
 #include "TextFile.h"
 #include "Transaction.h"
 #include "TransactionData.h"
+#include <Catalog.h>
 #include <File.h>
 #include <TypeConstants.h>
 #include <stdio.h>
@@ -21,6 +22,9 @@
 #else
 #define STRACE(x) /* */
 #endif
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "Import"
 
 bool debuggerflag = false;
 
@@ -70,24 +74,21 @@ ImportQIF(const entry_ref& ref)
 		} else if (string.FindFirst("!Type:Bank") != B_ERROR) {
 			STRACE(("Bank Account\n"));
 			accountindex++;
-			accountname = "Bank Account ";
-			accountname << accountindex;
+			accountname.SetToFormat("<%s %i>", B_TRANSLATE("Bank account"), accountindex);
 
 			currentaccount = gDatabase.AddAccount(accountname.String(), ACCOUNT_BANK, "Open");
 			string = ReadTransactions(currentaccount, file);
 			importSuccess = true;
 		} else if (string.FindFirst("!Type:Cash") != B_ERROR) {
 			accountindex++;
-			accountname = "Cash Account ";
-			accountname << accountindex;
+			accountname.SetToFormat("<%s %i>", B_TRANSLATE("Cash account"), accountindex);
 
 			currentaccount = gDatabase.AddAccount(accountname.String(), ACCOUNT_CASH, "Open");
 			string = ReadTransactions(currentaccount, file);
 			importSuccess = true;
 		} else if (string.FindFirst("!Type:CCard") != B_ERROR) {
 			accountindex++;
-			accountname = "Credit Card Account ";
-			accountname << accountindex;
+			accountname.SetToFormat("<%s %i>", B_TRANSLATE("Credit card account"), accountindex);
 
 			currentaccount = gDatabase.AddAccount(accountname.String(), ACCOUNT_CREDIT, "Open");
 			string = ReadTransactions(currentaccount, file);
@@ -167,8 +168,7 @@ ReadCategories(BObjectList<Category>& list, TextFile& file)
 		catdata.RemoveAll("\r");
 	}
 	delete cat;
-
-	STRACE(("Added %ld categories\n", list.CountItems()));
+	//STRACE(("Added %i categories\n", list.CountItems()));
 	return catdata;
 }
 
@@ -321,11 +321,11 @@ ReadTransactions(Account* account, TextFile& file)
 					if (data.Amount().AsLong() == 0)
 						break;
 					else
-						data.SetPayee("[No Payee Entered]");
+						data.SetPayee(B_TRANSLATE("<No payee entered>"));
 				}
 
 				if (data.CountCategories() < 1)
-					data.SetCategory("Uncategorized");
+					data.SetCategory(B_TRANSLATE("<Uncategorized>"));
 
 
 				gDatabase.AddTransaction(data);

@@ -1,6 +1,7 @@
-1	English	application/x-vnd.wgp-CapitalBe	2441433350
+1	English	application/x-vnd.wgp-CapitalBe	3892464343
 Year	ReportWindow		Year
 None	ReportWindow		None
+Credit Card Account 	Import		Credit Card Account 
 Export to QIF file…	MainWindow		Export to QIF file…
 Reports	ReportWindow		Reports
 Monthly	ScheduleAddWindow		Monthly
@@ -85,17 +86,20 @@ There may be a typo or the wrong kind of currency symbol for this account.	TextI
 Repeat:	ScheduleAddWindow		Repeat:
 Appears before amount	PrefWindow		Appears before amount
 Unreconciled total: %s	ReconcileWindow		Unreconciled total: %s
+Uncategorized	Import		Uncategorized
 Couldn't Quick balance	ReconcileWindow		Couldn't Quick balance
 There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		There may be a typo or the wrong kind of currency symbol for this account.
 Really delete account?	MainWindow		Really delete account?
 DEP	ReconcileWindow		DEP
-Quick balance	ReconcileWindow		Quick balance
 Remove	ScheduleListWindow		Remove
+Cash Account	Import		Cash Account
+Quick balance	ReconcileWindow		Quick balance
 This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.	MainWindow		This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.
-Month	ReportWindow		Month
 Payments	ScheduleListWindow		Payments
+Month	ReportWindow		Month
 No memo	TransactionEdit		No memo
 Closed	Account		Closed
+[No payee entered]	Import		[No payee entered]
 Delete	MainWindow		Delete
 From account:	TransferWindow		From account:
 Quick balance successful!	ReconcileWindow		Quick balance successful!
@@ -188,6 +192,7 @@ Add	CategoryWindow		Add
 Quit	MainWindow		Quit
 Lowest	BudgetWindow		Lowest
 Previous	MainWindow		Previous
+Bank Account	Import		Bank Account
 Transaction type is missing	CheckView		Transaction type is missing
 Accounts	RegisterView		Accounts
 Amount	ScheduleAddWindow		Amount
