@@ -189,8 +189,8 @@ Database::OpenFile(const char* path)
 
 	while (!query.eof()) {
 		uint32 id = query.getIntField(0);
-		BString name = DeescapeIllegalCharacters(query.getStringField(1));
-		BString status = DeescapeIllegalCharacters(query.getStringField(3));
+		BString name = query.getStringField(1);
+		BString status = query.getStringField(3);
 
 		Account* account = new Account(name.String(), status.ICompare("Open") != 0);
 		account->SetID(id);
@@ -626,15 +626,15 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 	BString _memo = memo;
 
 	if (status == TRANS_CLEARED)
-		_status << "cleared');";
+		_status << "cleared";
 	else if (status == TRANS_RECONCILED)
-		_status << "reconciled');";
+		_status << "reconciled";
 	else
-		_status << "open');";
+		_status << "open";
 
 	_account << "account_" << accountid;
 
-	bufSQL.format("INSERT INTO %s VALUES(%i, %i, %li, %Q, %Q, %li, %Q, %Q, %Q)", _account.String(),
+	bufSQL.format("INSERT INTO %s VALUES(%i, %i, %li, %Q, %Q, %li, %Q, %Q, %Q);", _account.String(),
 		timestamp, id, date, type.Type(), payee, amount.AsFixed(), category, memo,
 		_status.String());
 
@@ -834,14 +834,14 @@ Database::GetTransaction(const uint32& transid, const uint32& accountid, Transac
 	data.MakeEmpty();
 	data.SetAccount(AccountByID(accountid));
 	data.SetDate(atol(query.getStringField(0)));
-	data.SetPayee(DeescapeIllegalCharacters(query.getStringField(1)).String());
-	data.SetType(DeescapeIllegalCharacters(query.getStringField(5)).String());
+	data.SetPayee(query.getStringField(1));
+	data.SetType(query.getStringField(5));
 	data.SetID(transid);
 	while (!query.eof()) {
 		Fixed f;
 		f.SetPremultiplied(atol(query.getStringField(2)));
 
-		data.AddCategory(DeescapeIllegalCharacters(query.getStringField(3)).String(), f, true);
+		data.AddCategory(query.getStringField(3), f, true);
 
 		if (!query.fieldIsNull(4))
 			data.SetMemoAt(data.CountCategories() - 1, query.getStringField(4));
@@ -850,7 +850,7 @@ Database::GetTransaction(const uint32& transid, const uint32& accountid, Transac
 	}
 
 	if ((data.CountCategories() == 1) && strlen(data.MemoAt(0)) > 0)
-		data.SetMemo(DeescapeIllegalCharacters(data.MemoAt(0)));
+		data.SetMemo(data.MemoAt(0));
 
 	UNLOCK;
 	return true;
@@ -1047,8 +1047,8 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 
 	data.SetID(transid);
 	data.SetDate(query.getInt64Field(1));
-	data.SetPayee(DeescapeIllegalCharacters(query.getStringField(2)).String());
-	data.SetType(DeescapeIllegalCharacters(query.getStringField(6)).String());
+	data.SetPayee(query.getStringField(2));
+	data.SetType(query.getStringField(6));
 	data.SetNextDueDate(query.getInt64Field(7));
 	data.SetCount(query.getIntField(8));
 	data.SetInterval((TransactionInterval)query.getIntField(9));
@@ -1056,17 +1056,16 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 		Fixed f;
 		f.SetPremultiplied(atol(query.getStringField(3)));
 
-		data.AddCategory(DeescapeIllegalCharacters(query.getStringField(4)).String(), f, true);
+		data.AddCategory(query.getStringField(4), f, true);
 
 		if (!query.fieldIsNull(4))
-			data.SetMemoAt(
-				data.CountCategories() - 1, DeescapeIllegalCharacters(query.getStringField(5)));
+			data.SetMemoAt(data.CountCategories() - 1, query.getStringField(5));
 
 		query.nextRow();
 	}
 
 	if ((data.CountCategories() == 1) && strlen(data.MemoAt(0)) > 0)
-		data.SetMemo(DeescapeIllegalCharacters(data.MemoAt(0)));
+		data.SetMemo(data.MemoAt(0));
 
 	UNLOCK;
 	return true;

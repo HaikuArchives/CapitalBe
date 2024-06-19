@@ -40,7 +40,7 @@ uint16
 Account::LookupLastCheckNumber(void)
 {
 	BString command;
-	command << ("SELECT MAX(type) FROM account_") << fID << " WHERE type BETWEEN 0 AND 65536;";
+	command.SetToFormat("SELECT MAX(type) FROM account_%i WHERE type BETWEEN 0 AND 65536;", fID);
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::LookupLastCheckNumber");
 	if (query.eof())
 		return 0;
@@ -52,7 +52,7 @@ Fixed
 Account::Balance(void)
 {
 	BString command;
-	command << "SELECT SUM(amount) FROM account_" << fID << ";";
+	command.SetToFormat("SELECT SUM(amount) FROM account_%i;", fID);
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::Balance");
 
 	int64 amount = 0;
@@ -68,8 +68,8 @@ Fixed
 Account::BalanceAt(const time_t& date)
 {
 	BString command;
-	command << "SELECT SUM(amount) FROM account_" << fID << " WHERE date <= " << date
-			<< " ORDER BY payee;";
+	command.SetToFormat("SELECT SUM(amount) FROM account_%i WHERE date <= %li ORDER BY payee;",
+		fID, date);
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::BalanceAt");
 
 	int64 amount = 0;
@@ -90,8 +90,7 @@ Account::BalanceAtTransaction(const time_t& time, const char* payee)
 		return Fixed();
 
 	BString command;
-	command << "SELECT date,payee,amount FROM account_" << fID << " WHERE date <= " << time
-			<< " ORDER BY date,payee;";
+	command.SetToFormat("SELECT date,payee,amount FROM account_%i WHERE date <= %li ORDER BY date,payee;", fID, time);
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::BalanceAt");
 
 	int64 amount = 0;
@@ -102,8 +101,7 @@ Account::BalanceAtTransaction(const time_t& time, const char* payee)
 		if (date < time) {
 			amount += query.getInt64Field(2);
 		} else {
-			BString temp(DeescapeIllegalCharacters(query.getStringField(1)));
-			if (strcmp(temp.String(), payee) < 1)
+			if (strcmp(query.getStringField(1), payee) < 1)
 				amount += query.getInt64Field(2);
 		}
 		query.nextRow();
@@ -146,10 +144,9 @@ Account::AutocompletePayee(const char* input)
 		return BString();
 
 	CppSQLite3Buffer bufSQL;
-	BString searchString, accountTable;
+	BString searchString;
 	searchString << input << "%";
-	accountTable << "account_" << fID;
-	bufSQL.format("SELECT payee FROM %s WHERE payee LIKE %Q", accountTable.String(),
+	bufSQL.format("SELECT payee FROM account_%i WHERE payee LIKE %Q", fID,
 		searchString.String());
 	CppSQLite3Query query = gDatabase.DBQuery(bufSQL, "Account::AutocompletePayee");
 
@@ -182,11 +179,9 @@ Account::AutocompleteType(const char* input)
 	}
 
 	CppSQLite3Buffer bufSQL;
-	BString searchString, accountTable;
+	BString searchString;
 	searchString << input << "%";
-	accountTable << "account_" << fID;
-	bufSQL.format("SELECT type FROM %s WHERE type LIKE %Q", accountTable.String(),
-		searchString.String());
+	bufSQL.format("SELECT type FROM account_%s WHERE type LIKE %Q", fID, searchString.String());
 	CppSQLite3Query query = gDatabase.DBQuery(bufSQL, "Account::AutocompleteType");
 
 	if (query.eof())
@@ -247,17 +242,16 @@ Account::DoForEachTransaction(void (*func)(const TransactionData&, void*), void*
 		newid = query.getIntField(1);
 		data.SetID(currentid);
 		data.SetDate(atol(query.getStringField(2)));
-		data.SetType(DeescapeIllegalCharacters(query.getStringField(3)).String());
-		data.SetPayee(DeescapeIllegalCharacters(query.getStringField(4)).String());
+		data.SetType(query.getStringField(3));
+		data.SetPayee(query.getStringField(4));
 		data.SetAccount(this);
 
 		Fixed f;
 		f.SetPremultiplied(atol(query.getStringField(5)));
-		data.AddCategory(DeescapeIllegalCharacters(query.getStringField(6)).String(), f, true);
+		data.AddCategory(query.getStringField(6), f, true);
 
 		if (!query.fieldIsNull(7))
-			data.SetMemoAt(data.CountCategories() - 1,
-				DeescapeIllegalCharacters(query.getStringField(7)).String());
+			data.SetMemoAt(data.CountCategories() - 1, query.getStringField(7));
 
 		BString status = query.getStringField(8);
 		if (status.ICompare("Reconciled") == 0)
@@ -282,17 +276,16 @@ Account::DoForEachTransaction(void (*func)(const TransactionData&, void*), void*
 				newid = query.getIntField(1);
 				data.SetID(currentid);
 				data.SetDate(atol(query.getStringField(2)));
-				data.SetType(DeescapeIllegalCharacters(query.getStringField(3)).String());
-				data.SetPayee(DeescapeIllegalCharacters(query.getStringField(4)).String());
+				data.SetType(query.getStringField(3));
+				data.SetPayee(query.getStringField(4));
 				data.SetAccount(this);
 			}
 
 			f.SetPremultiplied(atol(query.getStringField(5)));
-			data.AddCategory(DeescapeIllegalCharacters(query.getStringField(6)).String(), f, true);
+			data.AddCategory(query.getStringField(6), f, true);
 
 			if (!query.fieldIsNull(7))
-				data.SetMemoAt(data.CountCategories() - 1,
-					DeescapeIllegalCharacters(query.getStringField(7)).String());
+				data.SetMemoAt(data.CountCategories() - 1, query.getStringField(7));
 
 			status = query.getStringField(8);
 			if (status.ICompare("Reconciled") == 0)
