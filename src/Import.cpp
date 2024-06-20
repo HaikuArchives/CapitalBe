@@ -1,4 +1,9 @@
 #include "Import.h"
+#include <Catalog.h>
+#include <File.h>
+#include <TypeConstants.h>
+#include <stdio.h>
+#include <time.h>
 #include "Account.h"
 #include "Budget.h"
 #include "CBLocale.h"
@@ -9,11 +14,6 @@
 #include "TextFile.h"
 #include "Transaction.h"
 #include "TransactionData.h"
-#include <Catalog.h>
-#include <File.h>
-#include <TypeConstants.h>
-#include <stdio.h>
-#include <time.h>
 
 #define DEBUG_IMPORT
 
@@ -168,7 +168,7 @@ ReadCategories(BObjectList<Category>& list, TextFile& file)
 		catdata.RemoveAll("\r");
 	}
 	delete cat;
-	//STRACE(("Added %i categories\n", list.CountItems()));
+	// STRACE(("Added %i categories\n", list.CountItems()));
 	return catdata;
 }
 
