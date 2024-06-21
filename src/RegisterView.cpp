@@ -29,6 +29,7 @@ RegisterView::RegisterView(const char* name, int32 flags)
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
 	BStringView* accountlabel = new BStringView("accountlabel", B_TRANSLATE("Accounts"));
+	accountlabel->SetFont(be_bold_font);
 
 	//	fAccountView = new DragListView(r,"accountview");
 	fAccountView = new BListView("accountview", B_SINGLE_SELECTION_LIST);
@@ -45,6 +46,10 @@ RegisterView::RegisterView(const char* name, int32 flags)
 		fAccountView->AddItem(new AccountListItem(acc));
 		acc->AddObserver(this);
 	}
+
+	BStringView* transactionlabel = new BStringView("transactionlabel",
+		B_TRANSLATE("Transactions"));
+	transactionlabel->SetFont(be_bold_font);
 
 	fTransactionView = new TransactionView();
 	gDatabase.AddObserver(fTransactionView);
@@ -65,13 +70,15 @@ RegisterView::RegisterView(const char* name, int32 flags)
 		.End();
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(B_USE_DEFAULT_SPACING, 0, B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
-		.Add(accountlabel)
 		.AddGroup(B_HORIZONTAL)
-			.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING, 1)
+			.AddGroup(B_VERTICAL, 0, 3)
+				.Add(accountlabel)
 				.Add(fAccountScroller)
+				.AddStrut(B_USE_DEFAULT_SPACING)
 				.Add(fTrackBox)
 				.End()
 			.AddGroup(B_VERTICAL, 0, 3)
+				.Add(transactionlabel)
 				.Add(fTransactionView)
 				.Add(fCheckView)
 				.End()
