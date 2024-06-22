@@ -29,6 +29,8 @@ public:
 	bool SelectLastTransaction(void) { return fTransactionView->SelectLast(); }
 
 private:
+	float GetAccountViewWidth(void);
+
 	CheckView* fCheckView;
 	BListView* fAccountView;
 	BScrollView* fAccountScroller;

@@ -47,7 +47,7 @@
 
 
 MainWindow::MainWindow(BRect frame)
-	: BWindow(frame, "", B_DOCUMENT_WINDOW, 0)
+	: BWindow(frame, "", B_DOCUMENT_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	BString temp;
 	SetTitle(B_TRANSLATE_SYSTEM_NAME("CapitalBe"));
