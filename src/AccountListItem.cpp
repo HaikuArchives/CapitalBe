@@ -54,6 +54,12 @@ AccountListItem::DrawItem(BView* owner, BRect frame, bool complete)
 								 : B_NO_TINT);
 	}
 
+	// Vertically center the two lines of text
+	font_height fh;
+	owner->GetFontHeight(&fh);
+	float fontHeight = floorf(fh.ascent + fh.descent + fh.leading);
+	frame.top += (frame.Height() - fontHeight * 2 + floorf(fh.descent - 1)) / 2;
+
 	BFont font;
 	owner->DrawString(fAccount->Name(), BPoint(frame.left + 5, frame.top + (font.Size())));
 
