@@ -28,14 +28,18 @@ RegisterView::RegisterView(const char* name, int32 flags)
 {
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	BStringView* accountlabel = new BStringView("accountlabel", B_TRANSLATE("Accounts"));
-	accountlabel->SetFont(be_bold_font);
+	float width = GetAccountViewWidth();
+	BStringView* accountLabel = new BStringView("accountlabel", B_TRANSLATE("Accounts"));
+	accountLabel->SetFont(be_bold_font);
+	accountLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	//	fAccountView = new DragListView(r,"accountview");
 	fAccountView = new BListView("accountview", B_SINGLE_SELECTION_LIST);
 	fAccountView->SetSelectionMessage(new BMessage(M_SELECT_ACCOUNT));
 	fAccountView->SetInvocationMessage(new BMessage(M_SHOW_ACCOUNT_SETTINGS));
-	fAccountScroller = new BScrollView("accountscroll", fAccountView, 0, true, true);
+	fAccountView->SetExplicitSize(BSize(GetAccountViewWidth(), B_SIZE_UNSET));
+
+	fAccountScroller = new BScrollView("accountscroll", fAccountView, 0, false, true);
 	fAccountScroller->SetViewColor(ViewColor());
 
 	fCheckView = new CheckView("checkview", B_WILL_DRAW);
@@ -50,34 +54,34 @@ RegisterView::RegisterView(const char* name, int32 flags)
 	BStringView* transactionlabel = new BStringView("transactionlabel",
 		B_TRANSLATE("Transactions"));
 	transactionlabel->SetFont(be_bold_font);
+	transactionlabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fTransactionView = new TransactionView();
 	gDatabase.AddObserver(fTransactionView);
 	gDatabase.AddObserver(this);
 
-	fTrackBox = new BBox("qtbox");
-	fTrackBox->SetLabel(B_TRANSLATE("QuickTracker"));
-
-	QTNetWorthItem* item;
-	item = new QTNetWorthItem("networth");
+	BBox* qtBox = new BBox("qtbox");
+	qtBox->SetLabel(B_TRANSLATE("QuickTracker"));
+	QTNetWorthItem* qtItem = new QTNetWorthItem("networth");
 
 	// clang-format off
-	BLayoutBuilder::Group<>(fTrackBox, B_VERTICAL, 0)
+	BLayoutBuilder::Group<>(qtBox, B_VERTICAL, 0)
 		.SetInsets(B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING,
 			B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
-		.Add(item)
-		.AddGlue(1024 * 1024 * 2014)
+		.Add(qtItem)
+		.AddGlue(10)
 		.End();
+
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(B_USE_DEFAULT_SPACING, 0, B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
 		.AddGroup(B_HORIZONTAL)
-			.AddGroup(B_VERTICAL, 0, 3)
-				.Add(accountlabel)
-				.Add(fAccountScroller)
+			.AddGroup(B_VERTICAL, 0)
+				.Add(accountLabel)
+				.Add(fAccountScroller, 2)
 				.AddStrut(B_USE_DEFAULT_SPACING)
-				.Add(fTrackBox)
+				.Add(qtBox)
 				.End()
-			.AddGroup(B_VERTICAL, 0, 3)
+			.AddGroup(B_VERTICAL, 0)
 				.Add(transactionlabel)
 				.Add(fTransactionView)
 				.Add(fCheckView)
@@ -175,22 +179,9 @@ RegisterView::HandleNotify(const uint64& value, const BMessage* msg)
 			fCheckView->SetFieldsEnabled(!acc->IsClosed());
 		}
 
-		// Adjust the horizontal scroll bar every time there is a change
-
-		float maxwidth = 0;
-		for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-			acc = gDatabase.AccountAt(i);
-
-			float namewidth = be_bold_font->StringWidth(acc->Name()) + B_V_SCROLL_BAR_WIDTH + 10;
-			maxwidth = (namewidth > maxwidth) ? namewidth : maxwidth;
-		}
-
-		float range = maxwidth - fAccountScroller->Bounds().Width();
-		if (range < 0)
-			range = 0;
-
-		BScrollBar* bar = fAccountScroller->ScrollBar(B_HORIZONTAL);
-		bar->SetRange(0, range);
+		// Adjust the AccountView width every time there is a change
+		fAccountView->SetExplicitSize(BSize(GetAccountViewWidth(), B_SIZE_UNSET));
+		fAccountView->Relayout();
 	} else if (value & WATCH_TRANSACTION) {
 		if (value & WATCH_CREATE || value & WATCH_DELETE || value & WATCH_CHANGE)
 			fAccountView->Invalidate();
@@ -212,4 +203,20 @@ RegisterView::SelectAccount(const int32& index)
 		return;
 
 	fAccountView->Select(index);
+}
+
+float
+RegisterView::GetAccountViewWidth()
+{
+	// Min width is the fixed width of QuickTracker
+	float width = be_plain_font->StringWidth(B_TRANSLATE("Balance")) +
+		be_plain_font->StringWidth(": $99,999,999.00");
+
+	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
+		Account* acc = gDatabase.AccountAt(i);
+
+		float namewidth = be_bold_font->StringWidth(acc->Name()) + B_V_SCROLL_BAR_WIDTH + 10;
+		width = (namewidth > width) ? namewidth : width;
+	}
+	return width;
 }
