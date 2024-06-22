@@ -93,6 +93,11 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	float xpos = TLeftPadding();
 	float ypos = r.top + TRowHeight();
 
+	// Compute vertical alignment factor
+	font_height fh;
+	owner->GetFontHeight(&fh);
+	float fontFactor = ceilf(fh.ascent + fh.descent + fh.leading) / 4;
+
 	// Date
 	cliprect.left = xpos;
 	cliprect.right = xpos + TDateWidth();
@@ -102,7 +107,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	clip = cliprect;
 	owner->ConstrainClippingRegion(&clip);
 	locale.DateToString(fDate, string);
-	owner->DrawString(string.String(), BPoint(xpos, ypos - 6));
+	owner->DrawString(string.String(), BPoint(xpos, ypos - fontFactor));
 	owner->ConstrainClippingRegion(NULL);
 
 	xpos += TDateWidth();
@@ -113,7 +118,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 	// Type
 	owner->SetHighColor(tint_color(textColor, textTint));
-	owner->DrawString(fType.String(), BPoint(xpos + 5, ypos - 6));
+	owner->DrawString(fType.String(), BPoint(xpos + 5, ypos - fontFactor));
 
 	// Line between Type and Payee
 	xpos += TNumWidth();
@@ -140,7 +145,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 			owner->SetHighColor(tint_color(gNegativeColor, textTint));
 	}
 	locale.CurrencyToString(balance, string);
-	owner->DrawString(string.String(), BPoint(xpos + 5, ypos - 6));
+	owner->DrawString(string.String(), BPoint(xpos + 5, ypos - fontFactor));
 
 	// Line between Balance and Amount
 	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
@@ -155,7 +160,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	fAccount->GetLocale().CurrencyToString(fAmount.AbsoluteValue(), string);
 
 	owner->ConstrainClippingRegion(&clip);
-	owner->DrawString(string.String(), BPoint(xpos + 5, ypos - 6));
+	owner->DrawString(string.String(), BPoint(xpos + 5, ypos - fontFactor));
 	owner->ConstrainClippingRegion(NULL);
 
 	// Line between Amount and Payee
@@ -171,7 +176,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	owner->SetHighColor(tint_color(textColor, textTint));
 	clip = payee_rect;
 	owner->ConstrainClippingRegion(&clip);
-	owner->DrawString(fPayee.String(), BPoint(xpos + 5, ypos - 6));
+	owner->DrawString(fPayee.String(), BPoint(xpos + 5, ypos - fontFactor));
 	owner->ConstrainClippingRegion(NULL);
 
 	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
@@ -187,7 +192,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	cliprect.bottom += TRowHeight();
 	clip = cliprect;
 	owner->ConstrainClippingRegion(&clip);
-	owner->DrawString(fCategory.String(), BPoint(xpos, ypos - 6));
+	owner->DrawString(fCategory.String(), BPoint(xpos, ypos - fontFactor));
 	owner->ConstrainClippingRegion(NULL);
 
 	xpos = r.right / 2;
@@ -204,14 +209,14 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 	if (fMemo.CountChars() > 0) {
 		owner->SetHighColor(tint_color(textColor, textTint));
-		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 6));
+		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - fontFactor));
 	} else {  // Always mute "No memo"
 		if (IsSelected())
 			textTint = GetMutedTint(ui_color(B_LIST_SELECTED_BACKGROUND_COLOR), CB_MUTED_TEXT);
 		else
 			textTint = GetMutedTint(ui_color(B_LIST_BACKGROUND_COLOR), CB_MUTED_TEXT);
 		owner->SetHighColor(tint_color(textColor, textTint));
-		owner->DrawString(B_TRANSLATE("No memo"), BPoint(xpos + 5, ypos - 6));
+		owner->DrawString(B_TRANSLATE("No memo"), BPoint(xpos + 5, ypos - fontFactor));
 	}
 
 	owner->ConstrainClippingRegion(NULL);
