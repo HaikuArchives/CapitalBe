@@ -68,8 +68,8 @@ Fixed
 Account::BalanceAt(const time_t& date)
 {
 	BString command;
-	command.SetToFormat("SELECT SUM(amount) FROM account_%i WHERE date <= %li ORDER BY payee;",
-		fID, date);
+	command.SetToFormat("SELECT SUM(amount) FROM account_%i WHERE date <= %li ORDER BY payee;", fID,
+		date);
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::BalanceAt");
 
 	int64 amount = 0;
@@ -90,7 +90,9 @@ Account::BalanceAtTransaction(const time_t& time, const char* payee)
 		return Fixed();
 
 	BString command;
-	command.SetToFormat("SELECT date,payee,amount FROM account_%i WHERE date <= %li ORDER BY date,payee;", fID, time);
+	command.SetToFormat(
+		"SELECT date,payee,amount FROM account_%i WHERE date <= %li ORDER BY date,payee;", fID,
+		time);
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::BalanceAt");
 
 	int64 amount = 0;
@@ -146,8 +148,7 @@ Account::AutocompletePayee(const char* input)
 	CppSQLite3Buffer bufSQL;
 	BString searchString;
 	searchString << input << "%";
-	bufSQL.format("SELECT payee FROM account_%i WHERE payee LIKE %Q", fID,
-		searchString.String());
+	bufSQL.format("SELECT payee FROM account_%i WHERE payee LIKE %Q", fID, searchString.String());
 	CppSQLite3Query query = gDatabase.DBQuery(bufSQL, "Account::AutocompletePayee");
 
 	if (query.eof())
