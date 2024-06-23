@@ -302,10 +302,10 @@ CategoryView::RefreshCategoryList(void)
 		int expense = query.getIntField(1);
 		BString name = query.getStringField(0);
 
-		if (expense == 0)
+		if (expense == SPENDING)
 			fListView->AddUnder(
 				new CategoryItem(DeescapeIllegalCharacters(name.String())), fSpendingItem);
-		else
+		else if (expense == INCOME)
 			fListView->AddUnder(
 				new CategoryItem(DeescapeIllegalCharacters(name.String())), fIncomeItem);
 
@@ -498,9 +498,9 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 			continue;
 		}
 
-		if (expense == 0)
+		if (expense == SPENDING)
 			fListView->AddUnder(new CategoryItem(name.String()), fSpendingItem);
-		else
+		else if (expense == INCOME)
 			fListView->AddUnder(new CategoryItem(name.String()), fIncomeItem);
 
 		if (name.CountChars() > maxchars) {

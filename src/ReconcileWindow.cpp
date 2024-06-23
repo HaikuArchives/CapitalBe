@@ -148,16 +148,21 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	fDate->MakeFocus(true);
 
 	// clang-format off
+	BView* calendarWidget = new BView("calendarwidget", B_WILL_DRAW);
+	BLayoutBuilder::Group<>(calendarWidget, B_HORIZONTAL, -2)
+		.Add(fDate)
+		.Add(calendarButton)
+		.End();
+
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.AddGrid(1.0f, 1.0f)
 			.Add(dateLabel, 0, 0, 2, 1)
-			.Add(fDate, 0, 1)
-			.Add(calendarButton, 1, 1)
-			.Add(openingLabel, 2, 0)
-			.Add(fOpening, 2, 1)
-			.Add(closingLabel, 3, 0)
-			.Add(fClosing, 3, 1)
+			.Add(calendarWidget, 0, 1)
+			.Add(openingLabel, 1, 0)
+			.Add(fOpening, 1, 1)
+			.Add(closingLabel, 2, 0)
+			.Add(fClosing, 2, 1)
 			.End()
 		.AddGrid(1.0f, 1.0f)
 			.Add(chargesLabel, 2, 0)
