@@ -51,8 +51,8 @@ RegisterView::RegisterView(const char* name, int32 flags)
 		acc->AddObserver(this);
 	}
 
-	BStringView* transactionlabel = new BStringView("transactionlabel",
-		B_TRANSLATE("Transactions"));
+	BStringView* transactionlabel
+		= new BStringView("transactionlabel", B_TRANSLATE("Transactions"));
 	transactionlabel->SetFont(be_bold_font);
 	transactionlabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
@@ -209,8 +209,8 @@ float
 RegisterView::GetAccountViewWidth()
 {
 	// Min width is the fixed width of QuickTracker
-	float width = be_plain_font->StringWidth(B_TRANSLATE("Balance")) +
-		be_plain_font->StringWidth(": $99,999,999.00");
+	float width = be_plain_font->StringWidth(B_TRANSLATE("Balance"))
+				  + be_plain_font->StringWidth(": $99,999,999.00");
 
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* acc = gDatabase.AccountAt(i);
