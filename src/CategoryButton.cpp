@@ -99,18 +99,12 @@ CategoryButton::DrawIcon()
 	font.SetFlags(B_DISABLE_ANTIALIASING);
 	view->SetFont(&font, B_FONT_FACE | B_FONT_FLAGS);
 
-	view->DrawString("̵",
-		BPoint(
-		ceilf((rect.Width() * 0.75) - view->StringWidth("̵") / 2 - 1),
-		ceilf(rect.Height() * 0.75 + fontHeight / 5)
-		));
+	view->DrawString("̵", BPoint(ceilf((rect.Width() * 0.75) - view->StringWidth("̵") / 2 - 1),
+							 ceilf(rect.Height() * 0.75 + fontHeight / 5)));
 
 	view->SetHighUIColor(B_PANEL_BACKGROUND_COLOR);
-	view->DrawString("+",
-		BPoint(
-		ceilf((rect.Width() / 4) - view->StringWidth("+") / 2 + 1),
-		ceilf(rect.Height() / 5 + fontHeight / 3)
-		));
+	view->DrawString("+", BPoint(ceilf((rect.Width() / 4) - view->StringWidth("+") / 2 + 1),
+							  ceilf(rect.Height() / 5 + fontHeight / 3)));
 
 	view->RemoveSelf();
 	bitmap->Unlock();
@@ -129,8 +123,8 @@ CategoryButton::ShowPopUpMenu()
 	CategoryPopUp* menu = new CategoryPopUp("PopUpMenu", this);
 	BMenu* incomeMenu = new BMenu(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 	BMenu* spendingMenu = new BMenu(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
-	BMenuItem* editCategories = new BMenuItem(B_TRANSLATE("Edit categories" B_UTF8_ELLIPSIS),
-		new BMessage(M_SHOW_CATEGORY_WINDOW));
+	BMenuItem* editCategories = new BMenuItem(
+		B_TRANSLATE("Edit categories" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_CATEGORY_WINDOW));
 
 	CppSQLite3Query query = gDatabase.DBQuery(
 		"SELECT * FROM categorylist ORDER BY name ASC", "CategoryView::CategoryView");
@@ -169,9 +163,8 @@ CategoryButton::ShowPopUpMenu()
 
 
 CategoryPopUp::CategoryPopUp(const char* name, BMessenger target)
-	:
-	BPopUpMenu(name, false, false),
-	fTarget(target)
+	: BPopUpMenu(name, false, false),
+	  fTarget(target)
 {
 	SetAsyncAutoDestruct(true);
 }

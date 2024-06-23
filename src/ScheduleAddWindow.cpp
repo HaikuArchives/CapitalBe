@@ -107,10 +107,9 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 		= new BMenuField("intervalfield", B_TRANSLATE("Frequency:"), fIntervalMenu);
 
 	BStringView* startLabel = new BStringView("startlabel", B_TRANSLATE("Starting date:"));
-	startLabel->SetExplicitMinSize(BSize(be_plain_font->StringWidth(B_TRANSLATE("Starting date:"))
-		+ 10, B_SIZE_UNSET));
-	fStartDate
-		= new DateBox("startdate", NULL, "", new BMessage(M_DATE_CHANGED));
+	startLabel->SetExplicitMinSize(
+		BSize(be_plain_font->StringWidth(B_TRANSLATE("Starting date:")) + 10, B_SIZE_UNSET));
+	fStartDate = new DateBox("startdate", NULL, "", new BMessage(M_DATE_CHANGED));
 	fStartDate->UseTabFiltering(false);
 	gDefaultLocale.DateToString(data.Date(), temp);
 	fStartDate->SetText(temp.String());

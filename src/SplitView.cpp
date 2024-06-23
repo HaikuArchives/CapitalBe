@@ -11,7 +11,6 @@
 #include "Account.h"
 #include "CalendarButton.h"
 #include "CategoryBox.h"
-#include "CalendarButton.h"
 #include "CheckNumBox.h"
 #include "CheckView.h"
 #include "CurrencyBox.h"
@@ -127,8 +126,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	BStringView* splitCategoryLabel
 		= new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	splitCategoryLabel->SetExplicitSize(BSize(StringWidth("aVeryLongCategoryName"), B_SIZE_UNSET));
-	fSplitCategory = new CategoryBox(
-		"splitcategory", "", fTransaction.NameAt(0), NULL);
+	fSplitCategory = new CategoryBox("splitcategory", "", fTransaction.NameAt(0), NULL);
 	// fSplitCategory = new BTextControl("splitcategory", NULL, NULL, NULL, B_WILL_DRAW);
 	CategoryButton* splitCategoryButton = new CategoryButton(fSplitCategory);
 
@@ -172,7 +170,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		fStartExpanded = true;
 	}
 
-// clang-format off
+	// clang-format off
 	BView* calendarWidget = new BView("calendarwidget", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(calendarWidget, B_HORIZONTAL, -2)
 		.Add(fDate)

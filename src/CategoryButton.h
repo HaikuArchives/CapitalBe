@@ -27,11 +27,11 @@ private:
 
 class CategoryPopUp : public BPopUpMenu {
 public:
-					CategoryPopUp(const char* name, BMessenger target);
-	virtual 		~CategoryPopUp();
+	CategoryPopUp(const char* name, BMessenger target);
+	virtual ~CategoryPopUp();
 
 private:
-	BMessenger 		fTarget;
+	BMessenger fTarget;
 };
 
 #endif	// CATEGORYBUTTON_H
