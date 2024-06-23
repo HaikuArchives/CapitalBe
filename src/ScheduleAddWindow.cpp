@@ -106,8 +106,11 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	BMenuField* intervalfield
 		= new BMenuField("intervalfield", B_TRANSLATE("Frequency:"), fIntervalMenu);
 
+	BStringView* startLabel = new BStringView("startlabel", B_TRANSLATE("Starting date:"));
+	startLabel->SetExplicitMinSize(BSize(be_plain_font->StringWidth(B_TRANSLATE("Starting date:"))
+		+ 10, B_SIZE_UNSET));
 	fStartDate
-		= new DateBox("startdate", B_TRANSLATE("Starting date:"), "", new BMessage(M_DATE_CHANGED));
+		= new DateBox("startdate", NULL, "", new BMessage(M_DATE_CHANGED));
 	fStartDate->UseTabFiltering(false);
 	gDefaultLocale.DateToString(data.Date(), temp);
 	fStartDate->SetText(temp.String());
@@ -140,6 +143,12 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 		= new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
 	// clang-format off
+	BView* calendarStartWidget = new BView("calendarstartwidget", B_WILL_DRAW);
+	BLayoutBuilder::Group<>(calendarStartWidget, B_HORIZONTAL, -2)
+		.Add(fStartDate->CreateTextViewLayoutItem())
+		.Add(calendarButton)
+		.End();
+
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(B_USE_WINDOW_SPACING)
 		.AddGrid(1.0f, 0.0f)
@@ -162,10 +171,9 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 		.AddGrid(1.0f, B_USE_DEFAULT_SPACING)
 			.SetColumnWeight(1, 2.0f)
 			.Add(intervalfield->CreateLabelLayoutItem(), 0, 0)
-			.Add(intervalfield->CreateMenuBarLayoutItem(), 1, 0, 2)
-			.Add(fStartDate->CreateLabelLayoutItem(), 0, 1)
-			.Add(fStartDate->CreateTextViewLayoutItem(), 1, 1)
-			.Add(calendarButton, 2, 1)
+			.Add(intervalfield->CreateMenuBarLayoutItem(), 1, 0)
+			.Add(startLabel, 0, 1)
+			.Add(calendarStartWidget, 1, 1)
 			.Add(repeatLabel, 0, 2)
 			.Add(dummy, 0, 3)
 			.AddGroup(B_VERTICAL, 1.0f, 1, 2, 1, 2)

@@ -10,6 +10,7 @@
 #include "Account.h"
 #include "CalendarButton.h"
 #include "CategoryBox.h"
+#include "CategoryButton.h"
 #include "CheckNumBox.h"
 #include "CheckView.h"
 #include "CurrencyBox.h"
@@ -62,6 +63,8 @@ CheckView::CheckView(const char* name, int32 flags)
 	categoryLabel->SetExplicitSize(BSize(StringWidth("aVeryLongCategoryName"), B_SIZE_UNSET));
 	fCategory = new CategoryBox("categoryentry", "", NULL, new BMessage(M_CATEGORY_CHANGED));
 
+	CategoryButton* categoryButton = new CategoryButton(fCategory);
+
 	BStringView* memoLabel
 		= new BStringView("memolabel", B_TRANSLATE_CONTEXT("Memo", "CommonTerms"));
 	memoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
@@ -81,30 +84,42 @@ CheckView::CheckView(const char* name, int32 flags)
 	//	#endif
 
 	gDatabase.AddObserver(this);
+
 	// clang-format off
+	BView* calendarWidget = new BView("calendarwidget", B_WILL_DRAW);
+	BLayoutBuilder::Group<>(calendarWidget, B_HORIZONTAL, -2)
+		.Add(fDate)
+		.Add(calendarButton)
+		.End();
+
+	BView* categoryWidget = new BView("categorywidget", B_WILL_DRAW);
+	BLayoutBuilder::Group<>(categoryWidget, B_HORIZONTAL, -2)
+		.Add(fCategory)
+		.Add(categoryButton)
+		.End();
+
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(0)
 		.AddGrid(1.0f, 0.0f)
 			.SetColumnWeight(2, 2.0f)
 			.SetColumnWeight(3, 1.0f)
 			.Add(dateLabel, 0, 0)
-			.Add(fDate, 0, 1)
-			.Add(calendarButton, 1, 1)
-			.Add(typeLabel, 2, 0)
-			.Add(fType, 2, 1)
-			.Add(payeeLabel, 3, 0)
-			.Add(fPayee, 3, 1)
-			.Add(amountLabel, 4, 0)
-			.Add(fAmount, 4, 1)
-			.Add(categoryLabel, 0, 2, 2, 1)
-			.Add(fCategory, 0, 3, 2, 1)
-			.Add(memoLabel, 2, 2, 3)
-			.Add(fMemo, 2, 3, 3)
-			.Add(fEnter, 5, 1, 1, 3)
+			.Add(calendarWidget, 0, 1)
+			.Add(typeLabel, 1, 0)
+			.Add(fType, 1, 1)
+			.Add(payeeLabel, 2, 0)
+			.Add(fPayee, 2, 1)
+			.Add(amountLabel, 3, 0)
+			.Add(fAmount, 3, 1)
+			.Add(categoryLabel, 0, 2)
+			.Add(categoryWidget, 0, 3)
+			.Add(memoLabel, 1, 2, 3)
+			.Add(fMemo, 1, 3, 3)
+			.Add(fEnter, 4, 1, 1, 3)
 			.End()
 		.End();
+	// clang-format on
 }
-// clang-format on
 
 CheckView::~CheckView(void) {}
 

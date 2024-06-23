@@ -16,6 +16,11 @@ class TransactionType;
 class TransactionData;
 class ScheduledTransData;
 
+enum category_type {
+	SPENDING = 0,
+	INCOME
+};
+
 BString AccountTypeToString(const AccountType& type);
 
 class Database : public Notifier {

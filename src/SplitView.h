@@ -9,6 +9,8 @@
 #include <StringView.h>
 #include <TextControl.h>
 #include <View.h>
+
+#include "CategoryButton.h"
 #include "Fixed.h"
 #include "Notifier.h"
 #include "TransactionData.h"
@@ -74,6 +76,7 @@ private:
 	PayeeBox* fPayee;
 	CurrencyBox* fAmount;
 	CategoryBox* fCategory;
+	CategoryButton* fCategoryButton;
 	NavTextBox* fMemo;
 	SplitViewFilter* fKeyFilter;
 	BMessenger* fMessenger;
@@ -82,7 +85,8 @@ private:
 	BCheckBox* fSplit;
 
 	BView* fSplitContainer;
-	BTextControl *fSplitCategory, *fSplitAmount, *fSplitMemo;
+	CategoryBox* fSplitCategory;
+	BTextControl *fSplitAmount, *fSplitMemo;
 	BListView* fSplitItems;
 	BScrollView* fSplitScroller;
 	BButton *fAddSplit, *fRemoveSplit;

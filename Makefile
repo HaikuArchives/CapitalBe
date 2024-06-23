@@ -42,6 +42,7 @@ SRCS = \
 	 src/CashFlowReport.cpp  \
 	 src/Category.cpp  \
 	 src/CategoryBox.cpp  \
+	 src/CategoryButton.cpp\
 	 src/CategoryWindow.cpp  \
 	 src/CheckNumBox.cpp  \
 	 src/CheckView.cpp  \

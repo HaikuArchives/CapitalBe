@@ -11,6 +11,7 @@
 #include "Account.h"
 #include "CalendarButton.h"
 #include "CategoryBox.h"
+#include "CalendarButton.h"
 #include "CheckNumBox.h"
 #include "CheckView.h"
 #include "CurrencyBox.h"
@@ -85,6 +86,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 
 	fCategory = new CategoryBox(
 		"categoryentry", "", fTransaction.NameAt(0), new BMessage(M_CATEGORY_CHANGED));
+	fCategoryButton = new CategoryButton(fCategory);
 
 	// Memo
 	BStringView* memoLabel
@@ -125,7 +127,10 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	BStringView* splitCategoryLabel
 		= new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	splitCategoryLabel->SetExplicitSize(BSize(StringWidth("aVeryLongCategoryName"), B_SIZE_UNSET));
-	fSplitCategory = new BTextControl("splitcategory", NULL, NULL, NULL, B_WILL_DRAW);
+	fSplitCategory = new CategoryBox(
+		"splitcategory", "", fTransaction.NameAt(0), NULL);
+	// fSplitCategory = new BTextControl("splitcategory", NULL, NULL, NULL, B_WILL_DRAW);
+	CategoryButton* splitCategoryButton = new CategoryButton(fSplitCategory);
 
 	// Split amount
 	BStringView* splitAmountLabel
@@ -167,7 +172,25 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		fStartExpanded = true;
 	}
 
-	// clang-format off
+// clang-format off
+	BView* calendarWidget = new BView("calendarwidget", B_WILL_DRAW);
+	BLayoutBuilder::Group<>(calendarWidget, B_HORIZONTAL, -2)
+		.Add(fDate)
+		.Add(calendarButton)
+		.End();
+
+	BView* categoryWidget = new BView("categorywidget", B_WILL_DRAW);
+	BLayoutBuilder::Group<>(categoryWidget, B_HORIZONTAL, -2)
+		.Add(fCategory)
+		.Add(fCategoryButton)
+		.End();
+
+	BView* splitCategoryWidget = new BView("splitcategorywidget", B_WILL_DRAW);
+	BLayoutBuilder::Group<>(splitCategoryWidget, B_HORIZONTAL, -2)
+		.Add(fSplitCategory)
+		.Add(splitCategoryButton)
+		.End();
+
 	BLayoutBuilder::Group<>(fSplitContainer, B_VERTICAL, 0)
 		.SetInsets(0)
 		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))
@@ -183,7 +206,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		.AddGrid(1.0f, 0.0f)
 			.SetColumnWeight(2, 2.0f)
 			.Add(splitCategoryLabel, 0, 0)
-			.Add(fSplitCategory, 0, 1)
+			.Add(splitCategoryWidget, 0, 1)
 			.Add(splitAmountLabel, 1, 0)
 			.Add(fSplitAmount, 1, 1)
 			.Add(splitMemoLabel, 2, 0)
@@ -199,18 +222,17 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 			.SetColumnWeight(2, 2.0f)
 			.SetColumnWeight(3, 1.0f)
 			.Add(dateLabel, 0, 0)
-			.Add(fDate, 0, 1)
-			.Add(calendarButton, 1, 1)
-			.Add(typeLabel, 2, 0)
-			.Add(fType, 2, 1)
-			.Add(payeeLabel, 3, 0)
-			.Add(fPayee, 3, 1)
-			.Add(amountLabel, 4, 0)
-			.Add(fAmount, 4, 1)
-			.Add(categoryLabel, 0, 2, 2, 1)
-			.Add(fCategory, 0, 3, 2, 1)
-			.Add(memoLabel, 2, 2, 3)
-			.Add(fMemo, 2, 3, 3)
+			.Add(calendarWidget, 0, 1)
+			.Add(typeLabel, 1, 0)
+			.Add(fType, 1, 1)
+			.Add(payeeLabel, 2, 0)
+			.Add(fPayee, 2, 1)
+			.Add(amountLabel, 3, 0)
+			.Add(fAmount, 3, 1)
+			.Add(categoryLabel, 0, 2)
+			.Add(categoryWidget, 0, 3)
+			.Add(memoLabel, 1, 2, 3)
+			.Add(fMemo, 1, 3, 3)
 			.End()
 		.AddGroup(B_HORIZONTAL)
 			.Add(fSplit)
@@ -745,6 +767,7 @@ SplitView::ToggleSplit(void)
 
 		fSplitContainer->Show();
 		fCategory->SetEnabled(false);
+		fCategoryButton->SetEnabled(false);
 		if (fCategory->ChildAt(0)->IsFocus())
 			fMemo->MakeFocus();
 	} else {
@@ -752,6 +775,7 @@ SplitView::ToggleSplit(void)
 
 		fSplitContainer->Hide();
 		fCategory->SetEnabled(true);
+		fCategoryButton->SetEnabled(true);
 	}
 }
 

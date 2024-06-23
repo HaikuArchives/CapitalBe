@@ -75,7 +75,10 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 	fAmount = new CurrencyBox("amountbox", temp.String(), amt.String(), NULL);
 	fAmount->GetFilter()->SetMessenger(new BMessenger(this));
 
-	fDate = new DateBox("datebox", B_TRANSLATE("Date:"), "", NULL);
+	BStringView* dateLabel = new BStringView("datelabel", B_TRANSLATE("Date:"));
+	dateLabel->SetExplicitMinSize(BSize(be_plain_font->StringWidth(B_TRANSLATE("Date:")) + 10,
+		B_SIZE_UNSET));
+	fDate = new DateBox("datebox", NULL, "", NULL);
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
 	//	fDate->SetEscapeCancel(true);
 
@@ -127,6 +130,12 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 		fDestList->MakeFocus(true);
 
 	// clang-format off
+	BView* calendarWidget = new BView("calendarwidget", B_WILL_DRAW);
+	BLayoutBuilder::Group<>(calendarWidget, B_HORIZONTAL, -2)
+		.Add(fDate)
+		.Add(calendarButton)
+		.End();
+
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_HALF_ITEM_SPACING)
 		.SetInsets(B_USE_WINDOW_SPACING)
 		.AddGroup(B_HORIZONTAL)
@@ -140,14 +149,13 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 				.End()
 			.End()
 		.AddGrid(0.0, B_USE_SMALL_SPACING)
-			.Add(fDate->CreateLabelLayoutItem(), 0, 0)
-			.Add(fDate->CreateTextViewLayoutItem(), 1, 0)
-			.Add(calendarButton, 2, 0)
-			.Add(BSpaceLayoutItem::CreateHorizontalStrut(B_USE_DEFAULT_SPACING), 3, 0)
-			.Add(fAmount->CreateLabelLayoutItem(), 4, 0)
-			.Add(fAmount->CreateTextViewLayoutItem(), 5, 0)
+			.Add(dateLabel, 0, 0)
+			.Add(calendarWidget, 1, 0)
+			.Add(BSpaceLayoutItem::CreateHorizontalStrut(B_USE_DEFAULT_SPACING), 2, 0)
+			.Add(fAmount->CreateLabelLayoutItem(), 3, 0)
+			.Add(fAmount->CreateTextViewLayoutItem(), 4, 0)
 			.Add(fMemo->CreateLabelLayoutItem(), 0, 1)
-			.Add(fMemo->CreateTextViewLayoutItem(), 1, 1, 5, 1)
+			.Add(fMemo->CreateTextViewLayoutItem(), 1, 1, 4, 1)
 			.End()
 		.AddStrut(B_USE_DEFAULT_SPACING)
 		.AddGroup(B_HORIZONTAL)
