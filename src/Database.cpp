@@ -13,8 +13,8 @@
 #include "ScheduledTransData.h"
 #include "TimeSupport.h"
 #include "TransactionData.h"
-#include <vector>
 #include <ctime>
+#include <vector>
 
 // #define LOCK_DATABASE
 #ifdef LOCK_DATABASE
@@ -140,17 +140,15 @@ Database::CreateFile(const char* path)
 		"CREATE TABLE accountlist (accountid INT PRIMARY KEY, name VARCHAR(96), "
 		"type VARCHAR(12), status VARCHAR(30));",
 		"Database::CreateFile:create accountlist");
-	DBCommand(
-		"CREATE TABLE accountlocale (accountid INT PRIMARY KEY, "
-		"currencysymbol CHAR(6), currencydecimal CHAR(6), currencyprefix CHAR(1));",
+	DBCommand("CREATE TABLE accountlocale (accountid INT PRIMARY KEY, "
+			  "currencysymbol CHAR(6), currencydecimal CHAR(6), currencyprefix CHAR(1));",
 		"Database::CreateFile:create accountlocale");
 	DBCommand("CREATE TABLE memorizedlist (transactionid INT);",
 		"Database::CreateFile:create memorizedlist");
-	DBCommand(
-		"CREATE TABLE scheduledlist (timestamp INT PRIMARY KEY, accountid INT, transid INT,"
-		"date INT, type VARCHAR(24), payee VARCHAR(96), amount INT,"
-		"category VARCHAR(96),memo VARCHAR(63), interval INT, count INT,"
-		"nextdate INT, destination INT);",
+	DBCommand("CREATE TABLE scheduledlist (timestamp INT PRIMARY KEY, accountid INT, transid INT,"
+			  "date INT, type VARCHAR(24), payee VARCHAR(96), amount INT,"
+			  "category VARCHAR(96),memo VARCHAR(63), interval INT, count INT,"
+			  "nextdate INT, destination INT);",
 		"Database::CreateFile:create scheduledlist");
 	DBCommand(
 		"CREATE TABLE budgetlist (entryid INT PRIMARY KEY, category VARCHAR(96), "
@@ -563,9 +561,9 @@ Database::SetAccountLocale(const uint32& accountid, const Locale& data)
 
 	// Todo: remove table columns for date format
 	if (query.eof()) {
-		command << "INSERT INTO accountlocale VALUES(" << accountid << ",'"
-			<< data.CurrencySymbol() << "'," << data.CurrencyDecimalPlace() << ",'"
-			<< (data.IsCurrencySymbolPrefix() ? "true" : "false") << "');";
+		command << "INSERT INTO accountlocale VALUES(" << accountid << ",'" << data.CurrencySymbol()
+				<< "'," << data.CurrencyDecimalPlace() << ",'"
+				<< (data.IsCurrencySymbolPrefix() ? "true" : "false") << "');";
 		DBCommand(command.String(), "Database::SetAccountLocale:insert into accountlocale");
 		UNLOCK;
 		return;
@@ -605,6 +603,7 @@ Database::LocaleForAccount(const uint32& id)
 	UNLOCK;
 	return locale;
 }
+
 
 bool
 Database::UsesDefaultLocale(const uint32& id)
@@ -1111,6 +1110,7 @@ Database::CountScheduledTransactions(int accountid)
 	return query.getInt64Field(0);
 }
 
+
 bool
 Database::InsertSchedTransaction(const uint32& id, const uint32& accountid, const time_t& startdate,
 	const TransactionType& type, const char* payee, const Fixed& amount, const char* category,
@@ -1423,16 +1423,16 @@ Database::ApplyMigrations(void)
 			"Database::ApplyMigrations:create db_version");
 		DBCommand("INSERT INTO db_version (version) VALUES (0);",
 			"Database::ApplyMigrations:insert db_version");
+	} else {
+		// Get current db_version
+		CppSQLite3Query query = DBQuery("SELECT version FROM db_version",
+			"Database::ApplyMigrations: get currentVersion");
+
+		if (query.eof())
+			return B_ERROR;
+
+		currentVersion = query.getIntField(0);
 	}
-
-	// Get current db_version
-	CppSQLite3Query query = DBQuery("SELECT version FROM db_version",
-		"Database::ApplyMigrations: get currentVersion");
-
-	if (query.eof())
-		return B_ERROR;
-
-	currentVersion = query.getIntField(0);
 
 	// Apply all missing migrations
 	if (currentVersion < 1) {
@@ -1456,6 +1456,9 @@ Database::ApplyMigrations(void)
 		// DBCommand("DROP TABLE defaultlocale;",
 		// 		"Database::ApplyMigrations: defaultlocale:remove dateformat");
 
+		// Deescape database
+		if (!(DeescapeDatabase() == B_OK))
+			return B_ERROR;
 		// Update version number
 		DBCommand("UPDATE db_version SET version = 1;", "Database::ApplyMigrations:update version");
 		currentVersion = 1;
@@ -1504,9 +1507,92 @@ Database::CreateDBBackup(int32 version)
 	return B_OK;
 }
 
+
 status_t
 Database::DeescapeDatabase(void)
 {
-	// TODO: implement function
+	CppSQLite3Buffer bufSQL;
+	CppSQLite3Query query, transactionQuery;
+	BString name, payee, category, memo;
+	// Deescape account names
+	query = DBQuery("SELECT name, accountid FROM accountlist",
+		"Database::DeescapeDatabase:account names");
+	while (!query.eof()) {
+		name = DeescapeIllegalCharacters(query.getStringField(0));
+		uint32 id = query.getIntField(1);
+		bufSQL.format("UPDATE accountlist SET name = %Q WHERE accountid = %i;", name.String(), id);
+		DBCommand(bufSQL, "Database::DeescapeDatabase:account names");
+
+		// Deescape transactions for current account
+		bufSQL.format("SELECT timestamp, payee, category, memo FROM account_%li", id);
+		transactionQuery = DBQuery(bufSQL, "Database::DeescapeDatabase:account data");
+		while (!transactionQuery.eof()) {
+			payee = DeescapeIllegalCharacters(transactionQuery.getStringField(1));
+			category = DeescapeIllegalCharacters(transactionQuery.getStringField(2));
+			memo = DeescapeIllegalCharacters(transactionQuery.getStringField(3));
+
+			bufSQL.format("UPDATE account_%li SET payee = %Q, category = %Q, memo = %Q"
+						  "WHERE timestamp = %li;",
+				id, payee.String(), category.String(), memo.String(),
+				transactionQuery.getInt64Field(0));
+			DBCommand(bufSQL, "Database::DeescapeDatabase:account details");
+			transactionQuery.nextRow();
+		}
+
+		// Deescape transactionlist
+		bufSQL.format("SELECT timestamp, category FROM account_%li", id);
+		transactionQuery = DBQuery(bufSQL, "Database::DeescapeDatabase:transactionlist");
+		while (!transactionQuery.eof()) {
+			category = DeescapeIllegalCharacters(transactionQuery.getStringField(1));
+
+			bufSQL.format("UPDATE transactionlist SET category = %Q WHERE timestamp = %li;",
+				category.String(), transactionQuery.getInt64Field(0));
+			DBCommand(bufSQL, "Database::DeescapeDatabase:transactionlist");
+			transactionQuery.nextRow();
+		}
+
+		query.nextRow();
+	}
+
+	// Deescape categories
+	query = DBQuery("SELECT name FROM categorylist;", "Database::DeescapeDatabase");
+	BString originalName;
+	while (!query.eof()) {
+		originalName = query.getStringField(0);
+		name = DeescapeIllegalCharacters(originalName.String());
+		bufSQL.format("UPDATE categorylist SET name = %Q WHERE name = %Q;", name.String(),
+			originalName.String());
+		DBCommand(bufSQL, "Database::DeescapeDatabase:update category");
+		query.nextRow();
+	}
+
+	// Deescape scheduled transactions
+	query = DBQuery("SELECT transid, payee, category, memo FROM scheduledlist;",
+		"Database::DeescapeDatabase:scheduledlist");
+	while (!query.eof()) {
+		payee = DeescapeIllegalCharacters(query.getStringField(1));
+		category = DeescapeIllegalCharacters(query.getStringField(2));
+		memo = DeescapeIllegalCharacters(query.getStringField(3));
+
+		bufSQL.format("UPDATE scheduledlist SET payee = %Q, category = %Q, memo = %Q"
+					  "WHERE transid = %i;",
+			payee.String(), category.String(), memo.String(), query.getIntField(0));
+		DBCommand(bufSQL, "Database::DeescapeDatabase:scheduledlist");
+		query.nextRow();
+	}
+
+	// Deescape budget entries
+	query = DBQuery("SELECT entryid, category FROM budgetlist;",
+		"Database::DeescapeDatabase:budgetlist");
+	while (!query.eof()) {
+		category = DeescapeIllegalCharacters(query.getStringField(1));
+
+		bufSQL.format("UPDATE budgetlist SET category = %Q"
+					  "WHERE entryid = %i;",
+			category.String(), query.getIntField(0));
+		DBCommand(bufSQL, "Database::DeescapeDatabase:budgetlist");
+		query.nextRow();
+	}
+
 	return B_OK;
 }

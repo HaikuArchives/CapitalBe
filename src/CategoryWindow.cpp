@@ -303,11 +303,9 @@ CategoryView::RefreshCategoryList(void)
 		BString name = query.getStringField(0);
 
 		if (expense == SPENDING)
-			fListView->AddUnder(
-				new CategoryItem(name.String()), fSpendingItem);
+			fListView->AddUnder(new CategoryItem(name.String()), fSpendingItem);
 		else if (expense == INCOME)
-			fListView->AddUnder(
-				new CategoryItem(name.String()), fIncomeItem);
+			fListView->AddUnder(new CategoryItem(name.String()), fIncomeItem);
 
 		if (name.CountChars() > maxchars) {
 			maxchars = name.CountChars();
