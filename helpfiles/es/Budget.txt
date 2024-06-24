@@ -1,16 +1,22 @@
 Ventana de Presupuesto
 
-Si quiere un dinero extra, necesita un presupuesto. Mientras que usted es el único que sabe cuál es una buena elección para la elección de cantidad a añadir en cada Categoría. Capital Be le ofrece las herramientas para tomar las mejores decisiones fácilmente. 
+Si quiere un dinero extra, necesita un presupuesto. Mientras que usted es el Ãºnico que sabe cuÃ¡l es una buena elecciÃ³n para la elecciÃ³n de cantidad a aÃ±adir en cada CategorÃ­a. Capital Be le ofrece las herramientas para tomar las mejores decisiones fÃ¡cilmente. 
 
-La Ventana de Presupuesto se divide en 4 partes:
+Partes de la ventana de Presupuesto
 
-1) Lista de Categorías - En la parte superior izquierda, ésta lista cada categoría, la cantidad reservada para ella y el periodo de tiempo en el que se está recibiendo el dinero, 	como semanal o mensualmente.
-2) Editor de Presupuesto - Ésta es la caja de la parte superior derecha marcada como "Editar Categoría". Al hacer cambios aquí cambiará el item seleccionado de la Lista de Categorias. 
-3) Cuadro de Información - Este cuadro, ubicado en el centro del lado derecho de la ventana muestra información sobre la categoría seleccionada en la Lista de Categorías. Dicha información incluye los movimientos más grandes y más pequeños y el gasto mensual promedio de los últimos 12 meses de la categoría seleccionada.
-4) Resumen del Presupuesto - En el cuadro de la parte inferior se mostrará cómo luce su presupuesto durante un periodo de un año.
+Hay 4 partes:
 
-Cómo hacer un Presupuesto
+1) Lista de CategorÃ­as - En la parte superior izquierda, Ã©sta lista cada categorÃ­a, la cantidad reservada para ella y el periodo de tiempo en el que se estÃ¡ recibiendo el dinero, como semanal o mensualmente.
 
-Cuando accede por primera vez a la Ventana de Presupuesto, ésta genera automáticamente un presupuesto basado en su gasto de los últimos 12 meses. Este es sólo el punto de partida. Haga glic en cada categoría para la que desee reservar dinero y escribe la cantidad a la derecha. A menos que haya visto un cambio significativo en su situación financiera del último año, elegir una cantidad que es un poco más d elo promedio e suna buena idea a menos que no espere que la cantidad cambie. Asegúrese de que queda algo de dinero para contabilizar los gastos inesperados, un 5% de sus ingresos mensuales sería un buen comienzo.
+2) Editor de Presupuesto - Ã‰sta es la caja de la parte superior derecha marcada como "Editar CategorÃ­a". Al hacer cambios aquÃ­ cambiarÃ¡ el item seleccionado de la Lista de Categorias. 
 
-Consejo: Si necesita más información que la que el cuadro de Información puede orecer, deje la Ventana de Presupuesto abierta, vuelva  a la ventana principal y abra la ventana de informes. Colocando ambas ventanas lado a lado, podrá observar fácilmente en qué punto está y planificar hacia donde se dirige su situación financiera
+3) Cuadro de InformaciÃ³n - Este cuadro, ubicado en el centro del lado derecho de la ventana muestra informaciÃ³n sobre la categorÃ­a seleccionada en la Lista de CategorÃ­as. Dicha informaciÃ³n incluye los movimientos mÃ¡s grandes y mÃ¡s pequeÃ±os y el gasto mensual promedio de los Ãºltimos 12 meses de la categorÃ­a seleccionada.
+
+4) Resumen del Presupuesto - En el cuadro de la parte inferior se mostrarÃ¡ cÃ³mo luce su presupuesto durante un periodo de un aÃ±o.
+
+CÃ³mo hacer un Presupuesto
+
+Cuando accede por primera vez a la Ventana de Presupuesto, Ã©sta genera automÃ¡ticamente un presupuesto basado en su gasto de los Ãºltimos 12 meses. Este es sÃ³lo el punto de partida. Haga glic en cada categorÃ­a para la que desee reservar dinero y escribe la cantidad a la derecha. A menos que haya visto un cambio significativo en su situaciÃ³n financiera del Ãºltimo aÃ±o, elegir una cantidad que es un poco mÃ¡s d elo promedio e suna buena idea a menos que no espere que la cantidad cambie.
+AsegÃºrese de que queda algo de dinero para contabilizar los gastos inesperados, un 5% de sus ingresos mensuales serÃ­a un buen comienzo.
+
+Consejo: Si necesita mÃ¡s informaciÃ³n que la que el cuadro de InformaciÃ³n puede orecer, deje la Ventana de Presupuesto abierta, vuelva  a la ventana principal y abra la ventana de informes. Colocando ambas ventanas lado a lado, podrÃ¡ observar fÃ¡cilmente en quÃ© punto estÃ¡ y planificar hacia donde se dirige su situaciÃ³n financiera

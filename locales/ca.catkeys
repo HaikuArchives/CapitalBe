@@ -1,0 +1,242 @@
+1	Catalan	application/x-vnd.wgp-CapitalBe	3544348528
+{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}
+<No accounts>	MainWindow		<Sense comptes>
+About CapitalBe	MainWindow		Quant al CapitalBe
+Account	MainWindow		Compte
+Account total	MainWindow		Total del compte
+Balance	MainWindow		Balanç
+Budget	MainWindow		Pressupost
+Cancel	MainWindow		Cancel·la
+Categories…	MainWindow		Categories…
+Close	MainWindow		Tanca
+Closed account	MainWindow		Tanca el compte
+Could not export your financial data to the file '%%FILENAME%%'	MainWindow		No s'han pogut exportar les vostres dades financeres al fitxer '%%FILENAME%%'
+Could not import the data in the file '%%FILENAME%%'	MainWindow		No s'han pogut importar les dades del fitxer '%%FILENAME%%'
+Delete	MainWindow		Suprimeix
+Delete…	MainWindow		Suprimeix...
+Edit categories…	MainWindow		Edit categories…
+Edit…	MainWindow		Edita…
+Enter a transfer…	MainWindow		Introduïu una transferència...
+Export	MainWindow		Exporta
+Export to QIF file…	MainWindow		Exporta-ho a un fitxer QIF...
+File	MainWindow		Fitxer
+Help: Main window	MainWindow		Ajuda: finestra principal
+Import	MainWindow		Importa
+Import from QIF file…	MainWindow		Importa des d'un fitxer QIF...
+New…	MainWindow		Nou...
+Next	MainWindow		Següent
+Not enough accounts for a transfer	MainWindow		No hi ha prou comptes per a una transferència
+Numbered transactions cannot be scheduled	MainWindow		Les transaccions numerades no es poden programar
+Once deleted, you will not be able to get back any data on this account.	MainWindow		Un cop suprimit, no podreu recuperar cap dada d'aquest compte.
+Oops!	MainWindow		Ui!
+Previous	MainWindow		Anterior
+Quit	MainWindow		Surt
+Really delete account?	MainWindow		Realment voleu suprimir el compte?
+Reconcile…	MainWindow		Reconciliació…
+Reopen	MainWindow		Torna'l a obrir
+Report a bug…	MainWindow		Informeu d'un error...
+Reports	MainWindow		Informes
+Schedule this transaction…	MainWindow		Programa aquesta transacció...
+Scheduled transactions	MainWindow		Transaccions programades
+Settings…	MainWindow		Configuració...
+This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.	MainWindow		Aquest compte està tancat i la configuració no es pot editar. Torneu a obrir el compte si hi heu de fer canvis.
+This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.	MainWindow		Això passa quan el tipus de fitxer no és compatible, quan les dades del fitxer estan malmeses o quan li doneu una recepta de quiche.
+This really shouldn't happen, so you probably should report a bug for this.	MainWindow		Això realment no hauria de passar, així que probablement hauríeu d'enviar un correu electrònic d'assistència al respecte.
+This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.	MainWindow		Aquesta transacció pertany a un compte tancat i no es pot editar. Torneu a obrir el compte si hi heu de fer canvis.
+Tools	MainWindow		Eines
+Transaction	MainWindow		Transacció
+Transfer from '%%PAYEE%%'	MainWindow		Transfereix de '%%PAYEE%%'
+Transfer to '%%PAYEE%%'	MainWindow		Transfereix a '%%PAYEE%%'
+You can schedule transfers, deposits, or ATM transactions.	MainWindow		Podeu programar transferències, dipòsits o transaccions de caixers automàtics.
+You cannot schedule transactions on a closed account.	MainWindow		No podeu programar transaccions en un compte tancat.
+You need to have an account created in order to reconcile it.	MainWindow		Heu de tenir un compte creat per conciliar-lo.
+You need to have at least 2 accounts to perform a transfer.	MainWindow		Cal tenir almenys 2 comptes per fer una transferència.
+You need to select an account in order to reconcile it.	MainWindow		Heu de seleccionar un compte per conciliar-lo.
+<No payee entered>	Import		<No payee entered>
+<Uncategorized>	Import		<Uncategorized>
+Bank account	Import		Bank account
+Cash account	Import		Cash account
+Credit card account	Import		Credit card account
+12 month statistics	BudgetWindow		Estadístiques de 12 mesos
+Annually	BudgetWindow		Anualment
+Average	BudgetWindow		Mitjana
+Budget	BudgetWindow		Pressupost
+Budget category:	BudgetWindow		Categoria del pressupost:
+Budget category: %category%	BudgetWindow		Categoria del pressupost: %category%
+Frequency	BudgetWindow		Frequency
+Help: Budget	BudgetWindow		Ajuda: pressupost
+Highest	BudgetWindow		La més alta
+Lowest	BudgetWindow		La més baixa
+Monthly	BudgetWindow		Mensualment
+Quarterly	BudgetWindow		Trimestralment
+Recalculate all	BudgetWindow		Recalcula-ho tot
+Set all to zero	BudgetWindow		Estableix-ho tot a zero
+Spending	BudgetWindow		Despeses
+Summary	BudgetWindow		Resum
+Total	BudgetWindow		Total
+Transfer	BudgetWindow		Transferència
+Unknown	BudgetWindow		Desconegut
+Weekly	BudgetWindow		Setmanalment
+Account interest	ReconcileWindow		Interessos del compte
+Bank charge	ReconcileWindow		Càrrec bancari
+Bank charges	ReconcileWindow		Càrrecs bancaris
+Cancel	ReconcileWindow		Cancel·la
+CapitalBe didn't understand the amount for 'Bank charges'	ReconcileWindow		El CapitalBe no ha entès l'import de les despeses bancàries
+CapitalBe didn't understand the amount for 'Interest earned'	ReconcileWindow		El CapitalBe no ha entès l'import dels interessos guanyats
+Couldn't Quick balance	ReconcileWindow		No s'ha pogut fer el balanç ràpidament
+Date is missing	ReconcileWindow		Manca la data
+DEP	ReconcileWindow		DIP
+Ending balance	ReconcileWindow		Balanç final
+Help: Reconcile	ReconcileWindow		Ajuda: conciliar
+Interest earned	ReconcileWindow		Interessos guanyats
+Quick balance	ReconcileWindow		Balanç ràpid
+Quick balance failed. This doesn't mean that you did something wrong - it's just that 'Quick balance' works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		El balanç ràpid ha fallat. Això no vol dir que hàgiu fet alguna cosa malament, és només que el balanç ràpid funciona en casos més senzills per equilibrar un compte diferent d'aquest. Ho sentim.
+Quick balance successful!	ReconcileWindow		Balanç ràpid correcte!
+Reconcile	ReconcileWindow		Reconcilia
+Reconcile:	ReconcileWindow		Reconcilia:
+Reset	ReconcileWindow		Restableix
+Starting balance	ReconcileWindow		Balanç inicial
+Success!	ReconcileWindow		Correcte!
+There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		Pot ser que hi hagi una errada ortogràfica o un símbol de moneda incorrecte per a aquest compte.
+Total charges:	ReconcileWindow		Càrrecs totals:
+Total charges: %s	ReconcileWindow		Càrrecs totals: %s
+Total checks:	ReconcileWindow		Xecs totals:
+Total checks: %s	ReconcileWindow		Xecs totals: %s
+Total deposits:	ReconcileWindow		Dipòsits totals:
+Total deposits: %s	ReconcileWindow		Dipòsits totals: %s
+Unreconciled total: %s	ReconcileWindow		Total no conciliat: %s
+You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow		Heu d'introduir la data de l'extracte al balanç ràpid.
+Account settings	Account		Configuració del compte
+Cancel	Account		Cancel·la
+Closed	Account		Tancat
+Name:	Account		Nom:
+New account	Account		Compte nou
+OK	Account		D'acord
+Use system currency format	Account		Use system currency format
+Accounts	RegisterView		Comptes
+Balance	RegisterView		Balance
+QuickTracker	RegisterView		Rastrejador ràpid
+Transactions	RegisterView		Transactions
+Accounts:	ReportWindow		Comptes:
+Categories:	ReportWindow		Categories:
+Ending date:	ReportWindow		Data d'acabament:
+Help: Report	ReportWindow		Ajuda: informes
+Month	ReportWindow		Mes
+None	ReportWindow		Cap
+Quarter	ReportWindow		Trimestre
+Reports	ReportWindow		Informes
+Reports:	ReportWindow		Informes:
+Starting date:	ReportWindow		Data d'inici:
+Subtotal:	ReportWindow		Subtotal:
+Total worth	ReportWindow		Valor total
+Transactions	ReportWindow		Transaccions
+Year	ReportWindow		Any
+Add	CategoryWindow		Afegeix
+Add category	CategoryWindow		Afegeix-hi una categoria
+Add…	CategoryWindow		Afegeix...
+Can't use this category name	CategoryWindow		No es pot usar aquest nom de categoria.
+Cancel	CategoryWindow		Cancel·la
+CapitalBe uses the words 'Income', 'Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.	CategoryWindow		El CapitalBe usa les paraules Ingressos, Despeses i Divideix per gestionar les categories, de manera que no les podeu usar com a noms de categories. Si us plau, trieu un nom diferent per a la categoria nova.
+Categories	CategoryWindow		Categories
+Category is missing	CategoryWindow		Hi manca la categoria
+Do you want to add this transaction without a category?	CategoryWindow		Voleu afegir aquesta transacció sense una categoria?
+Edit category	CategoryWindow		Edita la categoria
+Edit…	CategoryWindow		Edita…
+Income category	CategoryWindow		Categoria d'ingressos
+Name:	CategoryWindow		Nom:
+New name:	CategoryWindow		Nom nou:
+OK	CategoryWindow		D'acord
+Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Trieu una categoria nova per a totes les transaccions que es troben actualment a la categoria %%CATEGORY_NAME%%.
+Remove category	CategoryWindow		Suprimeix la categoria
+Remove…	CategoryWindow		Suprimeix...
+Spending category	CategoryWindow		Categoria de despeses
+Uncategorized	CategoryWindow		Sense categoria
+Add account transfer	TransferWindow		Afegeix la transferència del compte
+Cancel	TransferWindow		Cancel·la
+Date:	TransferWindow		Data:
+Edit transfer	TransferWindow		Edita la transferència
+From account:	TransferWindow		Compte d'origen:
+If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		Si teniu intenció de transferir diners, caldrà que sigui una quantitat que no sigui zero.
+Memo:	TransferWindow		Resum:
+Not transferring any money	TransferWindow		No es transfereixen diners.
+OK	TransferWindow		D'acord
+To account:	TransferWindow		Compte de destinació:
+Add item	SplitView		Afegeix-hi un element
+Enter	SplitView		Retorn
+Help: Transaction editor	SplitView		Ajuda: editor de transaccions
+Remove item	SplitView		Suprimeix l'element
+Show split	SplitView		Mostra la divisió
+Split transaction	SplitView		Divideix la transacció
+The split total must match the amount box	SplitView		El total dividit ha de coincidir amb el quadre d'import
+Total:	SplitView		Total:
+Total: %sum%	SplitView		Total: %sum%
+Uncategorized	SplitView		Sense categoria
+When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		Quan els elements dividits s'afegeixen, han de sumar fins a %%ENTERED_AMOUNT%%. Actualment, sumen %%TOTAL_AMOUNT%%
+Agh! Bug!	Locale		Ai! Error!
+CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n	Locale		El CapitalBe ha trobat un error. Això no hauria de passar, però ha passat.\nQuè voleu fer?\n\n1) Desar l'error en un fitxer de text per carregar-lo al\nRastrejador de problemes del CapitalBe (https://github.com/HaikuArchives/CapitalBe/issues) \n\n2) Només sortir-ne i no fer res\n
+Quit	Locale		Surt
+Save bugreport	Locale		Desa l'informe d'error
+Amount	ScheduleAddWindow		Quantitat
+Annually	ScheduleAddWindow		Anualment
+Cancel	ScheduleAddWindow		Cancel·la
+Frequency:	ScheduleAddWindow		Freqüència:
+Indefinitely	ScheduleAddWindow		Indefinidament
+Monthly	ScheduleAddWindow		Mensualment
+OK	ScheduleAddWindow		D'acord
+Quarterly	ScheduleAddWindow		Trimestralment
+Repeat:	ScheduleAddWindow		Repeteix:
+Schedule transaction	ScheduleAddWindow		Programa la transacció
+Starting date:	ScheduleAddWindow		Data d'inici:
+times	ScheduleAddWindow		cops
+Amount	CommonTerms		Quantitat
+Category	CommonTerms		Categoria
+Date	CommonTerms		Data
+Income	CommonTerms		Ingressos
+Memo	CommonTerms		Resum
+Payee	CommonTerms		Beneficiari
+Spending	CommonTerms		Despeses
+Split	CommonTerms		Divideix
+Type	CommonTerms		Tipus
+Annually	ScheduleListWindow		Anualment
+Frequency	ScheduleListWindow		Freqüència
+Help: Scheduled transaction	ScheduleListWindow		Ajuda: transacció programada
+Memo	ScheduleListWindow		Memo
+Monthly	ScheduleListWindow		Mensualment
+Next payment	ScheduleListWindow		Pagament següent
+Payments	ScheduleListWindow		Pagaments
+Quarterly	ScheduleListWindow		Trimestralment
+Remove	ScheduleListWindow		Suprimeix
+Scheduled transactions	ScheduleListWindow		Transaccions programades
+Unknown	ScheduleListWindow		Desconegut
+Unlimited	ScheduleListWindow		Sense límit
+Weekly	ScheduleListWindow		Setmanalment
+Appears before amount	PrefWindow		Apareix abans de la quantitat
+Cancel	PrefWindow		Cancel·la
+Closed account:	PrefWindow		Closed account:
+Color for negative amounts	PrefWindow		Color for negative amounts
+Currency format	PrefWindow		Currency format
+Decimals:	PrefWindow		Decimals:
+OK	PrefWindow		D'acord
+Preview:	PrefWindow		Preview:
+Selected:	PrefWindow		Selected:
+Settings	PrefWindow		Configuració
+Symbol:	PrefWindow		Símbol:
+Unselected:	PrefWindow		Unselected:
+CapitalBe	System name		CapitalBe
+CapitalBe didn't understand the amount	TextInput		El CapitalBe no ha entès la quantitat
+CapitalBe didn't understand the date you entered	TextInput		El CapitalBe no ha entès la data que heu introduït
+CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	TextInput		El CapitalBe entén moltes maneres diferents d'introduir dates. Pel que sembla, aquesta no. Haureu de canviar com heu introduït aquesta data. Ho sentim.
+Payee is missing	TextInput		Manca el beneficiari
+There may be a typo or the wrong kind of currency symbol for this account.	TextInput		Pot ser que hi hagi una errada ortogràfica o un símbol de moneda incorrecte per a aquest compte.
+You need to enter a payee.	TextInput		Heu d'introduir-hi un beneficiari.
+Edit transaction	TransactionEdit		Edita la transacció
+No memo	TransactionEdit		Sense resum
+Enter	CheckView		Retorn
+Transaction type is missing	CheckView		Manca el tipus de transacció
+You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	CheckView		Heu d'introduir un número de xec o un tipus de transacció, com ara caixer automàtic (per a transaccions amb targeta de dèbit i similars), DIP (per a dipòsits) o el vostre codi per a algun altre tipus de despesa.
+Expense	CashFlowReport		Despeses
+No memo	ScheduledTransItem		Sense resum
+No transactions	TransactionReport		Sense transaccions
+Transactions	TransactionReport		Transaccions
+Total	NetWorthReport		Total
+Total worth	NetWorthReport		Valor total

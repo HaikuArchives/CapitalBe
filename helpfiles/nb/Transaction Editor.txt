@@ -1,11 +1,11 @@
-Transaksjonsredigeringsvinduet
+Transaksjonsredigering
 
-Her kan du gjøre endringer i en transaksjon som du allerede har lagt inn i registeret. Det er også her en transaksjon kan deles mellom flere kategorier.
+Her kan du gjÃ¸re endringer i en transaksjon som du allerede har registrert. Du kan ogsÃ¥ dele opp en transaksjon i flere kategorier.
 
 Delte transaksjoner
 
-Bare fordi du kjøper noe på ett sted, betyr ikke det at det hele må gå inn i samme budsjettkategori. Delte transaksjoner lar deg plassere deler av mengden av en transaksjon i forskjellige kategorier.
+Bare fordi du kjÃ¸per noe pÃ¥ ett sted, betyr ikke det at det hele mÃ¥ gÃ¥ inn i samme budsjettkategori. Delte transaksjoner lar deg dele opp belÃ¸pet fra en transaksjon i flere kategorier.
 
-For å legge inn en delt transaksjon, må du skrive inn ordet "Split" i kategoriboksen i hovedvinduet og gå til en annen boks i registeret. CapitalBe vil åpne Transaksjonsredigeringsvinduet, og du kan begynne å legge inn kategorier for transaksjonen. Klikk på Legg til element-knappen for å legge til en kategori i transaksjonen og Fjern-knappen for å slette den valgte kategorien. Du vil se en fortløpende sum av elementene du har skrevet inn til høyre for Fjern-knappen. Når alt er ferdig, kan du bare trykke på Enter-tasten eller klikke på Legg Til, og du er ferdig!
+For Ã¥ legge inn en delt transaksjon, mÃ¥ du skrive inn ordet "Split" i kategoriboksen i hovedvinduet og gÃ¥ til en annen boks i registeret. CapitalBe vil Ã¥pne vinduet for redigering av transaksjoner, og du kan begynne Ã¥ legge inn kategorier for transaksjonen. Klikk pÃ¥ Legg til-knappen for Ã¥ legge til en kategori i transaksjonen, og Fjern-knappen for Ã¥ slette den valgte kategorien. Du vil se en fortlÃ¸pende sum av elementene du har skrevet inn til hÃ¸yre for Fjern-knappen. NÃ¥r alt er ferdig, kan du bare trykke pÃ¥ Enter-tasten eller klikke pÃ¥ Legg Til, og du er ferdig!
 
-TIPS: Du kan dele eller onplite en transaksjon du allerede har skrevet inn bare ved å dobbeltklikke på den eller velge Rediger fra transaksjonsmenyen.
+TIPS: Du kan dele eller kombinere en transaksjon du allerede har registrert ved Ã¥ dobbeltklikke pÃ¥ den eller velge Rediger fra transaksjonsmenyen.

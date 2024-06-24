@@ -1,0 +1,11 @@
+Editor de Movimientos
+
+Aquí puedes hacer cambios en un movimiento previamente introducido. Además puedes dividir un movimiento entre varias categorías. 
+
+Movimientos divididos
+
+No porque compres algo en un mismo lugar tiene que ir todo en la misma categoría del presupuesto. Con las transacciones divididas, puedes asignar partes del monto de una compra a diferentes categorías.
+
+Para ingresar una transacción dividida, solo tienes que escribir la palabra "Split" en la casilla de Categoría en la ventana principal y luego ir a otra casilla en el registro. CapitalBe abrirá la ventana de Editor de Transacciones y podrás empezar a ingresar las categorías para la transacción. Haz clic en el botón "Agregar Ítem" para añadir una categoría a la transacción y el botón "Eliminar Ítem" para quitar la categoría seleccionada. Verás un total acumulado de los ítems que has ingresado a la derecha del botón "Eliminar Ítem". Cuando hayas terminado, simplemente puedes presionar la tecla Enter o hacer clic en el botón "Enter" ¡y habrás terminado!
+
+Consejo: Puedes dividir o unir una transacción que ya has ingresado simplemente haciendo doble clic en ella o eligiendo "Editar" desde el menú de Transacciones.

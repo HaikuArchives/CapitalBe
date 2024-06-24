@@ -1,0 +1,22 @@
+Rapor Penceresi
+
+Bu, paranızı nerede ve nasıl harcadığınızı görmek için güçlü bir araç olabilir.
+
+Rapor Türleri
+
+Gelir/Gider — Gelirinizin ve harcamalarınızın kategorisine göre dökümü.
+Toplam Değer — Borçlarınız tasarruflarınıza karşı koyulduğunda ne kadar paranızın kaldığı.
+İşlemler — Belirli bir kategorideki tüm işlemleri gösterin
+
+Alt Toplam
+
+Herhangi bir rapor için aylık, dört aylık, yıllık veya yalnızca rapor için belirlediğiniz süre için olan toplamı gösterebilirsiniz.
+
+Kategoriler
+
+Raporlar yalnızca belirli işlem kategorilerinde çalıştırılabilir. 
+Listeye tıklarken Üst Karakter düğmesini basılı tutarsanız birden çok kategoriyi seçebilirsiniz.
+Windows düğmesini basılı tutarak ve listeye tıklayarak bir dizi kategori seçebilirsiniz.
+Tüm kategorileri istiyorsanız listedeki bir ögeye tıklayın ve ardından Seçenek+A’ya basın.
+
+

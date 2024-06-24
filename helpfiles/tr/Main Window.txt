@@ -1,0 +1,26 @@
+Ana Pencere
+
+CapitalBe ile geçen zamanınızın çoğu bu pencerede harcanır. Dört ana kısım vardır: Hesap listesi, işlem listesi, Tez İzleyici ve işlem bilgilerini girmek için metin kutuları.
+
+Hesap Listesi
+
+Pencerenin sol üst köşesinde bulunur ve CapitalBe’de bulunan hesapların bir listesidir. Her öge size hesabın adını ve geçerli bakiyesini gösterecektir. Kredi kartları gibi borç hesapları için bakiyenin sıfırdan az olacağını unutmayın. Hesap için temel ayrıntıları düzenlemek için bir hesaba çift tıklayabilirsiniz. Çoğu kişi için bu yalnızca ad olacaktır; ancak “Saptanmış para birimi ayarlarını kullan” onay kutusunu kaldırarak para birimi ayarlarını da değiştirebilirsiniz. Bununla birlikte, bunu yapmanız gerekebilecek tek zaman, başka bir ülkede farklı bir para kullanan bir banka hesabınız varsa olabilir.
+
+İpucu: Seçenek ve Üst Karakter düğmelerini basılı tutarken Yukarı veya Aşağı ok düğmelerine basarak fareyi kullanmadan hesapları değiştirebilirsiniz.
+
+İşlem Listesi
+
+İşlem listesi, bir hesaptaki tüm etkinliklerin listesidir. Her işlemin yanında, bu işlemin girildiği hesabın bakiyesi bulunur.
+
+İpucu: Seçenek düğmesini basılı tutarken Yukarı veya Aşağı ok düğmelerine basarak fareyi kullanmadan listede yukarı ve aşağı hareket edebilirsiniz.
+
+Bir İşlem Girmek
+
+Bir hesaba bir işlem eklemek, bilgiyi pencerenin sağ alt kısmındaki forma yazıp Giriş düğmesine basmak veya fareyle Gir’e tıklamak kadar basittir.
+
+İpucu: + ve - düğmeleri tarihi bir gün değiştirebilir. Sayfa Yukarı ve Sayfa Aşağı düğmeleri ise bir ay değiştirir.
+İpucu: Sekme düğmesiyle bir sonraki kutuya veya Üst Karakter ve Sekme düğmesine basarak bir öncekine atlayın.
+
+Tez İzleyici Paneli
+
+Tez İzleyici, sol alt köşede, finansal durumunuzla ilgili güncel bilgileri gösteren ufak bir paneldir. Tüm hesaplarınızın toplamını (finans dünyasında net değer olarak bilinir) ve genel olarak bütçenizde nerede olduğunuzu gösterir.

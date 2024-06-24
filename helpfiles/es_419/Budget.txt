@@ -1,0 +1,22 @@
+Ventana de Presupuesto
+
+Aunque solo tú sabes cuál es una buena elección para la cantidad a poner en cada categoría, CapitalBe te da las herramientas para tomar las mejores decisiones más fácilmente.
+
+Partes de la ventana de Presupuesto
+
+Hay 4 partes:
+
+1) Lista de Categorías - En la parte superior izquierda, se enumera cada categoría, la cantidad reservada para ella y el período de tiempo para el cual asigna el dinero, como cada semana o mes.
+
+2) Editor de presupuesto: este es el cuadro en la esquina superior derecha marcado como "Editar categoría". Hacer cambios aquí cambiará el elemento que haya elegido en la Lista de categorías.
+
+3) Cuadro de información - Este cuadro, ubicado en el medio del lado derecho de la ventana, muestra información sobre la categoría seleccionada en la Lista de categorías. La información incluye las transacciones más grandes y más pequeñas y el gasto mensual promedio durante los últimos 12 meses para la categoría elegida.
+
+4) Resumen de presupuesto - el cuadro en la parte inferior muestra cómo se ve tu presupuesto en el transcurso de un año.
+
+Cómo hacer un presupuesto
+
+Cuando abres la ventana Presupuesto por primera vez, se genera automáticamente un presupuesto basado en tus gastos de los últimos 12 meses. Éste es sólo un punto de partida. Haz clic en cada categoría para reservar dinero y escribe la cantidad a la derecha. A menos que hayas visto un cambio significativo en tu situación financiera en el último año, elegir una cantidad que sea un poco más que el promedio es una buena idea, a menos que no esperas que la cantidad cambie.
+Asegúrate de que quede algo de dinero para cubrir gastos inesperados: el 5% de tus ingresos mensuales es un buen comienzo.
+
+Consejo: Si necesitas más información de la que puede brindarte el Cuadro de información, deja abierta la ventana Presupuesto, regresa a la ventana principal y abre la ventana Informes. Colocados uno al lado del otro, puedes ver fácilmente dónde has estado y planificar adónde vas.

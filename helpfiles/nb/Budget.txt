@@ -1,21 +1,22 @@
 Budsjettvinduet
 
-Hvis du vil ha ekstra penger, trenger du et budsjett. Selv om du er den eneste som vet hva som er det beste beløpet å sette i hver kategori, gir CapitalBe deg verktøyene for å ta de beste beslutningene.
+Hvis du vil ha ekstra penger, trenger du et budsjett. Selv om du er den eneste som vet hva som er det beste belÃ¸pet Ã¥ sette i hver kategori, gir CapitalBe deg verktÃ¸yene for Ã¥ ta de beste beslutningene.
 
-Deler av budsjettvinduet
+Budsjettvinduets deler
 
 Det er 4 deler:
 
-1) Kategoriliste - øverst til venstre viser dette hver kategori, beløpet som er avsatt, og hvor ofte du setter av penger, for eksempel hver uke eller måned.
+1) Kategoriliste - Ã¸verst til venstre vises kategorier, belÃ¸pet som er avsatt, og hvor ofte du setter av penger, for eksempel hver uke eller hver mÃ¥ned.
 
-2) Budsjettredigering - Dette er boksen øverst til høyre merket "redigeringskategori". Å gjøre endringer her vil endre oppføringen du har valgt i kategorilisten.
+2) Budsjettredigering - Dette er boksen Ã¸verst til hÃ¸yre merket "redigeringskategori". Ã… gjÃ¸re endringer her vil endre oppfÃ¸ringen du har valgt i kategorilisten.
 
-3) Informasjonsboks - Denne boksen, som ligger i midten på høyre side av vinduet, viser informasjon om kategorien valgt i kategorilisten. Informasjonen inkluderer de største og minste transaksjonene og de gjennomsnittlige månedlige utgiftene de siste 12 månedene for den valgte kategorien.
+3) Informasjonsboks - Denne boksen, som ligger i midten pÃ¥ hÃ¸yre side av vinduet, viser informasjon om kategorien valgt i kategorilisten. Informasjonen inkluderer de stÃ¸rste og minste transaksjonene og de gjennomsnittlige mÃ¥nedlige utgiftene de siste 12 mÃ¥nedene for den valgte kategorien.
 
-4) Budsjettsammendrag - Boksen nederst viser hvordan budsjettet ser ut i løpet av et år.
+4) Budget Summary - The box at the bottom shows what your budget looks like over the course of a year.
 
 Hvordan lage et budsjett
 
-Når du åpner budsjettvinduet for første gang, genereres det automatisk et budsjett for deg, basert på utgiftene dine de siste 12 månedene. Dette er bare et utgangspunkt. Klikk på hver kategori du vil sette av penger i, og skriv inn beløpet til høyre. Med mindre du har sett en betydelig endring i din økonomiske situasjon det siste året, er valg av et beløp som bare er litt mer enn gjennomsnittet en god idé med mindre beløpet ikke forventes å endre seg. Forsikre deg om at det er noen penger til overs for å gjøre rede for uventede utgifter - 5% av den månedlige inntekten din er en god start.
+NÃ¥r du Ã¥pner budsjettvinduet for fÃ¸rste gang, genereres det automatisk et budsjett for deg, basert pÃ¥ utgiftene dine de siste 12 mÃ¥nedene. Dette er bare et utgangspunkt. Klikk pÃ¥ hver kategori du vil sette av penger i, og skriv inn belÃ¸pet til hÃ¸yre. Med mindre du har sett en betydelig endring i din Ã¸konomiske situasjon det siste Ã¥ret, er det en god idÃ© Ã¥ velge et belÃ¸p som bare er litt mer enn gjennomsnittet, med mindre belÃ¸pet ikke forventes Ã¥ endre seg i det hele tatt.
+Forsikre deg om at det er noen penger til overs i tilfelle uventede utgifter - 5% av den mÃ¥nedlige inntekten din er en god start.
 
-TIPS: Hvis du trenger mer informasjon enn hva informasjonsboksen kan gi, la budsjettvinduet være åpent, gå tilbake til hovedvinduet og åpne opp rapportvinduet. Plassert side om side, kan du enkelt se hvor du har vært og planlegge hvor du skal.
+TIPS: Hvis du trenger mer informasjon enn det informasjonsboksen gir, la budsjettvinduet vÃ¦re Ã¥pent, gÃ¥ tilbake til hovedvinduet og Ã¥pne opp rapportvinduet. Plasser dem side om side, sÃ¥ kan du enkelt se din nÃ¥vÃ¦rende situasjon, og planlegge hvor du skal.

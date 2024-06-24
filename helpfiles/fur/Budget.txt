@@ -1,0 +1,22 @@
+Il barcon belanç
+
+Se tu desideris vê bêçs in plui, ti covente un belanç. Ancje se nome tu tu sâs cualis che a son lis sieltis miôr di impuart par ogni categorie, Capital Be ti da i struments par cjapâ lis miôrs decisions cun plui facilitât.
+
+Parts dal barcon belanç
+
+A son 4 parts:
+
+1) Liste categoriis - In alt a çampe, e ven listade ogni categorie, il relatîf impuart assegnât e la dade di timp de assegnazion dai bêçs, come par esempli ogni setemane o mês.
+
+2) Budget Editor - This is the box at the upper right marked "Edit Category". Making changes here will change the item you've chosen in the Category List.
+
+3) Information Box - This box, located in the middle on the right side of the window, displays information about the category selected in the Category List. The information includes the biggest and smallest transactions and the average monthly spending over the past 12 months for the chosen category.
+
+4) Budget Summary - The box at the bottom shows what your budget looks like over the course of a year.
+
+How to Make a Budget
+
+When you open the Budget window for the first time, it automatically generates a budget for you, based on your spending for the past 12 months. This is only a starting point. Click on each category for which you want to set aside money and type in the amount on the right. Unless you've seen a significant change in your financial situation in the last year, choosing an amount which is just a little more than the average is a good idea unless the amount is not expected to change. 
+Make sure that there is some money left over to account for unexpected expenses -- 5% of your monthly income is a good start.
+
+Tip: If you need more information than what the Information Box can give, leave the Budget window open, go back to the main window, and open up the Reports window. Placed side-by-side, you can easily see where you've been and plan where you're going.

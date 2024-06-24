@@ -1,17 +1,22 @@
 Rapportvinduet
 
-Dette kan være et kraftig verktøy for deg for å finne ut hvordan og hvor du bruker pengene dine.
+Dette kan vÃ¦re et kraftig verktÃ¸y for deg for Ã¥ finne ut hvordan og hvor du bruker pengene dine.
 
 Rapporttyper
 
 Inntekt / utgifter - en oversikt over inntektene og utgiftene etter kategori.
-Total verdi - hvor mye penger du har når gjeld veies mot sparepengene dine.
+Total verdi - hvor mye penger du har nÃ¥r gjeld veies mot sparepengene dine.
 Transaksjoner - Vis alle transaksjoner i en bestemt kategori
 
 Subtotal
 
-For hver rapport kan du vise totaler for hver måned, kvartal, år, eller bare totalen i den perioden du har satt til rapporten.
+For hver rapport kan du vise totaler for hver mÃ¥ned, kvartal, Ã¥r, eller bare totalen i den perioden du har satt til rapporten.
 
 Kategorier
 
-Rapporter kan kjøres på bare visse kategorier av transaksjoner. Hvis du holder skifttasten mens du klikker på listen, kan du velge flere kategorier. Du kan velge en rekke kategorier ved å holde Windows-tasten og klikke på listen. Hvis du vil ha alle kategorier, klikker du på et element i listen og trykk deretter ALT+A.
+Rapporter kan kjÃ¸res pÃ¥ bare visse kategorier av transaksjoner.
+Hvis du holder skifttasten mens du klikker pÃ¥ listen, kan du velge flere kategorier.
+Du kan velge en rekke kategorier ved Ã¥ holde Windows-tasten og klikke pÃ¥ listen.
+Hvis du vil ha alle kategorier, klikker du pÃ¥ et element i listen og trykk deretter ALT+A.
+
+

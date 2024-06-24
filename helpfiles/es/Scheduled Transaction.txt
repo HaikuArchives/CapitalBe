@@ -1,3 +1,3 @@
 Ventana de movimientos Programados
 
-Esta ventana simplemente muestra los movimientos que haya programado para ser realizados de forma autom·tica. TambiÈn puede eliminarlos desde aquÌ. Si desea crear un nuevo movimiento programado, tendr· que realizarlo desde la ventana principal.
+Esta ventana simplemente muestra los movimientos que haya programado para ser realizados de forma autom√°tica. Tambi√©n puede eliminarlos desde aqu√≠. Si desea crear un nuevo movimiento programado, tendr√° que realizarlo desde la ventana principal.

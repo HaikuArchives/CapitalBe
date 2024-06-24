@@ -1,267 +1,242 @@
-1	Spanish	application/x-vnd.wgp-CapitalBe	2175615134
-Year	ReportWindow		Año
-Edit transaction	TransactionEditWindow		Editar transacción
-None	ReportWindow		Ninguno
-Export to QIF file…	MainWindow		Exportar a un archivo QIF…
-Transfer from %%PAYEE%%	MainWindow		Transferir desde %%PAYEE%%
-Reports	ReportWindow		Informes
-Monthly	ScheduleAddWindow		Mensual
-Annually	BudgetWindow		Anual
-Report a bug…	MainWindow		Reportar un error…
-OK	PrefWindow		OK
-CapitalBe didn't understand the date you entered.	DateBox		CapitalBe no puede comprender la fecha que ha introducido.
-To account	TransferWindow		Cuenta de Destino
-Category	CheckView		Categoría
-Reports…	MainWindow		Informes…
-Cancel	TransferWindow		Cancelar
-Weekly	BudgetWindow		Semanal
-Enter	CheckView		Añadir
-Next	MainWindow		Siguiente
-Remove…	CategoryWindow		Eliminar…
-Cancel	CategoryWindow		Cancelar
-Amount	BudgetReport		Monto
-Cancel	ScheduleAddWindow		Cancelar
-Payee: %s	ScheduleAddWindow		Beneficiario: %s
-Default account settings:	PrefWindow		Opciones por defecto de Cuenta:
-CapitalBe	System name		CapitalBe
-Import from QIF file…	MainWindow		Importar desde archivo QIF…
-Ending date:	ReportWindow		Fecha de Fin:
-You need to enter a payee.	PayeeBox		Debe ingresar un beneficiario.
-Split	ScheduledTransItem		Dividir
-Could not export your financial data to the file %%FILENAME%%.	MainWindow		No se pueden exportar sus datos financieros hacia el archivo %%FILENAME%%.
-Separator:	PrefWindow		Separador:
-Program	MainWindow		Programa
-Starting balance:	ReconcileWindow		Balance al inicio:
-CapitalBe uses the words 'Income','Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.	CategoryWindow		CapitalBe utiliza las palabras 'Income','Spending', y 'Split' para manejar categorías, así que no se puede utilizarlas como nombre de categoría. Por favor eliga otro nombre para la nueva categoría.
-Total charges: %s	ReconcileWindow		Total gastos: %s
-CapitalBe:	MainWindow		CapitalBe:
-CapitalBe didn't understand the amount.	SplitView		CapitalBe no puede comprender el monto.
-You need to select an account in order to reconcile it.	MainWindow		Necesita seleccionar una cuenta para pode reconciliarla.
-Spending category	CategoryWindow		Categoría de gastos
-Add…	CategoryWindow		Agregar…
-Total	NetWorthReport		Total
-Interest earned:	ReconcileWindow		Intereses obtenidos:
-Category	SplitView		Categoría
-Transactions	ReportWindow		Movimientos
-Budget:	QuickTrackerItem		Presupuesto:
-Couldn't quick balance.	ReconcileWindow		No se pudo hacer el Balance Rápido.
-Total	BudgetWindow		Total
-Memo	TransactionReport		Nota
-Enter	SplitView		Añadir
-Category	CashFlowReport		Categoría
-Reports:	ReportWindow		Informes:
-Subtotal:	ReportWindow		Subtotal:
-CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ScheduleAddWindow		CapitalBe comprende muchas formas diferentes de ingresar fechas. Aparentemente, esta no es una de ellos. Deberá cambiar la forma en que ingresó esta fecha. Lo lamento.
-Highest	BudgetWindow		La más alta
-Unknown	Budget		Desconocido
-You need to have at least 2 accounts to perform a transfer.	MainWindow		Necesita al menos 2 cuentas para realizar una transferencia.
-Monthly	ScheduleListWindow		Mensual
-Category	BudgetWindow		Categoría
-Frequency	BudgetWindow		Frequencia
-Subtotal	ReportWindow		Subtotal
-Memo:	ScheduleAddWindow		Nota:
-Uncategorized	SplitView		Sin Categoría
-Frequency	ScheduleListWindow		Frecuencia
-Cancel	ReconcileWindow		Cancelar
-Category	TransactionReport		Categoría
-Amount	ScheduleListWindow		Monto
-Add Category	CategoryWindow		Agregar Categoría
-Spending	CategoryWindow		Gastos
-Date	TransferWindow		Fecha
-There may be a typo or the wrong kind of currency symbol for this account.	SplitView		Puede haber un error tipográfico o el símbolo de la divisa para de esta cuenta.
-Reconcile…	MainWindow		Reconciliar…
-Spending	BudgetWindow		Gastos
-Type	TransactionReport		Tipo
-Reopen	MainWindow		Reabrir
-Edit…	CategoryWindow		Editar…
-Annually	ScheduleAddWindow		Anual
-Close	MainWindow		Cerrar
-English	CheckView	Path to localized helpfiles. Only translate if available in your language.	Spanish
-Closed	AccountListItem		Cerrado
-CapitalBe didn't understand the amount for Bank Charges.	ReconcileWindow		CapitalBe no comprende el monto para los gastos bancarios.
-Import	MainWindow		Importar
-CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	ReportWindow		CapitalBe comprende muchas formas diferentes de ingresar fechas. Aparentemente, esta no es una de ellos. Deberá cambiar la forma en que ingresó esta fecha. Lo lamento.
-Could not import the data in the file %%FILENAME%%.	MainWindow		No se puedne importar los datos desde el archivo %%FILENAME%%.
-Once deleted, you will not be able to get back any data on this account.	MainWindow		Una vez eliminada, no podrá volver a accceder a ningún dato en esta cuenta.
-Total deposits: %s	ReconcileWindow		Total depósitos: %s
-Amount	CheckView		Monto
-Indefinitely	ScheduleAddWindow		Indefinido
-Cancel	MainWindow		Cancelar
-Categories	ReportWindow		Categorías
-Appears before amount	PrefWindow		Aparece antes del monto
-Unreconciled total: %s	ReconcileWindow		Total sin reconciliar: %s
-Date	TransactionReport		Fecha
-There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		Puede haber un error tipográfico o el símbolo de la divisa para de esta cuenta.
-Really delete account?	MainWindow		¿Realmente desea eliminar la cuenta?
-Payee	CheckView		Beneficiario
-DEP	ReconcileWindow		DEP
-Income	BudgetWindow		Ingreso
-This really shouldn't happen, so you probably should e-mail support about this.	MainWindow		Esto no debería haber pasado, probablemente debería escribirnos un correo de soporte sobre esto.
-Quick balance	ReconcileWindow		Balance Rápido
-This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.	MainWindow		Esto sucede cuando el tipo de archivo no es compatible, cuando los datos del archivo están dañados o cuando lo alimenta una receta para el quiche.
-Payments	ScheduleListWindow		Pagos
-Month	ReportWindow		Mes
-Add Item	SplitView		Añadir
-Scheduled transactions…	MainWindow		Movimientos Programados…
-Delete	MainWindow		Eliminar
-Date format: %s	PrefWindow		Formato de fecha: %s
-Bank charges:	ReconcileWindow		Tasas bancarias:
-Quick balance successful!	ReconcileWindow		¡Balance rápido completado!
-Quarter	ReportWindow		Cuatrimestre
-Account interest	ReconcileWindow		Intereses de cuenta
-Schedule this transaction…	MainWindow		Programar este Movimiento…
-Payee	ScheduleListWindow		Beneficiario
-Symbol:	PrefWindow		Símbolo:
-Transactions	TransactionReport		Movimientos
-English	ScheduleListWindow	Path to localized helpfiles. Only translate if available in your language.	Spanish
-Split Transaction	SplitView		Dividir movimiento
-Average	BudgetWindow		Promedio
-Quarterly	Budget		Cuatrimestral
-Currency	PrefWindow		Divisa
-Summary	BudgetWindow		Resumen
-Frequency	ScheduleAddWindow		Frecuencia
-Category	BudgetReport		Categoría
-Accounts:	ReportWindow		Cuentas:
-Options	PrefWindow		Opciones
-English	SplitView	Path to localized helpfiles. Only translate if available in your language.	Spanish
-Edit category	BudgetWindow		Editar categoría
-Reconcile	ReconcileWindow		Reconciliar
-Weekly	ScheduleListWindow		Semanal
-Amount	SplitView		Monto
-Reset	ReconcileWindow		Anular
-Frequency:	ScheduleAddWindow		Frecuencia:
-Category:	ScheduleAddWindow		Categoría:
-OK	AccountSettingsWindow		OK
-Annually	Budget		Anual
-Payee	SplitView		Beneficiario
-Can't use this category name	CategoryWindow		No se puede usar ese nombre de categoría
-Budget	BudgetWindow		Presupuesto
-Monthly	BudgetWindow		Mensual
-Transfer to %%PAYEE%%	MainWindow		Transferir a %%PAYEE%%
-OK	TransferWindow		OK
-Total worth	NetWorthReport		Valor total
-Memo	CheckView		Nota
-Show Split	SplitView		Dividir movimiento
-times	ScheduleAddWindow		veces
-Annually	ScheduleListWindow		Anual
-Oops!	MainWindow		¡Ups!
-Edit…	MainWindow		Editar…
-OK	CategoryWindow		OK
-Spending	ReportWindow		Gastos
-Help	HelpButton		Ayuda
-Total:	SplitView		Total:
-Unlimited	ScheduleListWindow		Sin límite
-Account settings	AccountSettingsWindow		Configuración de cuenta
-Account name:	AccountSettingsWindow		Nombre de cuenta:
-Set all to zero	BudgetWindow		Poner todo a cero
-When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		La suma de los ítems divididos debe ser %%ENTERED_AMOUNT%%. Por ahora suman %%TOTAL_AMOUNT%%
-Date is missing.	ReconcileWindow		Falta la fecha.
-Date:	ReconcileWindow		Fecha:
-Numbered transactions cannot be scheduled.	MainWindow		Los movimientos programados no se pueden programar.
-New…	MainWindow		Nuevo…
-English	ReconcileWindow	Path to localized helpfiles. Only translate if available in your language.	Spanish
-Quick Balance failed. This doesn't mean that you did something wrong - it's just that Quick Balance works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Hubo un fallo en el Balance Rápido. Esto no significa que haya hecho algo mal: es solo que el  balance rápido funciona en casos más simples para equilibrar una cuenta que esta. Lo lamento.
-Transfer	BudgetWindow		Transferir
-Amount: %s	ScheduleAddWindow		Monto: %s
-Starting date:	ScheduleAddWindow		Fecha de inicio:
-Settings…	MainWindow		Configuración…
-Monthly	Budget		Mensual
-Cancel	PrefWindow		Cancelar
-Unreconciled total	ReconcileWindow		Total sin reconciliar
-Quarterly	ScheduleListWindow		Cuatrimestral
-12 month statistics	BudgetWindow		Estadísticas del último año
-Not transferring any money	TransferWindow		No se ha transferido el dinero
-Split	CategoryWindow		Dividir
-Income	ReportWindow		Ingreso
-Memo	SplitView		Nota
-Total checks:	ReconcileWindow		Cheques total:
-Not enough accounts for a transfer.	MainWindow		No hay suficientes cuentas para una transferencia.
-Amount	TransactionReport		Monto
-Transaction	MainWindow		Movimiento
-Edit transfer	TransferWindow		Editar movimiento
-Amount	TransferWindow		Monto
-Categories	CategoryWindow		Categorías
-Date	CheckView		Fecha
+1	Spanish	application/x-vnd.wgp-CapitalBe	3544348528
+{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}
+<No accounts>	MainWindow		<Sin cuentas>
+About CapitalBe	MainWindow		Acerca de CapitalBe
 Account	MainWindow		Cuenta
-Currency format: %s	PrefWindow		Formato de divisa: %s
-Payee	TransactionReport		Beneficiario
-Total deposits:	ReconcileWindow		Total depósitos:
+Account total	MainWindow		Total de cuenta:
+Balance	MainWindow		Balance
+Budget	MainWindow		Presupuesto
+Cancel	MainWindow		Cancelar
 Categories…	MainWindow		Categorías…
-No Memo	TransactionItem		Sin nota
-CapitalBe didn't understand the amount.	CurrencyBox		CapitalBe no puede comprender el monto.
-Day, Month, Year	PrefWindow		Día, Mes, Año
-Remove…	ScheduleListWindow		Eliminar…
-If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		Si está tratando de hacer una transferencia, es necesario que el monto no sea cero.
-Budget…	MainWindow		Presupuesto…
-You can schedule transfers, deposits, or ATM transactions.	MainWindow		Puede programar transferencias. depósitos o movimientos de cajero automatico.
-Success!	ReconcileWindow		¡Hecho!
-Income	CategoryWindow		Ingreso
-Edit category	CategoryWindow		Editar categoría
-QuickTracker	RegisterView		Balance Rápido
-Schedule transaction	ScheduleAddWindow		Programar transacción
-Type: %s	ScheduleAddWindow		Tipo: %s
-Weekly	Budget		Semanal
-Split	SplitFilterView		Dividir
-Bank charge	ReconcileWindow		Tasa bancaria
-Cancel	AccountSettingsWindow		Cancelar
-Ending balance:	ReconcileWindow		Balance final:
-Date	PrefWindow		Fecha
-OK	ScheduleAddWindow		OK
-Date	SplitView		Fecha
-Lowest	BudgetWindow		La más baja
-Previous	MainWindow		Anterior
-New category name:	CategoryWindow		Nombre de la nueva categoría:
-Remove Item	SplitView		Eliminar
-Accounts	RegisterView		Cuentas
-Payee is missing.	PayeeBox		Falta el beneficiario
-Type	CheckView		Tipo
-Account total:	QuickTrackerItem		Total cuenta:
-Export	MainWindow		Exportar
-You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	CheckNumBox		Debe ingresar un número de verificación o tipo de transacción, como ATM (para transacciones de tarjetas de débito y similares), DEP (para depósitos) o su propio código para algún otro tipo de gasto.
-Enter a transfer…	MainWindow		Ingresar un movimiento…
-File	MainWindow		Archivo
-Tools	MainWindow		Herramientas
-Transaction type is missing.	CheckNumBox		No se encuentra el tipo de movimiento.
-Split	TransactionItem		Dividir
-CapitalBe didn't understand the amount for Interest Earned.	ReconcileWindow		CapitalBe no comprende el monto por los intereses generados.
-Split	SplitView		Dividir
-The split total must match the amount box.	SplitView		El total dividido debe coincidir con el monto total.
+Close	MainWindow		Cerrar
+Closed account	MainWindow		Cuenta cerrada
+Could not export your financial data to the file '%%FILENAME%%'	MainWindow		No se pueden exportar sus datos financieros hacia el archivo '%%FILENAME%%'
+Could not import the data in the file '%%FILENAME%%'	MainWindow		No se puedne importar los datos desde el archivo '%%FILENAME%%'
+Delete	MainWindow		Eliminar
 Delete…	MainWindow		Eliminar…
-Amount	BudgetWindow		Monto
-About CapitalBe…	MainWindow		Sobre CapitalBe…
-Scheduled transactions	ScheduleListWindow		Movimientos programados
-Starting date:	ReportWindow		Fecha inicio:
-Amount	CashFlowReport		Monto
-Quarterly	ScheduleAddWindow		Cuatrimestral
-Hide Split	SplitView		Ocultar
-Reconcile:	ReconcileWindow		Reconciliar:
-Total charges:	ReconcileWindow		Total gastos:
-Total worth	ReportWindow		Valor total
-Category name:	CategoryWindow		Nombre de categoría:
-Expense	CashFlowReport		Coste
-No transactions	TransactionReport		No hay movimientos
-Please choose a new category for all transactions currently in the %%CATEGORY_NAME%% category.	CategoryWindow		Por favor elija una nueva categoría para los movimientos que actualmente están en la categoría %%CATEGORY_NAME%%
-Add account transfer	TransferWindow		Agregar transferencia de cuenta
+Edit categories…	MainWindow		Edit categories…
+Edit…	MainWindow		Editar…
+Enter a transfer…	MainWindow		Ingresar un movimiento…
+Export	MainWindow		Exportar
+Export to QIF file…	MainWindow		Exportar a un archivo QIF…
+File	MainWindow		Archivo
+Help: Main window	MainWindow		Ayuda: ventana principal
+Import	MainWindow		Importar
+Import from QIF file…	MainWindow		Importar desde archivo QIF…
+New…	MainWindow		Nuevo…
+Next	MainWindow		Siguiente
+Not enough accounts for a transfer	MainWindow		No hay suficientes cuentas para realizar una transferencia
+Numbered transactions cannot be scheduled	MainWindow		Las transacciones numeradas no se pueden programar
+Once deleted, you will not be able to get back any data on this account.	MainWindow		Una vez eliminada, no podrá volver a accceder a ningún dato en esta cuenta.
+Oops!	MainWindow		¡Ups!
+Previous	MainWindow		Anterior
+Quit	MainWindow		Salir
+Really delete account?	MainWindow		¿Desea eliminar la cuenta?
+Reconcile…	MainWindow		Reconciliar…
+Reopen	MainWindow		Reabrir
+Report a bug…	MainWindow		Informar de un error…
+Reports	MainWindow		Informes
+Schedule this transaction…	MainWindow		Programar este movimiento…
+Scheduled transactions	MainWindow		Movimientos programados
+Settings…	MainWindow		Ajustes…
+This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.	MainWindow		Esta cuenta está cerrada y no se puede modificar la configuración. Por favor, reabra la cuenta si necesita hacer cambios.
+This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.	MainWindow		Esto sucede cuando el tipo de archivo no es compatible, cuando los datos del archivo están dañados o cuando lo alimenta una receta para el quiche.
+This really shouldn't happen, so you probably should report a bug for this.	MainWindow		No debería haber ocurrido esto, por lo que debería informar de este fallo.
+This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.	MainWindow		Este movimiento pertenece a una cuenta cerrada y no se puede modificar. Por favor, reabra la cuenta si necesita hacer cambios.
+Tools	MainWindow		Herramientas
+Transaction	MainWindow		Movimiento
+Transfer from '%%PAYEE%%'	MainWindow		Transferir desde '%%PAYEE%%'
+Transfer to '%%PAYEE%%'	MainWindow		Transferir a '%%PAYEE%%'
+You can schedule transfers, deposits, or ATM transactions.	MainWindow		Puede programar transferencias. depósitos o movimientos de cajero automatico.
+You cannot schedule transactions on a closed account.	MainWindow		No puede programar transacciones en una cuenta cerrada.
 You need to have an account created in order to reconcile it.	MainWindow		Necesita tener al menos una cuenta creada para poder reconciliarla.
-CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	DateBox		CapitalBe comprende muchas formas diferentes de ingresar fechas. Aparentemente, esta no es una de ellos. Deberá cambiar la forma en que ingresó esta fecha. Lo lamento.
-There may be a typo or the wrong kind of currency symbol for this account.	CurrencyBox		Puede haber un error tipográfico o el símbolo de la divisa para de esta cuenta.
-From account	TransferWindow		Desde cuenta
-Next Payment	ScheduleListWindow		Siguiente pago
-Type	SplitView		Tipo
-Bank Charge	ReconcileWindow		Tasas bancarias
-Recalculate all	BudgetWindow		Recalcular todo
-Date	NetWorthReport		Fecha
-CapitalBe didn't understand the date you entered.	ScheduleAddWindow		CapitalBe no puede comprender la fecha que ha introducido.
-Income	CashFlowReport		Ingreso
-Memo	TransferWindow		Nota
-Total checks: %s	ReconcileWindow		Total cheques: %s
-English	ReportWindow	Path to localized helpfiles. Only translate if available in your language.	Spanish
+You need to have at least 2 accounts to perform a transfer.	MainWindow		Necesita al menos 2 cuentas para realizar una transferencia.
+You need to select an account in order to reconcile it.	MainWindow		Necesita seleccionar una cuenta para pode reconciliarla.
+<No payee entered>	Import		<No payee entered>
+<Uncategorized>	Import		<Uncategorized>
+Bank account	Import		Bank account
+Cash account	Import		Cash account
+Credit card account	Import		Credit card account
+12 month statistics	BudgetWindow		Estadísticas del último año
+Annually	BudgetWindow		Anual
+Average	BudgetWindow		Promedio
+Budget	BudgetWindow		Presupuesto
+Budget category:	BudgetWindow		Categoría presupuestal:
+Budget category: %category%	BudgetWindow		Categoría presupuestal: %category%
+Frequency	BudgetWindow		Frecuencia
+Help: Budget	BudgetWindow		Ayuda: presupuesto
+Highest	BudgetWindow		La más alta
+Lowest	BudgetWindow		La más baja
+Monthly	BudgetWindow		Mensual
 Quarterly	BudgetWindow		Cuatrimestral
+Recalculate all	BudgetWindow		Recalcular todo
+Set all to zero	BudgetWindow		Establecer todo en cero
+Spending	BudgetWindow		Gastos
+Summary	BudgetWindow		Resumen
+Total	BudgetWindow		Total
+Transfer	BudgetWindow		Transferir
+Unknown	BudgetWindow		Desconocido
+Weekly	BudgetWindow		Semanal
+Account interest	ReconcileWindow		Intereses de cuenta
+Bank charge	ReconcileWindow		Tasa bancaria
+Bank charges	ReconcileWindow		Tasas bancarios
+Cancel	ReconcileWindow		Cancelar
+CapitalBe didn't understand the amount for 'Bank charges'	ReconcileWindow		CapitalBe no comprende el monto para los gastos bancarios
+CapitalBe didn't understand the amount for 'Interest earned'	ReconcileWindow		CapitalBe no comprende el monto por los intereses generados
+Couldn't Quick balance	ReconcileWindow		No se pudo hacer el Balance Rápido
+Date is missing	ReconcileWindow		Falta la fecha
+DEP	ReconcileWindow		DEP
+Ending balance	ReconcileWindow		Balance final
+Help: Reconcile	ReconcileWindow		Ayuda: Reconciliar
+Interest earned	ReconcileWindow		Interés obtenido
+Quick balance	ReconcileWindow		Balance Rápido
+Quick balance failed. This doesn't mean that you did something wrong - it's just that 'Quick balance' works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Hubo un fallo en el Balance Rápido. Esto no significa que haya hecho algo mal: es solo que el  balance rápido funciona en casos más simples para equilibrar una cuenta que esta. Lo lamento.
+Quick balance successful!	ReconcileWindow		¡Balance rápido completado!
+Reconcile	ReconcileWindow		Reconciliar
+Reconcile:	ReconcileWindow		Reconciliar:
+Reset	ReconcileWindow		Anular
+Starting balance	ReconcileWindow		Balance inicial
+Success!	ReconcileWindow		¡Hecho!
+There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		Puede haber un error tipográfico o el símbolo de la divisa para de esta cuenta.
+Total charges:	ReconcileWindow		Total gastos:
+Total charges: %s	ReconcileWindow		Total gastos: %s
+Total checks:	ReconcileWindow		Cheques total:
+Total checks: %s	ReconcileWindow		Total cheques: %s
+Total deposits:	ReconcileWindow		Total depósitos:
+Total deposits: %s	ReconcileWindow		Total depósitos: %s
+Unreconciled total: %s	ReconcileWindow		Total sin reconciliar: %s
+You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow		Debe intoducir una fecha para añadir al Balance Rápido.
+Account settings	Account		Configuración de cuenta
+Cancel	Account		Cancelar
+Closed	Account		Cerrado
+Name:	Account		Nombre:
+New account	Account		Cuenta nueva
+OK	Account		Aceptar
+Use system currency format	Account		Use system currency format
+Accounts	RegisterView		Cuentas
+Balance	RegisterView		Balance
+QuickTracker	RegisterView		Balance Rápido
+Transactions	RegisterView		Transactions
+Accounts:	ReportWindow		Cuentas:
+Categories:	ReportWindow		Categorías:
+Ending date:	ReportWindow		Fecha de Fin:
+Help: Report	ReportWindow		Ayuda: Informe
+Month	ReportWindow		Mes
+None	ReportWindow		Ninguno
+Quarter	ReportWindow		Cuatrimestre
+Reports	ReportWindow		Informes
+Reports:	ReportWindow		Informes:
+Starting date:	ReportWindow		Fecha inicio:
+Subtotal:	ReportWindow		Subtotal:
+Total worth	ReportWindow		Valor total
+Transactions	ReportWindow		Movimientos
+Year	ReportWindow		Año
+Add	CategoryWindow		Agregar
+Add category	CategoryWindow		Agregar categoría
+Add…	CategoryWindow		Agregar…
+Can't use this category name	CategoryWindow		No se puede usar ese nombre de categoría
+Cancel	CategoryWindow		Cancelar
+CapitalBe uses the words 'Income', 'Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.	CategoryWindow		CapitalBe utiliza las palabras 'Income','Spending', y 'Split' para manejar categorías, así que no se puede utilizarlas como nombre de categoría. Por favor elija otro nombre para la nueva categoría.
+Categories	CategoryWindow		Categorías
+Category is missing	CategoryWindow		Falta la categoría
+Do you want to add this transaction without a category?	CategoryWindow		¿Quiere añadir este movimiento sin una categoría?
+Edit category	CategoryWindow		Editar categoría
+Edit…	CategoryWindow		Editar…
+Income category	CategoryWindow		Categoría de ingresos
+Name:	CategoryWindow		Nombre:
+New name:	CategoryWindow		Nuevo nombre:
+OK	CategoryWindow		Aceptar
+Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Por favor elija una nueva categoría para los movimientos que actualmente están en la categoría '%%CATEGORY_NAME%%'.
 Remove category	CategoryWindow		Eliminar categoría
-Decimal:	PrefWindow		Decimal:
-Month, Day, Year	PrefWindow		Mes, Día, Año
-You need to enter the date for the statement to Quick Balance.	ReconcileWindow		Debe intoducir una fecha para añadir al Balance Rápido. 
-Split	ScheduleAddWindow		Dividir
-Use default currency settings	AccountSettingsWindow		Utilizar configuración por defecto de divisa
-CapitalBe didn't understand the date you entered.	ReportWindow		CapitalBe no puede comprender la fecha que ha introducido.
+Remove…	CategoryWindow		Eliminar…
+Spending category	CategoryWindow		Categoría de gastos
+Uncategorized	CategoryWindow		Uncategorized
+Add account transfer	TransferWindow		Agregar transferencia de cuenta
+Cancel	TransferWindow		Cancelar
+Date:	TransferWindow		Fecha:
+Edit transfer	TransferWindow		Editar movimiento
+From account:	TransferWindow		Cuenta de origen:
+If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		Si está tratando de hacer una transferencia, es necesario que el monto no sea cero.
+Memo:	TransferWindow		Nota:
+Not transferring any money	TransferWindow		No se ha transferido el dinero
+OK	TransferWindow		Aceptar
+To account:	TransferWindow		Cuenta de destino:
+Add item	SplitView		Agregar ítem
+Enter	SplitView		Añadir
+Help: Transaction editor	SplitView		Ayuda: Editor de Movimiento
+Remove item	SplitView		Eliminar ítem
+Show split	SplitView		Mostrar la división
+Split transaction	SplitView		Dividir movimiento
+The split total must match the amount box	SplitView		El total dividido debe coincidir con el monto total
+Total:	SplitView		Total:
+Total: %sum%	SplitView		Total: %sum%
+Uncategorized	SplitView		Sin Categoría
+When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		La suma de los ítems divididos debe ser %%ENTERED_AMOUNT%%. Por ahora suman %%TOTAL_AMOUNT%%
+Agh! Bug!	Locale		¡Ay, un error!
+CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n	Locale		CapitalBe ha encontrado un error. Esto no debería pasar, pero ha pasado.\n¿Qué quiere hacer?:\n\n1) Guardar el error en un archivo de texto para subirlo al repertorio de\nCapitalBe (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Salir y no hacer nada\n
+Quit	Locale		Salir
+Save bugreport	Locale		Guardar informe de error
+Amount	ScheduleAddWindow		Monto
+Annually	ScheduleAddWindow		Anual
+Cancel	ScheduleAddWindow		Cancelar
+Frequency:	ScheduleAddWindow		Frecuencia:
+Indefinitely	ScheduleAddWindow		Indefinido
+Monthly	ScheduleAddWindow		Mensual
+OK	ScheduleAddWindow		Aceptar
+Quarterly	ScheduleAddWindow		Cuatrimestral
+Repeat:	ScheduleAddWindow		Repetir:
+Schedule transaction	ScheduleAddWindow		Programar transacción
+Starting date:	ScheduleAddWindow		Fecha de inicio:
+times	ScheduleAddWindow		veces
+Amount	CommonTerms		Monto
+Category	CommonTerms		Categoría
+Date	CommonTerms		Fecha
+Income	CommonTerms		Ingreso
+Memo	CommonTerms		Nota
+Payee	CommonTerms		Beneficiario
+Spending	CommonTerms		Gastos
+Split	CommonTerms		Dividir
+Type	CommonTerms		Tipo
+Annually	ScheduleListWindow		Anual
+Frequency	ScheduleListWindow		Frecuencia
+Help: Scheduled transaction	ScheduleListWindow		Ayuda: Movimiento Programado
+Memo	ScheduleListWindow		Memo
+Monthly	ScheduleListWindow		Mensual
+Next payment	ScheduleListWindow		Siguiente pago
+Payments	ScheduleListWindow		Pagos
+Quarterly	ScheduleListWindow		Cuatrimestral
+Remove	ScheduleListWindow		Eliminar
+Scheduled transactions	ScheduleListWindow		Movimientos programados
 Unknown	ScheduleListWindow		Desconocido
+Unlimited	ScheduleListWindow		Sin límite
+Weekly	ScheduleListWindow		Semanal
+Appears before amount	PrefWindow		Aparece antes del monto
+Cancel	PrefWindow		Cancelar
+Closed account:	PrefWindow		Closed account:
+Color for negative amounts	PrefWindow		Color for negative amounts
+Currency format	PrefWindow		Currency format
+Decimals:	PrefWindow		Decimals:
+OK	PrefWindow		Aceptar
+Preview:	PrefWindow		Preview:
+Selected:	PrefWindow		Selected:
+Settings	PrefWindow		Configuración
+Symbol:	PrefWindow		Símbolo:
+Unselected:	PrefWindow		Unselected:
+CapitalBe	System name		CapitalBe
+CapitalBe didn't understand the amount	TextInput		CapitalBe no puede comprender el monto
+CapitalBe didn't understand the date you entered	TextInput		CapitalBe no puede comprender la fecha que ha introducido
+CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	TextInput		CapitalBe comprende muchas formas diferentes de ingresar fechas. Aparentemente, esta no es una de ellos. Deberá cambiar la forma en que ingresó esta fecha. Lo lamento.
+Payee is missing	TextInput		Falta el beneficiario
+There may be a typo or the wrong kind of currency symbol for this account.	TextInput		Puede haber un error tipográfico o el símbolo de la divisa para de esta cuenta.
+You need to enter a payee.	TextInput		Debe ingresar un beneficiario.
+Edit transaction	TransactionEdit		Editar transacción
+No memo	TransactionEdit		Sin nota
+Enter	CheckView		Añadir
+Transaction type is missing	CheckView		No se encuentra el tipo de movimiento
+You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	CheckView		Debe ingresar un número de verificación o tipo de movimiento, como ATM (para movimientos de tarjetas de débito y similares), DEP (para depósitos) o su propio código para algún otro tipo de gasto.
+Expense	CashFlowReport		Coste
+No memo	ScheduledTransItem		Sin nota
+No transactions	TransactionReport		No hay movimientos
+Transactions	TransactionReport		Movimientos
+Total	NetWorthReport		Total
+Total worth	NetWorthReport		Valor total

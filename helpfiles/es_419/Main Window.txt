@@ -1,0 +1,26 @@
+Ventana Principal
+
+La mayor parte de tu tiempo trabajando con CapitalBe lo pasarás en esta ventana. Hay cuatro partes principales: la lista de cuentas, la lista de transacciones, el Balance Rápido y los cuadros de texto para ingresar información de transacciones.
+
+Lista de Cuentas
+
+Ubicada en la esquina superior izquierda de la ventana, es simplemente una lista de las cuentas disponibles en CapitalBe. Cada elemento mostrará el nombre de la cuenta y el saldo actual. Ten en cuenta que para las cuentas de deuda, como las tarjetas de crédito, el saldo será inferior a cero. Puedes hacer doble clic en una cuenta para editar los detalles básicos de la cuenta. Para la mayoría de las personas, este será solo el nombre, pero también puedes cambiar la configuración de moneda simplemente desmarcando la casilla de verificación "Usar configuración de moneda predeterminada". Sin embargo, el único momento en el que podrías necesitar hacer esto es si tienes una cuenta bancaria en otro país que utiliza una moneda diferente.
+
+Consejo: Puedes cambiar de cuenta sin usar el mouse presionando la flecha hacia arriba o hacia abajo mientras mantienes presionadas las teclas ALT y MAYUS.
+
+Lista de Movimientos
+
+La lista de movimientos simplemente muestra toda la actividad en una cuenta. Además de cada movimiento se puede observar el saldo de la cuenta cuando se realizó esa transacción.
+
+Consejo: Puedes moverte hacia arriba y hacia abajo en la lista sin usar el mouse presionando la flecha hacia arriba o hacia abajo mientras mantiene presionada la tecla ALT.
+
+Añadir un Movimiento
+
+Agregar un movimiento a una cuenta es tan simple como escribir información en el formulario de la parte inferior derecha de la ventana y presionar la tecla ENTER o hacer clic en el botón AÑADIR.
+
+Consejo: puedes cambiar la fecha usando las teclas + y - (dias) mientras que las teclas arriba y abajo cambiarán el mes.
+Consejo: puedes saltar al siguiente cuadro de texto con la tecla TAB o al anterior usando MAYUS + TAB.
+
+Balance Rápido
+
+El Balance Rápido es un pequeño panel en la esquina inferior izquierda de la ventana que muestra la información global sobre tus finanzas. Muestra el total de todas sus cuentas (conocidas como patrimonio neto en el mundo financiero) y cómo está en su presupuesto en general.

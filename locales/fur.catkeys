@@ -1,0 +1,242 @@
+1	Friulian	application/x-vnd.wgp-CapitalBe	3544348528
+{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}
+<No accounts>	MainWindow		<Nissun cont>
+About CapitalBe	MainWindow		Informazions su CapitalBe
+Account	MainWindow		Cont
+Account total	MainWindow		Totâl conts
+Balance	MainWindow		Salt
+Budget	MainWindow		Belanç
+Cancel	MainWindow		Anule
+Categories…	MainWindow		Categoriis…
+Close	MainWindow		Siere
+Closed account	MainWindow		Cont sierât
+Could not export your financial data to the file '%%FILENAME%%'	MainWindow		Impussibil espuartâ i tiei dâts finanziaris sul file '%%FILENAME%%'
+Could not import the data in the file '%%FILENAME%%'	MainWindow		Impussibil impuartâ i dâts tal file '%%FILENAME%%'
+Delete	MainWindow		Elimine
+Delete…	MainWindow		Elimine…
+Edit categories…	MainWindow		Edit categories…
+Edit…	MainWindow		Modifiche…
+Enter a transfer…	MainWindow		Inserìs un trasferiment…
+Export	MainWindow		Espuarte
+Export to QIF file…	MainWindow		Espuarte su file QIF…
+File	MainWindow		File
+Help: Main window	MainWindow		Jutori: barcon principâl
+Import	MainWindow		Impuarte
+Import from QIF file…	MainWindow		Impuarte di file QIF…
+New…	MainWindow		Gnûf…
+Next	MainWindow		Sucessîf
+Not enough accounts for a transfer	MainWindow		No vonde conts par un trasferiment
+Numbered transactions cannot be scheduled	MainWindow		Nol è pussibil programâ lis transazions numeradis
+Once deleted, you will not be able to get back any data on this account.	MainWindow		Une volte eliminât, no tu rivarâs a recuperâ nissun dât di chest cont.
+Oops!	MainWindow		Orpo!
+Previous	MainWindow		Precedent
+Quit	MainWindow		Jes
+Really delete account?	MainWindow		Eliminâ pardabon il cont?
+Reconcile…	MainWindow		Riconcilie…
+Reopen	MainWindow		Torne vierç
+Report a bug…	MainWindow		Segnale un probleme…
+Reports	MainWindow		Segnalazions
+Schedule this transaction…	MainWindow		Programe cheste transazion…
+Scheduled transactions	MainWindow		Transazions programadis
+Settings…	MainWindow		Impostazions…
+This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.	MainWindow		Chest cont al è sierât e nol è pussibil modificâ lis impostazions. Torne vierç il cont se tu âs bisugne di fâ modifichis.
+This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.	MainWindow		Chest al sucêt cuant che il gjenar di file nol è supuartât, cuant che i dâts dal file a son ruvinâts, o cuant che tu i dâs di mangjâ une ricete par une quiche.
+This really shouldn't happen, so you probably should report a bug for this.	MainWindow		Chest nol varès mai di sucedi, duncje al sarès just se tu segnalassis chest probleme.
+This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.	MainWindow		Cheste transazion e aparten a un cont sierât e nol è pussibil modificâle. Torne vierç il cont se ti covente fâ modifichis.
+Tools	MainWindow		Struments
+Transaction	MainWindow		Transazion
+Transfer from '%%PAYEE%%'	MainWindow		Trasferiment di '%%PAYEE%%'
+Transfer to '%%PAYEE%%'	MainWindow		Trasferiment a '%%PAYEE%%'
+You can schedule transfers, deposits, or ATM transactions.	MainWindow		Tu puedis programâ i trasferiments, i dipuesits o lis transazions ATM.
+You cannot schedule transactions on a closed account.	MainWindow		No tu puedis programâ transazions su un cont sierât.
+You need to have an account created in order to reconcile it.	MainWindow		Ti covente un cont creât par podê riconciliâlu.
+You need to have at least 2 accounts to perform a transfer.	MainWindow		Ti coventin almancul 2 conts par fâ un trasferiment.
+You need to select an account in order to reconcile it.	MainWindow		Tu âs di selezionâ un cont par podê riconciliâlu.
+<No payee entered>	Import		<No payee entered>
+<Uncategorized>	Import		<Uncategorized>
+Bank account	Import		Bank account
+Cash account	Import		Cash account
+Credit card account	Import		Credit card account
+12 month statistics	BudgetWindow		Statistichis di 12 mês
+Annually	BudgetWindow		Anuâl
+Average	BudgetWindow		Medie
+Budget	BudgetWindow		Belanç
+Budget category:	BudgetWindow		Categorie belanç:
+Budget category: %category%	BudgetWindow		Categorie belanç: %category%
+Frequency	BudgetWindow		Frecuence
+Help: Budget	BudgetWindow		Jutori: belanç
+Highest	BudgetWindow		Plui alt
+Lowest	BudgetWindow		Plui bas
+Monthly	BudgetWindow		Mensîl
+Quarterly	BudgetWindow		Trimestrâl
+Recalculate all	BudgetWindow		Torne calcole dut
+Set all to zero	BudgetWindow		Met dut a zero
+Spending	BudgetWindow		Spesis
+Summary	BudgetWindow		Sintesi
+Total	BudgetWindow		Totâl
+Transfer	BudgetWindow		Trasferiment
+Unknown	BudgetWindow		No cognossût
+Weekly	BudgetWindow		Setemanâl
+Account interest	ReconcileWindow		Interès sul cont
+Bank charge	ReconcileWindow		Spese bancjarie
+Bank charges	ReconcileWindow		Spesis bancjariis
+Cancel	ReconcileWindow		Anule
+CapitalBe didn't understand the amount for 'Bank charges'	ReconcileWindow		CapitalBe nol à capît l'impuart par 'Spesis bancjariis'
+CapitalBe didn't understand the amount for 'Interest earned'	ReconcileWindow		CapitalBe nol à capît l'impuart par 'Interès madressût'
+Couldn't Quick balance	ReconcileWindow		Impussibil fâ il Salt rapit
+Date is missing	ReconcileWindow		E mancje la date
+DEP	ReconcileWindow		DIP
+Ending balance	ReconcileWindow		Salt finâl
+Help: Reconcile	ReconcileWindow		Jutori: Riconcilie
+Interest earned	ReconcileWindow		Interès madressût
+Quick balance	ReconcileWindow		Salt rapit
+Quick balance failed. This doesn't mean that you did something wrong - it's just that 'Quick balance' works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Salt rapit falît. Chest nol significhe che tu âs fat alc di sbaliât - al significhe nome che 'Salt rapit' al funzione cun casistichis semplicis di salt sul cont rispiet a chest achì. Nus displâs.
+Quick balance successful!	ReconcileWindow		Salt rapit lât a bon fin!
+Reconcile	ReconcileWindow		Riconcilie
+Reconcile:	ReconcileWindow		Riconcilie:
+Reset	ReconcileWindow		Ripristine
+Starting balance	ReconcileWindow		Salt iniziâl
+Success!	ReconcileWindow		Sucès!
+There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		Al podarès jessi un erôr di scriture o il gjenar sbaliât di simbul di valude par chest cont.
+Total charges:	ReconcileWindow		Totâl adebits:
+Total charges: %s	ReconcileWindow		Totâl adebits: %s
+Total checks:	ReconcileWindow		Totâl assegns:
+Total checks: %s	ReconcileWindow		Totâl assegns: %s
+Total deposits:	ReconcileWindow		Totâl dipuesits:
+Total deposits: %s	ReconcileWindow		Totâl dipuesits: %s
+Unreconciled total: %s	ReconcileWindow		Totâl no riconciliâts: %s
+You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow		Tu âs di inserî la date pal estrat cont dal 'Salt rapit'.
+Account settings	Account		Impostazions cont
+Cancel	Account		Anule
+Closed	Account		Sierât
+Name:	Account		Non:
+New account	Account		Gnûf cont
+OK	Account		Va ben
+Use system currency format	Account		Use system currency format
+Accounts	RegisterView		Conts
+Balance	RegisterView		Balance
+QuickTracker	RegisterView		Belanç rapit
+Transactions	RegisterView		Transactions
+Accounts:	ReportWindow		Conts:
+Categories:	ReportWindow		Categoriis:
+Ending date:	ReportWindow		Date di fin:
+Help: Report	ReportWindow		Jutori: rapuart
+Month	ReportWindow		Mês
+None	ReportWindow		Nissun
+Quarter	ReportWindow		Trimestri
+Reports	ReportWindow		Rapuarts
+Reports:	ReportWindow		Rapuarts:
+Starting date:	ReportWindow		Date di inizi:
+Subtotal:	ReportWindow		Totâl parziâl:
+Total worth	ReportWindow		Patrimoni totâl
+Transactions	ReportWindow		Transazions
+Year	ReportWindow		An
+Add	CategoryWindow		Zonte
+Add category	CategoryWindow		Zonte categorie
+Add…	CategoryWindow		Zonte…
+Can't use this category name	CategoryWindow		Impussibil doprâ chest non di categorie
+Cancel	CategoryWindow		Anule
+CapitalBe uses the words 'Income', 'Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.	CategoryWindow		CapitalBe al dopre lis paraulis 'Intorit', 'Spese' e 'Frazion' par gjestî lis categoriis, duncje no tu puedis doprâlis tant che nons di categorie. Sielç un non diferent pe tô gnove categorie.
+Categories	CategoryWindow		Categoriis
+Category is missing	CategoryWindow		E mancje la categorie
+Do you want to add this transaction without a category?	CategoryWindow		Desideristu zontâ cheste transazion cence une categorie?
+Edit category	CategoryWindow		Modifiche categorie
+Edit…	CategoryWindow		Modifiche…
+Income category	CategoryWindow		Categorie introit
+Name:	CategoryWindow		Non:
+New name:	CategoryWindow		Gnûf non:
+OK	CategoryWindow		Va ben
+Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Sielç une gnove categorie par dutis lis transazions che in chest moment a son inte categorie '%%CATEGORY_NAME%%'.
+Remove category	CategoryWindow		Gjave categorie
+Remove…	CategoryWindow		Gjave…
+Spending category	CategoryWindow		Categorie spese
+Uncategorized	CategoryWindow		Cence categorie
+Add account transfer	TransferWindow		Zonte trasferiment di cont
+Cancel	TransferWindow		Anule
+Date:	TransferWindow		Date:
+Edit transfer	TransferWindow		Modifiche trasferiment
+From account:	TransferWindow		Dal cont:
+If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		Se tu intindis trasferî bêçs, al coventarà un impuart diviers di zero.
+Memo:	TransferWindow		Pro memoria:
+Not transferring any money	TransferWindow		Trasferiment cence bêçs
+OK	TransferWindow		Va ben
+To account:	TransferWindow		Al cont:
+Add item	SplitView		Zonte element
+Enter	SplitView		Inserìs
+Help: Transaction editor	SplitView		Jutori: editôr transazions
+Remove item	SplitView		Gjave element
+Show split	SplitView		Mostre frazion
+Split transaction	SplitView		Frazione transazion
+The split total must match the amount box	SplitView		Il totâl des frazions al à di corispuindi al impuart indicât te casele 'impuart'.
+Total:	SplitView		Totâl:
+Total: %sum%	SplitView		Totâl: %sum%
+Uncategorized	SplitView		Cence categorie
+When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		Cuant che i elements frazionâts a vegnin zontâts ducj adun, la lôr sume e scugne corispuindi al impuart inserît %%ENTERED_AMOUNT%%. In chest moment, la lôr sume e rive a %%TOTAL_AMOUNT%%
+Agh! Bug!	Locale		Orpo! Erôr!
+CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n	Locale		Al è vignût fûr un erôr in CapitalBe. Chest nol varès di sucedi, ma al è capitât.\nDesideristu:\n\n1) Salvâ l'erôr suntun file di test e cjariâlu tal sisteme di\nsegnalazion erôrs di CapitalBe (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Lâ fûr e no fâ nuie\n
+Quit	Locale		Jes
+Save bugreport	Locale		Salve segnalazion erôr
+Amount	ScheduleAddWindow		Impuart
+Annually	ScheduleAddWindow		Anuâl
+Cancel	ScheduleAddWindow		Anule
+Frequency:	ScheduleAddWindow		Frecuence:
+Indefinitely	ScheduleAddWindow		Indefinît
+Monthly	ScheduleAddWindow		Mensîl
+OK	ScheduleAddWindow		Va ben
+Quarterly	ScheduleAddWindow		Trimestrâl
+Repeat:	ScheduleAddWindow		Ripetizion:
+Schedule transaction	ScheduleAddWindow		Programe transazion
+Starting date:	ScheduleAddWindow		Date di inizi:
+times	ScheduleAddWindow		voltis
+Amount	CommonTerms		Cuantitât
+Category	CommonTerms		Categorie
+Date	CommonTerms		Date
+Income	CommonTerms		Introit
+Memo	CommonTerms		Pro memoria
+Payee	CommonTerms		Beneficiari
+Spending	CommonTerms		Spese
+Split	CommonTerms		Frazion
+Type	CommonTerms		Gjenar
+Annually	ScheduleListWindow		Anuâl
+Frequency	ScheduleListWindow		Frecuence
+Help: Scheduled transaction	ScheduleListWindow		Jutori: transazion programade
+Memo	ScheduleListWindow		Memo
+Monthly	ScheduleListWindow		Mensîl
+Next payment	ScheduleListWindow		Prossim paiament
+Payments	ScheduleListWindow		Paiaments
+Quarterly	ScheduleListWindow		Trimestrâl
+Remove	ScheduleListWindow		Gjave
+Scheduled transactions	ScheduleListWindow		Transazions programadis
+Unknown	ScheduleListWindow		No cognossût
+Unlimited	ScheduleListWindow		Ilimitât
+Weekly	ScheduleListWindow		Setemanâl
+Appears before amount	PrefWindow		Al ven fûr prime de cuantitât
+Cancel	PrefWindow		Anule
+Closed account:	PrefWindow		Closed account:
+Color for negative amounts	PrefWindow		Color for negative amounts
+Currency format	PrefWindow		Currency format
+Decimals:	PrefWindow		Decimals:
+OK	PrefWindow		Va ben
+Preview:	PrefWindow		Preview:
+Selected:	PrefWindow		Selected:
+Settings	PrefWindow		Impostazions
+Symbol:	PrefWindow		Simbul:
+Unselected:	PrefWindow		Unselected:
+CapitalBe	System name		CapitalBe
+CapitalBe didn't understand the amount	TextInput		CapitalBe nol è rivât a capî l'impuart
+CapitalBe didn't understand the date you entered	TextInput		CapitalBe nol è rivât a capî la date che tu âs inserît
+CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	TextInput		CapitalBe al rive a capî tantis manieris diferentis di inserî lis datis. Dut câs al some che nol vali par chest câs. Tu scugnis cambiâ la modalitât di inseriment di cheste date. Nus displâs pal inconvenient.
+Payee is missing	TextInput		Al mancje il beneficiari
+There may be a typo or the wrong kind of currency symbol for this account.	TextInput		Al podarès jessi un erôr di scriture o il gjenar sbaliât di simbul di valude par chest cont.
+You need to enter a payee.	TextInput		Tu âs di inserî un beneficiari.
+Edit transaction	TransactionEdit		Modifiche transazion
+No memo	TransactionEdit		Nissun pro memoria
+Enter	CheckView		Inserìs
+Transaction type is missing	CheckView		Al mancje il gjenar di transazion
+You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	CheckView		Tu scugnis inserî un numar di control o un gjenar di transazion, come un ATM (pes transazions cun cjarte di debit e similis), DEP (pai dipuesits), opûr il to codiç personâl par cualchi altri gjenar di spese.
+Expense	CashFlowReport		Spese
+No memo	ScheduledTransItem		Nissun pro memoria
+No transactions	TransactionReport		Nissune transazion
+Transactions	TransactionReport		Transazions
+Total	NetWorthReport		Totâl
+Total worth	NetWorthReport		Patrimoni totâl

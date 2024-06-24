@@ -1,0 +1,22 @@
+Ventana de Informes
+
+Esta puede ser una poderosa herramienta para saber cómo y donde gastas tu dinero.
+
+Tipos de Informe
+
+Ingresos/Gastos: un desglose de tus ingresos y gastos por categoría.
+Valor total: cuánto dinero tienes cuando se comparan tus deudas con tus ahorros.
+Transacciones: muestra todas las transacciones en una categoría particular.
+
+Subtotal
+
+Para cada informe, puedes mostrar los totales de forma mensual, cuatrimestral, anual o sólo por el periodo de tiempo establecido para el informe.
+
+Categorías
+
+Los informes pueden ejecutarse en determinadas categorías de movimientos. 
+Si mantienes la tecla MAYUS al hacer clic en la lista, puedes seleccionar varias categorías. 			
+Puedes seleccionar una gama de categorías manteniendo la tecla FN y haciendo clic en la lista. 
+Si deseas todas las categorías, haga clic en un item de la lista y luego pulse ALT+A.
+
+

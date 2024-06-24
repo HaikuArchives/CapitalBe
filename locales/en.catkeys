@@ -1,7 +1,6 @@
-1	English	application/x-vnd.wgp-CapitalBe	3892464343
+1	English	application/x-vnd.wgp-CapitalBe	3544348528
 Year	ReportWindow		Year
 None	ReportWindow		None
-Credit Card Account 	Import		Credit Card Account 
 Export to QIF file…	MainWindow		Export to QIF file…
 Reports	ReportWindow		Reports
 Monthly	ScheduleAddWindow		Monthly
@@ -26,6 +25,7 @@ Import from QIF file…	MainWindow		Import from QIF file…
 Preview:	PrefWindow		Preview:
 Ending date:	ReportWindow		Ending date:
 Scheduled transactions	MainWindow		Scheduled transactions
+Transactions	RegisterView		Transactions
 Closed account:	PrefWindow		Closed account:
 Help: Report	ReportWindow		Help: Report
 Bank charges	ReconcileWindow		Bank charges
@@ -37,6 +37,7 @@ Spending category	CategoryWindow		Spending category
 Add…	CategoryWindow		Add…
 Total	NetWorthReport		Total
 Transactions	ReportWindow		Transactions
+Cash account	Import		Cash account
 Income category	CategoryWindow		Income category
 Add item	SplitView		Add item
 This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.	MainWindow		This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.
@@ -53,6 +54,7 @@ Frequency	BudgetWindow		Frequency
 Decimals:	PrefWindow		Decimals:
 CapitalBe didn't understand the amount for 'Bank charges'	ReconcileWindow		CapitalBe didn't understand the amount for 'Bank charges'
 You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	CheckView		You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.
+Balance	RegisterView		Balance
 Uncategorized	SplitView		Uncategorized
 Date	CommonTerms		Date
 Frequency	ScheduleListWindow		Frequency
@@ -67,6 +69,7 @@ Annually	ScheduleAddWindow		Annually
 Close	MainWindow		Close
 Split	CommonTerms		Split
 Import	MainWindow		Import
+<Uncategorized>	Import		<Uncategorized>
 Interest earned	ReconcileWindow		Interest earned
 Quit	Locale		Quit
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Once deleted, you will not be able to get back any data on this account.
@@ -86,20 +89,17 @@ There may be a typo or the wrong kind of currency symbol for this account.	TextI
 Repeat:	ScheduleAddWindow		Repeat:
 Appears before amount	PrefWindow		Appears before amount
 Unreconciled total: %s	ReconcileWindow		Unreconciled total: %s
-Uncategorized	Import		Uncategorized
 Couldn't Quick balance	ReconcileWindow		Couldn't Quick balance
 There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		There may be a typo or the wrong kind of currency symbol for this account.
 Really delete account?	MainWindow		Really delete account?
 DEP	ReconcileWindow		DEP
 Remove	ScheduleListWindow		Remove
-Cash Account	Import		Cash Account
 Quick balance	ReconcileWindow		Quick balance
 This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.	MainWindow		This happens when the kind of file is not supported, when the file's data is damaged, or when you feed it a recipe for quiche.
 Payments	ScheduleListWindow		Payments
 Month	ReportWindow		Month
 No memo	TransactionEdit		No memo
 Closed	Account		Closed
-[No payee entered]	Import		[No payee entered]
 Delete	MainWindow		Delete
 From account:	TransferWindow		From account:
 Quick balance successful!	ReconcileWindow		Quick balance successful!
@@ -131,6 +131,7 @@ Can't use this category name	CategoryWindow		Can't use this category name
 Do you want to add this transaction without a category?	CategoryWindow		Do you want to add this transaction without a category?
 Budget	BudgetWindow		Budget
 Monthly	BudgetWindow		Monthly
+Edit categories…	MainWindow		Edit categories…
 OK	TransferWindow		OK
 Total worth	NetWorthReport		Total worth
 times	ScheduleAddWindow		times
@@ -145,6 +146,7 @@ Unlimited	ScheduleListWindow		Unlimited
 Set all to zero	BudgetWindow		Set all to zero
 When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%
 Help: Scheduled transaction	ScheduleListWindow		Help: Scheduled transaction
+<No payee entered>	Import		<No payee entered>
 New…	MainWindow		New…
 Show split	SplitView		Show split
 Transfer	BudgetWindow		Transfer
@@ -157,6 +159,7 @@ Budget category:	BudgetWindow		Budget category:
 Quarterly	ScheduleListWindow		Quarterly
 12 month statistics	BudgetWindow		12 month statistics
 Not transferring any money	TransferWindow		Not transferring any money
+Bank account	Import		Bank account
 OK	Account		OK
 Unknown	BudgetWindow		Unknown
 Numbered transactions cannot be scheduled	MainWindow		Numbered transactions cannot be scheduled
@@ -175,6 +178,7 @@ Categories…	MainWindow		Categories…
 Help: Budget	BudgetWindow		Help: Budget
 Currency format	PrefWindow		Currency format
 Payee	CommonTerms		Payee
+Credit card account	Import		Credit card account
 If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		If you intend to transfer money, it will need to be an amount that is not zero.
 You can schedule transfers, deposits, or ATM transactions.	MainWindow		You can schedule transfers, deposits, or ATM transactions.
 Success!	ReconcileWindow		Success!
@@ -192,7 +196,6 @@ Add	CategoryWindow		Add
 Quit	MainWindow		Quit
 Lowest	BudgetWindow		Lowest
 Previous	MainWindow		Previous
-Bank Account	Import		Bank Account
 Transaction type is missing	CheckView		Transaction type is missing
 Accounts	RegisterView		Accounts
 Amount	ScheduleAddWindow		Amount

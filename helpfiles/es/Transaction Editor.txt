@@ -1,15 +1,14 @@
 Ventana del Editor de Movimientos
 
-AquÌ podr· hacer cambios en un movimiento previamente introducido. Adem·s podr· dividir un movimiento entre varias categorÌas. 
+Aqu√≠ podr√° hacer cambios en un movimiento previamente introducido. Adem√°s podr√° dividir un movimiento entre varias categor√≠as. 
 
 Dividir Movimiento
 
-SÛlo porque compre algo en un lugar no significa que todo tenga que ir en la misma categorÌa de presupuesto. Los movimientos divididos permiten dividir partes de la cantidad de un movimiento en diferentes categorÌa. 
+S√≥lo porque compre algo en un lugar no significa que todo tenga que ir en la misma categor√≠a de presupuesto. Los movimientos divididos permiten dividir partes de la cantidad de un movimiento en diferentes categor√≠a.
 
-Para ingresar un movimiento dividido, todo lo que debe haer es escribir en la palabra DIVIDI en la casilla CategorÌa en la ventana prinipal e ir a otra caja de texto en el registro. Capital Be abrir· la ventana del Editor de Moivimientos y podr· comenzar. 
-
-El botÛn Agregar aÒade cierta cantidad a otra categorÌa.
-El botÛn Eliminar los elimina de la categorÌa seleccionada.
+Para ingresar un movimiento dividido, todo lo que debe haer es escribir en la palabra DIVIDI en la casilla Categor√≠a en la ventana prinipal e ir a otra caja de texto en el registro. Capital Be abrir√° la ventana del Editor de Moivimientos y podr√° comenzar.
+El bot√≥n Agregar a√±ade cierta cantidad a otra categor√≠a.
+El bot√≥n Eliminar los elimina de la categor√≠a seleccionada.
 Pulse ENTER para finalizar.
 
-Consejo: Puede dividir o reunificar un movimiento que ha introducido haciendo doble clic en ella o eligiendo la opciÛn EDITAR en el men˙ MOVIMIENTOS.
+Consejo: Puede dividir o reunificar un movimiento que ha introducido haciendo doble clic en ella o eligiendo la opci√≥n EDITAR en el men√∫ MOVIMIENTOS.
