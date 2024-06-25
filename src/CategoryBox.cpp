@@ -100,25 +100,67 @@ CategoryBox::Validate(void)
 		else
 			return false;
 	}
+
+	if (category.ICompare(B_TRANSLATE_CONTEXT("Income", "CommonTerms")) == 0
+		|| category.ICompare(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")) == 0
+		|| category.ICompare(B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0) {
+		ShowAlert(B_TRANSLATE("Can't use this category name"),
+			B_TRANSLATE("CapitalBe uses the words 'Income', 'Spending', and 'Split' "
+						"for managing categories, so you can't use them as category names. "
+						"Please choose a different name for your new category."));
+		return false;
+	}
+
 	CapitalizeEachWord(category);
 	SetText(category);
-	SetTypeFromCategory(category);
-	return true;
+	bool success = SetTypeFromCategory(category);
+	return success;
 }
 
-void
+bool
 CategoryBox::SetTypeFromCategory(BString category)
 {
 	CppSQLite3Query query = gDatabase.DBQuery(
 		"SELECT * FROM categorylist ORDER BY name ASC", "CategoryView::CategoryView");
+
+	bool categoryExists = false;
 	while (!query.eof()) {
 		category_type type = (category_type)query.getIntField(1);
 		BString name = DeescapeIllegalCharacters(query.getStringField(0));
 
 		if (name.ICompare(category) == 0) {
 			type == SPENDING ? fType = "ATM" : fType = "DEP";
+			categoryExists = true;
 			break;
 		}
 		query.nextRow();
 	}
+
+	bool success = true;
+	if (!categoryExists)
+		bool success = AddNewCategory(category);
+
+	return success;
+}
+
+bool
+CategoryBox::AddNewCategory(BString category)
+{
+	BString text(B_TRANSLATE("You created the new category '%categoryname%'.\n\n"
+			"Please select a transaction type for it, 'income' or 'spending'."));
+	text.ReplaceFirst("%categoryname%", category);
+
+	DAlert* alert = new DAlert(B_TRANSLATE("New category"), text,
+		B_TRANSLATE("Income"), B_TRANSLATE("Spending"), B_TRANSLATE("Cancel"),
+		B_WIDTH_AS_USUAL, B_WARNING_ALERT);
+	int32 value = alert->Go();
+	if (value == 0) {
+		fType = "DEP";
+		return true;
+	}
+	if (value == 1) {
+		fType = "ATM";
+		return true;
+	}
+	return false;
 }
