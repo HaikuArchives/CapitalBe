@@ -188,7 +188,7 @@ CheckView::MessageReceived(BMessage* msg)
 			// from the Memo field. The CheckView instance should do whatever is
 			// needed to post the transaction into the register
 
-			if (!fDate->Validate() || !fType->Validate() || !fPayee->Validate()
+			if (!fDate->Validate() || !fPayee->Validate()
 				|| !fAmount->Validate() || !fCategory->Validate())
 				break;
 
@@ -196,9 +196,8 @@ CheckView::MessageReceived(BMessage* msg)
 			if (!acc)
 				break;
 
-			TransactionData trans(acc, fDate->Text(), fType->Text(), fPayee->Text(),
+			TransactionData trans(acc, fDate->Text(), fCategory->GetType(), fPayee->Text(),
 				fAmount->Text(), fCategory->Text(), fMemo->Text(), real_time_clock_usecs());
-
 
 			gDatabase.AddTransaction(trans);
 			acc->SetCurrentTransaction(trans.GetID());

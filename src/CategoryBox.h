@@ -2,6 +2,7 @@
 #define CATEGORYBOX_H
 
 #include "AutoTextControl.h"
+#include "Database.h"
 
 class CategoryBox;
 
@@ -21,9 +22,13 @@ public:
 		uint32 flags = B_WILL_DRAW | B_NAVIGABLE);
 
 	bool Validate(void);
+	void SetType(BString type) { fType = type; };
+	BString GetType() { return fType; };
 
 private:
+	void SetTypeFromCategory(BString category);
 	friend CategoryBoxFilter;
+	BString fType;
 };
 
 #endif

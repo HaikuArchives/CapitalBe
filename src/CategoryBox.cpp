@@ -3,7 +3,6 @@
 #include "CBLocale.h"
 #include "Database.h"
 #include "MsgDefs.h"
-#include "TimeSupport.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CategoryWindow"
@@ -79,18 +78,47 @@ CategoryBox::CategoryBox(
 bool
 CategoryBox::Validate(void)
 {
-	if (strlen(Text()) < 1) {
+	BString category(Text());
+
+	if (category == "") {
 		DAlert* alert = new DAlert(B_TRANSLATE("Category is missing"),
-			B_TRANSLATE("Do you want to add this transaction without a category?"),
-			B_TRANSLATE("Add"), B_TRANSLATE("Cancel"), NULL, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
+			B_TRANSLATE("Do you really want to add this transaction without a category?\n\n"
+				"Even then, you need to select a transaction type, 'income' or 'spending'."),
+			B_TRANSLATE("Income"), B_TRANSLATE("Spending"), B_TRANSLATE("Cancel"),
+			B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 		int32 value = alert->Go();
-		if (value == 0)
+		if (value == 0) {
+			fType = "DEP";
 			SetText(B_TRANSLATE("Uncategorized"));
+			return true;
+		}
+		if (value == 1) {
+			fType = "ATM";
+			SetText(B_TRANSLATE("Uncategorized"));
+			return true;
+		}
 		else
 			return false;
 	}
-	BString string(Text());
-	CapitalizeEachWord(string);
-	SetText(string.String());
+	CapitalizeEachWord(category);
+	SetText(category);
+	SetTypeFromCategory(category);
 	return true;
+}
+
+void
+CategoryBox::SetTypeFromCategory(BString category)
+{
+	CppSQLite3Query query = gDatabase.DBQuery(
+		"SELECT * FROM categorylist ORDER BY name ASC", "CategoryView::CategoryView");
+	while (!query.eof()) {
+		category_type type = (category_type)query.getIntField(1);
+		BString name = DeescapeIllegalCharacters(query.getStringField(0));
+
+		if (name.ICompare(category) == 0) {
+			type == SPENDING ? fType = "ATM" : fType = "DEP";
+			break;
+		}
+		query.nextRow();
+	}
 }
