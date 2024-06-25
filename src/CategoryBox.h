@@ -26,7 +26,8 @@ public:
 	BString GetType() { return fType; };
 
 private:
-	void SetTypeFromCategory(BString category);
+	bool SetTypeFromCategory(BString category);
+	bool AddNewCategory(BString category);
 	friend CategoryBoxFilter;
 	BString fType;
 };
