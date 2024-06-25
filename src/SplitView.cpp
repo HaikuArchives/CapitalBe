@@ -85,6 +85,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 
 	fCategory = new CategoryBox(
 		"categoryentry", "", fTransaction.NameAt(0), new BMessage(M_CATEGORY_CHANGED));
+	fCategory->SetType(fTransaction.Type().Type());
 	fCategoryButton = new CategoryButton(fCategory);
 
 	// Memo
@@ -334,9 +335,6 @@ SplitView::MessageReceived(BMessage* msg)
 			if (!fDate->Validate())
 				break;
 
-			if (!fType->Validate())
-				break;
-
 			if (!fPayee->Validate())
 				break;
 
@@ -353,7 +351,7 @@ SplitView::MessageReceived(BMessage* msg)
 				ShowBug("NULL transaction account in SplitView::M_ENTER_TRANSACTION");
 
 			Category* cat = MakeCategory();
-			fTransaction.Set(account, fDate->Text(), fType->Text(), fPayee->Text(), fAmount->Text(),
+			fTransaction.Set(account, fDate->Text(), fCategory->GetType(), fPayee->Text(), fAmount->Text(),
 				NULL, fMemo->Text(), fTransaction.Status());
 			fTransaction.SetCategory(*cat);
 			delete cat;
@@ -787,7 +785,7 @@ SplitView::MakeCategory(void)
 		if (strlen(fCategory->Text()) > 0 && strlen(fAmount->Text()) > 0) {
 			Fixed amt;
 			if (locale.StringToCurrency(fAmount->Text(), amt) == B_OK) {
-				BString typestr(fType->Text());
+				BString typestr(fCategory->GetType());
 				if (typestr.CountChars() < 1 || (typestr.ICompare("dep") != 0 && amt.IsPositive()))
 					amt.Invert();
 
@@ -804,7 +802,7 @@ SplitView::MakeCategory(void)
 
 		Fixed fixed = item->GetAmount();
 
-		BString typestr(fType->Text());
+		BString typestr(fCategory->GetType());
 		if (typestr.CountChars() < 1 || (typestr.ICompare("dep") != 0 && fixed.IsPositive()))
 			fixed.Invert();
 
