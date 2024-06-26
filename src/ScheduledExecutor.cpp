@@ -22,7 +22,9 @@ HandleScheduledTransactions(void)
 
 	uint32 idlist[transcount];
 
-	query = gDatabase.DBQuery("SELECT transid FROM scheduledlist ORDER BY transid",
+	query = gDatabase.DBQuery(
+		"SELECT a.transid FROM scheduledlist as a LEFT JOIN accountlist AS b ON a.accountid = "
+		"b.accountid WHERE b.status = \"open\" OR b.status = \"Open\";",
 		"ScheduleListView::RefreshScheduleList: get transids");
 	uint32 count = 0;
 	idlist[count] = query.getInt64Field(0);

@@ -151,7 +151,9 @@ ScheduleListView::RefreshScheduleList(void)
 	fTransList.MakeEmpty();
 	fListView->Clear();
 
-	CppSQLite3Query query = gDatabase.DBQuery("SELECT COUNT(*) FROM scheduledlist",
+	CppSQLite3Query query = gDatabase.DBQuery(
+		"SELECT COUNT(*) FROM scheduledlist as a LEFT JOIN accountlist AS b ON a.accountid = "
+		"b.accountid WHERE b.status = \"open\" OR b.status = \"Open\";",
 		"ScheduleListView::RefreshScheduleList: count transactions");
 
 	if (query.eof())
@@ -165,7 +167,9 @@ ScheduleListView::RefreshScheduleList(void)
 
 	uint32 idlist[transcount];
 
-	query = gDatabase.DBQuery("SELECT transid FROM scheduledlist ORDER BY transid",
+	query = gDatabase.DBQuery(
+		"SELECT a.transid FROM scheduledlist as a LEFT JOIN accountlist AS b ON a.accountid = "
+		"b.accountid WHERE b.status = \"open\" OR b.status = \"Open\";",
 		"ScheduleListView::RefreshScheduleList: get transids");
 	uint32 count = 0;
 	idlist[count] = query.getInt64Field(0);
@@ -204,8 +208,6 @@ ScheduleListView::RefreshScheduleList(void)
 		fListView->AddRow(row);
 
 		ScheduledTransData* sdata = (ScheduledTransData*)fTransList.ItemAt(i);
-
-		row->SetField(new BStringField(sdata->Payee()), 0);
 
 		BString string;
 		Locale locale = sdata->GetAccount()->GetLocale();
@@ -262,7 +264,6 @@ ScheduleListView::RefreshScheduleList(void)
 	}
 
 	fListView->ColumnAt(0)->SetWidth(maxwidth + 30);
-
 	return fListView->PreferredSize().Width();
 }
 
