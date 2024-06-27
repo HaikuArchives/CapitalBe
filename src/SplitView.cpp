@@ -470,7 +470,7 @@ SplitView::MessageReceived(BMessage* msg)
 				ToggleSplit();
 
 			SplitItem* item = new SplitItem();
-			item->SetCategory(B_TRANSLATE("Uncategorized"));
+			item->SetCategory(B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"));
 			item->SetAmount(
 				fTransaction.Amount().AbsoluteValue() - CalculateTotal().AbsoluteValue());
 			fSplitItems->AddItem(item);
@@ -542,7 +542,7 @@ SplitView::MessageReceived(BMessage* msg)
 			fSplitItems->InvalidateItem(selection);
 
 			if (strlen(fSplitCategory->Text()) < 1)
-				fTransaction.SetNameAt(selection, B_TRANSLATE("Uncategorized"));
+				fTransaction.SetNameAt(selection, B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"));
 			else
 				fTransaction.SetNameAt(selection, fSplitCategory->Text());
 			break;

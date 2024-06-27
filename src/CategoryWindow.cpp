@@ -216,11 +216,14 @@ CategoryView::MessageReceived(BMessage* msg)
 
 			if (name.ICompare(B_TRANSLATE_CONTEXT("Income", "CommonTerms")) == 0
 				|| name.ICompare(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")) == 0
-				|| name.ICompare(B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0) {
-				ShowAlert(B_TRANSLATE("Can't use this category name"),
-					B_TRANSLATE("CapitalBe uses the words 'Income', 'Spending', and 'Split' "
-								"for managing categories, so you can't use them as category names. "
-								"Please choose a different name for your new category."));
+				|| name.ICompare(B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0
+				|| name.ICompare(B_TRANSLATE_CONTEXT("Transfer", "CommonTerms")) == 0
+				|| name.ICompare(B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms")) == 0) {
+				ShowAlert(B_TRANSLATE("Can't use this category name"),B_TRANSLATE(
+					"CapitalBe uses the words 'Income', 'Spending', 'Split', 'Transfer', and "
+					"'Uncategorized' for managing categories, so you can't use them as category "
+					"names.\n"
+					"Please choose a different name for your new category."));
 				break;
 			}
 
