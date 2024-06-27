@@ -286,11 +286,16 @@ MainWindow::MessageReceived(BMessage* msg)
 
 			if (alert->Go() == 0) {
 				int32 index = gDatabase.IndexOf(acc);
-				if (index == 0) {
-					gDatabase.SetCurrentAccount(1);
-				} else if (index > 0) {
-					gDatabase.SetCurrentAccount(index - 1);
+
+				if (gDatabase.CountAccounts() < 2) { // deleting the last account
+					gDatabase.SetCurrentAccount(-1);
+					gDatabase.CurrentAccount()->SetCurrentTransaction(-1);
 				}
+				else if (index == 0)
+					gDatabase.SetCurrentAccount(1);
+				else if (index > 0)
+					gDatabase.SetCurrentAccount(index - 1);
+
 				gDatabase.RemoveAccount(acc);
 			}
 			break;
