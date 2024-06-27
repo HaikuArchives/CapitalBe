@@ -633,12 +633,13 @@ MainWindow::CreateTransfer(BMessage* msg)
 	uint32 transid = gDatabase.NextTransactionID();
 	TransactionType type("XFER");
 	gDatabase.AddTransaction(from->GetID(), transid, date, type, payee.String(),
-		fixed.InvertAsCopy(), "Transfer", memo.String());
+		fixed.InvertAsCopy(), B_TRANSLATE_CONTEXT("Transfer", "CommonTerms"), memo.String());
 
 	payee = B_TRANSLATE("Transfer from '%%PAYEE%%'");
 	payee.ReplaceFirst("%%PAYEE%%", from->Name());
 	gDatabase.AddTransaction(
-		to->GetID(), transid, date, type, payee.String(), fixed, "Transfer", memo.String());
+		to->GetID(), transid, date, type, payee.String(), fixed,
+		B_TRANSLATE_CONTEXT("Transfer", "CommonTerms"), memo.String());
 }
 
 void

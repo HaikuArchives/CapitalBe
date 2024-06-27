@@ -325,7 +325,7 @@ ReadTransactions(Account* account, TextFile& file)
 				}
 
 				if (data.CountCategories() < 1)
-					data.SetCategory(B_TRANSLATE("<Uncategorized>"));
+					data.SetCategory(B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"));
 
 
 				gDatabase.AddTransaction(data);
