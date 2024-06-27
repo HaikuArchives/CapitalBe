@@ -220,9 +220,8 @@ CategoryView::MessageReceived(BMessage* msg)
 				|| name.ICompare(B_TRANSLATE_CONTEXT("Transfer", "CommonTerms")) == 0
 				|| name.ICompare(B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms")) == 0) {
 				ShowAlert(B_TRANSLATE("Can't use this category name"),B_TRANSLATE(
-					"CapitalBe uses the words 'Income', 'Spending', 'Split', 'Transfer', and "
-					"'Uncategorized' for managing categories, so you can't use them as category "
-					"names.\n"
+					"CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' "
+					"for managing accounts, so you can't use them as category names.\n\n"
 					"Please choose a different name for your new category."));
 				break;
 			}

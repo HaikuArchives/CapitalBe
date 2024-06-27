@@ -59,7 +59,7 @@
 #endif
 
 // Default size of the Alert window.
-#define DEFAULT_RECT BRect(0, 0, 310, 75)
+#define DEFAULT_RECT BRect(0, 0, 450, 75)
 #define max(LHS, RHS) ((LHS) > (RHS) ? (LHS) : (RHS))
 
 // Globals ---------------------------------------------------------------------
@@ -76,7 +76,7 @@ static const int kButtonLeftOffset = 62;
 static const int kButtonUsualWidth = 75;
 
 static const int kWindowIconOffset = 27;
-static const int kWindowMinWidth = 310;
+static const int kWindowMinWidth = 450;
 static const int kWindowMinOffset = 12;
 static const int kWindowOffsetMinWidth = 335;
 
