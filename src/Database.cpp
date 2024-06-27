@@ -281,16 +281,19 @@ Database::SetCurrentAccount(const int32& index)
 	// We actually permit a NULL pointer here because sometimes we don't *have* an account
 	// to operate on
 	LOCK;
-	Account* acc = (Account*)fList.ItemAt(index);
-	fCurrent = acc;
-	gCurrentLocale = acc->GetLocale();
-
+	if (index < 0)
+		fCurrent = NULL;
+	else {
+		Account* acc = (Account*)fList.ItemAt(index);
+		fCurrent = acc;
+		gCurrentLocale = acc->GetLocale();
+	}
 	BMessage msg;
-	msg.AddPointer("item", (void*)acc);
+	msg.AddPointer("item", (void*)fCurrent);
 	Notify(WATCH_SELECT | WATCH_ACCOUNT, &msg);
 	UNLOCK;
 
-	return acc;
+	return fCurrent;
 }
 
 int32
