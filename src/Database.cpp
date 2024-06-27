@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <ctime>
+#include <vector>
 #include "Account.h"
 #include "Budget.h"
 #include "DStringList.h"
@@ -13,8 +15,6 @@
 #include "ScheduledTransData.h"
 #include "TimeSupport.h"
 #include "TransactionData.h"
-#include <ctime>
-#include <vector>
 
 // #define LOCK_DATABASE
 #ifdef LOCK_DATABASE
@@ -72,8 +72,8 @@ Database::RenameAccount(Account* item, const char* name)
 	if (item && name) {
 		LOCK;
 		CppSQLite3Buffer bufSQL;
-		bufSQL.format("UPDATE accountlist SET name = %Q WHERE accountid = %i;", name,
-			item->GetID());
+		bufSQL.format(
+			"UPDATE accountlist SET name = %Q WHERE accountid = %i;", name, item->GetID());
 		DBCommand(bufSQL, "Database::RenameAccount");
 
 		item->SetName(name);
@@ -140,15 +140,17 @@ Database::CreateFile(const char* path)
 		"CREATE TABLE accountlist (accountid INT PRIMARY KEY, name VARCHAR(96), "
 		"type VARCHAR(12), status VARCHAR(30));",
 		"Database::CreateFile:create accountlist");
-	DBCommand("CREATE TABLE accountlocale (accountid INT PRIMARY KEY, "
-			  "currencysymbol CHAR(6), currencydecimal CHAR(6), currencyprefix CHAR(1));",
+	DBCommand(
+		"CREATE TABLE accountlocale (accountid INT PRIMARY KEY, "
+		"currencysymbol CHAR(6), currencydecimal CHAR(6), currencyprefix CHAR(1));",
 		"Database::CreateFile:create accountlocale");
 	DBCommand("CREATE TABLE memorizedlist (transactionid INT);",
 		"Database::CreateFile:create memorizedlist");
-	DBCommand("CREATE TABLE scheduledlist (timestamp INT PRIMARY KEY, accountid INT, transid INT,"
-			  "date INT, type VARCHAR(24), payee VARCHAR(96), amount INT,"
-			  "category VARCHAR(96),memo VARCHAR(63), interval INT, count INT,"
-			  "nextdate INT, destination INT);",
+	DBCommand(
+		"CREATE TABLE scheduledlist (timestamp INT PRIMARY KEY, accountid INT, transid INT,"
+		"date INT, type VARCHAR(24), payee VARCHAR(96), amount INT,"
+		"category VARCHAR(96),memo VARCHAR(63), interval INT, count INT,"
+		"nextdate INT, destination INT);",
 		"Database::CreateFile:create scheduledlist");
 	DBCommand(
 		"CREATE TABLE budgetlist (entryid INT PRIMARY KEY, category VARCHAR(96), "
@@ -468,8 +470,8 @@ Database::AddBudgetEntry(const BudgetEntry& entry)
 			entry.amount.AsFixed(), value);
 		DBCommand(bufSQL, "Database::AddBudgetEntry:update budgetlist amount");
 
-		bufSQL.format("UPDATE budgetlist SET period = %i WHERE entryid = %i;", (int)entry.period,
-			value);
+		bufSQL.format(
+			"UPDATE budgetlist SET period = %i WHERE entryid = %i;", (int)entry.period, value);
 		DBCommand(bufSQL, "Database::AddBudgetEntry:update budgetlist period");
 		return;
 	}
@@ -632,8 +634,8 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 	AddCategory(category, amount.IsNegative());
 
 	CppSQLite3Buffer bufSQL;
-	bufSQL.format("INSERT INTO transactionlist VALUES(%li, %i, %Q, %i);", timestamp, id, category,
-		accountid);
+	bufSQL.format(
+		"INSERT INTO transactionlist VALUES(%li, %i, %Q, %i);", timestamp, id, category, accountid);
 	DBCommand(bufSQL, "Database::AddTransaction:insert into transactionlist");
 
 	BString _account, _status, command;
@@ -1132,7 +1134,7 @@ Database::InsertSchedTransaction(const uint32& id, const uint32& accountid, cons
 		_memo.String(), interval, count, nextdate, destination);
 	CppSQLite3Query query
 		= gDatabase.DBQuery(bufSQL, "Database::InsertSchedTransaction:insert into table");
-		// TODO: Implement destination for transfers between accounts (WIP)
+	// TODO: Implement destination for transfers between accounts (WIP)
 
 	return true;
 }
@@ -1276,8 +1278,8 @@ Database::RecategorizeTransactions(const char* from, const char* to)
 		CppSQLite3Buffer bufSQL;
 		BString account;
 		account << "account_" << acc->GetID();
-		bufSQL.format("UPDATE %s SET category = %Q WHERE category = %Q;", account.String(), to,
-			from);
+		bufSQL.format(
+			"UPDATE %s SET category = %Q WHERE category = %Q;", account.String(), to, from);
 		gDatabase.DBCommand(bufSQL, "Database::RecategorizeTransactions");
 	}
 
@@ -1425,8 +1427,8 @@ Database::ApplyMigrations(void)
 			"Database::ApplyMigrations:insert db_version");
 	} else {
 		// Get current db_version
-		CppSQLite3Query query = DBQuery("SELECT version FROM db_version",
-			"Database::ApplyMigrations: get currentVersion");
+		CppSQLite3Query query = DBQuery(
+			"SELECT version FROM db_version", "Database::ApplyMigrations: get currentVersion");
 
 		if (query.eof())
 			return B_ERROR;
@@ -1515,8 +1517,8 @@ Database::DeescapeDatabase(void)
 	CppSQLite3Query query, transactionQuery;
 	BString name, payee, category, memo;
 	// Deescape account names
-	query = DBQuery("SELECT name, accountid FROM accountlist",
-		"Database::DeescapeDatabase:account names");
+	query = DBQuery(
+		"SELECT name, accountid FROM accountlist", "Database::DeescapeDatabase:account names");
 	while (!query.eof()) {
 		name = DeescapeIllegalCharacters(query.getStringField(0));
 		uint32 id = query.getIntField(1);
@@ -1531,8 +1533,9 @@ Database::DeescapeDatabase(void)
 			category = DeescapeIllegalCharacters(transactionQuery.getStringField(2));
 			memo = DeescapeIllegalCharacters(transactionQuery.getStringField(3));
 
-			bufSQL.format("UPDATE account_%li SET payee = %Q, category = %Q, memo = %Q"
-						  "WHERE timestamp = %li;",
+			bufSQL.format(
+				"UPDATE account_%li SET payee = %Q, category = %Q, memo = %Q"
+				"WHERE timestamp = %li;",
 				id, payee.String(), category.String(), memo.String(),
 				transactionQuery.getInt64Field(0));
 			DBCommand(bufSQL, "Database::DeescapeDatabase:account details");
@@ -1574,21 +1577,23 @@ Database::DeescapeDatabase(void)
 		category = DeescapeIllegalCharacters(query.getStringField(2));
 		memo = DeescapeIllegalCharacters(query.getStringField(3));
 
-		bufSQL.format("UPDATE scheduledlist SET payee = %Q, category = %Q, memo = %Q"
-					  "WHERE transid = %i;",
+		bufSQL.format(
+			"UPDATE scheduledlist SET payee = %Q, category = %Q, memo = %Q"
+			"WHERE transid = %i;",
 			payee.String(), category.String(), memo.String(), query.getIntField(0));
 		DBCommand(bufSQL, "Database::DeescapeDatabase:scheduledlist");
 		query.nextRow();
 	}
 
 	// Deescape budget entries
-	query = DBQuery("SELECT entryid, category FROM budgetlist;",
-		"Database::DeescapeDatabase:budgetlist");
+	query = DBQuery(
+		"SELECT entryid, category FROM budgetlist;", "Database::DeescapeDatabase:budgetlist");
 	while (!query.eof()) {
 		category = DeescapeIllegalCharacters(query.getStringField(1));
 
-		bufSQL.format("UPDATE budgetlist SET category = %Q"
-					  "WHERE entryid = %i;",
+		bufSQL.format(
+			"UPDATE budgetlist SET category = %Q"
+			"WHERE entryid = %i;",
 			category.String(), query.getIntField(0));
 		DBCommand(bufSQL, "Database::DeescapeDatabase:budgetlist");
 		query.nextRow();

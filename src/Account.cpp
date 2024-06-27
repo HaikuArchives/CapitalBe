@@ -68,8 +68,8 @@ Fixed
 Account::BalanceAt(const time_t& date)
 {
 	BString command;
-	command.SetToFormat("SELECT SUM(amount) FROM account_%i WHERE date <= %li ORDER BY payee;", fID,
-		date);
+	command.SetToFormat(
+		"SELECT SUM(amount) FROM account_%i WHERE date <= %li ORDER BY payee;", fID, date);
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::BalanceAt");
 
 	int64 amount = 0;
