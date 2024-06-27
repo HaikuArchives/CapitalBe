@@ -82,10 +82,11 @@ CategoryBox::Validate(void)
 
 	if (category == "") {
 		DAlert* alert = new DAlert(B_TRANSLATE("Category is missing"),
-			B_TRANSLATE("Do you really want to add this transaction without a category?\n\n"
+			B_TRANSLATE(
+				"Do you really want to add this transaction without a category?\n\n"
 				"Even then, you need to select a transaction type, 'income' or 'spending'.\n"),
-			B_TRANSLATE("Income"), B_TRANSLATE("Spending"), B_TRANSLATE("Cancel"),
-			B_WIDTH_AS_USUAL, B_WARNING_ALERT);
+			B_TRANSLATE("Income"), B_TRANSLATE("Spending"), B_TRANSLATE("Cancel"), B_WIDTH_AS_USUAL,
+			B_WARNING_ALERT);
 		int32 value = alert->Go();
 		if (value == 0) {
 			fType = "DEP";
@@ -96,8 +97,7 @@ CategoryBox::Validate(void)
 			fType = "ATM";
 			SetText(B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"));
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 
@@ -106,10 +106,11 @@ CategoryBox::Validate(void)
 		|| category.ICompare(B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0
 		|| category.ICompare(B_TRANSLATE_CONTEXT("Transfer", "CommonTerms")) == 0
 		|| category.ICompare(B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms")) == 0) {
-		ShowAlert(B_TRANSLATE("Can't use this category name"), B_TRANSLATE(
-			"CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' "
-			"for managing accounts, so you can't use them as category names.\n\n"
-			"Please choose a different name for your new category."));
+		ShowAlert(B_TRANSLATE("Can't use this category name"),
+			B_TRANSLATE(
+				"CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' "
+				"for managing accounts, so you can't use them as category names.\n\n"
+				"Please choose a different name for your new category."));
 		return false;
 	}
 
@@ -148,13 +149,13 @@ CategoryBox::SetTypeFromCategory(BString category)
 bool
 CategoryBox::AddNewCategory(BString category)
 {
-	BString text(B_TRANSLATE("You created the new category '%categoryname%'.\n\n"
-			"Please select a transaction type for it, 'income' or 'spending'."));
+	BString text(
+		B_TRANSLATE("You created the new category '%categoryname%'.\n\n"
+					"Please select a transaction type for it, 'income' or 'spending'."));
 	text.ReplaceFirst("%categoryname%", category);
 
-	DAlert* alert = new DAlert(B_TRANSLATE("New category"), text,
-		B_TRANSLATE("Income"), B_TRANSLATE("Spending"), B_TRANSLATE("Cancel"),
-		B_WIDTH_AS_USUAL, B_WARNING_ALERT);
+	DAlert* alert = new DAlert(B_TRANSLATE("New category"), text, B_TRANSLATE("Income"),
+		B_TRANSLATE("Spending"), B_TRANSLATE("Cancel"), B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 	int32 value = alert->Go();
 	if (value == 0) {
 		fType = "DEP";

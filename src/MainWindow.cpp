@@ -637,8 +637,7 @@ MainWindow::CreateTransfer(BMessage* msg)
 
 	payee = B_TRANSLATE("Transfer from '%%PAYEE%%'");
 	payee.ReplaceFirst("%%PAYEE%%", from->Name());
-	gDatabase.AddTransaction(
-		to->GetID(), transid, date, type, payee.String(), fixed,
+	gDatabase.AddTransaction(to->GetID(), transid, date, type, payee.String(), fixed,
 		B_TRANSLATE_CONTEXT("Transfer", "CommonTerms"), memo.String());
 }
 

@@ -351,8 +351,8 @@ SplitView::MessageReceived(BMessage* msg)
 				ShowBug("NULL transaction account in SplitView::M_ENTER_TRANSACTION");
 
 			Category* cat = MakeCategory();
-			fTransaction.Set(account, fDate->Text(), fCategory->GetType(), fPayee->Text(), fAmount->Text(),
-				NULL, fMemo->Text(), fTransaction.Status());
+			fTransaction.Set(account, fDate->Text(), fCategory->GetType(), fPayee->Text(),
+				fAmount->Text(), NULL, fMemo->Text(), fTransaction.Status());
 			fTransaction.SetCategory(*cat);
 			delete cat;
 
@@ -542,7 +542,8 @@ SplitView::MessageReceived(BMessage* msg)
 			fSplitItems->InvalidateItem(selection);
 
 			if (strlen(fSplitCategory->Text()) < 1)
-				fTransaction.SetNameAt(selection, B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"));
+				fTransaction.SetNameAt(
+					selection, B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"));
 			else
 				fTransaction.SetNameAt(selection, fSplitCategory->Text());
 			break;

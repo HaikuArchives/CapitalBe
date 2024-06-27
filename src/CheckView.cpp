@@ -188,8 +188,8 @@ CheckView::MessageReceived(BMessage* msg)
 			// from the Memo field. The CheckView instance should do whatever is
 			// needed to post the transaction into the register
 
-			if (!fDate->Validate() || !fPayee->Validate()
-				|| !fAmount->Validate() || !fCategory->Validate())
+			if (!fDate->Validate() || !fPayee->Validate() || !fAmount->Validate()
+				|| !fCategory->Validate())
 				break;
 
 			Account* acc = gDatabase.CurrentAccount();
