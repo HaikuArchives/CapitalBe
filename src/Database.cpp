@@ -375,7 +375,7 @@ Database::RemoveAccount(const int& accountid)
 {
 	LOCK;
 	BString command;
-	command << "SELECT accountid FROM accountlist WHERE accountid = " << accountid << ";";
+	command.SetToFormat("SELECT accountid FROM accountlist WHERE accountid = %i;", accountid);
 	CppSQLite3Query query = DBQuery(command.String(), "Database::RemoveAccount:accountid check");
 
 	if (!query.eof()) {
@@ -388,20 +388,19 @@ Database::RemoveAccount(const int& accountid)
 			Notify(WATCH_DELETE | WATCH_ACCOUNT, &msg);
 		}
 
-		command = "DELETE FROM accountlist WHERE accountid = ";
-		command << accountid << ";";
+		command.SetToFormat("DELETE FROM accountlist WHERE accountid = %i;", accountid);
 		DBCommand(command.String(), "Database::RemoveAccount:delete accountlist item");
 
-		command = "DELETE FROM accountlocale WHERE accountid = ";
-		command << accountid << ";";
+		command.SetToFormat("DELETE FROM accountlocale WHERE accountid = %i;", accountid);
 		DBCommand(command.String(), "Database::RemoveAccount:delete accountlocale item");
 
-		command = "DELETE FROM scheduledlist WHERE accountid = ";
-		command << accountid << ";";
+		command.SetToFormat("DELETE FROM scheduledlist WHERE accountid = %i;", accountid);
 		DBCommand(command.String(), "Database::RemoveAccount:delete scheduled items");
 
-		command = "DROP TABLE account_";
-		command << accountid;
+		command.SetToFormat("DELETE FROM transactionlist WHERE accountid = %i;", accountid);
+		DBCommand(command.String(), "Database::RemoveAccount:delete transactionlist items");
+
+		command.SetToFormat("DROP TABLE account_%i;", accountid);
 		DBCommand(command.String(), "Database::RemoveAccount:drop account table");
 
 		fList.RemoveItem(item);
