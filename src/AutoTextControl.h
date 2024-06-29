@@ -74,6 +74,7 @@ public:
 
 	void SendMessage(BMessage* msg);
 	void SetMessenger(BMessenger* msgr);
+	BMessenger* GetMessenger();
 
 private:
 	AutoTextControl* fBox;
