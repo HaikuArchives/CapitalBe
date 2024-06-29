@@ -199,3 +199,9 @@ AutoTextControlFilter::SetMessenger(BMessenger* msgr)
 		delete fMessenger;
 	fMessenger = msgr;
 }
+
+BMessenger*
+AutoTextControlFilter::GetMessenger()
+{
+	return fMessenger;
+}

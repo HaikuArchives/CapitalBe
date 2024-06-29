@@ -1,6 +1,7 @@
 #include "CategoryButton.h"
 #include "Database.h"
 #include "MainWindow.h"
+#include "SplitView.h"
 
 #include <Bitmap.h>
 #include <Catalog.h>
@@ -58,8 +59,13 @@ CategoryButton::MessageReceived(BMessage* msg)
 			BString category;
 			msg->FindString("category", &category);
 			fCategoryBox->SetText(category);
-			fCategoryBox->Validate();
+			bool success = fCategoryBox->Validate();
 
+			if (success) {
+				BMessenger* msgr(fCategoryBox->GetFilter()->GetMessenger());
+				BMessage notice(M_SPLIT_CATEGORY_CHANGED);
+				msgr->SendMessage(&notice);
+			}
 			break;
 		}
 		default:
