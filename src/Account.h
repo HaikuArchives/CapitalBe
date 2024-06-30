@@ -37,7 +37,7 @@ public:
 
 	BString AutocompleteCategory(const char* input);
 	BString AutocompletePayee(const char* input);
-	BString AutocompleteType(const char* input);
+	// BString AutocompleteType(const char* input);
 
 	Fixed Balance(void);
 	Fixed BalanceAt(const time_t& time);

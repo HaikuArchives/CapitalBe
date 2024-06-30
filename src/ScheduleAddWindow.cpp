@@ -46,13 +46,6 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	// Type
-	BStringView* typeLabel
-		= new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
-	typeLabel->SetExplicitSize(BSize(be_plain_font->StringWidth("ShortType"), B_SIZE_UNSET));
-	BTextControl* type = new BTextControl("type", NULL, data.Type().Type(), NULL);
-	type->SetEnabled(false);
-
 	// Payee
 	BStringView* payeeLabel
 		= new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
@@ -151,12 +144,10 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(B_USE_WINDOW_SPACING)
 		.AddGrid(1.0f, 0.0f)
-			.Add(typeLabel, 0, 0)
-			.Add(type->CreateTextViewLayoutItem(), 0, 1)
-			.Add(payeeLabel, 1, 0)
-			.Add(payee->CreateTextViewLayoutItem(), 1, 1)
-			.Add(amountLabel, 2, 0)
-			.Add(amount->CreateTextViewLayoutItem(), 2, 1)
+			.Add(payeeLabel, 0, 0)
+			.Add(payee->CreateTextViewLayoutItem(), 0, 1)
+			.Add(amountLabel, 1, 0)
+			.Add(amount->CreateTextViewLayoutItem(), 1, 1)
 			.End()
 		.AddGrid(1.0f, 0.0f)
 			.Add(categoryLabel, 0, 0)

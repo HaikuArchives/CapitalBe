@@ -157,40 +157,6 @@ Account::AutocompletePayee(const char* input)
 	return query.getStringField(0);
 }
 
-BString
-Account::AutocompleteType(const char* input)
-{
-	if (!input)
-		return BString();
-
-	if (toupper(input[0]) == (int)'A') {
-		int32 inputlength = strlen(input);
-		if (strncasecmp(input, "ATM", inputlength) == 0)
-			return BString("ATM");
-	} else if (toupper(input[0]) == (int)'D') {
-		int32 inputlength = strlen(input);
-		if (strncasecmp(input, "DEP", inputlength) == 0)
-			return BString("DEP");
-	} else {
-		// Numeric autocompletion
-		BString str;
-		str << fLastCheckNumber;
-		if (input[0] == str.ByteAt(0))
-			return str;
-	}
-
-	CppSQLite3Buffer bufSQL;
-	BString searchString;
-	searchString << input << "%";
-	bufSQL.format("SELECT type FROM account_%s WHERE type LIKE %Q", fID, searchString.String());
-	CppSQLite3Query query = gDatabase.DBQuery(bufSQL, "Account::AutocompleteType");
-
-	if (query.eof())
-		return BString();
-
-	return query.getStringField(0);
-}
-
 Locale
 Account::GetLocale(void) const
 {
