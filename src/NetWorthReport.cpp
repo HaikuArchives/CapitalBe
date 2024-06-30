@@ -93,7 +93,8 @@ ReportWindow::ComputeNetWorth(void)
 	BColumn* col = new BStringColumn(B_TRANSLATE_CONTEXT("Date", "CommonTerms"),
 		fGridView->StringWidth(longestname.String()) + 20, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 0);
-	col = new BStringColumn(B_TRANSLATE("Total"), 75, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE("Total"), fGridView->StringWidth("$100,000,000.00"),
+		10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 1);
 
 	fGridView->AddRow(new BRow());

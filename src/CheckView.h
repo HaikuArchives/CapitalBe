@@ -15,7 +15,6 @@
 
 enum {
 	M_DATE_CHANGED = 'dtch',
-	M_TYPE_CHANGED = 'tych',
 	M_PAYEE_CHANGED = 'pych',
 	M_AMOUNT_CHANGED = 'amch',
 	M_CATEGORY_CHANGED = 'ctch',
@@ -24,7 +23,6 @@ enum {
 
 class CheckViewFilter;
 class CategoryBox;
-class CheckNumBox;
 class CurrencyBox;
 class DateBox;
 class NavTextBox;
@@ -49,7 +47,6 @@ private:
 	void DoNextField(void);
 
 	DateBox* fDate;
-	CheckNumBox* fType;
 	PayeeBox* fPayee;
 	CurrencyBox* fAmount;
 	CategoryBox* fCategory;

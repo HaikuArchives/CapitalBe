@@ -65,9 +65,8 @@ ReportWindow::ComputeTransactions(void)
 	col = new BStringColumn(B_TRANSLATE_CONTEXT("Date", "CommonTerms"),
 		fGridView->StringWidth("00-00-0000") + 15, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 1);
-	col = new BStringColumn(B_TRANSLATE_CONTEXT("Type", "CommonTerms"),
-		fGridView->StringWidth(B_TRANSLATE_CONTEXT("Type", "CommonTerms")) + 20, 10, 300,
-		B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE_COMMENT("Type", "Type of transaction, spending or income"),
+		fGridView->StringWidth("LongTypeName") + 20, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 2);
 	col = new BStringColumn(
 		B_TRANSLATE_CONTEXT("Payee", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
@@ -75,10 +74,10 @@ ReportWindow::ComputeTransactions(void)
 
 	// The string we use for calculating width here should work well enough for general purposes
 	col = new BStringColumn(B_TRANSLATE_CONTEXT("Amount", "CommonTerms"),
-		fGridView->StringWidth("$00,000.00") + 15, 10, 300, B_TRUNCATE_END);
+		fGridView->StringWidth("$100,000.00") + 15, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 4);
 	col = new BStringColumn(B_TRANSLATE_CONTEXT("Category", "CommonTerms"),
-		fGridView->StringWidth("0000000000") + 20, 10, 300, B_TRUNCATE_END);
+		fGridView->StringWidth("LongCategoryName") + 20, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 5);
 	col = new BStringColumn(
 		B_TRANSLATE_CONTEXT("Memo", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
@@ -156,7 +155,14 @@ ReportWindow::ComputeTransactions(void)
 				row->SetField(new BStringField(tempstr.String()), 1);
 
 				// type
-				row->SetField(new BStringField(query.getStringField(1)), 2);
+				BString type(query.getStringField(1));
+				if (type == "ATM")
+					type = B_TRANSLATE_CONTEXT("Spending", "CommonTerms");
+				else if (type == "DEP")
+					type = B_TRANSLATE_CONTEXT("Income", "CommonTerms");
+				else if (type == "XFER")
+					type = B_TRANSLATE_CONTEXT("Transfer", "CommonTerms");
+				row->SetField(new BStringField(type), 2);
 
 				// payee
 				tempstr = query.getStringField(2);

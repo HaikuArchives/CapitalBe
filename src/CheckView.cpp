@@ -11,7 +11,6 @@
 #include "CalendarButton.h"
 #include "CategoryBox.h"
 #include "CategoryButton.h"
-#include "CheckNumBox.h"
 #include "CheckView.h"
 #include "CurrencyBox.h"
 #include "DAlert.h"
@@ -42,11 +41,6 @@ CheckView::CheckView(const char* name, int32 flags)
 	fDate = new DateBox("dateentry", "", NULL, new BMessage(M_DATE_CHANGED));
 
 	CalendarButton* calendarButton = new CalendarButton(fDate);
-
-	BStringView* typeLabel
-		= new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
-	typeLabel->SetExplicitSize(BSize(StringWidth("ShortType"), B_SIZE_UNSET));
-	fType = new CheckNumBox("typeentry", "", NULL, new BMessage(M_TYPE_CHANGED));
 
 	BStringView* payeeLabel
 		= new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
@@ -105,17 +99,15 @@ CheckView::CheckView(const char* name, int32 flags)
 			.SetColumnWeight(3, 1.0f)
 			.Add(dateLabel, 0, 0)
 			.Add(calendarWidget, 0, 1)
-			.Add(typeLabel, 1, 0)
-			.Add(fType, 1, 1)
-			.Add(payeeLabel, 2, 0)
-			.Add(fPayee, 2, 1)
-			.Add(amountLabel, 3, 0)
-			.Add(fAmount, 3, 1)
+			.Add(payeeLabel, 1, 0)
+			.Add(fPayee, 1, 1)
+			.Add(amountLabel, 2, 0)
+			.Add(fAmount, 2, 1)
 			.Add(categoryLabel, 0, 2)
 			.Add(categoryWidget, 0, 3)
-			.Add(memoLabel, 1, 2, 3)
-			.Add(fMemo, 1, 3, 3)
-			.Add(fEnter, 4, 1, 1, 3)
+			.Add(memoLabel, 1, 2, 2)
+			.Add(fMemo, 1, 3, 2)
+			.Add(fEnter, 3, 1, 1, 3)
 			.End()
 		.End();
 	// clang-format on
@@ -129,7 +121,6 @@ CheckView::AttachedToWindow(void)
 	SetViewColor(Parent()->ViewColor());
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
 	fPayee->GetFilter()->SetMessenger(new BMessenger(this));
-	fType->GetFilter()->SetMessenger(new BMessenger(this));
 	fAmount->GetFilter()->SetMessenger(new BMessenger(this));
 	fCategory->GetFilter()->SetMessenger(new BMessenger(this));
 	fMemo->GetFilter()->SetMessenger(new BMessenger(this));
@@ -143,14 +134,6 @@ CheckView::MessageReceived(BMessage* msg)
 	int32 start;
 	BString string;
 	switch (msg->what) {
-		case M_TYPE_AUTOCOMPLETE:
-		{
-			msg->FindInt32("start", &start);
-			msg->FindString("string", &string);
-			fType->SetText(string.String());
-			fType->TextView()->Select(start, string.CountChars());
-			break;
-		}
 		case M_PAYEE_AUTOCOMPLETE:
 		{
 			msg->FindInt32("start", &start);
@@ -228,11 +211,9 @@ CheckView::MessageReceived(BMessage* msg)
 					fMemo->MakeFocus(true);
 				}
 				break;
-			} else if (fType->ChildAt(0)->IsFocus())
-				fDate->MakeFocus(true);
-			else if (fPayee->ChildAt(0)->IsFocus()) {
+			} else if (fPayee->ChildAt(0)->IsFocus()) {
 				if (fPayee->Validate(false))
-					fType->MakeFocus(true);
+					fDate->MakeFocus(true);
 			} else if (fAmount->ChildAt(0)->IsFocus()) {
 				if (fAmount->Validate(false))
 					fPayee->MakeFocus(true);
@@ -261,7 +242,6 @@ CheckView::SetFields(const char* date, const char* type, const char* payee, cons
 	const char* category, const char* memo)
 {
 	fDate->SetText(date);
-	fType->SetText(type);
 	fPayee->SetText(payee);
 	fAmount->SetText(amount);
 	fCategory->SetText(category);
@@ -325,7 +305,6 @@ void
 CheckView::MakeEmpty(void)
 {
 	fDate->SetText("");
-	fType->SetText("");
 	fPayee->SetText("");
 	fAmount->SetText("");
 	fCategory->SetText("");
@@ -354,10 +333,8 @@ CheckView::DoNextField(void)
 				fDate->SetDate(date);
 			}
 		}
-		fType->MakeFocus(true);
-	} else if (fType->ChildAt(0)->IsFocus())
 		fPayee->MakeFocus(true);
-	else if (fPayee->ChildAt(0)->IsFocus()) {
+	} else if (fPayee->ChildAt(0)->IsFocus()) {
 		if (fPayee->Validate(false))
 			fAmount->MakeFocus(true);
 	} else if (fAmount->ChildAt(0)->IsFocus()) {
@@ -389,7 +366,6 @@ CheckView::SetFieldsEnabled(bool enabled)
 		fDate->MakeFocus(enabled);
 	fDate->UnlockLooper();
 
-	fType->SetEnabled(enabled);
 	fPayee->SetEnabled(enabled);
 	fAmount->SetEnabled(enabled);
 	fCategory->SetEnabled(enabled);
