@@ -51,14 +51,6 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 
 	CalendarButton* calendarButton = new CalendarButton(fDate);
 
-	// Type
-	BStringView* typeLabel
-		= new BStringView("typelabel", B_TRANSLATE_CONTEXT("Type", "CommonTerms"));
-	typeLabel->SetExplicitSize(BSize(StringWidth("ShortType"), B_SIZE_UNSET));
-
-	fType = new CheckNumBox("typeentry", "", NULL, new BMessage(M_TYPE_CHANGED));
-	fType->SetText(fTransaction.Type().Type());
-
 	// Payee
 	BStringView* payeeLabel
 		= new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
@@ -225,16 +217,14 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 			.SetColumnWeight(3, 1.0f)
 			.Add(dateLabel, 0, 0)
 			.Add(calendarWidget, 0, 1)
-			.Add(typeLabel, 1, 0)
-			.Add(fType, 1, 1)
-			.Add(payeeLabel, 2, 0)
-			.Add(fPayee, 2, 1)
-			.Add(amountLabel, 3, 0)
-			.Add(fAmount, 3, 1)
+			.Add(payeeLabel, 1, 0)
+			.Add(fPayee, 1, 1)
+			.Add(amountLabel, 2, 0)
+			.Add(fAmount, 2, 1)
 			.Add(categoryLabel, 0, 2)
 			.Add(categoryWidget, 0, 3)
-			.Add(memoLabel, 1, 2, 3)
-			.Add(fMemo, 1, 3, 3)
+			.Add(memoLabel, 1, 2, 2)
+			.Add(fMemo, 1, 3, 2)
 			.End()
 		.AddGroup(B_HORIZONTAL)
 			.Add(fSplit)
@@ -261,7 +251,6 @@ SplitView::AttachedToWindow(void)
 	Window()->AddCommonFilter(fKeyFilter);
 	fMessenger = new BMessenger(this);
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
-	fType->GetFilter()->SetMessenger(new BMessenger(this));
 	fPayee->GetFilter()->SetMessenger(new BMessenger(this));
 	fAmount->GetFilter()->SetMessenger(new BMessenger(this));
 	fCategory->GetFilter()->SetMessenger(new BMessenger(this));
@@ -299,14 +288,6 @@ SplitView::MessageReceived(BMessage* msg)
 		case M_EXPANDER_CHANGED:
 		{
 			ToggleSplit();
-			break;
-		}
-		case M_TYPE_AUTOCOMPLETE:
-		{
-			msg->FindInt32("start", &start);
-			msg->FindString("string", &string);
-			fType->SetText(string.String());
-			fType->TextView()->Select(start, string.CountChars());
 			break;
 		}
 		case M_PAYEE_AUTOCOMPLETE:
@@ -375,11 +356,9 @@ SplitView::MessageReceived(BMessage* msg)
 			if (fDate->ChildAt(0)->IsFocus()) {
 				if (fDate->Validate())
 					fEnter->MakeFocus(true);
-			} else if (fType->ChildAt(0)->IsFocus())
-				fDate->MakeFocus(true);
-			else if (fPayee->ChildAt(0)->IsFocus()) {
+			} else if (fPayee->ChildAt(0)->IsFocus()) {
 				if (fPayee->Validate())
-					fType->MakeFocus(true);
+					fDate->MakeFocus(true);
 			} else if (fAmount->ChildAt(0)->IsFocus()) {
 				if (fAmount->Validate())
 					fPayee->MakeFocus(true);
@@ -423,10 +402,8 @@ SplitView::MessageReceived(BMessage* msg)
 			// use the Enter key to change from one entry field to another
 			if (fDate->ChildAt(0)->IsFocus()) {
 				if (fDate->Validate())
-					fType->MakeFocus(true);
-			} else if (fType->ChildAt(0)->IsFocus())
-				fPayee->MakeFocus(true);
-			else if (fPayee->ChildAt(0)->IsFocus()) {
+					fPayee->MakeFocus(true);
+			} else if (fPayee->ChildAt(0)->IsFocus()) {
 				if (fPayee->Validate())
 					fAmount->MakeFocus(true);
 			} else if (fAmount->ChildAt(0)->IsFocus()) {
@@ -646,7 +623,6 @@ SplitView::SetFields(const char* date, const char* type, const char* payee, cons
 	const char* category, const char* memo)
 {
 	fDate->SetText(date);
-	fType->SetText(type);
 	fPayee->SetText(payee);
 	fAmount->SetText(amount);
 	fCategory->SetText(category);
@@ -671,7 +647,6 @@ void
 SplitView::MakeEmpty(void)
 {
 	fDate->SetText("");
-	fType->SetText("");
 	fPayee->SetText("");
 	fAmount->SetText("");
 	fCategory->SetText("");

@@ -34,7 +34,6 @@ enum {
 class SplitViewFilter;
 class Category;
 class DateBox;
-class CheckNumBox;
 class PayeeBox;
 class CurrencyBox;
 class CategoryBox;
@@ -72,7 +71,6 @@ private:
 	Category* MakeCategory(void);
 
 	DateBox* fDate;
-	CheckNumBox* fType;
 	PayeeBox* fPayee;
 	CurrencyBox* fAmount;
 	CategoryBox* fCategory;

@@ -44,7 +44,6 @@ SRCS = \
 	 src/CategoryBox.cpp  \
 	 src/CategoryButton.cpp\
 	 src/CategoryWindow.cpp  \
-	 src/CheckNumBox.cpp  \
 	 src/CheckView.cpp  \
 	 src/CppSQLite3.cpp  \
 	 src/CurrencyBox.cpp  \
