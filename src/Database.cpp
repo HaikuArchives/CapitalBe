@@ -640,7 +640,7 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 		"INSERT INTO transactionlist VALUES(%li, %i, %Q, %i);", timestamp, id, category, accountid);
 	DBCommand(bufSQL, "Database::AddTransaction:insert into transactionlist");
 
-	BString _account, _status, command;
+	BString _status, command;
 	BString _memo = memo;
 
 	if (status == TRANS_CLEARED)
@@ -650,9 +650,7 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 	else
 		_status << "open";
 
-	_account << "account_" << accountid;
-
-	bufSQL.format("INSERT INTO %s VALUES(%i, %i, %li, %Q, %Q, %li, %Q, %Q, %Q);", _account.String(),
+	bufSQL.format("INSERT INTO account_%i VALUES(%li, %i, %li, %Q, %Q, %li, %Q, %Q, %Q);", accountid,
 		timestamp, id, date, type.Type(), payee, amount.AsFixed(), category, memo,
 		_status.String());
 
@@ -695,20 +693,15 @@ Database::AddTransaction(TransactionData& data, const bool& newid)
 
 	LOCK;
 	uint32 id = 0;
+	if (newid)
+		id = NextTransactionID();
+	else
+		id = data.GetID();
 
 	if (data.CountCategories() == 1) {
-		if (newid)
-			id = NextTransactionID();
-		else
-			id = data.GetID();
-
 		AddTransaction(data.GetAccount()->GetID(), id, data.Date(), data.Type(), data.Payee(),
 			data.Amount(), data.NameAt(0), data.Memo(), data.Status());
 	} else {
-		if (newid) {
-			id = NextTransactionID();
-			data.SetID(id);
-		}
 
 		// We are disabling notifications for the moment so that we don't end up with
 		// multiple single-category transaction entries in the transaction view.
