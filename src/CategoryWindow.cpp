@@ -214,11 +214,7 @@ CategoryView::MessageReceived(BMessage* msg)
 				|| msg->FindBool("expense", &expense) != B_OK)
 				break;
 
-			if (name.ICompare(B_TRANSLATE_CONTEXT("Income", "CommonTerms")) == 0
-				|| name.ICompare(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")) == 0
-				|| name.ICompare(B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0
-				|| name.ICompare(B_TRANSLATE_CONTEXT("Transfer", "CommonTerms")) == 0
-				|| name.ICompare(B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms")) == 0) {
+			if (IsInternalCategory(name.String())) {
 				ShowAlert(B_TRANSLATE("Can't use this category name"),
 					B_TRANSLATE(
 						"CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and "
@@ -303,9 +299,13 @@ CategoryView::RefreshCategoryList(void)
 	CppSQLite3Query query = gDatabase.DBQuery(
 		"SELECT * FROM categorylist ORDER BY name DESC", "CategoryView::CategoryView");
 	while (!query.eof()) {
-		int expense = query.getIntField(1);
 		BString name = query.getStringField(0);
+		if (IsInternalCategory(name.String())) {
+			query.nextRow();
+			continue;
+		}
 
+		int expense = query.getIntField(1);
 		if (expense == SPENDING)
 			fListView->AddUnder(new CategoryItem(name.String()), fSpendingItem);
 		else if (expense == INCOME)
