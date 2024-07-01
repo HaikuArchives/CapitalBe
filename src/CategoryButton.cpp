@@ -137,7 +137,10 @@ CategoryButton::ShowPopUpMenu()
 	while (!query.eof()) {
 		int expense = query.getIntField(1);
 		BString name = DeescapeIllegalCharacters(query.getStringField(0));
-
+		if (IsInternalCategory(name.String())) {
+			query.nextRow();
+			continue;
+		}
 		BMessage* msg = new BMessage(M_CATEGORY_CHOSEN);
 		msg->AddString("category", name);
 
