@@ -170,7 +170,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 
 	if (fTransaction.CountCategories() > 1
 		|| strcmp(fTransaction.NameAt(0), B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0) {
-		fCategory->SetText(B_TRANSLATE("Split transaction"));
+		fCategory->SetText(B_TRANSLATE_CONTEXT("Split transaction", "CommonTerms"));
 		fStartExpanded = true;
 	}
 

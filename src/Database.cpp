@@ -1,4 +1,5 @@
 #include "Database.h"
+#include <Catalog.h>
 #include <Directory.h>
 #include <Entry.h>
 #include <stdio.h>
@@ -1594,4 +1595,23 @@ Database::DeescapeDatabase(void)
 	}
 
 	return B_OK;
+}
+
+bool
+IsInternalCategory(const char* category)
+{
+	const char* internal_categories[] = {
+		B_TRANSLATE_CONTEXT("Income", "CommonTerms"),
+		B_TRANSLATE_CONTEXT("Spending", "CommonTerms"),
+		B_TRANSLATE_CONTEXT("Split", "CommonTerms"),
+		B_TRANSLATE_CONTEXT("Transfer", "CommonTerms"),
+		B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"),
+		NULL
+	};
+
+	for (int32 i = 0; internal_categories[i] != NULL; i++) {
+		if (strcasecmp(internal_categories[i], category) == 0)
+		return true;
+	}
+	return false;
 }

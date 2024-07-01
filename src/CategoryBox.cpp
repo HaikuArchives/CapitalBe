@@ -56,7 +56,7 @@ CategoryBoxFilter::KeyFilter(const int32& key, const int32& mod)
 
 		BString autocomplete = acc->AutocompleteCategory(string.String());
 
-		if (autocomplete.CountChars() > 0) {
+		if (autocomplete.CountChars() > 0 && !IsInternalCategory(autocomplete.String())) {
 			BMessage automsg(M_CATEGORY_AUTOCOMPLETE);
 			automsg.AddInt32("start", strlen(TextControl()->Text()) + 1);
 			automsg.AddString("string", autocomplete.String());
@@ -101,11 +101,7 @@ CategoryBox::Validate(void)
 			return false;
 	}
 
-	if (category.ICompare(B_TRANSLATE_CONTEXT("Income", "CommonTerms")) == 0
-		|| category.ICompare(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")) == 0
-		|| category.ICompare(B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0
-		|| category.ICompare(B_TRANSLATE_CONTEXT("Transfer", "CommonTerms")) == 0
-		|| category.ICompare(B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms")) == 0) {
+	if (IsInternalCategory(category.String())) {
 		ShowAlert(B_TRANSLATE("Can't use this category name"),
 			B_TRANSLATE(
 				"CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' "

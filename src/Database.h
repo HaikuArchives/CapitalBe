@@ -4,6 +4,7 @@
 #include <Locker.h>
 #include <String.h>
 #include <time.h>
+
 #include "Account.h"
 #include "CBLocale.h"
 #include "CppSQLite3.h"
@@ -22,6 +23,7 @@ enum category_type {
 };
 
 BString AccountTypeToString(const AccountType& type);
+bool IsInternalCategory(const char* category);
 
 class Database : public Notifier {
 public:
