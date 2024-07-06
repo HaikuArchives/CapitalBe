@@ -3,11 +3,9 @@
 #include <Catalog.h>
 #include <TextControl.h>
 #include "Account.h"
-#include "AutoTextControl.h"
 #include "CategoryBox.h"
 #include "Database.h"
 #include "MsgDefs.h"
-#include "TimeSupport.h"
 
 
 #undef B_TRANSLATION_CONTEXT
