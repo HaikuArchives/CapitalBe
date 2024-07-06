@@ -25,7 +25,7 @@ TransactionItem::TransactionItem(const TransactionData& trans)
 	  fPayee(trans.Payee()),
 	  fAmount(trans.Amount()),
 	  fCategory(""),
-	  fMemo(trans.Memo()),
+	  fMemo(trans.MemoAt(0)),
 	  fStatus(trans.Status()),
 	  fID(trans.GetID()),
 	  fTimeStamp(trans.GetTimeStamp())
@@ -241,7 +241,7 @@ TransactionItem::SetData(const TransactionData& trans)
 		fCategory = B_TRANSLATE_CONTEXT("Split", "CommonTerms");
 	else
 		fCategory = trans.NameAt(0);
-	fMemo = trans.Memo();
+	fMemo = trans.MemoAt(0);
 	fStatus = trans.Status();
 	fID = trans.GetID();
 }

@@ -113,7 +113,10 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		= new BButton("removesplit", B_TRANSLATE("Remove item"), new BMessage(M_REMOVE_SPLIT));
 
 	BString totalLabel(B_TRANSLATE("Total:"));
-	totalLabel << " " << fTransaction.Amount().AbsoluteValue().AsFloat();
+	BString tempTotal;
+	gCurrentLocale.CurrencyToString(fTransaction.Amount().AbsoluteValue().AsFloat(), tempTotal);
+	totalLabel << " " << tempTotal;
+
 	fSplitTotal = new BStringView("splittotal", totalLabel.String());
 	fSplitTotal->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
@@ -477,6 +480,7 @@ SplitView::MessageReceived(BMessage* msg)
 			fSplitItems->Select(fSplitItems->IndexOf(item));
 			fSplitCategory->MakeFocus(true);
 			fSplitCategory->TextView()->SelectAll();
+			fMessenger->SendMessage(M_SPLIT_AMOUNT_CHANGED);
 			break;
 		}
 		case M_REMOVE_SPLIT:
@@ -498,6 +502,8 @@ SplitView::MessageReceived(BMessage* msg)
 			fSplitItems->RemoveItem(item);
 			fSplitItems->Select(newselection);
 			fSplitCategory->TextView()->SelectAll();
+
+			fMessenger->SendMessage(M_SPLIT_AMOUNT_CHANGED);
 			break;
 		}
 		case M_SELECT_SPLIT:
@@ -552,8 +558,19 @@ SplitView::MessageReceived(BMessage* msg)
 		{
 			int32 selection = fSplitItems->CurrentSelection();
 			SplitItem* splititem = (SplitItem*)fSplitItems->ItemAt(selection);
-			if (!splititem)
+			if (!splititem) {
+				// Reset fSplitTotal if last split item is removed
+				BString totalLabel(B_TRANSLATE("Total:"));
+				BString tempTotal;
+				gCurrentLocale.CurrencyToString(fTransaction.Amount().AbsoluteValue().AsFloat(), tempTotal);
+				totalLabel << " " << tempTotal;
+				fSplitTotal->SetHighColor(ui_color(B_PANEL_TEXT_COLOR));
+				fSplitTotal->SetText(totalLabel.String());
+				fSplitAmount->SetText(tempTotal.String());
+				fMemo->SetText(fSplitMemo->Text());
+				fCategory->SetText(fSplitCategory->Text());
 				break;
+			}
 
 			Fixed fixed;
 			if (gCurrentLocale.StringToCurrency(fSplitAmount->Text(), fixed) != B_OK)
@@ -564,12 +581,12 @@ SplitView::MessageReceived(BMessage* msg)
 
 			fTransaction.SetAmountAt(selection, fixed);
 
-			BString totalLable(B_TRANSLATE("Total: %sum%"));
+			BString totalLabel(B_TRANSLATE("Total:"));
 			BString tempTotal;
 			Fixed totalFixed(CalculateTotal().AbsoluteValue());
 			gCurrentLocale.CurrencyToString(totalFixed, tempTotal);
-			totalLable.ReplaceFirst("%sum%", tempTotal);
-			fSplitTotal->SetText(totalLable.String());
+			totalLabel << " " << tempTotal;
+			fSplitTotal->SetText(totalLabel.String());
 
 			// Color total if the splits don't add up to the transaction amount
 			float totalAmount = CalculateTotal().AbsoluteValue().AsFloat();
@@ -697,6 +714,9 @@ SplitView::ValidateSplitAmountField(void)
 bool
 SplitView::ValidateSplitItems(void)
 {
+	if (fSplitItems->CountItems() == 0)
+		return true;
+
 	Fixed total;
 	for (int32 i = 0; i < fSplitItems->CountItems(); i++) {
 		SplitItem* item = (SplitItem*)fSplitItems->ItemAt(i);
@@ -764,7 +784,9 @@ SplitView::ToggleSplit(void)
 
 		fSplitContainer->Show();
 		fCategory->SetEnabled(false);
+		fCategory->SetText(B_TRANSLATE("Split transaction"));
 		fCategoryButton->SetEnabled(false);
+		fMemo->SetEnabled(false);
 		if (fCategory->ChildAt(0)->IsFocus())
 			fMemo->MakeFocus();
 	} else {
@@ -773,6 +795,7 @@ SplitView::ToggleSplit(void)
 		fSplitContainer->Hide();
 		fCategory->SetEnabled(true);
 		fCategoryButton->SetEnabled(true);
+		fMemo->SetEnabled(true);
 	}
 }
 
@@ -782,7 +805,7 @@ SplitView::MakeCategory(void)
 	// This makes a category object from the existing data
 	Category* cat = new Category();
 	Locale locale = fTransaction.GetAccount()->GetLocale();
-	if (fSplitContainer->IsHidden() && fSplitItems->CountItems() <= 1) {
+	if (fSplitContainer->IsHidden() || fSplitItems->CountItems() <= 1) {
 		if (strlen(fCategory->Text()) > 0 && strlen(fAmount->Text()) > 0) {
 			Fixed amt;
 			if (locale.StringToCurrency(fAmount->Text(), amt) == B_OK) {
@@ -807,7 +830,7 @@ SplitView::MakeCategory(void)
 		if (typestr.CountChars() < 1 || (typestr.ICompare("dep") != 0 && fixed.IsPositive()))
 			fixed.Invert();
 
-		cat->AddItem(item->GetCategory(), fixed);
+		cat->AddItem(item->GetCategory(), fixed, item->GetMemo());
 	}
 
 	return cat;
