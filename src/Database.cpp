@@ -650,8 +650,8 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 	else
 		_status << "open";
 
-	bufSQL.format("INSERT INTO account_%i VALUES(%li, %i, %li, %Q, %Q, %li, %Q, %Q, %Q);", accountid,
-		timestamp, id, date, type.Type(), payee, amount.AsFixed(), category, memo,
+	bufSQL.format("INSERT INTO account_%i VALUES(%li, %i, %li, %Q, %Q, %li, %Q, %Q, %Q);",
+		accountid, timestamp, id, date, type.Type(), payee, amount.AsFixed(), category, memo,
 		_status.String());
 
 	DBCommand(bufSQL, "Database::AddTransaction:insert into account");
@@ -702,7 +702,6 @@ Database::AddTransaction(TransactionData& data, const bool& newid)
 		AddTransaction(data.GetAccount()->GetID(), id, data.Date(), data.Type(), data.Payee(),
 			data.Amount(), data.NameAt(0), data.Memo(), data.Status());
 	} else {
-
 		// We are disabling notifications for the moment so that we don't end up with
 		// multiple single-category transaction entries in the transaction view.
 		SetNotify(false);

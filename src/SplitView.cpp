@@ -562,7 +562,8 @@ SplitView::MessageReceived(BMessage* msg)
 				// Reset fSplitTotal if last split item is removed
 				BString totalLabel(B_TRANSLATE("Total:"));
 				BString tempTotal;
-				gCurrentLocale.CurrencyToString(fTransaction.Amount().AbsoluteValue().AsFloat(), tempTotal);
+				gCurrentLocale.CurrencyToString(
+					fTransaction.Amount().AbsoluteValue().AsFloat(), tempTotal);
 				totalLabel << " " << tempTotal;
 				fSplitTotal->SetHighColor(ui_color(B_PANEL_TEXT_COLOR));
 				fSplitTotal->SetText(totalLabel.String());
