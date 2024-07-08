@@ -1,6 +1,6 @@
 #include "CategoryButton.h"
 #include "Database.h"
-#include "MainWindow.h"
+#include "CategoryWindow.h"
 #include "SplitView.h"
 
 #include <Bitmap.h>
@@ -10,19 +10,21 @@
 
 
 #undef B_TRANSLATION_CONTEXT
-#define B_TRANSLATION_CONTEXT "MainWindow"
+#define B_TRANSLATION_CONTEXT "CategoryButton"
 
 
 enum {
 	M_SHOW_POPUP,
 	M_CLOSE_POPUP,
-	M_CATEGORY_CHOSEN
+	M_CATEGORY_CHOSEN,
+	M_OPEN_CATEGORY_WINDOW,
 };
 
 
 CategoryButton::CategoryButton(CategoryBox* categorybox)
 	: BButton("calenderbutton", "", new BMessage(M_SHOW_POPUP)),
-	  fCategoryBox(categorybox)
+	  fCategoryBox(categorybox),
+	  fShowingPopUpMenu(false)
 {
 	float height;
 	fCategoryBox->GetPreferredSize(NULL, &height);
@@ -66,6 +68,13 @@ CategoryButton::MessageReceived(BMessage* msg)
 				BMessage notice(M_SPLIT_CATEGORY_CHANGED);
 				msgr->SendMessage(&notice);
 			}
+			break;
+		}
+		case M_OPEN_CATEGORY_WINDOW:
+		{
+			CategoryWindow* catwin = new CategoryWindow(BRect(100, 100, 600, 425));
+			catwin->CenterIn(Frame());
+			catwin->Show();
 			break;
 		}
 		default:
@@ -130,7 +139,7 @@ CategoryButton::ShowPopUpMenu()
 	BMenu* incomeMenu = new BMenu(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 	BMenu* spendingMenu = new BMenu(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
 	BMenuItem* editCategories = new BMenuItem(
-		B_TRANSLATE("Edit categories" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_CATEGORY_WINDOW));
+		B_TRANSLATE("Edit categories" B_UTF8_ELLIPSIS), new BMessage(M_OPEN_CATEGORY_WINDOW));
 
 	CppSQLite3Query query = gDatabase.DBQuery(
 		"SELECT * FROM categorylist ORDER BY name ASC", "CategoryView::CategoryView");
@@ -156,7 +165,7 @@ CategoryButton::ShowPopUpMenu()
 
 	incomeMenu->SetTargetForItems(this);
 	spendingMenu->SetTargetForItems(this);
-	editCategories->SetTarget(Window());
+	editCategories->SetTarget(this);
 
 	BPoint where = Bounds().LeftTop();
 	where.x += 10;
