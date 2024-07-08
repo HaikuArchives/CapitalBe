@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	3544348528
+1	English	application/x-vnd.wgp-CapitalBe	575229969
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -20,7 +20,6 @@ You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow
 Cancel	ScheduleAddWindow		Cancel
 Account total	MainWindow		Account total
 CapitalBe	System name		CapitalBe
-Total: %sum%	SplitView		Total: %sum%
 Import from QIF file…	MainWindow		Import from QIF file…
 Preview:	PrefWindow		Preview:
 Ending date:	ReportWindow		Ending date:
@@ -55,21 +54,23 @@ Decimals:	PrefWindow		Decimals:
 CapitalBe didn't understand the amount for 'Bank charges'	ReconcileWindow		CapitalBe didn't understand the amount for 'Bank charges'
 You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	CheckView		You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.
 Balance	RegisterView		Balance
-Uncategorized	SplitView		Uncategorized
 Date	CommonTerms		Date
 Frequency	ScheduleListWindow		Frequency
 CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	TextInput		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
 Settings	PrefWindow		Settings
 Cancel	ReconcileWindow		Cancel
+Spending	CategoryWindow		Spending
 Reconcile…	MainWindow		Reconcile…
 Spending	BudgetWindow		Spending
+Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n	CategoryWindow		Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n
+Uncategorized	CommonTerms		Uncategorized
+Transfer	CommonTerms		Transfer
 Reopen	MainWindow		Reopen
 Edit…	CategoryWindow		Edit…
 Annually	ScheduleAddWindow		Annually
 Close	MainWindow		Close
 Split	CommonTerms		Split
 Import	MainWindow		Import
-<Uncategorized>	Import		<Uncategorized>
 Interest earned	ReconcileWindow		Interest earned
 Quit	Locale		Quit
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Once deleted, you will not be able to get back any data on this account.
@@ -81,12 +82,12 @@ Total deposits: %s	ReconcileWindow		Total deposits: %s
 Memo	CommonTerms		Memo
 Selected:	PrefWindow		Selected:
 Save bugreport	Locale		Save bugreport
-Type	CommonTerms		Type
 Indefinitely	ScheduleAddWindow		Indefinitely
+Type	CommonTerms		Type
 Cancel	MainWindow		Cancel
 <No accounts>	MainWindow		<No accounts>
-There may be a typo or the wrong kind of currency symbol for this account.	TextInput		There may be a typo or the wrong kind of currency symbol for this account.
 Repeat:	ScheduleAddWindow		Repeat:
+There may be a typo or the wrong kind of currency symbol for this account.	TextInput		There may be a typo or the wrong kind of currency symbol for this account.
 Appears before amount	PrefWindow		Appears before amount
 Unreconciled total: %s	ReconcileWindow		Unreconciled total: %s
 Couldn't Quick balance	ReconcileWindow		Couldn't Quick balance
@@ -112,6 +113,7 @@ Transactions	TransactionReport		Transactions
 Spending	CommonTerms		Spending
 CapitalBe didn't understand the amount	TextInput		CapitalBe didn't understand the amount
 Average	BudgetWindow		Average
+New category	CategoryWindow		New category
 Summary	BudgetWindow		Summary
 You need to enter a payee.	TextInput		You need to enter a payee.
 Ending balance	ReconcileWindow		Ending balance
@@ -119,7 +121,6 @@ Accounts:	ReportWindow		Accounts:
 Help: Main window	MainWindow		Help: Main window
 Cancel	Account		Cancel
 Reconcile	ReconcileWindow		Reconcile
-CapitalBe uses the words 'Income', 'Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.	CategoryWindow		CapitalBe uses the words 'Income', 'Spending', and 'Split' for managing categories, so you can't use them as category names. Please choose a different name for your new category.
 Weekly	ScheduleListWindow		Weekly
 Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.
 Reset	ReconcileWindow		Reset
@@ -128,10 +129,8 @@ The split total must match the amount box	SplitView		The split total must match 
 About CapitalBe	MainWindow		About CapitalBe
 No memo	ScheduledTransItem		No memo
 Can't use this category name	CategoryWindow		Can't use this category name
-Do you want to add this transaction without a category?	CategoryWindow		Do you want to add this transaction without a category?
 Budget	BudgetWindow		Budget
 Monthly	BudgetWindow		Monthly
-Edit categories…	MainWindow		Edit categories…
 OK	TransferWindow		OK
 Total worth	NetWorthReport		Total worth
 times	ScheduleAddWindow		times
@@ -167,10 +166,9 @@ Total checks:	ReconcileWindow		Total checks:
 Remove item	SplitView		Remove item
 Transaction	MainWindow		Transaction
 Edit transfer	TransferWindow		Edit transfer
-Reports	MainWindow		Reports
 Categories	CategoryWindow		Categories
+Reports	MainWindow		Reports
 Account	MainWindow		Account
-Uncategorized	CategoryWindow		Uncategorized
 Unselected:	PrefWindow		Unselected:
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}
 Total deposits:	ReconcileWindow		Total deposits:
@@ -182,6 +180,7 @@ Credit card account	Import		Credit card account
 If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		If you intend to transfer money, it will need to be an amount that is not zero.
 You can schedule transfers, deposits, or ATM transactions.	MainWindow		You can schedule transfers, deposits, or ATM transactions.
 Success!	ReconcileWindow		Success!
+Income	CategoryWindow		Income
 Edit category	CategoryWindow		Edit category
 This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.	MainWindow		This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.
 QuickTracker	RegisterView		QuickTracker
@@ -189,10 +188,10 @@ Schedule transaction	ScheduleAddWindow		Schedule transaction
 Next payment	ScheduleListWindow		Next payment
 New name:	CategoryWindow		New name:
 Help: Reconcile	ReconcileWindow		Help: Reconcile
+Edit categories…	CategoryButton		Edit categories…
 Bank charge	ReconcileWindow		Bank charge
 Budget	MainWindow		Budget
 OK	ScheduleAddWindow		OK
-Add	CategoryWindow		Add
 Quit	MainWindow		Quit
 Lowest	BudgetWindow		Lowest
 Previous	MainWindow		Previous
@@ -211,6 +210,7 @@ Not enough accounts for a transfer	MainWindow		Not enough accounts for a transfe
 Delete…	MainWindow		Delete…
 CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n	Locale		CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n
 New account	Account		New account
+You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.	CategoryWindow		You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.
 Scheduled transactions	ScheduleListWindow		Scheduled transactions
 Agh! Bug!	Locale		Agh! Bug!
 Starting date:	ReportWindow		Starting date:
@@ -230,9 +230,9 @@ You need to have an account created in order to reconcile it.	MainWindow		You ne
 Payee is missing	TextInput		Payee is missing
 CapitalBe didn't understand the date you entered	TextInput		CapitalBe didn't understand the date you entered
 Recalculate all	BudgetWindow		Recalculate all
-Split transaction	SplitView		Split transaction
 Total checks: %s	ReconcileWindow		Total checks: %s
 Quarterly	BudgetWindow		Quarterly
+CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.
 Remove category	CategoryWindow		Remove category
 You cannot schedule transactions on a closed account.	MainWindow		You cannot schedule transactions on a closed account.
 CapitalBe didn't understand the amount for 'Interest earned'	ReconcileWindow		CapitalBe didn't understand the amount for 'Interest earned'
