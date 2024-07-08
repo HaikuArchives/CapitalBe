@@ -1,6 +1,6 @@
 #include "CategoryButton.h"
-#include "Database.h"
 #include "CategoryWindow.h"
+#include "Database.h"
 #include "SplitView.h"
 
 #include <Bitmap.h>
