@@ -1159,7 +1159,7 @@ Database::AddCategory(const char* name, const bool& isexpense)
 	if (!name || HasCategory(name))
 		return;
 
-	if (strcasecmp(name, "split") == 0)
+	if (strcasecmp(name, B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0)
 		return;
 
 	CppSQLite3Buffer bufSQL;

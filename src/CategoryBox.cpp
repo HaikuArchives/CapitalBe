@@ -137,7 +137,7 @@ CategoryBox::SetTypeFromCategory(BString category)
 
 	bool success = true;
 	if (!categoryExists
-		&& category.ICompare(B_TRANSLATE_CONTEXT("Split transaction", "CommonTerms")) != 0)
+		&& category.ICompare(B_TRANSLATE_CONTEXT("Split", "CommonTerms")) != 0)
 		bool success = AddNewCategory(category);
 
 	return success;

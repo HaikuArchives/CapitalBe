@@ -11,7 +11,6 @@
 #include "Account.h"
 #include "CalendarButton.h"
 #include "CategoryBox.h"
-#include "CheckNumBox.h"
 #include "CheckView.h"
 #include "CurrencyBox.h"
 #include "DAlert.h"
@@ -162,7 +161,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 
 	if (fTransaction.CountCategories() > 1
 		|| strcmp(fTransaction.NameAt(0), B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0) {
-		fCategory->SetText(B_TRANSLATE_CONTEXT("Split transaction", "CommonTerms"));
+		fCategory->SetText(B_TRANSLATE_CONTEXT("Split", "CommonTerms"));
 		fStartExpanded = true;
 	}
 
@@ -325,8 +324,9 @@ SplitView::MessageReceived(BMessage* msg)
 			if (!fAmount->Validate())
 				break;
 
-			if (!fCategory->Validate())
-				break;
+			if (fSplitContainer->IsHidden())
+				if (!fCategory->Validate())
+					break;
 
 			if (!ValidateSplitItems())
 				break;
@@ -740,8 +740,9 @@ SplitView::ValidateAllFields(void)
 	if (!fPayee->Validate())
 		return false;
 
-	if (!fCategory->Validate())
-		return false;
+	if (fSplitContainer->IsHidden())
+		if (!fCategory->Validate())
+			return false;
 
 	if (!fAmount->Validate())
 		return false;
@@ -760,7 +761,7 @@ SplitView::ToggleSplit(void)
 
 		fSplitContainer->Show();
 		fCategory->SetEnabled(false);
-		fCategory->SetText(B_TRANSLATE("Split transaction"));
+		fCategory->SetText(B_TRANSLATE_CONTEXT("Split", "CommonTerms"));
 		fCategoryButton->SetEnabled(false);
 		fMemo->SetEnabled(false);
 		if (fCategory->ChildAt(0)->IsFocus())
@@ -770,6 +771,7 @@ SplitView::ToggleSplit(void)
 
 		fSplitContainer->Hide();
 		fCategory->SetEnabled(true);
+		fCategory->SetText(fTransaction.NameAt(0));
 		fCategoryButton->SetEnabled(true);
 		fMemo->SetEnabled(true);
 	}
