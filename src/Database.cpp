@@ -1159,8 +1159,11 @@ Database::AddCategory(const char* name, const bool& isexpense)
 	if (!name || HasCategory(name))
 		return;
 
-	if (strcasecmp(name, B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0)
+	if (strcasecmp(name,
+			B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'"))
+		== 0) {
 		return;
+	}
 
 	CppSQLite3Buffer bufSQL;
 	bufSQL.format("INSERT INTO categorylist VALUES(%Q, %i)", name, (isexpense ? 0 : 1));
@@ -1601,7 +1604,8 @@ bool
 IsInternalCategory(const char* category)
 {
 	const char* internal_categories[] = {B_TRANSLATE_CONTEXT("Income", "CommonTerms"),
-		B_TRANSLATE_CONTEXT("Spending", "CommonTerms"), B_TRANSLATE_CONTEXT("Split", "CommonTerms"),
+		B_TRANSLATE_CONTEXT("Spending", "CommonTerms"),
+		B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'"),
 		B_TRANSLATE_CONTEXT("Transfer", "CommonTerms"),
 		B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"), NULL};
 

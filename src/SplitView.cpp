@@ -160,8 +160,12 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	}
 
 	if (fTransaction.CountCategories() > 1
-		|| strcmp(fTransaction.NameAt(0), B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0) {
-		fCategory->SetText(B_TRANSLATE_CONTEXT("Split", "CommonTerms"));
+		|| strcmp(fTransaction.NameAt(0),
+			   B_TRANSLATE_ALL("Split", "CommonTerms",
+				   "The noun 'split', as in 'a split-category'"))
+			== 0) {
+		fCategory->SetText(
+			B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'"));
 		fStartExpanded = true;
 	}
 
@@ -761,7 +765,8 @@ SplitView::ToggleSplit(void)
 
 		fSplitContainer->Show();
 		fCategory->SetEnabled(false);
-		fCategory->SetText(B_TRANSLATE_CONTEXT("Split", "CommonTerms"));
+		fCategory->SetText(
+			B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'"));
 		fCategoryButton->SetEnabled(false);
 		fMemo->SetEnabled(false);
 		if (fCategory->ChildAt(0)->IsFocus())

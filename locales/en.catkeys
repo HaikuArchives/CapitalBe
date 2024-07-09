@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	575229969
+1	English	application/x-vnd.wgp-CapitalBe	3280201285
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -52,7 +52,6 @@ Monthly	ScheduleListWindow		Monthly
 Frequency	BudgetWindow		Frequency
 Decimals:	PrefWindow		Decimals:
 CapitalBe didn't understand the amount for 'Bank charges'	ReconcileWindow		CapitalBe didn't understand the amount for 'Bank charges'
-You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.	CheckView		You need to enter a check number or transaction type, such as ATM (for debit card transactions and the like), DEP (for deposits), or your own code for some other kind of expense.
 Balance	RegisterView		Balance
 Date	CommonTerms		Date
 Frequency	ScheduleListWindow		Frequency
@@ -69,7 +68,6 @@ Reopen	MainWindow		Reopen
 Edit…	CategoryWindow		Edit…
 Annually	ScheduleAddWindow		Annually
 Close	MainWindow		Close
-Split	CommonTerms		Split
 Import	MainWindow		Import
 Interest earned	ReconcileWindow		Interest earned
 Quit	Locale		Quit
@@ -83,11 +81,10 @@ Memo	CommonTerms		Memo
 Selected:	PrefWindow		Selected:
 Save bugreport	Locale		Save bugreport
 Indefinitely	ScheduleAddWindow		Indefinitely
-Type	CommonTerms		Type
 Cancel	MainWindow		Cancel
 <No accounts>	MainWindow		<No accounts>
-Repeat:	ScheduleAddWindow		Repeat:
 There may be a typo or the wrong kind of currency symbol for this account.	TextInput		There may be a typo or the wrong kind of currency symbol for this account.
+Repeat:	ScheduleAddWindow		Repeat:
 Appears before amount	PrefWindow		Appears before amount
 Unreconciled total: %s	ReconcileWindow		Unreconciled total: %s
 Couldn't Quick balance	ReconcileWindow		Couldn't Quick balance
@@ -166,8 +163,8 @@ Total checks:	ReconcileWindow		Total checks:
 Remove item	SplitView		Remove item
 Transaction	MainWindow		Transaction
 Edit transfer	TransferWindow		Edit transfer
-Categories	CategoryWindow		Categories
 Reports	MainWindow		Reports
+Categories	CategoryWindow		Categories
 Account	MainWindow		Account
 Unselected:	PrefWindow		Unselected:
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}
@@ -195,7 +192,7 @@ OK	ScheduleAddWindow		OK
 Quit	MainWindow		Quit
 Lowest	BudgetWindow		Lowest
 Previous	MainWindow		Previous
-Transaction type is missing	CheckView		Transaction type is missing
+Type	TransactionReport	Type of transaction, spending or income	Type
 Accounts	RegisterView		Accounts
 Amount	ScheduleAddWindow		Amount
 Income	CommonTerms		Income
@@ -225,6 +222,7 @@ Date:	TransferWindow		Date:
 To account:	TransferWindow		To account:
 Add account transfer	TransferWindow		Add account transfer
 Amount	CommonTerms		Amount
+Split	CommonTerms	The noun 'split', as in 'a split-category'	Split
 Quick balance failed. This doesn't mean that you did something wrong - it's just that 'Quick balance' works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Quick balance failed. This doesn't mean that you did something wrong - it's just that 'Quick balance' works on simpler cases in balancing an account than this one. Sorry.
 You need to have an account created in order to reconcile it.	MainWindow		You need to have an account created in order to reconcile it.
 Payee is missing	TextInput		Payee is missing

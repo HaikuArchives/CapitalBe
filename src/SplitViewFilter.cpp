@@ -191,7 +191,9 @@ SplitViewFilter::Filter(BMessage* msg, BHandler** target)
 			BString autocomplete = acc->AutocompleteCategory(string.String());
 
 			if (autocomplete.CountChars() > 0
-				&& autocomplete != B_TRANSLATE_CONTEXT("Split", "CommonTerms")) {
+				&& autocomplete
+					!= B_TRANSLATE_ALL("Split", "CommonTerms",
+						"The noun 'split', as in 'a split-category'")) {
 				BMessage automsg(M_CATEGORY_AUTOCOMPLETE);
 				automsg.AddInt32("start", strlen(text->Text()) + 1);
 				automsg.AddString("string", autocomplete.String());

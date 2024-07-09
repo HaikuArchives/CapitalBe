@@ -1,6 +1,5 @@
 #include "Account.h"
 #include <Catalog.h>
-#include <ctype.h>
 #include <stdlib.h>
 #include "Database.h"
 
@@ -122,12 +121,6 @@ Account::AutocompleteCategory(const char* input)
 	if (!input)
 		return BString();
 
-	// TODO: Add language support here
-	if (toupper(input[0]) == (int)'S') {
-		int32 inputlength = strlen(input);
-		if (strncasecmp(input, B_TRANSLATE_CONTEXT("Split", "CommonTerms"), inputlength) == 0)
-			return B_TRANSLATE_CONTEXT("Split", "CommonTerms");
-	}
 	CppSQLite3Buffer bufSQL;
 	BString searchString;
 	searchString << input << "%";
