@@ -343,7 +343,10 @@ CheckView::DoNextField(void)
 	} else if (fCategory->ChildAt(0)->IsFocus()) {
 		// TODO: don't force entering a transaction when going to the
 		// split window via key editing
-		if (strcmp(fCategory->Text(), B_TRANSLATE_CONTEXT("Split", "CommonTerms")) == 0) {
+		if (strcmp(fCategory->Text(),
+				B_TRANSLATE_ALL("Split", "CommonTerms",
+					"The noun 'split', as in 'a split-category'"))
+			== 0) {
 			Window()->PostMessage(M_ENTER_TRANSACTION, this);
 			Window()->PostMessage(M_EDIT_TRANSACTION);
 			return;
