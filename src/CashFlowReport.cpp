@@ -201,8 +201,8 @@ ReportWindow::ComputeCashFlow(void)
 			}
 		}
 
-		col = new BStringColumn(columntitle, fGridView->StringWidth("$1,000,000.00"),
-			10, 300, B_TRUNCATE_END);
+		col = new BStringColumn(
+			columntitle, fGridView->StringWidth("$1,000,000.00"), 10, 300, B_TRUNCATE_END);
 		fGridView->AddColumn(col, i + 1);
 	}
 
