@@ -1600,18 +1600,14 @@ Database::DeescapeDatabase(void)
 bool
 IsInternalCategory(const char* category)
 {
-	const char* internal_categories[] = {
-		B_TRANSLATE_CONTEXT("Income", "CommonTerms"),
-		B_TRANSLATE_CONTEXT("Spending", "CommonTerms"),
-		B_TRANSLATE_CONTEXT("Split", "CommonTerms"),
+	const char* internal_categories[] = {B_TRANSLATE_CONTEXT("Income", "CommonTerms"),
+		B_TRANSLATE_CONTEXT("Spending", "CommonTerms"), B_TRANSLATE_CONTEXT("Split", "CommonTerms"),
 		B_TRANSLATE_CONTEXT("Transfer", "CommonTerms"),
-		B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"),
-		NULL
-	};
+		B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"), NULL};
 
 	for (int32 i = 0; internal_categories[i] != NULL; i++) {
 		if (strcasecmp(internal_categories[i], category) == 0)
-		return true;
+			return true;
 	}
 	return false;
 }
