@@ -112,16 +112,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 	xpos += TDateWidth();
 
-	// Line Between Date & Type
-	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
-	owner->StrokeLine(BPoint(xpos, ypos - TRowHeight()), BPoint(xpos, ypos));
-
-	// Type
-	owner->SetHighColor(tint_color(textColor, textTint));
-	owner->DrawString(fType.String(), BPoint(xpos + 5, ypos - fontFactor));
-
-	// Line between Type and Payee
-	xpos += TNumWidth();
+	// Line Between Date & Payee
 	owner->SetHighUIColor(B_CONTROL_BORDER_COLOR);
 	owner->StrokeLine(BPoint(xpos, ypos - TRowHeight()), BPoint(xpos, ypos));
 
