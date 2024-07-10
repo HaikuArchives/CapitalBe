@@ -136,8 +136,8 @@ CategoryButton::ShowPopUpMenu()
 		return;
 
 	CategoryPopUp* menu = new CategoryPopUp("PopUpMenu", this);
-	BMenu* incomeMenu = new BMenu(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 	BMenu* spendingMenu = new BMenu(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
+	BMenu* incomeMenu = new BMenu(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 	BMenuItem* editCategories = new BMenuItem(
 		B_TRANSLATE("Edit categories" B_UTF8_ELLIPSIS), new BMessage(M_OPEN_CATEGORY_WINDOW));
 
@@ -161,8 +161,8 @@ CategoryButton::ShowPopUpMenu()
 		query.nextRow();
 	}
 
-	menu->AddItem(incomeMenu);
 	menu->AddItem(spendingMenu);
+	menu->AddItem(incomeMenu);
 	menu->AddItem(new BSeparatorItem());
 	menu->AddItem(editCategories);
 
