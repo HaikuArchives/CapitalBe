@@ -1,6 +1,8 @@
 #include "Database.h"
 #include "ScheduledTransData.h"
 #include "TimeSupport.h"
+#include <Catalog.h>
+
 
 void
 HandleScheduledTransactions(void)
@@ -46,8 +48,11 @@ HandleScheduledTransactions(void)
 	time_t current = GetCurrentDate();
 	for (uint32 i = 0; i <= count; i++) {
 		ScheduledTransData sdata;
+
 		if (!gDatabase.GetScheduledTransaction(idlist[i], sdata))
 			continue;
+		int32 destAccount = -1;
+		destAccount = sdata.GetDestination();
 
 		time_t saved_date = sdata.Date();
 		bool updated = false;
@@ -55,6 +60,18 @@ HandleScheduledTransactions(void)
 			updated = true;
 			sdata.SetDate(sdata.GetNextDueDate());
 			gDatabase.AddTransaction(sdata);
+
+			// If this is a transfer between accounts, duplicate the transaction object
+			// and modify account ID, payee and amount
+			if (destAccount >= 0) {
+				ScheduledTransData ddata = sdata;
+				ddata.SetAccount(gDatabase.AccountByID(destAccount));
+				BString payee = B_TRANSLATE_CONTEXT("Transfer from '%%PAYEE%%'", "MainWindow");
+				payee.ReplaceFirst("%%PAYEE%%", sdata.GetAccount()->Name());
+				ddata.SetPayee(payee);
+				ddata.SetAmount(sdata.Amount().InvertAsCopy());
+				gDatabase.AddTransaction(ddata);
+			}
 
 			sdata.CalculateNextDueDate();
 		}
