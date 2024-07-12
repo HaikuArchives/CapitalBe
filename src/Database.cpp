@@ -395,7 +395,8 @@ Database::RemoveAccount(const int& accountid)
 		command.SetToFormat("DELETE FROM accountlocale WHERE accountid = %i;", accountid);
 		DBCommand(command.String(), "Database::RemoveAccount:delete accountlocale item");
 
-		command.SetToFormat("DELETE FROM scheduledlist WHERE accountid = %i;", accountid);
+		command.SetToFormat("DELETE FROM scheduledlist WHERE accountid = %i OR destination = %i;",
+			accountid, accountid);
 		DBCommand(command.String(), "Database::RemoveAccount:delete scheduled items");
 
 		command.SetToFormat("DELETE FROM transactionlist WHERE accountid = %i;", accountid);
@@ -942,6 +943,31 @@ Database::GetTransferCounterpart(const uint32& transid, TransactionData& data)
 	return GetTransaction(transid, data);
 }
 
+
+int32
+Database::GetTransferDestination(const uint32& transid, const uint32& accountid)
+{
+	LOCK;
+
+	BString command;
+	command.SetToFormat("SELECT accountid FROM transactionlist WHERE transid = %i AND "
+						"accountid != %i;",
+		transid, accountid);
+	CppSQLite3Query query
+		= DBQuery(command.String(), "Database::GetTransferDestination:get accountid");
+
+	if (query.eof())
+		return -1;
+
+	uint32 destination = query.getIntField(0);
+	query.finalize();
+
+	UNLOCK;
+
+	return destination;
+}
+
+
 void
 Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& newid)
 {
@@ -995,7 +1021,7 @@ Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& ne
 	if (data.CountCategories() == 1) {
 		InsertSchedTransaction(id, data.GetAccount()->GetID(), data.Date(), data.Type(),
 			data.Payee(), data.Amount(), data.NameAt(0), data.Memo(), data.GetInterval(), nextdate,
-			data.GetCount());
+			data.GetCount(), data.GetDestination());
 	} else {
 		// We are disabling notifications for the moment so that we don't end up with
 		// multiple single-category transaction entries in the transaction view.
@@ -1005,7 +1031,7 @@ Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& ne
 			// multiple categories.
 			InsertSchedTransaction(id, data.GetAccount()->GetID(), data.Date(), data.Type(),
 				data.Payee(), data.AmountAt(i), data.NameAt(i), data.MemoAt(i), data.GetInterval(),
-				nextdate, data.GetCount());
+				nextdate, data.GetCount(), data.GetDestination());
 		}
 
 		// We now re-enable notifications and add the final transaction entry. This will
@@ -1015,7 +1041,7 @@ Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& ne
 		int32 index = data.CountCategories() - 1;
 		InsertSchedTransaction(id, data.GetAccount()->GetID(), data.Date(), data.Type(),
 			data.Payee(), data.AmountAt(index), data.NameAt(index), data.MemoAt(index),
-			data.GetInterval(), nextdate, data.GetCount());
+			data.GetInterval(), nextdate, data.GetCount(), data.GetDestination());
 	}
 	UNLOCK;
 }
@@ -1041,9 +1067,8 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 	BString command;
 	CppSQLite3Query query;
 
-	command
-		= "SELECT accountid,date,payee,amount,category,memo,type,nextdate,"
-		  "count,interval FROM scheduledlist WHERE transid = ";
+	command = "SELECT accountid,date,payee,amount,category,memo,type,nextdate,"
+			  "count,interval,destination FROM scheduledlist WHERE transid = ";
 	command << transid << ";";
 	query = DBQuery(command.String(), "Database::GetScheduledTransaction:get transaction data");
 
@@ -1063,6 +1088,7 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 	data.SetNextDueDate(query.getInt64Field(7));
 	data.SetCount(query.getIntField(8));
 	data.SetInterval((TransactionInterval)query.getIntField(9));
+	data.SetDestination(query.getInt64Field(10));
 	while (!query.eof()) {
 		Fixed f;
 		f.SetPremultiplied(atol(query.getStringField(3)));
@@ -1097,7 +1123,9 @@ uint32
 Database::CountScheduledTransactions(int accountid)
 {
 	BString command;
-	command << "SELECT COUNT(*) FROM scheduledlist WHERE accountid = " << accountid;
+	command.SetToFormat(
+		"SELECT COUNT(*) FROM scheduledlist WHERE accountid = %i OR destination = %i;", accountid,
+		accountid);
 	CppSQLite3Query query
 		= gDatabase.DBQuery(command.String(), "Database::CountScheduledTransactions");
 

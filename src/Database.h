@@ -91,6 +91,7 @@ public:
 	void SetTransactionStatus(const uint32& transid, const uint8& status);
 
 	bool GetTransferCounterpart(const uint32& transid, TransactionData& data);
+	int32 GetTransferDestination(const uint32& transid, const uint32& accountid);
 
 	void AddScheduledTransaction(const ScheduledTransData& data, const bool& newid = true);
 	void RemoveScheduledTransaction(const uint32& id);

@@ -126,6 +126,7 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 		else
 			fDestList->Select(0L);
 		fAmount->MakeFocus(true);
+		fOK->SetEnabled(true);
 	} else
 		fDestList->MakeFocus(true);
 

@@ -30,6 +30,9 @@ public:
 
 	time_t GetNextDueDate(void) const { return fNextDate; }
 
+	void SetDestination(const int32 destinationAccount) { fDestination = destinationAccount; }
+	int32 GetDestination(void) const { return fDestination; }
+
 	// If everything which needs to be in a transaction is there and valid, it
 	// returns true
 	virtual bool IsValid(void) const;
@@ -39,6 +42,7 @@ private:
 	TransactionInterval fInterval;
 	uint32 fCount;
 	time_t fNextDate;
+	int32 fDestination;
 };
 
 #endif

@@ -266,13 +266,13 @@ ScheduleAddWindow::MessageReceived(BMessage* msg)
 
 			stdata.SetDate(tempdate);
 
-			gDatabase.AddScheduledTransaction(stdata);
-
+			// TODO: Show error message if transfer counterpart can't be found
 			if (fTransData.Type().TypeCode() == TRANS_XFER) {
-				// Get the counterpart and add it to the scheduled list
-				gDatabase.GetTransferCounterpart(stdata.GetID(), stdata);
-				gDatabase.AddScheduledTransaction(stdata);
+				stdata.SetDestination(
+					gDatabase.GetTransferDestination(stdata.GetID(), stdata.GetAccount()->GetID()));
 			}
+
+			gDatabase.AddScheduledTransaction(stdata);
 
 			HandleScheduledTransactions();
 
