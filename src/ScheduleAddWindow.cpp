@@ -71,8 +71,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 		BSize(be_plain_font->StringWidth("aLongCategoryName"), B_SIZE_UNSET));
 	BString label;
 	if (data.CountCategories() > 1)
-		label << B_TRANSLATE_ALL("Split", "CommonTerms",
-			"The noun 'split', as in 'a split-category'");
+		label << B_TRANSLATE_ALL(
+			"Split", "CommonTerms", "The noun 'split', as in 'a split-category'");
 	else
 		label << data.NameAt(0);
 	BTextControl* category = new BTextControl("category", NULL, label.String(), NULL);

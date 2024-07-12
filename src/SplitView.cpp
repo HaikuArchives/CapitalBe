@@ -160,10 +160,9 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	}
 
 	if (fTransaction.CountCategories() > 1
-		|| strcmp(fTransaction.NameAt(0),
-			   B_TRANSLATE_ALL("Split", "CommonTerms",
-				   "The noun 'split', as in 'a split-category'"))
-			== 0) {
+		|| strcmp(fTransaction.NameAt(0), B_TRANSLATE_ALL("Split", "CommonTerms",
+											  "The noun 'split', as in 'a split-category'"))
+			   == 0) {
 		fCategory->SetText(
 			B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'"));
 		fStartExpanded = true;
