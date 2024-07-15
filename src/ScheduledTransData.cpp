@@ -13,12 +13,11 @@ ScheduledTransData::ScheduledTransData(void)
 ScheduledTransData::ScheduledTransData(Account* account, const char* date, const char* type,
 	const char* payee, const char* amount, const char* category, const char* memo,
 	const TransactionInterval& interval, const int32& count)
-	:
-	TransactionData(account, date, type, payee, amount, category, memo, TRANS_OPEN),
-	fInterval(interval),
-	fCount(count),
-	fNextDate(0),
-	fDestination(-1)
+	: TransactionData(account, date, type, payee, amount, category, memo, TRANS_OPEN),
+	  fInterval(interval),
+	  fCount(count),
+	  fNextDate(0),
+	  fDestination(-1)
 {
 }
 
@@ -28,14 +27,13 @@ ScheduledTransData::ScheduledTransData(const ScheduledTransData& trans)
 }
 
 
-ScheduledTransData::ScheduledTransData(const TransactionData& data,
-	const TransactionInterval& interval, const int32& count)
-	:
-	TransactionData(data),
-	fInterval(interval),
-	fCount(count),
-	fNextDate(0),
-	fDestination(-1)
+ScheduledTransData::ScheduledTransData(
+	const TransactionData& data, const TransactionInterval& interval, const int32& count)
+	: TransactionData(data),
+	  fInterval(interval),
+	  fCount(count),
+	  fNextDate(0),
+	  fDestination(-1)
 {
 }
 

@@ -950,8 +950,9 @@ Database::GetTransferDestination(const uint32& transid, const uint32& accountid)
 	LOCK;
 
 	BString command;
-	command.SetToFormat("SELECT accountid FROM transactionlist WHERE transid = %i AND "
-						"accountid != %i;",
+	command.SetToFormat(
+		"SELECT accountid FROM transactionlist WHERE transid = %i AND "
+		"accountid != %i;",
 		transid, accountid);
 	CppSQLite3Query query
 		= DBQuery(command.String(), "Database::GetTransferDestination:get accountid");
@@ -1067,8 +1068,9 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 	BString command;
 	CppSQLite3Query query;
 
-	command = "SELECT accountid,date,payee,amount,category,memo,type,nextdate,"
-			  "count,interval,destination FROM scheduledlist WHERE transid = ";
+	command
+		= "SELECT accountid,date,payee,amount,category,memo,type,nextdate,"
+		  "count,interval,destination FROM scheduledlist WHERE transid = ";
 	command << transid << ";";
 	query = DBQuery(command.String(), "Database::GetScheduledTransaction:get transaction data");
 
