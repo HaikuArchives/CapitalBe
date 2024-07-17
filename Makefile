@@ -51,6 +51,7 @@ SRCS = \
 	 src/Database.cpp  \
 	 src/DateBox.cpp  \
 	 src/DStringList.cpp  \
+	 src/FilterView.cpp \
 	 src/Fixed.cpp  \
 	 src/HelpButton.cpp  \
 	 src/Import.cpp  \

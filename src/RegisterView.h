@@ -8,8 +8,25 @@
 #include "TransactionView.h"
 
 class CheckView;
+class FilterView;
 
-#define M_SHOW_ACCOUNT_SETTINGS 'acst'
+enum {
+	M_SHOW_ACCOUNT_SETTINGS = 'acst',
+	M_SELECT_ACCOUNT = 'slac',
+	M_SELECT_CURRENT = 'slcu',
+	M_FILTER = 'filt',
+};
+
+typedef enum {
+	ALL_TRANSACTIONS = 0,
+	THIS_MONTH,
+	LAST_MONTH,
+	THIS_QUARTER,
+	LAST_QUARTER,
+	THIS_YEAR,
+	LAST_YEAR
+} filter_period_field;
+
 
 class RegisterView : public BView, public Observer {
 public:
@@ -29,9 +46,8 @@ public:
 	bool SelectLastTransaction(void) { return fTransactionView->SelectLast(); }
 
 private:
-	float GetAccountViewWidth(void);
-
 	CheckView* fCheckView;
+	FilterView* fFilterView;
 	BListView* fAccountView;
 	BScrollView* fAccountScroller;
 	TransactionView* fTransactionView;

@@ -10,6 +10,7 @@
 #include "AccountListItem.h"
 #include "CheckView.h"
 #include "Database.h"
+#include "FilterView.h"
 #include "MainWindow.h"
 #include "QuickTrackerItem.h"
 
@@ -18,17 +19,12 @@
 #define B_TRANSLATION_CONTEXT "RegisterView"
 
 
-enum {
-	M_SELECT_ACCOUNT = 'slac',
-	M_SELECT_CURRENT
-};
-
 RegisterView::RegisterView(const char* name, int32 flags)
 	: BView(name, flags | B_FRAME_EVENTS)
 {
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
-	float width = GetAccountViewWidth();
+	// Accounts
 	BStringView* accountLabel = new BStringView("accountlabel", B_TRANSLATE("Accounts"));
 	accountLabel->SetFont(be_bold_font);
 	accountLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
@@ -37,11 +33,11 @@ RegisterView::RegisterView(const char* name, int32 flags)
 	fAccountView = new BListView("accountview", B_SINGLE_SELECTION_LIST);
 	fAccountView->SetSelectionMessage(new BMessage(M_SELECT_ACCOUNT));
 	fAccountView->SetInvocationMessage(new BMessage(M_SHOW_ACCOUNT_SETTINGS));
-	fAccountView->SetExplicitSize(BSize(GetAccountViewWidth(), B_SIZE_UNSET));
 
 	fAccountScroller = new BScrollView("accountscroll", fAccountView, 0, false, true);
 	fAccountScroller->SetViewColor(ViewColor());
 
+	// Checkview
 	fCheckView = new CheckView("checkview", B_WILL_DRAW);
 	gDatabase.AddObserver(fCheckView);
 
@@ -51,6 +47,7 @@ RegisterView::RegisterView(const char* name, int32 flags)
 		acc->AddObserver(this);
 	}
 
+	// Transactions list
 	BStringView* transactionlabel
 		= new BStringView("transactionlabel", B_TRANSLATE("Transactions"));
 	transactionlabel->SetFont(be_bold_font);
@@ -60,11 +57,23 @@ RegisterView::RegisterView(const char* name, int32 flags)
 	gDatabase.AddObserver(fTransactionView);
 	gDatabase.AddObserver(this);
 
+	// Filter
+	BBox* filterBox = new BBox("filterbox");
+	filterBox->SetLabel(B_TRANSLATE("Filter"));
+	fFilterView = new FilterView("filterview", B_WILL_DRAW);
+
+	// QuickTracker
 	BBox* qtBox = new BBox("qtbox");
 	qtBox->SetLabel(B_TRANSLATE("QuickTracker"));
 	QTNetWorthItem* qtItem = new QTNetWorthItem("networth");
 
 	// clang-format off
+	BLayoutBuilder::Group<>(filterBox, B_VERTICAL, 0)
+		.SetInsets(B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING,
+			B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
+		.Add(fFilterView)
+		.End();
+
 	BLayoutBuilder::Group<>(qtBox, B_VERTICAL, 0)
 		.SetInsets(B_USE_DEFAULT_SPACING, B_USE_BIG_SPACING,
 			B_USE_DEFAULT_SPACING, B_USE_DEFAULT_SPACING)
@@ -78,6 +87,8 @@ RegisterView::RegisterView(const char* name, int32 flags)
 			.AddGroup(B_VERTICAL, 0)
 				.Add(accountLabel)
 				.Add(fAccountScroller, 2)
+				.AddStrut(B_USE_DEFAULT_SPACING)
+				.Add(filterBox)
 				.AddStrut(B_USE_DEFAULT_SPACING)
 				.Add(qtBox)
 				.End()
@@ -97,6 +108,7 @@ void
 RegisterView::AttachedToWindow(void)
 {
 	fAccountView->SetTarget(this);
+	fFilterView->SetMessenger(new BMessenger(this));
 
 	// If the selection done is before being attached to the window, the message is
 	// never received.
@@ -131,6 +143,11 @@ RegisterView::MessageReceived(BMessage* msg)
 		{
 			if (Window())
 				Window()->PostMessage(M_SHOW_ACCOUNT_SETTINGS);
+			break;
+		}
+		case M_FILTER:
+		{
+			msg->PrintToStream();
 			break;
 		}
 		default:
@@ -178,10 +195,6 @@ RegisterView::HandleNotify(const uint64& value, const BMessage* msg)
 			}
 			fCheckView->SetFieldsEnabled(!acc->IsClosed());
 		}
-
-		// Adjust the AccountView width every time there is a change
-		fAccountView->SetExplicitSize(BSize(GetAccountViewWidth(), B_SIZE_UNSET));
-		fAccountView->Relayout();
 	} else if (value & WATCH_TRANSACTION) {
 		if (value & WATCH_CREATE || value & WATCH_DELETE || value & WATCH_CHANGE)
 			fAccountView->Invalidate();
@@ -203,20 +216,4 @@ RegisterView::SelectAccount(const int32& index)
 		return;
 
 	fAccountView->Select(index);
-}
-
-float
-RegisterView::GetAccountViewWidth()
-{
-	// Min width is the fixed width of QuickTracker
-	float width = be_plain_font->StringWidth(B_TRANSLATE("Balance"))
-				  + be_plain_font->StringWidth(": $99,999,999.00");
-
-	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account* acc = gDatabase.AccountAt(i);
-
-		float namewidth = be_bold_font->StringWidth(acc->Name()) + B_V_SCROLL_BAR_WIDTH + 10;
-		width = (namewidth > width) ? namewidth : width;
-	}
-	return width;
 }
