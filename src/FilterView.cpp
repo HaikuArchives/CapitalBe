@@ -133,6 +133,16 @@ FilterView::MessageReceived(BMessage* msg)
 	int32 start;
 	BString string;
 	switch (msg->what) {
+		case M_CLEAR_FILTER:
+		{
+			fPayee->SetText("");
+			fCategory->SetText("");
+			fMemo->SetText("");
+			fAmount->SetText("");
+			fCompareMenu->ItemAt(0L)->SetMarked(true);
+			fPeriodMenu->ItemAt(0L)->SetMarked(true);
+			// intentional fall-thru
+		}
 		case M_START_FILTER:
 		case M_FILTER_CHANGED:
 		{
@@ -145,16 +155,6 @@ FilterView::MessageReceived(BMessage* msg)
 			filterMsg.AddInt32("period", fPeriodMenu->FindMarkedIndex());
 			
 			fMessenger->SendMessage(&filterMsg);
-			break;
-		}
-		case M_CLEAR_FILTER:
-		{
-			fPayee->SetText("");
-			fCategory->SetText("");
-			fMemo->SetText("");
-			fAmount->SetText("");
-			fCompareMenu->ItemAt(0L)->SetMarked(true);
-			fPeriodMenu->ItemAt(0L)->SetMarked(true);
 			break;
 		}
 		default:
