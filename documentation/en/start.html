@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+<!--
+ * Copyright 2024
+ * Distributed under the terms of the MIT License.
+ *
+ * Authors:
+ *		Humdinger <humdingerb@gmail.com>
+-->
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="robots" content="all" />
+	<link rel="stylesheet" type="text/css" href="../_doc.css" />
+	<title>CapitalBe's User Documentation</title>
+
+</head>
+<body>
+
+<div id="navbar">
+<a class="active" href="./start.html">QuickStart</a> <a href="./menus.html">Menus</a> <a href="./budget.html">Budget</a> <a href="./reports.html">Reports</a> <a href="./reconcile.html">Reconcile</a>
+</div>
+
+<div id="content">
+
+<table class="index" id="index" summary="index">
+<tbody><tr class="heading"><td>Index</td></tr>
+<tr class="index"><td>
+	<a href="#new-account">Create accounts</a><br />
+	<a href="#transaction">Enter transactions</a><br />
+	<a href="#split-transactions"> ┗━ Split transactions</a><br />
+	<a href="#transfer">Transfer between accounts</a><br />
+	<a href="#filter">Filtering the list</a>
+</td></tr>
+</tbody></table>
+
+<h1>CapitalBe's User Documentation</h1>
+
+<img src="../icons/capitalbe-logo_64.png" style="border:none;padding-right:15px;float:left" alt="Big CapitalBe icon" />
+
+<p>CapitalBe is an application to keep track of your personal finances. It lets you manage all the transactions of your accounts, create various reports and assists you drawing up a budget. It offers im- and export of files in the popular QIF format to share data with other finance software packages.</p>
+<p style="clear:left"></p>
+
+
+<h1><a id="quick-start" name="quick-start">Quick start</a></h1>
+
+<p>Let's have a quick look at the main window before we go through a quick start, setting up accounts and doing some transactions.</p>
+
+<p style="text-align:center"><img src="./images/main_window.png" style="border:none" alt="CapitalBe's main window" /></p>
+
+<ol>
+<li>At the top left is a list of all your <span class="menu">Accounts</span>.</li>
+<li>Below that is a <span class="menu">Filter</span> section to filter the list of transactions.</li>
+<li>Then comes a <span class="menu">QuickTracker</span> that shows the current balance of all accounts.</li>
+<li>To the right is a list of all <span class="menu">Transactions</span>.</li>
+<li>Below it follow the text boxes for the data entry for a new transaction that is created by hitting <span class="button">Enter</span>.</li>
+</ol>
+
+<p>When you see a <img src="../icons/help_16.png" style="vertical-align:middle" /> you can click it to get help on the related topic.</p>
+
+<h2>
+<a href="#"><img src="../icons/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="new-account" name="new-account">Create accounts</a></h2>
+
+<p>Let's start by creating a new account. You're prompted to set one up when there isn't one already &ndash; like when first launching CapitalBe &ndash; or you initiate it yourself by clicking the menu item <span class="menu">Account | New…</span>.</p>
+
+<p style="text-align:center"><img src="./images/account_new.png" alt="Creating new accounts" /></p>
+
+<p>First you <span class="menu">Name</span> your new account, here "<i>Bank account #1</i>".</p>
+
+<p>By default, CapitalBe uses your system settings (configured with Haiku's Locale preferences) for the currency settings and formatting. If you have accounts that differ from that, you can untick the checkbox <span class="menu">Use system currency format</span> to see additional options:</p>
+
+<p>You can choose a currency <span class="menu">Symbol</span>, decide to have it <span class="menu">Appear before amount</span> (otherwise it's shown after), and set the number of <span class="menu">Decimals</span> to use.</p>
+
+<p>You see a preview of this custom setting as the bold <span class="menu">Currency format</span> label of this setting box.</p>
+
+<p>In order to show transfers later on, let's create a second account named "<i>Cash account</i>".</p>
+
+
+<h2>
+<a href="#"><img src="../icons/up.png	" style="border:none;float:right" alt="index" /></a>
+<a id="transaction" name="transaction">Enter transactions</a></h2>
+
+<p>Now we start entering transactions, using those text boxed below the list of transactions.</p>
+
+<p style="text-align:center"><img src="./images/transaction_init.png" style="border:none" alt="Initial transaction" /></p>
+
+<p>Filling <span class="menu">Date</span>, <span class="menu">Payee</span> and <span class="menu">Amount</span> is mandatory, of course. Note, that you always enter positive amounts, the category decides if it will be added or substracted.</p>
+
+<div class="box-info"><p>There are some features that help entering data.</p>
+<ul>
+<li>Use <span class="key">TAB</span> to jump to the next text field, <span class="key">SHIFT</span>&nbsp;<span class="key">TAB</span> to go back to the previous one. <span class="key">ENTER</span> completes the transaction.</li>
+<li>All entered categories and payees are saved and CapitalBe tries to auto-complete them while you are typing.</li>
+<li>When the date box has focus <span class="key">↑</span>/<span class="key">↓</span> in/decreases the day, <span class="key">SHIFT</span>&nbsp;<span class="key">↑</span>/<span class="key">↓</span> in/decreases the month, and <span class="key">Page↑</span>/<span class="key">Page↓</span> in/decreases the year.</li>
+<li>The little icon beside the date box opens a calendar window to conveniently choose a date.</li>
+<li>The little icon beside the category box opens a menu to choose from your categories.</li>
+</ul></div>
+
+<p>Normally you also enter a <span class="menu">Category</span>. If you don't, a little window pops up where you have to choose the type of transaction: <span class="menu">Income</span> or <span class="menu">Spending</span>.</p>
+
+<p>The <span class="menu">Memo</span> field is not mandatory, but normally it makes sense to add a short description. The text is limited to 63 characters.</p>
+
+<p>For this quick start example, we create a transaction to add an initial balance for our bank account:</p>
+<table summary="layout">
+<tr><td><i>Date:</i></td><td>01.01.2024</td></tr>
+<tr><td><i>Payee:</i></td><td>Init</td></tr>
+<tr><td><i>Amount:</i></td><td>1.200,00 €</td></tr>
+<tr><td><i>Category:</i></td><td>We leave it empty and choose "Income" later in the pop-up window</td></tr>
+<tr><td><i>Memo:</i></td><td>Initial balance</td></tr>
+</table>
+
+<p>If you need to edit a transaction, just double-click it and it opens in an editing window:</p>
+
+<p style="text-align:center"><img src="./images/transaction_edit.png" style="border:none" alt="Editing a transaction" /></p>
+
+<p>This is also how you enter a transaction for items with different categories: First enter a normal transaction, then edit it, and tick <span class="menu">Show split</span> to create a "split transaction".</p>
+
+
+<h3><a id="split-transactions" name="split-transactions">Split transactions</a></h3>
+
+<p>The normal transaction editing window gets extended to split the transaction into several categories:</p>
+
+<p style="text-align:center"><img src="./images/split_transaction.png" alt="Split transaction window" /></p>
+
+<p>With <span class="menu">Add item</span> you split the transaction into one more category. <span class="menu">Remove item</span> removes the selected split-transaction. The <span class="menu">Total</span> adds up all the split-transactions. At the end it must be equal to the original <span class="menu">Amount</span> at the top.</p>
+
+<p>To have CapitalBe help with keeping the correct total over all splits, it's best to do it like this:</p>
+<ol>
+<li><p>Select the top item in the list at the bottom &ndash; which is identical to the original transaction &ndash; and change the amount to what should be booked under the original category.</p></li>
+<li><p>Click <span class="menu">Add item</span> and a new item with the remaning amount is added to the list.</p></li>
+<li><p>Choose a category for the new item and add some info in the memo text field.</p></li>
+<li><p>Continue to split the transaction into more categories until you're satisfied.</p></li>
+<li><p>Hit <span class="button">Enter</span>.</p></li>
+</ol>
+
+<h2>
+<a href="#"><img src="../icons/up.png	" style="border:none;float:right" alt="index" /></a>
+<a id="transfer" name="transfer">Transfer money between accounts</a></h2>
+
+<p style="text-align:center"><img src="./images/transfer.png" alt="Transfer between accounts" /></p>
+
+<p><br />Let's put some money in our pocket by transfering some from the bank account to the cash account. For that, select the menu <span class="menu">Transaction | Enter&nbsp;a&nbsp;transfer…</span></p>
+
+<p>It's pretty straight forward: select the source account from the list on the left and the destination on the right. Set the date, amount and optionally enter a memo.</p>
+
+<p>After clicking <span class="button">OK</span> you'll find the created transactions in the lists for those two accounts, substracting the amount from one, adding to the other.</p>
+
+<h2><a id="filter" name="filter">Filtering the transaction list</a></h2>
+
+<img src="./images/filter.png" class="floatleft" alt="Filter section" />
+
+<p>You can filter the transaction list according to several criteria.</p>
+<p>Choose the <span class="menu">Period</span> (e.g. <span class="menu">This month</span>, <span class="menu">Last quarter</span> etc.) to limit the list to that time frame.<br />
+Enter a term in <span class="menu">Payee</span>, <span class="menu">Category</span> or <span class="menu">Memo</span> and only transactions containing those letters are shown.<br />
+You can set an <span class="menu">Amount</span> and only transaction <span class="menu">≦</span>, <span class="menu">＝</span> or <span class="menu">≧</span> appear in the list.</p>
+
+<p><span class="button">Clear</span> resets the filter.<br />
+<span class="button">Filter</span> starts the filtering, though you'll find that pressing <span class="key">TAB</span> to jump to the next text field or choosing from the popup menus also triggers an update of the filtered list.</p>
+<p style="clear:left"></p>
+
+<p><br /></p>
+<p>This should be enough to get you started. The following pages describe more features, like settings, scheduled transactions and the tools "Report" and "Budget".</p>
+
+<hr />
+<a href="./menus.html" style="border:none;float:right">Next: Menus</a>
+<p></p>
+</div>
+</body>
+</html>

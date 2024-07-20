@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+<!--
+ * Copyright 2024
+ * Distributed under the terms of the MIT License.
+ *
+ * Authors:
+ *		Humdinger <humdingerb@gmail.com>
+-->
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta name="robots" content="all" />
+	<link rel="stylesheet" type="text/css" href="../_doc.css" />
+	<title>CapitalBe's User Documentation</title>
+
+</head>
+<body>
+
+<div id="navbar">
+<a href="./start.html">QuickStart</a> <a class="active" href="./menus.html">Menus</a> <a href="./budget.html">Budget</a> <a href="./reports.html">Reports</a> <a href="./reconcile.html">Reconcile</a>
+</div>
+
+<div id="content">
+
+<table class="index" id="index" summary="index">
+<tbody><tr class="heading"><td>Index</td></tr>
+<tr class="index"><td>
+	<a href="#menu-app">The app menu</a><br />
+	<a href="#categories"> ┗━ Categories</a><br />
+	<a href="#app-settings"> ┗━ Settings</a><br />
+	<a href="#menu-file">The file menu</a><br />
+	<a href="#menu-account">The account menu</a><br />
+	<a href="#menu-transaction">The transaction menu</a><br />
+	<a href="#schedule"> ┗━ Schedule a transaction</a><br />
+	<a href="#menu-tools">The tools menu</a><br />
+	<a href="#scheduled_transactions"> ┗━ Scheduled transactions</a>
+</td></tr>
+</tbody></table>
+
+<h1>CapitalBe's Menus</h1>
+
+<p>To learn about all aspects of CapitalBe, let's quickly go through all menu items, only giving a more detailed description to the ones that need explanation. Bigger topics will link to their own separate page.</p>
+
+
+<h2><a id="menu-app" name="menu-app">The application (icon) menu</a></h2>
+
+<img src="./images/menu_app.png" class="floatleft" alt="Application menu" />
+
+<p>The menu sporting the CapitalBe icon has all the items concerning the app in general.</p>
+
+<p><span class="menu">Quit</span> of course closes the application and <span class="menu">About CapitalBe</span> shows information about the developers etc.</p>
+
+<p><span class="menu">Report a bug…</span> opens the webbrowser with CapitalBe's project page where you can file issues about problems you encounter or ask for new features.</p>
+
+<p>The first two items, <span class="menu">Categories…</span> and <span class="menu">Settings…</span> deserve a bit of further explanation.</p>
+<p style="clear:left"></p>
+
+
+<h3>
+<a href="#"><img src="../icons/up.png	" style="border:none;float:right" alt="index" /></a>
+<a id="categories" name="categories">Categories…</a></h3>
+
+<p>Every time you enter a new category when doing a transaction, it is saved and gets suggested as auto-complete when typing the next time. The <span class="menu">Categories…</span> window allows you to manage your categories.</p>
+
+<p style="text-align:center"><img src="./images/categories_window.png" alt="The categories window" /></p>
+
+<p>Categories are sorted into two types: <span class="menu">Income</span> and <span class="menu">Spending</span>.</p>
+<p>You can select an item and <span class="menu">Edit…</span> its name, or <span class="menu">Remove…</span> it completely. In the later case, a new window opens where you have to choose another category for all the transactions that were filed under the one you're about to remove.</p>
+
+<p>You can also <span class="menu">Add…</span> a new category, give it a unique name and choose if it's an <span class="menu">Income category</span> or <span class="menu">Spending category</span>.</p>
+
+
+<h3>
+<a href="#"><img src="../icons/up.png	" style="border:none;float:right" alt="index" /></a>
+<a id="app-settings" name="app-settings">Settings…</a></h3>
+
+<p style="text-align:center"><img src="./images/app_settings.png" alt="The application settings" /></p>
+
+<p>CapitalBe's settings only have one item at the moment: the <span class="menu">Color for negative amounts</span>.<br />
+All other colors are provided by the system and should work perfectly together, because they are also customized by the user to keep working together. The color for negative numbers, however, has to work on different backgrounds which could be any color.</p>
+<p>When the default red color doesn't work for you, use the color picker at the top and make sure the new color works well on the different backgrounds shown in the preview at the bottom.</p>
+
+
+<h2>
+<a href="#"><img src="../icons/up.png	" style="border:none;float:right" alt="index" /></a>
+<a id="menu-file" name="menu-file">The file menu</a></h2>
+
+<img src="./images/menu_file.png" class="floatleft" alt="File menu" />
+
+<p>To share data with other financial software, you can <span class="menu">Import from QIF file</span> an <span class="menu">Export to QIF file</span>. Note that only the current account will be exported as QIF, so to export all your accounts you'll have to invoke the export on each one.</p>
+<p style="clear:left"></p>
+
+
+<h2>
+<a href="#"><img src="../icons/up.png	" style="border:none;float:right" alt="index" /></a>
+<a id="menu-account" name="menu-account">The account menu</a></h2>
+
+<img src="./images/menu_account.png" class="floatleft" alt="Account menu" />
+
+<p>With <span class="menu">Reconcile…</span> you can synchronize the records of your accounts to the actual bank statements. As this deserves somemore explanation, please refer to the page <a href="./reconcile.html">Reconcile</a>.</p>
+<p>You can create a <span class="menu">New…</span> account (see <a href="./start.html#new-account">QuickStart</a>), and <span class="menu">Delete…</span> the currently selected account.</p>
+<p>You can <span class="menu">Close</span> (and <span class="menu">Reopen</span>) an account, which keeps all the data, but won't allow further transactions or transfers.</p>
+<p>The <span class="menu">Settings…</span> allow changing name and currency configuration, just like when the account was created.</p>
+<p><span class="menu">Previous</span> and <span class="menu">Next</span> let you change between your account. Handy especially with the provided shortcuts <span class="key">ALT</span>&nbsp;<span class="key">SHIFT</span>&nbsp;<span class="key">↑</span>/<span class="key">↓</span>.</p>
+<p style="clear:left"></p>
+
+
+<h2>
+<a href="#"><img src="../icons/up.png	" style="border:none;float:right" alt="index" /></a>
+<a id="menu-transaction" name="menu-transaction">The transaction menu</a></h2>
+
+<img src="./images/menu_transaction.png" class="floatleft" alt="Transaction menu" />
+
+<p>You can <span class="menu">Edit…</span> the currently selected transaction, same as a double-click.</p>
+<p><span class="menu">Enter a transfer…</span> to move money between accounts, see <a href="./start.html#transfer">QuickStart</a> for more details.</p>
+<p><span class="menu">Delete</span> removes the currently selected transaction.</p>
+<p><span class="menu">Previous</span> and <span class="menu">Next</span> let you move up and down the transaction list. Handy especially with the provided shortcuts <span class="key">ALT</span>&nbsp;<span class="key">↑</span>/<span class="key">↓</span>.</p>
+<p style="clear:left"></p>
+
+<h3>
+<a href="#"><img src="../icons/up.png	" style="border:none;float:right" alt="index" /></a>
+<a id="schedule" name="schedule">Schedule this transaction…</a></h3>
+
+<p>After entering a transaction, you can decide to schedule it. That is create identical transactions (or transfers between accounts) in regular intervalls.</p>
+
+<p style="text-align:center"><img src="./images/schedule_transaction.png" alt="Schedule transaction window" /></p>
+
+<p>The data of the transaction &ndash; payee, amount, category and memo text &ndash; aren't editable, because all the scheduled transactions will be identical.</p>
+<p><span class="menu">Frequency</span> sets the intervall: <span class="menu">Monthly</span>, <span class="menu">Quarterly</span> or <span class="menu">Yearly</span>.</p>
+<p>Then you choose a <span class="menu">Starting date</span> and decide if the transaction will be scheduled <span class="menu">Indefinitely</span> of just a certin number of times.</p>
+<p>Note, this feature only creates normal transactions at the set interval. After it was created, you can edit or delete a transaction like any other.</p>
+
+<h2>
+<a href="#"><img src="../icons/up.png	" style="border:none;float:right" alt="index" /></a>
+<a id="menu-tools" name="menu-tools">The tools menu</a></h2>
+
+<img src="./images/menu_tools.png" class="floatleft" alt="Tools menu" />
+
+<p>There are separate pages describing the first two items: <a href="./budget.html">Budget</a> and <a href="./reports.html">Reports</a>.</p>
+<p style="clear:left"></p>
+
+<h3>
+<a href="#"><img src="../icons/up.png	" style="border:none;float:right" alt="index" /></a>
+<a id="scheduled-transactions" name="scheduled-transactions">Scheduled transactions</a></h3>
+
+<p>This window shows all currently active scheduled transactions:</p>
+
+<p style="text-align:center"><img src="./images/scheduled_transactions.png" alt="Scheduled transactions window" /></p>
+
+<p>The list shows all relevant information, similar to what was provided when the scheduled transaction was created, plus the date of the next scheduled payment.</p>
+<p>While you cannot edit a scheduled transaction, you can <span class="button">Remove</span> it.</p>
+
+<hr />
+<a href="./start.html" style="border:none;float:left">Previous: QuickStart</a>
+<a href="./budget.html" style="border:none;float:right">Next: Budget</a>
+<p></p>
+</div>
+</body>
+</html>
