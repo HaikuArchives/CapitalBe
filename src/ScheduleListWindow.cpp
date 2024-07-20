@@ -68,8 +68,8 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	fListView->AddColumn(new BStringColumn(B_TRANSLATE_CONTEXT("Amount", "CommonTerms"),
 							 MAX(amountwidth, amountlabelwidth) + 20, 25, 300, B_ALIGN_LEFT),
 		1);
-	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Payments"),
-							 StringWidth(B_TRANSLATE("Payments")) + 30, 25, 300, B_ALIGN_LEFT),
+	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Repeats"),
+							 StringWidth(B_TRANSLATE("Repeats")) + 30, 25, 300, B_ALIGN_LEFT),
 		2);
 	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Frequency"),
 							 StringWidth(B_TRANSLATE("Frequency")) + 30, 25, 300, B_ALIGN_LEFT),
@@ -225,14 +225,14 @@ ScheduleListView::RefreshScheduleList(void)
 		row->SetField(new BStringField(string.String()), 2);
 
 		switch (sdata->GetInterval()) {
-			case SCHEDULED_MONTHLY:
-			{
-				string = B_TRANSLATE("Monthly");
-				break;
-			}
 			case SCHEDULED_WEEKLY:
 			{
 				string = B_TRANSLATE("Weekly");
+				break;
+			}
+			case SCHEDULED_MONTHLY:
+			{
+				string = B_TRANSLATE("Monthly");
 				break;
 			}
 			case SCHEDULED_QUARTERLY:
