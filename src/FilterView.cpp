@@ -57,7 +57,7 @@ FilterView::FilterView(const char* name, int32 flags)
 
 	fCompareMenu = new BMenu("");
 	fCompareMenu->AddItem(new BMenuItem("≦", new BMessage(M_FILTER_CHANGED)));
-	fCompareMenu->AddItem(new BMenuItem("=", new BMessage(M_FILTER_CHANGED)));
+	fCompareMenu->AddItem(new BMenuItem("＝", new BMessage(M_FILTER_CHANGED)));
 	fCompareMenu->AddItem(new BMenuItem("≧", new BMessage(M_FILTER_CHANGED)));
 
 	fCompareMenu->SetLabelFromMarked(true);
