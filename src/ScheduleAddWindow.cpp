@@ -56,7 +56,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	payee->SetEnabled(false);
 
 	// Amount
-	BStringView* amountLabel = new BStringView("amountlabel", B_TRANSLATE("Amount"));
+	BStringView* amountLabel = new BStringView("amountlabel", B_TRANSLATE_CONTEXT("Amount",
+		"CommonTerms"));
 	amountLabel->SetExplicitSize(
 		BSize(be_plain_font->StringWidth("$10,000,000,000.00"), B_SIZE_UNSET));
 	BString temp;
