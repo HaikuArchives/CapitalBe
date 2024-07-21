@@ -5,6 +5,7 @@
 #include <Menu.h>
 #include <TextControl.h>
 #include <View.h>
+#include "NumBox.h"
 
 
 enum {
@@ -23,6 +24,7 @@ public:
 	void MessageReceived(BMessage* msg);
 
 	void SetMessenger(BMessenger* msgr) { fMessenger = msgr; };
+	bool IsEmpty(void);
 
 private:
 	void MakeEmpty(void);
@@ -33,7 +35,7 @@ private:
 	BTextControl* fPayee;
 	BTextControl* fCategory;
 	BTextControl* fMemo;
-	BTextControl* fAmount;
+	NumBox* fAmount;
 
 	BButton* fClear;
 	BButton* fFilter;
