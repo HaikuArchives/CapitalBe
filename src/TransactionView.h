@@ -48,7 +48,7 @@ public:
 
 	void AttachedToWindow(void);
 
-	void SetAccount(Account* acc);
+	void SetAccount(Account* acc, BMessage* msg = NULL);
 	TransactionItem* AddTransaction(const TransactionData& trans, const int32& index = -1);
 	void DeleteTransaction(const int32& index);
 	void EditTransaction();
@@ -67,12 +67,15 @@ public:
 private:
 	int32 FindItemForID(const uint32& id);
 	int32 FindIndexForDate(const time_t& time, const char* payee);
+	void CalculatePeriod(int32 period, time_t &start, time_t &end);
+	BString GenerateQueryCommand(int32 accountID, BMessage* message = NULL);
 
 	TransactionList* fListView;
 	BObjectList<TransactionItem>* fItemList;
 	Transaction* fCurrent;
 	BStringView *fCategoryLabel, *fMemoLabel;
 	BScrollView* fScrollView;
+	BMessage* fFilterMsg;
 };
 
 #endif

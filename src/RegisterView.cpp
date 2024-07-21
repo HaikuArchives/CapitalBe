@@ -49,10 +49,10 @@ RegisterView::RegisterView(const char* name, int32 flags)
 	}
 
 	// Transactions list
-	BStringView* transactionlabel
+	fTransactionlabel
 		= new BStringView("transactionlabel", B_TRANSLATE("Transactions"));
-	transactionlabel->SetFont(be_bold_font);
-	transactionlabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	fTransactionlabel->SetFont(be_bold_font);
+	fTransactionlabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	fTransactionView = new TransactionView();
 	gDatabase.AddObserver(fTransactionView);
@@ -94,7 +94,7 @@ RegisterView::RegisterView(const char* name, int32 flags)
 				.Add(qtBox)
 				.End()
 			.AddGroup(B_VERTICAL, 0)
-				.Add(transactionlabel)
+				.Add(fTransactionlabel)
 				.Add(fTransactionView)
 				.Add(fCheckView)
 				.End()
@@ -140,15 +140,19 @@ RegisterView::MessageReceived(BMessage* msg)
 
 			break;
 		}
+		case M_FILTER:
+		{
+			if (fFilterView->IsEmpty())
+				fTransactionlabel->SetText(B_TRANSLATE("Transactions"));
+			else
+				fTransactionlabel->SetText(B_TRANSLATE("Transactions (filtered)"));
+			fTransactionView->MessageReceived(msg);
+			break;
+		}
 		case M_SHOW_ACCOUNT_SETTINGS:
 		{
 			if (Window())
 				Window()->PostMessage(M_SHOW_ACCOUNT_SETTINGS);
-			break;
-		}
-		case M_FILTER:
-		{
-			msg->PrintToStream();
 			break;
 		}
 		default:

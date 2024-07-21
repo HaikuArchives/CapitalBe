@@ -16,7 +16,6 @@ enum {
 	M_SHOW_ACCOUNT_SETTINGS = 'acst',
 	M_SELECT_ACCOUNT = 'slac',
 	M_SELECT_CURRENT = 'slcu',
-	M_FILTER = 'filt',
 };
 
 typedef enum {
@@ -53,6 +52,7 @@ private:
 	AccountList* fAccountView;
 	FilterView* fFilterView;
 	BScrollView* fAccountScroller;
+	BStringView* fTransactionlabel;
 	TransactionView* fTransactionView;
 	BBox* fTrackBox;
 };

@@ -9,6 +9,7 @@
 #include <stdlib.h>
 
 #include "FilterView.h"
+#include "MainWindow.h"
 #include "RegisterView.h"
 
 
@@ -69,7 +70,9 @@ FilterView::FilterView(const char* name, int32 flags)
 
 	label = B_TRANSLATE_CONTEXT("Amount", "CommonTerms");
 	label << ":";
-	fAmount = new BTextControl("amount", label, NULL, new BMessage(M_FILTER_CHANGED));
+	fAmount = new NumBox("amount", label, NULL, new BMessage(M_FILTER_CHANGED));
+	fAmount->UseTabFiltering(false);
+	fAmount->AllowNegatives(false);
 
 	fClear = new BButton("clearbutton", B_TRANSLATE("Clear"), new BMessage(M_CLEAR_FILTER));
 	fFilter = new BButton("startbutton", B_TRANSLATE("Filter"), new BMessage(M_START_FILTER));
@@ -153,7 +156,7 @@ FilterView::MessageReceived(BMessage* msg)
 			filterMsg.AddString("amount", fAmount->Text());
 			filterMsg.AddInt32("moreless", fCompareMenu->FindMarkedIndex());
 			filterMsg.AddInt32("period", fPeriodMenu->FindMarkedIndex());
-			
+
 			fMessenger->SendMessage(&filterMsg);
 			break;
 		}
@@ -175,4 +178,10 @@ FilterView::MakeEmpty(void)
 	fCompareMenu->ItemAt(0L)->SetMarked(true);
 	fAmount->SetText("");
 
+}
+
+bool
+FilterView::IsEmpty(void)
+{
+	return fPeriodMenu->FindMarkedIndex() == 0 && strcmp(fPayee->Text(), "") == 0 && strcmp(fCategory->Text(), "") == 0 && strcmp(fMemo->Text(), "") == 0 && fCompareMenu->FindMarkedIndex() == 0 && strcmp(fAmount->Text(), "") == 0;
 }
