@@ -2,6 +2,7 @@
 #include <LayoutBuilder.h>
 #include <MessageFilter.h>
 #include <ScrollView.h>
+#include <SeparatorView.h>
 #include <String.h>
 
 #include "CBLocale.h"
@@ -72,23 +73,19 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 
 	CalendarButton* calendarButton = new CalendarButton(fDate);
 
-	BStringView* openingLabel = new BStringView("startinglabel", B_TRANSLATE("Starting balance"));
-	openingLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
-	fOpening = new CurrencyBox("starting", NULL, NULL, new BMessage(M_SET_BALANCES));
+	fOpening = new CurrencyBox("starting", B_TRANSLATE("Starting balance"), NULL,
+		new BMessage(M_SET_BALANCES));
 	fOpening->GetFilter()->SetMessenger(new BMessenger(this));
 
-	BStringView* closingLabel = new BStringView("closinglabel", B_TRANSLATE("Ending balance"));
-	closingLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
-	fClosing = new CurrencyBox("closing", NULL, NULL, new BMessage(M_SET_BALANCES));
+	fClosing = new CurrencyBox("closing", B_TRANSLATE("Ending balance"), NULL,
+		new BMessage(M_SET_BALANCES));
 	fClosing->GetFilter()->SetMessenger(new BMessenger(this));
 
-	BStringView* chargesLabel = new BStringView("chargeslabel", B_TRANSLATE("Bank charges"));
-	fCharges = new CurrencyBox("charges", NULL, NULL, NULL);
+	fCharges = new CurrencyBox("charges", B_TRANSLATE("Bank charges"), NULL, NULL);
 	fCharges->GetFilter()->SetMessenger(new BMessenger(this));
 	fCharges->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
-	BStringView* interestLabel = new BStringView("interestlabel", B_TRANSLATE("Interest earned"));
-	fInterest = new CurrencyBox("interest", NULL, NULL, NULL);
+	fInterest = new CurrencyBox("interest", B_TRANSLATE("Interest earned"), NULL, NULL);
 	fInterest->GetFilter()->SetMessenger(new BMessenger(this));
 	fInterest->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
@@ -109,13 +106,13 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	temp << " " << label;
 
 	fDepLabel = new BStringView("deplabel", temp.String());
-	fDepLabel->SetAlignment(B_ALIGN_RIGHT);
+	fDepLabel->SetAlignment(B_ALIGN_CENTER);
 
 	gCurrentLocale.CurrencyToString(fChargeTotal, label);
 	temp = B_TRANSLATE("Total charges:");
 	temp << " " << label;
 	fChargeLabel = new BStringView("chargelabel", temp.String());
-	fChargeLabel->SetAlignment(B_ALIGN_RIGHT);
+	fChargeLabel->SetAlignment(B_ALIGN_CENTER);
 
 	fReconcile = new BButton("reconcile", B_TRANSLATE("Reconcile"), new BMessage(M_RECONCILE));
 	fCancel = new BButton("cancel", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
@@ -129,6 +126,7 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	temp = "";
 	temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label.String());
 	fTotalLabel = new BStringView("totallabel", temp.String());
+	fTotalLabel->SetAlignment(B_ALIGN_CENTER);
 
 	account->DoForEachTransaction(AddReconcileItems, this);
 
@@ -143,30 +141,29 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(B_USE_DEFAULT_SPACING)
-		.AddGrid(1.0f, 1.0f)
+		.AddGrid(B_USE_DEFAULT_SPACING, 1.0f)
 			.Add(dateLabel, 0, 0)
 			.Add(calendarWidget, 0, 1)
-			.Add(openingLabel, 1, 0)
-			.Add(fOpening, 1, 1)
-			.Add(closingLabel, 2, 0)
-			.Add(fClosing, 2, 1)
+			.Add(fOpening->CreateLabelLayoutItem(), 1, 0)
+			.Add(fOpening->CreateTextViewLayoutItem(), 1, 1)
+			.Add(fClosing->CreateLabelLayoutItem(), 2, 0)
+			.Add(fClosing->CreateTextViewLayoutItem(), 2, 1)
+			.Add(fCharges->CreateLabelLayoutItem(), 3, 0)
+			.Add(fCharges->CreateTextViewLayoutItem(), 3, 1)
+			.Add(fInterest->CreateLabelLayoutItem(), 4, 0)
+			.Add(fInterest->CreateTextViewLayoutItem(), 4, 1)
 			.End()
-		.AddGrid(1.0f, 1.0f)
-			.Add(chargesLabel, 2, 0)
-			.Add(fCharges, 2, 1, 2)
-			.Add(interestLabel, 4, 0)
-			.Add(fInterest, 4, 1, 2)
-			.End()
-		.AddGrid(1.0f, 2.0f)
-			.Add(fDepScroll, 0, 0)
-			.Add(fDepLabel, 0, 1)
-			.Add(fChargeScroll, 2, 0)
-			.Add(fChargeLabel, 2, 1)
+		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))
+		.AddGrid(B_USE_DEFAULT_SPACING, 1.0f)
+			.Add(fDepLabel, 0, 0)
+			.Add(fDepScroll, 0, 1)
+			.Add(fChargeLabel, 1, 0)
+			.Add(fChargeScroll, 1, 1)
 			.End()
 		.AddGroup(B_HORIZONTAL)
 			.Add(fTotalLabel)
-			.AddGlue()
 			.End()
+		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))
 		.AddGroup(B_HORIZONTAL)
 			.Add(fAutoReconcile)
 			.Add(fHelpButton)

@@ -558,7 +558,7 @@ MainWindow::MessageReceived(BMessage* msg)
 				break;
 			}
 
-			ReconcileWindow* recwin = new ReconcileWindow(BRect(100, 100, 700, 425), acc);
+			ReconcileWindow* recwin = new ReconcileWindow(BRect(0, 0, 700, 550), acc);
 			recwin->CenterIn(Frame());
 			recwin->Show();
 			break;
