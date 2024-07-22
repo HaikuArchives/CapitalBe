@@ -28,6 +28,7 @@ enum {
 	M_TOGGLE_DEPOSIT = 'tgdp',
 	M_TOGGLE_CHARGE,
 	M_SET_BALANCES,
+	M_FORMAT_AMOUNT,
 	M_RECONCILE,
 	M_RESET,
 	M_AUTORECONCILE
@@ -78,23 +79,25 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	BString label(B_TRANSLATE("Starting balance"));
 	fOpening = new CurrencyBox("starting", label, NULL,	new BMessage(M_SET_BALANCES));
 	fOpening->GetFilter()->SetMessenger(new BMessenger(this));
+	fOpening->Validate(true);
 	maxwidth = MAX(maxwidth, be_plain_font->StringWidth(label));
 
 	label = B_TRANSLATE("Ending balance");
 	fClosing = new CurrencyBox("closing", label, NULL, new BMessage(M_SET_BALANCES));
 	fClosing->GetFilter()->SetMessenger(new BMessenger(this));
+	fClosing->Validate(true);
 	maxwidth = MAX(maxwidth, be_plain_font->StringWidth(label));
 
 	label = B_TRANSLATE("Bank charges");
-	fCharges = new CurrencyBox("charges", label, NULL, NULL);
+	fCharges = new CurrencyBox("charges", label, NULL, new BMessage(M_FORMAT_AMOUNT));
 	fCharges->GetFilter()->SetMessenger(new BMessenger(this));
-	fCharges->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	fCharges->Validate(true);
 	maxwidth = MAX(maxwidth, be_plain_font->StringWidth(label));
 
 	label = B_TRANSLATE("Interest earned");
-	fInterest = new CurrencyBox("interest", label, NULL, NULL);
+	fInterest = new CurrencyBox("interest", label, NULL, new BMessage(M_FORMAT_AMOUNT));
 	fInterest->GetFilter()->SetMessenger(new BMessenger(this));
-	fInterest->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	fInterest->Validate(true);
 	maxwidth = MAX(maxwidth, be_plain_font->StringWidth(label));
 
 	fDepositList = new BListView("depositlist", B_SINGLE_SELECTION_LIST);
@@ -364,6 +367,15 @@ ReconcileWindow::MessageReceived(BMessage* msg)
 				fReconcile->SetEnabled(true);
 			else
 				fReconcile->SetEnabled(false);
+
+			fOpening->Validate(true);
+			fClosing->Validate(true);
+			break;
+		}
+		case M_FORMAT_AMOUNT:
+		{
+			fCharges->Validate(true);
+			fInterest->Validate(true);
 			break;
 		}
 		case M_AUTORECONCILE:
