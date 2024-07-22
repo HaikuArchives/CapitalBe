@@ -35,7 +35,6 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	fTransaction = trans;
 
 	fStartExpanded = false;
-	fCheckNum = fTransaction.GetAccount()->LastCheckNumber();
 
 	// Date
 	BStringView* dateLabel

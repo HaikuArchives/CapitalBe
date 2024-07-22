@@ -31,10 +31,6 @@ public:
 	uint32 CurrentTransaction(void) const { return fCurrentTransaction; }
 	bool SetCurrentTransaction(const uint32& id);
 
-	uint16 LastCheckNumber(void) const { return fLastCheckNumber; }
-	uint16 LookupLastCheckNumber(void);
-	void SetLastCheckNumber(const uint16& value) { fLastCheckNumber = value; }
-
 	BString AutocompleteCategory(const char* input);
 	BString AutocompletePayee(const char* input);
 	// BString AutocompleteType(const char* input);
@@ -59,7 +55,6 @@ private:
 	uint32 fID;
 	bool fClosed;
 	uint32 fCurrentTransaction;
-	uint32 fLastCheckNumber;
 	Locale fLocale;
 	bool fUseDefaultLocale;
 };

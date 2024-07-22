@@ -12,8 +12,7 @@ class Account;
 #define TRANS_RECONCILED 2
 
 enum {
-	TRANS_NUMERIC = 0,
-	TRANS_ATM,
+	TRANS_ATM = 0,
 	TRANS_XFER,
 	TRANS_DEP,
 	TRANS_OTHER,

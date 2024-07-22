@@ -39,16 +39,16 @@ private:
 
 	Account* fAccount;
 
-	BListView *fDepositList, *fCheckList, *fChargeList;
+	BListView *fDepositList, *fChargeList;
 	CurrencyBox *fOpening, *fClosing, *fCharges, *fInterest;
 	DateBox* fDate;
 	BButton *fReset, *fReconcile, *fCancel, *fAutoReconcile;
 
 	// fTotal is the sum of all of the deposits, checks, and charges
 	// The way to tell if we are done is if fDifference + fTotal == 0
-	Fixed fDepositTotal, fCheckTotal, fChargeTotal, fDifference, fTotal;
-	BStringView *fDepLabel, *fCheckLabel, *fChargeLabel, *fTotalLabel, *fDateLabel, *fChargesLabel;
-	BScrollView *fDepScroll, *fCheckScroll, *fChargeScroll;
+	Fixed fDepositTotal, fChargeTotal, fDifference, fTotal;
+	BStringView *fDepLabel, *fChargeLabel, *fTotalLabel, *fDateLabel, *fChargesLabel;
+	BScrollView *fDepScroll, *fChargeScroll;
 
 	HelpButton* fHelpButton;
 

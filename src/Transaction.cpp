@@ -27,14 +27,6 @@ TransactionType::SetType(const char* data)
 		return;
 	}
 
-	long number = atol(data);
-	if (number != 0) {
-		fTypeCode = TRANS_NUMERIC;
-		fTypeData = "";
-		fTypeData << number;
-		return;
-	}
-
 	fTypeData = data;
 	if (fTypeData.ICompare("ATM") == 0)
 		fTypeCode = TRANS_ATM;
