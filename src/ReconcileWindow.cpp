@@ -1,4 +1,5 @@
 #include <Catalog.h>
+#include <GridLayoutBuilder.h>
 #include <LayoutBuilder.h>
 #include <MessageFilter.h>
 #include <ScrollView.h>
@@ -73,21 +74,28 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 
 	CalendarButton* calendarButton = new CalendarButton(fDate);
 
-	fOpening = new CurrencyBox("starting", B_TRANSLATE("Starting balance"), NULL,
-		new BMessage(M_SET_BALANCES));
+	float maxwidth = 0;
+	BString label(B_TRANSLATE("Starting balance"));
+	fOpening = new CurrencyBox("starting", label, NULL,	new BMessage(M_SET_BALANCES));
 	fOpening->GetFilter()->SetMessenger(new BMessenger(this));
+	maxwidth = MAX(maxwidth, be_plain_font->StringWidth(label));
 
-	fClosing = new CurrencyBox("closing", B_TRANSLATE("Ending balance"), NULL,
-		new BMessage(M_SET_BALANCES));
+	label = B_TRANSLATE("Ending balance");
+	fClosing = new CurrencyBox("closing", label, NULL, new BMessage(M_SET_BALANCES));
 	fClosing->GetFilter()->SetMessenger(new BMessenger(this));
+	maxwidth = MAX(maxwidth, be_plain_font->StringWidth(label));
 
-	fCharges = new CurrencyBox("charges", B_TRANSLATE("Bank charges"), NULL, NULL);
+	label = B_TRANSLATE("Bank charges");
+	fCharges = new CurrencyBox("charges", label, NULL, NULL);
 	fCharges->GetFilter()->SetMessenger(new BMessenger(this));
 	fCharges->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	maxwidth = MAX(maxwidth, be_plain_font->StringWidth(label));
 
-	fInterest = new CurrencyBox("interest", B_TRANSLATE("Interest earned"), NULL, NULL);
+	label = B_TRANSLATE("Interest earned");
+	fInterest = new CurrencyBox("interest", label, NULL, NULL);
 	fInterest->GetFilter()->SetMessenger(new BMessenger(this));
 	fInterest->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+	maxwidth = MAX(maxwidth, be_plain_font->StringWidth(label));
 
 	fDepositList = new BListView("depositlist", B_SINGLE_SELECTION_LIST);
 	fDepositList->SetFlags(fDepositList->Flags() | B_FULL_UPDATE_ON_RESIZE);
@@ -99,20 +107,24 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	fChargeList->SetInvocationMessage(new BMessage(M_TOGGLE_CHARGE));
 	fChargeScroll = new BScrollView("fChargeScroll", fChargeList, 0, false, true);
 
-	BString label;
+	BString total;
 
-	gCurrentLocale.CurrencyToString(fDepositTotal, label);
+	gCurrentLocale.CurrencyToString(fDepositTotal, total);
 	temp = B_TRANSLATE("Total deposits:");
-	temp << " " << label;
+	temp << " " << total;
 
 	fDepLabel = new BStringView("deplabel", temp.String());
 	fDepLabel->SetAlignment(B_ALIGN_CENTER);
+	fDepLabel->SetExplicitSize(BSize(be_plain_font->StringWidth(temp)
+		+ be_plain_font->StringWidth("100.00.000,00"), B_SIZE_UNSET));
 
-	gCurrentLocale.CurrencyToString(fChargeTotal, label);
+	gCurrentLocale.CurrencyToString(fChargeTotal, total);
 	temp = B_TRANSLATE("Total charges:");
-	temp << " " << label;
+	temp << " " << total;
 	fChargeLabel = new BStringView("chargelabel", temp.String());
 	fChargeLabel->SetAlignment(B_ALIGN_CENTER);
+	fChargeLabel->SetExplicitSize(BSize(be_plain_font->StringWidth(temp)
+		+ be_plain_font->StringWidth("100.000.000,00"), B_SIZE_UNSET));
 
 	fReconcile = new BButton("reconcile", B_TRANSLATE("Reconcile"), new BMessage(M_RECONCILE));
 	fCancel = new BButton("cancel", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
@@ -122,9 +134,9 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 
 	fHelpButton = new HelpButton(B_TRANSLATE("Help: Reconcile"), "Reconcile.txt");
 
-	fAccount->GetLocale().CurrencyToString(fTotal + fDifference, label);
+	fAccount->GetLocale().CurrencyToString(fTotal + fDifference, total);
 	temp = "";
-	temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label.String());
+	temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), total.String());
 	fTotalLabel = new BStringView("totallabel", temp.String());
 	fTotalLabel->SetAlignment(B_ALIGN_CENTER);
 
@@ -139,20 +151,24 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 		.Add(calendarButton)
 		.End();
 
+	BGridLayout* gridLayout = BGridLayoutBuilder(B_USE_DEFAULT_SPACING, 1.0f)
+		.Add(dateLabel, 0, 0)
+		.Add(calendarWidget, 0, 1)
+		.Add(fOpening->CreateLabelLayoutItem(), 1, 0)
+		.Add(fOpening->CreateTextViewLayoutItem(), 1, 1)
+		.Add(fClosing->CreateLabelLayoutItem(), 2, 0)
+		.Add(fClosing->CreateTextViewLayoutItem(), 2, 1)
+		.Add(fCharges->CreateLabelLayoutItem(), 3, 0)
+		.Add(fCharges->CreateTextViewLayoutItem(), 3, 1)
+		.Add(fInterest->CreateLabelLayoutItem(), 4, 0)
+		.Add(fInterest->CreateTextViewLayoutItem(), 4, 1);
+
+	for (int32 i = 0; i < gridLayout->CountColumns(); i++)
+		gridLayout->SetMinColumnWidth(i, maxwidth);
+
 	BLayoutBuilder::Group<>(this, B_VERTICAL)
 		.SetInsets(B_USE_DEFAULT_SPACING)
-		.AddGrid(B_USE_DEFAULT_SPACING, 1.0f)
-			.Add(dateLabel, 0, 0)
-			.Add(calendarWidget, 0, 1)
-			.Add(fOpening->CreateLabelLayoutItem(), 1, 0)
-			.Add(fOpening->CreateTextViewLayoutItem(), 1, 1)
-			.Add(fClosing->CreateLabelLayoutItem(), 2, 0)
-			.Add(fClosing->CreateTextViewLayoutItem(), 2, 1)
-			.Add(fCharges->CreateLabelLayoutItem(), 3, 0)
-			.Add(fCharges->CreateTextViewLayoutItem(), 3, 1)
-			.Add(fInterest->CreateLabelLayoutItem(), 4, 0)
-			.Add(fInterest->CreateTextViewLayoutItem(), 4, 1)
-			.End()
+		.Add(gridLayout)
 		.Add(new BSeparatorView(B_HORIZONTAL, B_PLAIN_BORDER))
 		.AddGrid(B_USE_DEFAULT_SPACING, 1.0f)
 			.Add(fDepLabel, 0, 0)
