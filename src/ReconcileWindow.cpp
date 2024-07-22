@@ -24,7 +24,6 @@
 
 enum {
 	M_TOGGLE_DEPOSIT = 'tgdp',
-	M_TOGGLE_CHECK,
 	M_TOGGLE_CHARGE,
 	M_SET_BALANCES,
 	M_RECONCILE,
@@ -98,11 +97,6 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	fDepositList->SetInvocationMessage(new BMessage(M_TOGGLE_DEPOSIT));
 	fDepScroll = new BScrollView("fDepScroll", fDepositList, 0, false, true);
 
-	fCheckList = new BListView("checklist", B_SINGLE_SELECTION_LIST);
-	fCheckList->SetFlags(fDepositList->Flags() | B_FULL_UPDATE_ON_RESIZE);
-	fCheckList->SetInvocationMessage(new BMessage(M_TOGGLE_CHECK));
-	fCheckScroll = new BScrollView("fCheckScroll", fCheckList, 0, false, true);
-
 	fChargeList = new BListView("chargelist", B_SINGLE_SELECTION_LIST);
 	fChargeList->SetFlags(fDepositList->Flags() | B_FULL_UPDATE_ON_RESIZE);
 	fChargeList->SetInvocationMessage(new BMessage(M_TOGGLE_CHARGE));
@@ -116,13 +110,6 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 
 	fDepLabel = new BStringView("deplabel", temp.String());
 	fDepLabel->SetAlignment(B_ALIGN_RIGHT);
-
-	gCurrentLocale.CurrencyToString(fCheckTotal, label);
-	temp = B_TRANSLATE("Total checks:");
-	temp << " " << label;
-
-	fCheckLabel = new BStringView("checklabel", temp.String());
-	fCheckLabel->SetAlignment(B_ALIGN_RIGHT);
 
 	gCurrentLocale.CurrencyToString(fChargeTotal, label);
 	temp = B_TRANSLATE("Total charges:");
@@ -173,10 +160,8 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 		.AddGrid(1.0f, 2.0f)
 			.Add(fDepScroll, 0, 0)
 			.Add(fDepLabel, 0, 1)
-			.Add(fCheckScroll, 2, 0)
-			.Add(fCheckLabel, 2, 1)
-			.Add(fChargeScroll, 4, 0)
-			.Add(fChargeLabel, 4, 1)
+			.Add(fChargeScroll, 2, 0)
+			.Add(fChargeLabel, 2, 1)
 			.End()
 		.AddGroup(B_HORIZONTAL)
 			.Add(fTotalLabel)
@@ -252,12 +237,6 @@ ReconcileWindow::MessageReceived(BMessage* msg)
 					item->SyncToTransaction();
 			}
 
-			for (i = 0; i < fCheckList->CountItems(); i++) {
-				item = (ReconcileItem*)fCheckList->ItemAt(i);
-				if (item->IsReconciled())
-					item->SyncToTransaction();
-			}
-
 			for (i = 0; i < fChargeList->CountItems(); i++) {
 				item = (ReconcileItem*)fChargeList->ItemAt(i);
 				if (item->IsReconciled())
@@ -278,14 +257,6 @@ ReconcileWindow::MessageReceived(BMessage* msg)
 				if (item->IsReconciled()) {
 					item->RevertTransaction();
 					fDepositList->InvalidateItem(i);
-				}
-			}
-
-			for (i = 0; i < fCheckList->CountItems(); i++) {
-				item = (ReconcileItem*)fCheckList->ItemAt(i);
-				if (item->IsReconciled()) {
-					item->RevertTransaction();
-					fCheckList->InvalidateItem(i);
 				}
 			}
 
@@ -322,38 +293,6 @@ ReconcileWindow::MessageReceived(BMessage* msg)
 				temp = "";
 				temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label.String());
 				fTotalLabel->SetText(temp.String());
-
-				if ((fTotal + fDifference) == 0)
-					fReconcile->SetEnabled(true);
-				else
-					fReconcile->SetEnabled(false);
-			}
-			break;
-		}
-		case M_TOGGLE_CHECK:
-		{
-			index = fCheckList->CurrentSelection();
-			selection = (ReconcileItem*)fCheckList->ItemAt(index);
-			if (selection) {
-				if (selection->IsReconciled()) {
-					selection->SetReconciled(false);
-					fCheckTotal += selection->GetTransaction()->Amount();
-					fTotal -= selection->GetTransaction()->Amount();
-				} else {
-					selection->SetReconciled(true);
-					fCheckTotal -= selection->GetTransaction()->Amount();
-					fTotal += selection->GetTransaction()->Amount();
-				}
-				fCheckList->InvalidateItem(index);
-
-				fAccount->GetLocale().CurrencyToString(fCheckTotal, label);
-				temp.SetToFormat(B_TRANSLATE("Total checks: %s"), label.String());
-				fCheckLabel->SetText(temp);
-
-				fAccount->GetLocale().CurrencyToString(fTotal + fDifference, label);
-				temp = "";
-				temp.SetToFormat(B_TRANSLATE("Unreconciled total: %s"), label.String());
-				fTotalLabel->SetText(temp);
 
 				if ((fTotal + fDifference) == 0)
 					fReconcile->SetEnabled(true);
@@ -464,21 +403,16 @@ ReconcileWindow::HandleNotify(const uint64& value, const BMessage* msg)
 
 				deleteditem = FindItemForID(fDepositList, id);
 				if (deleteditem)
-					itemlist = fDepositList;
+				itemlist = fDepositList;
 				else {
-					deleteditem = FindItemForID(fCheckList, id);
+					deleteditem = FindItemForID(fChargeList, id);
 					if (deleteditem)
-						itemlist = fCheckList;
+						itemlist = fChargeList;
 					else {
-						deleteditem = FindItemForID(fChargeList, id);
-						if (deleteditem)
-							itemlist = fChargeList;
-						else {
-							ShowBug("No list for ID in ReconcileWindow::HandleNotify");
-							if (unlock)
-								Unlock();
-							return;
-						}
+						ShowBug("No list for ID in ReconcileWindow::HandleNotify");
+						if (unlock)
+							Unlock();
+						return;
 					}
 				}
 
@@ -500,8 +434,6 @@ ReconcileWindow::HandleNotify(const uint64& value, const BMessage* msg)
 
 				if (data->Type().TypeCode() == TRANS_DEP)
 					InsertTransactionItem(fDepositList, newitem);
-				else if (data->Type().TypeCode() == TRANS_NUMERIC)
-					InsertTransactionItem(fCheckList, newitem);
 				else
 					InsertTransactionItem(fChargeList, newitem);
 			}
@@ -594,17 +526,6 @@ ReconcileWindow::AutoReconcile(void)
 		}
 	}
 
-	for (i = 0; i < fCheckList->CountItems(); i++) {
-		item = (ReconcileItem*)fCheckList->ItemAt(i);
-		if (item->GetTransaction()->Date() >= statdate)
-			break;
-
-		if (!item->IsReconciled()) {
-			chk += item->GetTransaction()->Amount();
-			list.AddItem(item);
-		}
-	}
-
 	for (i = 0; i < fChargeList->CountItems(); i++) {
 		item = (ReconcileItem*)fChargeList->ItemAt(i);
 		if (item->GetTransaction()->Date() >= statdate)
@@ -674,12 +595,6 @@ AddReconcileItems(const TransactionData& data, void* ptr)
 	ReconcileWindow* win = (ReconcileWindow*)ptr;
 
 	switch (data.Type().TypeCode()) {
-		case TRANS_NUMERIC:
-		{
-			win->fCheckList->AddItem(new ReconcileItem(data));
-			break;
-		}
-
 		case TRANS_DEP:
 		{
 			win->fDepositList->AddItem(new ReconcileItem(data));

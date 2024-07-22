@@ -237,8 +237,6 @@ Database::OpenFile(const char* path)
 		if (!query.eof())
 			acc->SetCurrentTransaction(query.getInt64Field(0));
 		query.finalize();
-
-		acc->SetLastCheckNumber(acc->LookupLastCheckNumber());
 	}
 
 	fCurrent = (Account*)fList.ItemAt(0);

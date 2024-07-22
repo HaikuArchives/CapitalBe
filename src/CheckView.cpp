@@ -186,9 +186,6 @@ CheckView::MessageReceived(BMessage* msg)
 			gDatabase.AddTransaction(trans);
 			acc->SetCurrentTransaction(trans.GetID());
 
-			if (trans.Type().TypeCode() == TRANS_NUMERIC)
-				acc->SetLastCheckNumber(atol(trans.Type().Type()));
-
 			MakeEmpty();
 
 			gDatabase.GetTransaction(trans.GetID(), trans);

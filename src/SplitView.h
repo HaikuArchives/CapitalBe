@@ -94,7 +94,6 @@ private:
 	time_t fCurrentDate;
 	bool fStartExpanded;
 	TransactionData fTransaction;
-	uint16 fCheckNum;
 };
 
 #endif

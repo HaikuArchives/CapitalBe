@@ -8,7 +8,6 @@ Account::Account(const char* name, const bool& isclosed)
 	  fID(0),
 	  fClosed(isclosed),
 	  fCurrentTransaction(0),
-	  fLastCheckNumber(0),
 	  fUseDefaultLocale(true)
 {
 }
@@ -34,18 +33,6 @@ Account::SetCurrentTransaction(const uint32& id)
 		return true;
 	}
 	return false;
-}
-
-uint16
-Account::LookupLastCheckNumber(void)
-{
-	BString command;
-	command.SetToFormat("SELECT MAX(type) FROM account_%i WHERE type BETWEEN 0 AND 65536;", fID);
-	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::LookupLastCheckNumber");
-	if (query.eof())
-		return 0;
-
-	return query.getIntField(0);
 }
 
 Fixed
