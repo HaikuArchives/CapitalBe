@@ -106,7 +106,7 @@ ReportWindow::ReportWindow(BRect frame)
 	reportmenu->SetRadioMode(true);
 	reportmenu->ItemAt(0L)->SetMarked(true);
 
-	fReportMode = REPORT_BUDGET;
+	fReportMode = REPORT_CASH_FLOW;
 
 	reportsLayout->AddView(new BStringView("reportsv", B_TRANSLATE("Reports:")));
 	reportsLayout->SetExplicitSize(
