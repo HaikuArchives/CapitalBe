@@ -174,7 +174,6 @@ MainWindow::MainWindow(BRect frame)
 
 MainWindow::~MainWindow(void)
 {
-	SavePreferences(PREFERENCES_PATH "/CapitalBeSettings");
 	delete fImportPanel;
 }
 

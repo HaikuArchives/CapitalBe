@@ -11,6 +11,7 @@
 #include "CheckView.h"
 #include "Database.h"
 #include "MainWindow.h"
+#include "Preferences.h"
 #include "QuickTrackerItem.h"
 
 
@@ -91,25 +92,25 @@ RegisterView::RegisterView(const char* name, int32 flags)
 }
 // clang-format on
 
-RegisterView::~RegisterView(void) {}
+RegisterView::~RegisterView(void)
+{
+	prefsLock.Lock();
+	gPreferences.RemoveData("selected-account");
+	gPreferences.AddInt32("selected-account", fAccountView->CurrentSelection());
+	prefsLock.Unlock();
+}
 
 void
 RegisterView::AttachedToWindow(void)
 {
 	fAccountView->SetTarget(this);
 
-	// If the selection done is before being attached to the window, the message is
-	// never received.
-	bool selected = false;
-	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
-		Account* acc = gDatabase.AccountAt(i);
-		if (acc && !acc->IsClosed()) {
-			fAccountView->Select(i);
-			selected = true;
-		}
-	}
-	if (!selected)
-		fAccountView->Select(0);
+	int32 index;
+	if (index > fAccountView->CountItems() || index < 0
+		|| gPreferences.FindInt32("selected-account", &index) != B_OK)
+		index = 0;
+
+	fAccountView->Select(index);
 
 	fCheckView->MakeFocus(true);
 }
