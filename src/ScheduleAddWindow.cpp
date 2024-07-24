@@ -108,6 +108,7 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	fStartDate->UseTabFiltering(false);
 	gDefaultLocale.DateToString(data.Date(), temp);
 	fStartDate->SetText(temp.String());
+	fStartDate->SetDate(data.Date());
 
 	CalendarButton* calendarButton = new CalendarButton(fStartDate);
 
