@@ -28,7 +28,10 @@ App::App(void)
 	win->Show();
 }
 
-App::~App(void) {}
+App::~App(void)
+{
+	SavePreferences(PREFERENCES_PATH "/CapitalBeSettings");
+}
 
 void
 App::MessageReceived(BMessage* msg)

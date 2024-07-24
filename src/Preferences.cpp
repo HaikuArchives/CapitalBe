@@ -5,6 +5,7 @@
 #include <Roster.h>
 #include <Screen.h>
 #include <math.h>
+#include <cstdio>
 
 BLocker prefsLock;
 BMessage gPreferences;
