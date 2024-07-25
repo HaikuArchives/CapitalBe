@@ -46,6 +46,7 @@ CheckView::CheckView(const char* name, int32 flags)
 		= new BStringView("payeelabel", B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
 	payeeLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fPayee = new PayeeBox("payeeentry", "", NULL, new BMessage(M_PAYEE_CHANGED));
+	fPayee->SetCharacterLimit(63);
 
 	BStringView* amountLabel
 		= new BStringView("amountlabel", B_TRANSLATE_CONTEXT("Amount", "CommonTerms"));
@@ -64,7 +65,7 @@ CheckView::CheckView(const char* name, int32 flags)
 	memoLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	fMemo = new NavTextBox("memoentry", "", NULL, new BMessage(M_MEMO_CHANGED));
 	fMemo->TextView()->DisallowChar(B_ESCAPE);
-	fMemo->SetCharacterLimit(21);
+	fMemo->SetCharacterLimit(63);
 
 	fEnter = new BButton("enterbutton", B_TRANSLATE("Enter"), new BMessage(M_ENTER_TRANSACTION));
 	fEnter->SetExplicitMaxSize(BSize(B_SIZE_UNSET, B_SIZE_UNLIMITED));
