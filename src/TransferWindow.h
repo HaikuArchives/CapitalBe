@@ -9,7 +9,7 @@
 #include <Window.h>
 #include <time.h>
 #include "Account.h"
-#include "AccountListItem.h"
+#include "AccountListView.h"
 #include "Fixed.h"
 
 #define M_CREATE_TRANSFER 'crtn'

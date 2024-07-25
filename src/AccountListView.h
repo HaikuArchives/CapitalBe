@@ -2,8 +2,35 @@
 #define ACCOUNTLISTITEM_H
 
 #include <ListItem.h>
+#include <ListView.h>
+#include <PopUpMenu.h>
 
 class Account;
+
+
+class AccountList : public BListView {
+public:
+	AccountList(void);
+	~AccountList(void);
+
+	virtual	void MessageReceived(BMessage* message);
+	void MouseDown(BPoint position);
+
+private:
+	void ShowPopUpMenu(BPoint screen);
+	bool fShowingPopUpMenu;
+};
+
+
+class AccountContext : public BPopUpMenu {
+public:
+	AccountContext(const char* name, BMessenger target);
+	virtual ~AccountContext(void);
+
+private:
+	BMessenger fTarget;
+};
+
 
 class AccountListItem : public BListItem {
 public:

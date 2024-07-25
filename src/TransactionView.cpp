@@ -1,16 +1,19 @@
 #include "TransactionView.h"
 #include <Bitmap.h>
 #include <Box.h>
+#include <Catalog.h>
 #include <LayoutBuilder.h>
 #include <ScrollBar.h>
 #include <StringView.h>
 #include <TranslationUtils.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "Database.h"
 #include "MainWindow.h"
 #include "TransactionItem.h"
 #include "TransactionLayout.h"
+
 
 TransactionView::TransactionView()
 	: BView("transactionview", B_WILL_DRAW | B_SUBPIXEL_PRECISE | B_FRAME_EVENTS),
@@ -18,8 +21,7 @@ TransactionView::TransactionView()
 {
 	InitTransactionItemLayout(this);
 
-	fListView = new BListView("RegisterList", B_SINGLE_SELECTION_LIST,
-		B_WILL_DRAW | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE);
+	fListView = new TransactionList();
 	fListView->SetSelectionMessage(new BMessage(M_TRANSACTION_SELECTED));
 	fListView->SetInvocationMessage(new BMessage(M_TRANSACTION_INVOKED));
 	fScrollView = new BScrollView("scrollregister", fListView, 0, false, true);
@@ -421,4 +423,88 @@ TransactionView::FindIndexForDate(const time_t& time, const char* payee)
 		i++;
 	}
 	return fListView->CountItems();
+}
+
+
+TransactionList::TransactionList(void)
+	:
+	BListView("TransactionList"),
+	fShowingPopUpMenu(false)
+{
+}
+
+TransactionList::~TransactionList(void)
+{
+}
+
+void
+TransactionList::MessageReceived(BMessage* message)
+{
+	switch (message->what) {
+		case M_CONTEXT_CLOSE:
+		{
+			fShowingPopUpMenu = false;
+			break;
+		}
+		default:
+		{
+			BListView::MessageReceived(message);
+			break;
+		}
+	}
+}
+
+void
+TransactionList::MouseDown(BPoint position)
+{
+	uint32 buttons = 0;
+	if (Window() != NULL && Window()->CurrentMessage() != NULL)
+		buttons = Window()->CurrentMessage()->FindInt32("buttons");
+
+	if ((buttons & B_SECONDARY_MOUSE_BUTTON) != 0) {
+		Select(IndexOf(position));
+		ShowPopUpMenu(position);
+		return;
+	}
+
+	BView::MouseDown(position);
+}
+
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "MainWindow"
+
+void
+TransactionList::ShowPopUpMenu(BPoint position)
+{
+	if (fShowingPopUpMenu || IsEmpty())
+		return;
+
+	TransactionContext* menu = new TransactionContext("PopUpMenu", this);
+
+	menu->AddItem(
+		new BMenuItem(B_TRANSLATE("Edit" B_UTF8_ELLIPSIS), new BMessage(M_EDIT_TRANSACTION), 'E'));
+	menu->AddItem(
+		new BMenuItem(B_TRANSLATE("Schedule this transaction" B_UTF8_ELLIPSIS),
+		new BMessage(M_SCHEDULE_TRANSACTION)));
+	menu->AddSeparatorItem();
+	menu->AddItem(
+		new BMenuItem(B_TRANSLATE("Delete"), new BMessage(M_DELETE_TRANSACTION)));
+
+	menu->SetTargetForItems(Window());
+	menu->Go(ConvertToScreen(position), true, true, true);
+	fShowingPopUpMenu = true;
+}
+
+
+TransactionContext::~TransactionContext(void)
+{
+	fTarget.SendMessage(M_CONTEXT_CLOSE);
+}
+
+TransactionContext::TransactionContext(const char* name, BMessenger target)
+	:
+	BPopUpMenu(name, false, false),
+	fTarget(target)
+{
+	SetAsyncAutoDestruct(true);
 }
