@@ -118,6 +118,9 @@ CalendarMenuWindow::CalendarMenuWindow(BHandler* handler, BPoint where)
 	groupView->AddChild(view);
 	AddChild(groupView);
 
+	// Moves the bottom left corner of the window to "where"
+	BSize size = GetLayout()->PreferredSize();
+	where.y -= size.height;
 	MoveTo(where);
 }
 

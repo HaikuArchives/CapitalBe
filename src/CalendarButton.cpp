@@ -130,7 +130,12 @@ CalendarButton::ShowPopUpCalendar()
 
 	BDate date = fDateBox->GetDate();
 	BMessage* invocationMessage = new BMessage(M_SET_DATE);
-	BPoint where = Bounds().LeftTop();
+
+	// Get the center of the BButton
+	BRect buttonRect(Bounds());
+	BPoint where = buttonRect.LeftTop();
+	where.x += buttonRect.Width() / 2;
+	where.y += buttonRect.Height() / 2;
 	ConvertToScreen(&where);
 
 	CalendarMenuWindow* window = new CalendarMenuWindow(this, where);
@@ -139,7 +144,5 @@ CalendarButton::ShowPopUpCalendar()
 	window->SetDate(date);
 	fCalendarWindow = BMessenger(window);
 	window->Show();
-
-	window->MoveBy(Bounds().Width() / 2, window->Bounds().Height() * -1.5);
 	window->MoveOnScreen(B_MOVE_IF_PARTIALLY_OFFSCREEN);
 }
