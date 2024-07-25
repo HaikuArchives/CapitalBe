@@ -7,7 +7,7 @@
 #include <StringView.h>
 
 #include "Account.h"
-#include "AccountListItem.h"
+#include "AccountListView.h"
 #include "CheckView.h"
 #include "Database.h"
 #include "MainWindow.h"
@@ -34,7 +34,7 @@ RegisterView::RegisterView(const char* name, int32 flags)
 	accountLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	//	fAccountView = new DragListView(r,"accountview");
-	fAccountView = new BListView("accountview", B_SINGLE_SELECTION_LIST);
+	fAccountView = new AccountList();
 	fAccountView->SetSelectionMessage(new BMessage(M_SELECT_ACCOUNT));
 	fAccountView->SetInvocationMessage(new BMessage(M_SHOW_ACCOUNT_SETTINGS));
 	fAccountView->SetExplicitSize(BSize(GetAccountViewWidth(), B_SIZE_UNSET));
@@ -220,3 +220,4 @@ RegisterView::GetAccountViewWidth()
 	}
 	return width;
 }
+

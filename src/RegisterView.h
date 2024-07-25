@@ -4,6 +4,8 @@
 #include <Box.h>
 #include <ListView.h>
 #include <View.h>
+
+#include "AccountListView.h"
 #include "Notifier.h"
 #include "TransactionView.h"
 
@@ -17,6 +19,7 @@ public:
 	~RegisterView(void);
 	void MessageReceived(BMessage* msg);
 	void AttachedToWindow(void);
+
 	void HandleNotify(const uint64& value, const BMessage* msg);
 	void SelectAccount(const int32& index);
 
@@ -32,7 +35,7 @@ private:
 	float GetAccountViewWidth(void);
 
 	CheckView* fCheckView;
-	BListView* fAccountView;
+	AccountList* fAccountView;
 	BScrollView* fAccountScroller;
 	TransactionView* fTransactionView;
 	BBox* fTrackBox;

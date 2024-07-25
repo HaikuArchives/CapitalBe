@@ -2,10 +2,11 @@
 #define TRANSACTIONVIEW_H
 
 #include <ListView.h>
+#include <PopUpMenu.h>
 #include <ScrollView.h>
 #include <StringView.h>
 #include <View.h>
-#include <set>
+
 #include "Account.h"
 #include "Notifier.h"
 #include "TransactionData.h"
@@ -14,6 +15,31 @@
 #define M_TRANSACTION_INVOKED 'trin'
 
 class TransactionItem;
+
+
+class TransactionList : public BListView {
+public:
+	TransactionList(void);
+	~TransactionList(void);
+
+	virtual	void MessageReceived(BMessage* message);
+	void MouseDown(BPoint position);
+
+private:
+	void ShowPopUpMenu(BPoint screen);
+	bool fShowingPopUpMenu;
+};
+
+
+class TransactionContext : public BPopUpMenu {
+public:
+	TransactionContext(const char* name, BMessenger target);
+	virtual ~TransactionContext();
+
+private:
+	BMessenger fTarget;
+};
+
 
 class TransactionView : public BView, public Observer {
 public:
@@ -42,7 +68,7 @@ private:
 	int32 FindItemForID(const uint32& id);
 	int32 FindIndexForDate(const time_t& time, const char* payee);
 
-	BListView* fListView;
+	TransactionList* fListView;
 	BObjectList<TransactionItem>* fItemList;
 	Transaction* fCurrent;
 	BStringView *fCategoryLabel, *fMemoLabel;

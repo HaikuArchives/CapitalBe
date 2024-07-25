@@ -30,7 +30,7 @@ APP_MIME_SIG = application/x-vnd.wgp-CapitalBe
 #	Also note that spaces in folder names do not work well with this Makefile.
 SRCS = \
 	 src/Account.cpp  \
-	 src/AccountListItem.cpp  \
+	 src/AccountListView.cpp  \
 	 src/AccountSettingsWindow.cpp  \
 	 src/App.cpp  \
 	 src/AutoTextControl.cpp  \
