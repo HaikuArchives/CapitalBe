@@ -353,8 +353,7 @@ CategoryItem::DrawItem(BView* owner, BRect frame, bool complete)
 		owner->StrokeRect(frame);
 	}
 
-	owner->SetHighUIColor(
-		IsSelected() ? B_LIST_SELECTED_ITEM_TEXT_COLOR : B_LIST_ITEM_TEXT_COLOR);
+	owner->SetHighUIColor(IsSelected() ? B_LIST_SELECTED_ITEM_TEXT_COLOR : B_LIST_ITEM_TEXT_COLOR);
 
 	// Compute vertical alignment factor
 	font_height fh;
