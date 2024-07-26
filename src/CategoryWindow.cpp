@@ -353,11 +353,17 @@ CategoryItem::DrawItem(BView* owner, BRect frame, bool complete)
 		owner->StrokeRect(frame);
 	}
 
-	owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
+	owner->SetHighUIColor(
+		IsSelected() ? B_LIST_SELECTED_ITEM_TEXT_COLOR : B_LIST_ITEM_TEXT_COLOR);
+
+	// Compute vertical alignment factor
+	font_height fh;
+	owner->GetFontHeight(&fh);
+	float fontFactor = ceilf(fh.ascent + fh.descent + fh.leading) / 4 + 1;
 
 	BRegion region(frame);
 	owner->ConstrainClippingRegion(&region);
-	owner->DrawString(Text(), BPoint(frame.left + 3, frame.bottom - 4));
+	owner->DrawString(Text(), BPoint(frame.left + 3, frame.bottom - fontFactor));
 	owner->ConstrainClippingRegion(NULL);
 }
 
