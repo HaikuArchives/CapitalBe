@@ -13,7 +13,6 @@
 #include <TextView.h>
 #include <View.h>
 
-#include "ColumnListView.h"
 #include "ColumnTypes.h"
 #include "Database.h"
 #include "HelpButton.h"
@@ -25,37 +24,16 @@
 #define B_TRANSLATION_CONTEXT "ScheduleListWindow"
 
 
-enum {
-	M_REMOVE_ITEM = 'rmit'
-};
-
-class ScheduleListView : public BView {
-public:
-	ScheduleListView(const char* name, const int32& flags);
-	void AttachedToWindow(void);
-	void MessageReceived(BMessage* msg);
-
-private:
-	// This is a float so we can get the maximum string width for payees.
-	float RefreshScheduleList(void);
-
-	BColumnListView* fListView;
-
-	BButton* fRemoveButton;
-	BList fTransList;
-
-	float fBestWidth;
-};
-
 ScheduleListView::ScheduleListView(const char* name, const int32& flags)
-	: BView(name, flags)
+	: BView(name, flags),
+	fShowingPopUpMenu(false)
 {
 	// the buttons
 	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove"), new BMessage(M_REMOVE_ITEM));
 
 	// the transaction list
 	fListView = new BColumnListView("listview", B_FANCY_BORDER);
-
+	fListView->SetSelectionMessage(new BMessage(M_SELECTION));
 	fListView->SetSortingEnabled(false);
 	fListView->SetEditMode(false);
 
@@ -131,6 +109,22 @@ ScheduleListView::MessageReceived(BMessage* msg)
 
 			// TODO: Do we need to delete this row ourselves?
 			fListView->RemoveRow(fListView->CurrentSelection());
+			break;
+		}
+		case M_SELECTION:
+		{
+			BPoint where;
+			uint32 buttons;
+			fListView->GetMouse(&where, &buttons);
+			where.x += 2; // to prevent occasional select
+			if (buttons & B_SECONDARY_MOUSE_BUTTON)
+				ShowPopUpMenu(where);
+
+			break;
+		}
+		case M_CLOSE_CONTEXT:
+		{
+			fShowingPopUpMenu = false;
 			break;
 		}
 		default:
@@ -268,6 +262,22 @@ ScheduleListView::RefreshScheduleList(void)
 }
 
 
+void
+ScheduleListView::ShowPopUpMenu(BPoint position)
+{
+	if (fShowingPopUpMenu || fListView->CountRows() == 0)
+		return;
+
+	ScheduleContext* menu = new ScheduleContext("PopUpMenu", this);
+
+	menu->AddItem(
+		new BMenuItem(B_TRANSLATE("Remove"), new BMessage(M_REMOVE_ITEM)));
+	menu->SetTargetForItems(this);
+	menu->Go(ConvertToScreen(position), true, true, true);
+	fShowingPopUpMenu = true;
+}
+
+
 ScheduleListWindow::ScheduleListWindow(const BRect& frame)
 	: BWindow(frame, B_TRANSLATE("Scheduled transactions"), B_DOCUMENT_WINDOW_LOOK,
 		B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE)
@@ -278,4 +288,19 @@ ScheduleListWindow::ScheduleListWindow(const BRect& frame)
 
 	//	AddShortcut('A',B_COMMAND_KEY, new BMessage(M_SHOW_ADD_WINDOW),view);
 	//	AddShortcut('R',B_COMMAND_KEY, new BMessage(M_REMOVE_CATEGORY),view);
+}
+
+
+ScheduleContext::ScheduleContext(const char* name, BMessenger target)
+	:
+	BPopUpMenu(name, false, false),
+	fTarget(target)
+{
+	SetAsyncAutoDestruct(true);
+}
+
+
+ScheduleContext::~ScheduleContext(void)
+{
+	fTarget.SendMessage(M_CLOSE_CONTEXT);
 }

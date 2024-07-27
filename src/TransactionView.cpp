@@ -467,7 +467,7 @@ TransactionList::MouseDown(BPoint position)
 		return;
 	}
 
-	BView::MouseDown(position);
+	BListView::MouseDown(position);
 }
 
 #undef B_TRANSLATION_CONTEXT
@@ -496,15 +496,16 @@ TransactionList::ShowPopUpMenu(BPoint position)
 }
 
 
-TransactionContext::~TransactionContext(void)
-{
-	fTarget.SendMessage(M_CONTEXT_CLOSE);
-}
-
 TransactionContext::TransactionContext(const char* name, BMessenger target)
 	:
 	BPopUpMenu(name, false, false),
 	fTarget(target)
 {
 	SetAsyncAutoDestruct(true);
+}
+
+
+TransactionContext::~TransactionContext(void)
+{
+	fTarget.SendMessage(M_CONTEXT_CLOSE);
 }
