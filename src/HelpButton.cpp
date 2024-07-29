@@ -1,9 +1,15 @@
 #include "HelpButton.h"
+
+#include <Application.h>
+#include <Bitmap.h>
 #include <Catalog.h>
+#include <ControlLook.h>
 #include <File.h>
+#include <IconUtils.h>
 #include <LayoutBuilder.h>
 #include <LocaleRoster.h>
 #include <PathFinder.h>
+#include <Resources.h>
 #include <ScrollView.h>
 #include <StringList.h>
 #include <TextView.h>
@@ -27,7 +33,24 @@ HelpButton::HelpButton(const char* title, const char* helpfilename)
 {
 	fWindowTitle = title;
 	fRef = GetHelpFile(helpfilename);
-	SetIcon(BTranslationUtils::GetBitmap('PNG ', "HelpButtonUp.png"));
+
+	BResources* resources = BApplication::AppResources();
+	if (resources != NULL) {
+		size_t size;
+		const uint8* data
+			= (const uint8*)resources->LoadResource(B_VECTOR_ICON_TYPE, "help-icon", &size);
+		BBitmap* icon = new BBitmap(BRect(BPoint(0, 0),
+			be_control_look->ComposeIconSize(B_MINI_ICON)), B_RGBA32);
+		if (icon != NULL) {
+			if (data == NULL || BIconUtils::GetVectorIcon(data, size, icon) != B_OK)
+				delete icon;
+			else {
+				SetIcon(icon);
+				float width = icon->Bounds().Width() + be_control_look->ComposeSpacing(8);
+				SetExplicitSize(BSize(width, width));
+			}
+		}
+	}
 }
 
 HelpButton::~HelpButton(void) {}
