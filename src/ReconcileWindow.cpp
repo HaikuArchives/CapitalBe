@@ -77,7 +77,7 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 
 	float maxwidth = 0;
 	BString label(B_TRANSLATE("Starting balance"));
-	fOpening = new CurrencyBox("starting", label, NULL,	new BMessage(M_SET_BALANCES));
+	fOpening = new CurrencyBox("starting", label, NULL, new BMessage(M_SET_BALANCES));
 	fOpening->GetFilter()->SetMessenger(new BMessenger(this));
 	fOpening->Validate(true);
 	maxwidth = MAX(maxwidth, be_plain_font->StringWidth(label));
@@ -118,16 +118,18 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 
 	fDepLabel = new BStringView("deplabel", temp.String());
 	fDepLabel->SetAlignment(B_ALIGN_CENTER);
-	fDepLabel->SetExplicitSize(BSize(be_plain_font->StringWidth(temp)
-		+ be_plain_font->StringWidth("100.00.000,00"), B_SIZE_UNSET));
+	fDepLabel->SetExplicitSize(
+		BSize(be_plain_font->StringWidth(temp) + be_plain_font->StringWidth("100.00.000,00"),
+			B_SIZE_UNSET));
 
 	gCurrentLocale.CurrencyToString(fChargeTotal, total);
 	temp = B_TRANSLATE("Total charges:");
 	temp << " " << total;
 	fChargeLabel = new BStringView("chargelabel", temp.String());
 	fChargeLabel->SetAlignment(B_ALIGN_CENTER);
-	fChargeLabel->SetExplicitSize(BSize(be_plain_font->StringWidth(temp)
-		+ be_plain_font->StringWidth("100.000.000,00"), B_SIZE_UNSET));
+	fChargeLabel->SetExplicitSize(
+		BSize(be_plain_font->StringWidth(temp) + be_plain_font->StringWidth("100.000.000,00"),
+			B_SIZE_UNSET));
 
 	fReconcile = new BButton("reconcile", B_TRANSLATE("Reconcile"), new BMessage(M_RECONCILE));
 	fCancel = new BButton("cancel", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
@@ -428,7 +430,7 @@ ReconcileWindow::HandleNotify(const uint64& value, const BMessage* msg)
 
 				deleteditem = FindItemForID(fDepositList, id);
 				if (deleteditem)
-				itemlist = fDepositList;
+					itemlist = fDepositList;
 				else {
 					deleteditem = FindItemForID(fChargeList, id);
 					if (deleteditem)
