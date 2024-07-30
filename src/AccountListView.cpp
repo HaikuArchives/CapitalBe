@@ -93,15 +93,12 @@ AccountListItem::Update(BView* owner, const BFont* finfo)
 #define B_TRANSLATION_CONTEXT "MainWindow"
 
 AccountList::AccountList(void)
-	:
-	BListView("AccountList"),
-	fShowingPopUpMenu(false)
+	: BListView("AccountList"),
+	  fShowingPopUpMenu(false)
 {
 }
 
-AccountList::~AccountList(void)
-{
-}
+AccountList::~AccountList(void) {}
 
 void
 AccountList::MessageReceived(BMessage* message)
@@ -175,9 +172,8 @@ AccountContext::~AccountContext(void)
 }
 
 AccountContext::AccountContext(const char* name, BMessenger target)
-	:
-	BPopUpMenu(name, false, false),
-	fTarget(target)
+	: BPopUpMenu(name, false, false),
+	  fTarget(target)
 {
 	SetAsyncAutoDestruct(true);
 }

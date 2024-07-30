@@ -220,4 +220,3 @@ RegisterView::GetAccountViewWidth()
 	}
 	return width;
 }
-

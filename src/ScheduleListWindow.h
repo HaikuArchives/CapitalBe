@@ -1,9 +1,9 @@
 #ifndef SCHEDULELIST_WINDOW
 #define SCHEDULELIST_WINDOW
 
-#include "ColumnListView.h"
 #include <PopUpMenu.h>
 #include <Window.h>
+#include "ColumnListView.h"
 
 enum {
 	M_REMOVE_ITEM = 'rmit',

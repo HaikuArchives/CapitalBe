@@ -26,7 +26,7 @@
 
 ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	: BView(name, flags),
-	fShowingPopUpMenu(false)
+	  fShowingPopUpMenu(false)
 {
 	// the buttons
 	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove"), new BMessage(M_REMOVE_ITEM));
@@ -116,7 +116,7 @@ ScheduleListView::MessageReceived(BMessage* msg)
 			BPoint where;
 			uint32 buttons;
 			fListView->GetMouse(&where, &buttons);
-			where.x += 2; // to prevent occasional select
+			where.x += 2;  // to prevent occasional select
 			if (buttons & B_SECONDARY_MOUSE_BUTTON)
 				ShowPopUpMenu(where);
 
@@ -270,8 +270,7 @@ ScheduleListView::ShowPopUpMenu(BPoint position)
 
 	ScheduleContext* menu = new ScheduleContext("PopUpMenu", this);
 
-	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("Remove"), new BMessage(M_REMOVE_ITEM)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Remove"), new BMessage(M_REMOVE_ITEM)));
 	menu->SetTargetForItems(this);
 	menu->Go(ConvertToScreen(position), true, true, true);
 	fShowingPopUpMenu = true;
@@ -292,9 +291,8 @@ ScheduleListWindow::ScheduleListWindow(const BRect& frame)
 
 
 ScheduleContext::ScheduleContext(const char* name, BMessenger target)
-	:
-	BPopUpMenu(name, false, false),
-	fTarget(target)
+	: BPopUpMenu(name, false, false),
+	  fTarget(target)
 {
 	SetAsyncAutoDestruct(true);
 }

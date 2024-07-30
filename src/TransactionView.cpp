@@ -427,15 +427,12 @@ TransactionView::FindIndexForDate(const time_t& time, const char* payee)
 
 
 TransactionList::TransactionList(void)
-	:
-	BListView("TransactionList"),
-	fShowingPopUpMenu(false)
+	: BListView("TransactionList"),
+	  fShowingPopUpMenu(false)
 {
 }
 
-TransactionList::~TransactionList(void)
-{
-}
+TransactionList::~TransactionList(void) {}
 
 void
 TransactionList::MessageReceived(BMessage* message)
@@ -483,12 +480,10 @@ TransactionList::ShowPopUpMenu(BPoint position)
 
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Edit" B_UTF8_ELLIPSIS), new BMessage(M_EDIT_TRANSACTION), 'E'));
-	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("Schedule this transaction" B_UTF8_ELLIPSIS),
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Schedule this transaction" B_UTF8_ELLIPSIS),
 		new BMessage(M_SCHEDULE_TRANSACTION)));
 	menu->AddSeparatorItem();
-	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("Delete"), new BMessage(M_DELETE_TRANSACTION)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Delete"), new BMessage(M_DELETE_TRANSACTION)));
 
 	menu->SetTargetForItems(Window());
 	menu->Go(ConvertToScreen(position), true, true, true);
@@ -497,9 +492,8 @@ TransactionList::ShowPopUpMenu(BPoint position)
 
 
 TransactionContext::TransactionContext(const char* name, BMessenger target)
-	:
-	BPopUpMenu(name, false, false),
-	fTarget(target)
+	: BPopUpMenu(name, false, false),
+	  fTarget(target)
 {
 	SetAsyncAutoDestruct(true);
 }

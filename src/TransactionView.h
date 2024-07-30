@@ -22,7 +22,7 @@ public:
 	TransactionList(void);
 	~TransactionList(void);
 
-	virtual	void MessageReceived(BMessage* message);
+	virtual void MessageReceived(BMessage* message);
 	void MouseDown(BPoint position);
 
 private:
