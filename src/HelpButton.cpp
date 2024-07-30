@@ -39,8 +39,8 @@ HelpButton::HelpButton(const char* title, const char* helpfilename)
 		size_t size;
 		const uint8* data
 			= (const uint8*)resources->LoadResource(B_VECTOR_ICON_TYPE, "help-icon", &size);
-		BBitmap* icon = new BBitmap(BRect(BPoint(0, 0),
-			be_control_look->ComposeIconSize(B_MINI_ICON)), B_RGBA32);
+		BBitmap* icon = new BBitmap(
+			BRect(BPoint(0, 0), be_control_look->ComposeIconSize(B_MINI_ICON)), B_RGBA32);
 		if (icon != NULL) {
 			if (data == NULL || BIconUtils::GetVectorIcon(data, size, icon) != B_OK)
 				delete icon;
