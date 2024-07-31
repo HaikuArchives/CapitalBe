@@ -83,28 +83,38 @@ openDocumentation(const char* helpfilename, const char* anchor = NULL)
 }
 
 
-HelpButton::HelpButton(const char* helpfilename, const char* anchor = NULL)
-	: BButton(helpfilename, "", new BMessage(M_HELPBUTTON_PRESSED)),
-	fHelpfile(helpfilename),
-	fAnchor(anchor)
+BBitmap*
+getHelpIcon(void)
 {
+	BBitmap* icon = NULL;
 	BResources* resources = BApplication::AppResources();
 	if (resources != NULL) {
 		size_t size;
 		const uint8* data
 			= (const uint8*)resources->LoadResource(B_VECTOR_ICON_TYPE, "help-icon", &size);
-		BBitmap* icon = new BBitmap(
+		icon = new BBitmap(
 			BRect(BPoint(0, 0), be_control_look->ComposeIconSize(B_MINI_ICON)), B_RGBA32);
 		if (icon != NULL) {
-			if (data == NULL || BIconUtils::GetVectorIcon(data, size, icon) != B_OK)
+			if (data == NULL || BIconUtils::GetVectorIcon(data, size, icon) != B_OK) {
 				delete icon;
-			else {
-				SetIcon(icon);
-				float width = icon->Bounds().Width() + be_control_look->ComposeSpacing(8);
-				SetExplicitSize(BSize(width, width));
+				return NULL;
 			}
 		}
 	}
+	return icon;
+}
+
+
+HelpButton::HelpButton(const char* helpfilename, const char* anchor = NULL)
+	: BButton(helpfilename, "", new BMessage(M_HELP)),
+	fHelpfile(helpfilename),
+	fAnchor(anchor)
+{
+	BBitmap* icon = getHelpIcon();
+	SetIcon(icon);
+	float width = icon->Bounds().Width() + be_control_look->ComposeSpacing(8);
+	SetExplicitSize(BSize(width, width));
+
 }
 
 
@@ -124,7 +134,7 @@ HelpButton::AttachedToWindow()
 void
 HelpButton::MessageReceived(BMessage* msg)
 {
-	if (msg->what == M_HELPBUTTON_PRESSED)
+	if (msg->what == M_HELP)
 		openDocumentation(fHelpfile, fAnchor);
 	else
 		BButton::MessageReceived(msg);

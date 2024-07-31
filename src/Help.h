@@ -1,9 +1,10 @@
-#ifndef HELPBUTTON_H
-#define HELPBUTTON_H
+#ifndef HELP_H
+#define HELP_H
 
 #include <Button.h>
 
-#define M_HELPBUTTON_PRESSED 'hbpr'
+#define M_HELP 'help'
+
 
 class HelpButton : public BButton {
 public:
@@ -18,5 +19,8 @@ private:
 	BString fHelpfile;
 	BString fAnchor;
 };
+
+void openDocumentation(const char* helpfilename, const char* anchor);
+BBitmap* getHelpIcon(void);
 
 #endif
