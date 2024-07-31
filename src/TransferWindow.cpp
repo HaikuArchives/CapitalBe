@@ -14,6 +14,7 @@
 #include "Database.h"
 #include "DateBox.h"
 #include "Fixed.h"
+#include "Help.h"
 #include "MsgDefs.h"
 
 #undef B_TRANSLATION_CONTEXT
@@ -59,6 +60,8 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 
 	fToLabel = new BStringView("tolabel", B_TRANSLATE("To account:"));
 	fToLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
+
+	HelpButton* helpButton = new HelpButton("start.html", "#transfer");
 
 	fOK = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_CREATE_TRANSFER));
 	fOK->SetEnabled(false);
@@ -160,7 +163,9 @@ TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
 			.End()
 		.AddStrut(B_USE_DEFAULT_SPACING)
 		.AddGroup(B_HORIZONTAL)
-			.AddGlue()
+			.AddGlue(0)
+			.Add(helpButton)
+			.AddGlue(1)
 			.Add(fCancel)
 			.Add(fOK)
 			.AddGlue()

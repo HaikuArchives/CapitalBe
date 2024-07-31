@@ -9,6 +9,7 @@
 #include <MenuItem.h>
 
 #include "Database.h"
+#include "Help.h"
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -26,6 +27,7 @@ PrefWindow::PrefWindow(const BRect& frame, BMessenger target)
 
 	fNegNumberView = new NegativeNumberView("negcolor", gNegativeColor);
 
+	HelpButton* helpButton = new HelpButton("menus.html", "#app-settings");
 	BButton* cancel
 		= new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 	BButton* ok = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_OPTIONS));
@@ -37,7 +39,9 @@ PrefWindow::PrefWindow(const BRect& frame, BMessenger target)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.Add(fNegNumberView)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-			.AddGlue()
+			.AddGlue(0)
+			.Add(helpButton)
+			.AddGlue(1)
 			.Add(cancel)
 			.Add(ok)
 			.End()

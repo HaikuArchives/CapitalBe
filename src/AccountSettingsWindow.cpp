@@ -6,6 +6,7 @@
 #include "AutoTextControl.h"
 #include "CBLocale.h"
 #include "Database.h"
+#include "Help.h"
 #include "PrefWindow.h"
 
 #undef B_TRANSLATION_CONTEXT
@@ -44,6 +45,8 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 		templocale = fAccount->GetLocale();
 	fPrefView = new CurrencyPrefView("prefview", &templocale);
 
+	HelpButton* helpButton = new HelpButton("start.html", "#new-account");
+
 	fOK = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_ACCOUNT_SETTINGS));
 
 	if (strlen(fAccountName->Text()) < 1)
@@ -66,7 +69,9 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 			.Add(fPrefView)
 			.End()
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-			.AddGlue()
+			.AddGlue(0)
+			.Add(helpButton)
+			.AddGlue(1)
 			.Add(cancel)
 			.Add(fOK)
 			.End()

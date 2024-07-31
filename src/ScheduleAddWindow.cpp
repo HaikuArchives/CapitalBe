@@ -16,6 +16,7 @@
 #include "CalendarButton.h"
 #include "Database.h"
 #include "DateBox.h"
+#include "Help.h"
 #include "NumBox.h"
 #include "ScheduledExecutor.h"
 #include "ScheduledTransData.h"
@@ -137,6 +138,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	BButton* cancelButton
 		= new BButton("cancelbutton", B_TRANSLATE("Cancel"), new BMessage(B_QUIT_REQUESTED));
 
+	HelpButton* helpButton = new HelpButton("menus.html", "#schedule");
+
 	// clang-format off
 	BView* calendarStartWidget = new BView("calendarstartwidget", B_WILL_DRAW);
 	BLayoutBuilder::Group<>(calendarStartWidget, B_HORIZONTAL, -2)
@@ -181,7 +184,9 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 			.End()
 		.AddStrut(B_USE_BIG_SPACING)
 		.AddGroup(B_HORIZONTAL, B_USE_DEFAULT_SPACING)
-			.AddGlue()
+			.AddGlue(0)
+			.Add(helpButton)
+			.AddGlue(1)
 			.Add(cancelButton)
 			.Add(okButton)
 			.End()

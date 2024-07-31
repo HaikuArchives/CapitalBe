@@ -68,7 +68,7 @@ ReportWindow::ReportWindow(BRect frame)
 
 	BGroupLayout* listLayout = new BGroupLayout(B_VERTICAL, 1.0f);
 
-	HelpButton* help = new HelpButton("report.html", NULL);
+	HelpButton* help = new HelpButton("reports.html", NULL);
 
 	// clang-format off
 	BLayoutBuilder::Group<>(this, B_HORIZONTAL)

@@ -16,6 +16,7 @@
 
 #include "AutoTextControl.h"
 #include "Database.h"
+#include "Help.h"
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -103,6 +104,8 @@ CategoryView::CategoryView(const char* name, const int32& flags)
 	: BView(name, flags)
 {
 	// the buttons
+	HelpButton* helpButton = new HelpButton("menus.html", "#categories");
+
 	fEditButton = new BButton(
 		"editbutton", B_TRANSLATE("Edit" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_EDIT_WINDOW));
 	fRemoveButton = new BButton(
@@ -130,7 +133,9 @@ CategoryView::CategoryView(const char* name, const int32& flags)
 		.SetInsets(B_USE_DEFAULT_SPACING)
 		.Add(scrollView)
 		.AddGroup(B_HORIZONTAL)
-			.AddGlue()
+			.AddGlue(0)
+			.Add(helpButton)
+			.AddGlue(1)
 			.Add(fEditButton)
 			.Add(fRemoveButton)
 			.Add(fAddButton)
