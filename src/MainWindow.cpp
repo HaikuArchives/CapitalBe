@@ -22,6 +22,7 @@
 #include "CBLocale.h"
 #include "CategoryWindow.h"
 #include "DAlert.h"
+#include "Help.h"
 #include "IconMenuItem.h"
 #include "PrefWindow.h"
 #include "Preferences.h"
@@ -135,6 +136,11 @@ MainWindow::MainWindow(BRect frame)
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Scheduled transactions"), new BMessage(M_SHOW_SCHEDULED_WINDOW)));
+
+	// Help icon menu
+	BMenuBar* helpBar = new BMenuBar("helpbar");
+	helpBar->AddItem(new IconMenuItem("", new BMessage(M_HELP), getHelpIcon(), B_MINI_ICON));
+
 	// We load the financial data before we create any of the views because the
 	// notifications are not sent and startup time is *significantly* reduced
 	LoadData();
@@ -156,13 +162,12 @@ MainWindow::MainWindow(BRect frame)
 	HelpButton* helpButton = new HelpButton("start.html", NULL);
 
 	// clang-format off
-	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f)
+	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_SMALL_SPACING)
 		.SetInsets(0)
-		.AddGrid(0.f, 0.f)
-			.Add(bar, 0, 0)
-			.AddGlue(0, 1)
-			.Add(helpButton, 1, 0, 1, 2)
-			.End()
+		.AddGroup(B_HORIZONTAL, 0.0f)
+			.Add(bar, 1.0f)
+			.Add(helpBar, 0.0f)
+		.End()
 		.Add(fRegisterView)
 		.End();
 	// clang-format on
@@ -230,6 +235,11 @@ MainWindow::MessageReceived(BMessage* msg)
 	Account* acc = gDatabase.CurrentAccount();
 
 	switch (msg->what) {
+		case M_HELP:
+		{
+			openDocumentation("start.html", NULL);
+			break;
+		}
 		case M_REPORT_BUG:
 		{
 			BUrl("https://github.com/HaikuArchives/CapitalBe/issues/")

@@ -13,6 +13,7 @@
 #include "CurrencyBox.h"
 #include "Database.h"
 #include "Help.h"
+#include "IconMenuItem.h"
 #include "MsgDefs.h"
 #include "TimeSupport.h"
 
@@ -52,7 +53,9 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 		new BMenuItem(B_TRANSLATE("Recalculate all"), new BMessage(M_BUDGET_RECALCULATE)));
 	fBar->AddItem(new BMenuItem(B_TRANSLATE("Set all to zero"), new BMessage(M_BUDGET_ZERO)));
 
-	HelpButton* help = new HelpButton("budget.html", NULL);
+	// Help icon menu
+	BMenuBar* helpBar = new BMenuBar("helpbar");
+	helpBar->AddItem(new IconMenuItem("", new BMessage(M_HELP), getHelpIcon(), B_MINI_ICON));
 
 	BuildBudgetSummary();
 	BuildStatsAndEditor();
@@ -86,13 +89,12 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f)
 		.SetInsets(0)
-		.AddGrid(0.f, 0.f)
-			.Add(fBar, 0, 0)
-			.AddGlue(0, 1)
-			.Add(help, 1, 0, 1, 2)
-			.End()
+		.AddGroup(B_HORIZONTAL, 0.0f)
+			.Add(fBar, 1.0f)
+			.Add(helpBar, 0.0f)
+		.End()
 		.AddGroup(B_VERTICAL)
-			.SetInsets(B_USE_DEFAULT_SPACING, 0, B_USE_DEFAULT_SPACING,
+			.SetInsets(B_USE_DEFAULT_SPACING, B_USE_SMALL_SPACING, B_USE_DEFAULT_SPACING,
 				B_USE_DEFAULT_SPACING)
 			.AddGroup(B_HORIZONTAL)
 				.Add(fCategoryList)
@@ -114,6 +116,11 @@ void
 BudgetWindow::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
+		case M_HELP:
+		{
+			openDocumentation("budget.html", NULL);
+			break;
+		}
 		case M_SELECT_CATEGORY:
 		{
 			HandleCategorySelection();
