@@ -153,7 +153,7 @@ MainWindow::MainWindow(BRect frame)
 	fExportPanel->Window()->SetTitle(temp.String());
 	gDatabase.AddObserver(this);
 
-	HelpButton* helpButton = new HelpButton(B_TRANSLATE("Help: Main window"), "Main Window.txt");
+	HelpButton* helpButton = new HelpButton("start.html", NULL);
 
 	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0.0f)

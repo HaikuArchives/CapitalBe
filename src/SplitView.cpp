@@ -90,8 +90,7 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		"expander", B_TRANSLATE("Show split"), new BMessage(M_EXPANDER_CHANGED), B_WILL_DRAW);
 	fSplit->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
-	HelpButton* helpButton
-		= new HelpButton(B_TRANSLATE("Help: Transaction editor"), "Transaction Editor.txt");
+	HelpButton* helpButton = new HelpButton("start.html", "#transaction");
 
 	// SplitContainer
 	fSplitContainer = new BView("splitcontainer", B_WILL_DRAW);

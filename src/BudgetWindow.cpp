@@ -52,7 +52,7 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 		new BMenuItem(B_TRANSLATE("Recalculate all"), new BMessage(M_BUDGET_RECALCULATE)));
 	fBar->AddItem(new BMenuItem(B_TRANSLATE("Set all to zero"), new BMessage(M_BUDGET_ZERO)));
 
-	HelpButton* help = new HelpButton(B_TRANSLATE("Help: Budget"), "Budget.txt");
+	HelpButton* help = new HelpButton("budget.html", NULL);
 
 	BuildBudgetSummary();
 	BuildStatsAndEditor();

@@ -65,7 +65,7 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	fBestWidth = MAX(fBestWidth, 400);
 
 	HelpButton* helpButton
-		= new HelpButton(B_TRANSLATE("Help: Scheduled transaction"), "Scheduled Transaction.txt");
+		= new HelpButton("start.html", "#scheduled-transactions");
 
 	// clang-format off
 	BLayoutBuilder::Group<>(this, B_VERTICAL)

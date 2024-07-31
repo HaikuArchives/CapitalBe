@@ -137,7 +137,7 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	fAutoReconcile
 		= new BButton("autoreconcile", B_TRANSLATE("Quick balance"), new BMessage(M_AUTORECONCILE));
 
-	fHelpButton = new HelpButton(B_TRANSLATE("Help: Reconcile"), "Reconcile.txt");
+	fHelpButton = new HelpButton("reconcile.html", NULL);
 
 	fAccount->GetLocale().CurrencyToString(fTotal + fDifference, total);
 	temp = "";
