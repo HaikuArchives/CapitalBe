@@ -75,10 +75,13 @@ openDocumentation(const char* helpfilename, const char* anchor = NULL)
 {
 	entry_ref ref = getHelpFile(helpfilename);
 	BPath path(&ref);
-	path.Append(anchor);
+	BString url;
+	url << "file://" << path.Path();
+	if (anchor != NULL)
+		url << anchor;
 
 	BMessage message(B_REFS_RECEIVED);
-	message.AddString("url", path.Path());
+	message.AddString("url", url.String());
 	be_roster->Launch("text/html", &message);
 }
 
