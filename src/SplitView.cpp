@@ -16,7 +16,7 @@
 #include "DAlert.h"
 #include "Database.h"
 #include "DateBox.h"
-#include "HelpButton.h"
+#include "Help.h"
 #include "MsgDefs.h"
 #include "NavTextBox.h"
 #include "PayeeBox.h"

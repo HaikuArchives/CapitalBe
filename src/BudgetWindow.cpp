@@ -12,7 +12,7 @@
 #include "Budget.h"
 #include "CurrencyBox.h"
 #include "Database.h"
-#include "HelpButton.h"
+#include "Help.h"
 #include "MsgDefs.h"
 #include "TimeSupport.h"
 

@@ -10,7 +10,7 @@
 #include <time.h>
 
 #include "Account.h"
-#include "HelpButton.h"
+#include "Help.h"
 #include "Notifier.h"
 
 enum {

@@ -15,7 +15,7 @@
 
 #include "ColumnTypes.h"
 #include "Database.h"
-#include "HelpButton.h"
+#include "Help.h"
 #include "ScheduledTransData.h"
 #include "ScheduledTransItem.h"
 

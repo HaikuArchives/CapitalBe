@@ -52,7 +52,7 @@ SRCS = \
 	 src/DateBox.cpp  \
 	 src/DStringList.cpp  \
 	 src/Fixed.cpp  \
-	 src/HelpButton.cpp  \
+	 src/Help.cpp  \
 	 src/Import.cpp  \
 	 src/IconMenuItem.cpp \
 	 src/Locale.cpp  \

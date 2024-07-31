@@ -11,7 +11,7 @@
 #include <Window.h>
 
 #include "Account.h"
-#include "HelpButton.h"
+#include "Help.h"
 #include "Notifier.h"
 
 class DateBox;
