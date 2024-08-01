@@ -110,20 +110,17 @@ getHelpIcon(void)
 
 HelpButton::HelpButton(const char* helpfilename, const char* anchor = NULL)
 	: BButton(helpfilename, "", new BMessage(M_HELP)),
-	fHelpfile(helpfilename),
-	fAnchor(anchor)
+	  fHelpfile(helpfilename),
+	  fAnchor(anchor)
 {
 	BBitmap* icon = getHelpIcon();
 	SetIcon(icon);
 	float width = icon->Bounds().Width() + be_control_look->ComposeSpacing(8);
 	SetExplicitSize(BSize(width, width));
-
 }
 
 
-HelpButton::~HelpButton(void)
-{
-}
+HelpButton::~HelpButton(void) {}
 
 
 void
