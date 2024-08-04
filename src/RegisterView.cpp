@@ -14,6 +14,7 @@
 #include "MainWindow.h"
 #include "Preferences.h"
 #include "QuickTrackerItem.h"
+#include "TimeSupport.h"
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -220,4 +221,36 @@ RegisterView::SelectAccount(const int32& index)
 		return;
 
 	fAccountView->Select(index);
+}
+
+void
+RegisterView::SetCheckFields(TransactionData data)
+{
+	BString amount;
+	gCurrentLocale.CurrencyToString(data.Amount().AbsoluteValue(), amount);
+
+	BString date;
+	gDefaultLocale.DateToString(GetCurrentDate(), date);
+
+	fCheckView->SetFields(date, data.Type().Type(), data.Payee(), amount.String(),
+		data.NameAt(0), data.MemoAt(0));
+
+	BTextControl* dateBox = (BTextControl*)fCheckView->FindView("dateentry");
+	dateBox->TextView()->MakeFocus(true);
+}
+
+float
+RegisterView::GetAccountViewWidth()
+{
+	// Min width is the fixed width of QuickTracker
+	float width = be_plain_font->StringWidth(B_TRANSLATE("Balance"))
+				  + be_plain_font->StringWidth(": $99,999,999.00");
+
+	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
+		Account* acc = gDatabase.AccountAt(i);
+
+		float namewidth = be_bold_font->StringWidth(acc->Name()) + B_V_SCROLL_BAR_WIDTH + 10;
+		width = (namewidth > width) ? namewidth : width;
+	}
+	return width;
 }

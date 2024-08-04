@@ -34,6 +34,7 @@ public:
 	~CheckView(void);
 	void AttachedToWindow(void);
 	void MessageReceived(BMessage* msg);
+	void ClearAllFields(void);
 	void SetFields(const char* date, const char* type, const char* payee, const char* amount,
 		const char* category, const char* memo);
 

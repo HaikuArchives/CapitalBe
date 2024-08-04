@@ -117,6 +117,8 @@ MainWindow::MainWindow(BRect frame)
 
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Edit" B_UTF8_ELLIPSIS), new BMessage(M_EDIT_TRANSACTION), 'E'));
+	menu->AddItem(
+		new BMenuItem(B_TRANSLATE("Use as new transaction"), new BMessage(M_USE_TRANSACTION), 'U'));
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Enter a transfer" B_UTF8_ELLIPSIS), new BMessage(M_ENTER_TRANSFER), 'T'));
 	menu->AddSeparatorItem();
@@ -483,6 +485,21 @@ MainWindow::MessageReceived(BMessage* msg)
 			TransactionEditWindow* transwin = new TransactionEditWindow(data);
 			transwin->CenterIn(Frame());
 			transwin->Show();
+			break;
+		}
+		case M_USE_TRANSACTION:
+		{
+			if (!acc)
+				break;
+
+			if (!acc->CurrentTransaction()) {
+				if (!acc->CountTransactions())
+					break;
+			}
+
+			TransactionData data;
+			gDatabase.GetTransaction(acc->CurrentTransaction(), acc->GetID(), data);
+			fRegisterView->SetCheckFields(data);
 			break;
 		}
 		case M_SCHEDULE_TRANSACTION:
