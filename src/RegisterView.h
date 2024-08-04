@@ -38,6 +38,7 @@ public:
 
 	void HandleNotify(const uint64& value, const BMessage* msg);
 	void SelectAccount(const int32& index);
+	void SetCheckFields(TransactionData data);
 
 	bool SelectNextTransaction(void) { return fTransactionView->SelectNext(); }
 

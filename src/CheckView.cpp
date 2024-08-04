@@ -235,9 +235,22 @@ CheckView::MessageReceived(BMessage* msg)
 }
 
 void
+CheckView::ClearAllFields(void)
+{
+	fDate->SetText("");
+	fPayee->SetText("");
+	fAmount->SetText("");
+	fCategory->SetText("");
+	fMemo->SetText("");
+}
+
+void
 CheckView::SetFields(const char* date, const char* type, const char* payee, const char* amount,
 	const char* category, const char* memo)
 {
+	time_t tDate;
+	gDefaultLocale.StringToDate(date, tDate);
+	fDate->SetDate(tDate);
 	fDate->SetText(date);
 	fPayee->SetText(payee);
 	fAmount->SetText(amount);
@@ -285,6 +298,8 @@ CheckView::HandleNotify(const uint64& value, const BMessage* msg)
 			uint32 id;
 			if (msg->FindInt32("id", (int32*)&id) == B_OK) {
 				if (gDatabase.CurrentAccount()) {
+					ClearAllFields();
+
 					TransactionData data;
 					gDatabase.GetTransaction(id, data);
 					fDate->SetDate(data.Date());

@@ -488,6 +488,8 @@ TransactionList::ShowPopUpMenu(BPoint position)
 
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Edit" B_UTF8_ELLIPSIS), new BMessage(M_EDIT_TRANSACTION), 'E'));
+	menu->AddItem(
+		new BMenuItem(B_TRANSLATE("Use as new transaction"), new BMessage(M_USE_TRANSACTION), 'U'));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Schedule this transaction" B_UTF8_ELLIPSIS),
 		new BMessage(M_SCHEDULE_TRANSACTION)));
 	menu->AddSeparatorItem();
