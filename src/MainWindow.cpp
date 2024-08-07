@@ -22,6 +22,7 @@
 #include "CBLocale.h"
 #include "CategoryWindow.h"
 #include "DAlert.h"
+#include "FilterView.h"
 #include "IconMenuItem.h"
 #include "PrefWindow.h"
 #include "Preferences.h"
@@ -673,6 +674,9 @@ MainWindow::HandleNotify(const uint64& value, const BMessage* msg)
 		}
 
 		if (value & WATCH_SELECT || value & WATCH_CHANGE) {
+			BMessage message(M_START_FILTER);
+			BView* target = fRegisterView->FindView("filterview");
+			target->MessageReceived(&message);
 			if (acc->IsClosed()) {
 				fAccountClosedItem->SetLabel(B_TRANSLATE("Reopen"));
 			} else {
