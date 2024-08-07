@@ -75,7 +75,6 @@ private:
 	Transaction* fCurrent;
 	BStringView *fCategoryLabel, *fMemoLabel;
 	BScrollView* fScrollView;
-	BMessage* fFilterMsg;
 };
 
 #endif

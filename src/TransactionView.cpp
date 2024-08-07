@@ -226,7 +226,6 @@ TransactionView::MessageReceived(BMessage* message)
 		case M_FILTER:
 		{
 			SetAccount(gDatabase.CurrentAccount(), message);
-			fFilterMsg = message;
 			fListView->Invalidate();
 			break;
 		}
@@ -434,8 +433,6 @@ TransactionView::FindIndexForDate(const time_t& time, const char* payee)
 	return fListView->CountItems();
 }
 
-<<<<<<< HEAD
-
 TransactionList::TransactionList(void)
 	: BListView("TransactionList", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE),
@@ -513,7 +510,7 @@ TransactionContext::TransactionContext(const char* name, BMessenger target)
 TransactionContext::~TransactionContext(void)
 {
 	fTarget.SendMessage(M_CONTEXT_CLOSE);
-
+}
 
 void
 TransactionView::CalculatePeriod(int32 period, time_t &start, time_t &end)
