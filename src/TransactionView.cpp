@@ -225,7 +225,6 @@ TransactionView::MessageReceived(BMessage* message)
 		case M_FILTER:
 		{
 			SetAccount(gDatabase.CurrentAccount(), message);
-			fFilterMsg = message;
 			fListView->Invalidate();
 			break;
 		}
