@@ -74,6 +74,10 @@ MainWindow::MainWindow(BRect frame)
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Settings" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_OPTIONS_WINDOW), ','));
 	menu->AddSeparatorItem();
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Go to filter"), new BMessage(M_FOCUS_FILTER), 'F'));
+	BMenuItem* clearFilter = new BMenuItem(B_TRANSLATE("Clear filter"), new BMessage(M_CLEAR_FILTER), 'L');
+	menu->AddItem(clearFilter);
+	menu->AddSeparatorItem();
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Report a bug" B_UTF8_ELLIPSIS), new BMessage(M_REPORT_BUG)));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("About CapitalBe"), new BMessage(M_SHOW_ABOUT)));
@@ -177,6 +181,8 @@ MainWindow::MainWindow(BRect frame)
 		.End();
 	// clang-format on
 
+	clearFilter->SetTarget(FindView("registerview")->FindView("filterview"));
+
 	HandleScheduledTransactions();
 	BMessage message(M_RUN_SCHEDULED_TRANSACTIONS);
 	fRunner = new BMessageRunner(this, &message, 30 * 1000 * 1000);	 // Every 30 seconds
@@ -240,6 +246,12 @@ MainWindow::MessageReceived(BMessage* msg)
 	Account* acc = gDatabase.CurrentAccount();
 
 	switch (msg->what) {
+		case M_FOCUS_FILTER:
+		{
+			BView* target = FindView("registerview")->FindView("filterview")->FindView("payee");
+			target->MakeFocus(true);
+			break;
+		}
 		case M_HELP:
 		{
 			openDocumentation("start.html", NULL);
