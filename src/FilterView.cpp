@@ -40,12 +40,13 @@ FilterView::FilterView(const char* name, int32 flags)
 
 	BMenuField* periodField = new BMenuField("periodfield", B_TRANSLATE("Period:"), fPeriodMenu);
 
-	float maxwidth = StringWidth("XXXXXXXXX");
+	float maxwidth;
 	for (int32 i = 0; i < fPeriodMenu->CountItems(); i++) {
 		BMenuItem* item = fPeriodMenu->ItemAt(i);
 		float labelwidth = StringWidth(item->Label());
 		maxwidth = MAX(labelwidth, maxwidth);
 	}
+	maxwidth += StringWidth("XXXXXXX");
 
 	BString label(B_TRANSLATE_CONTEXT("Payee", "CommonTerms"));
 	label << ":";
@@ -87,7 +88,7 @@ FilterView::FilterView(const char* name, int32 flags)
 		.Add(fAmount->CreateTextViewLayoutItem())
 		.End();
 
-	BGridLayout* periodGrid = BGridLayoutBuilder(0.0, B_USE_SMALL_SPACING)
+	BGridLayout* filterGrid = BGridLayoutBuilder(0.0, B_USE_SMALL_SPACING)
 		.Add(periodField->CreateLabelLayoutItem(), 0, 0)
 		.Add(periodField->CreateMenuBarLayoutItem(), 1, 0)
 		.Add(fPayee->CreateLabelLayoutItem(), 0, 1)
@@ -99,11 +100,11 @@ FilterView::FilterView(const char* name, int32 flags)
 		.Add(new BStringView("amountlabel", label), 0, 4)
 		.Add(amountWidget, 1, 4);
 
-	periodGrid->SetMinColumnWidth(1, maxwidth + be_control_look->ComposeSpacing(B_USE_ITEM_SPACING));
+	filterGrid->SetMinColumnWidth(1, maxwidth);
 
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0)
 		.SetInsets(0)
-		.Add(periodGrid)
+		.Add(filterGrid)
 		.AddStrut(B_USE_BIG_SPACING)
 		.AddGroup(B_HORIZONTAL)
 			.Add(fClear)
