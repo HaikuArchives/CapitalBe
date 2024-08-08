@@ -1,19 +1,21 @@
-1	English	application/x-vnd.wgp-CapitalBe	1504389117
+1	English	application/x-vnd.wgp-CapitalBe	2173691639
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
 Reports	ReportWindow		Reports
 Monthly	ScheduleAddWindow		Monthly
+Filter	FilterView		Filter
 Annually	BudgetWindow		Annually
 Report a bug…	MainWindow		Report a bug…
 Category is missing	CategoryWindow		Category is missing
 OK	PrefWindow		OK
+Use as new transaction	MainWindow		Use as new transaction
 Cancel	TransferWindow		Cancel
 Weekly	BudgetWindow		Weekly
 Enter	CheckView		Enter
 This really shouldn't happen, so you probably should report a bug for this.	MainWindow		This really shouldn't happen, so you probably should report a bug for this.
-Next	MainWindow		Next
 Remove…	CategoryWindow		Remove…
+Next	MainWindow		Next
 Cancel	CategoryWindow		Cancel
 Transfer from '%%PAYEE%%'	MainWindow		Transfer from '%%PAYEE%%'
 You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow		You need to enter the date for the statement to 'Quick balance'.
@@ -25,9 +27,9 @@ Import from QIF file…	MainWindow		Import from QIF file…
 Preview:	PrefWindow		Preview:
 Ending date:	ReportWindow		Ending date:
 Scheduled transactions	MainWindow		Scheduled transactions
+Go to filter	MainWindow		Go to filter
 Transactions	RegisterView		Transactions
 Closed account:	PrefWindow		Closed account:
-Help: Report	ReportWindow		Help: Report
 Bank charges	ReconcileWindow		Bank charges
 Transfer to '%%PAYEE%%'	MainWindow		Transfer to '%%PAYEE%%'
 Could not import the data in the file '%%FILENAME%%'	MainWindow		Could not import the data in the file '%%FILENAME%%'
@@ -53,7 +55,7 @@ Monthly	ScheduleListWindow		Monthly
 Frequency	BudgetWindow		Frequency
 Decimals:	PrefWindow		Decimals:
 CapitalBe didn't understand the amount for 'Bank charges'	ReconcileWindow		CapitalBe didn't understand the amount for 'Bank charges'
-Balance	RegisterView		Balance
+Last year	FilterView		Last year
 Date	CommonTerms		Date
 Frequency	ScheduleListWindow		Frequency
 CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	TextInput		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
@@ -65,10 +67,13 @@ Spending	BudgetWindow		Spending
 Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n	CategoryWindow		Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n
 Uncategorized	CommonTerms		Uncategorized
 Transfer	CommonTerms		Transfer
+Clear filter	MainWindow		Clear filter
 Reopen	MainWindow		Reopen
 Edit…	CategoryWindow		Edit…
+Transactions (filtered)	RegisterView		Transactions (filtered)
 Annually	ScheduleAddWindow		Annually
 Close	MainWindow		Close
+Clear	FilterView		Clear
 Import	MainWindow		Import
 Interest earned	ReconcileWindow		Interest earned
 Quit	Locale		Quit
@@ -84,8 +89,8 @@ Save bugreport	Locale		Save bugreport
 Indefinitely	ScheduleAddWindow		Indefinitely
 Cancel	MainWindow		Cancel
 <No accounts>	MainWindow		<No accounts>
-There may be a typo or the wrong kind of currency symbol for this account.	TextInput		There may be a typo or the wrong kind of currency symbol for this account.
 Repeat:	ScheduleAddWindow		Repeat:
+There may be a typo or the wrong kind of currency symbol for this account.	TextInput		There may be a typo or the wrong kind of currency symbol for this account.
 Appears before amount	PrefWindow		Appears before amount
 Unreconciled total: %s	ReconcileWindow		Unreconciled total: %s
 Couldn't Quick balance	ReconcileWindow		Couldn't Quick balance
@@ -115,12 +120,12 @@ Summary	BudgetWindow		Summary
 You need to enter a payee.	TextInput		You need to enter a payee.
 Ending balance	ReconcileWindow		Ending balance
 Accounts:	ReportWindow		Accounts:
-Help: Main window	MainWindow		Help: Main window
 Cancel	Account		Cancel
 Reconcile	ReconcileWindow		Reconcile
 Weekly	ScheduleListWindow		Weekly
 Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.
 Reset	ReconcileWindow		Reset
+This quarter	FilterView		This quarter
 Frequency:	ScheduleAddWindow		Frequency:
 The split total must match the amount box	SplitView		The split total must match the amount box
 About CapitalBe	MainWindow		About CapitalBe
@@ -130,6 +135,7 @@ Budget	BudgetWindow		Budget
 Monthly	BudgetWindow		Monthly
 OK	TransferWindow		OK
 Total worth	NetWorthReport		Total worth
+Filter	RegisterView		Filter
 times	ScheduleAddWindow		times
 Annually	ScheduleListWindow		Annually
 Scheduling error	MainWindow		Scheduling error
@@ -137,12 +143,11 @@ Oops!	MainWindow		Oops!
 Memo:	TransferWindow		Memo:
 Edit…	MainWindow		Edit…
 OK	CategoryWindow		OK
-Help: Transaction editor	SplitView		Help: Transaction editor
 Total:	SplitView		Total:
 Unlimited	ScheduleListWindow		Unlimited
 Set all to zero	BudgetWindow		Set all to zero
 When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%
-Help: Scheduled transaction	ScheduleListWindow		Help: Scheduled transaction
+All transactions	FilterView		All transactions
 <No payee entered>	Import		<No payee entered>
 New…	MainWindow		New…
 Show split	SplitView		Show split
@@ -153,24 +158,24 @@ Color for negative amounts	PrefWindow		Color for negative amounts
 Settings…	MainWindow		Settings…
 Cancel	PrefWindow		Cancel
 Budget category:	BudgetWindow		Budget category:
+Last quarter	FilterView		Last quarter
 Quarterly	ScheduleListWindow		Quarterly
 12 month statistics	BudgetWindow		12 month statistics
+This year	FilterView		This year
 Not transferring any money	TransferWindow		Not transferring any money
 Bank account	Import		Bank account
 OK	Account		OK
 Unknown	BudgetWindow		Unknown
-Total checks:	ReconcileWindow		Total checks:
 Remove item	SplitView		Remove item
 Transaction	MainWindow		Transaction
 Edit transfer	TransferWindow		Edit transfer
-Reports	MainWindow		Reports
 Categories	CategoryWindow		Categories
+Reports	MainWindow		Reports
 Account	MainWindow		Account
 Unselected:	PrefWindow		Unselected:
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}
 Total deposits:	ReconcileWindow		Total deposits:
 Categories…	MainWindow		Categories…
-Help: Budget	BudgetWindow		Help: Budget
 Currency format	PrefWindow		Currency format
 Payee	CommonTerms		Payee
 Credit card account	Import		Credit card account
@@ -183,10 +188,10 @@ QuickTracker	RegisterView		QuickTracker
 Schedule transaction	ScheduleAddWindow		Schedule transaction
 Next payment	ScheduleListWindow		Next payment
 New name:	CategoryWindow		New name:
-Help: Reconcile	ReconcileWindow		Help: Reconcile
 Edit categories…	CategoryButton		Edit categories…
 Bank charge	ReconcileWindow		Bank charge
 Budget	MainWindow		Budget
+Use as filter	MainWindow		Use as filter
 OK	ScheduleAddWindow		OK
 Quit	MainWindow		Quit
 Lowest	BudgetWindow		Lowest
@@ -199,9 +204,10 @@ Balance	MainWindow		Balance
 Categories:	ReportWindow		Categories:
 Budget category: %category%	BudgetWindow		Budget category: %category%
 Export	MainWindow		Export
-Enter a transfer…	MainWindow		Enter a transfer…
 File	MainWindow		File
+Enter a transfer…	MainWindow		Enter a transfer…
 Tools	MainWindow		Tools
+This month	FilterView		This month
 Not enough accounts for a transfer	MainWindow		Not enough accounts for a transfer
 Delete…	MainWindow		Delete…
 CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n	Locale		CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n
@@ -210,6 +216,7 @@ You created the new category '%categoryname%'.\n\nPlease select a transaction ty
 Scheduled transactions	ScheduleListWindow		Scheduled transactions
 Agh! Bug!	Locale		Agh! Bug!
 Starting date:	ReportWindow		Starting date:
+Period:	FilterView		Period:
 Starting balance	ReconcileWindow		Starting balance
 Quarterly	ScheduleAddWindow		Quarterly
 Reconcile:	ReconcileWindow		Reconcile:
@@ -219,6 +226,7 @@ Expense	CashFlowReport		Expense
 No transactions	TransactionReport		No transactions
 Date:	TransferWindow		Date:
 To account:	TransferWindow		To account:
+Last month	FilterView		Last month
 Add account transfer	TransferWindow		Add account transfer
 Amount	CommonTerms		Amount
 Split	CommonTerms	The noun 'split', as in 'a split-category'	Split
@@ -227,7 +235,6 @@ You need to have an account created in order to reconcile it.	MainWindow		You ne
 Payee is missing	TextInput		Payee is missing
 CapitalBe didn't understand the date you entered	TextInput		CapitalBe didn't understand the date you entered
 Recalculate all	BudgetWindow		Recalculate all
-Total checks: %s	ReconcileWindow		Total checks: %s
 Quarterly	BudgetWindow		Quarterly
 CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.
 Remove category	CategoryWindow		Remove category
