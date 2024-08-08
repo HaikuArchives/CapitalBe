@@ -98,7 +98,7 @@ MainWindow::MainWindow(BRect frame)
 		B_TRANSLATE("Reconcile" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_RECONCILE_WINDOW), 'R'));
 	menu->AddSeparatorItem();
 	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("New" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_NEW_ACCOUNT), 'N'));
+		new BMenuItem(B_TRANSLATE("New" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_NEW_ACCOUNT)));
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Delete" B_UTF8_ELLIPSIS), new BMessage(M_DELETE_ACCOUNT)));
 	fAccountClosedItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(M_CLOSE_ACCOUNT));
@@ -118,7 +118,9 @@ MainWindow::MainWindow(BRect frame)
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Edit" B_UTF8_ELLIPSIS), new BMessage(M_EDIT_TRANSACTION), 'E'));
 	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("Use as new transaction"), new BMessage(M_USE_TRANSACTION), 'U'));
+		new BMenuItem(B_TRANSLATE("Use as filter"), new BMessage(M_USE_FOR_FILTER), 'U'));
+	menu->AddItem(
+		new BMenuItem(B_TRANSLATE("Use as new transaction"), new BMessage(M_USE_TRANSACTION), 'N'));
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Enter a transfer" B_UTF8_ELLIPSIS), new BMessage(M_ENTER_TRANSFER), 'T'));
 	menu->AddSeparatorItem();
@@ -500,6 +502,13 @@ MainWindow::MessageReceived(BMessage* msg)
 			TransactionData data;
 			gDatabase.GetTransaction(acc->CurrentTransaction(), acc->GetID(), data);
 			fRegisterView->SetCheckFields(data);
+			break;
+		}
+		case M_USE_FOR_FILTER:
+		{
+			BMessage message(M_SET_FILTER);
+			BView* target = fRegisterView->FindView("filterview");
+			target->MessageReceived(&message);
 			break;
 		}
 		case M_SCHEDULE_TRANSACTION:

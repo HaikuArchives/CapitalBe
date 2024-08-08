@@ -138,28 +138,36 @@ FilterView::MessageReceived(BMessage* msg)
 	int32 start;
 	BString string;
 	switch (msg->what) {
+		case M_SET_FILTER:
+		{
+			Account* acc = gDatabase.CurrentAccount();
+			printf("FilterView: M_SET_FILTER\n");
+			TransactionData data;
+			gDatabase.GetTransaction(acc->CurrentTransaction(), acc->GetID(), data);
+
+			BString amount;
+			gCurrentLocale.CurrencyToString(data.Amount().AbsoluteValue(), amount);
+			fPayee->SetText(data.Payee());
+			fCategory->SetText(data.NameAt(0));
+			fMemo->SetText(data.MemoAt(0));
+			fCompareMenu->ItemAt(1)->SetMarked(true);
+			fAmount->SetText(amount.String());
+
+			fPayee->MakeFocus(true);
+			fPayee->TextView()->SelectAll();
+			SendFilterMessage();
+
+			break;
+		}
 		case M_CLEAR_FILTER:
 		{
-			fPayee->SetText("");
-			fCategory->SetText("");
-			fMemo->SetText("");
-			fAmount->SetText("");
-			fCompareMenu->ItemAt(0L)->SetMarked(true);
-			fPeriodMenu->ItemAt(0L)->SetMarked(true);
+			MakeEmpty();
 			// intentional fall-thru
 		}
 		case M_START_FILTER:
 		case M_FILTER_CHANGED:
 		{
-			BMessage filterMsg(M_FILTER);
-			filterMsg.AddString("payee", fPayee->Text());
-			filterMsg.AddString("category", fCategory->Text());
-			filterMsg.AddString("memo", fMemo->Text());
-			filterMsg.AddString("amount", fAmount->Text());
-			filterMsg.AddInt32("moreless", fCompareMenu->FindMarkedIndex());
-			filterMsg.AddInt32("period", fPeriodMenu->FindMarkedIndex());
-
-			fMessenger->SendMessage(&filterMsg);
+			SendFilterMessage();
 			break;
 		}
 		default:
@@ -187,4 +195,18 @@ FilterView::IsEmpty(void)
 	return fPeriodMenu->FindMarkedIndex() == 0 && strcmp(fPayee->Text(), "") == 0
 		   && strcmp(fCategory->Text(), "") == 0 && strcmp(fMemo->Text(), "") == 0
 		   && fCompareMenu->FindMarkedIndex() == 0 && strcmp(fAmount->Text(), "") == 0;
+}
+
+void
+FilterView::SendFilterMessage(void)
+{
+	BMessage filterMsg(M_FILTER);
+	filterMsg.AddString("payee", fPayee->Text());
+	filterMsg.AddString("category", fCategory->Text());
+	filterMsg.AddString("memo", fMemo->Text());
+	filterMsg.AddString("amount", fAmount->Text());
+	filterMsg.AddInt32("moreless", fCompareMenu->FindMarkedIndex());
+	filterMsg.AddInt32("period", fPeriodMenu->FindMarkedIndex());
+
+	fMessenger->SendMessage(&filterMsg);
 }
