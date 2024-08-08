@@ -513,98 +513,98 @@ TransactionContext::~TransactionContext(void)
 }
 
 void
-TransactionView::CalculatePeriod(int32 period, time_t &start, time_t &end)
+TransactionView::CalculatePeriod(int32 period, time_t& start, time_t& end)
 {
 	time_t now = time(NULL);
-    struct tm tm_now = *localtime(&now);
+	struct tm tm_now = *localtime(&now);
 
-    int year = tm_now.tm_year + 1900;  // tm_year is years since 1900
-    int month = tm_now.tm_mon + 1;     // tm_mon is months since January [0-11]
+	int year = tm_now.tm_year + 1900;  // tm_year is years since 1900
+	int month = tm_now.tm_mon + 1;	   // tm_mon is months since January [0-11]
 
-    // Initialize start and end times
-    struct tm tm_start = {0};
-    struct tm tm_end = {0};
+	// Initialize start and end times
+	struct tm tm_start = {0};
+	struct tm tm_end = {0};
 
-    switch (period) {
-        case THIS_MONTH:
-            tm_start.tm_year = year - 1900;
-            tm_start.tm_mon = month - 1;
-            tm_start.tm_mday = 1;
+	switch (period) {
+		case THIS_MONTH:
+			tm_start.tm_year = year - 1900;
+			tm_start.tm_mon = month - 1;
+			tm_start.tm_mday = 1;
 
-            tm_end.tm_year = year - 1900;
-            tm_end.tm_mon = month;
-            tm_end.tm_mday = 1;
-            break;
+			tm_end.tm_year = year - 1900;
+			tm_end.tm_mon = month;
+			tm_end.tm_mday = 1;
+			break;
 
-        case LAST_MONTH:
-            if (month == 1) {
-                tm_start.tm_year = year - 1900 - 1;
-                tm_start.tm_mon = 11;
-            } else {
-                tm_start.tm_year = year - 1900;
-                tm_start.tm_mon = month - 2;
-            }
-            tm_start.tm_mday = 1;
+		case LAST_MONTH:
+			if (month == 1) {
+				tm_start.tm_year = year - 1900 - 1;
+				tm_start.tm_mon = 11;
+			} else {
+				tm_start.tm_year = year - 1900;
+				tm_start.tm_mon = month - 2;
+			}
+			tm_start.tm_mday = 1;
 
-            tm_end = tm_start;
-            tm_end.tm_mon += 1;
-            break;
+			tm_end = tm_start;
+			tm_end.tm_mon += 1;
+			break;
 
-        case THIS_QUARTER:
-            tm_start.tm_year = year - 1900;
-            tm_start.tm_mon = (month - 1) / 3 * 3;
-            tm_start.tm_mday = 1;
+		case THIS_QUARTER:
+			tm_start.tm_year = year - 1900;
+			tm_start.tm_mon = (month - 1) / 3 * 3;
+			tm_start.tm_mday = 1;
 
-            tm_end = tm_start;
-            tm_end.tm_mon += 3;
-            break;
+			tm_end = tm_start;
+			tm_end.tm_mon += 3;
+			break;
 
-        case LAST_QUARTER:
-            tm_start.tm_year = year - 1900;
-            tm_start.tm_mon = ((month - 1) / 3 * 3) - 3;
-            if (tm_start.tm_mon < 0) {
-                tm_start.tm_mon += 12;
-                tm_start.tm_year -= 1;
-            }
-            tm_start.tm_mday = 1;
+		case LAST_QUARTER:
+			tm_start.tm_year = year - 1900;
+			tm_start.tm_mon = ((month - 1) / 3 * 3) - 3;
+			if (tm_start.tm_mon < 0) {
+				tm_start.tm_mon += 12;
+				tm_start.tm_year -= 1;
+			}
+			tm_start.tm_mday = 1;
 
-            tm_end = tm_start;
-            tm_end.tm_mon += 3;
-            break;
+			tm_end = tm_start;
+			tm_end.tm_mon += 3;
+			break;
 
-        case THIS_YEAR:
-            tm_start.tm_year = year - 1900;
-            tm_start.tm_mon = 0;
-            tm_start.tm_mday = 1;
+		case THIS_YEAR:
+			tm_start.tm_year = year - 1900;
+			tm_start.tm_mon = 0;
+			tm_start.tm_mday = 1;
 
-            tm_end.tm_year = year - 1900 + 1;
-            tm_end.tm_mon = 0;
-            tm_end.tm_mday = 1;
-            break;
+			tm_end.tm_year = year - 1900 + 1;
+			tm_end.tm_mon = 0;
+			tm_end.tm_mday = 1;
+			break;
 
-        case LAST_YEAR:
-            tm_start.tm_year = year - 1900 - 1;
-            tm_start.tm_mon = 0;
-            tm_start.tm_mday = 1;
+		case LAST_YEAR:
+			tm_start.tm_year = year - 1900 - 1;
+			tm_start.tm_mon = 0;
+			tm_start.tm_mday = 1;
 
-            tm_end.tm_year = year - 1900;
-            tm_end.tm_mon = 0;
-            tm_end.tm_mday = 1;
-            break;
-    }
+			tm_end.tm_year = year - 1900;
+			tm_end.tm_mon = 0;
+			tm_end.tm_mday = 1;
+			break;
+	}
 
-    start = mktime(&tm_start);
-    end = mktime(&tm_end);
+	start = mktime(&tm_start);
+	end = mktime(&tm_end);
 }
 
 BString
 TransactionView::GenerateQueryCommand(int32 accountID, BMessage* message)
 {
 	BString command;
-	if (message == NULL) { // return default query
+	if (message == NULL) {	// return default query
 		command << "SELECT * FROM account_" << accountID << " ORDER BY date,payee";
 		return command;
-	} else { // generate filtering query based on message content
+	} else {  // generate filtering query based on message content
 		BString payee, category, memo, amount;
 		int32 moreless, period;
 		CppSQLite3Buffer sqlBuf;
@@ -615,7 +615,7 @@ TransactionView::GenerateQueryCommand(int32 accountID, BMessage* message)
 		if (message->FindString("payee", &payee) == B_OK && payee.Length() > 0) {
 			payee.Prepend("%");
 			payee.Append("%");
-			sqlBuf.format("%Q", payee.String()); // Make sure the string is escaped
+			sqlBuf.format("%Q", payee.String());  // Make sure the string is escaped
 			command << " WHERE LOWER(payee) LIKE LOWER(" << sqlBuf << ")";
 			hasConditions = true;
 		}
@@ -624,7 +624,7 @@ TransactionView::GenerateQueryCommand(int32 accountID, BMessage* message)
 			command << (!hasConditions ? " WHERE " : " AND ");
 			category.Prepend("%");
 			category.Append("%");
-			sqlBuf.format("%Q", category.String()); // Make sure the string is escaped
+			sqlBuf.format("%Q", category.String());	 // Make sure the string is escaped
 			command << " LOWER(category) LIKE LOWER(" << sqlBuf << ")";
 			hasConditions = true;
 		}
@@ -633,13 +633,13 @@ TransactionView::GenerateQueryCommand(int32 accountID, BMessage* message)
 			command << (!hasConditions ? " WHERE " : " AND ");
 			memo.Prepend("%");
 			memo.Append("%");
-			sqlBuf.format("%Q", memo.String()); // Make sure the string is escaped
+			sqlBuf.format("%Q", memo.String());	 // Make sure the string is escaped
 			command << " LOWER(memo) LIKE LOWER(" << sqlBuf << ")";
 			hasConditions = true;
 		}
 
 		if (message->FindString("amount", &amount) == B_OK && amount.Length() > 0) {
-			Fixed convertedAmount; // To match how numbers are stored in DB
+			Fixed convertedAmount;	// To match how numbers are stored in DB
 			gCurrentLocale.StringToCurrency(amount, convertedAmount);
 			command << (!hasConditions ? " WHERE " : " AND ");
 			BString compSymbol = "<=";

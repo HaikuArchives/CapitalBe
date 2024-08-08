@@ -19,15 +19,18 @@
 
 FilterView::FilterView(const char* name, int32 flags)
 	: BView(name, flags | B_FRAME_EVENTS),
-	fMessenger(NULL)
+	  fMessenger(NULL)
 {
 	fPeriodMenu = new BMenu("timeperiod");
 	// Important: keep the order according to filter_period_field in RegisterView.h
-	fPeriodMenu->AddItem(new BMenuItem(B_TRANSLATE("All transactions"), new BMessage(M_FILTER_CHANGED)));
+	fPeriodMenu->AddItem(
+		new BMenuItem(B_TRANSLATE("All transactions"), new BMessage(M_FILTER_CHANGED)));
 	fPeriodMenu->AddItem(new BMenuItem(B_TRANSLATE("This month"), new BMessage(M_FILTER_CHANGED)));
 	fPeriodMenu->AddItem(new BMenuItem(B_TRANSLATE("Last month"), new BMessage(M_FILTER_CHANGED)));
-	fPeriodMenu->AddItem(new BMenuItem(B_TRANSLATE("This quarter"), new BMessage(M_FILTER_CHANGED)));
-	fPeriodMenu->AddItem(new BMenuItem(B_TRANSLATE("Last quarter"), new BMessage(M_FILTER_CHANGED)));
+	fPeriodMenu->AddItem(
+		new BMenuItem(B_TRANSLATE("This quarter"), new BMessage(M_FILTER_CHANGED)));
+	fPeriodMenu->AddItem(
+		new BMenuItem(B_TRANSLATE("Last quarter"), new BMessage(M_FILTER_CHANGED)));
 	fPeriodMenu->AddItem(new BMenuItem(B_TRANSLATE("This year"), new BMessage(M_FILTER_CHANGED)));
 	fPeriodMenu->AddItem(new BMenuItem(B_TRANSLATE("Last year"), new BMessage(M_FILTER_CHANGED)));
 
@@ -111,9 +114,7 @@ FilterView::FilterView(const char* name, int32 flags)
 }
 
 
-FilterView::~FilterView(void)
-{
-}
+FilterView::~FilterView(void) {}
 
 
 void
@@ -177,11 +178,12 @@ FilterView::MakeEmpty(void)
 	fMemo->SetText("");
 	fCompareMenu->ItemAt(0L)->SetMarked(true);
 	fAmount->SetText("");
-
 }
 
 bool
 FilterView::IsEmpty(void)
 {
-	return fPeriodMenu->FindMarkedIndex() == 0 && strcmp(fPayee->Text(), "") == 0 && strcmp(fCategory->Text(), "") == 0 && strcmp(fMemo->Text(), "") == 0 && fCompareMenu->FindMarkedIndex() == 0 && strcmp(fAmount->Text(), "") == 0;
+	return fPeriodMenu->FindMarkedIndex() == 0 && strcmp(fPayee->Text(), "") == 0
+		   && strcmp(fCategory->Text(), "") == 0 && strcmp(fMemo->Text(), "") == 0
+		   && fCompareMenu->FindMarkedIndex() == 0 && strcmp(fAmount->Text(), "") == 0;
 }

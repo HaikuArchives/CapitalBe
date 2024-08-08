@@ -67,7 +67,7 @@ public:
 private:
 	int32 FindItemForID(const uint32& id);
 	int32 FindIndexForDate(const time_t& time, const char* payee);
-	void CalculatePeriod(int32 period, time_t &start, time_t &end);
+	void CalculatePeriod(int32 period, time_t& start, time_t& end);
 	BString GenerateQueryCommand(int32 accountID, BMessage* message = NULL);
 
 	TransactionList* fListView;

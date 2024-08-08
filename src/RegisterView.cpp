@@ -49,8 +49,7 @@ RegisterView::RegisterView(const char* name, int32 flags)
 	}
 
 	// Transactions list
-	fTransactionlabel
-		= new BStringView("transactionlabel", B_TRANSLATE("Transactions"));
+	fTransactionlabel = new BStringView("transactionlabel", B_TRANSLATE("Transactions"));
 	fTransactionlabel->SetFont(be_bold_font);
 	fTransactionlabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
