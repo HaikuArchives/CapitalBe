@@ -47,6 +47,7 @@ enum {
 	M_SCHEDULE_TRANSACTION,
 	M_ENTER_TRANSFER,
 	M_CONTEXT_CLOSE,
+	M_USE_FOR_FILTER,
 	M_USE_TRANSACTION,
 
 	M_SHOW_ABOUT = 'msha',
@@ -55,6 +56,7 @@ enum {
 	M_SHOW_SCHEDULED_WINDOW,
 	M_RUN_SCHEDULED_TRANSACTIONS,
 	M_FILTER = 'filt',
+	M_SET_FILTER,
 };
 
 class MainWindow : public BWindow, public Observer {

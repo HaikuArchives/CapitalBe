@@ -28,6 +28,7 @@ public:
 
 private:
 	void MakeEmpty(void);
+	void SendFilterMessage(void);
 
 	BMenu* fPeriodMenu;
 	BMenu* fCompareMenu;
