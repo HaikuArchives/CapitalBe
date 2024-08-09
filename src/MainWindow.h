@@ -14,6 +14,8 @@
 
 class RegisterView;
 
+static const char kApplicationSignature[] = "application/x-vnd.wgp-CapitalBe";
+
 enum {
 	M_FILE_NEW = 1000,
 	M_FILE_OPEN,
@@ -51,7 +53,6 @@ enum {
 	M_USE_FOR_FILTER,
 	M_USE_TRANSACTION,
 
-	M_SHOW_ABOUT = 'msha',
 	M_SHOW_REPORTS_WINDOW,
 	M_SHOW_OPTIONS_WINDOW,
 	M_SHOW_SCHEDULED_WINDOW,
