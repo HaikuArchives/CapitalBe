@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	2173691639
+1	English	application/x-vnd.wgp-CapitalBe	3818023821
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -21,11 +21,12 @@ Transfer from '%%PAYEE%%'	MainWindow		Transfer from '%%PAYEE%%'
 You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow		You need to enter the date for the statement to 'Quick balance'.
 Repeats	ScheduleListWindow		Repeats
 Cancel	ScheduleAddWindow		Cancel
+Distributed under the terms of the MIT License	App		Distributed under the terms of the MIT License
 Account total	MainWindow		Account total
 CapitalBe	System name		CapitalBe
 Import from QIF file…	MainWindow		Import from QIF file…
-Preview:	PrefWindow		Preview:
 Ending date:	ReportWindow		Ending date:
+Preview:	PrefWindow		Preview:
 Scheduled transactions	MainWindow		Scheduled transactions
 Go to filter	MainWindow		Go to filter
 Transactions	RegisterView		Transactions
@@ -42,6 +43,7 @@ Transactions	ReportWindow		Transactions
 Cash account	Import		Cash account
 Income category	CategoryWindow		Income category
 Add item	SplitView		Add item
+CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe is a simple application to keep track of your personal finances.
 This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.	MainWindow		This transaction belongs to a closed account and cannot be edited. Please reopen the account if you need to make changes.
 Total	BudgetWindow		Total
 Edit transaction	TransactionEdit		Edit transaction
@@ -114,8 +116,8 @@ Symbol:	PrefWindow		Symbol:
 Transactions	TransactionReport		Transactions
 Spending	CommonTerms		Spending
 CapitalBe didn't understand the amount	TextInput		CapitalBe didn't understand the amount
-Average	BudgetWindow		Average
 New category	CategoryWindow		New category
+Average	BudgetWindow		Average
 Summary	BudgetWindow		Summary
 You need to enter a payee.	TextInput		You need to enter a payee.
 Ending balance	ReconcileWindow		Ending balance
@@ -183,9 +185,9 @@ If you intend to transfer money, it will need to be an amount that is not zero.	
 Success!	ReconcileWindow		Success!
 Income	CategoryWindow		Income
 Edit category	CategoryWindow		Edit category
+Schedule transaction	ScheduleAddWindow		Schedule transaction
 This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.	MainWindow		This account is closed, and the settings cannot be edited. Please reopen the account if you need to make changes.
 QuickTracker	RegisterView		QuickTracker
-Schedule transaction	ScheduleAddWindow		Schedule transaction
 Next payment	ScheduleListWindow		Next payment
 New name:	CategoryWindow		New name:
 Edit categories…	CategoryButton		Edit categories…
