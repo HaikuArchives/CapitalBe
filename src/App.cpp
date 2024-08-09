@@ -1,8 +1,8 @@
+#include <AboutWindow.h>
 #include <Application.h>
 #include <Catalog.h>
 #include <FindDirectory.h>
 #include <Path.h>
-#include <AboutWindow.h>
 
 // #define DEBUG_DATABASE
 
@@ -49,8 +49,8 @@ App::~App(void)
 void
 App::AboutRequested(void)
 {
-	BAboutWindow* abwin = new BAboutWindow(B_TRANSLATE_SYSTEM_NAME("CapitalBe"),
-		kApplicationSignature);
+	BAboutWindow* abwin
+		= new BAboutWindow(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), kApplicationSignature);
 	// clang-format off
 	const char* authors[] = {
 		"DarkWyrm",
@@ -67,8 +67,8 @@ App::AboutRequested(void)
 		"Tanausú Gómez (Spanish translation)",
 		NULL };
 	// clang-format on
-	abwin->AddDescription(B_TRANSLATE(
-		"CapitalBe is a simple application to keep track of your personal finances."));
+	abwin->AddDescription(
+		B_TRANSLATE("CapitalBe is a simple application to keep track of your personal finances."));
 	abwin->AddCopyright(2009, "DarkWyrm");
 	abwin->AddText(B_TRANSLATE("Distributed under the terms of the MIT License"));
 	abwin->AddText("https://github.com/HaikuArchives/CapitalBe");

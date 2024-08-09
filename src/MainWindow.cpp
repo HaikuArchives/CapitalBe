@@ -74,12 +74,14 @@ MainWindow::MainWindow(BRect frame)
 		B_TRANSLATE("Settings" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_OPTIONS_WINDOW), ','));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Go to filter"), new BMessage(M_FOCUS_FILTER), 'F'));
-	BMenuItem* clearFilter = new BMenuItem(B_TRANSLATE("Clear filter"), new BMessage(M_CLEAR_FILTER), 'L');
+	BMenuItem* clearFilter
+		= new BMenuItem(B_TRANSLATE("Clear filter"), new BMessage(M_CLEAR_FILTER), 'L');
 	menu->AddItem(clearFilter);
 	menu->AddSeparatorItem();
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Report a bug" B_UTF8_ELLIPSIS), new BMessage(M_REPORT_BUG)));
-	BMenuItem* item = new BMenuItem(B_TRANSLATE("About CapitalBe"), new BMessage(B_ABOUT_REQUESTED));
+	BMenuItem* item
+		= new BMenuItem(B_TRANSLATE("About CapitalBe"), new BMessage(B_ABOUT_REQUESTED));
 	item->SetTarget(be_app);
 	menu->AddItem(item);
 	menu->AddSeparatorItem();
@@ -122,8 +124,7 @@ MainWindow::MainWindow(BRect frame)
 
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Edit" B_UTF8_ELLIPSIS), new BMessage(M_EDIT_TRANSACTION), 'E'));
-	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("Use as filter"), new BMessage(M_USE_FOR_FILTER), 'U'));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Use as filter"), new BMessage(M_USE_FOR_FILTER), 'U'));
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Use as new transaction"), new BMessage(M_USE_TRANSACTION), 'N'));
 	menu->AddItem(new BMenuItem(
@@ -215,7 +216,6 @@ MainWindow::InitSettings(void)
 	// This loads all the settings from disk and uses sane defaults if a setting
 	// is non-existent or invalid
 	if (gPreferences.FindString("lastfile", &fLastFile) != B_OK) {
-
 		fLastFile = gSettingsPath.Path();
 		fLastFile << "/MyAccountData";
 	}

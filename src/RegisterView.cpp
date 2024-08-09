@@ -232,8 +232,8 @@ RegisterView::SetCheckFields(TransactionData data)
 	BString date;
 	gDefaultLocale.DateToString(GetCurrentDate(), date);
 
-	fCheckView->SetFields(date, data.Type().Type(), data.Payee(), amount.String(),
-		data.NameAt(0), data.MemoAt(0));
+	fCheckView->SetFields(
+		date, data.Type().Type(), data.Payee(), amount.String(), data.NameAt(0), data.MemoAt(0));
 
 	BTextControl* dateBox = (BTextControl*)fCheckView->FindView("dateentry");
 	dateBox->TextView()->MakeFocus(true);
