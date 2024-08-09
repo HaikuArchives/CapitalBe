@@ -1,6 +1,8 @@
 #include <Application.h>
+#include <Catalog.h>
 #include <FindDirectory.h>
 #include <Path.h>
+#include <AboutWindow.h>
 
 // #define DEBUG_DATABASE
 
@@ -13,8 +15,12 @@
 
 bool gRestartApp = false;
 
+#undef B_TRANSLATION_CONTEXT
+#define B_TRANSLATION_CONTEXT "App"
+
+
 App::App(void)
-	: BApplication("application/x-vnd.wgp-CapitalBe")
+	: BApplication(kApplicationSignature)
 {
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path, true);
@@ -38,6 +44,37 @@ App::App(void)
 App::~App(void)
 {
 	SavePreferences();
+}
+
+void
+App::AboutRequested(void)
+{
+	BAboutWindow* abwin = new BAboutWindow(B_TRANSLATE_SYSTEM_NAME("CapitalBe"),
+		kApplicationSignature);
+	// clang-format off
+	const char* authors[] = {
+		"DarkWyrm",
+		"Humdinger",
+		"Jérôme Duval",
+		"Johan Wagenheim",
+		"Panagiotis Vasilopoulos",
+		"Raefaldhi Amartya Junior",
+		"Thomas Schmidt",
+		"waddlesplash",
+		NULL };
+
+	const char* thanks[] = {
+		"Tanausú Gómez (Spanish translation)",
+		NULL };
+	// clang-format on
+	abwin->AddDescription(B_TRANSLATE(
+		"CapitalBe is a simple application to keep track of your personal finances."));
+	abwin->AddCopyright(2009, "DarkWyrm");
+	abwin->AddText(B_TRANSLATE("Distributed under the terms of the MIT License"));
+	abwin->AddText("https://github.com/HaikuArchives/CapitalBe");
+	abwin->AddAuthors(authors);
+	abwin->AddSpecialThanks(thanks);
+	abwin->Show();
 }
 
 void

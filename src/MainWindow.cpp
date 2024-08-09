@@ -13,7 +13,6 @@
 #include <Roster.h>
 #include <StringFormat.h>
 #include <Url.h>
-#include <private/interface/AboutWindow.h>
 
 #include <stdlib.h>
 
@@ -80,12 +79,14 @@ MainWindow::MainWindow(BRect frame)
 	menu->AddSeparatorItem();
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Report a bug" B_UTF8_ELLIPSIS), new BMessage(M_REPORT_BUG)));
-	menu->AddItem(new BMenuItem(B_TRANSLATE("About CapitalBe"), new BMessage(M_SHOW_ABOUT)));
+	BMenuItem* item = new BMenuItem(B_TRANSLATE("About CapitalBe"), new BMessage(B_ABOUT_REQUESTED));
+	item->SetTarget(be_app);
+	menu->AddItem(item);
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Quit"), new BMessage(B_QUIT_REQUESTED), 'Q'));
 
 	IconMenuItem* iconMenu;
-	iconMenu = new IconMenuItem(menu, NULL, "application/x-vnd.wgp-CapitalBe", B_MINI_ICON);
+	iconMenu = new IconMenuItem(menu, NULL, kApplicationSignature, B_MINI_ICON);
 	bar->AddItem(iconMenu);
 
 	menu = new BMenu(B_TRANSLATE("File"));
@@ -191,25 +192,6 @@ MainWindow::MainWindow(BRect frame)
 MainWindow::~MainWindow(void)
 {
 	delete fImportPanel;
-}
-
-void
-MainWindow::OpenAbout(void)
-{
-	BAboutWindow* abwin = new BAboutWindow("CapitalBe", "application/x-vnd.wgp-CapitalBe");
-
-	const char* authors[] = {"DarkWyrm", "Jérôme Duval", "Panagiotis Vasilopoulos",
-		"Raefaldhi Amartya Junior", "Thomas Schmidt", "waddlesplash", NULL};
-
-	const char* thanks[] = {"Tanausú Gómez (Spanish translation)", NULL};
-
-	abwin->AddCopyright(2009, "DarkWyrm");
-	abwin->AddText("Distributed under the terms of the MIT License");
-	abwin->AddText("https://github.com/HaikuArchives/CapitalBe");
-	abwin->AddAuthors(authors);
-	abwin->AddSpecialThanks(thanks);
-	abwin->CenterIn(Frame());
-	abwin->Show();
 }
 
 bool
@@ -423,11 +405,6 @@ MainWindow::MessageReceived(BMessage* msg)
 				gDatabase.ReopenAccount(acc);
 			else
 				gDatabase.CloseAccount(acc);
-			break;
-		}
-		case M_SHOW_ABOUT:
-		{
-			OpenAbout();
 			break;
 		}
 		case M_PREVIOUS_TRANSACTION:

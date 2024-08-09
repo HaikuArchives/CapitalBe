@@ -10,6 +10,8 @@ class App : public BApplication {
 public:
 	App(void);
 	~App(void);
+
+	virtual void AboutRequested();
 	void MessageReceived(BMessage* msg);
 };
 
