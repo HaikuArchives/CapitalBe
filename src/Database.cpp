@@ -2,6 +2,7 @@
 #include <Catalog.h>
 #include <Directory.h>
 #include <Entry.h>
+#include <Path.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -1499,7 +1500,8 @@ Database::ApplyMigrations(void)
 status_t
 Database::CreateDBBackup(int32 version)
 {
-	BString sourcePath = PREFERENCES_PATH "/MyAccountData";
+	BString sourcePath = gSettingsPath.Path();
+	sourcePath << "/MyAccountData";
 	BString destinationPath;
 	destinationPath << sourcePath << "_backup_" << version;
 
