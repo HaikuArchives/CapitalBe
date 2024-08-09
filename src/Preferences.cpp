@@ -5,22 +5,21 @@
 #include <Roster.h>
 #include <Screen.h>
 #include <math.h>
-#include <cstdio>
 
 BLocker prefsLock;
 BMessage gPreferences;
+BPath gSettingsPath;
 rgb_color gNegativeColor;
 
 
 status_t
-SavePreferences(const char* path)
+SavePreferences()
 {
-	if (!path)
-		return B_ERROR;
-
 	prefsLock.Lock();
 
-	BFile file(path, B_READ_WRITE | B_ERASE_FILE | B_CREATE_FILE);
+	BPath path = gSettingsPath;
+	path.Append("CapitalBeSettings");
+	BFile file(path.Path(), B_READ_WRITE | B_ERASE_FILE | B_CREATE_FILE);
 
 	status_t status = file.InitCheck();
 	if (status != B_OK) {
@@ -34,14 +33,13 @@ SavePreferences(const char* path)
 }
 
 status_t
-LoadPreferences(const char* path)
+LoadPreferences()
 {
-	if (!path)
-		return B_ERROR;
-
 	prefsLock.Lock();
 
-	BFile file(path, B_READ_ONLY);
+	BPath path = gSettingsPath;
+	path.Append("CapitalBeSettings");
+	BFile file(path.Path(), B_READ_ONLY);
 
 	BMessage msg;
 

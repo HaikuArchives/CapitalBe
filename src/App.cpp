@@ -1,4 +1,6 @@
 #include <Application.h>
+#include <FindDirectory.h>
+#include <Path.h>
 
 // #define DEBUG_DATABASE
 
@@ -14,8 +16,13 @@ bool gRestartApp = false;
 App::App(void)
 	: BApplication("application/x-vnd.wgp-CapitalBe")
 {
-	// Load preferences
-	LoadPreferences(PREFERENCES_PATH "/CapitalBeSettings");
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path, true);
+	path.Append("CapitalBe");
+	create_directory(path.Path(), 0755);
+	gSettingsPath = path;
+
+	LoadPreferences();
 
 	// We can skip locking because nothing else is open at this point :)
 	BRect winframe;
@@ -30,7 +37,7 @@ App::App(void)
 
 App::~App(void)
 {
-	SavePreferences(PREFERENCES_PATH "/CapitalBeSettings");
+	SavePreferences();
 }
 
 void
@@ -45,20 +52,6 @@ App::MessageReceived(BMessage* msg)
 int
 main(void)
 {
-	// Attempt to load the default data file
-
-	BEntry entry("/boot/home/config/settings/CapitalBe");
-	BFile file;
-
-	if (!entry.Exists())
-		create_directory(PREFERENCES_PATH, 0777);
-
-	entry.SetTo(PREFERENCES_PATH "/CapitalBeSettings");
-	if (!entry.Exists()) {
-		file.SetTo(PREFERENCES_PATH "/CapitalBeSettings", B_READ_WRITE | B_CREATE_FILE);
-		file.Unset();
-	}
-
 	App* app = new App;
 	app->Run();
 	delete app;

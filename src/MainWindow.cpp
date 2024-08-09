@@ -232,8 +232,11 @@ MainWindow::InitSettings(void)
 {
 	// This loads all the settings from disk and uses sane defaults if a setting
 	// is non-existent or invalid
-	if (gPreferences.FindString("lastfile", &fLastFile) != B_OK)
-		fLastFile = PREFERENCES_PATH "/MyAccountData";
+	if (gPreferences.FindString("lastfile", &fLastFile) != B_OK) {
+
+		fLastFile = gSettingsPath.Path();
+		fLastFile << "/MyAccountData";
+	}
 
 	if (gPreferences.FindColor("negativecolor", &gNegativeColor) != B_OK)
 		gNegativeColor = ui_color(B_FAILURE_COLOR);
