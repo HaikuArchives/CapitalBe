@@ -20,6 +20,9 @@ filter_result
 DateBoxFilter::KeyFilter(const int32& key, const int32& mod)
 {
 	// Here is where all the *real* work for a date box is done.
+	if (mod & B_COMMAND_KEY)
+		return B_DISPATCH_MESSAGE;
+
 	if (key == B_TAB) {
 		if (!((DateBox*)TextControl())->IsTabFiltering())
 			return B_DISPATCH_MESSAGE;
