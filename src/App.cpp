@@ -55,16 +55,18 @@ App::AboutRequested(void)
 	const char* authors[] = {
 		"DarkWyrm",
 		"Humdinger",
-		"Jérôme Duval",
 		"Johan Wagenheim",
-		"Panagiotis Vasilopoulos",
 		"Raefaldhi Amartya Junior",
-		"Thomas Schmidt",
 		"waddlesplash",
 		NULL };
 
 	const char* thanks[] = {
-		"Tanausú Gómez (Spanish translation)",
+		"Davidmp (Catalan translation)",
+		"tmtfx (Friaulian translation)",
+		"Humdinger (German and Australian/British/Canadian translation)",
+		"Johan Wagenheim (Norwegian translation)",
+		"Tanausú Gómez, Pintaio and cafeina (Spanish translation)",
+		"Emir Sarı (Turkish translation)",
 		NULL };
 	// clang-format on
 	abwin->AddDescription(
@@ -75,6 +77,8 @@ App::AboutRequested(void)
 	abwin->AddAuthors(authors);
 	abwin->AddSpecialThanks(thanks);
 	abwin->Show();
+	float width = be_plain_font->StringWidth("CapitalBe is a simple application to keep track of your personal finances.");
+	abwin->ResizeTo(width, width);
 }
 
 void
