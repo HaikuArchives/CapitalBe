@@ -1,0 +1,13 @@
+v2.0
+
+* Many, many, many bugfixes and cleanups
+* Added database versioning, auto-backup and import old user data
+* Entering a "Type" is no longer needed, Income/Spending is determined by the category
+* Removed handling of "Checks" (e.g. in Reconcile and check nr. management)
+* Tweaked and much improved GUI and UX, e.g. alternate colored lists, context menus,
+  transaction list filtering, data input, calendar window etc.
+* Use system colors, add settable color for neg. amounts
+* Use vector icons, improved app icon
+* HTML documentation, linked through help icons
+* Localization using catkeys system
+* Added translations for ca, de, en_AU, en_GB, en_CA, es_419, es, fur, nb, tr
