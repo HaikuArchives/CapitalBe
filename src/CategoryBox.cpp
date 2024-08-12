@@ -48,20 +48,19 @@ CategoryBoxFilter::KeyFilter(const int32& key, const int32& mod)
 	TextControl()->TextView()->GetSelection(&start, &end);
 	if (end == (int32)strlen(TextControl()->Text())) {
 		TextControl()->TextView()->Delete(start, end);
+		BString string = "";
+		GetCurrentMessage()->FindString("bytes", &string);
 
-		BString string;
-		if (GetCurrentMessage()->FindString("bytes", &string) != B_OK)
-			string = "";
 		string.Prepend(TextControl()->Text());
 
 		BString autocomplete = acc->AutocompleteCategory(string.String());
+		if (autocomplete.CountChars() == 0 || IsInternalCategory(autocomplete.String()))
+			autocomplete = string;
 
-		if (autocomplete.CountChars() > 0 && !IsInternalCategory(autocomplete.String())) {
-			BMessage automsg(M_CATEGORY_AUTOCOMPLETE);
-			automsg.AddInt32("start", strlen(TextControl()->Text()) + 1);
-			automsg.AddString("string", autocomplete.String());
-			SendMessage(&automsg);
-		}
+		BMessage automsg(M_CATEGORY_AUTOCOMPLETE);
+		automsg.AddInt32("start", strlen(TextControl()->Text()) + 1);
+		automsg.AddString("string", autocomplete.String());
+		SendMessage(&automsg);
 	}
 
 	return B_DISPATCH_MESSAGE;
