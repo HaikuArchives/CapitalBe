@@ -325,12 +325,13 @@ SplitView::MessageReceived(BMessage* msg)
 			if (!fAmount->Validate())
 				break;
 
-			if (fSplitContainer->IsHidden())
+			if (fSplitContainer->IsHidden()) {
 				if (!fCategory->Validate())
 					break;
-
-			if (!ValidateSplitItems())
-				break;
+			} else {
+				if (!ValidateSplitItems())
+					break;
+			}
 			Account* account = fTransaction.GetAccount();
 			if (!account)
 				ShowBug("NULL transaction account in SplitView::M_ENTER_TRANSACTION");
@@ -765,6 +766,7 @@ SplitView::ToggleSplit(void)
 		fCategory->SetText(
 			B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'"));
 		fCategoryButton->SetEnabled(false);
+		fAmount->SetEnabled(false);
 		fMemo->SetEnabled(false);
 		if (fCategory->ChildAt(0)->IsFocus())
 			fMemo->MakeFocus();
@@ -772,9 +774,12 @@ SplitView::ToggleSplit(void)
 		fSplit->SetValue(B_CONTROL_OFF);
 
 		fSplitContainer->Hide();
+		Window()->ResizeToPreferred();
+
 		fCategory->SetEnabled(true);
 		fCategory->SetText(fTransaction.NameAt(0));
 		fCategoryButton->SetEnabled(true);
+		fAmount->SetEnabled(true);
 		fMemo->SetEnabled(true);
 	}
 }
