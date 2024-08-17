@@ -109,7 +109,6 @@ CategoryBox::Validate(void)
 		return false;
 	}
 
-	CapitalizeEachWord(category);
 	SetText(category);
 	bool success = SetTypeFromCategory(category);
 	return success;
