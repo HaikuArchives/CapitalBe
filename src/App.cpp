@@ -72,7 +72,7 @@ App::AboutRequested(void)
 	abwin->AddDescription(
 		B_TRANSLATE("CapitalBe is a simple application to keep track of your personal finances."));
 	abwin->AddCopyright(2009, "DarkWyrm");
-	abwin->AddText(B_TRANSLATE("Distributed under the terms of the MIT License"));
+	abwin->AddText(B_TRANSLATE("Distributed under the terms of the MIT License."));
 	abwin->AddText("https://github.com/HaikuArchives/CapitalBe");
 	abwin->AddAuthors(authors);
 	abwin->AddSpecialThanks(thanks);

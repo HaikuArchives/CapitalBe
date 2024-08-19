@@ -236,7 +236,7 @@ ReportWindow::ComputeCashFlow(void)
 		fGridView->AddRow(new BRow());
 		titlerow = new BRow();
 		fGridView->AddRow(titlerow);
-		titlerow->SetField(new BStringField(B_TRANSLATE("Expense")), 0);
+		titlerow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")), 0);
 		fGridView->AddRow(new BRow());
 
 		for (i = 0; i < expensegrid.CountItems(); i++) {

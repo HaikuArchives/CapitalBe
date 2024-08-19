@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	3818023821
+1	English	application/x-vnd.wgp-CapitalBe	4101502469
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -21,12 +21,11 @@ Transfer from '%%PAYEE%%'	MainWindow		Transfer from '%%PAYEE%%'
 You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow		You need to enter the date for the statement to 'Quick balance'.
 Repeats	ScheduleListWindow		Repeats
 Cancel	ScheduleAddWindow		Cancel
-Distributed under the terms of the MIT License	App		Distributed under the terms of the MIT License
 Account total	MainWindow		Account total
 CapitalBe	System name		CapitalBe
 Import from QIF file…	MainWindow		Import from QIF file…
-Ending date:	ReportWindow		Ending date:
 Preview:	PrefWindow		Preview:
+Ending date:	ReportWindow		Ending date:
 Scheduled transactions	MainWindow		Scheduled transactions
 Go to filter	MainWindow		Go to filter
 Transactions	RegisterView		Transactions
@@ -65,6 +64,7 @@ Settings	PrefWindow		Settings
 Cancel	ReconcileWindow		Cancel
 Spending	CategoryWindow		Spending
 Reconcile…	MainWindow		Reconcile…
+Distributed under the terms of the MIT License.	App		Distributed under the terms of the MIT License.
 Spending	BudgetWindow		Spending
 Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n	CategoryWindow		Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n
 Uncategorized	CommonTerms		Uncategorized
@@ -116,8 +116,8 @@ Symbol:	PrefWindow		Symbol:
 Transactions	TransactionReport		Transactions
 Spending	CommonTerms		Spending
 CapitalBe didn't understand the amount	TextInput		CapitalBe didn't understand the amount
-New category	CategoryWindow		New category
 Average	BudgetWindow		Average
+New category	CategoryWindow		New category
 Summary	BudgetWindow		Summary
 You need to enter a payee.	TextInput		You need to enter a payee.
 Ending balance	ReconcileWindow		Ending balance
@@ -224,7 +224,6 @@ Quarterly	ScheduleAddWindow		Quarterly
 Reconcile:	ReconcileWindow		Reconcile:
 Total charges:	ReconcileWindow		Total charges:
 Total worth	ReportWindow		Total worth
-Expense	CashFlowReport		Expense
 No transactions	TransactionReport		No transactions
 Date:	TransferWindow		Date:
 To account:	TransferWindow		To account:
