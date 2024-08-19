@@ -77,7 +77,8 @@ App::AboutRequested(void)
 	abwin->AddAuthors(authors);
 	abwin->AddSpecialThanks(thanks);
 	abwin->Show();
-	float width = be_plain_font->StringWidth("CapitalBe is a simple application to keep track of your personal finances.");
+	float width = be_plain_font->StringWidth(
+		"CapitalBe is a simple application to keep track of your personal finances.");
 	abwin->ResizeTo(width, width);
 }
 
