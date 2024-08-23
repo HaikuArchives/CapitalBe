@@ -49,6 +49,7 @@ CalendarButton::MessageReceived(BMessage* msg)
 			msg->FindInt32("year", &year);
 			date << day << "." << month << "." << year;
 			fDateBox->SetText(date);
+			fDateBox->Invoke();
 			fDateBox->Validate();
 
 			UpdateIcon();
