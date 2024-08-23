@@ -184,7 +184,7 @@ ReportWindow::ComputeCashFlow(void)
 			case SUBTOTAL_QUARTER:
 			{
 				char year[10];
-				int quarternumber = ((timestruct->tm_mon + 2) / 3) + 1;
+				int quarternumber = (ceil(timestruct->tm_mon / 3) + 1);
 				strftime(year, 10, "%Y", timestruct);
 				sprintf(columntitle, "Q%d %s", quarternumber, year);
 				break;
