@@ -379,18 +379,6 @@ BudgetWindow::RefreshBudgetSummary(void)
 		irow->SetField(new BStringField(itemp.String()), i + 1);
 		srow->SetField(new BStringField(stemp.String()), i + 1);
 		mrow->SetField(new BStringField(mtemp.String()), i + 1);
-
-		float colwidth = fBudgetSummary->StringWidth(itemp.String()) + 20;
-		if (fBudgetSummary->ColumnAt(i + 1)->Width() < colwidth)
-			fBudgetSummary->ColumnAt(i + 1)->SetWidth(colwidth);
-
-		colwidth = fBudgetSummary->StringWidth(stemp.String()) + 20;
-		if (fBudgetSummary->ColumnAt(i + 1)->Width() < colwidth)
-			fBudgetSummary->ColumnAt(i + 1)->SetWidth(colwidth);
-
-		colwidth = fBudgetSummary->StringWidth(mtemp.String()) + 20;
-		if (fBudgetSummary->ColumnAt(i + 1)->Width() < colwidth)
-			fBudgetSummary->ColumnAt(i + 1)->SetWidth(colwidth);
 	}
 
 	BString ttemp;
@@ -410,6 +398,7 @@ BudgetWindow::RefreshBudgetSummary(void)
 	ttemp.RemoveFirst(gDefaultLocale.CurrencySymbol());
 	fBudgetSummary->RowAt(2)->SetField(new BStringField(ttemp.String()), 13);
 
+	fBudgetSummary->ResizeAllColumnsToPreferred();
 	fBudgetSummary->Invalidate();
 }
 
