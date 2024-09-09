@@ -41,7 +41,7 @@ enum {
 extern int compare_stringitem(const void* item1, const void* item2);
 
 BudgetWindow::BudgetWindow(const BRect& frame)
-	: BWindow(BRect(0, 0, 1000, 400), B_TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
+	: BWindow(BRect(), B_TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
 		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
 	  fIncomeGrid(13, 0),
 	  fSpendingGrid(13, 0)
@@ -96,17 +96,27 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 		.AddGroup(B_VERTICAL)
 			.SetInsets(B_USE_DEFAULT_SPACING, B_USE_SMALL_SPACING, B_USE_DEFAULT_SPACING,
 				B_USE_DEFAULT_SPACING)
-			.AddGroup(B_HORIZONTAL)
+			.AddGroup(B_HORIZONTAL, 0, 1.0f)
 				.Add(fCategoryList)
-				.AddGroup(B_VERTICAL)
+				.AddGroup(B_VERTICAL, -2)
 					.Add(fCatBox)
 					.Add(fCatStat)
 					.End()
 				.End()
-			.Add(fBudgetSummary)
+			.Add(fBudgetSummary, 0.0f)
 			.End()
 		.End();
 	// clang-format on
+
+	font_height fh;
+	be_plain_font->GetHeight(&fh);
+	float rowheight = fh.ascent + fh.descent + fh.leading;
+	rowheight = MAX(14, rowheight);
+	fBudgetSummary->SetExplicitMinSize(BSize(B_SIZE_UNSET, rowheight * 6));
+
+	ResizeToPreferred();
+	ResizeBy(0, rowheight * 3);
+
 	CenterIn(frame);
 }
 
@@ -695,8 +705,9 @@ BudgetWindow::BuildStatsAndEditor(void)
 
 	font_height fh;
 	fCatStat->GetFontHeight(&fh);
-	float rowheight = fh.ascent + fh.descent + fh.leading + 3;
-	fCatStat->SetExplicitMinSize(BSize(statwidth + amountwidth + 50, rowheight * 4));
+	float rowheight = fh.ascent + fh.descent + fh.leading;
+	rowheight = MAX(14, rowheight);
+	fCatStat->SetExplicitMinSize(BSize(statwidth + amountwidth + 50, rowheight * 5));
 
 	fCatStat->AddColumn(
 		new BStringColumn(B_TRANSLATE("12 month statistics"), statwidth, 10, 300, B_TRUNCATE_END),
