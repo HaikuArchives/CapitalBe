@@ -61,7 +61,7 @@
 
 MainWindow::MainWindow(BRect frame, BPath lastFile)
 	: BWindow(frame, NULL, B_DOCUMENT_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS),
-	  fLastFile(lastFile.Path())
+	fLastFile(lastFile.Path())
 {
 	BString title = B_TRANSLATE_SYSTEM_NAME("CapitalBe");
 	title << ": " << lastFile.Leaf();
@@ -111,6 +111,11 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 		new BMenuItem(B_TRANSLATE("New ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_NEW)));
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Open ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_OPEN)));
+	menu->AddSeparatorItem();
+	menu->AddItem(new BMenuItem(
+		B_TRANSLATE("New ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_NEW)));
+	menu->AddItem(new BMenuItem(
+		B_TRANSLATE("Open ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_OPEN)));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Import from QIF file" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_IMPORT_PANEL)));
