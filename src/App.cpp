@@ -8,7 +8,6 @@
  *	dospuntos (Johan Wagenheim)
  */
 #include <AboutWindow.h>
-#include <Alert.h>
 #include <Application.h>
 #include <Catalog.h>
 #include <FilePanel.h>
@@ -147,9 +146,14 @@ App::ReadyToRun()
 		if (entry.Exists()) {
 			BPath path(&entry);
 			ShowMainWindow(path);
+<<<<<<< HEAD
 		} else {  // looks like it's our first launch
 			alertText = B_TRANSLATE(
 				"Welcome to CapitalBe!\n\n"
+=======
+		} else { // looks like it's our first launch
+			alertText = B_TRANSLATE("Welcome to CapitalBe!\n\n"
+>>>>>>> d007f2d (Implement open/create 'ledgers')
 				"There appears to be no 'ledger' where all your accounts and transactions "
 				"are saved. You can open an existing ledger, or create a new ledger.\n");
 			ShowAlert(alertText);
@@ -160,9 +164,15 @@ App::ReadyToRun()
 void
 App::ShowAlert(BString text)
 {
+<<<<<<< HEAD
 	DAlert* alert = new DAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text, B_TRANSLATE("Cancel"),
 		B_TRANSLATE("Open ledger"), B_TRANSLATE("Create new ledger"), B_WIDTH_AS_USUAL,
 		B_OFFSET_SPACING, B_INFO_ALERT);
+=======
+	DAlert* alert = new DAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text,
+		B_TRANSLATE("Cancel"), B_TRANSLATE("Open ledger"), B_TRANSLATE("Create new ledger"),
+		B_WIDTH_AS_USUAL, B_OFFSET_SPACING, B_INFO_ALERT);
+>>>>>>> d007f2d (Implement open/create 'ledgers')
 	alert->SetShortcut(0, B_ESCAPE);
 
 	switch (alert->Go()) {
