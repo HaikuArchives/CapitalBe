@@ -82,7 +82,6 @@ void
 App::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
-		case B_CANCEL:
 		case M_QUIT_NOW:
 		{
 			Quit();
@@ -107,7 +106,6 @@ App::MessageReceived(BMessage* msg)
 			entry_ref ref;
 			if (msg->FindRef("refs", &ref) == B_OK) {
 				BPath path(&ref);
-				printf("path: %s\n", path.Path());
 				MainWindow* win = new MainWindow(BRect(100, 100, 720, 660), path.Path());
 				win->MoveOnScreen();
 				win->Show();
@@ -119,7 +117,8 @@ App::MessageReceived(BMessage* msg)
 	}
 }
 
-void App::ReadyToRun()
+void
+App::ReadyToRun()
 {
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path, true);
@@ -150,7 +149,7 @@ void App::ReadyToRun()
 			ShowAlert(alertText);
 		}
 	} else { // "lastfile" wasn't set in previous CapitalBe versions
-		lastFile << path.Path() << "/MyAccountData"; // the file used back then
+		lastFile << path.Path() << "/MyAccountData"; // this file was used back then
 		BEntry entry(lastFile.String());
 		if (entry.Exists()) {
 			MainWindow* win = new MainWindow(winFrame, lastFile);
