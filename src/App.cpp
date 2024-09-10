@@ -8,6 +8,7 @@
  *	dospuntos (Johan Wagenheim)
  */
 #include <AboutWindow.h>
+#include <Alert.h>
 #include <Application.h>
 #include <Catalog.h>
 #include <FilePanel.h>
