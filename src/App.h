@@ -21,8 +21,11 @@ public:
 
 	virtual void AboutRequested();
 	void MessageReceived(BMessage* msg);
+	void ReadyToRun();
+
+private:
+	void ShowAlert(BString text);
 };
 
-extern bool gRestartApp;
 
 #endif	// APP_H

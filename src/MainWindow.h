@@ -97,8 +97,6 @@ private:
 	BString fLastFile;
 	BMenuItem* fAccountClosedItem;
 	BMessageRunner* fRunner;
-
-	bool fLoadError;
 };
 
 #endif

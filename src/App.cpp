@@ -8,8 +8,10 @@
  *	dospuntos (Johan Wagenheim)
  */
 #include <AboutWindow.h>
+#include <Alert.h>
 #include <Application.h>
 #include <Catalog.h>
+#include <FilePanel.h>
 #include <FindDirectory.h>
 #include <Path.h>
 
@@ -22,7 +24,6 @@
 #include "MainWindow.h"
 #include "Preferences.h"
 
-bool gRestartApp = false;
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "App"
@@ -31,23 +32,6 @@ bool gRestartApp = false;
 App::App()
 	: BApplication(kApplicationSignature)
 {
-	BPath path;
-	find_directory(B_USER_SETTINGS_DIRECTORY, &path, true);
-	path.Append("CapitalBe");
-	create_directory(path.Path(), 0755);
-	gSettingsPath = path;
-
-	LoadPreferences();
-
-	// We can skip locking because nothing else is open at this point :)
-	BRect winframe;
-	if (gPreferences.FindRect("mainframe", &winframe) != B_OK)
-		winframe.Set(100, 100, 720, 660);
-
-	MainWindow* win = new MainWindow(winframe);
-	// Make sure the window is visible on screen
-	win->MoveOnScreen();
-	win->Show();
 }
 
 
@@ -97,10 +81,120 @@ App::AboutRequested()
 void
 App::MessageReceived(BMessage* msg)
 {
-	if (msg->what == M_QUIT_NOW)
-		Quit();
-	else
-		BApplication::MessageReceived(msg);
+	switch (msg->what) {
+		case B_CANCEL:
+		case M_QUIT_NOW:
+		{
+			Quit();
+		} break;
+
+		case M_FILE_NEW:
+		{
+			entry_ref ref;
+			const char* name;
+			if (msg->FindRef("directory", &ref) == B_OK
+				&& msg->FindString("name", &name) == B_OK) {
+				BDirectory directory(&ref);
+				BPath path(&directory, name);
+				MainWindow* win = new MainWindow(BRect(100, 100, 720, 660), path.Path());
+				win->MoveOnScreen();
+				win->Show();
+			}
+		} break;
+
+		case M_FILE_OPEN:
+		{
+			entry_ref ref;
+			if (msg->FindRef("refs", &ref) == B_OK) {
+				BPath path(&ref);
+				printf("path: %s\n", path.Path());
+				MainWindow* win = new MainWindow(BRect(100, 100, 720, 660), path.Path());
+				win->MoveOnScreen();
+				win->Show();
+			}
+		} break;
+
+		default:
+			BApplication::MessageReceived(msg);
+	}
+}
+
+void App::ReadyToRun()
+{
+	BPath path;
+	find_directory(B_USER_SETTINGS_DIRECTORY, &path, true);
+	path.Append("CapitalBe");
+	create_directory(path.Path(), 0755);
+	gSettingsPath = path;
+
+	LoadPreferences();
+
+	// We can skip locking because nothing else is open at this point :)
+	BRect winFrame;
+	if (gPreferences.FindRect("mainframe", &winFrame) != B_OK)
+		winFrame.Set(100, 100, 720, 660);
+
+	BString alertText;
+	BString lastFile;
+
+	if (gPreferences.FindString("lastfile", &lastFile) == B_OK) {
+		BEntry entry(lastFile.String());
+		if (entry.Exists()) {
+			MainWindow* win = new MainWindow(winFrame, lastFile);
+			win->MoveOnScreen();
+			win->Show();
+		} else {
+			alertText = B_TRANSLATE(
+				"CapitalBe couldn't find the last open ledger at '%filename%'.\n");
+			alertText.ReplaceFirst("%filename%", lastFile.String());
+			ShowAlert(alertText);
+		}
+	} else { // "lastfile" wasn't set in previous CapitalBe versions
+		lastFile << path.Path() << "/MyAccountData"; // the file used back then
+		BEntry entry(lastFile.String());
+		if (entry.Exists()) {
+			MainWindow* win = new MainWindow(winFrame, lastFile);
+			win->MoveOnScreen();
+			win->Show();
+		} else { // looks like it's our first launch
+			alertText = B_TRANSLATE("Welcome to CapitalBe!\n\n"
+				"There appears to be no 'ledger' where all your accounts and transactions "
+				"are saved. You can open an existing ledger, or create a new ledger.\n");
+			ShowAlert(alertText);
+		}
+	}
+}
+
+void
+App::ShowAlert(BString text)
+{
+	BAlert* alert = new BAlert("Attention", text,
+		B_TRANSLATE("Cancel"), B_TRANSLATE("Open ledger"), B_TRANSLATE("Create new ledger"),
+		B_WIDTH_AS_USUAL, B_OFFSET_SPACING, B_INFO_ALERT);
+	alert->SetShortcut(0, B_ESCAPE);
+
+	switch (alert->Go()) {
+		case 0:
+		{
+			PostMessage(B_QUIT_REQUESTED);
+		} break;
+
+		case 1:
+		{
+			BFilePanel* openLedger = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL,
+				B_FILE_NODE, false, new BMessage(M_FILE_OPEN));
+			openLedger->Window()->SetTitle(B_TRANSLATE("CapitalBe: Open ledger"));
+			openLedger->Show();
+		} break;
+
+		case 2:
+		{
+			BFilePanel* newLedger = new BFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL,
+				B_FILE_NODE, false, new BMessage(M_FILE_NEW));
+			newLedger->Window()->SetTitle(B_TRANSLATE("CapitalBe: Create new ledger"));
+			newLedger->Show();
+		} break;
+	}
 }
 
 
