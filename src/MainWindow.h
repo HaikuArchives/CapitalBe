@@ -92,7 +92,7 @@ private:
 	void _CreateTransfer(BMessage* msg);
 
 	RegisterView* fRegisterView;
-	BFilePanel *fImportPanel, *fExportPanel;
+	BFilePanel *fNewPanel, *fOpenPanel, *fImportPanel, *fExportPanel;
 
 	BString fLastFile;
 	BMenuItem* fAccountClosedItem;

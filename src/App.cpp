@@ -8,7 +8,6 @@
  *	dospuntos (Johan Wagenheim)
  */
 #include <AboutWindow.h>
-#include <Alert.h>
 #include <Application.h>
 #include <Catalog.h>
 #include <FilePanel.h>
@@ -21,7 +20,7 @@
 
 #include <Roster.h>
 #include "App.h"
-#include "MainWindow.h"
+#include "DAlert.h"
 #include "Preferences.h"
 
 
@@ -29,8 +28,9 @@
 #define B_TRANSLATION_CONTEXT "App"
 
 
-App::App()
-	: BApplication(kApplicationSignature)
+App::App(void)
+	: BApplication(kApplicationSignature),
+	fMainWindow(NULL)
 {
 }
 
@@ -95,9 +95,10 @@ App::MessageReceived(BMessage* msg)
 				&& msg->FindString("name", &name) == B_OK) {
 				BDirectory directory(&ref);
 				BPath path(&directory, name);
-				MainWindow* win = new MainWindow(BRect(100, 100, 720, 660), path.Path());
-				win->MoveOnScreen();
-				win->Show();
+				BEntry entry(path.Path());
+				if (entry.Exists())
+					entry.Remove();
+				ShowMainWindow(path);
 			}
 		} break;
 
@@ -106,9 +107,7 @@ App::MessageReceived(BMessage* msg)
 			entry_ref ref;
 			if (msg->FindRef("refs", &ref) == B_OK) {
 				BPath path(&ref);
-				MainWindow* win = new MainWindow(BRect(100, 100, 720, 660), path.Path());
-				win->MoveOnScreen();
-				win->Show();
+				ShowMainWindow(path.Path());
 			}
 		} break;
 
@@ -128,20 +127,14 @@ App::ReadyToRun()
 
 	LoadPreferences();
 
-	// We can skip locking because nothing else is open at this point :)
-	BRect winFrame;
-	if (gPreferences.FindRect("mainframe", &winFrame) != B_OK)
-		winFrame.Set(100, 100, 720, 660);
-
 	BString alertText;
 	BString lastFile;
 
 	if (gPreferences.FindString("lastfile", &lastFile) == B_OK) {
 		BEntry entry(lastFile.String());
 		if (entry.Exists()) {
-			MainWindow* win = new MainWindow(winFrame, lastFile);
-			win->MoveOnScreen();
-			win->Show();
+			BPath path(&entry);
+			ShowMainWindow(path);
 		} else {
 			alertText = B_TRANSLATE(
 				"CapitalBe couldn't find the last open ledger at '%filename%'.\n");
@@ -152,9 +145,8 @@ App::ReadyToRun()
 		lastFile << path.Path() << "/MyAccountData"; // this file was used back then
 		BEntry entry(lastFile.String());
 		if (entry.Exists()) {
-			MainWindow* win = new MainWindow(winFrame, lastFile);
-			win->MoveOnScreen();
-			win->Show();
+			BPath path(&entry);
+			ShowMainWindow(path);
 		} else { // looks like it's our first launch
 			alertText = B_TRANSLATE("Welcome to CapitalBe!\n\n"
 				"There appears to be no 'ledger' where all your accounts and transactions "
@@ -167,7 +159,7 @@ App::ReadyToRun()
 void
 App::ShowAlert(BString text)
 {
-	BAlert* alert = new BAlert("Attention", text,
+	DAlert* alert = new DAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text,
 		B_TRANSLATE("Cancel"), B_TRANSLATE("Open ledger"), B_TRANSLATE("Create new ledger"),
 		B_WIDTH_AS_USUAL, B_OFFSET_SPACING, B_INFO_ALERT);
 	alert->SetShortcut(0, B_ESCAPE);
@@ -194,6 +186,26 @@ App::ShowAlert(BString text)
 			newLedger->Show();
 		} break;
 	}
+}
+
+
+void
+App::ShowMainWindow(BPath path)
+{
+	if (fMainWindow != NULL) {
+		BMessenger messengerMain(fMainWindow);
+		if (messengerMain.IsValid() && messengerMain.LockTarget())
+			fMainWindow->Quit();
+		fMainWindow = NULL;
+	}
+
+	BRect winFrame;
+	if (gPreferences.FindRect("mainframe", &winFrame) != B_OK)
+		winFrame.Set(100, 100, 720, 660);
+
+	fMainWindow = new MainWindow(winFrame, path);
+	fMainWindow->MoveOnScreen();
+	fMainWindow->Show();
 }
 
 

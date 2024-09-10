@@ -59,20 +59,16 @@
 #define B_SERVICES_DAEMON_RESTART 'SDRS'
 
 
-MainWindow::MainWindow(BRect frame, BString lastFile)
-	: BWindow(frame, B_TRANSLATE_SYSTEM_NAME("CapitalBe"), B_DOCUMENT_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS),
-	fLastFile(lastFile)
+MainWindow::MainWindow(BRect frame, BPath lastFile)
+	: BWindow(frame, NULL, B_DOCUMENT_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS),
+	fLastFile(lastFile.Path())
 {
-<<<<<<< HEAD
-	BString temp;
-	SetTitle(B_TRANSLATE_SYSTEM_NAME("CapitalBe"));
+	BString title = B_TRANSLATE_SYSTEM_NAME("CapitalBe");
+	title << ": " << lastFile.Leaf();
+	SetTitle(title);
 
-	fLoadError = false;
-	_InitSettings();
-=======
 	if (gPreferences.FindColor("negativecolor", &gNegativeColor) != B_OK)
 		gNegativeColor = ui_color(B_FAILURE_COLOR);
->>>>>>> accec26 (Check if last opened file still exists)
 
 	AddShortcut(B_HOME, B_COMMAND_KEY, new BMessage(M_FIRST_TRANSACTION));
 	AddShortcut(B_END, B_COMMAND_KEY, new BMessage(M_LAST_TRANSACTION));
@@ -111,6 +107,11 @@ MainWindow::MainWindow(BRect frame, BString lastFile)
 
 	menu = new BMenu(B_TRANSLATE("File"));
 
+	menu->AddItem(new BMenuItem(
+		B_TRANSLATE("New ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_NEW)));
+	menu->AddItem(new BMenuItem(
+		B_TRANSLATE("Open ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_OPEN)));
+	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Import from QIF file" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_IMPORT_PANEL)));
 	menu->AddItem(new BMenuItem(
@@ -176,17 +177,30 @@ MainWindow::MainWindow(BRect frame, BString lastFile)
 
 	fRegisterView = new RegisterView("registerview", B_WILL_DRAW);
 
+	// File panels
+	BString temp = B_TRANSLATE_SYSTEM_NAME("CapitalBe");
+	temp << ": ";
+
+	fNewPanel = new BFilePanel(B_SAVE_PANEL, new BMessenger(be_app), NULL, B_FILE_NODE, false,
+		new BMessage(M_FILE_NEW));
+	BString label = temp;
+	fNewPanel->Window()->SetTitle(label << B_TRANSLATE("New ledger"));
+
+	fOpenPanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(be_app), NULL, B_FILE_NODE, false,
+		new BMessage(M_FILE_OPEN));
+	label = temp;
+	fOpenPanel->Window()->SetTitle(label << B_TRANSLATE("Open ledger"));
+
 	fImportPanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL, B_FILE_NODE, false,
 		new BMessage(M_IMPORT_ACCOUNT));
+	label = temp;
+	fImportPanel->Window()->SetTitle(label << B_TRANSLATE("Import"));
 
-	BString temp = B_TRANSLATE_SYSTEM_NAME("CapitalBe");
-	temp << ": " << B_TRANSLATE("Import");
-	fImportPanel->Window()->SetTitle(temp.String());
 	fExportPanel = new BFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL, B_FILE_NODE, false,
 		new BMessage(M_EXPORT_ACCOUNT));
-	temp = B_TRANSLATE_SYSTEM_NAME("CapitalBe");
-	temp << ": " << B_TRANSLATE("Export");
-	fExportPanel->Window()->SetTitle(temp.String());
+	label = temp;
+	fExportPanel->Window()->SetTitle(label << B_TRANSLATE("Export"));
+
 	gDatabase.AddObserver(this);
 
 	// clang-format off
@@ -210,7 +224,10 @@ MainWindow::MainWindow(BRect frame, BString lastFile)
 
 MainWindow::~MainWindow()
 {
+	delete fNewPanel;
+	delete fOpenPanel;
 	delete fImportPanel;
+	delete fExportPanel;
 }
 
 
@@ -347,6 +364,16 @@ MainWindow::MessageReceived(BMessage* msg)
 			// do the selecting which then generates the proper notification instead
 			// of tweaking the database via SetCurrentAccount. Man, I hate hacks sometimes. :/
 			fRegisterView->SelectAccount(index + 1);
+			break;
+		}
+		case M_FILE_NEW:
+		{
+			fNewPanel->Show();
+			break;
+		}
+		case M_FILE_OPEN:
+		{
+			fOpenPanel->Show();
 			break;
 		}
 		case M_SHOW_IMPORT_PANEL:

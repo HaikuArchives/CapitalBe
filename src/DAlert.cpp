@@ -285,13 +285,18 @@ DAlert::Go()
 
 	// Get the originating window, if it exists
 	BWindow* window = dynamic_cast<BWindow*>(BLooper::LooperForThread(find_thread(NULL)));
-	this->CenterIn(window->Frame());
+	if (window != NULL)
+		this->CenterIn(window->Frame());
+	else {
+		BScreen screen;
+		this->CenterIn(screen.Frame());
+	}
 
 	Show();
 
 	// Heavily modified from TextEntryAlert code; the original didn't let the
 	// blocked window ever draw.
-	if (window) {
+	if (window != NULL) {
 		status_t err;
 		for (;;) {
 			do {
