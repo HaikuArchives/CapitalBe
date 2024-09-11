@@ -24,13 +24,12 @@
 //	Description:	DAlert displays a modal alert window.
 //------------------------------------------------------------------------------
 
-#ifndef _ALERT_H
-#define _ALERT_H
+#ifndef DALERT_H
+#define DALERT_H
 
 // Standard Includes -----------------------------------------------------------
 
 // System Includes -------------------------------------------------------------
-#include <Alert.h>
 #include <BeBuild.h>
 #include <Window.h>
 
@@ -46,6 +45,8 @@ class BBitmap;
 class BButton;
 class BInvoker;
 class BTextView;
+
+namespace CapitalBe {
 
 // enum for flavors of alert ---------------------------------------------------
 enum alert_type {
@@ -126,13 +127,20 @@ private:
 	uint32 _reserved[4];
 };
 
+}  // namespace CapitalBe
+
+using CapitalBe::alert_type;
+using CapitalBe::button_spacing;
+using CapitalBe::DAlert;
+using CapitalBe::alert_type::B_EMPTY_ALERT;
+using CapitalBe::alert_type::B_IDEA_ALERT;
+using CapitalBe::alert_type::B_INFO_ALERT;
+using CapitalBe::alert_type::B_STOP_ALERT;
+using CapitalBe::alert_type::B_WARNING_ALERT;
+using CapitalBe::button_spacing::B_EVEN_SPACING;
+using CapitalBe::button_spacing::B_OFFSET_SPACING;
+
+
 //------------------------------------------------------------------------------
 
-#endif	// _ALERT_H
-
-/*
- * $Log $
- *
- * $Id  $
- *
- */
+#endif	// DALERT_H
