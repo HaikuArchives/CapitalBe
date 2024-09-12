@@ -143,6 +143,10 @@ Database::CreateFile(const char* path)
 		return;
 	}
 
+	// Clear account list
+	fList.MakeEmpty();
+	fCurrent = NULL;
+
 	// Character-Entry Limits:
 	// Category names: 32
 	// Account names: 32
@@ -220,6 +224,10 @@ Database::OpenFile(const char* path)
 		ShowBug("Database::ApplyMigrations() failed");
 		return B_ERROR;
 	}
+
+	// Clear account list
+	fList.MakeEmpty();
+	fCurrent = NULL;
 
 	// Populate account list
 	CppSQLite3Query query
