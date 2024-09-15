@@ -1,3 +1,11 @@
+v2.1
+
+* Layout improvements for the Budget window
+* Fix quarterly reports showing wrong quarter label
+* Fix Reports not updating when changing dates
+* Added translation for Russian, updated translations
+
+
 v2.0
 
 * Many, many, many bugfixes and cleanups
