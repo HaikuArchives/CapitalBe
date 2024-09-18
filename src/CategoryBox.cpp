@@ -149,9 +149,9 @@ CategoryBox::_SetTypeFromCategory(BString category)
 
 	bool success = true;
 	if (!categoryExists
-		&& category.ICompare(B_TRANSLATE_ALL(
-			   "Split", "CommonTerms", "The noun 'split', as in 'a split-category'"))
-			   != 0) {
+		&& category.ICompare(B_TRANSLATE_ALL("Split", "CommonTerms",
+			   "The noun 'split', as in 'a split-category'"))
+			!= 0) {
 		bool success = _AddNewCategory(category);
 	}
 

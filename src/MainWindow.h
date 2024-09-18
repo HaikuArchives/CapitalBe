@@ -76,7 +76,7 @@ enum {
 
 class MainWindow : public BWindow, public Observer {
 public:
-	MainWindow(BRect frame);
+	MainWindow(BRect frame, BPath lastFile);
 	~MainWindow();
 
 	bool QuitRequested();
@@ -86,7 +86,6 @@ public:
 	void OpenAbout();
 
 private:
-	void _InitSettings();
 	void _LoadData();
 	void _SaveData();
 
