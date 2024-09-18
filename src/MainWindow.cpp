@@ -70,6 +70,10 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 	if (gPreferences.FindColor("negativecolor", &gNegativeColor) != B_OK)
 		gNegativeColor = ui_color(B_FAILURE_COLOR);
 
+	BRect winFrame = frame;
+	int32 selectAcc = 0;
+	_GetFileSettings(&winFrame, &selectAcc);
+
 	AddShortcut(B_HOME, B_COMMAND_KEY, new BMessage(M_FIRST_TRANSACTION));
 	AddShortcut(B_END, B_COMMAND_KEY, new BMessage(M_LAST_TRANSACTION));
 
@@ -180,7 +184,7 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 	// notifications are not sent and startup time is *significantly* reduced
 	_LoadData();
 
-	fRegisterView = new RegisterView("registerview", B_WILL_DRAW);
+	fRegisterView = new RegisterView("registerview", selectAcc);
 
 	// File panels
 	BString temp = B_TRANSLATE_SYSTEM_NAME("CapitalBe");
@@ -221,6 +225,8 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 
 	clearFilter->SetTarget(FindView("registerview")->FindView("filterview"));
 
+	MoveTo(winFrame.LeftTop());
+	ResizeTo(winFrame.Width(), winFrame.Height());
 	HandleScheduledTransactions();
 	BMessage message(M_RUN_SCHEDULED_TRANSACTIONS);
 	fRunner = new BMessageRunner(this, &message, 30 * 1000 * 1000);	 // Every 30 seconds
@@ -229,6 +235,8 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 
 MainWindow::~MainWindow()
 {
+	_SetFileSettings();
+
 	delete fNewPanel;
 	delete fOpenPanel;
 	delete fImportPanel;
@@ -666,6 +674,43 @@ MainWindow::MessageReceived(BMessage* msg)
 			break;
 		}
 	}
+}
+
+
+void
+MainWindow::_GetFileSettings(BRect *winFrame, int32 *selectAcc)
+{
+	BNode node(fLastFile);
+	if (node.InitCheck() != B_OK)
+		return;
+
+	ssize_t bytesRead;
+	BRect frame;
+	bytesRead = node.ReadAttr("window_frame", B_RECT_TYPE, 0, &frame, sizeof(BRect));
+	if (bytesRead == sizeof(BRect))
+		*winFrame = frame;
+
+	int32 select;
+	bytesRead = node.ReadAttr("select_account", B_INT32_TYPE, 0, &select, sizeof(int32));
+	if (bytesRead == sizeof(int32))
+		*selectAcc = select;
+}
+
+void
+MainWindow::_SetFileSettings()
+{
+	BNode node(fLastFile);
+	if (node.InitCheck() != B_OK)
+		return;
+
+	int32 select = 0;
+	BListView* accList = (BListView*)fRegisterView->FindView("AccountList");
+	if (accList != NULL)
+		select = accList->CurrentSelection();
+
+	BRect frame(Frame());
+	node.WriteAttr("window_frame", B_RECT_TYPE, 0, &frame, sizeof(BRect));
+	node.WriteAttr("select_account", B_INT32_TYPE, 0, &select, sizeof(int32));
 }
 
 

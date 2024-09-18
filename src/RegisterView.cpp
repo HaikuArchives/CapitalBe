@@ -32,8 +32,9 @@
 #define B_TRANSLATION_CONTEXT "RegisterView"
 
 
-RegisterView::RegisterView(const char* name, int32 flags)
-	: BView(name, flags | B_FRAME_EVENTS)
+RegisterView::RegisterView(const char* name, int32 select)
+	: BView(name, B_WILL_DRAW | B_FRAME_EVENTS),
+	fSelectedAcc(select)
 {
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
@@ -116,10 +117,6 @@ RegisterView::RegisterView(const char* name, int32 flags)
 
 RegisterView::~RegisterView()
 {
-	prefsLock.Lock();
-	gPreferences.RemoveData("selected-account");
-	gPreferences.AddInt32("selected-account", fAccountView->CurrentSelection());
-	prefsLock.Unlock();
 }
 
 
@@ -129,12 +126,10 @@ RegisterView::AttachedToWindow()
 	fAccountView->SetTarget(this);
 	fFilterView->SetMessenger(new BMessenger(this));
 
-	int32 index = 0;
-	if (index > fAccountView->CountItems() || index < 0
-		|| gPreferences.FindInt32("selected-account", &index) != B_OK)
-		index = 0;
+	if (fSelectedAcc > fAccountView->CountItems() || fSelectedAcc < 0)
+		fSelectedAcc = 0;
 
-	fAccountView->Select(index);
+	fAccountView->Select(fSelectedAcc);
 
 	fCheckView->MakeFocus(true);
 }

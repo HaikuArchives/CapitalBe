@@ -150,7 +150,6 @@ FilterView::MessageReceived(BMessage* msg)
 		case M_SET_FILTER:
 		{
 			Account* acc = gDatabase.CurrentAccount();
-			printf("FilterView: M_SET_FILTER\n");
 			TransactionData data;
 			gDatabase.GetTransaction(acc->CurrentTransaction(), acc->GetID(), data);
 

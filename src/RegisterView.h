@@ -42,7 +42,7 @@ typedef enum {
 
 class RegisterView : public BView, public Observer {
 public:
-	RegisterView(const char* name, int32 flags);
+	RegisterView(const char* name, int32 select);
 	~RegisterView();
 
 	void AttachedToWindow();
@@ -65,6 +65,7 @@ private:
 	BStringView* fTransactionlabel;
 	TransactionView* fTransactionView;
 	BBox* fTrackBox;
+	int32 fSelectedAcc;
 };
 
 #endif	// REGSITERVIEW_H
