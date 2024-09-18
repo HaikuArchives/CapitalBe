@@ -31,21 +31,21 @@ class PayeeBox;
 class CheckView : public BView, public Observer {
 public:
 	CheckView(const char* name, int32 flags);
-	~CheckView(void);
-	void AttachedToWindow(void);
+	~CheckView();
+	void AttachedToWindow();
 	void MessageReceived(BMessage* msg);
-	void ClearAllFields(void);
+	void ClearAllFields();
 	void SetFields(const char* date, const char* type, const char* payee, const char* amount,
 		const char* category, const char* memo);
 
 	void HandleNotify(const uint64& value, const BMessage* msg);
-	void MakeEmpty(void);
+	void MakeEmpty();
 	void MakeFocus(bool value = true);
 	void FrameResized(float width, float height);
 	void SetFieldsEnabled(bool enabled);
 
 private:
-	void DoNextField(void);
+	void DoNextField();
 
 	DateBox* fDate;
 	PayeeBox* fPayee;

@@ -24,20 +24,20 @@ class CurrencyBox;
 class BudgetWindow : public BWindow {
 public:
 	BudgetWindow(const BRect& frame);
-	~BudgetWindow(void);
+	~BudgetWindow();
 	void MessageReceived(BMessage* msg);
 
 private:
-	void BuildStatsAndEditor(void);
-	void BuildBudgetSummary(void);
-	void BuildCategoryList(void);
+	void BuildStatsAndEditor();
+	void BuildBudgetSummary();
+	void BuildCategoryList();
 
-	void RefreshCategories(void);
-	void RefreshBudgetSummary(void);
-	void RefreshBudgetGrid(void);
+	void RefreshCategories();
+	void RefreshBudgetSummary();
+	void RefreshBudgetGrid();
 	void GenerateBudget(const bool& zero);
 	void CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg);
-	void HandleCategorySelection(void);
+	void HandleCategorySelection();
 	void SetPeriod(const BudgetPeriod& period);
 
 	BMenuBar* fBar;

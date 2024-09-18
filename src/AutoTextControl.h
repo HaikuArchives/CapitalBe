@@ -30,17 +30,17 @@ public:
 	virtual status_t Archive(BMessage* data, bool deep = true) const;
 
 	virtual status_t GetSupportedSuites(BMessage* msg);
-	virtual BHandler* ResolveSpecifier(
-		BMessage* msg, int32 index, BMessage* specifier, int32 form, const char* property);
+	virtual BHandler* ResolveSpecifier(BMessage* msg, int32 index, BMessage* specifier, int32 form,
+		const char* property);
 
-	virtual ~AutoTextControl(void);
+	virtual ~AutoTextControl();
 
-	virtual void AttachedToWindow(void);
-	virtual void DetachedFromWindow(void);
+	virtual void AttachedToWindow();
+	virtual void DetachedFromWindow();
 
 	void SetFilter(AutoTextControlFilter* filter);
 
-	AutoTextControlFilter* GetFilter(void) { return fFilter; }
+	AutoTextControlFilter* GetFilter() { return fFilter; }
 
 	void SetCharacterLimit(const uint32& limit);
 	uint32 GetCharacterLimit(const uint32& limit);
@@ -64,13 +64,13 @@ private:
 class AutoTextControlFilter : public BMessageFilter {
 public:
 	AutoTextControlFilter(AutoTextControl* checkview);
-	~AutoTextControlFilter(void);
+	~AutoTextControlFilter();
 	virtual filter_result Filter(BMessage* msg, BHandler** target);
 	virtual filter_result KeyFilter(const int32& key, const int32& mod);
 
-	AutoTextControl* TextControl(void) const { return fBox; }
+	AutoTextControl* TextControl() const { return fBox; }
 
-	BMessage* GetCurrentMessage(void) { return fCurrentMessage; }
+	BMessage* GetCurrentMessage() { return fCurrentMessage; }
 
 	void SendMessage(BMessage* msg);
 	void SetMessenger(BMessenger* msgr);

@@ -29,8 +29,9 @@
 
 
 SplitView::SplitView(const char* name, const TransactionData& trans, const int32& flags)
-	: BView(name, flags | B_FRAME_EVENTS),
-	  Observer(WATCH_SELECT | WATCH_TRANSACTION | WATCH_ACCOUNT)
+	:
+	BView(name, flags | B_FRAME_EVENTS),
+	Observer(WATCH_SELECT | WATCH_TRANSACTION | WATCH_ACCOUNT)
 {
 	fTransaction = trans;
 
@@ -73,8 +74,8 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		= new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	categoryLabel->SetExplicitSize(BSize(StringWidth("aVeryLongCategoryName"), B_SIZE_UNSET));
 
-	fCategory = new CategoryBox(
-		"categoryentry", "", fTransaction.NameAt(0), new BMessage(M_CATEGORY_CHANGED));
+	fCategory = new CategoryBox("categoryentry", "", fTransaction.NameAt(0),
+		new BMessage(M_CATEGORY_CHANGED));
 	fCategory->SetType(fTransaction.Type().Type());
 	fCategoryButton = new CategoryButton(fCategory);
 
@@ -86,8 +87,8 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	fMemo = new NavTextBox("memoentry", "", fTransaction.Memo(), new BMessage(M_MEMO_CHANGED));
 
 	// Controls
-	fSplit = new BCheckBox(
-		"expander", B_TRANSLATE("Show split"), new BMessage(M_EXPANDER_CHANGED), B_WILL_DRAW);
+	fSplit = new BCheckBox("expander", B_TRANSLATE("Show split"), new BMessage(M_EXPANDER_CHANGED),
+		B_WILL_DRAW);
 	fSplit->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	HelpButton* helpButton = new HelpButton("start.html", "#transaction");
@@ -158,9 +159,10 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	}
 
 	if (fTransaction.CountCategories() > 1
-		|| strcmp(fTransaction.NameAt(0), B_TRANSLATE_ALL("Split", "CommonTerms",
-											  "The noun 'split', as in 'a split-category'"))
-			   == 0) {
+		|| strcmp(fTransaction.NameAt(0),
+			   B_TRANSLATE_ALL("Split", "CommonTerms",
+				   "The noun 'split', as in 'a split-category'"))
+			== 0) {
 		fCategory->SetText(
 			B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'"));
 		fStartExpanded = true;
@@ -239,13 +241,14 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 }
 // clang-format on
 
-SplitView::~SplitView(void)
+SplitView::~SplitView()
 {
 	delete fMessenger;
 }
 
+
 void
-SplitView::AttachedToWindow(void)
+SplitView::AttachedToWindow()
 {
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 	Window()->AddCommonFilter(fKeyFilter);
@@ -273,11 +276,13 @@ SplitView::AttachedToWindow(void)
 		fSplitItems->Select(0L);
 }
 
+
 void
-SplitView::DetachedFromWindow(void)
+SplitView::DetachedFromWindow()
 {
 	Window()->RemoveCommonFilter(fKeyFilter);
 }
+
 
 void
 SplitView::MessageReceived(BMessage* msg)
@@ -526,10 +531,10 @@ SplitView::MessageReceived(BMessage* msg)
 			splititem->SetCategory(fSplitCategory->Text());
 			fSplitItems->InvalidateItem(selection);
 
-			if (strlen(fSplitCategory->Text()) < 1)
-				fTransaction.SetNameAt(
-					selection, B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"));
-			else
+			if (strlen(fSplitCategory->Text()) < 1) {
+				fTransaction.SetNameAt(selection,
+					B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"));
+			} else
 				fTransaction.SetNameAt(selection, fSplitCategory->Text());
 			break;
 		}
@@ -541,8 +546,8 @@ SplitView::MessageReceived(BMessage* msg)
 				// Reset fSplitTotal if last split item is removed
 				BString totalLabel(B_TRANSLATE("Total:"));
 				BString tempTotal;
-				gCurrentLocale.CurrencyToString(
-					fTransaction.Amount().AbsoluteValue().AsFloat(), tempTotal);
+				gCurrentLocale.CurrencyToString(fTransaction.Amount().AbsoluteValue().AsFloat(),
+					tempTotal);
 				totalLabel << " " << tempTotal;
 				fSplitTotal->SetHighColor(ui_color(B_PANEL_TEXT_COLOR));
 				fSplitTotal->SetText(totalLabel.String());
@@ -571,8 +576,8 @@ SplitView::MessageReceived(BMessage* msg)
 			// Color total if the splits don't add up to the transaction amount
 			float totalAmount = CalculateTotal().AbsoluteValue().AsFloat();
 			rgb_color totalColor = (totalFixed == fTransaction.Amount().AbsoluteValue())
-									   ? ui_color(B_PANEL_TEXT_COLOR)
-									   : ui_color(B_FAILURE_COLOR);
+				? ui_color(B_PANEL_TEXT_COLOR)
+				: ui_color(B_FAILURE_COLOR);
 			fSplitTotal->SetHighColor(totalColor);
 			break;
 		}
@@ -620,6 +625,7 @@ SplitView::MessageReceived(BMessage* msg)
 	}
 }
 
+
 void
 SplitView::SetFields(const char* date, const char* type, const char* payee, const char* amount,
 	const char* category, const char* memo)
@@ -631,13 +637,14 @@ SplitView::SetFields(const char* date, const char* type, const char* payee, cons
 	fMemo->SetText(memo);
 }
 
+
 void
 SplitView::HandleNotify(const uint64& value, const BMessage* msg)
 {
 	if (value & WATCH_SELECT) {
-		if (value & WATCH_ACCOUNT)
+		if (value & WATCH_ACCOUNT) {
 			MakeEmpty();
-		else if (value & WATCH_TRANSACTION) {
+		} else if (value & WATCH_TRANSACTION) {
 			TransactionData* trans;
 			if (msg->FindPointer("item", (void**)&trans) == B_OK)
 				fCurrentDate = trans->Date();
@@ -645,8 +652,9 @@ SplitView::HandleNotify(const uint64& value, const BMessage* msg)
 	}
 }
 
+
 void
-SplitView::MakeEmpty(void)
+SplitView::MakeEmpty()
 {
 	fDate->SetText("");
 	fPayee->SetText("");
@@ -655,19 +663,22 @@ SplitView::MakeEmpty(void)
 	fMemo->SetText("");
 }
 
+
 void
 SplitView::MakeFocus(bool value)
 {
 	fDate->MakeFocus(value);
 }
 
+
 void
 SplitView::FrameResized(float width, float height)
 {
 }
 
+
 bool
-SplitView::ValidateSplitAmountField(void)
+SplitView::ValidateSplitAmountField()
 {
 	if (strlen(fSplitAmount->Text()) < 1)
 		fSplitAmount->SetText("0");
@@ -676,8 +687,7 @@ SplitView::ValidateSplitAmountField(void)
 	if (gCurrentLocale.StringToCurrency(fSplitAmount->Text(), amount) != B_OK) {
 		ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the amount", "TextInput"),
 			B_TRANSLATE_CONTEXT("There may be a typo or the wrong kind of currency symbol "
-								"for this account.",
-				"TextInput"));
+								"for this account.", "TextInput"));
 		fSplitAmount->MakeFocus(true);
 		return false;
 	} else {
@@ -689,8 +699,9 @@ SplitView::ValidateSplitAmountField(void)
 	return true;
 }
 
+
 bool
-SplitView::ValidateSplitItems(void)
+SplitView::ValidateSplitItems()
 {
 	if (fSplitItems->CountItems() == 0)
 		return true;
@@ -716,9 +727,8 @@ SplitView::ValidateSplitItems(void)
 		BString errormsg, totalstr;
 		gCurrentLocale.CurrencyToString(total, totalstr);
 
-		errormsg = B_TRANSLATE(
-			"When the split items are added together, they need to add up "
-			"to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%");
+		errormsg = B_TRANSLATE("When the split items are added together, they need to add up "
+							   "to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%");
 		errormsg.ReplaceFirst("%%ENTERED_AMOUNT%%", fAmount->Text());
 		errormsg.ReplaceFirst("%%TOTAL_AMOUNT%%", totalstr.String());
 
@@ -729,8 +739,9 @@ SplitView::ValidateSplitItems(void)
 	return true;
 }
 
+
 bool
-SplitView::ValidateAllFields(void)
+SplitView::ValidateAllFields()
 {
 	BString date;
 	if (strlen(fDate->Text()) < 1) {
@@ -742,9 +753,10 @@ SplitView::ValidateAllFields(void)
 	if (!fPayee->Validate())
 		return false;
 
-	if (fSplitContainer->IsHidden())
+	if (fSplitContainer->IsHidden()) {
 		if (!fCategory->Validate())
 			return false;
+	}
 
 	if (!fAmount->Validate())
 		return false;
@@ -755,8 +767,9 @@ SplitView::ValidateAllFields(void)
 	return true;
 }
 
+
 void
-SplitView::ToggleSplit(void)
+SplitView::ToggleSplit()
 {
 	if (fSplitContainer->IsHidden()) {
 		fSplit->SetValue(B_CONTROL_ON);
@@ -784,8 +797,9 @@ SplitView::ToggleSplit(void)
 	}
 }
 
+
 Category*
-SplitView::MakeCategory(void)
+SplitView::MakeCategory()
 {
 	// This makes a category object from the existing data
 	Category* cat = new Category();
@@ -821,8 +835,9 @@ SplitView::MakeCategory(void)
 	return cat;
 }
 
+
 Fixed
-SplitView::CalculateTotal(void)
+SplitView::CalculateTotal()
 {
 	Fixed total;
 

@@ -52,26 +52,26 @@ int sqlite3_decode_binary(const unsigned char* in, unsigned char* out);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-CppSQLite3Exception::CppSQLite3Exception(
-	const int nErrCode, char* szErrMess, bool bDeleteMsg /*=true*/)
-	: mnErrCode(nErrCode)
+CppSQLite3Exception::CppSQLite3Exception(const int nErrCode, char* szErrMess,
+	bool bDeleteMsg /*=true*/)
+	:
+	mnErrCode(nErrCode)
 {
-	mpszErrMess = sqlite3_mprintf(
-		"%s[%d]: %s", errorCodeAsString(nErrCode), nErrCode, szErrMess ? szErrMess : "");
+	mpszErrMess = sqlite3_mprintf("%s[%d]: %s", errorCodeAsString(nErrCode), nErrCode,
+		szErrMess ? szErrMess : "");
 
-	if (bDeleteMsg && szErrMess) {
+	if (bDeleteMsg && szErrMess)
 		sqlite3_free(szErrMess);
-	}
 }
 
 
 CppSQLite3Exception::CppSQLite3Exception(const CppSQLite3Exception& e)
-	: mnErrCode(e.mnErrCode)
+	:
+	mnErrCode(e.mnErrCode)
 {
 	mpszErrMess = 0;
-	if (e.mpszErrMess) {
+	if (e.mpszErrMess)
 		mpszErrMess = sqlite3_mprintf("%s", e.mpszErrMess);
-	}
 }
 
 
@@ -142,6 +142,7 @@ CppSQLite3Exception::errorCodeAsString(int nErrCode)
 	}
 }
 
+
 CppSQLite3Exception::~CppSQLite3Exception()
 {
 	if (mpszErrMess) {
@@ -156,6 +157,7 @@ CppSQLite3Buffer::CppSQLite3Buffer()
 {
 	mpBuf = 0;
 }
+
 
 CppSQLite3Buffer::~CppSQLite3Buffer()
 {
@@ -187,13 +189,15 @@ CppSQLite3Buffer::format(const char* szFormat, ...)
 ////////////////////////////////////////////////////////////////////////////////
 
 CppSQLite3Binary::CppSQLite3Binary()
-	: mpBuf(0),
-	  mnBinaryLen(0),
-	  mnBufferLen(0),
-	  mnEncodedLen(0),
-	  mbEncoded(false)
+	:
+	mpBuf(0),
+	mnBinaryLen(0),
+	mnBufferLen(0),
+	mnEncodedLen(0),
+	mbEncoded(false)
 {
 }
+
 
 CppSQLite3Binary::~CppSQLite3Binary()
 {
@@ -215,13 +219,12 @@ CppSQLite3Binary::setEncoded(const unsigned char* pBuf)
 	clear();
 
 	mnEncodedLen = strlen((const char*)pBuf);
-	mnBufferLen = mnEncodedLen + 1;	 // Allow for NULL terminator
+	mnBufferLen = mnEncodedLen + 1; // Allow for NULL terminator
 
 	mpBuf = (unsigned char*)malloc(mnBufferLen);
 
-	if (!mpBuf) {
+	if (!mpBuf)
 		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Cannot allocate memory", DONT_DELETE_MSG);
-	}
 
 	memcpy(mpBuf, pBuf, mnBufferLen);
 	mbEncoded = true;
@@ -250,9 +253,8 @@ CppSQLite3Binary::getBinary()
 		// in/out buffers can be the same
 		mnBinaryLen = sqlite3_decode_binary(mpBuf, mpBuf);
 
-		if (mnBinaryLen == -1) {
+		if (mnBinaryLen == -1)
 			throw CppSQLite3Exception(CPPSQLITE_ERROR, "Cannot decode binary", DONT_DELETE_MSG);
-		}
 
 		mbEncoded = false;
 	}
@@ -282,9 +284,8 @@ CppSQLite3Binary::allocBuffer(int nLen)
 
 	mpBuf = (unsigned char*)malloc(mnBufferLen);
 
-	if (!mpBuf) {
+	if (!mpBuf)
 		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Cannot allocate memory", DONT_DELETE_MSG);
-	}
 
 	mbEncoded = false;
 
@@ -313,6 +314,7 @@ CppSQLite3Query::CppSQLite3Query()
 	mbOwnVM = false;
 }
 
+
 CppSQLite3Query::CppSQLite3Query(const CppSQLite3Query& rQuery)
 {
 	mpVM = rQuery.mpVM;
@@ -332,6 +334,7 @@ CppSQLite3Query::CppSQLite3Query(sqlite3* pDB, sqlite3_stmt* pVM, bool bEof, boo
 	mnCols = sqlite3_column_count(mpVM);
 	mbOwnVM = bOwnVM;
 }
+
 
 CppSQLite3Query::~CppSQLite3Query()
 {
@@ -373,8 +376,8 @@ CppSQLite3Query::fieldValue(int nField)
 	checkVM();
 
 	if (nField < 0 || nField > mnCols - 1) {
-		throw CppSQLite3Exception(
-			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
+		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
+			DONT_DELETE_MSG);
 	}
 
 	return (const char*)sqlite3_column_text(mpVM, nField);
@@ -392,11 +395,10 @@ CppSQLite3Query::fieldValue(const char* szField)
 int
 CppSQLite3Query::getIntField(int nField, int nNullValue /*=0*/)
 {
-	if (fieldDataType(nField) == SQLITE_NULL) {
+	if (fieldDataType(nField) == SQLITE_NULL)
 		return nNullValue;
-	} else {
+	else
 		return sqlite3_column_int(mpVM, nField);
-	}
 }
 
 
@@ -411,11 +413,10 @@ CppSQLite3Query::getIntField(const char* szField, int nNullValue /*=0*/)
 sqlite_int64
 CppSQLite3Query::getInt64Field(int nField, sqlite_int64 nNullValue /*=0*/)
 {
-	if (fieldDataType(nField) == SQLITE_NULL) {
+	if (fieldDataType(nField) == SQLITE_NULL)
 		return nNullValue;
-	} else {
+	else
 		return sqlite3_column_int64(mpVM, nField);
-	}
 }
 
 
@@ -430,11 +431,10 @@ CppSQLite3Query::getInt64Field(const char* szField, sqlite_int64 nNullValue /*=0
 double
 CppSQLite3Query::getFloatField(int nField, double fNullValue /*=0.0*/)
 {
-	if (fieldDataType(nField) == SQLITE_NULL) {
+	if (fieldDataType(nField) == SQLITE_NULL)
 		return fNullValue;
-	} else {
+	else
 		return sqlite3_column_double(mpVM, nField);
-	}
 }
 
 
@@ -449,11 +449,10 @@ CppSQLite3Query::getFloatField(const char* szField, double fNullValue /*=0.0*/)
 const char*
 CppSQLite3Query::getStringField(int nField, const char* szNullValue /*=""*/)
 {
-	if (fieldDataType(nField) == SQLITE_NULL) {
+	if (fieldDataType(nField) == SQLITE_NULL)
 		return szNullValue;
-	} else {
+	else
 		return (const char*)sqlite3_column_text(mpVM, nField);
-	}
 }
 
 
@@ -471,8 +470,8 @@ CppSQLite3Query::getBlobField(int nField, int& nLen)
 	checkVM();
 
 	if (nField < 0 || nField > mnCols - 1) {
-		throw CppSQLite3Exception(
-			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
+		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
+			DONT_DELETE_MSG);
 	}
 
 	nLen = sqlite3_column_bytes(mpVM, nField);
@@ -512,9 +511,8 @@ CppSQLite3Query::fieldIndex(const char* szField)
 		for (int nField = 0; nField < mnCols; nField++) {
 			const char* szTemp = sqlite3_column_name(mpVM, nField);
 
-			if (strcmp(szField, szTemp) == 0) {
+			if (strcmp(szField, szTemp) == 0)
 				return nField;
-			}
 		}
 	}
 
@@ -528,8 +526,8 @@ CppSQLite3Query::fieldName(int nCol)
 	checkVM();
 
 	if (nCol < 0 || nCol > mnCols - 1) {
-		throw CppSQLite3Exception(
-			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
+		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
+			DONT_DELETE_MSG);
 	}
 
 	return sqlite3_column_name(mpVM, nCol);
@@ -542,8 +540,8 @@ CppSQLite3Query::fieldDeclType(int nCol)
 	checkVM();
 
 	if (nCol < 0 || nCol > mnCols - 1) {
-		throw CppSQLite3Exception(
-			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
+		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
+			DONT_DELETE_MSG);
 	}
 
 	return sqlite3_column_decltype(mpVM, nCol);
@@ -556,8 +554,8 @@ CppSQLite3Query::fieldDataType(int nCol)
 	checkVM();
 
 	if (nCol < 0 || nCol > mnCols - 1) {
-		throw CppSQLite3Exception(
-			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
+		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
+			DONT_DELETE_MSG);
 	}
 
 	return sqlite3_column_type(mpVM, nCol);
@@ -610,9 +608,8 @@ CppSQLite3Query::finalize()
 void
 CppSQLite3Query::checkVM()
 {
-	if (mpVM == 0) {
+	if (mpVM == 0)
 		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Null Virtual Machine pointer", DONT_DELETE_MSG);
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -625,6 +622,7 @@ CppSQLite3Table::CppSQLite3Table()
 	mnCurrentRow = 0;
 }
 
+
 CppSQLite3Table::CppSQLite3Table(const CppSQLite3Table& rTable)
 {
 	mpaszResults = rTable.mpaszResults;
@@ -635,6 +633,7 @@ CppSQLite3Table::CppSQLite3Table(const CppSQLite3Table& rTable)
 	mnCurrentRow = rTable.mnCurrentRow;
 }
 
+
 CppSQLite3Table::CppSQLite3Table(char** paszResults, int nRows, int nCols)
 {
 	mpaszResults = paszResults;
@@ -642,6 +641,7 @@ CppSQLite3Table::CppSQLite3Table(char** paszResults, int nRows, int nCols)
 	mnCols = nCols;
 	mnCurrentRow = 0;
 }
+
 
 CppSQLite3Table::~CppSQLite3Table()
 {
@@ -701,8 +701,8 @@ CppSQLite3Table::fieldValue(int nField)
 	checkResults();
 
 	if (nField < 0 || nField > mnCols - 1) {
-		throw CppSQLite3Exception(
-			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
+		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
+			DONT_DELETE_MSG);
 	}
 
 	int nIndex = (mnCurrentRow * mnCols) + mnCols + nField;
@@ -731,66 +731,60 @@ CppSQLite3Table::fieldValue(const char* szField)
 int
 CppSQLite3Table::getIntField(int nField, int nNullValue /*=0*/)
 {
-	if (fieldIsNull(nField)) {
+	if (fieldIsNull(nField))
 		return nNullValue;
-	} else {
+	else
 		return atoi(fieldValue(nField));
-	}
 }
 
 
 int
 CppSQLite3Table::getIntField(const char* szField, int nNullValue /*=0*/)
 {
-	if (fieldIsNull(szField)) {
+	if (fieldIsNull(szField))
 		return nNullValue;
-	} else {
+	else
 		return atoi(fieldValue(szField));
-	}
 }
 
 
 double
 CppSQLite3Table::getFloatField(int nField, double fNullValue /*=0.0*/)
 {
-	if (fieldIsNull(nField)) {
+	if (fieldIsNull(nField))
 		return fNullValue;
-	} else {
+	else
 		return atof(fieldValue(nField));
-	}
 }
 
 
 double
 CppSQLite3Table::getFloatField(const char* szField, double fNullValue /*=0.0*/)
 {
-	if (fieldIsNull(szField)) {
+	if (fieldIsNull(szField))
 		return fNullValue;
-	} else {
+	else
 		return atof(fieldValue(szField));
-	}
 }
 
 
 const char*
 CppSQLite3Table::getStringField(int nField, const char* szNullValue /*=""*/)
 {
-	if (fieldIsNull(nField)) {
+	if (fieldIsNull(nField))
 		return szNullValue;
-	} else {
+	else
 		return fieldValue(nField);
-	}
 }
 
 
 const char*
 CppSQLite3Table::getStringField(const char* szField, const char* szNullValue /*=""*/)
 {
-	if (fieldIsNull(szField)) {
+	if (fieldIsNull(szField))
 		return szNullValue;
-	} else {
+	else
 		return fieldValue(szField);
-	}
 }
 
 
@@ -816,8 +810,8 @@ CppSQLite3Table::fieldName(int nCol)
 	checkResults();
 
 	if (nCol < 0 || nCol > mnCols - 1) {
-		throw CppSQLite3Exception(
-			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
+		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
+			DONT_DELETE_MSG);
 	}
 
 	return mpaszResults[nCol];
@@ -829,9 +823,8 @@ CppSQLite3Table::setRow(int nRow)
 {
 	checkResults();
 
-	if (nRow < 0 || nRow > mnRows - 1) {
+	if (nRow < 0 || nRow > mnRows - 1)
 		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid row index requested", DONT_DELETE_MSG);
-	}
 
 	mnCurrentRow = nRow;
 }
@@ -840,9 +833,8 @@ CppSQLite3Table::setRow(int nRow)
 void
 CppSQLite3Table::checkResults()
 {
-	if (mpaszResults == 0) {
+	if (mpaszResults == 0)
 		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Null Results pointer", DONT_DELETE_MSG);
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -853,6 +845,7 @@ CppSQLite3Statement::CppSQLite3Statement()
 	mpVM = 0;
 }
 
+
 CppSQLite3Statement::CppSQLite3Statement(const CppSQLite3Statement& rStatement)
 {
 	mpDB = rStatement.mpDB;
@@ -861,11 +854,13 @@ CppSQLite3Statement::CppSQLite3Statement(const CppSQLite3Statement& rStatement)
 	const_cast<CppSQLite3Statement&>(rStatement).mpVM = 0;
 }
 
+
 CppSQLite3Statement::CppSQLite3Statement(sqlite3* pDB, sqlite3_stmt* pVM)
 {
 	mpDB = pDB;
 	mpVM = pVM;
 }
+
 
 CppSQLite3Statement::~CppSQLite3Statement()
 {
@@ -944,9 +939,8 @@ CppSQLite3Statement::bind(int nParam, const char* szValue)
 	checkVM();
 	int nRes = sqlite3_bind_text(mpVM, nParam, szValue, -1, SQLITE_TRANSIENT);
 
-	if (nRes != SQLITE_OK) {
+	if (nRes != SQLITE_OK)
 		throw CppSQLite3Exception(nRes, "Error binding string param", DONT_DELETE_MSG);
-	}
 }
 
 
@@ -956,9 +950,8 @@ CppSQLite3Statement::bind(int nParam, const int nValue)
 	checkVM();
 	int nRes = sqlite3_bind_int(mpVM, nParam, nValue);
 
-	if (nRes != SQLITE_OK) {
+	if (nRes != SQLITE_OK)
 		throw CppSQLite3Exception(nRes, "Error binding int param", DONT_DELETE_MSG);
-	}
 }
 
 
@@ -968,9 +961,8 @@ CppSQLite3Statement::bind(int nParam, const double dValue)
 	checkVM();
 	int nRes = sqlite3_bind_double(mpVM, nParam, dValue);
 
-	if (nRes != SQLITE_OK) {
+	if (nRes != SQLITE_OK)
 		throw CppSQLite3Exception(nRes, "Error binding double param", DONT_DELETE_MSG);
-	}
 }
 
 
@@ -980,9 +972,8 @@ CppSQLite3Statement::bind(int nParam, const unsigned char* blobValue, int nLen)
 	checkVM();
 	int nRes = sqlite3_bind_blob(mpVM, nParam, (const void*)blobValue, nLen, SQLITE_TRANSIENT);
 
-	if (nRes != SQLITE_OK) {
+	if (nRes != SQLITE_OK)
 		throw CppSQLite3Exception(nRes, "Error binding blob param", DONT_DELETE_MSG);
-	}
 }
 
 
@@ -992,9 +983,8 @@ CppSQLite3Statement::bindNull(int nParam)
 	checkVM();
 	int nRes = sqlite3_bind_null(mpVM, nParam);
 
-	if (nRes != SQLITE_OK) {
+	if (nRes != SQLITE_OK)
 		throw CppSQLite3Exception(nRes, "Error binding NULL param", DONT_DELETE_MSG);
-	}
 }
 
 
@@ -1034,12 +1024,14 @@ CppSQLite3Statement::bind(const char* szParam, const int nValue)
 	bind(nParam, nValue);
 }
 
+
 void
 CppSQLite3Statement::bind(const char* szParam, const double dwValue)
 {
 	int nParam = bindParameterIndex(szParam);
 	bind(nParam, dwValue);
 }
+
 
 void
 CppSQLite3Statement::bind(const char* szParam, const unsigned char* blobValue, int nLen)
@@ -1089,18 +1081,16 @@ CppSQLite3Statement::finalize()
 void
 CppSQLite3Statement::checkDB()
 {
-	if (mpDB == 0) {
+	if (mpDB == 0)
 		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Database not open", DONT_DELETE_MSG);
-	}
 }
 
 
 void
 CppSQLite3Statement::checkVM()
 {
-	if (mpVM == 0) {
+	if (mpVM == 0)
 		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Null Virtual Machine pointer", DONT_DELETE_MSG);
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1108,14 +1098,16 @@ CppSQLite3Statement::checkVM()
 CppSQLite3DB::CppSQLite3DB()
 {
 	mpDB = 0;
-	mnBusyTimeoutMs = 60000;  // 60 seconds
+	mnBusyTimeoutMs = 60000; // 60 seconds
 }
+
 
 CppSQLite3DB::CppSQLite3DB(const CppSQLite3DB& db)
 {
 	mpDB = db.mpDB;
-	mnBusyTimeoutMs = 60000;  // 60 seconds
+	mnBusyTimeoutMs = 60000; // 60 seconds
 }
+
 
 CppSQLite3DB::~CppSQLite3DB()
 {
@@ -1130,7 +1122,7 @@ CppSQLite3DB&
 CppSQLite3DB::operator=(const CppSQLite3DB& db)
 {
 	mpDB = db.mpDB;
-	mnBusyTimeoutMs = 60000;  // 60 seconds
+	mnBusyTimeoutMs = 60000; // 60 seconds
 	return *this;
 }
 
@@ -1153,11 +1145,10 @@ void
 CppSQLite3DB::close()
 {
 	if (mpDB) {
-		if (sqlite3_close(mpDB) == SQLITE_OK) {
+		if (sqlite3_close(mpDB) == SQLITE_OK)
 			mpDB = 0;
-		} else {
+		else
 			throw CppSQLite3Exception(CPPSQLITE_ERROR, "Unable to close database", DONT_DELETE_MSG);
-		}
 	}
 }
 
@@ -1191,11 +1182,10 @@ CppSQLite3DB::execDML(const char* szSQL)
 
 	int nRet = sqlite3_exec(mpDB, szSQL, 0, 0, &szError);
 
-	if (nRet == SQLITE_OK) {
+	if (nRet == SQLITE_OK)
 		return sqlite3_changes(mpDB);
-	} else {
+	else
 		throw CppSQLite3Exception(nRet, szError);
-	}
 }
 
 
@@ -1227,9 +1217,8 @@ CppSQLite3DB::execScalar(const char* szSQL, int nNullValue /*=0*/)
 {
 	CppSQLite3Query q = execQuery(szSQL);
 
-	if (q.eof() || q.numFields() < 1) {
+	if (q.eof() || q.numFields() < 1)
 		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid scalar query", DONT_DELETE_MSG);
-	}
 
 	return q.getIntField(0, nNullValue);
 }
@@ -1248,11 +1237,10 @@ CppSQLite3DB::getTable(const char* szSQL)
 
 	nRet = sqlite3_get_table(mpDB, szSQL, &paszResults, &nRows, &nCols, &szError);
 
-	if (nRet == SQLITE_OK) {
+	if (nRet == SQLITE_OK)
 		return CppSQLite3Table(paszResults, nRows, nCols);
-	} else {
+	else
 		throw CppSQLite3Exception(nRet, szError);
-	}
 }
 
 
@@ -1274,9 +1262,8 @@ CppSQLite3DB::setBusyTimeout(int nMillisecs)
 void
 CppSQLite3DB::checkDB()
 {
-	if (!mpDB) {
+	if (!mpDB)
 		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Database not open", DONT_DELETE_MSG);
-	}
 }
 
 
@@ -1297,6 +1284,7 @@ CppSQLite3DB::compile(const char* szSQL)
 
 	return pVM;
 }
+
 
 bool
 CppSQLite3DB::IsAutoCommitOn()
@@ -1437,9 +1425,8 @@ sqlite3_encode_binary(const unsigned char* in, int n, unsigned char* out)
 		return 1;
 	}
 	memset(cnt, 0, sizeof(cnt));
-	for (i = n - 1; i >= 0; i--) {
+	for (i = n - 1; i >= 0; i--)
 		cnt[in[i]]++;
-	}
 	m = n;
 	for (i = 1; i < 256; i++) {
 		int sum;
@@ -1466,9 +1453,8 @@ sqlite3_encode_binary(const unsigned char* in, int n, unsigned char* out)
 		} else if (c == '\'') {
 			out[j++] = 1;
 			out[j++] = 3;
-		} else {
+		} else
 			out[j++] = c;
-		}
 	}
 	out[j] = 0;
 	return j;
@@ -1493,15 +1479,14 @@ sqlite3_decode_binary(const unsigned char* in, unsigned char* out)
 	while ((c = *(in++)) != 0) {
 		if (c == 1) {
 			c = *(in++);
-			if (c == 1) {
+			if (c == 1)
 				c = 0;
-			} else if (c == 2) {
+			else if (c == 2)
 				c = 1;
-			} else if (c == 3) {
+			else if (c == 3)
 				c = '\'';
-			} else {
+			else
 				return -1;
-			}
 		}
 		out[i++] = (c + e) & 0xff;
 	}

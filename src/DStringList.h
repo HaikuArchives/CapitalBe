@@ -21,7 +21,7 @@ public:
 	bool ReplaceItem(int32 index, BString* newItem);
 	void MakeEmpty(bool freemem = false);
 
-	//	void	SortItems(void);
+	//	void	SortItems();
 	bool SwapItems(int32 indexA, int32 indexB) { return fList.SwapItems(indexA, indexB); }
 
 	bool MoveItem(int32 fromIndex, int32 toIndex) { return fList.MoveItem(fromIndex, toIndex); }
@@ -48,7 +48,7 @@ public:
 
 	bool IsEmpty() const { return fList.IsEmpty(); }
 
-	void PrintToStream(void);
+	void PrintToStream();
 
 	//	void	DoForEach(bool (*func)(void *));
 	//	void	DoForEach(bool (*func)(void *, void *), void *);

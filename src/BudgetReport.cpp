@@ -35,8 +35,9 @@ typedef enum {
 map_status MapBudgetToSubtotal(Fixed& fixed, const int& budgetperiod, const int& subtotal,
 	const time_t& start, const time_t& end);
 
+
 void
-ReportWindow::ComputeBudget(void)
+ReportWindow::ComputeBudget()
 {
 	BObjectList<time_t> timelist(20, true);
 
@@ -213,8 +214,8 @@ ReportWindow::ComputeBudget(void)
 		time_t subtotal_end = *((time_t*)timelist.ItemAt(subtotal_index + 1));
 
 		Fixed budamount = budgetentry.amount;
-		map_status mapstatus = MapBudgetToSubtotal(
-			budamount, budgetentry.period, fSubtotalMode, subtotal_start, subtotal_end);
+		map_status mapstatus = MapBudgetToSubtotal(budamount, budgetentry.period, fSubtotalMode,
+			subtotal_start, subtotal_end);
 
 		if (mapstatus == MAP_UNCHANGED)
 			continue;
@@ -265,10 +266,11 @@ ReportWindow::ComputeBudget(void)
 		field = new BStringField(string.String());
 		diffrow->SetField(field, i);
 
-	}  // end for-each-subtotal-period row loop
+	} // end for-each-subtotal-period row loop
 	query.finalize();
 	fGridView->AddRow(new BRow());
 }
+
 
 map_status
 MapBudgetToSubtotal(Fixed& fixed, const int& budgetperiod, const int& subtotal, const time_t& start,

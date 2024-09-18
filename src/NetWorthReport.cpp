@@ -16,7 +16,7 @@
 
 
 void
-ReportWindow::ComputeNetWorth(void)
+ReportWindow::ComputeNetWorth()
 {
 	// Total of all accounts
 	// Calculate the number of columns and the starting date for each one
@@ -83,7 +83,7 @@ ReportWindow::ComputeNetWorth(void)
 				continue;
 
 			accounttotal += item->account->BalanceAt(subtotal_start);
-		}  // end for each account
+		} // end for each account
 
 		accountgrid.SetValue(0, subtotal_index, accounttotal);
 	}
@@ -93,8 +93,8 @@ ReportWindow::ComputeNetWorth(void)
 	BColumn* col = new BStringColumn(B_TRANSLATE_CONTEXT("Date", "CommonTerms"),
 		fGridView->StringWidth(longestname.String()) + 20, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 0);
-	col = new BStringColumn(
-		B_TRANSLATE("Total"), fGridView->StringWidth("$100,000,000.00"), 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE("Total"), fGridView->StringWidth("$100,000,000.00"), 10,
+		300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 1);
 
 	fGridView->AddRow(new BRow());

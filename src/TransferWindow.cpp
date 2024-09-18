@@ -30,24 +30,27 @@
 
 
 TransferWindow::TransferWindow(BHandler* target)
-	: BWindow(BRect(0, 0, 400, 350), B_TRANSLATE("Add account transfer"), B_TITLED_WINDOW_LOOK,
+	:
+	BWindow(BRect(0, 0, 400, 350), B_TRANSLATE("Add account transfer"), B_TITLED_WINDOW_LOOK,
 		B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
-	  fMessenger(target),
-	  fMessage(M_CREATE_TRANSFER)
+	fMessenger(target),
+	fMessage(M_CREATE_TRANSFER)
 {
 	InitObject(NULL, NULL, Fixed(0));
 }
 
 
 TransferWindow::TransferWindow(BHandler* target, Account* src, Account* dest, const Fixed& amount)
-	: BWindow(BRect(0, 0, 400, 350), B_TRANSLATE("Edit transfer"), B_TITLED_WINDOW_LOOK,
+	:
+	BWindow(BRect(0, 0, 400, 350), B_TRANSLATE("Edit transfer"), B_TITLED_WINDOW_LOOK,
 		B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
-	  fMessenger(target)
+	fMessenger(target)
 {
 	InitObject(src, dest, amount);
 }
+
 
 void
 TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
@@ -180,6 +183,7 @@ TransferWindow::SetMessage(BMessage msg)
 	fMessage = msg;
 }
 
+
 void
 TransferWindow::MessageReceived(BMessage* msg)
 {
@@ -280,8 +284,9 @@ TransferWindow::MessageReceived(BMessage* msg)
 	}
 }
 
+
 void
-TransferWindow::HandleOKButton(void)
+TransferWindow::HandleOKButton()
 {
 	if (fSourceList->CurrentSelection() >= 0) {
 		AccountListItem* item = (AccountListItem*)fDestList->ItemAt(fDestList->CurrentSelection());

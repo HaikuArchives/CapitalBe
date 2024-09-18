@@ -1,9 +1,10 @@
 #include "Category.h"
+#include "CBLocale.h"
+#include "Database.h"
 #include <File.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "CBLocale.h"
-#include "Database.h"
+
 
 Category::Category(const char* string, const Fixed& fixed, const char* memo)
 {
@@ -11,6 +12,7 @@ Category::Category(const char* string, const Fixed& fixed, const char* memo)
 	if (string)
 		fList->AddItem(new CatItem(string, fixed, memo));
 }
+
 
 Category::Category(const Category& from)
 {
@@ -22,10 +24,12 @@ Category::Category(const Category& from)
 	}
 }
 
-Category::~Category(void)
+
+Category::~Category()
 {
 	delete fList;
 }
+
 
 void
 Category::SetNameAt(const int32& index, const char* string)
@@ -36,6 +40,7 @@ Category::SetNameAt(const int32& index, const char* string)
 		item->string = string;
 }
 
+
 void
 Category::SetAmountAt(const int32& index, const Fixed& fixed)
 {
@@ -44,6 +49,7 @@ Category::SetAmountAt(const int32& index, const Fixed& fixed)
 	if (item)
 		item->amount = fixed;
 }
+
 
 void
 Category::SetMemoAt(const int32& index, const char* string)
@@ -54,6 +60,7 @@ Category::SetMemoAt(const int32& index, const char* string)
 		item->memo = string;
 }
 
+
 const char*
 Category::NameAt(const int32& index) const
 {
@@ -61,6 +68,7 @@ Category::NameAt(const int32& index) const
 
 	return item ? item->string.String() : NULL;
 }
+
 
 Fixed
 Category::AmountAt(const int32& index) const
@@ -70,6 +78,7 @@ Category::AmountAt(const int32& index) const
 	return item ? item->amount : Fixed(0);
 }
 
+
 const char*
 Category::MemoAt(const int32& index) const
 {
@@ -77,6 +86,7 @@ Category::MemoAt(const int32& index) const
 
 	return item ? item->memo.String() : NULL;
 }
+
 
 bool
 Category::AddItem(const char* name, const Fixed& amount, const char* memo)
@@ -86,14 +96,14 @@ Category::AddItem(const char* name, const Fixed& amount, const char* memo)
 
 	CatItem* item = fList->ItemAt(0);
 	if (item) {
-		if (item->string.CountChars() == 0) {
+		if (item->string.CountChars() == 0)
 			fList->RemoveItemAt(0L);
-		}
 	}
 	fList->AddItem(new CatItem(name, amount, memo));
 
 	return true;
 }
+
 
 bool
 Category::HasItem(const char* name)
@@ -106,6 +116,7 @@ Category::HasItem(const char* name)
 	}
 	return false;
 }
+
 
 bool
 Category::RemoveItem(const char* name)
@@ -128,6 +139,7 @@ Category::RemoveItem(const char* name)
 	return true;
 }
 
+
 bool
 Category::RemoveItem(const int32& index)
 {
@@ -138,6 +150,7 @@ Category::RemoveItem(const int32& index)
 	delete item;
 	return true;
 }
+
 
 void
 Category::Flatten(BFile* file)
@@ -156,8 +169,9 @@ Category::Flatten(BFile* file)
 	file->Write(str.String(), str.Length());
 }
 
+
 void
-Category::PrintToStream(void) const
+Category::PrintToStream() const
 {
 	BString str("<CAT>  ");
 
@@ -173,6 +187,7 @@ Category::PrintToStream(void) const
 	printf("%s", str.String());
 }
 
+
 Category&
 Category::operator=(const Category& from)
 {
@@ -185,17 +200,20 @@ Category::operator=(const Category& from)
 	return *this;
 }
 
+
 void
-Category::MakeEmpty(void)
+Category::MakeEmpty()
 {
 	fList->MakeEmpty();
 }
 
+
 void
-Category::Sort(void)
+Category::Sort()
 {
 	fList->SortItems(CompareCatItem);
 }
+
 
 int
 Category::CompareCatItem(const CatItem* item1, const CatItem* item2)

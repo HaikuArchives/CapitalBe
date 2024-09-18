@@ -20,16 +20,19 @@ static property_info sProperties[] = {
 		{B_INT32_TYPE}},
 };
 
-AutoTextControl::AutoTextControl(
-	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
-	: BTextControl(name, label, text, msg, flags),
-	  fFilter(NULL),
-	  fCharLimit(0)
+
+AutoTextControl::AutoTextControl(const char* name, const char* label, const char* text,
+	BMessage* msg, uint32 flags)
+	:
+	BTextControl(name, label, text, msg, flags),
+	fFilter(NULL),
+	fCharLimit(0)
 {
 	SetFilter(new AutoTextControlFilter(this));
 }
 
-AutoTextControl::~AutoTextControl(void)
+
+AutoTextControl::~AutoTextControl()
 {
 	if (Window())
 		Window()->RemoveCommonFilter(fFilter);
@@ -39,7 +42,8 @@ AutoTextControl::~AutoTextControl(void)
 
 
 AutoTextControl::AutoTextControl(BMessage* data)
-	: BTextControl(data)
+	:
+	BTextControl(data)
 {
 	if (data->FindInt32("_charlimit", (int32*)&fCharLimit) != B_OK)
 		fCharLimit = 0;
@@ -55,6 +59,7 @@ AutoTextControl::Instantiate(BMessage* data)
 	return NULL;
 }
 
+
 status_t
 AutoTextControl::Archive(BMessage* data, bool deep) const
 {
@@ -69,6 +74,7 @@ AutoTextControl::Archive(BMessage* data, bool deep) const
 	return status;
 }
 
+
 status_t
 AutoTextControl::GetSupportedSuites(BMessage* msg)
 {
@@ -81,14 +87,15 @@ AutoTextControl::GetSupportedSuites(BMessage* msg)
 
 
 BHandler*
-AutoTextControl::ResolveSpecifier(
-	BMessage* msg, int32 index, BMessage* specifier, int32 form, const char* property)
+AutoTextControl::ResolveSpecifier(BMessage* msg, int32 index, BMessage* specifier, int32 form,
+	const char* property)
 {
 	return BControl::ResolveSpecifier(msg, index, specifier, form, property);
 }
 
+
 void
-AutoTextControl::AttachedToWindow(void)
+AutoTextControl::AttachedToWindow()
 {
 	BTextControl::AttachedToWindow();
 	if (fFilter) {
@@ -97,8 +104,9 @@ AutoTextControl::AttachedToWindow(void)
 	}
 }
 
+
 void
-AutoTextControl::DetachedFromWindow(void)
+AutoTextControl::DetachedFromWindow()
 {
 	if (fFilter) {
 		fFilter->SetMessenger(NULL);
@@ -107,17 +115,20 @@ AutoTextControl::DetachedFromWindow(void)
 	BTextControl::DetachedFromWindow();
 }
 
+
 void
 AutoTextControl::SetCharacterLimit(const uint32& limit)
 {
 	fCharLimit = limit;
 }
 
+
 uint32
 AutoTextControl::GetCharacterLimit(const uint32& limit)
 {
 	return fCharLimit;
 }
+
 
 void
 AutoTextControl::SetFilter(AutoTextControlFilter* filter)
@@ -133,15 +144,21 @@ AutoTextControl::SetFilter(AutoTextControlFilter* filter)
 		Window()->AddCommonFilter(fFilter);
 }
 
+
 AutoTextControlFilter::AutoTextControlFilter(AutoTextControl* box)
-	: BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN),
-	  fBox(box),
-	  fCurrentMessage(NULL),
-	  fMessenger(NULL)
+	:
+	BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN),
+	fBox(box),
+	fCurrentMessage(NULL),
+	fMessenger(NULL)
 {
 }
 
-AutoTextControlFilter::~AutoTextControlFilter(void) {}
+
+AutoTextControlFilter::~AutoTextControlFilter()
+{
+}
+
 
 filter_result
 AutoTextControlFilter::Filter(BMessage* msg, BHandler** target)
@@ -176,6 +193,7 @@ AutoTextControlFilter::Filter(BMessage* msg, BHandler** target)
 	return result;
 }
 
+
 filter_result
 AutoTextControlFilter::KeyFilter(const int32& rawchar, const int32& mod)
 {
@@ -185,12 +203,14 @@ AutoTextControlFilter::KeyFilter(const int32& rawchar, const int32& mod)
 	return B_DISPATCH_MESSAGE;
 }
 
+
 void
 AutoTextControlFilter::SendMessage(BMessage* msg)
 {
 	if (fMessenger && msg)
 		fMessenger->SendMessage(msg);
 }
+
 
 void
 AutoTextControlFilter::SetMessenger(BMessenger* msgr)
@@ -199,6 +219,7 @@ AutoTextControlFilter::SetMessenger(BMessenger* msgr)
 		delete fMessenger;
 	fMessenger = msgr;
 }
+
 
 BMessenger*
 AutoTextControlFilter::GetMessenger()

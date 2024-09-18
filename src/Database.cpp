@@ -6,8 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <ctime>
-#include <vector>
 #include "Account.h"
 #include "Budget.h"
 #include "DStringList.h"
@@ -17,6 +15,8 @@
 #include "ScheduledTransData.h"
 #include "TimeSupport.h"
 #include "TransactionData.h"
+#include <ctime>
+#include <vector>
 
 // #define LOCK_DATABASE
 #ifdef LOCK_DATABASE
@@ -39,14 +39,20 @@ Locale gCurrentLocale;
 // This global is used to hold all financial data for CapitalBe.
 Database gDatabase;
 
+
 Database::Database(const char* path)
-	: fCurrent(NULL),
-	  fList(20, true),
-	  fPath(path)
+	:
+	fCurrent(NULL),
+	fList(20, true),
+	fPath(path)
 {
 }
 
-Database::~Database(void) {}
+
+Database::~Database()
+{
+}
+
 
 void
 Database::CloseAccount(Account* item)
@@ -68,14 +74,15 @@ Database::CloseAccount(Account* item)
 	UNLOCK;
 }
 
+
 void
 Database::RenameAccount(Account* item, const char* name)
 {
 	if (item && name) {
 		LOCK;
 		CppSQLite3Buffer bufSQL;
-		bufSQL.format(
-			"UPDATE accountlist SET name = %Q WHERE accountid = %i;", name, item->GetID());
+		bufSQL.format("UPDATE accountlist SET name = %Q WHERE accountid = %i;", name,
+			item->GetID());
 		DBCommand(bufSQL, "Database::RenameAccount");
 
 		item->SetName(name);
@@ -86,6 +93,7 @@ Database::RenameAccount(Account* item, const char* name)
 		UNLOCK;
 	}
 }
+
 
 void
 Database::ReopenAccount(Account* item)
@@ -104,6 +112,7 @@ Database::ReopenAccount(Account* item)
 	Notify(WATCH_CHANGE | WATCH_ACCOUNT, &msg);
 	UNLOCK;
 }
+
 
 void
 Database::CreateFile(const char* path)
@@ -138,34 +147,30 @@ Database::CreateFile(const char* path)
 	command << "INSERT INTO db_version (version) VALUES (" << DB_VERSION << ");";
 	DBCommand(command.String(), "Database::CreateFile:create db_version");
 
-	DBCommand(
-		"CREATE TABLE accountlist (accountid INT PRIMARY KEY, name VARCHAR(96), "
-		"type VARCHAR(12), status VARCHAR(30));",
+	DBCommand("CREATE TABLE accountlist (accountid INT PRIMARY KEY, name VARCHAR(96), "
+			  "type VARCHAR(12), status VARCHAR(30));",
 		"Database::CreateFile:create accountlist");
-	DBCommand(
-		"CREATE TABLE accountlocale (accountid INT PRIMARY KEY, "
-		"currencysymbol CHAR(6), currencydecimal CHAR(6), currencyprefix CHAR(1));",
+	DBCommand("CREATE TABLE accountlocale (accountid INT PRIMARY KEY, "
+			  "currencysymbol CHAR(6), currencydecimal CHAR(6), currencyprefix CHAR(1));",
 		"Database::CreateFile:create accountlocale");
 	DBCommand("CREATE TABLE memorizedlist (transactionid INT);",
 		"Database::CreateFile:create memorizedlist");
-	DBCommand(
-		"CREATE TABLE scheduledlist (timestamp INT PRIMARY KEY, accountid INT, transid INT,"
-		"date INT, type VARCHAR(24), payee VARCHAR(96), amount INT,"
-		"category VARCHAR(96),memo VARCHAR(63), interval INT, count INT,"
-		"nextdate INT, destination INT);",
+	DBCommand("CREATE TABLE scheduledlist (timestamp INT PRIMARY KEY, accountid INT, transid INT,"
+			  "date INT, type VARCHAR(24), payee VARCHAR(96), amount INT,"
+			  "category VARCHAR(96),memo VARCHAR(63), interval INT, count INT,"
+			  "nextdate INT, destination INT);",
 		"Database::CreateFile:create scheduledlist");
-	DBCommand(
-		"CREATE TABLE budgetlist (entryid INT PRIMARY KEY, category VARCHAR(96), "
-		"amount INT, period INT(2), isexpense INT(1));",
+	DBCommand("CREATE TABLE budgetlist (entryid INT PRIMARY KEY, category VARCHAR(96), "
+			  "amount INT, period INT(2), isexpense INT(1));",
 		"Database::CreateFile:create budgetlist");
-	DBCommand(
-		"CREATE TABLE transactionlist (timestamp INT PRIMARY KEY, transid INT, "
-		"category VARCHAR(96), accountid INT);",
+	DBCommand("CREATE TABLE transactionlist (timestamp INT PRIMARY KEY, transid INT, "
+			  "category VARCHAR(96), accountid INT);",
 		"Database::CreateFile:create transactionlist");
 	DBCommand("CREATE TABLE categorylist (name VARCHAR(96), type INT(2));",
 		"Database::CreateFile:create categorylist");
 	UNLOCK;
 }
+
 
 status_t
 Database::OpenFile(const char* path)
@@ -245,13 +250,15 @@ Database::OpenFile(const char* path)
 	return B_OK;
 }
 
+
 void
-Database::CloseFile(void)
+Database::CloseFile()
 {
 	LOCK;
 	fDB.close();
 	UNLOCK;
 }
+
 
 bool
 Database::ImportFile(const entry_ref& ref)
@@ -265,6 +272,7 @@ Database::ImportFile(const entry_ref& ref)
 	return value;
 }
 
+
 bool
 Database::ExportFile(const entry_ref& ref)
 {
@@ -274,6 +282,7 @@ Database::ExportFile(const entry_ref& ref)
 
 	return value;
 }
+
 
 Account*
 Database::SetCurrentAccount(const int32& index)
@@ -295,6 +304,7 @@ Database::SetCurrentAccount(const int32& index)
 
 	return fCurrent;
 }
+
 
 int32
 Database::SetCurrentAccount(Account* account)
@@ -324,9 +334,10 @@ Database::SetCurrentAccount(Account* account)
 	return value;
 }
 
+
 Account*
-Database::AddAccount(
-	const char* name, const AccountType& type, const char* status, const Locale* locale)
+Database::AddAccount(const char* name, const AccountType& type, const char* status,
+	const Locale* locale)
 {
 	if (!name || !status)
 		return NULL;
@@ -369,6 +380,7 @@ Database::AddAccount(
 
 	return account;
 }
+
 
 bool
 Database::RemoveAccount(const int& accountid)
@@ -416,12 +428,14 @@ Database::RemoveAccount(const int& accountid)
 	return false;
 }
 
+
 void
 Database::RemoveAccount(Account* account)
 {
 	if (account)
 		RemoveAccount(account->GetID());
 }
+
 
 Account*
 Database::AccountByName(const char* name)
@@ -437,6 +451,7 @@ Database::AccountByName(const char* name)
 	return NULL;
 }
 
+
 Account*
 Database::AccountByID(const uint32& accountid)
 {
@@ -447,6 +462,7 @@ Database::AccountByID(const uint32& accountid)
 	}
 	return NULL;
 }
+
 
 void
 Database::AddBudgetEntry(const BudgetEntry& entry)
@@ -473,8 +489,8 @@ Database::AddBudgetEntry(const BudgetEntry& entry)
 			entry.amount.AsFixed(), value);
 		DBCommand(bufSQL, "Database::AddBudgetEntry:update budgetlist amount");
 
-		bufSQL.format(
-			"UPDATE budgetlist SET period = %i WHERE entryid = %i;", (int)entry.period, value);
+		bufSQL.format("UPDATE budgetlist SET period = %i WHERE entryid = %i;", (int)entry.period,
+			value);
 		DBCommand(bufSQL, "Database::AddBudgetEntry:update budgetlist period");
 		return;
 	}
@@ -487,6 +503,7 @@ Database::AddBudgetEntry(const BudgetEntry& entry)
 	DBCommand(bufSQL, "Database::AddBudgetEntry:insert into budgetlist");
 	UNLOCK;
 }
+
 
 bool
 Database::RemoveBudgetEntry(const char* category)
@@ -501,6 +518,7 @@ Database::RemoveBudgetEntry(const char* category)
 	UNLOCK;
 	return true;
 }
+
 
 bool
 Database::HasBudgetEntry(const char* category)
@@ -517,6 +535,7 @@ Database::HasBudgetEntry(const char* category)
 	UNLOCK;
 	return value;
 }
+
 
 bool
 Database::GetBudgetEntry(const char* name, BudgetEntry& entry)
@@ -538,8 +557,9 @@ Database::GetBudgetEntry(const char* name, BudgetEntry& entry)
 	return false;
 }
 
+
 int32
-Database::CountBudgetEntries(void)
+Database::CountBudgetEntries()
 {
 	CppSQLite3Query query
 		= gDatabase.DBQuery("SELECT COUNT(*) FROM budgetlist", "Database::CountBudgetEntries");
@@ -549,6 +569,7 @@ Database::CountBudgetEntries(void)
 
 	return query.getIntField(0);
 }
+
 
 void
 Database::SetAccountLocale(const uint32& accountid, const Locale& data)
@@ -587,6 +608,7 @@ Database::SetAccountLocale(const uint32& accountid, const Locale& data)
 	UNLOCK;
 }
 
+
 Locale
 Database::LocaleForAccount(const uint32& id)
 {
@@ -623,6 +645,7 @@ Database::UsesDefaultLocale(const uint32& id)
 	UNLOCK;
 }
 
+
 bool
 Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t& date,
 	const TransactionType& type, const char* payee, const Fixed& amount, const char* category,
@@ -637,8 +660,8 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 	AddCategory(category, amount.IsNegative());
 
 	CppSQLite3Buffer bufSQL;
-	bufSQL.format(
-		"INSERT INTO transactionlist VALUES(%li, %i, %Q, %i);", timestamp, id, category, accountid);
+	bufSQL.format("INSERT INTO transactionlist VALUES(%li, %i, %Q, %i);", timestamp, id, category,
+		accountid);
 	DBCommand(bufSQL, "Database::AddTransaction:insert into transactionlist");
 
 	BString _status, command;
@@ -686,6 +709,7 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 	return true;
 }
 
+
 bool
 Database::AddTransaction(TransactionData& data, const bool& newid)
 {
@@ -724,6 +748,7 @@ Database::AddTransaction(TransactionData& data, const bool& newid)
 	UNLOCK;
 	return true;
 }
+
 
 bool
 Database::RemoveTransaction(const uint32& transid)
@@ -788,8 +813,9 @@ Database::RemoveTransaction(const uint32& transid)
 	return true;
 }
 
+
 uint32
-Database::NextTransactionID(void)
+Database::NextTransactionID()
 {
 	LOCK;
 	uint32 key = GetLastKey("transactionlist", "transid");
@@ -797,6 +823,7 @@ Database::NextTransactionID(void)
 	UNLOCK;
 	return key;
 }
+
 
 bool
 Database::HasTransaction(const uint32& transid)
@@ -813,6 +840,7 @@ Database::HasTransaction(const uint32& transid)
 	UNLOCK;
 	return value;
 }
+
 
 bool
 Database::GetTransaction(const uint32& transid, const uint32& accountid, TransactionData& data)
@@ -867,6 +895,7 @@ Database::GetTransaction(const uint32& transid, const uint32& accountid, Transac
 	return true;
 }
 
+
 bool
 Database::GetTransaction(const uint32& transid, TransactionData& data)
 {
@@ -884,6 +913,7 @@ Database::GetTransaction(const uint32& transid, TransactionData& data)
 
 	return GetTransaction(transid, accountid, data);
 }
+
 
 void
 Database::SetTransactionStatus(const uint32& transid, const uint8& status)
@@ -921,6 +951,7 @@ Database::SetTransactionStatus(const uint32& transid, const uint8& status)
 	UNLOCK;
 }
 
+
 bool
 Database::GetTransferCounterpart(const uint32& transid, TransactionData& data)
 {
@@ -949,9 +980,8 @@ Database::GetTransferDestination(const uint32& transid, const uint32& accountid)
 	LOCK;
 
 	BString command;
-	command.SetToFormat(
-		"SELECT accountid FROM transactionlist WHERE transid = %i AND "
-		"accountid != %i;",
+	command.SetToFormat("SELECT accountid FROM transactionlist WHERE transid = %i AND "
+						"accountid != %i;",
 		transid, accountid);
 	CppSQLite3Query query
 		= DBQuery(command.String(), "Database::GetTransferDestination:get accountid");
@@ -995,9 +1025,8 @@ Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& ne
 			{
 				// TODO: Add weekly scheduling support
 				//				data.SetNextDueDate(IncrementDateByMonth(data.Date()));
-				ShowBug(
-					"Unimplemented Weekly scheduling support in "
-					"Database::AddScheduledTransaction()");
+				ShowBug("Unimplemented Weekly scheduling support in "
+						"Database::AddScheduledTransaction()");
 				break;
 			}
 			case SCHEDULED_QUARTERLY:
@@ -1046,6 +1075,7 @@ Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& ne
 	UNLOCK;
 }
 
+
 void
 Database::RemoveScheduledTransaction(const uint32& id)
 {
@@ -1059,6 +1089,7 @@ Database::RemoveScheduledTransaction(const uint32& id)
 	UNLOCK;
 }
 
+
 bool
 Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& data)
 {
@@ -1067,9 +1098,8 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 	BString command;
 	CppSQLite3Query query;
 
-	command
-		= "SELECT accountid,date,payee,amount,category,memo,type,nextdate,"
-		  "count,interval,destination FROM scheduledlist WHERE transid = ";
+	command = "SELECT accountid,date,payee,amount,category,memo,type,nextdate,"
+			  "count,interval,destination FROM scheduledlist WHERE transid = ";
 	command << transid << ";";
 	query = DBQuery(command.String(), "Database::GetScheduledTransaction:get transaction data");
 
@@ -1109,8 +1139,9 @@ Database::GetScheduledTransaction(const uint32& transid, ScheduledTransData& dat
 	return true;
 }
 
+
 uint32
-Database::CountScheduledTransactions(void)
+Database::CountScheduledTransactions()
 {
 	CppSQLite3Query query = gDatabase.DBQuery("SELECT COUNT(*) FROM scheduledlist",
 		"ScheduleListView::RefreshScheduleList: count transactions");
@@ -1119,6 +1150,7 @@ Database::CountScheduledTransactions(void)
 
 	return query.getInt64Field(0);
 }
+
 
 uint32
 Database::CountScheduledTransactions(int accountid)
@@ -1163,6 +1195,7 @@ Database::InsertSchedTransaction(const uint32& id, const uint32& accountid, cons
 	return true;
 }
 
+
 int32
 Database::GetLastKey(const char* table, const char* column)
 {
@@ -1182,6 +1215,7 @@ Database::GetLastKey(const char* table, const char* column)
 	return value;
 }
 
+
 void
 Database::AddCategory(const char* name, const bool& isexpense)
 {
@@ -1199,6 +1233,7 @@ Database::AddCategory(const char* name, const bool& isexpense)
 	CppSQLite3Query query = gDatabase.DBQuery(bufSQL, "Database::AddCategory");
 }
 
+
 void
 Database::RemoveCategory(const char* name)
 {
@@ -1209,6 +1244,7 @@ Database::RemoveCategory(const char* name)
 	bufSQL.format("DELETE FROM categorylist WHERE name = %Q;", name);
 	CppSQLite3Query query = gDatabase.DBQuery(bufSQL, "Database::RemoveCategory");
 }
+
 
 bool
 Database::RenameCategory(const char* oldname, const char* newname)
@@ -1225,6 +1261,7 @@ Database::RenameCategory(const char* oldname, const char* newname)
 
 	return true;
 }
+
 
 bool
 Database::HasCategory(const char* name)
@@ -1254,6 +1291,7 @@ Database::HasCategory(const char* name)
 	return !query.eof();
 }
 
+
 bool
 Database::IsCategoryExpense(const char* name)
 {
@@ -1274,6 +1312,7 @@ Database::IsCategoryExpense(const char* name)
 	return (value == 0);
 }
 
+
 void
 Database::SetCategoryExpense(const char* name, const bool& isexpense)
 {
@@ -1284,6 +1323,7 @@ Database::SetCategoryExpense(const char* name, const bool& isexpense)
 	bufSQL.format("UPDATE categorylist SET type = %i WHERE name = %Q;", (isexpense ? 0 : 1), name);
 	gDatabase.DBCommand(bufSQL, "Database::SetCategoryExpense");
 }
+
 
 void
 Database::RecategorizeTransactions(const char* from, const char* to)
@@ -1305,13 +1345,14 @@ Database::RecategorizeTransactions(const char* from, const char* to)
 		CppSQLite3Buffer bufSQL;
 		BString account;
 		account << "account_" << acc->GetID();
-		bufSQL.format(
-			"UPDATE %s SET category = %Q WHERE category = %Q;", account.String(), to, from);
+		bufSQL.format("UPDATE %s SET category = %Q WHERE category = %Q;", account.String(), to,
+			from);
 		gDatabase.DBCommand(bufSQL, "Database::RecategorizeTransactions");
 	}
 
 	Notify(WATCH_MASS_EDIT, NULL);
 }
+
 
 BString
 AccountTypeToString(const AccountType& type)
@@ -1344,6 +1385,7 @@ static const char* sReplacementWords[]
 		" ¥by ", " ¥and ", " ¥or ", " ¥in ", " ¥between ", " ¥aliases ", " ¥join ", " ¥union ",
 		" ¥alter ", " ¥functions ", " ¥group ", " ¥into ", " ¥view ", NULL};
 
+
 BString
 EscapeIllegalCharacters(const char* instr)
 {
@@ -1373,6 +1415,7 @@ EscapeIllegalCharacters(const char* instr)
 	return string;
 }
 
+
 BString
 DeescapeIllegalCharacters(const char* instr)
 {
@@ -1396,6 +1439,7 @@ DeescapeIllegalCharacters(const char* instr)
 	return string;
 }
 
+
 void
 Database::DBCommand(const char* command, const char* functionname)
 {
@@ -1414,6 +1458,7 @@ Database::DBCommand(const char* command, const char* functionname)
 		ShowBug(msg.String());
 	}
 }
+
 
 CppSQLite3Query
 Database::DBQuery(const char* query, const char* functionname)
@@ -1438,7 +1483,7 @@ Database::DBQuery(const char* query, const char* functionname)
 
 
 status_t
-Database::ApplyMigrations(void)
+Database::ApplyMigrations()
 {
 	int currentVersion = 0;
 
@@ -1454,8 +1499,8 @@ Database::ApplyMigrations(void)
 			"Database::ApplyMigrations:insert db_version");
 	} else {
 		// Get current db_version
-		CppSQLite3Query query = DBQuery(
-			"SELECT version FROM db_version", "Database::ApplyMigrations: get currentVersion");
+		CppSQLite3Query query = DBQuery("SELECT version FROM db_version",
+			"Database::ApplyMigrations: get currentVersion");
 
 		if (query.eof())
 			return B_ERROR;
@@ -1539,14 +1584,14 @@ Database::CreateDBBackup(int32 version)
 
 
 status_t
-Database::DeescapeDatabase(void)
+Database::DeescapeDatabase()
 {
 	CppSQLite3Buffer bufSQL;
 	CppSQLite3Query query, transactionQuery;
 	BString name, payee, category, memo;
 	// Deescape account names
-	query = DBQuery(
-		"SELECT name, accountid FROM accountlist", "Database::DeescapeDatabase:account names");
+	query = DBQuery("SELECT name, accountid FROM accountlist",
+		"Database::DeescapeDatabase:account names");
 	while (!query.eof()) {
 		name = DeescapeIllegalCharacters(query.getStringField(0));
 		uint32 id = query.getIntField(1);
@@ -1561,9 +1606,8 @@ Database::DeescapeDatabase(void)
 			category = DeescapeIllegalCharacters(transactionQuery.getStringField(2));
 			memo = DeescapeIllegalCharacters(transactionQuery.getStringField(3));
 
-			bufSQL.format(
-				"UPDATE account_%li SET payee = %Q, category = %Q, memo = %Q"
-				"WHERE timestamp = %li;",
+			bufSQL.format("UPDATE account_%li SET payee = %Q, category = %Q, memo = %Q"
+						  "WHERE timestamp = %li;",
 				id, payee.String(), category.String(), memo.String(),
 				transactionQuery.getInt64Field(0));
 			DBCommand(bufSQL, "Database::DeescapeDatabase:account details");
@@ -1605,23 +1649,21 @@ Database::DeescapeDatabase(void)
 		category = DeescapeIllegalCharacters(query.getStringField(2));
 		memo = DeescapeIllegalCharacters(query.getStringField(3));
 
-		bufSQL.format(
-			"UPDATE scheduledlist SET payee = %Q, category = %Q, memo = %Q"
-			"WHERE transid = %i;",
+		bufSQL.format("UPDATE scheduledlist SET payee = %Q, category = %Q, memo = %Q"
+					  "WHERE transid = %i;",
 			payee.String(), category.String(), memo.String(), query.getIntField(0));
 		DBCommand(bufSQL, "Database::DeescapeDatabase:scheduledlist");
 		query.nextRow();
 	}
 
 	// Deescape budget entries
-	query = DBQuery(
-		"SELECT entryid, category FROM budgetlist;", "Database::DeescapeDatabase:budgetlist");
+	query = DBQuery("SELECT entryid, category FROM budgetlist;",
+		"Database::DeescapeDatabase:budgetlist");
 	while (!query.eof()) {
 		category = DeescapeIllegalCharacters(query.getStringField(1));
 
-		bufSQL.format(
-			"UPDATE budgetlist SET category = %Q"
-			"WHERE entryid = %i;",
+		bufSQL.format("UPDATE budgetlist SET category = %Q"
+					  "WHERE entryid = %i;",
 			category.String(), query.getIntField(0));
 		DBCommand(bufSQL, "Database::DeescapeDatabase:budgetlist");
 		query.nextRow();
@@ -1629,6 +1671,7 @@ Database::DeescapeDatabase(void)
 
 	return B_OK;
 }
+
 
 bool
 IsInternalCategory(const char* category)

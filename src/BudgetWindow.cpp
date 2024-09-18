@@ -40,11 +40,13 @@ enum {
 
 extern int compare_stringitem(const void* item1, const void* item2);
 
+
 BudgetWindow::BudgetWindow(const BRect& frame)
-	: BWindow(BRect(), B_TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
+	:
+	BWindow(BRect(), B_TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
 		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
-	  fIncomeGrid(13, 0),
-	  fSpendingGrid(13, 0)
+	fIncomeGrid(13, 0),
+	fSpendingGrid(13, 0)
 {
 	BNumberFormat numberFormatter;
 	fDecimalSymbol = numberFormatter.GetSeparator(B_DECIMAL_SEPARATOR);
@@ -120,7 +122,11 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 	CenterIn(frame);
 }
 
-BudgetWindow::~BudgetWindow(void) {}
+
+BudgetWindow::~BudgetWindow()
+{
+}
+
 
 void
 BudgetWindow::MessageReceived(BMessage* msg)
@@ -225,8 +231,9 @@ BudgetWindow::MessageReceived(BMessage* msg)
 	}
 }
 
+
 void
-BudgetWindow::HandleCategorySelection(void)
+BudgetWindow::HandleCategorySelection()
 {
 	BRow* row = fCategoryList->CurrentSelection();
 	if (!row) {
@@ -293,8 +300,9 @@ BudgetWindow::HandleCategorySelection(void)
 	fCatStat->Invalidate();
 }
 
+
 void
-BudgetWindow::RefreshCategories(void)
+BudgetWindow::RefreshCategories()
 {
 	fCategoryList->Clear();
 	fIncomeRow = new BRow();
@@ -342,8 +350,9 @@ BudgetWindow::RefreshCategories(void)
 	fCategoryList->ExpandOrCollapse(fSpendingRow, true);
 }
 
+
 void
-BudgetWindow::RefreshBudgetSummary(void)
+BudgetWindow::RefreshBudgetSummary()
 {
 	Fixed itotal, stotal, mtotal, f;
 	Fixed irowtotal, srowtotal, ttotal;
@@ -412,8 +421,9 @@ BudgetWindow::RefreshBudgetSummary(void)
 	fBudgetSummary->Invalidate();
 }
 
+
 void
-BudgetWindow::RefreshBudgetGrid(void)
+BudgetWindow::RefreshBudgetGrid()
 {
 	fIncomeGrid.MakeEmpty();
 	fSpendingGrid.MakeEmpty();
@@ -465,6 +475,7 @@ BudgetWindow::RefreshBudgetGrid(void)
 	}
 }
 
+
 void
 BudgetWindow::GenerateBudget(const bool& zero)
 {
@@ -474,8 +485,8 @@ BudgetWindow::GenerateBudget(const bool& zero)
 	gDatabase.DBCommand("DELETE FROM budgetlist", "BudgetWindow::GenerateBudget:empty budget");
 
 	CppSQLite3Query query;
-	query = gDatabase.DBQuery(
-		"SELECT * FROM categorylist ORDER BY name", "BudgetWindow::GenerateBudget:get categories");
+	query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name",
+		"BudgetWindow::GenerateBudget:get categories");
 
 	if (query.eof())
 		return;
@@ -557,6 +568,7 @@ BudgetWindow::GenerateBudget(const bool& zero)
 	}
 }
 
+
 void
 BudgetWindow::CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg)
 {
@@ -614,6 +626,7 @@ BudgetWindow::CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg)
 	}
 	low = cattotal;
 }
+
 
 void
 BudgetWindow::SetPeriod(const BudgetPeriod& period)
@@ -692,8 +705,9 @@ BudgetWindow::SetPeriod(const BudgetPeriod& period)
 	fCategoryList->UpdateRow(row);
 }
 
+
 void
-BudgetWindow::BuildStatsAndEditor(void)
+BudgetWindow::BuildStatsAndEditor()
 {
 	// Add the category statistics
 	BString temp;
@@ -736,8 +750,8 @@ BudgetWindow::BuildStatsAndEditor(void)
 		= new BRadioButton("monthoption", B_TRANSLATE("Monthly"), new BMessage(M_SET_PERIOD_MONTH));
 	fWeekly
 		= new BRadioButton("weekoption", B_TRANSLATE("Weekly"), new BMessage(M_SET_PERIOD_WEEK));
-	fQuarterly = new BRadioButton(
-		"quarteroption", B_TRANSLATE("Quarterly"), new BMessage(M_SET_PERIOD_QUARTER));
+	fQuarterly = new BRadioButton("quarteroption", B_TRANSLATE("Quarterly"),
+		new BMessage(M_SET_PERIOD_QUARTER));
 	fAnnually
 		= new BRadioButton("yearoption", B_TRANSLATE("Annually"), new BMessage(M_SET_PERIOD_YEAR));
 
@@ -750,8 +764,9 @@ BudgetWindow::BuildStatsAndEditor(void)
 	fAmountBox = new CurrencyBox("amountbox", NULL, "$00,000.00", new BMessage(M_AMOUNT_CHANGED));
 }
 
+
 void
-BudgetWindow::BuildBudgetSummary(void)
+BudgetWindow::BuildBudgetSummary()
 {
 	fSummaryIncomeRow = new BRow();
 	fSummarySpendingRow = new BRow();
@@ -764,15 +779,15 @@ BudgetWindow::BuildBudgetSummary(void)
 		new BStringColumn(B_TRANSLATE("Summary"),
 			fBudgetSummary->StringWidth(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")) + 20, 10,
 			300, B_TRUNCATE_END),
-		0);
+			0);
 	fBudgetSummary->AddRow(fSummaryIncomeRow);
 	fBudgetSummary->AddRow(fSummarySpendingRow);
 	fBudgetSummary->AddRow(fSummaryTotalRow);
 	fBudgetSummary->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 
 	fSummaryIncomeRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Income", "CommonTerms")), 0);
-	fSummarySpendingRow->SetField(
-		new BStringField(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")), 0);
+	fSummarySpendingRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")),
+		0);
 	fSummaryTotalRow->SetField(new BStringField(B_TRANSLATE("Total")), 0);
 
 	// Add all the calendar stuff
@@ -785,16 +800,16 @@ BudgetWindow::BuildBudgetSummary(void)
 		timestruct.tm_mon = i;
 		strftime(month, 32, "%b", &timestruct);
 		fBudgetSummary->AddColumn(new BStringColumn(month, fBudgetSummary->StringWidth(month) + 25,
-									  10, 300, B_TRUNCATE_END, B_ALIGN_RIGHT),
+			10, 300, B_TRUNCATE_END, B_ALIGN_RIGHT),
 			i + 1);
 		fSummaryIncomeRow->SetField(new BStringField(""), i + 1);
 		fSummarySpendingRow->SetField(new BStringField(""), i + 1);
 		fSummaryTotalRow->SetField(new BStringField(""), i + 1);
 	}
 	fBudgetSummary->AddColumn(new BStringColumn(B_TRANSLATE("Total"),
-								  fBudgetSummary->StringWidth(B_TRANSLATE("Total")) + 20, 10, 300,
-								  B_TRUNCATE_END, B_ALIGN_RIGHT),
-		13);
+		fBudgetSummary->StringWidth(B_TRANSLATE("Total")) + 20, 10, 300, B_TRUNCATE_END,
+			B_ALIGN_RIGHT),
+			13);
 	fSummaryIncomeRow->SetField(new BStringField(""), 13);
 	fSummarySpendingRow->SetField(new BStringField(""), 13);
 	fSummaryTotalRow->SetField(new BStringField(""), 13);
@@ -806,7 +821,7 @@ BudgetWindow::BuildBudgetSummary(void)
 
 
 void
-BudgetWindow::BuildCategoryList(void)
+BudgetWindow::BuildCategoryList()
 {
 	fCategoryList
 		= new BColumnListView("categorylist", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER, true);
@@ -822,9 +837,10 @@ BudgetWindow::BuildCategoryList(void)
 			fCategoryList->StringWidth(B_TRANSLATE_CONTEXT("Amount", "CommonTerms")) + 20, 40, 300,
 			B_TRUNCATE_END, B_ALIGN_RIGHT),
 		1);
-	fCategoryList->AddColumn(new BStringColumn(B_TRANSLATE("Frequency"),
-								 fCategoryList->StringWidth(B_TRANSLATE("Frequency")) + 20, 40, 300,
-								 B_TRUNCATE_END, B_ALIGN_RIGHT),
+	fCategoryList->AddColumn(
+		new BStringColumn(B_TRANSLATE("Frequency"),
+			fCategoryList->StringWidth(B_TRANSLATE("Frequency")) + 20, 40, 300,
+			B_TRUNCATE_END, B_ALIGN_RIGHT),
 		2);
 	fCategoryList->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 

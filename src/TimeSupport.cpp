@@ -1,6 +1,7 @@
 #include "TimeSupport.h"
 #include <OS.h>
 
+
 time_t
 IncrementDateByDay(const time_t& t)
 {
@@ -8,6 +9,7 @@ IncrementDateByDay(const time_t& t)
 	timestruct.tm_mday++;
 	return mktime(&timestruct);
 }
+
 
 time_t
 DecrementDateByDay(const time_t& t)
@@ -17,6 +19,7 @@ DecrementDateByDay(const time_t& t)
 	return mktime(&timestruct);
 }
 
+
 time_t
 IncrementDateByMonth(const time_t& t)
 {
@@ -25,6 +28,7 @@ IncrementDateByMonth(const time_t& t)
 	return mktime(&timestruct);
 }
 
+
 time_t
 DecrementDateByMonth(const time_t& t)
 {
@@ -32,6 +36,7 @@ DecrementDateByMonth(const time_t& t)
 	timestruct.tm_mon--;
 	return mktime(&timestruct);
 }
+
 
 time_t
 IncrementDateByQuarter(const time_t& t)
@@ -53,6 +58,7 @@ IncrementDateByQuarter(const time_t& t)
 	return mktime(&timestruct);
 }
 
+
 time_t
 IncrementDateByYear(const time_t& t)
 {
@@ -60,6 +66,7 @@ IncrementDateByYear(const time_t& t)
 	timestruct.tm_year++;
 	return mktime(&timestruct);
 }
+
 
 time_t
 DecrementDateByYear(const time_t& t)
@@ -69,8 +76,9 @@ DecrementDateByYear(const time_t& t)
 	return mktime(&timestruct);
 }
 
+
 time_t
-GetCurrentDate(void)
+GetCurrentDate()
 {
 	time_t rawtime;
 	time(&rawtime);
@@ -83,7 +91,7 @@ GetCurrentDate(void)
 
 // Returns the value for the first day of the month.
 time_t
-GetCurrentMonth(void)
+GetCurrentMonth()
 {
 	time_t rawtime;
 	time(&rawtime);
@@ -97,7 +105,7 @@ GetCurrentMonth(void)
 
 // Returns the value for the first day of the quarter
 time_t
-GetCurrentQuarter(void)
+GetCurrentQuarter()
 {
 	time_t rawtime;
 	time(&rawtime);
@@ -120,7 +128,7 @@ GetCurrentQuarter(void)
 
 // Returns the value for the first day of the year
 time_t
-GetCurrentYear(void)
+GetCurrentYear()
 {
 	time_t rawtime;
 	time(&rawtime);
@@ -134,8 +142,9 @@ GetCurrentYear(void)
 	return mktime(&timestruct);
 }
 
+
 time_t
-GetLastMonth(void)
+GetLastMonth()
 {
 	time_t rawtime;
 	time(&rawtime);
@@ -149,8 +158,9 @@ GetLastMonth(void)
 	return mktime(&timestruct);
 }
 
+
 time_t
-GetLastQuarter(void)
+GetLastQuarter()
 {
 	time_t rawtime;
 	time(&rawtime);
@@ -177,8 +187,9 @@ GetLastQuarter(void)
 	return mktime(&timestruct);
 }
 
+
 time_t
-GetLastYear(void)
+GetLastYear()
 {
 	time_t rawtime;
 	time(&rawtime);
@@ -193,6 +204,7 @@ GetLastYear(void)
 	return mktime(&timestruct);
 }
 
+
 BString
 GetShortMonthName(const uint8& number)
 {
@@ -205,6 +217,7 @@ GetShortMonthName(const uint8& number)
 	strftime(string, 32, "%b", &timestruct);
 	return BString(string);
 }
+
 
 int
 DayOfWeek(int day, int month, int year)
@@ -219,8 +232,9 @@ DayOfWeek(int day, int month, int year)
 	// split by century
 	int cent = year / 100;
 	year %= 100;
-	return (((26 * month - 2) / 10 + day + year + year / 4 + cent / 4 - 2 * cent) % 7);
+	return ((26 * month - 2) / 10 + day + year + year / 4 + cent / 4 - 2 * cent) % 7;
 }
+
 
 int
 DaysInMonth(int month, int year)
@@ -234,13 +248,13 @@ DaysInMonth(int month, int year)
 		year += 1900;
 
 	switch (month) {
-		case 0:	  // January
-		case 2:	  // March
-		case 4:	  // May
-		case 6:	  // July
-		case 7:	  // August
-		case 9:	  // October
-		case 11:  // December
+		case 0: // January
+		case 2: // March
+		case 4: // May
+		case 6: // July
+		case 7: // August
+		case 9: // October
+		case 11: // December
 		{
 			return 31;
 		}
@@ -255,6 +269,7 @@ DaysInMonth(int month, int year)
 	return 30;
 }
 
+
 bool
 IsLeapYear(int year)
 {
@@ -268,6 +283,7 @@ IsLeapYear(int year)
 
 	return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) == 1;
 }
+
 
 int
 DayOfYear(int day, int month, int year)
@@ -294,6 +310,7 @@ DayOfYear(int day, int month, int year)
 	return days;
 }
 
+
 int
 GetQuarterForDate(const time_t& t)
 {
@@ -309,6 +326,7 @@ GetQuarterForDate(const time_t& t)
 		quarter++;
 	return quarter;
 }
+
 
 int
 GetQuarterMonthForDate(const time_t& t)

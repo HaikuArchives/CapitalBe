@@ -39,7 +39,7 @@ class ReconcileFilter : public BMessageFilter
 {
 public:
 	ReconcileFilter(ReconcileWindow *checkview);
-	~ReconcileFilter(void);
+	~ReconcileFilter();
 	virtual filter_result Filter(BMessage *msg, BHandler **target);
 
 private:
@@ -48,7 +48,8 @@ private:
 */
 
 ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
-	: BWindow(frame, "", B_TITLED_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
+	:
+	BWindow(frame, "", B_TITLED_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
 		B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_CLOSE_ON_ESCAPE)
 {
 	BString temp;
@@ -198,13 +199,15 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	// clang-format on
 }
 
-ReconcileWindow::~ReconcileWindow(void)
+
+ReconcileWindow::~ReconcileWindow()
 {
 	prefsLock.Lock();
 	gPreferences.RemoveData("reconcileframe");
 	gPreferences.AddRect("reconcileframe", Frame());
 	prefsLock.Unlock();
 }
+
 
 void
 ReconcileWindow::MessageReceived(BMessage* msg)
@@ -393,6 +396,7 @@ ReconcileWindow::MessageReceived(BMessage* msg)
 	}
 }
 
+
 void
 ReconcileWindow::HandleNotify(const uint64& value, const BMessage* msg)
 {
@@ -408,9 +412,8 @@ ReconcileWindow::HandleNotify(const uint64& value, const BMessage* msg)
 		if (IsWatching(WATCH_TRANSACTION)) {
 			RemoveWatch(WATCH_ALL);
 			AddWatch(WATCH_MASS_EDIT);
-		} else {
+		} else
 			AddWatch(WATCH_ALL);
-		}
 
 		if (unlock)
 			Unlock();
@@ -421,7 +424,7 @@ ReconcileWindow::HandleNotify(const uint64& value, const BMessage* msg)
 	if ((value & WATCH_ACCOUNT) && (value & WATCH_DELETE)) {
 		if ((msg->FindPointer("item", (void**)&acc) == B_OK) && (acc == fAccount))
 			PostMessage(B_QUIT_REQUESTED);
-	} else if ((value & WATCH_TRANSACTION)) {
+	} else if (value & WATCH_TRANSACTION) {
 		if (value & WATCH_DELETE) {
 			uint32 id;
 			if (msg->FindInt32("id", (int32*)&id) == B_OK) {
@@ -470,15 +473,17 @@ ReconcileWindow::HandleNotify(const uint64& value, const BMessage* msg)
 		Unlock();
 }
 
+
 bool
-ReconcileWindow::QuitRequested(void)
+ReconcileWindow::QuitRequested()
 {
 	gDatabase.RemoveObserver(this);
 	return true;
 }
 
+
 void
-ReconcileWindow::ApplyChargesAndInterest(void)
+ReconcileWindow::ApplyChargesAndInterest()
 {
 	Fixed charge;
 	if (strlen(fCharges->Text()) > 0
@@ -498,8 +503,9 @@ ReconcileWindow::ApplyChargesAndInterest(void)
 	}
 }
 
+
 bool
-ReconcileWindow::AutoReconcile(void)
+ReconcileWindow::AutoReconcile()
 {
 	// We are going to attempt to automatically reconcile the account. We will do
 	// this by adding up the values of all transactions unreconciled before the
@@ -582,6 +588,7 @@ ReconcileWindow::AutoReconcile(void)
 	return false;
 }
 
+
 ReconcileItem*
 ReconcileWindow::FindItemForID(BListView* target, const uint32& id)
 {
@@ -592,6 +599,7 @@ ReconcileWindow::FindItemForID(BListView* target, const uint32& id)
 	}
 	return NULL;
 }
+
 
 void
 ReconcileWindow::InsertTransactionItem(BListView* target, ReconcileItem* item)
@@ -612,6 +620,7 @@ ReconcileWindow::InsertTransactionItem(BListView* target, ReconcileItem* item)
 
 	target->AddItem(item);
 }
+
 
 void
 AddReconcileItems(const TransactionData& data, void* ptr)
@@ -645,7 +654,7 @@ ReconcileFilter::ReconcileFilter(ReconcileWindow *win)
 {
 }
 
-ReconcileFilter::~ReconcileFilter(void)
+ReconcileFilter::~ReconcileFilter()
 {
 }
 

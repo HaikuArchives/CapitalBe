@@ -19,8 +19,8 @@ class TransactionItem;
 
 class TransactionList : public BListView {
 public:
-	TransactionList(void);
-	~TransactionList(void);
+	TransactionList();
+	~TransactionList();
 
 	virtual void MessageReceived(BMessage* message);
 	void MouseDown(BPoint position);
@@ -43,10 +43,10 @@ private:
 
 class TransactionView : public BView, public Observer {
 public:
-	TransactionView(void);
-	~TransactionView(void);
+	TransactionView();
+	~TransactionView();
 
-	void AttachedToWindow(void);
+	void AttachedToWindow();
 
 	void SetAccount(Account* acc, BMessage* msg = NULL);
 	TransactionItem* AddTransaction(const TransactionData& trans, const int32& index = -1);
@@ -59,10 +59,10 @@ public:
 	void HandleNotify(const uint64& value, const BMessage* msg);
 	void FrameResized(float width, float height);
 
-	bool SelectNext(void);
-	bool SelectPrevious(void);
-	bool SelectFirst(void);
-	bool SelectLast(void);
+	bool SelectNext();
+	bool SelectPrevious();
+	bool SelectFirst();
+	bool SelectLast();
 
 private:
 	int32 FindItemForID(const uint32& id);

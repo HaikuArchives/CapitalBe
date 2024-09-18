@@ -3,9 +3,11 @@
 
 
 NumBoxFilter::NumBoxFilter(NumBox* box)
-	: AutoTextControlFilter(box)
+	:
+	AutoTextControlFilter(box)
 {
 }
+
 
 filter_result
 NumBoxFilter::KeyFilter(const int32& key, const int32& mod)
@@ -35,22 +37,24 @@ NumBoxFilter::KeyFilter(const int32& key, const int32& mod)
 	return B_DISPATCH_MESSAGE;
 }
 
+
 NumBox::NumBox(const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
-	: AutoTextControl(name, label, text, msg, flags),
-	  fFilterTab(true),
-	  fAllowNegatives(true)
+	:
+	AutoTextControl(name, label, text, msg, flags),
+	fFilterTab(true),
+	fAllowNegatives(true)
 {
 	SetFilter(new NumBoxFilter(this));
 
-	const char num_disallowed[]
-		= " `~!@#%^&*()_+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
-		  "ZXCVBNM<>?/qwertyuiopasdfghjklzxcvbnm$¥£";
+	const char num_disallowed[] = " `~!@#%^&*()_+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
+								  "ZXCVBNM<>?/qwertyuiopasdfghjklzxcvbnm$¥£";
 	int32 i = 0;
 	while (num_disallowed[i]) {
 		TextView()->DisallowChar(num_disallowed[i]);
 		i++;
 	}
 }
+
 
 bool
 NumBox::Validate(bool alert)
@@ -60,6 +64,7 @@ NumBox::Validate(bool alert)
 
 	return true;
 }
+
 
 void
 NumBox::AllowNegatives(const bool& value)

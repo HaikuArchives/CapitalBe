@@ -1,17 +1,20 @@
 #include "StickyDrawButton.h"
 
+
 StickyDrawButton::StickyDrawButton(BRect frame, const char* name, BBitmap* up, BBitmap* down,
 	BMessage* msg, const int32& resize, const int32& flags)
-	: BButton(frame, name, "", msg, resize, flags),
-	  fUp(up),
-	  fDown(down),
-	  fDisabledUp(NULL),
-	  fDisabledDown(NULL),
-	  fButtonState(B_CONTROL_OFF)
+	:
+	BButton(frame, name, "", msg, resize, flags),
+	fUp(up),
+	fDown(down),
+	fDisabledUp(NULL),
+	fDisabledDown(NULL),
+	fButtonState(B_CONTROL_OFF)
 {
 }
 
-StickyDrawButton::~StickyDrawButton(void)
+
+StickyDrawButton::~StickyDrawButton()
 {
 	delete fUp;
 	delete fDown;
@@ -19,8 +22,9 @@ StickyDrawButton::~StickyDrawButton(void)
 	delete fDisabledDown;
 }
 
+
 void
-StickyDrawButton::ResizeToPreferred(void)
+StickyDrawButton::ResizeToPreferred()
 {
 	if (fUp)
 		ResizeTo(fUp->Bounds().Width(), fUp->Bounds().Height());
@@ -32,6 +36,7 @@ StickyDrawButton::ResizeToPreferred(void)
 		ResizeTo(fDisabledDown->Bounds().Width(), fDisabledDown->Bounds().Height());
 }
 
+
 void
 StickyDrawButton::SetBitmaps(BBitmap* up, BBitmap* down)
 {
@@ -41,6 +46,7 @@ StickyDrawButton::SetBitmaps(BBitmap* up, BBitmap* down)
 	fUp = up;
 	fDown = down;
 }
+
 
 void
 StickyDrawButton::SetDisabled(BBitmap* disabledup, BBitmap* disableddown)
@@ -52,6 +58,7 @@ StickyDrawButton::SetDisabled(BBitmap* disabledup, BBitmap* disableddown)
 	fDisabledDown = disableddown;
 }
 
+
 void
 StickyDrawButton::MouseUp(BPoint pt)
 {
@@ -59,6 +66,7 @@ StickyDrawButton::MouseUp(BPoint pt)
 	fButtonState = (fButtonState == B_CONTROL_ON) ? B_CONTROL_OFF : B_CONTROL_ON;
 	Invalidate();
 }
+
 
 void
 StickyDrawButton::SetState(int32 value)
@@ -71,6 +79,7 @@ StickyDrawButton::SetState(int32 value)
 		Invalidate();
 	}
 }
+
 
 void
 StickyDrawButton::Draw(BRect update)
@@ -90,18 +99,16 @@ StickyDrawButton::Draw(BRect update)
 				StrokeRect(Bounds());
 			return;
 		}
+	} else if (!IsEnabled()) {
+		if (fDisabledUp)
+			DrawBitmap(fDisabledUp, BPoint(0, 0));
+		else
+			StrokeRect(Bounds());
+		return;
 	} else {
-		if (!IsEnabled()) {
-			if (fDisabledUp)
-				DrawBitmap(fDisabledUp, BPoint(0, 0));
-			else
-				StrokeRect(Bounds());
-			return;
-		} else {
-			if (fUp)
-				DrawBitmap(fUp, BPoint(0, 0));
-			else
-				StrokeRect(Bounds());
-		}
+		if (fUp)
+			DrawBitmap(fUp, BPoint(0, 0));
+		else
+			StrokeRect(Bounds());
 	}
 }

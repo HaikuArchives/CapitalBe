@@ -48,7 +48,8 @@
 
 
 MainWindow::MainWindow(BRect frame)
-	: BWindow(frame, "", B_DOCUMENT_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS)
+	:
+	BWindow(frame, "", B_DOCUMENT_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS)
 {
 	BString temp;
 	SetTitle(B_TRANSLATE_SYSTEM_NAME("CapitalBe"));
@@ -68,10 +69,10 @@ MainWindow::MainWindow(BRect frame)
 	BMenuBar* bar = new BMenuBar("keybar");
 
 	BMenu* menu = new BMenu("");
-	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("Categories" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_CATEGORY_WINDOW)));
-	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("Settings" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_OPTIONS_WINDOW), ','));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Categories" B_UTF8_ELLIPSIS),
+		new BMessage(M_SHOW_CATEGORY_WINDOW)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Settings" B_UTF8_ELLIPSIS),
+		new BMessage(M_SHOW_OPTIONS_WINDOW), ','));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Go to filter"), new BMessage(M_FOCUS_FILTER), 'F'));
 	BMenuItem* clearFilter
@@ -93,16 +94,16 @@ MainWindow::MainWindow(BRect frame)
 
 	menu = new BMenu(B_TRANSLATE("File"));
 
-	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("Import from QIF file" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_IMPORT_PANEL)));
-	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("Export to QIF file" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_EXPORT_PANEL)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Import from QIF file" B_UTF8_ELLIPSIS),
+		new BMessage(M_SHOW_IMPORT_PANEL)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Export to QIF file" B_UTF8_ELLIPSIS),
+		new BMessage(M_SHOW_EXPORT_PANEL)));
 	bar->AddItem(menu);
 
 	menu = new BMenu(B_TRANSLATE("Account"));
 	bar->AddItem(menu);
-	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("Reconcile" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_RECONCILE_WINDOW), 'R'));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Reconcile" B_UTF8_ELLIPSIS),
+		new BMessage(M_SHOW_RECONCILE_WINDOW), 'R'));
 	menu->AddSeparatorItem();
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("New" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_NEW_ACCOUNT)));
@@ -111,8 +112,8 @@ MainWindow::MainWindow(BRect frame)
 	fAccountClosedItem = new BMenuItem(B_TRANSLATE("Close"), new BMessage(M_CLOSE_ACCOUNT));
 	menu->AddItem(fAccountClosedItem);
 	menu->AddSeparatorItem();
-	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("Settings" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_ACCOUNT_SETTINGS)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Settings" B_UTF8_ELLIPSIS),
+		new BMessage(M_SHOW_ACCOUNT_SETTINGS)));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Previous"), new BMessage(M_PREVIOUS_ACCOUNT),
 		B_UP_ARROW, B_COMMAND_KEY | B_SHIFT_KEY));
@@ -127,8 +128,8 @@ MainWindow::MainWindow(BRect frame)
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Use as filter"), new BMessage(M_USE_FOR_FILTER), 'U'));
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Use as new transaction"), new BMessage(M_USE_TRANSACTION), 'N'));
-	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("Enter a transfer" B_UTF8_ELLIPSIS), new BMessage(M_ENTER_TRANSFER), 'T'));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Enter a transfer" B_UTF8_ELLIPSIS),
+		new BMessage(M_ENTER_TRANSFER), 'T'));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Delete"), new BMessage(M_DELETE_TRANSACTION)));
 	menu->AddSeparatorItem();
@@ -145,8 +146,8 @@ MainWindow::MainWindow(BRect frame)
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Budget"), new BMessage(M_SHOW_BUDGET_WINDOW)));
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Reports"), new BMessage(M_SHOW_REPORTS_WINDOW)));
 	menu->AddSeparatorItem();
-	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("Scheduled transactions"), new BMessage(M_SHOW_SCHEDULED_WINDOW)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Scheduled transactions"),
+		new BMessage(M_SHOW_SCHEDULED_WINDOW)));
 
 	// Help icon menu
 	BMenuBar* helpBar = new BMenuBar("helpbar");
@@ -187,16 +188,18 @@ MainWindow::MainWindow(BRect frame)
 
 	HandleScheduledTransactions();
 	BMessage message(M_RUN_SCHEDULED_TRANSACTIONS);
-	fRunner = new BMessageRunner(this, &message, 30 * 1000 * 1000);	 // Every 30 seconds
+	fRunner = new BMessageRunner(this, &message, 30 * 1000 * 1000); // Every 30 seconds
 }
 
-MainWindow::~MainWindow(void)
+
+MainWindow::~MainWindow()
 {
 	delete fImportPanel;
 }
 
+
 bool
-MainWindow::QuitRequested(void)
+MainWindow::QuitRequested()
 {
 #ifndef NOSAVE
 	SaveData();
@@ -210,8 +213,9 @@ MainWindow::QuitRequested(void)
 	return true;
 }
 
+
 void
-MainWindow::InitSettings(void)
+MainWindow::InitSettings()
 {
 	// This loads all the settings from disk and uses sane defaults if a setting
 	// is non-existent or invalid
@@ -298,7 +302,7 @@ MainWindow::MessageReceived(BMessage* msg)
 			if (alert->Go() == 0) {
 				int32 index = gDatabase.IndexOf(acc);
 
-				if (gDatabase.CountAccounts() < 2) {  // deleting the last account
+				if (gDatabase.CountAccounts() < 2) { // deleting the last account
 					gDatabase.SetCurrentAccount(-1);
 					gDatabase.CurrentAccount()->SetCurrentTransaction(-1);
 				} else if (index == 0)
@@ -390,9 +394,9 @@ MainWindow::MessageReceived(BMessage* msg)
 				BString errmsg(
 					B_TRANSLATE("Could not export your financial data to the file '%%FILENAME%%'"));
 				errmsg.ReplaceFirst("%%FILENAME%%", dir.name);
-				ShowAlert(
-					errmsg.String(), B_TRANSLATE("This really shouldn't happen, so you probably "
-												 "should report a bug for this."));
+				ShowAlert(errmsg.String(),
+					B_TRANSLATE("This really shouldn't happen, so you probably "
+								"should report a bug for this."));
 			}
 			break;
 		}
@@ -534,9 +538,8 @@ MainWindow::MessageReceived(BMessage* msg)
 				}
 
 				// Scheduling from destination, get the corresponding transaction before scheduling
-				if (data.Amount().IsPositive()) {
+				if (data.Amount().IsPositive())
 					gDatabase.GetTransaction(acc->CurrentTransaction(), destAccount, data);
-				}
 			}
 
 			BRect r(Frame());
@@ -576,13 +579,14 @@ MainWindow::MessageReceived(BMessage* msg)
 		case M_SHOW_RECONCILE_WINDOW:
 		{
 			if (!acc) {
-				if (gDatabase.CountAccounts() < 1)
+				if (gDatabase.CountAccounts() < 1) {
 					ShowAlert(B_TRANSLATE("Oops!"),
 						B_TRANSLATE(
 							"You need to have an account created in order to reconcile it."));
-				else
+				} else {
 					ShowAlert(B_TRANSLATE("Oops!"),
 						B_TRANSLATE("You need to select an account in order to reconcile it."));
+				}
 				break;
 			}
 
@@ -629,8 +633,9 @@ MainWindow::MessageReceived(BMessage* msg)
 	}
 }
 
+
 void
-MainWindow::LoadData(void)
+MainWindow::LoadData()
 {
 	if (gDatabase.OpenFile(fLastFile.String()) != B_OK) {
 		BEntry entry(fLastFile.String());
@@ -643,10 +648,12 @@ MainWindow::LoadData(void)
 	}
 }
 
+
 void
-MainWindow::SaveData(void)
+MainWindow::SaveData()
 {
 }
+
 
 void
 MainWindow::CreateTransfer(BMessage* msg)
@@ -683,6 +690,7 @@ MainWindow::CreateTransfer(BMessage* msg)
 		B_TRANSLATE_CONTEXT("Transfer", "CommonTerms"), memo.String());
 }
 
+
 void
 MainWindow::HandleNotify(const uint64& value, const BMessage* msg)
 {
@@ -704,11 +712,10 @@ MainWindow::HandleNotify(const uint64& value, const BMessage* msg)
 			BMessage message(M_START_FILTER);
 			BView* target = fRegisterView->FindView("filterview");
 			target->MessageReceived(&message);
-			if (acc->IsClosed()) {
+			if (acc->IsClosed())
 				fAccountClosedItem->SetLabel(B_TRANSLATE("Reopen"));
-			} else {
+			else
 				fAccountClosedItem->SetLabel(B_TRANSLATE("Close"));
-			}
 		}
 	}
 

@@ -21,9 +21,9 @@ public:
 	CategoryBox(const char* name, const char* label, const char* text, BMessage* msg,
 		uint32 flags = B_WILL_DRAW | B_NAVIGABLE);
 
-	bool Validate(void);
-	void SetType(BString type) { fType = type; };
-	BString GetType() { return fType; };
+	bool Validate();
+	void SetType(BString type) { fType = type; }
+	BString GetType() { return fType; }
 
 private:
 	bool SetTypeFromCategory(BString category);

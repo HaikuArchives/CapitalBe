@@ -1,14 +1,14 @@
 #ifndef SPLITVIEWFILTER_H
 #define SPLITVIEWFILTER_H
 
+#include "SplitView.h"
 #include <MessageFilter.h>
 #include <String.h>
-#include "SplitView.h"
 
 class SplitViewFilter : public BMessageFilter {
 public:
 	SplitViewFilter(SplitView* checkview);
-	~SplitViewFilter(void);
+	~SplitViewFilter();
 	virtual filter_result Filter(BMessage* msg, BHandler** target);
 
 private:

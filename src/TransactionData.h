@@ -1,45 +1,45 @@
 #ifndef TRANSACTIONDATA_H
 #define TRANSACTIONDATA_H
 
-#include <String.h>
-#include <cstdio>
 #include "Category.h"
 #include "Fixed.h"
 #include "TextFile.h"
 #include "Transaction.h"
+#include <String.h>
+#include <cstdio>
 
 class TransactionData {
 public:
-	TransactionData(void);
+	TransactionData();
 	TransactionData(Account* account, const char* date, const char* type, const char* payee,
 		const char* amount, const char* category, const char* memo, uint8 status = TRANS_OPEN);
 	TransactionData(const TransactionData& trans);
-	virtual ~TransactionData(void);
+	virtual ~TransactionData();
 	TransactionData& operator=(const TransactionData& from);
 	status_t Set(Account* account, const char* date, const char* type, const char* payee,
 		const char* amount, const char* category, const char* memo, uint8 status = TRANS_OPEN);
 
-	uint8 Month(void);
-	uint8 Year(void);
+	uint8 Month();
+	uint8 Year();
 
-	time_t Date(void) const { return fDate; }
+	time_t Date() const { return fDate; }
 
-	void SetDate(const time_t& t) { fDate = t; };
+	void SetDate(const time_t& t) { fDate = t; }
 
-	TransactionType Type(void) const { return fType; }
+	TransactionType Type() const { return fType; }
 
 	void SetType(const TransactionType& type);
 	void SetType(const char* type);
 
-	const char* Payee(void) const { return fPayee.String(); }
+	const char* Payee() const { return fPayee.String(); }
 
-	void SetPayee(const char* payee) { fPayee = payee; };
+	void SetPayee(const char* payee) { fPayee = payee; }
 
-	Fixed Amount(void) const { return fAmount; }
+	Fixed Amount() const { return fAmount; }
 
 	void SetAmount(const Fixed& fixed) { fAmount = fixed; }
 
-	void PrintToStream(void);
+	void PrintToStream();
 
 	void SetCategory(const char* cat);
 	void SetCategory(const Category& cat);
@@ -62,36 +62,36 @@ public:
 
 	const char* MemoAt(const int32& index) const { return fCategory.MemoAt(index); }
 
-	int32 CountCategories(void) const { return fCategory.CountItems(); }
+	int32 CountCategories() const { return fCategory.CountItems(); }
 
-	Category GetCategory(void) { return fCategory; }
+	Category GetCategory() { return fCategory; }
 
-	const char* Memo(void) const { return fMemo.String(); }
+	const char* Memo() const { return fMemo.String(); }
 
 	void SetMemo(const char* memo) { fMemo = memo; }
 
-	Account* GetAccount(void) const { return fAccount; }
+	Account* GetAccount() const { return fAccount; }
 
 	void SetAccount(Account* acc) { fAccount = acc; }
 
-	uint32 GetID(void) const { return fID; }
+	uint32 GetID() const { return fID; }
 
 	void SetID(const uint32 value) { fID = value; }
 
 	// Cleared, Reconciled, etc.
-	uint8 Status(void) const { return fStatus; }
+	uint8 Status() const { return fStatus; }
 
 	void SetStatus(uint8 value) { fStatus = value; }
 
 	void SetTimeStamp(const bigtime_t& time) { fTimeStamp = time; }
 
-	bigtime_t GetTimeStamp(void) const { return fTimeStamp; }
+	bigtime_t GetTimeStamp() const { return fTimeStamp; }
 
-	virtual void MakeEmpty(void);
+	virtual void MakeEmpty();
 
 	// If everything which needs to be in a transaction is there and valid, it
 	// returns true
-	virtual bool IsValid(void) const;
+	virtual bool IsValid() const;
 
 private:
 	time_t fDate;

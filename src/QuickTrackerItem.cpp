@@ -1,9 +1,9 @@
 #include "QuickTrackerItem.h"
-#include <String.h>
 #include "Account.h"
 #include "CBLocale.h"
 #include "Database.h"
 #include "Fixed.h"
+#include <String.h>
 
 #include <Catalog.h>
 #include <vector>
@@ -15,8 +15,9 @@
 
 // Calculates the user's net worth by adding up the balances of all accounts
 QTNetWorthItem::QTNetWorthItem(const char* name, uint32 flags)
-	: QuickTrackerItem(name, flags),
-	  fIgnore(false)
+	:
+	QuickTrackerItem(name, flags),
+	fIgnore(false)
 {
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* account = gDatabase.AccountAt(i);
@@ -24,7 +25,8 @@ QTNetWorthItem::QTNetWorthItem(const char* name, uint32 flags)
 	}
 }
 
-QTNetWorthItem::~QTNetWorthItem(void)
+
+QTNetWorthItem::~QTNetWorthItem()
 {
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* account = gDatabase.AccountAt(i);
@@ -32,12 +34,14 @@ QTNetWorthItem::~QTNetWorthItem(void)
 	}
 }
 
+
 void
-QTNetWorthItem::AttachedToWindow(void)
+QTNetWorthItem::AttachedToWindow()
 {
 	QuickTrackerItem::AttachedToWindow();
 	Calculate();
 }
+
 
 void
 QTNetWorthItem::SetObserving(const bool& value)
@@ -47,6 +51,7 @@ QTNetWorthItem::SetObserving(const bool& value)
 		Calculate();
 	}
 }
+
 
 void
 QTNetWorthItem::HandleNotify(const uint64& value, const BMessage* msg)
@@ -92,13 +97,14 @@ QTNetWorthItem::HandleNotify(const uint64& value, const BMessage* msg)
 		Calculate();
 }
 
+
 void
-QTNetWorthItem::Calculate(void)
+QTNetWorthItem::Calculate()
 {
 	BString balanceText, balanceLabel;
 	Fixed balance;
 
-	if (gDatabase.CountAccounts() == 0) {  // No accounts
+	if (gDatabase.CountAccounts() == 0) { // No accounts
 		if (Window())
 			Window()->Lock();
 
@@ -126,10 +132,9 @@ QTNetWorthItem::Calculate(void)
 	}
 
 	// Get sum of default currency accounts that are open:
-	command
-		= "SELECT a.accountid FROM accountlist AS a LEFT JOIN accountlocale AS al ON "
-		  "a.accountid = al.accountid WHERE al.accountid IS NULL AND a.status = \"Open\" "
-		  "OR a.status = \"open\";";
+	command = "SELECT a.accountid FROM accountlist AS a LEFT JOIN accountlocale AS al ON "
+			  "a.accountid = al.accountid WHERE al.accountid IS NULL AND a.status = \"Open\" "
+			  "OR a.status = \"open\";";
 	query = gDatabase.DBQuery(command.String(), "Database::Calculate");
 
 	balance = 0;
@@ -141,15 +146,13 @@ QTNetWorthItem::Calculate(void)
 		query.nextRow();
 	}
 
-	if (accountsFound && gDefaultLocale.CurrencyToString(balance, balanceText) == B_OK) {
+	if (accountsFound && gDefaultLocale.CurrencyToString(balance, balanceText) == B_OK)
 		balanceLabel << B_TRANSLATE("Balance") << ": " << balanceText << "\n";
-	}
 
 	// Get sum of other currency accounts:
 	for (int32 i = 0; i < currencies.size(); i++) {
-		command
-			= "SELECT a1.accountid FROM accountlist AS a1 JOIN accountlocale AS a2 ON "
-			  "a1.accountid=a2.accountid WHERE a2.currencysymbol = \"";
+		command = "SELECT a1.accountid FROM accountlist AS a1 JOIN accountlocale AS a2 ON "
+				  "a1.accountid=a2.accountid WHERE a2.currencysymbol = \"";
 		command << currencies.at(i).String() << "\" AND a1.status = \"Open\";";
 		query = gDatabase.DBQuery(command.String(), "Database::Calculate");
 
@@ -163,9 +166,8 @@ QTNetWorthItem::Calculate(void)
 			query.nextRow();
 		}
 
-		if (accLocale.CurrencyToString(balance, balanceText) == B_OK) {
+		if (accLocale.CurrencyToString(balance, balanceText) == B_OK)
 			balanceLabel << B_TRANSLATE("Balance") << ": " << balanceText << "\n";
-		}
 	}
 
 	if (Window()) {
@@ -178,8 +180,9 @@ QTNetWorthItem::Calculate(void)
 
 // Calculates the budget variance for one category
 QTBudgetCategoryItem::QTBudgetCategoryItem(const char* category, const char* name, uint32 flags)
-	: QuickTrackerItem(name, flags),
-	  fIgnore(false)
+	:
+	QuickTrackerItem(name, flags),
+	fIgnore(false)
 {
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* account = gDatabase.AccountAt(i);
@@ -189,7 +192,8 @@ QTBudgetCategoryItem::QTBudgetCategoryItem(const char* category, const char* nam
 	gDatabase.GetBudgetEntry(category, fEntry);
 }
 
-QTBudgetCategoryItem::~QTBudgetCategoryItem(void)
+
+QTBudgetCategoryItem::~QTBudgetCategoryItem()
 {
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* account = gDatabase.AccountAt(i);
@@ -197,12 +201,14 @@ QTBudgetCategoryItem::~QTBudgetCategoryItem(void)
 	}
 }
 
+
 void
-QTBudgetCategoryItem::AttachedToWindow(void)
+QTBudgetCategoryItem::AttachedToWindow()
 {
 	QuickTrackerItem::AttachedToWindow();
 	Calculate();
 }
+
 
 void
 QTBudgetCategoryItem::SetObserving(const bool& value)
@@ -212,6 +218,7 @@ QTBudgetCategoryItem::SetObserving(const bool& value)
 		Calculate();
 	}
 }
+
 
 void
 QTBudgetCategoryItem::HandleNotify(const uint64& value, const BMessage* msg)
@@ -259,8 +266,9 @@ QTBudgetCategoryItem::HandleNotify(const uint64& value, const BMessage* msg)
 		Calculate();
 }
 
+
 void
-QTBudgetCategoryItem::Calculate(void)
+QTBudgetCategoryItem::Calculate()
 {
 	BString label, temp;
 	Fixed variance;
@@ -279,24 +287,29 @@ QTBudgetCategoryItem::Calculate(void)
 	}
 }
 
+
 QuickTrackerItem::QuickTrackerItem(const char* name, uint32 flags)
-	: BTextView(name, flags)
+	:
+	BTextView(name, flags)
 {
 	MakeEditable(false);
 	MakeSelectable(false);
 	gDatabase.AddObserver(this);
 }
 
-QuickTrackerItem::~QuickTrackerItem(void)
+
+QuickTrackerItem::~QuickTrackerItem()
 {
 	gDatabase.RemoveObserver(this);
 }
 
+
 void
-QuickTrackerItem::AttachedToWindow(void)
+QuickTrackerItem::AttachedToWindow()
 {
 	SetViewUIColor(Parent()->ViewUIColor());
 }
+
 
 void
 QuickTrackerItem::HandleNotify(const uint64& value, const BMessage* msg)
@@ -304,8 +317,9 @@ QuickTrackerItem::HandleNotify(const uint64& value, const BMessage* msg)
 	// Does nothing by default - hook function for child classes
 }
 
+
 void
-QuickTrackerItem::Configure(void)
+QuickTrackerItem::Configure()
 {
 	// Does nothing by default - hook function for child classes
 }

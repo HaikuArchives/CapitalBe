@@ -1,6 +1,9 @@
 #ifndef REPORTWINDOW_H
 #define REPORTWINDOW_H
 
+#include "Account.h"
+#include "DStringList.h"
+#include "Notifier.h"
 #include <ColumnListView.h>
 #include <Font.h>
 #include <ListItem.h>
@@ -12,9 +15,6 @@
 #include <TextControl.h>
 #include <Window.h>
 #include <time.h>
-#include "Account.h"
-#include "DStringList.h"
-#include "Notifier.h"
 
 class StickyDrawButton;
 class DateBox;
@@ -43,19 +43,19 @@ public:
 	void MessageReceived(BMessage* msg);
 	void FrameResized(float w, float h);
 	void HandleNotify(const uint64& value, const BMessage* msg);
-	bool QuitRequested(void);
+	bool QuitRequested();
 
 private:
 	void AddAccount(Account* acc);
-	void FixGridScrollbar(void);
-	void RenderReport(void);
+	void FixGridScrollbar();
+	void RenderReport();
 
-	void ComputeCashFlow(void);
-	void ComputeNetWorth(void);
-	void ComputeTransactions(void);
-	void ComputeBudget(void);
+	void ComputeCashFlow();
+	void ComputeNetWorth();
+	void ComputeTransactions();
+	void ComputeBudget();
 
-	void CalcCategoryString(void);
+	void CalcCategoryString();
 
 	BMenuField* fReportField;
 	BMenuField* fSubtotalField;
@@ -78,7 +78,8 @@ private:
 class AccountItem : public BStringItem {
 public:
 	AccountItem(Account* acc)
-		: BStringItem("")
+		:
+		BStringItem("")
 	{
 		if (acc)
 			SetText(acc->Name());

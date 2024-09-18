@@ -18,14 +18,14 @@ time_t IncrementDateByYear(const time_t& t);
 time_t DecrementDateByYear(const time_t& t);
 
 
-time_t GetCurrentDate(void);
-time_t GetCurrentMonth(void);
-time_t GetCurrentQuarter(void);
-time_t GetCurrentYear(void);
+time_t GetCurrentDate();
+time_t GetCurrentMonth();
+time_t GetCurrentQuarter();
+time_t GetCurrentYear();
 
-time_t GetLastMonth(void);
-time_t GetLastQuarter(void);
-time_t GetLastYear(void);
+time_t GetLastMonth();
+time_t GetLastQuarter();
+time_t GetLastYear();
 
 BString GetShortMonthName(const uint8& number);
 

@@ -20,11 +20,11 @@ public:
 
 	void UseTabFiltering(const bool& value) { fFilterTab = value; }
 
-	bool IsTabFiltering(void) const { return fFilterTab; }
+	bool IsTabFiltering() const { return fFilterTab; }
 
 	void AllowNegatives(const bool& value);
 
-	bool AllowsNegatives(void) const { return fAllowNegatives; }
+	bool AllowsNegatives() const { return fAllowNegatives; }
 
 private:
 	friend NumBoxFilter;

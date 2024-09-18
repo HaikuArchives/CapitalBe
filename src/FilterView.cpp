@@ -18,8 +18,9 @@
 
 
 FilterView::FilterView(const char* name, int32 flags)
-	: BView(name, flags | B_FRAME_EVENTS),
-	  fMessenger(NULL)
+	:
+	BView(name, flags | B_FRAME_EVENTS),
+	fMessenger(NULL)
 {
 	fPeriodMenu = new BMenu("timeperiod");
 	// Important: keep the order according to filter_period_field in RegisterView.h
@@ -115,11 +116,13 @@ FilterView::FilterView(const char* name, int32 flags)
 }
 
 
-FilterView::~FilterView(void) {}
+FilterView::~FilterView()
+{
+}
 
 
 void
-FilterView::AttachedToWindow(void)
+FilterView::AttachedToWindow()
 {
 	fPeriodMenu->SetTargetForItems(this);
 	fCompareMenu->SetTargetForItems(this);
@@ -179,7 +182,7 @@ FilterView::MessageReceived(BMessage* msg)
 
 
 void
-FilterView::MakeEmpty(void)
+FilterView::MakeEmpty()
 {
 	fPeriodMenu->ItemAt(0L)->SetMarked(true);
 	fPayee->SetText("");
@@ -189,16 +192,18 @@ FilterView::MakeEmpty(void)
 	fAmount->SetText("");
 }
 
+
 bool
-FilterView::IsEmpty(void)
+FilterView::IsEmpty()
 {
 	return fPeriodMenu->FindMarkedIndex() == 0 && strcmp(fPayee->Text(), "") == 0
-		   && strcmp(fCategory->Text(), "") == 0 && strcmp(fMemo->Text(), "") == 0
-		   && fCompareMenu->FindMarkedIndex() == 0 && strcmp(fAmount->Text(), "") == 0;
+		&& strcmp(fCategory->Text(), "") == 0 && strcmp(fMemo->Text(), "") == 0
+		&& fCompareMenu->FindMarkedIndex() == 0 && strcmp(fAmount->Text(), "") == 0;
 }
 
+
 void
-FilterView::SendFilterMessage(void)
+FilterView::SendFilterMessage()
 {
 	BMessage filterMsg(M_FILTER);
 	filterMsg.AddString("payee", fPayee->Text());

@@ -1,11 +1,11 @@
 #include "SplitViewFilter.h"
-#include <Button.h>
-#include <Catalog.h>
-#include <TextControl.h>
 #include "Account.h"
 #include "CategoryBox.h"
 #include "Database.h"
 #include "MsgDefs.h"
+#include <Button.h>
+#include <Catalog.h>
+#include <TextControl.h>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -13,12 +13,17 @@
 
 
 SplitViewFilter::SplitViewFilter(SplitView* checkview)
-	: BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN),
-	  fView(checkview)
+	:
+	BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN),
+	fView(checkview)
 {
 }
 
-SplitViewFilter::~SplitViewFilter(void) {}
+
+SplitViewFilter::~SplitViewFilter()
+{
+}
+
 
 filter_result
 SplitViewFilter::Filter(BMessage* msg, BHandler** target)
@@ -146,13 +151,12 @@ SplitViewFilter::Filter(BMessage* msg, BHandler** target)
 
 				BMessage editmsg(M_EDIT_KEY);
 
-				if (text == fView->fSplitCategory) {
+				if (text == fView->fSplitCategory)
 					editmsg.AddInt32("command", M_SPLIT_CATEGORY_CHANGED);
-				} else if (text == fView->fSplitAmount) {
+				else if (text == fView->fSplitAmount)
 					editmsg.AddInt32("command", M_SPLIT_AMOUNT_CHANGED);
-				} else if (text == fView->fSplitMemo) {
+				else if (text == fView->fSplitMemo)
 					editmsg.AddInt32("command", M_SPLIT_MEMO_CHANGED);
-				}
 
 				fView->fMessenger->SendMessage(&editmsg);
 				break;
@@ -160,21 +164,19 @@ SplitViewFilter::Filter(BMessage* msg, BHandler** target)
 			default:
 			{
 				if (text == fView->fSplitAmount) {
-					BString amount_disallowed(
-						"`~!@#$%^&*()_-+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
-						"ZXCVBNM<>?qwertyuiopasdfghjklzxcvbnm");
+					BString amount_disallowed("`~!@#$%^&*()_-+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
+											  "ZXCVBNM<>?qwertyuiopasdfghjklzxcvbnm");
 					if (amount_disallowed.FindFirst(rawchar) != B_ERROR)
 						return B_SKIP_MESSAGE;
 				}
 
 				BMessage keymsg(M_EDIT_KEY);
-				if (text == fView->fSplitCategory) {
+				if (text == fView->fSplitCategory)
 					keymsg.AddInt32("command", M_SPLIT_CATEGORY_CHANGED);
-				} else if (text == fView->fSplitAmount) {
+				else if (text == fView->fSplitAmount)
 					keymsg.AddInt32("command", M_SPLIT_AMOUNT_CHANGED);
-				} else if (text == fView->fSplitMemo) {
+				else if (text == fView->fSplitMemo)
 					keymsg.AddInt32("command", M_SPLIT_MEMO_CHANGED);
-				}
 
 				fView->fMessenger->SendMessage(&keymsg);
 				break;
@@ -192,8 +194,8 @@ SplitViewFilter::Filter(BMessage* msg, BHandler** target)
 
 			if (autocomplete.CountChars() > 0
 				&& autocomplete
-					   != B_TRANSLATE_ALL(
-						   "Split", "CommonTerms", "The noun 'split', as in 'a split-category'")) {
+					!= B_TRANSLATE_ALL("Split", "CommonTerms",
+						"The noun 'split', as in 'a split-category'")) {
 				BMessage automsg(M_CATEGORY_AUTOCOMPLETE);
 				automsg.AddInt32("start", strlen(text->Text()) + 1);
 				automsg.AddString("string", autocomplete.String());

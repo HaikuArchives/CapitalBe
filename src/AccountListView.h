@@ -10,8 +10,8 @@ class Account;
 
 class AccountList : public BListView {
 public:
-	AccountList(void);
-	~AccountList(void);
+	AccountList();
+	~AccountList();
 
 	virtual void MessageReceived(BMessage* message);
 	void MouseDown(BPoint position);
@@ -25,7 +25,7 @@ private:
 class AccountContext : public BPopUpMenu {
 public:
 	AccountContext(const char* name, BMessenger target);
-	virtual ~AccountContext(void);
+	virtual ~AccountContext();
 
 private:
 	BMessenger fTarget;
@@ -37,12 +37,12 @@ public:
 	AccountListItem(Account* acc);
 	void SetEnabled(bool enabled);
 
-	bool IsEnabled(void) const { return fEnabled; }
+	bool IsEnabled() const { return fEnabled; }
 
 	void DrawItem(BView* owner, BRect frame, bool complete = false);
 	void Update(BView* owner, const BFont* finfo);
 
-	Account* GetAccount(void) const { return fAccount; }
+	Account* GetAccount() const { return fAccount; }
 
 private:
 	Account* fAccount;

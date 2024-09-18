@@ -22,7 +22,8 @@
 
 
 RegisterView::RegisterView(const char* name, int32 flags)
-	: BView(name, flags | B_FRAME_EVENTS)
+	:
+	BView(name, flags | B_FRAME_EVENTS)
 {
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
@@ -103,7 +104,7 @@ RegisterView::RegisterView(const char* name, int32 flags)
 }
 // clang-format on
 
-RegisterView::~RegisterView(void)
+RegisterView::~RegisterView()
 {
 	prefsLock.Lock();
 	gPreferences.RemoveData("selected-account");
@@ -111,8 +112,9 @@ RegisterView::~RegisterView(void)
 	prefsLock.Unlock();
 }
 
+
 void
-RegisterView::AttachedToWindow(void)
+RegisterView::AttachedToWindow()
 {
 	fAccountView->SetTarget(this);
 	fFilterView->SetMessenger(new BMessenger(this));
@@ -126,6 +128,7 @@ RegisterView::AttachedToWindow(void)
 
 	fCheckView->MakeFocus(true);
 }
+
 
 void
 RegisterView::MessageReceived(BMessage* msg)
@@ -162,6 +165,7 @@ RegisterView::MessageReceived(BMessage* msg)
 		}
 	}
 }
+
 
 void
 RegisterView::HandleNotify(const uint64& value, const BMessage* msg)
@@ -214,6 +218,7 @@ RegisterView::HandleNotify(const uint64& value, const BMessage* msg)
 		Window()->Unlock();
 }
 
+
 void
 RegisterView::SelectAccount(const int32& index)
 {
@@ -222,6 +227,7 @@ RegisterView::SelectAccount(const int32& index)
 
 	fAccountView->Select(index);
 }
+
 
 void
 RegisterView::SetCheckFields(TransactionData data)
@@ -232,8 +238,8 @@ RegisterView::SetCheckFields(TransactionData data)
 	BString date;
 	gDefaultLocale.DateToString(GetCurrentDate(), date);
 
-	fCheckView->SetFields(
-		date, data.Type().Type(), data.Payee(), amount.String(), data.NameAt(0), data.MemoAt(0));
+	fCheckView->SetFields(date, data.Type().Type(), data.Payee(), amount.String(), data.NameAt(0),
+		data.MemoAt(0));
 
 	BTextControl* dateBox = (BTextControl*)fCheckView->FindView("dateentry");
 	dateBox->TextView()->MakeFocus(true);

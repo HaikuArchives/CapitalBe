@@ -1,15 +1,21 @@
 #include "ReportGrid.h"
 #include <stdio.h>
 
+
 ReportGrid::ReportGrid(const uint32& width, const uint32& height)
-	: fList(20, true),
-	  fWidth(width)
+	:
+	fList(20, true),
+	fWidth(width)
 {
 	for (uint32 i = 0; i < height; i++)
 		AddItem();
 }
 
-ReportGrid::~ReportGrid(void) {}
+
+ReportGrid::~ReportGrid()
+{
+}
+
 
 const char*
 ReportGrid::RowTitle(const int32& index)
@@ -18,6 +24,7 @@ ReportGrid::RowTitle(const int32& index)
 
 	return (record) ? record->Title() : NULL;
 }
+
 
 void
 ReportGrid::SetRowTitle(const int32& index, const char* title)
@@ -43,6 +50,7 @@ ReportGrid::FindTitle(const char* title)
 	return -1;
 }
 
+
 status_t
 ReportGrid::ValueAt(const uint32& x, const uint32& y, Fixed& fixed)
 {
@@ -56,6 +64,7 @@ ReportGrid::ValueAt(const uint32& x, const uint32& y, Fixed& fixed)
 
 	return record->ValueAt(x, fixed);
 }
+
 
 status_t
 ReportGrid::SetValue(const uint32& x, const uint32& y, const Fixed& fixed)
@@ -71,9 +80,10 @@ ReportGrid::SetValue(const uint32& x, const uint32& y, const Fixed& fixed)
 	return record->SetValue(x, fixed);
 }
 
+
 int
-ReportGrid::CompareGridrecord(
-	const ReportGrid::GridRecord* item1, const ReportGrid::GridRecord* item2)
+ReportGrid::CompareGridrecord(const ReportGrid::GridRecord* item1,
+	const ReportGrid::GridRecord* item2)
 {
 	//	ReportGrid::GridRecord *listitem1 = *((ReportGrid::GridRecord**)item1);
 	//	ReportGrid::GridRecord *listitem2 = *((ReportGrid::GridRecord**)item2);
@@ -81,6 +91,7 @@ ReportGrid::CompareGridrecord(
 	//	return strcmp(listitem1->Title(),listitem2->Title());
 	return strcmp(item1->Title(), item2->Title());
 }
+
 
 void
 ReportGrid::AddItem(const int32& index)
@@ -91,6 +102,7 @@ ReportGrid::AddItem(const int32& index)
 		fList.AddItem(new ReportGrid::GridRecord(fWidth), index);
 }
 
+
 void
 ReportGrid::RemoveItem(const int32& index)
 {
@@ -99,24 +111,27 @@ ReportGrid::RemoveItem(const int32& index)
 		delete item;
 }
 
+
 void
-ReportGrid::MakeEmpty(void)
+ReportGrid::MakeEmpty()
 {
 	fList.MakeEmpty();
 }
 
+
 void
-ReportGrid::Sort(void)
+ReportGrid::Sort()
 {
 	fList.SortItems(CompareGridrecord);
 }
 
+
 void
-ReportGrid::PrintToStream(void)
+ReportGrid::PrintToStream()
 {
-	if (CountItems() == 0) {
+	if (CountItems() == 0)
 		printf("Grid is empty\n");
-	} else
+	else {
 		for (int32 i = 0; i < CountItems(); i++) {
 			ReportGrid::GridRecord* item = fList.ItemAt(i);
 
@@ -128,6 +143,7 @@ ReportGrid::PrintToStream(void)
 			}
 			printf("\n");
 		}
+	}
 	printf("\n");
 }
 
@@ -135,14 +151,16 @@ ReportGrid::PrintToStream(void)
 
 
 ReportGrid::GridRecord::GridRecord(const uint32& size, const char* title)
-	: fList(size),
-	  fTitle(title)
+	:
+	fList(size),
+	fTitle(title)
 {
 	for (uint32 i = 0; i < size; i++)
 		fList.AddItem(new Fixed());
 }
 
-ReportGrid::GridRecord::~GridRecord(void)
+
+ReportGrid::GridRecord::~GridRecord()
 {
 	for (int32 i = 0; i < fList.CountItems(); i++) {
 		Fixed* item = (Fixed*)fList.ItemAt(i);
@@ -162,6 +180,7 @@ ReportGrid::GridRecord::ValueAt(const uint32& index, Fixed& fixed)
 	fixed = *item;
 	return B_OK;
 }
+
 
 status_t
 ReportGrid::GridRecord::SetValue(const uint32& index, const Fixed& fixed)

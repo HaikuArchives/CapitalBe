@@ -46,15 +46,17 @@ enum {
 	M_TOGGLE_GRAPH
 };
 
+
 ReportWindow::ReportWindow(BRect frame)
-	: BWindow(frame, B_TRANSLATE("Reports"), B_DOCUMENT_WINDOW,
+	:
+	BWindow(frame, B_TRANSLATE("Reports"), B_DOCUMENT_WINDOW,
 		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
-	  fSubtotalMode(SUBTOTAL_NONE),
-	  fReportMode(REPORT_CASH_FLOW),
-	  fStartDate(GetCurrentYear()),
-	  fEndDate(GetCurrentDate()),
-	  fTitleFont(be_bold_font),
-	  fHeaderFont(be_plain_font)
+	fSubtotalMode(SUBTOTAL_NONE),
+	fReportMode(REPORT_CASH_FLOW),
+	fStartDate(GetCurrentYear()),
+	fEndDate(GetCurrentDate()),
+	fTitleFont(be_bold_font),
+	fHeaderFont(be_plain_font)
 {
 	BString temp;
 
@@ -159,8 +161,8 @@ ReportWindow::ReportWindow(BRect frame)
 
 	temp = B_TRANSLATE("Starting date:");
 
-	fStartDateBox = new DateBox(
-		"startdate", temp.String(), datestring.String(), new BMessage(M_START_DATE_CHANGED));
+	fStartDateBox = new DateBox("startdate", temp.String(), datestring.String(),
+		new BMessage(M_START_DATE_CHANGED));
 	fStartDateBox->SetDate(GetCurrentYear());
 	CalendarButton* calendarStartButton = new CalendarButton(fStartDateBox);
 
@@ -179,8 +181,8 @@ ReportWindow::ReportWindow(BRect frame)
 	gDefaultLocale.DateToString(GetCurrentDate(), datestring);
 	temp = B_TRANSLATE("Ending date:");
 
-	fEndDateBox = new DateBox(
-		"enddate", temp.String(), datestring.String(), new BMessage(M_END_DATE_CHANGED));
+	fEndDateBox = new DateBox("enddate", temp.String(), datestring.String(),
+		new BMessage(M_END_DATE_CHANGED));
 	fEndDateBox->SetDate(GetCurrentDate());
 	CalendarButton* calendarEndButton = new CalendarButton(fEndDateBox);
 
@@ -252,6 +254,7 @@ ReportWindow::ReportWindow(BRect frame)
 	fAccountList->SetSelectionMessage(new BMessage(M_TOGGLE_ACCOUNT));
 }
 
+
 void
 ReportWindow::HandleNotify(const uint64& value, const BMessage* msg)
 {
@@ -275,6 +278,7 @@ ReportWindow::HandleNotify(const uint64& value, const BMessage* msg)
 	RenderReport();
 	Unlock();
 }
+
 
 void
 ReportWindow::MessageReceived(BMessage* msg)
@@ -356,8 +360,8 @@ ReportWindow::MessageReceived(BMessage* msg)
 					fStartDate = fEndDate;
 				RenderReport();
 			} else {
-				ShowAlert(B_TRANSLATE_CONTEXT(
-							  "CapitalBe didn't understand the date you entered", "TextInput"),
+				ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the date you entered",
+							  "TextInput"),
 					B_TRANSLATE_CONTEXT(
 						"CapitalBe understands lots of different ways of entering dates. "
 						"Apparently, this wasn't one of them. You'll need to change how you "
@@ -382,8 +386,8 @@ ReportWindow::MessageReceived(BMessage* msg)
 					fStartDate = fEndDate;
 				RenderReport();
 			} else {
-				ShowAlert(B_TRANSLATE_CONTEXT(
-							  "CapitalBe didn't understand the date you entered", "TextInput"),
+				ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the date you entered",
+							  "TextInput"),
 					B_TRANSLATE_CONTEXT(
 						"CapitalBe understands lots of different ways of entering dates. "
 						"Apparently, this wasn't one of them. You'll need to change how you "
@@ -425,6 +429,7 @@ ReportWindow::MessageReceived(BMessage* msg)
 	}
 }
 
+
 void
 ReportWindow::FrameResized(float w, float h)
 {
@@ -447,6 +452,7 @@ ReportWindow::FrameResized(float w, float h)
 
 	FixGridScrollbar();
 }
+
 
 void
 ReportWindow::AddAccount(Account* acc)
@@ -494,8 +500,9 @@ ReportWindow::AddAccount(Account* acc)
 	}
 }
 
+
 void
-ReportWindow::FixGridScrollbar(void)
+ReportWindow::FixGridScrollbar()
 {
 	BScrollBar* bar = fGridView->ScrollBar(B_VERTICAL);
 	if (!bar)
@@ -517,7 +524,7 @@ ReportWindow::FixGridScrollbar(void)
 }
 
 /*
-void ReportWindow::CalcAccountString(void)
+void ReportWindow::CalcAccountString()
 {
 	// Compile list of selected accounts
 	fAccountString = "";
@@ -535,7 +542,7 @@ void ReportWindow::CalcAccountString(void)
 }
 */
 void
-ReportWindow::CalcCategoryString(void)
+ReportWindow::CalcCategoryString()
 {
 	// Compile list of selected categories
 	fCategoryString = "";
@@ -551,8 +558,9 @@ ReportWindow::CalcCategoryString(void)
 	}
 }
 
+
 void
-ReportWindow::RenderReport(void)
+ReportWindow::RenderReport()
 {
 	fGridView->Clear();
 	BColumn* column = fGridView->ColumnAt(0);
@@ -592,8 +600,9 @@ ReportWindow::RenderReport(void)
 	FixGridScrollbar();
 }
 
+
 bool
-ReportWindow::QuitRequested(void)
+ReportWindow::QuitRequested()
 {
 	// We need to remove this window's observer object from each account's notifier, or else
 	// we will crash the app after closing the window and selecting an account
@@ -622,11 +631,10 @@ compare_stringitem(const void* item1, const void* item2)
 	int len1 = (stritem1 && stritem1->Text()) ? strlen(stritem1->Text()) : 0;
 	int len2 = (stritem2 && stritem2->Text()) ? strlen(stritem2->Text()) : 0;
 
-	if (len1 < 1) {
+	if (len1 < 1)
 		return (len2 < 1) ? 0 : 1;
-	} else if (len2 < 1) {
+	else if (len2 < 1)
 		return (len1 < 1) ? 0 : -1;
-	}
 
 	return strcmp(stritem1->Text(), stritem2->Text());
 }

@@ -61,13 +61,13 @@ class CurrencyPrefView : public BView {
 public:
 	CurrencyPrefView(const char* name, Locale* locale = NULL, const int32& flags = B_WILL_DRAW);
 
-	void AttachedToWindow(void);
+	void AttachedToWindow();
 	void MessageReceived(BMessage* msg);
 
 	void GetSettings(Locale& locale);
 
 private:
-	void UpdateCurrencyLabel(void);
+	void UpdateCurrencyLabel();
 
 	BBox* fCurrencyBox;
 	AutoTextControl* fCurrencySymbolBox;
@@ -83,7 +83,7 @@ class NegativeNumberView : public BView {
 public:
 	NegativeNumberView(const char* name, rgb_color negColor);
 
-	void AttachedToWindow(void);
+	void AttachedToWindow();
 	void MessageReceived(BMessage* msg);
 
 	void GetColor(rgb_color& color);

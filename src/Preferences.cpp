@@ -32,6 +32,7 @@ SavePreferences()
 	return status;
 }
 
+
 status_t
 LoadPreferences()
 {

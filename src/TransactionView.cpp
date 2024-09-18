@@ -17,8 +17,9 @@
 
 
 TransactionView::TransactionView()
-	: BView("transactionview", B_WILL_DRAW | B_SUBPIXEL_PRECISE | B_FRAME_EVENTS),
-	  fCurrent(NULL)
+	:
+	BView("transactionview", B_WILL_DRAW | B_SUBPIXEL_PRECISE | B_FRAME_EVENTS),
+	fCurrent(NULL)
 {
 	InitTransactionItemLayout(this);
 
@@ -32,14 +33,16 @@ TransactionView::TransactionView()
 	BLayoutBuilder::Group<>(this, B_VERTICAL, 0).SetInsets(0).Add(fScrollView).End();
 }
 
-TransactionView::~TransactionView(void)
+
+TransactionView::~TransactionView()
 {
 	fListView->MakeEmpty();
 	delete fItemList;
 }
 
+
 void
-TransactionView::AttachedToWindow(void)
+TransactionView::AttachedToWindow()
 {
 	SetViewColor(Parent()->ViewColor());
 	fListView->SetTarget(this);
@@ -57,6 +60,7 @@ TransactionView::AttachedToWindow(void)
 		account->AddObserver(this);
 	}
 }
+
 
 void
 TransactionView::SetAccount(Account* acc, BMessage* msg)
@@ -158,6 +162,7 @@ TransactionView::SetAccount(Account* acc, BMessage* msg)
 	}
 }
 
+
 TransactionItem*
 TransactionView::AddTransaction(const TransactionData& trans, const int32& index)
 {
@@ -173,6 +178,7 @@ TransactionView::AddTransaction(const TransactionData& trans, const int32& index
 	return (TransactionItem*)transitem;
 }
 
+
 void
 TransactionView::DeleteTransaction(const int32& index)
 {
@@ -186,6 +192,7 @@ TransactionView::DeleteTransaction(const int32& index)
 	fItemList->RemoveItemAt(index);
 }
 
+
 void
 TransactionView::Draw(BRect updateRect)
 {
@@ -196,12 +203,14 @@ TransactionView::Draw(BRect updateRect)
 	StrokeRect(frame);
 }
 
+
 void
-TransactionView::EditTransaction(void)
+TransactionView::EditTransaction()
 {
 	int32 cs = fListView->CurrentSelection();
 	fListView->InvalidateItem(cs);
 }
+
 
 void
 TransactionView::MessageReceived(BMessage* message)
@@ -236,6 +245,7 @@ TransactionView::MessageReceived(BMessage* message)
 		}
 	}
 }
+
 
 void
 TransactionView::HandleNotify(const uint64& value, const BMessage* msg)
@@ -313,9 +323,8 @@ TransactionView::HandleNotify(const uint64& value, const BMessage* msg)
 			}
 */		}
 	} else if (value & WATCH_ACCOUNT) {
-		if (value & WATCH_REDRAW) {
+		if (value & WATCH_REDRAW)
 			fListView->Invalidate();
-		}
 
 		Account* acc;
 		if (msg->FindPointer("item", (void**)&acc) != B_OK) {
@@ -346,6 +355,7 @@ TransactionView::HandleNotify(const uint64& value, const BMessage* msg)
 		Window()->Unlock();
 }
 
+
 void
 TransactionView::FrameResized(float width, float height)
 {
@@ -357,8 +367,9 @@ TransactionView::FrameResized(float width, float height)
 	bar->SetSteps(small, big);
 }
 
+
 bool
-TransactionView::SelectNext(void)
+TransactionView::SelectNext()
 {
 	int32 index = fListView->CurrentSelection();
 	if (index < 0 || index >= fListView->CountItems() - 1)
@@ -368,8 +379,9 @@ TransactionView::SelectNext(void)
 	return true;
 }
 
+
 bool
-TransactionView::SelectPrevious(void)
+TransactionView::SelectPrevious()
 {
 	int32 index = fListView->CurrentSelection();
 	if (index <= 0)
@@ -379,8 +391,9 @@ TransactionView::SelectPrevious(void)
 	return true;
 }
 
+
 bool
-TransactionView::SelectFirst(void)
+TransactionView::SelectFirst()
 {
 	if (fListView->CountItems() <= 0)
 		return false;
@@ -389,8 +402,9 @@ TransactionView::SelectFirst(void)
 	return true;
 }
 
+
 bool
-TransactionView::SelectLast(void)
+TransactionView::SelectLast()
 {
 	if (fListView->CountItems() <= 0)
 		return false;
@@ -398,6 +412,7 @@ TransactionView::SelectLast(void)
 	fListView->ScrollToSelection();
 	return true;
 }
+
 
 int32
 TransactionView::FindItemForID(const uint32& id)
@@ -409,6 +424,7 @@ TransactionView::FindItemForID(const uint32& id)
 	}
 	return -1;
 }
+
 
 int32
 TransactionView::FindIndexForDate(const time_t& time, const char* payee)
@@ -433,14 +449,20 @@ TransactionView::FindIndexForDate(const time_t& time, const char* payee)
 	return fListView->CountItems();
 }
 
-TransactionList::TransactionList(void)
-	: BListView("TransactionList", B_SINGLE_SELECTION_LIST,
+
+TransactionList::TransactionList()
+	:
+	BListView("TransactionList", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE),
-	  fShowingPopUpMenu(false)
+	fShowingPopUpMenu(false)
 {
 }
 
-TransactionList::~TransactionList(void) {}
+
+TransactionList::~TransactionList()
+{
+}
+
 
 void
 TransactionList::MessageReceived(BMessage* message)
@@ -458,6 +480,7 @@ TransactionList::MessageReceived(BMessage* message)
 		}
 	}
 }
+
 
 void
 TransactionList::MouseDown(BPoint position)
@@ -477,6 +500,7 @@ TransactionList::MouseDown(BPoint position)
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "MainWindow"
+
 
 void
 TransactionList::ShowPopUpMenu(BPoint position)
@@ -503,17 +527,19 @@ TransactionList::ShowPopUpMenu(BPoint position)
 
 
 TransactionContext::TransactionContext(const char* name, BMessenger target)
-	: BPopUpMenu(name, false, false),
-	  fTarget(target)
+	:
+	BPopUpMenu(name, false, false),
+	fTarget(target)
 {
 	SetAsyncAutoDestruct(true);
 }
 
 
-TransactionContext::~TransactionContext(void)
+TransactionContext::~TransactionContext()
 {
 	fTarget.SendMessage(M_CONTEXT_CLOSE);
 }
+
 
 void
 TransactionView::CalculatePeriod(int32 period, time_t& start, time_t& end)
@@ -521,8 +547,8 @@ TransactionView::CalculatePeriod(int32 period, time_t& start, time_t& end)
 	time_t now = time(NULL);
 	struct tm tm_now = *localtime(&now);
 
-	int year = tm_now.tm_year + 1900;  // tm_year is years since 1900
-	int month = tm_now.tm_mon + 1;	   // tm_mon is months since January [0-11]
+	int year = tm_now.tm_year + 1900; // tm_year is years since 1900
+	int month = tm_now.tm_mon + 1; // tm_mon is months since January [0-11]
 
 	// Initialize start and end times
 	struct tm tm_start = {0};
@@ -600,14 +626,15 @@ TransactionView::CalculatePeriod(int32 period, time_t& start, time_t& end)
 	end = mktime(&tm_end);
 }
 
+
 BString
 TransactionView::GenerateQueryCommand(int32 accountID, BMessage* message)
 {
 	BString command;
-	if (message == NULL) {	// return default query
+	if (message == NULL) { // return default query
 		command << "SELECT * FROM account_" << accountID << " ORDER BY date,payee";
 		return command;
-	} else {  // generate filtering query based on message content
+	} else { // generate filtering query based on message content
 		BString payee, category, memo, amount;
 		int32 moreless, period;
 		CppSQLite3Buffer sqlBuf;
@@ -618,7 +645,7 @@ TransactionView::GenerateQueryCommand(int32 accountID, BMessage* message)
 		if (message->FindString("payee", &payee) == B_OK && payee.Length() > 0) {
 			payee.Prepend("%");
 			payee.Append("%");
-			sqlBuf.format("%Q", payee.String());  // Make sure the string is escaped
+			sqlBuf.format("%Q", payee.String()); // Make sure the string is escaped
 			command << " WHERE LOWER(payee) LIKE LOWER(" << sqlBuf << ")";
 			hasConditions = true;
 		}
@@ -627,7 +654,7 @@ TransactionView::GenerateQueryCommand(int32 accountID, BMessage* message)
 			command << (!hasConditions ? " WHERE " : " AND ");
 			category.Prepend("%");
 			category.Append("%");
-			sqlBuf.format("%Q", category.String());	 // Make sure the string is escaped
+			sqlBuf.format("%Q", category.String()); // Make sure the string is escaped
 			command << " LOWER(category) LIKE LOWER(" << sqlBuf << ")";
 			hasConditions = true;
 		}
@@ -636,13 +663,13 @@ TransactionView::GenerateQueryCommand(int32 accountID, BMessage* message)
 			command << (!hasConditions ? " WHERE " : " AND ");
 			memo.Prepend("%");
 			memo.Append("%");
-			sqlBuf.format("%Q", memo.String());	 // Make sure the string is escaped
+			sqlBuf.format("%Q", memo.String()); // Make sure the string is escaped
 			command << " LOWER(memo) LIKE LOWER(" << sqlBuf << ")";
 			hasConditions = true;
 		}
 
 		if (message->FindString("amount", &amount) == B_OK && amount.Length() > 0) {
-			Fixed convertedAmount;	// To match how numbers are stored in DB
+			Fixed convertedAmount; // To match how numbers are stored in DB
 			gCurrentLocale.StringToCurrency(amount, convertedAmount);
 			command << (!hasConditions ? " WHERE " : " AND ");
 			BString compSymbol = "<=";

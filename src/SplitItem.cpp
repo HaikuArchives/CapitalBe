@@ -1,15 +1,21 @@
 #include "SplitItem.h"
 #include "Database.h"
 
-SplitItem::SplitItem(void)
-	: BStringItem(""),
-	  fName(""),
-	  fAmount(0L),
-	  fMemo("")
+
+SplitItem::SplitItem()
+	:
+	BStringItem(""),
+	fName(""),
+	fAmount(0L),
+	fMemo("")
 {
 }
 
-SplitItem::~SplitItem(void) {}
+
+SplitItem::~SplitItem()
+{
+}
+
 
 void
 SplitItem::SetCategory(const char* value)
@@ -18,11 +24,13 @@ SplitItem::SetCategory(const char* value)
 	UpdateLabel();
 }
 
+
 const char*
-SplitItem::GetCategory(void) const
+SplitItem::GetCategory() const
 {
 	return fName.String();
 }
+
 
 void
 SplitItem::SetAmount(const Fixed& fixed)
@@ -31,11 +39,13 @@ SplitItem::SetAmount(const Fixed& fixed)
 	UpdateLabel();
 }
 
+
 Fixed
-SplitItem::GetAmount(void) const
+SplitItem::GetAmount() const
 {
 	return fAmount;
 }
+
 
 void
 SplitItem::SetMemo(const char* value)
@@ -44,14 +54,16 @@ SplitItem::SetMemo(const char* value)
 	UpdateLabel();
 }
 
+
 const char*
-SplitItem::GetMemo(void) const
+SplitItem::GetMemo() const
 {
 	return fMemo.String();
 }
 
+
 void
-SplitItem::UpdateLabel(void)
+SplitItem::UpdateLabel()
 {
 	BString text = fName;
 	BString amount;

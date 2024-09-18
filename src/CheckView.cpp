@@ -31,8 +31,10 @@ enum {
 	M_ENTER_TRANSACTION = 'entr'
 };
 
+
 CheckView::CheckView(const char* name, int32 flags)
-	: BView(name, flags | B_FRAME_EVENTS)
+	:
+	BView(name, flags | B_FRAME_EVENTS)
 {
 	BStringView* dateLabel
 		= new BStringView("datelabel", B_TRANSLATE_CONTEXT("Date", "CommonTerms"));
@@ -113,10 +115,14 @@ CheckView::CheckView(const char* name, int32 flags)
 	// clang-format on
 }
 
-CheckView::~CheckView(void) {}
+
+CheckView::~CheckView()
+{
+}
+
 
 void
-CheckView::AttachedToWindow(void)
+CheckView::AttachedToWindow()
 {
 	SetViewColor(Parent()->ViewColor());
 	fDate->GetFilter()->SetMessenger(new BMessenger(this));
@@ -127,6 +133,7 @@ CheckView::AttachedToWindow(void)
 
 	fEnter->SetTarget(this);
 }
+
 
 void
 CheckView::MessageReceived(BMessage* msg)
@@ -234,8 +241,9 @@ CheckView::MessageReceived(BMessage* msg)
 	}
 }
 
+
 void
-CheckView::ClearAllFields(void)
+CheckView::ClearAllFields()
 {
 	fDate->SetText("");
 	fPayee->SetText("");
@@ -243,6 +251,7 @@ CheckView::ClearAllFields(void)
 	fCategory->SetText("");
 	fMemo->SetText("");
 }
+
 
 void
 CheckView::SetFields(const char* date, const char* type, const char* payee, const char* amount,
@@ -257,6 +266,7 @@ CheckView::SetFields(const char* date, const char* type, const char* payee, cons
 	fCategory->SetText(category);
 	fMemo->SetText(memo);
 }
+
 
 void
 CheckView::HandleNotify(const uint64& value, const BMessage* msg)
@@ -313,8 +323,9 @@ CheckView::HandleNotify(const uint64& value, const BMessage* msg)
 	}
 }
 
+
 void
-CheckView::MakeEmpty(void)
+CheckView::MakeEmpty()
 {
 	fDate->SetText("");
 	fPayee->SetText("");
@@ -323,19 +334,22 @@ CheckView::MakeEmpty(void)
 	fMemo->SetText("");
 }
 
+
 void
 CheckView::MakeFocus(bool value)
 {
 	fDate->MakeFocus(value);
 }
 
+
 void
 CheckView::FrameResized(float width, float height)
 {
 }
 
+
 void
-CheckView::DoNextField(void)
+CheckView::DoNextField()
 {
 	if (fDate->ChildAt(0)->IsFocus()) {
 		if (fDate->Validate(false)) {
@@ -361,6 +375,7 @@ CheckView::DoNextField(void)
 		ShowBug("M_NEXT_FIELD received for unknown view in CheckView");
 	}
 }
+
 
 void
 CheckView::SetFieldsEnabled(bool enabled)

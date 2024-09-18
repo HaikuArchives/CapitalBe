@@ -8,27 +8,32 @@
 #include <stdio.h>
 #include <string.h>
 
+
 TextFile::TextFile(const char* path, const uint32& openmode)
-	: BFile(path, openmode)
+	:
+	BFile(path, openmode)
 {
 	InitObject();
 }
 
 
 TextFile::TextFile(const entry_ref& ref, const uint32& openmode)
-	: BFile(&ref, openmode)
+	:
+	BFile(&ref, openmode)
 {
 	InitObject();
 }
 
-TextFile::~TextFile(void)
+
+TextFile::~TextFile()
 {
 	delete[] fBuffer;
 	delete[] fReadBuffer;
 }
 
+
 void
-TextFile::InitObject(void)
+TextFile::InitObject()
 {
 	fReadBuffer = new char[4096];
 	fReadBufferSize = 4096;
@@ -49,7 +54,7 @@ TextFile::InitObject(void)
 
 
 const char*
-TextFile::ReadLine(void)
+TextFile::ReadLine()
 {
 	off_t pos = Position();
 
@@ -83,8 +88,9 @@ TextFile::ReadLine(void)
 	return fReadBuffer;
 }
 
+
 bool
-TextFile::IsEOF(void)
+TextFile::IsEOF()
 {
 	return (Position() > fBufferSize);
 }

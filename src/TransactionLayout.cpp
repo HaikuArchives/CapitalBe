@@ -7,6 +7,7 @@ static uint8 sNumWidth = 0;
 static uint8 sDateWidth = 0;
 static uint8 sAmountWidth = 0;
 
+
 void
 InitTransactionItemLayout(BView* owner)
 {
@@ -20,32 +21,37 @@ InitTransactionItemLayout(BView* owner)
 	sAmountWidth = (uint8)owner->StringWidth("00,000,000.00");
 }
 
+
 uint8
-TLeftPadding(void)
+TLeftPadding()
 {
 	return sLeftPadding;
 }
 
+
 uint8
-TRowHeight(void)
+TRowHeight()
 {
 	return sRowHeight;
 }
 
+
 uint8
-TNumWidth(void)
+TNumWidth()
 {
 	return sNumWidth;
 }
 
+
 uint8
-TDateWidth(void)
+TDateWidth()
 {
 	return sDateWidth;
 }
 
+
 uint8
-TAmountWidth(void)
+TAmountWidth()
 {
 	return sAmountWidth;
 }

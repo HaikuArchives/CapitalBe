@@ -28,7 +28,7 @@ bool IsInternalCategory(const char* category);
 class Database : public Notifier {
 public:
 	Database(const char* file = NULL);
-	~Database(void);
+	~Database();
 
 	// ---------------------------------------------------------------------------
 	// Old API functions (list-based)
@@ -36,16 +36,16 @@ public:
 	Account* SetCurrentAccount(const int32& index);
 	int32 SetCurrentAccount(Account* account);
 
-	Account* CurrentAccount(void) const { return fCurrent; }
+	Account* CurrentAccount() const { return fCurrent; }
 
 	Account* AccountAt(int32 index) { return fList.ItemAt(index); }
 
 	Account* AccountByName(const char* name);
 	Account* AccountByID(const uint32& accountid);
 
-	int32 CountAccounts(void) { return fList.CountItems(); }
+	int32 CountAccounts() { return fList.CountItems(); }
 
-	void PrintToStream(void) const;
+	void PrintToStream() const;
 
 	int32 IndexOf(Account* acc) { return fList.IndexOf(acc); }
 
@@ -60,7 +60,7 @@ public:
 	// ---------------------------------------------------------------------------
 	void CreateFile(const char* path);
 	status_t OpenFile(const char* path);
-	void CloseFile(void);
+	void CloseFile();
 
 	Account* AddAccount(const char* name, const AccountType& type, const char* status = "Open",
 		const Locale* locale = NULL);
@@ -72,11 +72,11 @@ public:
 	bool RemoveBudgetEntry(const char* category);
 	bool HasBudgetEntry(const char* category);
 	bool GetBudgetEntry(const char* name, BudgetEntry& entry);
-	int32 CountBudgetEntries(void);
+	int32 CountBudgetEntries();
 
 	void SetAccountLocale(const uint32& accountid, const Locale& data);
 	Locale LocaleForAccount(const uint32& id);
-	Locale GetDefaultLocale(void);
+	Locale GetDefaultLocale();
 	bool UsesDefaultLocale(const uint32& id);
 
 	bool AddTransaction(const uint32& accountid, const uint32& id, const time_t& date,
@@ -84,7 +84,7 @@ public:
 		const char* memo, const uint8& status = TRANS_OPEN);
 	bool AddTransaction(TransactionData& data, const bool& newid = true);
 	bool RemoveTransaction(const uint32& transid);
-	uint32 NextTransactionID(void);
+	uint32 NextTransactionID();
 	bool HasTransaction(const uint32& transid);
 	bool GetTransaction(const uint32& transid, TransactionData& data);
 	bool GetTransaction(const uint32& transid, const uint32& accountid, TransactionData& data);
@@ -96,7 +96,7 @@ public:
 	void AddScheduledTransaction(const ScheduledTransData& data, const bool& newid = true);
 	void RemoveScheduledTransaction(const uint32& id);
 	bool GetScheduledTransaction(const uint32& transid, ScheduledTransData& data);
-	uint32 CountScheduledTransactions(void);
+	uint32 CountScheduledTransactions();
 	uint32 CountScheduledTransactions(int accountid);
 
 	void AddCategory(const char* name, const bool& isexpense);
@@ -111,9 +111,9 @@ public:
 	CppSQLite3Query DBQuery(const char* query, const char* functionname);
 
 private:
-	status_t ApplyMigrations(void);
+	status_t ApplyMigrations();
 	status_t CreateDBBackup(int32 version);
-	status_t DeescapeDatabase(void);
+	status_t DeescapeDatabase();
 	int32 GetLastKey(const char* table, const char* column);
 
 	// Used to allow split scheduled transactions

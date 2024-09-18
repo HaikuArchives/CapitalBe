@@ -1,10 +1,10 @@
 #include "TransactionData.h"
-#include <File.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "Account.h"
 #include "CBLocale.h"
 #include "Database.h"
+#include <File.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 // #define DEBUG_TRANS
 #ifdef DEBUG_TRANS
@@ -13,39 +13,49 @@
 #define STRACE(x) /* nothing */
 #endif
 
-TransactionData::TransactionData(void)
-	: fDate(0),
-	  fType(""),
-	  fStatus(TRANS_OPEN),
-	  fID(0),
-	  fTimeStamp(0)
+
+TransactionData::TransactionData()
+	:
+	fDate(0),
+	fType(""),
+	fStatus(TRANS_OPEN),
+	fID(0),
+	fTimeStamp(0)
 {
 }
 
+
 TransactionData::TransactionData(Account* account, const char* date, const char* type,
 	const char* payee, const char* amount, const char* category, const char* memo, uint8 status)
-	: fDate(0),
-	  fType(type),
-	  fAccount(NULL),
-	  fStatus(TRANS_OPEN),
-	  fID(0),
-	  fTimeStamp(0)
+	:
+	fDate(0),
+	fType(type),
+	fAccount(NULL),
+	fStatus(TRANS_OPEN),
+	fID(0),
+	fTimeStamp(0)
 {
 	fCategory.MakeEmpty();
 	Set(account, date, type, payee, amount, category, memo, status);
 }
 
+
 TransactionData::TransactionData(const TransactionData& trans)
-	: fDate(0),
-	  fType(""),
-	  fStatus(TRANS_OPEN),
-	  fTimeStamp(0)
+	:
+	fDate(0),
+	fType(""),
+	fStatus(TRANS_OPEN),
+	fTimeStamp(0)
 {
 	fCategory.MakeEmpty();
 	*this = trans;
 }
 
-TransactionData::~TransactionData() {}
+
+TransactionData::~TransactionData()
+{
+}
+
 
 TransactionData&
 TransactionData::operator=(const TransactionData& from)
@@ -65,6 +75,7 @@ TransactionData::operator=(const TransactionData& from)
 
 	return *this;
 }
+
 
 status_t
 TransactionData::Set(Account* account, const char* date, const char* type, const char* payee,
@@ -97,22 +108,25 @@ TransactionData::Set(Account* account, const char* date, const char* type, const
 	return B_OK;
 }
 
+
 uint8
 TransactionData::Month()
 {
 	tm* t = localtime(&fDate);
-	return (t->tm_mon);
+	return t->tm_mon;
 }
+
 
 uint8
 TransactionData::Year()
 {
 	tm* t = localtime(&fDate);
-	return (t->tm_year);
+	return t->tm_year;
 }
 
+
 void
-TransactionData::PrintToStream(void)
+TransactionData::PrintToStream()
 {
 	BString str, temp;
 	gDefaultLocale.DateToString(fDate, str);
@@ -138,17 +152,20 @@ TransactionData::PrintToStream(void)
 	printf("%s", str.String());
 }
 
+
 void
 TransactionData::SetType(const TransactionType& type)
 {
 	fType = type;
 }
 
+
 void
 TransactionData::SetType(const char* type)
 {
 	fType.SetType(type);
 }
+
 
 void
 TransactionData::SetCategory(const char* cat)
@@ -164,11 +181,13 @@ TransactionData::SetCategory(const char* cat)
 	fCategory.AddItem(cat, fAmount);
 }
 
+
 void
 TransactionData::SetCategory(const Category& cat)
 {
 	fCategory = cat;
 }
+
 
 void
 TransactionData::AddCategory(const char* name, const Fixed& amount, const bool& recalculate)
@@ -185,8 +204,9 @@ TransactionData::AddCategory(const char* name, const Fixed& amount, const bool& 
 	}
 }
 
+
 void
-TransactionData::MakeEmpty(void)
+TransactionData::MakeEmpty()
 {
 	SetAccount(NULL);
 	SetDate(0);
@@ -198,8 +218,9 @@ TransactionData::MakeEmpty(void)
 	SetStatus(TRANS_OPEN);
 }
 
+
 bool
-TransactionData::IsValid(void) const
+TransactionData::IsValid() const
 {
 	if (fType.TypeCode() == TRANS_INIT)
 		return false;

@@ -1,9 +1,4 @@
 #include "Import.h"
-#include <Catalog.h>
-#include <File.h>
-#include <TypeConstants.h>
-#include <stdio.h>
-#include <time.h>
 #include "Account.h"
 #include "Budget.h"
 #include "CBLocale.h"
@@ -14,6 +9,11 @@
 #include "TextFile.h"
 #include "Transaction.h"
 #include "TransactionData.h"
+#include <Catalog.h>
+#include <File.h>
+#include <TypeConstants.h>
+#include <stdio.h>
+#include <time.h>
 
 #define DEBUG_IMPORT
 
@@ -45,6 +45,7 @@ BString ReadAccounts(BObjectList<Account>& list, TextFile& file);
 
 BString DateToQIFDate(const time_t& date);
 BString MakeCategoryString(const DStringList& list, const bool& isexpense);
+
 
 bool
 ImportQIF(const entry_ref& ref)
@@ -122,6 +123,7 @@ ImportQIF(const entry_ref& ref)
 	return importSuccess;
 }
 
+
 BString
 ReadCategories(BObjectList<Category>& list, TextFile& file)
 {
@@ -172,6 +174,7 @@ ReadCategories(BObjectList<Category>& list, TextFile& file)
 	return catdata;
 }
 
+
 BString
 ReadAccounts(BObjectList<Account>& list, TextFile& file)
 {
@@ -206,6 +209,7 @@ ReadAccounts(BObjectList<Account>& list, TextFile& file)
 	}
 	return accdata;
 }
+
 
 BString
 ReadTransactions(Account* account, TextFile& file)
@@ -299,10 +303,8 @@ ReadTransactions(Account* account, TextFile& file)
 
 				if (amount.IsPositive())
 					data.SetType("DEP");
-				else {
-					if (data.Type().TypeCode() == TRANS_INIT)
-						data.SetType("ATM");
-				}
+				else if (data.Type().TypeCode() == TRANS_INIT)
+					data.SetType("ATM");
 				break;
 			}
 			case 'L':
@@ -345,6 +347,7 @@ ReadTransactions(Account* account, TextFile& file)
 	return transdata;
 }
 
+
 bool
 ExportQIF(const entry_ref& ref)
 {
@@ -358,8 +361,8 @@ ExportQIF(const entry_ref& ref)
 
 	// Export categories and budget
 	DStringList incomelist, expenselist;
-	query = gDatabase.DBQuery(
-		"SELECT * FROM categorylist ORDER BY name", "ExportQIF:get category list");
+	query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name",
+		"ExportQIF:get category list");
 	while (!query.eof()) {
 		if (query.getIntField(1) == 1)
 			incomelist.AddItem(query.getStringField(0));
@@ -431,6 +434,7 @@ ExportQIF(const entry_ref& ref)
 	return true;
 }
 
+
 BString
 DateToQIFDate(const time_t& date)
 {
@@ -458,6 +462,7 @@ DateToQIFDate(const time_t& date)
 
 	return qifdate;
 }
+
 
 BString
 MakeCategoryString(const DStringList& list, const bool& isexpense)

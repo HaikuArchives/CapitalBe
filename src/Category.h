@@ -1,16 +1,16 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#include <File.h>
-#include <String.h>
 #include "Fixed.h"
 #include "ObjectList.h"
+#include <File.h>
+#include <String.h>
 
 class Category {
 public:
 	Category(const char* string = NULL, const Fixed& fixed = 0, const char* memo = NULL);
 	Category(const Category& from);
-	~Category(void);
+	~Category();
 
 	void SetNameAt(const int32& index, const char* string);
 	void SetAmountAt(const int32& index, const Fixed& fixed);
@@ -25,14 +25,14 @@ public:
 	bool RemoveItem(const char* name);
 	bool RemoveItem(const int32& index);
 
-	int32 CountItems(void) const { return fList->CountItems(); }
+	int32 CountItems() const { return fList->CountItems(); }
 
 	void Flatten(BFile* file);
-	void PrintToStream(void) const;
-	void Sort(void);
+	void PrintToStream() const;
+	void Sort();
 
 	Category& operator=(const Category& from);
-	void MakeEmpty(void);
+	void MakeEmpty();
 
 private:
 	class CatItem {

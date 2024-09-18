@@ -12,8 +12,9 @@ enum {
 
 
 CalendarButton::CalendarButton(DateBox* datebox)
-	: BButton("calenderbutton", "", new BMessage(M_SHOW_CALENDER)),
-	  fDateBox(datebox)
+	:
+	BButton("calenderbutton", "", new BMessage(M_SHOW_CALENDER)),
+	fDateBox(datebox)
 {
 	float height;
 	fDateBox->GetPreferredSize(NULL, &height);
@@ -25,7 +26,7 @@ CalendarButton::CalendarButton(DateBox* datebox)
 
 
 void
-CalendarButton::AttachedToWindow(void)
+CalendarButton::AttachedToWindow()
 {
 	SetTarget(this);
 }

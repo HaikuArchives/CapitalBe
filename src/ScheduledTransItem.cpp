@@ -1,16 +1,16 @@
 #include "ScheduledTransItem.h"
-#include <Catalog.h>
-#include <ListView.h>
-#include <Region.h>
-#include <View.h>
-#include <stdio.h>
-#include <ctime>
 #include "Account.h"
 #include "CBLocale.h"
 #include "Database.h"
 #include "Preferences.h"
 #include "TransactionData.h"
 #include "TransactionLayout.h"
+#include <Catalog.h>
+#include <ListView.h>
+#include <Region.h>
+#include <View.h>
+#include <ctime>
+#include <stdio.h>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -18,26 +18,28 @@
 
 
 ScheduledTransItem::ScheduledTransItem(const ScheduledTransData& data)
-	: BListItem(),
-	  fAccount(data.GetAccount()),
-	  fType(data.Type().Type()),
-	  fPayee(data.Payee()),
-	  fAmount(""),
-	  fCategory(""),
-	  fMemo(data.Memo()),
-	  fDate(""),
-	  fID(data.GetID())
+	:
+	BListItem(),
+	fAccount(data.GetAccount()),
+	fType(data.Type().Type()),
+	fPayee(data.Payee()),
+	fAmount(""),
+	fCategory(""),
+	fMemo(data.Memo()),
+	fDate(""),
+	fID(data.GetID())
 {
 	Locale locale = data.GetAccount()->GetLocale();
 	locale.CurrencyToString(data.Amount().AbsoluteValue(), fAmount);
 	gDefaultLocale.DateToString(data.Date(), fDate);
 
-	if (data.CountCategories() > 1)
+	if (data.CountCategories() > 1) {
 		fCategory
 			= B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'");
-	else
+	} else
 		fCategory = data.NameAt(0);
 }
+
 
 void
 ScheduledTransItem::DrawItem(BView* owner, BRect frame, bool complete)
@@ -177,12 +179,13 @@ ScheduledTransItem::DrawItem(BView* owner, BRect frame, bool complete)
 		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 3));
 	} else {
-		owner->SetHighUIColor(
-			B_LIST_ITEM_TEXT_COLOR, GetMutedTint(ui_color(B_LIST_ITEM_TEXT_COLOR), CB_MUTED_TEXT));
+		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR,
+			GetMutedTint(ui_color(B_LIST_ITEM_TEXT_COLOR), CB_MUTED_TEXT));
 		owner->DrawString(B_TRANSLATE("No memo"), BPoint(xpos + 5, ypos - 3));
 	}
 	owner->ConstrainClippingRegion(NULL);
 }
+
 
 void
 ScheduledTransItem::Update(BView* owner, const BFont* finfo)
@@ -190,6 +193,7 @@ ScheduledTransItem::Update(BView* owner, const BFont* finfo)
 	BListItem::Update(owner, finfo);
 	SetHeight(TRowHeight() * 2);
 }
+
 
 void
 ScheduledTransItem::SetData(const TransactionData& trans)
@@ -201,11 +205,12 @@ ScheduledTransItem::SetData(const TransactionData& trans)
 	fType = trans.Type().Type();
 	fPayee = trans.Payee();
 	locale.CurrencyToString(trans.Amount().AbsoluteValue(), fAmount);
-	if (trans.CountCategories() > 1)
+	if (trans.CountCategories() > 1) {
 		fCategory
 			= B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'");
-	else
+	} else
 		fCategory = trans.NameAt(0);
+
 	fMemo = trans.Memo();
 	fID = trans.GetID();
 }

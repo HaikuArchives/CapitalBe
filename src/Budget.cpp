@@ -7,21 +7,24 @@
 #define B_TRANSLATION_CONTEXT "BudgetWindow"
 
 
-BudgetEntry::BudgetEntry(void)
+BudgetEntry::BudgetEntry()
 {
 	Set("", 0, BUDGET_MONTHLY, true);
 }
 
-BudgetEntry::BudgetEntry(
-	const char* nm, const Fixed& amt, const BudgetPeriod& per, const bool& isexp)
+
+BudgetEntry::BudgetEntry(const char* nm, const Fixed& amt, const BudgetPeriod& per,
+	const bool& isexp)
 {
 	Set(nm, amt, per, isexp);
 }
+
 
 BudgetEntry::BudgetEntry(const BudgetEntry& from)
 {
 	Set(from.name.String(), from.amount, from.period, from.isexpense);
 }
+
 
 BudgetEntry&
 BudgetEntry::operator=(const BudgetEntry& from)
@@ -29,6 +32,7 @@ BudgetEntry::operator=(const BudgetEntry& from)
 	Set(from.name.String(), from.amount, from.period, from.isexpense);
 	return *this;
 }
+
 
 void
 BudgetEntry::Set(const char* nm, const Fixed& amt, const BudgetPeriod& per, const bool& isexp)
@@ -38,6 +42,7 @@ BudgetEntry::Set(const char* nm, const Fixed& amt, const BudgetPeriod& per, cons
 	period = per;
 	isexpense = isexp;
 }
+
 
 BString
 BudgetPeriodToString(const BudgetPeriod& period)
@@ -70,6 +75,7 @@ BudgetPeriodToString(const BudgetPeriod& period)
 		}
 	}
 }
+
 
 BudgetPeriod
 StringToBudgetPeriod(const char* string)

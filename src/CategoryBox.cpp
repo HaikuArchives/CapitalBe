@@ -1,17 +1,19 @@
 #include "CategoryBox.h"
-#include <Catalog.h>
 #include "CBLocale.h"
 #include "Database.h"
 #include "MsgDefs.h"
+#include <Catalog.h>
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CategoryWindow"
 
 
 CategoryBoxFilter::CategoryBoxFilter(CategoryBox* box)
-	: AutoTextControlFilter(box)
+	:
+	AutoTextControlFilter(box)
 {
 }
+
 
 filter_result
 CategoryBoxFilter::KeyFilter(const int32& key, const int32& mod)
@@ -66,16 +68,19 @@ CategoryBoxFilter::KeyFilter(const int32& key, const int32& mod)
 	return B_DISPATCH_MESSAGE;
 }
 
-CategoryBox::CategoryBox(
-	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
-	: AutoTextControl(name, label, text, msg, flags)
+
+CategoryBox::CategoryBox(const char* name, const char* label, const char* text, BMessage* msg,
+	uint32 flags)
+	:
+	AutoTextControl(name, label, text, msg, flags)
 {
 	SetFilter(new CategoryBoxFilter(this));
 	SetCharacterLimit(32);
 }
 
+
 bool
-CategoryBox::Validate(void)
+CategoryBox::Validate()
 {
 	BString category(Text());
 
@@ -114,11 +119,12 @@ CategoryBox::Validate(void)
 	return success;
 }
 
+
 bool
 CategoryBox::SetTypeFromCategory(BString category)
 {
-	CppSQLite3Query query = gDatabase.DBQuery(
-		"SELECT * FROM categorylist ORDER BY name ASC", "CategoryView::CategoryView");
+	CppSQLite3Query query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name ASC",
+		"CategoryView::CategoryView");
 
 	bool categoryExists = false;
 	while (!query.eof()) {
@@ -135,21 +141,21 @@ CategoryBox::SetTypeFromCategory(BString category)
 
 	bool success = true;
 	if (!categoryExists
-		&& category.ICompare(B_TRANSLATE_ALL(
-			   "Split", "CommonTerms", "The noun 'split', as in 'a split-category'"))
-			   != 0) {
+		&& category.ICompare(B_TRANSLATE_ALL("Split", "CommonTerms",
+			   "The noun 'split', as in 'a split-category'"))
+			!= 0) {
 		bool success = AddNewCategory(category);
 	}
 
 	return success;
 }
 
+
 bool
 CategoryBox::AddNewCategory(BString category)
 {
-	BString text(
-		B_TRANSLATE("You created the new category '%categoryname%'.\n\n"
-					"Please select a transaction type for it, 'income' or 'spending'."));
+	BString text(B_TRANSLATE("You created the new category '%categoryname%'.\n\n"
+							 "Please select a transaction type for it, 'income' or 'spending'."));
 	text.ReplaceFirst("%categoryname%", category);
 
 	DAlert* alert = new DAlert(B_TRANSLATE("New category"), text, B_TRANSLATE("Income"),

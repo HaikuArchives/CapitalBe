@@ -22,8 +22,8 @@ getLocalHelpFile(entry_ref& ref, const char* helpfilename, const char* language 
 	helpFile += "/";
 	helpFile += helpfilename;
 
-	status_t status = BPathFinder::FindPaths(
-		B_FIND_PATH_DOCUMENTATION_DIRECTORY, helpFile, B_FIND_PATH_EXISTING_ONLY, paths);
+	status_t status = BPathFinder::FindPaths(B_FIND_PATH_DOCUMENTATION_DIRECTORY, helpFile,
+		B_FIND_PATH_EXISTING_ONLY, paths);
 
 	if (!paths.IsEmpty() && status == B_OK) {
 		BEntry data_entry(paths.StringAt(0).String());
@@ -59,8 +59,8 @@ getHelpFile(const char* helpfilename)
 			if (getLocalHelpFile(ref, helpfilename, language))
 				return ref;
 			// in case of the current locale is a subset like "es_419", remove the "_419"
-			else if (getLocalHelpFile(
-						 ref, helpfilename, BString(language, BString(language).FindFirst("_"))))
+			else if (getLocalHelpFile(ref, helpfilename,
+						 BString(language, BString(language).FindFirst("_"))))
 				return ref;
 		}
 	}
@@ -87,7 +87,7 @@ openDocumentation(const char* helpfilename, const char* anchor = NULL)
 
 
 BBitmap*
-getHelpIcon(void)
+getHelpIcon()
 {
 	BBitmap* icon = NULL;
 	BResources* resources = BApplication::AppResources();
@@ -95,8 +95,8 @@ getHelpIcon(void)
 		size_t size;
 		const uint8* data
 			= (const uint8*)resources->LoadResource(B_VECTOR_ICON_TYPE, "help-icon", &size);
-		icon = new BBitmap(
-			BRect(BPoint(0, 0), be_control_look->ComposeIconSize(B_MINI_ICON)), B_RGBA32);
+		icon = new BBitmap(BRect(BPoint(0, 0), be_control_look->ComposeIconSize(B_MINI_ICON)),
+			B_RGBA32);
 		if (icon != NULL) {
 			if (data == NULL || BIconUtils::GetVectorIcon(data, size, icon) != B_OK) {
 				delete icon;
@@ -109,9 +109,10 @@ getHelpIcon(void)
 
 
 HelpButton::HelpButton(const char* helpfilename, const char* anchor = NULL)
-	: BButton(helpfilename, "", new BMessage(M_HELP)),
-	  fHelpfile(helpfilename),
-	  fAnchor(anchor)
+	:
+	BButton(helpfilename, "", new BMessage(M_HELP)),
+	fHelpfile(helpfilename),
+	fAnchor(anchor)
 {
 	BBitmap* icon = getHelpIcon();
 	SetIcon(icon);
@@ -120,7 +121,9 @@ HelpButton::HelpButton(const char* helpfilename, const char* anchor = NULL)
 }
 
 
-HelpButton::~HelpButton(void) {}
+HelpButton::~HelpButton()
+{
+}
 
 
 void

@@ -1,16 +1,16 @@
 #include "TransactionItem.h"
-#include <Catalog.h>
-#include <ListView.h>
-#include <Region.h>
-#include <View.h>
-#include <stdio.h>
-#include <ctime>
 #include "Account.h"
 #include "CBLocale.h"
 #include "Database.h"
 #include "Preferences.h"
 #include "TransactionData.h"
 #include "TransactionLayout.h"
+#include <Catalog.h>
+#include <ListView.h>
+#include <Region.h>
+#include <View.h>
+#include <ctime>
+#include <stdio.h>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -18,24 +18,26 @@
 
 
 TransactionItem::TransactionItem(const TransactionData& trans)
-	: BListItem(),
-	  fDate(trans.Date()),
-	  fAccount(trans.GetAccount()),
-	  fType(trans.Type().Type()),
-	  fPayee(trans.Payee()),
-	  fAmount(trans.Amount()),
-	  fCategory(""),
-	  fMemo(trans.MemoAt(0)),
-	  fStatus(trans.Status()),
-	  fID(trans.GetID()),
-	  fTimeStamp(trans.GetTimeStamp())
+	:
+	BListItem(),
+	fDate(trans.Date()),
+	fAccount(trans.GetAccount()),
+	fType(trans.Type().Type()),
+	fPayee(trans.Payee()),
+	fAmount(trans.Amount()),
+	fCategory(""),
+	fMemo(trans.MemoAt(0)),
+	fStatus(trans.Status()),
+	fID(trans.GetID()),
+	fTimeStamp(trans.GetTimeStamp())
 {
-	if (trans.CountCategories() > 1)
+	if (trans.CountCategories() > 1) {
 		fCategory
 			= B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'");
-	else
+	} else
 		fCategory = trans.NameAt(0);
 }
+
 
 void
 TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
@@ -56,13 +58,13 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 		frame.bottom--;
 		owner->StrokeRect(frame);
 	} else if (fStatus == TRANS_RECONCILED) {
-		owner->SetHighUIColor(
-			B_MENU_BACKGROUND_COLOR, GetMutedTint(ui_color(B_MENU_BACKGROUND_COLOR), CB_MUTED_BG));
+		owner->SetHighUIColor(B_MENU_BACKGROUND_COLOR,
+			GetMutedTint(ui_color(B_MENU_BACKGROUND_COLOR), CB_MUTED_BG));
 		owner->FillRect(frame);
 		owner->SetHighUIColor(B_CONTROL_TEXT_COLOR);
 		owner->StrokeLine(r.LeftBottom(), r.RightBottom());
 	} else {
-		if (index % 2 == 1) {  // darken odd row
+		if (index % 2 == 1) { // darken odd row
 			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR,
 				GetMutedTint(ui_color(B_LIST_BACKGROUND_COLOR), CB_ALT_ROW));
 		} else
@@ -202,7 +204,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	if (fMemo.CountChars() > 0) {
 		owner->SetHighColor(tint_color(textColor, textTint));
 		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - fontFactor));
-	} else {  // Always mute "No memo"
+	} else { // Always mute "No memo"
 		if (IsSelected())
 			textTint = GetMutedTint(ui_color(B_LIST_SELECTED_BACKGROUND_COLOR), CB_MUTED_TEXT);
 		else
@@ -214,12 +216,14 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	owner->ConstrainClippingRegion(NULL);
 }
 
+
 void
 TransactionItem::Update(BView* owner, const BFont* finfo)
 {
 	BListItem::Update(owner, finfo);
 	SetHeight(TRowHeight() * 2);
 }
+
 
 void
 TransactionItem::SetData(const TransactionData& trans)
@@ -229,11 +233,12 @@ TransactionItem::SetData(const TransactionData& trans)
 	fType = trans.Type().Type();
 	fPayee = trans.Payee();
 	fAmount = trans.Amount();
-	if (trans.CountCategories() > 1)
+	if (trans.CountCategories() > 1) {
 		fCategory
 			= B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'");
-	else
+	} else
 		fCategory = trans.NameAt(0);
+
 	fMemo = trans.MemoAt(0);
 	fStatus = trans.Status();
 	fID = trans.GetID();

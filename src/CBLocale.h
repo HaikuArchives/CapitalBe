@@ -1,17 +1,17 @@
 #ifndef CBLOCALE_H
 #define CBLOCALE_H
 
+#include "DAlert.h"
+#include "Fixed.h"
 #include <File.h>
 #include <String.h>
 #include <TextControl.h>
 #include <time.h>
-#include "DAlert.h"
-#include "Fixed.h"
 
 class Locale {
 public:
-	Locale(void);
-	~Locale(void);
+	Locale();
+	~Locale();
 
 	bool operator==(const Locale& other) const;
 	bool operator!=(const Locale& other) const;
@@ -26,18 +26,18 @@ public:
 	void NumberToCurrency(const Fixed& number, BString& string);
 
 	void SetCurrencySymbol(const char* symbol);
-	const char* CurrencySymbol(void) const { return fCurrencySymbol.String(); }
+	const char* CurrencySymbol() const { return fCurrencySymbol.String(); }
 
 	void SetCurrencySymbolPrefix(const bool& value);
-	bool IsCurrencySymbolPrefix(void) const { return fPrefixSymbol; }
+	bool IsCurrencySymbolPrefix() const { return fPrefixSymbol; }
 
 	void SetCurrencyDecimalPlace(const uint8 place);
-	uint8 CurrencyDecimalPlace(void) const { return fCurrencyDecimalPlace; }
+	uint8 CurrencyDecimalPlace() const { return fCurrencyDecimalPlace; }
 
 private:
 	friend class CapitalBeParser;
 
-	void SetDefaults(void);
+	void SetDefaults();
 
 	BString fCurrencySymbol;
 	bool fPrefixSymbol;
@@ -48,7 +48,7 @@ void ShowAlert(const char* header, const char* message, alert_type type = B_INFO
 void ShowBug(const char* string);
 void GetVersionString(BString& string);
 void CapitalizeEachWord(BString& string);
-const char* GetCurrencyOnlyMask(void);
+const char* GetCurrencyOnlyMask();
 void IllegalCharsToEntities(BString* string);
 
 #endif

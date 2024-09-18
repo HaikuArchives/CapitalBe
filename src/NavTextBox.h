@@ -19,7 +19,7 @@ public:
 
 	void UseTabFiltering(const bool& value) { fFilterTab = value; }
 
-	bool IsTabFiltering(void) const { return fFilterTab; }
+	bool IsTabFiltering() const { return fFilterTab; }
 
 private:
 	friend NavTextBoxFilter;

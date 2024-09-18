@@ -32,7 +32,7 @@ public:
 		fEnabled = true;
 	}
 
-	virtual ~Observer(void) {}
+	virtual ~Observer() {}
 
 	void AddWatch(const uint64& flags) { fFlags |= flags; }
 
@@ -45,7 +45,7 @@ public:
 
 	virtual void SetObserving(const bool& value) { fEnabled = value; }
 
-	bool IsObserving(void) const { return fEnabled; }
+	bool IsObserving() const { return fEnabled; }
 
 private:
 	uint64 fFlags;
@@ -54,9 +54,9 @@ private:
 
 class Notifier {
 public:
-	Notifier(void) { fEnabled = true; }
+	Notifier() { fEnabled = true; }
 
-	virtual ~Notifier(void) {}
+	virtual ~Notifier() {}
 
 	// If these methods are subclassed, please make sure that these versions
 	// are also called.
@@ -84,7 +84,7 @@ public:
 
 	void SetNotify(const bool& value) { fEnabled = value; }
 
-	bool IsNotifying(void) const { return fEnabled; }
+	bool IsNotifying() const { return fEnabled; }
 
 private:
 	BList fObserverList;

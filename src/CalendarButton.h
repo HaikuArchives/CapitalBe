@@ -12,7 +12,7 @@ class CalendarButton : public BButton {
 public:
 	CalendarButton(DateBox* box);
 
-	void AttachedToWindow(void);
+	void AttachedToWindow();
 	virtual void MessageReceived(BMessage* message);
 
 private:
@@ -25,4 +25,4 @@ private:
 	BString fDay;
 };
 
-#endif	// CALENDARBUTTON_H
+#endif // CALENDARBUTTON_H

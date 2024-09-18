@@ -4,8 +4,8 @@
 #include <Region.h>
 #include <View.h>
 
-#include <stdio.h>
 #include <ctime>
+#include <stdio.h>
 
 #include "CBLocale.h"
 #include "Database.h"
@@ -14,13 +14,18 @@
 
 
 ReconcileItem::ReconcileItem(const TransactionData& trans)
-	: BStringItem(""),
-	  fTransaction(trans)
+	:
+	BStringItem(""),
+	fTransaction(trans)
 {
 	fValue = fTransaction.Status();
 }
 
-ReconcileItem::~ReconcileItem(void) {}
+
+ReconcileItem::~ReconcileItem()
+{
+}
+
 
 void
 ReconcileItem::DrawItem(BView* owner, BRect frame, bool complete)
@@ -34,7 +39,7 @@ ReconcileItem::DrawItem(BView* owner, BRect frame, bool complete)
 		owner->SetHighUIColor(B_CONTROL_HIGHLIGHT_COLOR);
 		owner->StrokeRect(frame);
 	} else {
-		if (index % 2 == 1) {  // darken odd row
+		if (index % 2 == 1) { // darken odd row
 			owner->SetHighUIColor(B_LIST_BACKGROUND_COLOR,
 				GetMutedTint(ui_color(B_LIST_BACKGROUND_COLOR), CB_ALT_ROW));
 		} else
@@ -71,20 +76,23 @@ ReconcileItem::DrawItem(BView* owner, BRect frame, bool complete)
 	owner->ConstrainClippingRegion(NULL);
 }
 
+
 void
 ReconcileItem::SetReconciled(bool value)
 {
 	fTransaction.SetStatus(value ? TRANS_RECONCILED : TRANS_OPEN);
 }
 
+
 bool
-ReconcileItem::IsReconciled(void) const
+ReconcileItem::IsReconciled() const
 {
 	return (fTransaction.Status() == TRANS_RECONCILED);
 }
 
+
 void
-ReconcileItem::SyncToTransaction(void)
+ReconcileItem::SyncToTransaction()
 {
 	if (fTransaction.Status() == TRANS_RECONCILED)
 		gDatabase.SetTransactionStatus(fTransaction.GetID(), TRANS_RECONCILED);

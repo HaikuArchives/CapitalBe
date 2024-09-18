@@ -12,12 +12,12 @@ class TextFile : public BFile {
 public:
 	TextFile(const char* path, const uint32& openmode);
 	TextFile(const entry_ref& ref, const uint32& openmode);
-	~TextFile(void);
-	const char* ReadLine(void);
-	bool IsEOF(void);
+	~TextFile();
+	const char* ReadLine();
+	bool IsEOF();
 
 private:
-	void InitObject(void);
+	void InitObject();
 
 	char* fBuffer;
 	off_t fBufferSize;

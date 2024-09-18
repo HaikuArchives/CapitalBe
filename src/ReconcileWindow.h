@@ -23,19 +23,19 @@ void AddReconcileItems(const TransactionData& data, void* recwin);
 class ReconcileWindow : public BWindow, public Observer {
 public:
 	ReconcileWindow(const BRect frame, Account* account);
-	~ReconcileWindow(void);
+	~ReconcileWindow();
 	void MessageReceived(BMessage* msg);
 	void HandleNotify(const uint64& value, const BMessage* msg);
-	bool QuitRequested(void);
+	bool QuitRequested();
 
 private:
 	friend class ReconcileFilter;
 	friend void AddReconcileItems(const TransactionData& data, void* ptr);
 
-	void ApplyChargesAndInterest(void);
+	void ApplyChargesAndInterest();
 	ReconcileItem* FindItemForID(BListView* target, const uint32& id);
 	void InsertTransactionItem(BListView* target, ReconcileItem* item);
-	bool AutoReconcile(void);
+	bool AutoReconcile();
 
 	Account* fAccount;
 

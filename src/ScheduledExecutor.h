@@ -1,6 +1,6 @@
 #ifndef SCHEDULEDEXECUTOR_H
 #define SCHEDULEDEXECUTOR_H
 
-void HandleScheduledTransactions(void);
+void HandleScheduledTransactions();
 
 #endif

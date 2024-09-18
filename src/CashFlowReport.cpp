@@ -1,4 +1,3 @@
-#include <Catalog.h>
 #include "Account.h"
 #include "CBLocale.h"
 #include "ColumnListView.h"
@@ -7,6 +6,7 @@
 #include "ReportGrid.h"
 #include "ReportWindow.h"
 #include "TimeSupport.h"
+#include <Catalog.h>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -14,7 +14,7 @@
 
 
 void
-ReportWindow::ComputeCashFlow(void)
+ReportWindow::ComputeCashFlow()
 {
 	// Calculate the number of columns and the starting date for each one
 	BObjectList<time_t> timelist(20, true);
@@ -103,15 +103,13 @@ ReportWindow::ComputeCashFlow(void)
 
 				BString account;
 				account << "account_" << item->account->GetID();
-				commandBuffer.format(
-					"SELECT SUM(amount) from %s WHERE category = %Q AND amount > "
-					"0 AND date >= %li AND date < %li",
+				commandBuffer.format("SELECT SUM(amount) from %s WHERE category = %Q AND amount > "
+									 "0 AND date >= %li AND date < %li",
 					account.String(), escaped.String(), subtotal_start, subtotal_end);
 				command << commandBuffer;
 
-				expcommandBuffer.format(
-					"SELECT SUM(amount) from %s WHERE category = %Q AND amount "
-					"< 0 AND date >= %li AND date < %li",
+				expcommandBuffer.format("SELECT SUM(amount) from %s WHERE category = %Q AND amount "
+										"< 0 AND date >= %li AND date < %li",
 					account.String(), escaped.String(), subtotal_start, subtotal_end);
 				expcommand << expcommandBuffer;
 
@@ -201,8 +199,8 @@ ReportWindow::ComputeCashFlow(void)
 			}
 		}
 
-		col = new BStringColumn(
-			columntitle, fGridView->StringWidth("$1,000,000.00"), 10, 300, B_TRUNCATE_END);
+		col = new BStringColumn(columntitle, fGridView->StringWidth("$1,000,000.00"), 10, 300,
+			B_TRUNCATE_END);
 		fGridView->AddColumn(col, i + 1);
 	}
 

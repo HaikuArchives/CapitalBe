@@ -11,7 +11,8 @@
 
 
 TransactionEditWindow::TransactionEditWindow(const TransactionData& trans)
-	: BWindow(BRect(), B_TRANSLATE("Edit transaction"), B_DOCUMENT_WINDOW_LOOK,
+	:
+	BWindow(BRect(), B_TRANSLATE("Edit transaction"), B_DOCUMENT_WINDOW_LOOK,
 		B_FLOATING_APP_WINDOW_FEEL, B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
 	fSplitView = new SplitView("splitview", trans, B_WILL_DRAW);
@@ -25,6 +26,7 @@ TransactionEditWindow::TransactionEditWindow(const TransactionData& trans)
 	AddShortcut(B_UP_ARROW, B_COMMAND_KEY, new BMessage(M_PREVIOUS_SPLIT));
 	AddShortcut(B_DOWN_ARROW, B_COMMAND_KEY, new BMessage(M_NEXT_SPLIT));
 }
+
 
 void
 TransactionEditWindow::MessageReceived(BMessage* msg)

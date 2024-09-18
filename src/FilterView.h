@@ -1,11 +1,11 @@
 #ifndef FILTERVIEW_H
 #define FILTERVIEW_H
 
+#include "NumBox.h"
 #include <Button.h>
 #include <Menu.h>
 #include <TextControl.h>
 #include <View.h>
-#include "NumBox.h"
 
 
 enum {
@@ -18,17 +18,17 @@ enum {
 class FilterView : public BView {
 public:
 	FilterView(const char* name, int32 flags);
-	~FilterView(void);
+	~FilterView();
 
-	void AttachedToWindow(void);
+	void AttachedToWindow();
 	void MessageReceived(BMessage* msg);
 
-	void SetMessenger(BMessenger* msgr) { fMessenger = msgr; };
-	bool IsEmpty(void);
+	void SetMessenger(BMessenger* msgr) { fMessenger = msgr; }
+	bool IsEmpty();
 
 private:
-	void MakeEmpty(void);
-	void SendFilterMessage(void);
+	void MakeEmpty();
+	void SendFilterMessage();
 
 	BMenu* fPeriodMenu;
 	BMenu* fCompareMenu;

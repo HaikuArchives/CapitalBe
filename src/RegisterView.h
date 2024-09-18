@@ -32,21 +32,21 @@ typedef enum {
 class RegisterView : public BView, public Observer {
 public:
 	RegisterView(const char* name, int32 flags);
-	~RegisterView(void);
+	~RegisterView();
 	void MessageReceived(BMessage* msg);
-	void AttachedToWindow(void);
+	void AttachedToWindow();
 
 	void HandleNotify(const uint64& value, const BMessage* msg);
 	void SelectAccount(const int32& index);
 	void SetCheckFields(TransactionData data);
 
-	bool SelectNextTransaction(void) { return fTransactionView->SelectNext(); }
+	bool SelectNextTransaction() { return fTransactionView->SelectNext(); }
 
-	bool SelectPreviousTransaction(void) { return fTransactionView->SelectPrevious(); }
+	bool SelectPreviousTransaction() { return fTransactionView->SelectPrevious(); }
 
-	bool SelectFirstTransaction(void) { return fTransactionView->SelectFirst(); }
+	bool SelectFirstTransaction() { return fTransactionView->SelectFirst(); }
 
-	bool SelectLastTransaction(void) { return fTransactionView->SelectLast(); }
+	bool SelectLastTransaction() { return fTransactionView->SelectLast(); }
 
 private:
 	CheckView* fCheckView;

@@ -1,10 +1,10 @@
 #include "Transaction.h"
-#include <File.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "Account.h"
 #include "CBLocale.h"
 #include "Database.h"
+#include <File.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 // #define DEBUG_TRANS
 #ifdef DEBUG_TRANS
@@ -13,10 +13,13 @@
 #define STRACE(x) /* nothing */
 #endif
 
-Transaction::Transaction(void)
-	: fID(0)
+
+Transaction::Transaction()
+	:
+	fID(0)
 {
 }
+
 
 void
 TransactionType::SetType(const char* data)

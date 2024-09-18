@@ -1,27 +1,27 @@
 #ifndef SPLIT_ITEM_H
 #define SPLIT_ITEM_H
 
+#include "Fixed.h"
 #include <ListItem.h>
 #include <String.h>
-#include "Fixed.h"
 
 class SplitItem : public BStringItem {
 public:
-	SplitItem(void);
-	~SplitItem(void);
+	SplitItem();
+	~SplitItem();
 	//	void DrawItem(BView *owner, BRect frame, bool complete = false);
 
 	void SetCategory(const char* value);
-	const char* GetCategory(void) const;
+	const char* GetCategory() const;
 
 	void SetAmount(const Fixed& fixed);
-	Fixed GetAmount(void) const;
+	Fixed GetAmount() const;
 
 	void SetMemo(const char* value);
-	const char* GetMemo(void) const;
+	const char* GetMemo() const;
 
 private:
-	void UpdateLabel(void);
+	void UpdateLabel();
 	BString fName;
 	Fixed fAmount;
 	BString fMemo;

@@ -1,5 +1,3 @@
-#include <Catalog.h>
-#include <stdlib.h>
 #include "Account.h"
 #include "CBLocale.h"
 #include "ColumnListView.h"
@@ -9,6 +7,8 @@
 #include "ReportWindow.h"
 #include "TimeSupport.h"
 #include "Transaction.h"
+#include <Catalog.h>
+#include <stdlib.h>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -16,7 +16,7 @@
 
 
 void
-ReportWindow::ComputeTransactions(void)
+ReportWindow::ComputeTransactions()
 {
 	// Total of all accounts
 	// Calculate the number of columns and the starting date for each one
@@ -68,8 +68,8 @@ ReportWindow::ComputeTransactions(void)
 	col = new BStringColumn(B_TRANSLATE_COMMENT("Type", "Type of transaction, spending or income"),
 		fGridView->StringWidth("LongTypeName") + 20, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 2);
-	col = new BStringColumn(
-		B_TRANSLATE_CONTEXT("Payee", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE_CONTEXT("Payee", "CommonTerms"), 75, 10, 300,
+		B_TRUNCATE_END);
 	fGridView->AddColumn(col, 3);
 
 	// The string we use for calculating width here should work well enough for general purposes
@@ -79,8 +79,8 @@ ReportWindow::ComputeTransactions(void)
 	col = new BStringColumn(B_TRANSLATE_CONTEXT("Category", "CommonTerms"),
 		fGridView->StringWidth("LongCategoryName") + 20, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 5);
-	col = new BStringColumn(
-		B_TRANSLATE_CONTEXT("Memo", "CommonTerms"), 75, 10, 300, B_TRUNCATE_END);
+	col = new BStringColumn(B_TRANSLATE_CONTEXT("Memo", "CommonTerms"), 75, 10, 300,
+		B_TRUNCATE_END);
 	fGridView->AddColumn(col, 6);
 
 	fGridView->AddRow(new BRow());
@@ -143,7 +143,7 @@ ReportWindow::ComputeTransactions(void)
 			row->SetField(new BStringField(B_TRANSLATE("No transactions")), 0);
 			fGridView->ColumnAt(0)->SetWidth(
 				fGridView->StringWidth(B_TRANSLATE("No transactions")) + 15);
-		} else
+		} else {
 			while (!query.eof()) {
 				row = new BRow();
 				fGridView->AddRow(row);
@@ -197,6 +197,7 @@ ReportWindow::ComputeTransactions(void)
 
 				query.nextRow();
 			}
+		}
 		query.finalize();
 
 		fGridView->AddRow(new BRow());

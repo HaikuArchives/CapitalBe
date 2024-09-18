@@ -1,63 +1,74 @@
 #include "Fixed.h"
 
-Fixed::Fixed(void)
+
+Fixed::Fixed()
 {
 	fValue = 0;
 }
+
 
 Fixed::Fixed(double val)
 {
 	fValue = (int32)(val * 100.0);
 }
 
+
 Fixed::Fixed(long val, bool premult)
 {
 	fValue = premult ? val : val * 100;
 }
+
 
 Fixed::Fixed(int val)
 {
 	fValue = val * 100;
 }
 
+
 float
-Fixed::AsFloat(void) const
+Fixed::AsFloat() const
 {
 	return float(fValue / 100.0);
 }
 
+
 double
-Fixed::AsDouble(void) const
+Fixed::AsDouble() const
 {
 	return double(fValue / 100.0);
 }
 
+
 long
-Fixed::AsLong(void) const
+Fixed::AsLong() const
 {
 	return fValue / 100;
 }
 
+
 long
-Fixed::AsFixed(void) const
+Fixed::AsFixed() const
 {
 	return fValue;
 }
 
+
 long
-Fixed::IntegerPart(void) const
+Fixed::IntegerPart() const
 {
 	return fValue / 100;
 }
 
+
 double
-Fixed::DecimalPart(void) const
+Fixed::DecimalPart() const
 {
 	return (fValue / 100.0) - (double)(fValue / 100);
 }
 
+
 Fixed
-Fixed::AbsoluteValue(void) const
+Fixed::AbsoluteValue() const
 {
 	Fixed f(*this);
 	if (f.IsNegative())
@@ -65,8 +76,9 @@ Fixed::AbsoluteValue(void) const
 	return f;
 }
 
+
 void
-Fixed::Round(void)
+Fixed::Round()
 {
 	int32 integerpart = (fValue / 100) * 100;
 	int32 decimalpart;
@@ -82,11 +94,13 @@ Fixed::Round(void)
 	}
 }
 
+
 void
 Fixed::SetPremultiplied(long value)
 {
 	fValue = value;
 }
+
 
 void
 Fixed::AddPremultiplied(long value)
@@ -94,43 +108,50 @@ Fixed::AddPremultiplied(long value)
 	fValue += value;
 }
 
+
 void
 Fixed::SubtractPremultiplied(long value)
 {
 	fValue += value;
 }
 
+
 Fixed
-Fixed::InvertAsCopy(void) const
+Fixed::InvertAsCopy() const
 {
 	Fixed f;
 	f.SetPremultiplied(-fValue);
 	return f;
 }
 
+
 void
-Fixed::Invert(void)
+Fixed::Invert()
 {
 	fValue = -fValue;
 }
 
+
 bool
-Fixed::IsNegative(void) const
+Fixed::IsNegative() const
 {
 	return fValue < 0;
 }
 
+
 bool
-Fixed::IsPositive(void) const
+Fixed::IsPositive() const
 {
 	return fValue > 0;
 }
 
+
 bool
-Fixed::IsZero(void) const
+Fixed::IsZero() const
 {
 	return fValue == 0;
 }
+
 
 bool
 Fixed::operator!=(const Fixed& from) const
@@ -138,11 +159,13 @@ Fixed::operator!=(const Fixed& from) const
 	return (fValue != from.fValue);
 }
 
+
 bool
 Fixed::operator==(const Fixed& from) const
 {
 	return (fValue == from.fValue);
 }
+
 
 Fixed
 Fixed::operator+(const Fixed& from)
@@ -150,11 +173,13 @@ Fixed::operator+(const Fixed& from)
 	return Fixed(fValue + from.fValue, true);
 }
 
+
 Fixed
 Fixed::operator-(const Fixed& from)
 {
 	return Fixed(fValue - from.fValue, true);
 }
+
 
 Fixed
 Fixed::operator+(const double& from)
@@ -162,11 +187,13 @@ Fixed::operator+(const double& from)
 	return Fixed((double(fValue) / 100.0) + from);
 }
 
+
 Fixed
 Fixed::operator-(const double& from)
 {
 	return Fixed((double(fValue) / 100.0) - from);
 }
+
 
 Fixed
 Fixed::operator+=(const double& from)
@@ -174,11 +201,13 @@ Fixed::operator+=(const double& from)
 	return Fixed(fValue += int32(from * 100));
 }
 
+
 Fixed
 Fixed::operator-=(const double& from)
 {
 	return Fixed(fValue -= int32(from * 100));
 }
+
 
 Fixed
 Fixed::operator*=(const double& from)
@@ -191,6 +220,7 @@ Fixed::operator*=(const double& from)
 	return *this;
 }
 
+
 Fixed
 Fixed::operator/=(const double& from)
 {
@@ -202,11 +232,13 @@ Fixed::operator/=(const double& from)
 	return *this;
 }
 
+
 bool
 Fixed::operator<(const long& from) const
 {
 	return fValue < (from * 100);
 }
+
 
 bool
 Fixed::operator>(const long& from) const
@@ -214,11 +246,13 @@ Fixed::operator>(const long& from) const
 	return fValue > (from * 100);
 }
 
+
 bool
 Fixed::operator<(const Fixed& from) const
 {
 	return fValue < from.fValue;
 }
+
 
 bool
 Fixed::operator>(const Fixed& from) const
@@ -226,11 +260,13 @@ Fixed::operator>(const Fixed& from) const
 	return fValue > from.fValue;
 }
 
+
 bool
 Fixed::operator<=(const Fixed& from) const
 {
 	return fValue <= from.fValue;
 }
+
 
 bool
 Fixed::operator>=(const Fixed& from) const
@@ -238,11 +274,13 @@ Fixed::operator>=(const Fixed& from) const
 	return fValue >= from.fValue;
 }
 
+
 bool
 Fixed::operator==(const long& from) const
 {
 	return fValue == (from * 100);
 }
+
 
 Fixed&
 Fixed::operator+=(const Fixed& from)
@@ -251,12 +289,14 @@ Fixed::operator+=(const Fixed& from)
 	return *this;
 }
 
+
 Fixed&
 Fixed::operator-=(const Fixed& from)
 {
 	fValue -= from.fValue;
 	return *this;
 }
+
 
 Fixed&
 Fixed::operator=(const long& from)

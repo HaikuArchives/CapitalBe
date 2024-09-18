@@ -1,9 +1,9 @@
 #ifndef TRANSACTION_H
 #define TRANSACTION_H
 
-#include <String.h>
 #include "Category.h"
 #include "Fixed.h"
+#include <String.h>
 
 class Account;
 
@@ -33,9 +33,9 @@ public:
 
 	void SetType(const char* data);
 
-	const char* Type(void) const { return fTypeData.String(); }
+	const char* Type() const { return fTypeData.String(); }
 
-	uint8 TypeCode(void) const { return fTypeCode; }
+	uint8 TypeCode() const { return fTypeCode; }
 
 private:
 	uint8 fTypeCode;
@@ -44,11 +44,11 @@ private:
 
 class Transaction {
 public:
-	Transaction(void);
+	Transaction();
 
-	void SetID(const time_t& id) { fID = id; };
+	void SetID(const time_t& id) { fID = id; }
 
-	time_t GetID(void) const { return fID; }
+	time_t GetID() const { return fID; }
 
 private:
 	bigtime_t fID;

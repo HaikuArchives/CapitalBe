@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "Database.h"
+#include "Notifier.h"
 #include <Application.h>
 #include <FilePanel.h>
 #include <Menu.h>
@@ -9,8 +11,6 @@
 #include <MessageRunner.h>
 #include <String.h>
 #include <Window.h>
-#include "Database.h"
-#include "Notifier.h"
 
 class RegisterView;
 
@@ -64,17 +64,17 @@ enum {
 class MainWindow : public BWindow, public Observer {
 public:
 	MainWindow(BRect frame);
-	~MainWindow(void);
+	~MainWindow();
 
-	void OpenAbout(void);
-	bool QuitRequested(void);
+	void OpenAbout();
+	bool QuitRequested();
 	void MessageReceived(BMessage* msg);
 	void HandleNotify(const uint64& value, const BMessage* msg);
 
 private:
-	void InitSettings(void);
-	void LoadData(void);
-	void SaveData(void);
+	void InitSettings();
+	void LoadData();
+	void SaveData();
 
 	void CreateTransfer(BMessage* msg);
 

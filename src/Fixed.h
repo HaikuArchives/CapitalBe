@@ -7,28 +7,28 @@
 
 class Fixed {
 public:
-	Fixed(void);
+	Fixed();
 	Fixed(double val);
 	Fixed(long val, bool premult = false);
 	Fixed(int val);
 
-	float AsFloat(void) const;
-	double AsDouble(void) const;
-	long AsLong(void) const;
-	long AsFixed(void) const;
-	long IntegerPart(void) const;
-	double DecimalPart(void) const;
+	float AsFloat() const;
+	double AsDouble() const;
+	long AsLong() const;
+	long AsFixed() const;
+	long IntegerPart() const;
+	double DecimalPart() const;
 	void SetPremultiplied(long value);
 	void AddPremultiplied(long value);
 	void SubtractPremultiplied(long value);
-	Fixed InvertAsCopy(void) const;
-	void Invert(void);
-	Fixed AbsoluteValue(void) const;
-	void Round(void);
+	Fixed InvertAsCopy() const;
+	void Invert();
+	Fixed AbsoluteValue() const;
+	void Round();
 
-	bool IsNegative(void) const;
-	bool IsPositive(void) const;
-	bool IsZero(void) const;
+	bool IsNegative() const;
+	bool IsPositive() const;
+	bool IsZero() const;
 
 	Fixed operator+(const Fixed& from);
 	Fixed operator-(const Fixed& from);

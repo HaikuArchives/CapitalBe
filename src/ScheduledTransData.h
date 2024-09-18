@@ -5,38 +5,38 @@
 
 class ScheduledTransData : public TransactionData {
 public:
-	ScheduledTransData(void);
+	ScheduledTransData();
 	ScheduledTransData(Account* account, const char* date, const char* type, const char* payee,
 		const char* amount, const char* category, const char* memo,
 		const TransactionInterval& interval, const int32& count = 0);
 	ScheduledTransData(const ScheduledTransData& trans);
 	ScheduledTransData(const TransactionData& data,
 		const TransactionInterval& interval = SCHEDULED_MONTHLY, const int32& count = 0);
-	virtual ~ScheduledTransData(void);
+	virtual ~ScheduledTransData();
 	ScheduledTransData& operator=(const ScheduledTransData& from);
 
-	TransactionInterval GetInterval(void) const { return fInterval; }
+	TransactionInterval GetInterval() const { return fInterval; }
 
 	void SetInterval(const TransactionInterval& interval) { fInterval = interval; }
 
-	int32 GetCount(void) const { return fCount; }
+	int32 GetCount() const { return fCount; }
 
 	// count < 0 means repeat indefinitely
 	void SetCount(const int32 count) { fCount = count; }
 
 	void SetNextDueDate(const time_t& date) { fNextDate = date; }
 
-	void CalculateNextDueDate(void);
+	void CalculateNextDueDate();
 
-	time_t GetNextDueDate(void) const { return fNextDate; }
+	time_t GetNextDueDate() const { return fNextDate; }
 
 	void SetDestination(const int32 destinationAccount) { fDestination = destinationAccount; }
-	int32 GetDestination(void) const { return fDestination; }
+	int32 GetDestination() const { return fDestination; }
 
 	// If everything which needs to be in a transaction is there and valid, it
 	// returns true
-	virtual bool IsValid(void) const;
-	virtual void MakeEmpty(void);
+	virtual bool IsValid() const;
+	virtual void MakeEmpty();
 
 private:
 	TransactionInterval fInterval;

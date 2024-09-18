@@ -43,32 +43,32 @@ class HelpButton;
 class SplitView : public BView, public Observer {
 public:
 	SplitView(const char* name, const TransactionData& trans, const int32& flags);
-	~SplitView(void);
-	void AttachedToWindow(void);
-	void DetachedFromWindow(void);
+	~SplitView();
+	void AttachedToWindow();
+	void DetachedFromWindow();
 	void MessageReceived(BMessage* msg);
 	void SetFields(const char* date, const char* type, const char* payee, const char* amount,
 		const char* category, const char* memo);
 
 	void HandleNotify(const uint64& value, const BMessage* msg);
-	void MakeEmpty(void);
+	void MakeEmpty();
 	void MakeFocus(bool value = true);
 	void FrameResized(float width, float height);
 
-	bool IsSplitHidden(void) const { return fSplitContainer->IsHidden(); }
+	bool IsSplitHidden() const { return fSplitContainer->IsHidden(); }
 
-	void ToggleSplit(void);
+	void ToggleSplit();
 
 private:
 	friend SplitViewFilter;
-	bool ValidateAllFields(void);
-	//	bool ValidateDateField(void);
-	//	bool ValidateAmountField(void);
-	bool ValidateSplitAmountField(void);
-	//	bool ValidateCategoryField(void);
-	bool ValidateSplitItems(void);
-	Fixed CalculateTotal(void);
-	Category* MakeCategory(void);
+	bool ValidateAllFields();
+	//	bool ValidateDateField();
+	//	bool ValidateAmountField();
+	bool ValidateSplitAmountField();
+	//	bool ValidateCategoryField();
+	bool ValidateSplitItems();
+	Fixed CalculateTotal();
+	Category* MakeCategory();
 
 	DateBox* fDate;
 	PayeeBox* fPayee;

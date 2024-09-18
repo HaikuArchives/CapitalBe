@@ -1,9 +1,9 @@
 #ifndef TRANSEDITWIN_H
 #define TRANSEDITWIN_H
 
+#include "SplitView.h"
 #include <Message.h>
 #include <Window.h>
-#include "SplitView.h"
 
 class TransactionData;
 

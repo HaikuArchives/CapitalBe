@@ -1,11 +1,11 @@
-#include <Catalog.h>
 #include "Database.h"
 #include "ScheduledTransData.h"
 #include "TimeSupport.h"
+#include <Catalog.h>
 
 
 void
-HandleScheduledTransactions(void)
+HandleScheduledTransactions()
 {
 	// This function does one thing: enter any transactions which are
 	// scheduled for entry

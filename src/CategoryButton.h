@@ -13,7 +13,7 @@ class CategoryButton : public BButton {
 public:
 	CategoryButton(CategoryBox* box);
 
-	void AttachedToWindow(void);
+	void AttachedToWindow();
 	virtual void MessageReceived(BMessage* message);
 
 private:
@@ -34,4 +34,4 @@ private:
 	BMessenger fTarget;
 };
 
-#endif	// CATEGORYBUTTON_H
+#endif // CATEGORYBUTTON_H

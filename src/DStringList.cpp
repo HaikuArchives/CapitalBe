@@ -1,16 +1,20 @@
 #include "DStringList.h"
 #include <stdio.h>
 
+
 DStringList::DStringList(int32 itemsPerBlock, bool owner)
-	: fList(itemsPerBlock),
-	  fOwner(owner)
+	:
+	fList(itemsPerBlock),
+	fOwner(owner)
 {
 }
+
 
 DStringList::~DStringList()
 {
 	MakeEmpty(fOwner);
 }
+
 
 bool
 DStringList::AddItem(const char* string)
@@ -21,6 +25,7 @@ DStringList::AddItem(const char* string)
 	return fList.AddItem(new BString(string));
 }
 
+
 bool
 DStringList::AddItem(const char* string, int32 atIndex)
 {
@@ -29,6 +34,7 @@ DStringList::AddItem(const char* string, int32 atIndex)
 
 	return fList.AddItem(new BString(string), atIndex);
 }
+
 
 bool
 DStringList::AddList(DStringList* newItems)
@@ -41,6 +47,7 @@ DStringList::AddList(DStringList* newItems)
 	return true;
 }
 
+
 bool
 DStringList::AddList(DStringList* newItems, int32 atIndex)
 {
@@ -52,11 +59,13 @@ DStringList::AddList(DStringList* newItems, int32 atIndex)
 	return true;
 }
 
+
 bool
 DStringList::RemoveItem(BString* item)
 {
 	return fList.RemoveItem(item);
 }
+
 
 BString*
 DStringList::RemoveItem(int32 index)
@@ -64,17 +73,20 @@ DStringList::RemoveItem(int32 index)
 	return (BString*)fList.RemoveItem(index);
 }
 
+
 bool
 DStringList::RemoveItems(int32 index, int32 count)
 {
 	return (BString*)fList.RemoveItems(index, count);
 }
 
+
 bool
 DStringList::ReplaceItem(int32 index, BString* newItem)
 {
 	return fList.ReplaceItem(index, newItem);
 }
+
 
 bool
 DStringList::HasItem(const char* string) const
@@ -90,6 +102,7 @@ DStringList::HasItem(const char* string) const
 	return false;
 }
 
+
 BString*
 DStringList::FindItem(const char* string) const
 {
@@ -103,6 +116,7 @@ DStringList::FindItem(const char* string) const
 	}
 	return NULL;
 }
+
 
 void
 DStringList::MakeEmpty(bool freemem)
@@ -118,8 +132,9 @@ DStringList::MakeEmpty(bool freemem)
 	fList.MakeEmpty();
 }
 
+
 void
-DStringList::PrintToStream(void)
+DStringList::PrintToStream()
 {
 	BString* str;
 

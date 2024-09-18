@@ -11,18 +11,18 @@ class StickyDrawButton : public BButton {
 public:
 	StickyDrawButton(BRect frame, const char* name, BBitmap* up, BBitmap* down, BMessage* msg,
 		const int32& resize, const int32& flags);
-	~StickyDrawButton(void);
+	~StickyDrawButton();
 
 	void Draw(BRect update);
 
 	void SetBitmaps(BBitmap* up, BBitmap* down);
-	void ResizeToPreferred(void);
+	void ResizeToPreferred();
 	void SetDisabled(BBitmap* disabledup, BBitmap* disableddown);
 	void MouseUp(BPoint pt);
 
 	//	void	MessageReceived(BMessage *msg);
 
-	int32 GetState(void) { return fButtonState ? 1 : 0; };
+	int32 GetState() { return fButtonState ? 1 : 0; }
 
 	void SetState(int32 value);
 

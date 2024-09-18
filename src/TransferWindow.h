@@ -1,6 +1,9 @@
 #ifndef TRANSFERWINDOW_H
 #define TRANSFERWINDOW_H
 
+#include "Account.h"
+#include "AccountListView.h"
+#include "Fixed.h"
 #include <Button.h>
 #include <ListView.h>
 #include <StringView.h>
@@ -8,9 +11,6 @@
 #include <View.h>
 #include <Window.h>
 #include <time.h>
-#include "Account.h"
-#include "AccountListView.h"
-#include "Fixed.h"
 
 #define M_CREATE_TRANSFER 'crtn'
 #define M_EDIT_TRANSFER 'edtn'
@@ -30,7 +30,7 @@ private:
 	friend class TransferFilter;
 
 	void InitObject(Account* src, Account* dest, const Fixed& amount);
-	void HandleOKButton(void);
+	void HandleOKButton();
 
 	BTextControl* fMemo;
 	DateBox* fDate;

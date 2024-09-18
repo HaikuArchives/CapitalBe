@@ -9,17 +9,17 @@
 class ReconcileItem : public BStringItem {
 public:
 	ReconcileItem(const TransactionData& trans);
-	~ReconcileItem(void);
+	~ReconcileItem();
 	void DrawItem(BView* owner, BRect frame, bool complete = false);
 
-	TransactionData* GetTransaction(void) { return &fTransaction; }
+	TransactionData* GetTransaction() { return &fTransaction; }
 
 	void SetReconciled(bool value);
-	bool IsReconciled(void) const;
+	bool IsReconciled() const;
 
-	void SyncToTransaction(void);
+	void SyncToTransaction();
 
-	void RevertTransaction(void) { fTransaction.SetStatus(TRANS_OPEN); }
+	void RevertTransaction() { fTransaction.SetStatus(TRANS_OPEN); }
 
 private:
 	TransactionData fTransaction;

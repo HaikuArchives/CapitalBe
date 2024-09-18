@@ -8,10 +8,10 @@
 
 #ifndef DEBUG_DATABASE
 
-#include <Roster.h>
 #include "App.h"
 #include "MainWindow.h"
 #include "Preferences.h"
+#include <Roster.h>
 
 bool gRestartApp = false;
 
@@ -19,8 +19,9 @@ bool gRestartApp = false;
 #define B_TRANSLATION_CONTEXT "App"
 
 
-App::App(void)
-	: BApplication(kApplicationSignature)
+App::App()
+	:
+	BApplication(kApplicationSignature)
 {
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path, true);
@@ -41,13 +42,15 @@ App::App(void)
 	win->Show();
 }
 
-App::~App(void)
+
+App::~App()
 {
 	SavePreferences();
 }
 
+
 void
-App::AboutRequested(void)
+App::AboutRequested()
 {
 	BAboutWindow* abwin
 		= new BAboutWindow(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), kApplicationSignature);
@@ -82,6 +85,7 @@ App::AboutRequested(void)
 	abwin->ResizeTo(width, width);
 }
 
+
 void
 App::MessageReceived(BMessage* msg)
 {
@@ -91,8 +95,9 @@ App::MessageReceived(BMessage* msg)
 		BApplication::MessageReceived(msg);
 }
 
+
 int
-main(void)
+main()
 {
 	App* app = new App;
 	app->Run();
@@ -105,14 +110,15 @@ main(void)
 
 // Test code
 
-#include <Entry.h>
 #include "CBLocale.h"
 #include "Fixed.h"
 #include "Import.h"
 #include "Transaction.h"
+#include <Entry.h>
+
 
 void
-StartFile(void)
+StartFile()
 {
 	BEntry entry("/boot/develop/projects/CapitalBe/cbsql/testdb");
 	if (entry.Exists())
@@ -166,11 +172,12 @@ StartFile(void)
 	*/
 }
 
+
 int
-main(void)
+main()
 {
 	//	gDatabase.OpenFile("/boot/develop/projects/CapitalBe/cbsql/testdb");
 
 	StartFile();
 }
-#endif	// end disabled test code
+#endif // end disabled test code

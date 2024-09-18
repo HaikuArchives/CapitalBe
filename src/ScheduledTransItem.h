@@ -1,9 +1,9 @@
 #ifndef SCHEDULEDTRANS_ITEM_H
 #define SCHEDULEDTRANS_ITEM_H
 
+#include "ScheduledTransData.h"
 #include <ListItem.h>
 #include <time.h>
-#include "ScheduledTransData.h"
 
 class Account;
 
@@ -16,11 +16,11 @@ public:
 	void DrawItem(BView* owner, BRect frame, bool complete = false);
 	void Update(BView* owner, const BFont* finfo);
 
-	uint32 GetID(void) const { return fID; }
+	uint32 GetID() const { return fID; }
 
-	const char* GetDate(void) const { return fDate.String(); }
+	const char* GetDate() const { return fDate.String(); }
 
-	const char* GetPayee(void) const { return fPayee.String(); }
+	const char* GetPayee() const { return fPayee.String(); }
 
 	void SetData(const TransactionData& trans);
 
