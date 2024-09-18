@@ -22,7 +22,7 @@
 
 Locale::Locale()
 {
-	SetDefaults();
+	_SetDefaults();
 }
 
 
@@ -201,7 +201,7 @@ Locale::StringToDate(const char* instring, time_t& date)
 
 
 void
-Locale::SetDefaults()
+Locale::_SetDefaults()
 {
 	fCurrencySymbol = "";
 	fPrefixSymbol = true;

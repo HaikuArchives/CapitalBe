@@ -33,19 +33,17 @@ class RegisterView : public BView, public Observer {
 public:
 	RegisterView(const char* name, int32 flags);
 	~RegisterView();
-	void MessageReceived(BMessage* msg);
+
 	void AttachedToWindow();
+	void MessageReceived(BMessage* msg);
 
 	void HandleNotify(const uint64& value, const BMessage* msg);
 	void SelectAccount(const int32& index);
 	void SetCheckFields(TransactionData data);
 
 	bool SelectNextTransaction() { return fTransactionView->SelectNext(); }
-
 	bool SelectPreviousTransaction() { return fTransactionView->SelectPrevious(); }
-
 	bool SelectFirstTransaction() { return fTransactionView->SelectFirst(); }
-
 	bool SelectLastTransaction() { return fTransactionView->SelectLast(); }
 
 private:

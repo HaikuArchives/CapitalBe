@@ -115,13 +115,13 @@ CategoryBox::Validate()
 	}
 
 	SetText(category);
-	bool success = SetTypeFromCategory(category);
+	bool success = _SetTypeFromCategory(category);
 	return success;
 }
 
 
 bool
-CategoryBox::SetTypeFromCategory(BString category)
+CategoryBox::_SetTypeFromCategory(BString category)
 {
 	CppSQLite3Query query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name ASC",
 		"CategoryView::CategoryView");
@@ -144,7 +144,7 @@ CategoryBox::SetTypeFromCategory(BString category)
 		&& category.ICompare(B_TRANSLATE_ALL("Split", "CommonTerms",
 			   "The noun 'split', as in 'a split-category'"))
 			!= 0) {
-		bool success = AddNewCategory(category);
+		bool success = _AddNewCategory(category);
 	}
 
 	return success;
@@ -152,7 +152,7 @@ CategoryBox::SetTypeFromCategory(BString category)
 
 
 bool
-CategoryBox::AddNewCategory(BString category)
+CategoryBox::_AddNewCategory(BString category)
 {
 	BString text(B_TRANSLATE("You created the new category '%categoryname%'.\n\n"
 							 "Please select a transaction type for it, 'income' or 'spending'."));

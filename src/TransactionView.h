@@ -26,7 +26,7 @@ public:
 	void MouseDown(BPoint position);
 
 private:
-	void ShowPopUpMenu(BPoint screen);
+	void _ShowPopUpMenu(BPoint screen);
 	bool fShowingPopUpMenu;
 };
 
@@ -65,10 +65,10 @@ public:
 	bool SelectLast();
 
 private:
-	int32 FindItemForID(const uint32& id);
-	int32 FindIndexForDate(const time_t& time, const char* payee);
-	void CalculatePeriod(int32 period, time_t& start, time_t& end);
-	BString GenerateQueryCommand(int32 accountID, BMessage* message = NULL);
+	int32 _FindItemForID(const uint32& id);
+	int32 _FindIndexForDate(const time_t& time, const char* payee);
+	void _CalculatePeriod(int32 period, time_t& start, time_t& end);
+	BString _GenerateQueryCommand(int32 accountID, BMessage* message = NULL);
 
 	TransactionList* fListView;
 	BObjectList<TransactionItem>* fItemList;

@@ -17,11 +17,8 @@ public:
 	void Update(BView* owner, const BFont* finfo);
 
 	uint32 GetID() const { return fID; }
-
 	const char* GetDate() const { return fDate.String(); }
-
 	const char* GetPayee() const { return fPayee.String(); }
-
 	void SetData(const TransactionData& trans);
 
 private:

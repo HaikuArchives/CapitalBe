@@ -21,7 +21,7 @@ public:
 	const char* GetMemo() const;
 
 private:
-	void UpdateLabel();
+	void _UpdateLabel();
 	BString fName;
 	Fixed fAmount;
 	BString fMemo;

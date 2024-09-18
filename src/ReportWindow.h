@@ -40,22 +40,24 @@ enum {
 class ReportWindow : public BWindow, public Observer {
 public:
 	ReportWindow(BRect frame);
+
 	void MessageReceived(BMessage* msg);
 	void FrameResized(float w, float h);
-	void HandleNotify(const uint64& value, const BMessage* msg);
 	bool QuitRequested();
 
+	void HandleNotify(const uint64& value, const BMessage* msg);
+
 private:
-	void AddAccount(Account* acc);
-	void FixGridScrollbar();
-	void RenderReport();
+	void _AddAccount(Account* acc);
+	void _FixGridScrollbar();
+	void _RenderReport();
 
-	void ComputeCashFlow();
-	void ComputeNetWorth();
-	void ComputeTransactions();
-	void ComputeBudget();
+	void _ComputeCashFlow();
+	void _ComputeNetWorth();
+	void _ComputeTransactions();
+	void _ComputeBudget();
 
-	void CalcCategoryString();
+	void _CalcCategoryString();
 
 	BMenuField* fReportField;
 	BMenuField* fSubtotalField;

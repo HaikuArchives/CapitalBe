@@ -59,9 +59,9 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 	BMenuBar* helpBar = new BMenuBar("helpbar");
 	helpBar->AddItem(new IconMenuItem("", new BMessage(M_HELP), getHelpIcon(), B_MINI_ICON));
 
-	BuildBudgetSummary();
-	BuildStatsAndEditor();
-	BuildCategoryList();
+	_BuildBudgetSummary();
+	_BuildStatsAndEditor();
+	_BuildCategoryList();
 
 	// clang-format off
 	BLayoutBuilder::Group<>(fCatBox, B_VERTICAL, 0.0f)
@@ -81,11 +81,11 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 	fAmountBox->GetFilter()->SetMessenger(new BMessenger(this));
 
 	if (gDatabase.CountBudgetEntries() == 0)
-		GenerateBudget(false);
+		_GenerateBudget(false);
 
-	RefreshBudgetGrid();
-	RefreshCategories();
-	RefreshBudgetSummary();
+	_RefreshBudgetGrid();
+	_RefreshCategories();
+	_RefreshBudgetSummary();
 	fCategoryList->MakeFocus(true);
 
 	// clang-format off
@@ -139,7 +139,7 @@ BudgetWindow::MessageReceived(BMessage* msg)
 		}
 		case M_SELECT_CATEGORY:
 		{
-			HandleCategorySelection();
+			_HandleCategorySelection();
 			fAmountBox->MakeFocus(true);
 			break;
 		}
@@ -171,8 +171,8 @@ BudgetWindow::MessageReceived(BMessage* msg)
 				entry.amount.Invert();
 			gDatabase.AddBudgetEntry(entry);
 
-			RefreshBudgetGrid();
-			RefreshBudgetSummary();
+			_RefreshBudgetGrid();
+			_RefreshBudgetSummary();
 
 			fBudgetSummary->SetFocusRow(entry.isexpense ? 1 : 0);
 			fBudgetSummary->SetFocusRow(2);
@@ -180,38 +180,38 @@ BudgetWindow::MessageReceived(BMessage* msg)
 		}
 		case M_BUDGET_RECALCULATE:
 		{
-			GenerateBudget(false);
-			RefreshBudgetGrid();
-			RefreshBudgetSummary();
-			RefreshCategories();
+			_GenerateBudget(false);
+			_RefreshBudgetGrid();
+			_RefreshBudgetSummary();
+			_RefreshCategories();
 			break;
 		}
 		case M_BUDGET_ZERO:
 		{
-			GenerateBudget(true);
-			RefreshBudgetGrid();
-			RefreshBudgetSummary();
-			RefreshCategories();
+			_GenerateBudget(true);
+			_RefreshBudgetGrid();
+			_RefreshBudgetSummary();
+			_RefreshCategories();
 			break;
 		}
 		case M_SET_PERIOD_MONTH:
 		{
-			SetPeriod(BUDGET_MONTHLY);
+			_SetPeriod(BUDGET_MONTHLY);
 			break;
 		}
 		case M_SET_PERIOD_WEEK:
 		{
-			SetPeriod(BUDGET_WEEKLY);
+			_SetPeriod(BUDGET_WEEKLY);
 			break;
 		}
 		case M_SET_PERIOD_QUARTER:
 		{
-			SetPeriod(BUDGET_QUARTERLY);
+			_SetPeriod(BUDGET_QUARTERLY);
 			break;
 		}
 		case M_SET_PERIOD_YEAR:
 		{
-			SetPeriod(BUDGET_ANNUALLY);
+			_SetPeriod(BUDGET_ANNUALLY);
 			break;
 		}
 		case M_NEXT_FIELD:
@@ -233,7 +233,7 @@ BudgetWindow::MessageReceived(BMessage* msg)
 
 
 void
-BudgetWindow::HandleCategorySelection()
+BudgetWindow::_HandleCategorySelection()
 {
 	BRow* row = fCategoryList->CurrentSelection();
 	if (!row) {
@@ -283,7 +283,7 @@ BudgetWindow::HandleCategorySelection()
 	fAmountBox->SetText(str.String());
 
 	Fixed high, low, avg;
-	CalcStats(entry.name.String(), high, low, avg);
+	_CalcStats(entry.name.String(), high, low, avg);
 
 	gDefaultLocale.CurrencyToString(avg.AbsoluteValue(), str);
 	str.RemoveFirst(gDefaultLocale.CurrencySymbol());
@@ -302,7 +302,7 @@ BudgetWindow::HandleCategorySelection()
 
 
 void
-BudgetWindow::RefreshCategories()
+BudgetWindow::_RefreshCategories()
 {
 	fCategoryList->Clear();
 	fIncomeRow = new BRow();
@@ -352,7 +352,7 @@ BudgetWindow::RefreshCategories()
 
 
 void
-BudgetWindow::RefreshBudgetSummary()
+BudgetWindow::_RefreshBudgetSummary()
 {
 	Fixed itotal, stotal, mtotal, f;
 	Fixed irowtotal, srowtotal, ttotal;
@@ -423,7 +423,7 @@ BudgetWindow::RefreshBudgetSummary()
 
 
 void
-BudgetWindow::RefreshBudgetGrid()
+BudgetWindow::_RefreshBudgetGrid()
 {
 	fIncomeGrid.MakeEmpty();
 	fSpendingGrid.MakeEmpty();
@@ -477,7 +477,7 @@ BudgetWindow::RefreshBudgetGrid()
 
 
 void
-BudgetWindow::GenerateBudget(const bool& zero)
+BudgetWindow::_GenerateBudget(const bool& zero)
 {
 	// Generate a budget based on the last year's transactions
 	ReportGrid income(1, 0), spending(1, 0);
@@ -570,7 +570,7 @@ BudgetWindow::GenerateBudget(const bool& zero)
 
 
 void
-BudgetWindow::CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg)
+BudgetWindow::_CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg)
 {
 	if (!cat)
 		return;
@@ -629,7 +629,7 @@ BudgetWindow::CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg)
 
 
 void
-BudgetWindow::SetPeriod(const BudgetPeriod& period)
+BudgetWindow::_SetPeriod(const BudgetPeriod& period)
 {
 	BRow* row = fCategoryList->CurrentSelection();
 	if (!row)
@@ -690,8 +690,8 @@ BudgetWindow::SetPeriod(const BudgetPeriod& period)
 	entry.amount.Round();
 
 	gDatabase.AddBudgetEntry(entry);
-	RefreshBudgetGrid();
-	RefreshBudgetSummary();
+	_RefreshBudgetGrid();
+	_RefreshBudgetSummary();
 
 	BString str;
 	gDefaultLocale.CurrencyToString(entry.amount, str);
@@ -707,7 +707,7 @@ BudgetWindow::SetPeriod(const BudgetPeriod& period)
 
 
 void
-BudgetWindow::BuildStatsAndEditor()
+BudgetWindow::_BuildStatsAndEditor()
 {
 	// Add the category statistics
 	BString temp;
@@ -766,7 +766,7 @@ BudgetWindow::BuildStatsAndEditor()
 
 
 void
-BudgetWindow::BuildBudgetSummary()
+BudgetWindow::_BuildBudgetSummary()
 {
 	fSummaryIncomeRow = new BRow();
 	fSummarySpendingRow = new BRow();
@@ -821,7 +821,7 @@ BudgetWindow::BuildBudgetSummary()
 
 
 void
-BudgetWindow::BuildCategoryList()
+BudgetWindow::_BuildCategoryList()
 {
 	fCategoryList
 		= new BColumnListView("categorylist", B_WILL_DRAW | B_NAVIGABLE, B_FANCY_BORDER, true);

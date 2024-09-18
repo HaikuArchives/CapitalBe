@@ -231,7 +231,7 @@ CheckView::MessageReceived(BMessage* msg)
 		}
 		case M_NEXT_FIELD:
 		{
-			DoNextField();
+			_DoNextField();
 			break;
 		}
 		default:
@@ -349,7 +349,7 @@ CheckView::FrameResized(float width, float height)
 
 
 void
-CheckView::DoNextField()
+CheckView::_DoNextField()
 {
 	if (fDate->ChildAt(0)->IsFocus()) {
 		if (fDate->Validate(false)) {

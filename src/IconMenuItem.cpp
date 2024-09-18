@@ -24,7 +24,7 @@ IconMenuItem::IconMenuItem(const char* label, BMessage* message, BBitmap* icon, 
 	fHeightDelta(0),
 	fWhich(which)
 {
-	SetIcon(icon);
+	_SetIcon(icon);
 
 	// IconMenuItem is used in synchronously invoked menus, make sure
 	// we invoke with a timeout
@@ -115,7 +115,7 @@ IconMenuItem::IconMenuItem(BMenu* menu, BMessage* message, BBitmap* icon, icon_s
 	fHeightDelta(0),
 	fWhich(which)
 {
-	SetIcon(icon);
+	_SetIcon(icon);
 
 	// IconMenuItem is used in synchronously invoked menus, make sure
 	// we invoke with a timeout
@@ -280,13 +280,13 @@ IconMenuItem::SetMarked(bool mark)
 	// our topmost menu's item is an IconMenuItem
 
 	// update the icon
-	topLevelIconMenuItem->SetIcon(fDeviceIcon);
+	topLevelIconMenuItem->_SetIcon(fDeviceIcon);
 	menu->Invalidate();
 }
 
 
 void
-IconMenuItem::SetIcon(BBitmap* icon)
+IconMenuItem::_SetIcon(BBitmap* icon)
 {
 	if (icon != NULL) {
 		if (fDeviceIcon != NULL)

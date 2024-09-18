@@ -17,13 +17,9 @@ public:
 		uint32 flags = B_WILL_DRAW | B_NAVIGABLE);
 
 	void SetDate(const time_t& date) { fCurrentDate = date; }
-
 	time_t GetDate() const { return fCurrentDate; }
-
 	bool Validate(const bool& alert = true);
-
 	void UseTabFiltering(const bool& value) { fFilterTab = value; }
-
 	bool IsTabFiltering() const { return fFilterTab; }
 
 private:

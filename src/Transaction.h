@@ -32,9 +32,7 @@ public:
 	TransactionType(const char* data) { SetType(data); }
 
 	void SetType(const char* data);
-
 	const char* Type() const { return fTypeData.String(); }
-
 	uint8 TypeCode() const { return fTypeCode; }
 
 private:
@@ -47,7 +45,6 @@ public:
 	Transaction();
 
 	void SetID(const time_t& id) { fID = id; }
-
 	time_t GetID() const { return fID; }
 
 private:

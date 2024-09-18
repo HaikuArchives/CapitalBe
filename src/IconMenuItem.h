@@ -39,7 +39,7 @@ public:
 	virtual void SetMarked(bool mark);
 
 private:
-	virtual void SetIcon(BBitmap* icon);
+	virtual void _SetIcon(BBitmap* icon);
 
 private:
 	BBitmap* fDeviceIcon;

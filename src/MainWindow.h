@@ -66,17 +66,18 @@ public:
 	MainWindow(BRect frame);
 	~MainWindow();
 
-	void OpenAbout();
 	bool QuitRequested();
 	void MessageReceived(BMessage* msg);
+
 	void HandleNotify(const uint64& value, const BMessage* msg);
+	void OpenAbout();
 
 private:
-	void InitSettings();
-	void LoadData();
-	void SaveData();
+	void _InitSettings();
+	void _LoadData();
+	void _SaveData();
 
-	void CreateTransfer(BMessage* msg);
+	void _CreateTransfer(BMessage* msg);
 
 	RegisterView* fRegisterView;
 	BFilePanel *fImportPanel, *fExportPanel;

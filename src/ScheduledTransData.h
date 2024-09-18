@@ -13,21 +13,18 @@ public:
 	ScheduledTransData(const TransactionData& data,
 		const TransactionInterval& interval = SCHEDULED_MONTHLY, const int32& count = 0);
 	virtual ~ScheduledTransData();
+
 	ScheduledTransData& operator=(const ScheduledTransData& from);
 
 	TransactionInterval GetInterval() const { return fInterval; }
-
 	void SetInterval(const TransactionInterval& interval) { fInterval = interval; }
 
 	int32 GetCount() const { return fCount; }
-
 	// count < 0 means repeat indefinitely
 	void SetCount(const int32 count) { fCount = count; }
 
 	void SetNextDueDate(const time_t& date) { fNextDate = date; }
-
 	void CalculateNextDueDate();
-
 	time_t GetNextDueDate() const { return fNextDate; }
 
 	void SetDestination(const int32 destinationAccount) { fDestination = destinationAccount; }

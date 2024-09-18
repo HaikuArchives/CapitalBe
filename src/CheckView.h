@@ -45,7 +45,7 @@ public:
 	void SetFieldsEnabled(bool enabled);
 
 private:
-	void DoNextField();
+	void _DoNextField();
 
 	DateBox* fDate;
 	PayeeBox* fPayee;

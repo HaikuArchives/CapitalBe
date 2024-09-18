@@ -37,7 +37,7 @@ public:
 private:
 	friend class CapitalBeParser;
 
-	void SetDefaults();
+	void _SetDefaults();
 
 	BString fCurrencySymbol;
 	bool fPrefixSymbol;

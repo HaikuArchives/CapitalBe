@@ -32,7 +32,7 @@ CategoryButton::CategoryButton(CategoryBox* categorybox)
 	BSize size(height - 2, height);
 	SetExplicitSize(size);
 
-	SetIcon(DrawIcon());
+	SetIcon(_DrawIcon());
 }
 
 
@@ -49,7 +49,7 @@ CategoryButton::MessageReceived(BMessage* msg)
 	switch (msg->what) {
 		case M_SHOW_POPUP:
 		{
-			ShowPopUpMenu();
+			_ShowPopUpMenu();
 			break;
 		}
 		case M_CLOSE_POPUP:
@@ -87,7 +87,7 @@ CategoryButton::MessageReceived(BMessage* msg)
 
 
 BBitmap*
-CategoryButton::DrawIcon()
+CategoryButton::_DrawIcon()
 {
 	font_height fh;
 	GetFontHeight(&fh);
@@ -133,7 +133,7 @@ CategoryButton::DrawIcon()
 
 
 void
-CategoryButton::ShowPopUpMenu()
+CategoryButton::_ShowPopUpMenu()
 {
 	if (fShowingPopUpMenu)
 		return;

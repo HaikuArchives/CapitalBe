@@ -146,7 +146,7 @@ ReconcileWindow::ReconcileWindow(const BRect frame, Account* account)
 	fTotalLabel = new BStringView("totallabel", temp.String());
 	fTotalLabel->SetAlignment(B_ALIGN_CENTER);
 
-	account->DoForEachTransaction(AddReconcileItems, this);
+	account->DoForEachTransaction(_AddReconcileItems, this);
 
 	fDate->MakeFocus(true);
 
@@ -248,7 +248,7 @@ ReconcileWindow::MessageReceived(BMessage* msg)
 		}
 		case M_RECONCILE:
 		{
-			ApplyChargesAndInterest();
+			_ApplyChargesAndInterest();
 
 			int32 i;
 			ReconcileItem* item;
@@ -385,7 +385,7 @@ ReconcileWindow::MessageReceived(BMessage* msg)
 		}
 		case M_AUTORECONCILE:
 		{
-			AutoReconcile();
+			_AutoReconcile();
 			BMessage notify;
 			fAccount->Notify(WATCH_REDRAW | WATCH_ACCOUNT, &notify);
 
@@ -431,11 +431,11 @@ ReconcileWindow::HandleNotify(const uint64& value, const BMessage* msg)
 				ReconcileItem* deleteditem;
 				BListView* itemlist;
 
-				deleteditem = FindItemForID(fDepositList, id);
+				deleteditem = _FindItemForID(fDepositList, id);
 				if (deleteditem)
 					itemlist = fDepositList;
 				else {
-					deleteditem = FindItemForID(fChargeList, id);
+					deleteditem = _FindItemForID(fChargeList, id);
 					if (deleteditem)
 						itemlist = fChargeList;
 					else {
@@ -463,9 +463,9 @@ ReconcileWindow::HandleNotify(const uint64& value, const BMessage* msg)
 				ReconcileItem* newitem = new ReconcileItem(*data);
 
 				if (data->Type().TypeCode() == TRANS_DEP)
-					InsertTransactionItem(fDepositList, newitem);
+					_InsertTransactionItem(fDepositList, newitem);
 				else
-					InsertTransactionItem(fChargeList, newitem);
+					_InsertTransactionItem(fChargeList, newitem);
 			}
 		}
 	}
@@ -483,7 +483,7 @@ ReconcileWindow::QuitRequested()
 
 
 void
-ReconcileWindow::ApplyChargesAndInterest()
+ReconcileWindow::_ApplyChargesAndInterest()
 {
 	Fixed charge;
 	if (strlen(fCharges->Text()) > 0
@@ -505,7 +505,7 @@ ReconcileWindow::ApplyChargesAndInterest()
 
 
 bool
-ReconcileWindow::AutoReconcile()
+ReconcileWindow::_AutoReconcile()
 {
 	// We are going to attempt to automatically reconcile the account. We will do
 	// this by adding up the values of all transactions unreconciled before the
@@ -575,7 +575,7 @@ ReconcileWindow::AutoReconcile()
 			item = (ReconcileItem*)list.ItemAt(i);
 			item->SetReconciled(true);
 		}
-		ApplyChargesAndInterest();
+		_ApplyChargesAndInterest();
 		ShowAlert(B_TRANSLATE("Success!"), B_TRANSLATE("Quick balance successful!"), B_IDEA_ALERT);
 		PostMessage(B_QUIT_REQUESTED);
 		return true;
@@ -590,7 +590,7 @@ ReconcileWindow::AutoReconcile()
 
 
 ReconcileItem*
-ReconcileWindow::FindItemForID(BListView* target, const uint32& id)
+ReconcileWindow::_FindItemForID(BListView* target, const uint32& id)
 {
 	for (int32 i = 0; i < target->CountItems(); i++) {
 		ReconcileItem* temp = (ReconcileItem*)target->ItemAt(i);
@@ -602,7 +602,7 @@ ReconcileWindow::FindItemForID(BListView* target, const uint32& id)
 
 
 void
-ReconcileWindow::InsertTransactionItem(BListView* target, ReconcileItem* item)
+ReconcileWindow::_InsertTransactionItem(BListView* target, ReconcileItem* item)
 {
 	TransactionData* itemdata = item->GetTransaction();
 
@@ -623,7 +623,7 @@ ReconcileWindow::InsertTransactionItem(BListView* target, ReconcileItem* item)
 
 
 void
-AddReconcileItems(const TransactionData& data, void* ptr)
+_AddReconcileItems(const TransactionData& data, void* ptr)
 {
 	if (data.Status() == TRANS_RECONCILED)
 		return;

@@ -18,24 +18,26 @@ class DateBox;
 class CurrencyBox;
 class ReconcileItem;
 
-void AddReconcileItems(const TransactionData& data, void* recwin);
+void _AddReconcileItems(const TransactionData& data, void* recwin);
 
 class ReconcileWindow : public BWindow, public Observer {
 public:
 	ReconcileWindow(const BRect frame, Account* account);
 	~ReconcileWindow();
+
 	void MessageReceived(BMessage* msg);
+
 	void HandleNotify(const uint64& value, const BMessage* msg);
 	bool QuitRequested();
 
 private:
-	friend class ReconcileFilter;
-	friend void AddReconcileItems(const TransactionData& data, void* ptr);
+	friend class _ReconcileFilter;
+	friend void _AddReconcileItems(const TransactionData& data, void* ptr);
 
-	void ApplyChargesAndInterest();
-	ReconcileItem* FindItemForID(BListView* target, const uint32& id);
-	void InsertTransactionItem(BListView* target, ReconcileItem* item);
-	bool AutoReconcile();
+	void _ApplyChargesAndInterest();
+	bool _AutoReconcile();
+	ReconcileItem* _FindItemForID(BListView* target, const uint32& id);
+	void _InsertTransactionItem(BListView* target, ReconcileItem* item);
 
 	Account* fAccount;
 

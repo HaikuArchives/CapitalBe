@@ -14,7 +14,7 @@
 
 
 void
-ReportWindow::ComputeCashFlow()
+ReportWindow::_ComputeCashFlow()
 {
 	// Calculate the number of columns and the starting date for each one
 	BObjectList<time_t> timelist(20, true);

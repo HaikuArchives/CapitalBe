@@ -13,11 +13,12 @@ public:
 	TextFile(const char* path, const uint32& openmode);
 	TextFile(const entry_ref& ref, const uint32& openmode);
 	~TextFile();
+
 	const char* ReadLine();
 	bool IsEOF();
 
 private:
-	void InitObject();
+	void _InitObject();
 
 	char* fBuffer;
 	off_t fBufferSize;

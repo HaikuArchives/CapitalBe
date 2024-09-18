@@ -149,7 +149,7 @@ DAlert::DAlert(const char* title, const char* text, const char* button1, const c
 	BWindow(DEFAULT_RECT, title, B_MODAL_WINDOW,
 		B_NOT_CLOSABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS)
 {
-	InitObject(text, button1, button2, button3, width, B_EVEN_SPACING, type);
+	_InitObject(text, button1, button2, button3, width, B_EVEN_SPACING, type);
 }
 
 
@@ -159,7 +159,7 @@ DAlert::DAlert(const char* title, const char* text, const char* button1, const c
 	BWindow(DEFAULT_RECT, title, B_MODAL_WINDOW,
 		B_NOT_CLOSABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS)
 {
-	InitObject(text, button1, button2, button3, width, spacing, type);
+	_InitObject(text, button1, button2, button3, width, spacing, type);
 }
 
 
@@ -194,7 +194,7 @@ DAlert::DAlert(BMessage* data)
 
 	TAlertView* master = (TAlertView*)FindView("_master_");
 	if (master)
-		master->SetBitmap(InitIcon());
+		master->SetBitmap(_InitIcon());
 
 	// Get keys
 	char key;
@@ -452,7 +452,7 @@ DAlert::_ReservedAlert3()
 
 
 void
-DAlert::InitObject(const char* text, const char* button0, const char* button1, const char* button2,
+DAlert::_InitObject(const char* text, const char* button0, const char* button1, const char* button2,
 	button_width width, button_spacing spacing, alert_type type)
 {
 	fInvoker = NULL;
@@ -467,7 +467,7 @@ DAlert::InitObject(const char* text, const char* button0, const char* button1, c
 	// Set up the "_master_" view
 	TAlertView* masterView = new TAlertView(Bounds());
 	AddChild(masterView);
-	masterView->SetBitmap(InitIcon());
+	masterView->SetBitmap(_InitIcon());
 
 	// Must have at least one button
 	if (button0 == NULL) {
@@ -625,7 +625,7 @@ DAlert::InitObject(const char* text, const char* button0, const char* button1, c
 
 
 BBitmap*
-DAlert::InitIcon()
+DAlert::_InitIcon()
 {
 	BBitmap* icon = NULL;
 

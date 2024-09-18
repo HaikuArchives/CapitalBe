@@ -23,7 +23,6 @@ public:
 	//	void	MessageReceived(BMessage *msg);
 
 	int32 GetState() { return fButtonState ? 1 : 0; }
-
 	void SetState(int32 value);
 
 private:

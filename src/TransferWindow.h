@@ -24,13 +24,14 @@ public:
 	TransferWindow(BHandler* target);
 	TransferWindow(BHandler* target, Account* src, Account* dest, const Fixed& amount);
 	void MessageReceived(BMessage* msg);
+
 	void SetMessage(BMessage msg);
 
 private:
 	friend class TransferFilter;
 
-	void InitObject(Account* src, Account* dest, const Fixed& amount);
-	void HandleOKButton();
+	void _InitObject(Account* src, Account* dest, const Fixed& amount);
+	void _HandleOKButton();
 
 	BTextControl* fMemo;
 	DateBox* fDate;

@@ -334,14 +334,14 @@ SplitView::MessageReceived(BMessage* msg)
 				if (!fCategory->Validate())
 					break;
 			} else {
-				if (!ValidateSplitItems())
+				if (!_ValidateSplitItems())
 					break;
 			}
 			Account* account = fTransaction.GetAccount();
 			if (!account)
 				ShowBug("NULL transaction account in SplitView::M_ENTER_TRANSACTION");
 
-			Category* cat = MakeCategory();
+			Category* cat = _MakeCategory();
 			fTransaction.Set(account, fDate->Text(), fCategory->GetType(), fPayee->Text(),
 				fAmount->Text(), NULL, fMemo->Text(), fTransaction.Status());
 			fTransaction.SetCategory(*cat);
@@ -386,7 +386,7 @@ SplitView::MessageReceived(BMessage* msg)
 			else if (fSplitCategory->ChildAt(0)->IsFocus())
 				fRemoveSplit->MakeFocus(true);
 			else if (fSplitAmount->ChildAt(0)->IsFocus()) {
-				if (ValidateSplitAmountField())
+				if (_ValidateSplitAmountField())
 					fSplitCategory->MakeFocus(true);
 			} else if (fSplitMemo->ChildAt(0)->IsFocus())
 				fSplitAmount->MakeFocus(true);
@@ -437,7 +437,7 @@ SplitView::MessageReceived(BMessage* msg)
 			else if (fSplitCategory->ChildAt(0)->IsFocus())
 				fSplitAmount->MakeFocus(true);
 			else if (fSplitAmount->ChildAt(0)->IsFocus()) {
-				if (ValidateSplitAmountField())
+				if (_ValidateSplitAmountField())
 					fSplitMemo->MakeFocus(true);
 			} else if (fSplitMemo->ChildAt(0)->IsFocus())
 				fSplitItems->MakeFocus(true);
@@ -459,7 +459,7 @@ SplitView::MessageReceived(BMessage* msg)
 			SplitItem* item = new SplitItem();
 			item->SetCategory(B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"));
 			item->SetAmount(
-				fTransaction.Amount().AbsoluteValue() - CalculateTotal().AbsoluteValue());
+				fTransaction.Amount().AbsoluteValue() - _CalculateTotal().AbsoluteValue());
 			fSplitItems->AddItem(item);
 			fSplitItems->Select(fSplitItems->IndexOf(item));
 			fSplitCategory->MakeFocus(true);
@@ -568,13 +568,13 @@ SplitView::MessageReceived(BMessage* msg)
 
 			BString totalLabel(B_TRANSLATE("Total:"));
 			BString tempTotal;
-			Fixed totalFixed(CalculateTotal().AbsoluteValue());
+			Fixed totalFixed(_CalculateTotal().AbsoluteValue());
 			gCurrentLocale.CurrencyToString(totalFixed, tempTotal);
 			totalLabel << " " << tempTotal;
 			fSplitTotal->SetText(totalLabel.String());
 
 			// Color total if the splits don't add up to the transaction amount
-			float totalAmount = CalculateTotal().AbsoluteValue().AsFloat();
+			float totalAmount = _CalculateTotal().AbsoluteValue().AsFloat();
 			rgb_color totalColor = (totalFixed == fTransaction.Amount().AbsoluteValue())
 				? ui_color(B_PANEL_TEXT_COLOR)
 				: ui_color(B_FAILURE_COLOR);
@@ -678,7 +678,7 @@ SplitView::FrameResized(float width, float height)
 
 
 bool
-SplitView::ValidateSplitAmountField()
+SplitView::_ValidateSplitAmountField()
 {
 	if (strlen(fSplitAmount->Text()) < 1)
 		fSplitAmount->SetText("0");
@@ -701,7 +701,7 @@ SplitView::ValidateSplitAmountField()
 
 
 bool
-SplitView::ValidateSplitItems()
+SplitView::_ValidateSplitItems()
 {
 	if (fSplitItems->CountItems() == 0)
 		return true;
@@ -741,7 +741,7 @@ SplitView::ValidateSplitItems()
 
 
 bool
-SplitView::ValidateAllFields()
+SplitView::_ValidateAllFields()
 {
 	BString date;
 	if (strlen(fDate->Text()) < 1) {
@@ -761,7 +761,7 @@ SplitView::ValidateAllFields()
 	if (!fAmount->Validate())
 		return false;
 
-	if (!(ValidateSplitItems()))
+	if (!(_ValidateSplitItems()))
 		return false;
 
 	return true;
@@ -799,7 +799,7 @@ SplitView::ToggleSplit()
 
 
 Category*
-SplitView::MakeCategory()
+SplitView::_MakeCategory()
 {
 	// This makes a category object from the existing data
 	Category* cat = new Category();
@@ -837,7 +837,7 @@ SplitView::MakeCategory()
 
 
 Fixed
-SplitView::CalculateTotal()
+SplitView::_CalculateTotal()
 {
 	Fixed total;
 

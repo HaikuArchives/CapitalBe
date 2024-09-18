@@ -128,7 +128,7 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 	if (strcmp(locale->CurrencySymbol(), "") == 0) {
 		fLocale.SetCurrencySymbol("$");
 		fCurrencySymbolBox->SetText(fLocale.CurrencySymbol());
-		UpdateCurrencyLabel();
+		_UpdateCurrencyLabel();
 	}
 }
 
@@ -140,7 +140,7 @@ CurrencyPrefView::AttachedToWindow()
 	fCurrencySymbolPrefix->SetTarget(this);
 	fDecimalSpinner->SetTarget(this);
 
-	UpdateCurrencyLabel();
+	_UpdateCurrencyLabel();
 }
 
 
@@ -156,7 +156,7 @@ CurrencyPrefView::MessageReceived(BMessage* msg)
 			fLocale.SetCurrencySymbol(fCurrencySymbolBox->Text());
 			fLocale.SetCurrencySymbolPrefix(fCurrencySymbolPrefix->Value() == B_CONTROL_ON);
 			fLocale.SetCurrencyDecimalPlace(fDecimalSpinner->Value());
-			UpdateCurrencyLabel();
+			_UpdateCurrencyLabel();
 			break;
 		}
 		default:
@@ -167,7 +167,7 @@ CurrencyPrefView::MessageReceived(BMessage* msg)
 
 
 void
-CurrencyPrefView::UpdateCurrencyLabel()
+CurrencyPrefView::_UpdateCurrencyLabel()
 {
 	BString temp, label;
 	label = B_TRANSLATE("Currency format");
@@ -222,7 +222,7 @@ NegativeNumberView::NegativeNumberView(const char* name, rgb_color negColor)
 	fClosedPreview->SetViewColor(ui_color(B_LIST_BACKGROUND_COLOR));
 	fClosedPreview->SetText(negativeAmount);
 
-	UpdateColor(negColor);
+	_UpdateColor(negColor);
 
 	// clang-format off
 	BLayoutBuilder::Group<>(negColorBox, B_VERTICAL, B_USE_DEFAULT_SPACING)
@@ -261,7 +261,7 @@ NegativeNumberView::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
 		case M_UPDATE_COLOR:
-			UpdateColor(fColorPicker->ValueAsColor());
+			_UpdateColor(fColorPicker->ValueAsColor());
 			break;
 
 		default:
@@ -278,7 +278,7 @@ NegativeNumberView::GetColor(rgb_color& color)
 
 
 void
-NegativeNumberView::UpdateColor(rgb_color color)
+NegativeNumberView::_UpdateColor(rgb_color color)
 {
 	fUnselectedPreview->SetFontAndColor(be_plain_font, B_FONT_ALL, &color);
 	fSelectedPreview->SetFontAndColor(be_plain_font, B_FONT_ALL, &color);

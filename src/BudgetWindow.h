@@ -28,17 +28,18 @@ public:
 	void MessageReceived(BMessage* msg);
 
 private:
-	void BuildStatsAndEditor();
-	void BuildBudgetSummary();
-	void BuildCategoryList();
+	void _BuildStatsAndEditor();
+	void _BuildBudgetSummary();
+	void _BuildCategoryList();
 
-	void RefreshCategories();
-	void RefreshBudgetSummary();
-	void RefreshBudgetGrid();
-	void GenerateBudget(const bool& zero);
-	void CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg);
-	void HandleCategorySelection();
-	void SetPeriod(const BudgetPeriod& period);
+	void _RefreshCategories();
+	void _RefreshBudgetSummary();
+	void _RefreshBudgetGrid();
+
+	void _GenerateBudget(const bool& zero);
+	void _CalcStats(const char* cat, Fixed& high, Fixed& low, Fixed& avg);
+	void _HandleCategorySelection();
+	void _SetPeriod(const BudgetPeriod& period);
 
 	BMenuBar* fBar;
 

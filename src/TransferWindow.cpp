@@ -37,7 +37,7 @@ TransferWindow::TransferWindow(BHandler* target)
 	fMessenger(target),
 	fMessage(M_CREATE_TRANSFER)
 {
-	InitObject(NULL, NULL, Fixed(0));
+	_InitObject(NULL, NULL, Fixed(0));
 }
 
 
@@ -48,12 +48,12 @@ TransferWindow::TransferWindow(BHandler* target, Account* src, Account* dest, co
 		B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	fMessenger(target)
 {
-	InitObject(src, dest, amount);
+	_InitObject(src, dest, amount);
 }
 
 
 void
-TransferWindow::InitObject(Account* src, Account* dest, const Fixed& amount)
+TransferWindow::_InitObject(Account* src, Account* dest, const Fixed& amount)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
@@ -201,12 +201,12 @@ TransferWindow::MessageReceived(BMessage* msg)
 				fDestList->ItemAt(fSourceList->CurrentSelection())->SetEnabled(false);
 				fDestList->InvalidateItem(fSourceList->CurrentSelection());
 			}
-			HandleOKButton();
+			_HandleOKButton();
 			break;
 		}
 		case M_DEST_SELECTED:
 		{
-			HandleOKButton();
+			_HandleOKButton();
 			break;
 		}
 		case M_PREVIOUS_FIELD:
@@ -221,7 +221,7 @@ TransferWindow::MessageReceived(BMessage* msg)
 				fAmount->Validate(false);
 				fDate->MakeFocus(true);
 			}
-			HandleOKButton();
+			_HandleOKButton();
 			break;
 		}
 		case M_NEXT_FIELD:
@@ -235,7 +235,7 @@ TransferWindow::MessageReceived(BMessage* msg)
 				fAmount->Validate(false);
 				fMemo->MakeFocus(true);
 			}
-			HandleOKButton();
+			_HandleOKButton();
 			break;
 		}
 		case M_CREATE_TRANSFER:
@@ -286,7 +286,7 @@ TransferWindow::MessageReceived(BMessage* msg)
 
 
 void
-TransferWindow::HandleOKButton()
+TransferWindow::_HandleOKButton()
 {
 	if (fSourceList->CurrentSelection() >= 0) {
 		AccountListItem* item = (AccountListItem*)fDestList->ItemAt(fDestList->CurrentSelection());

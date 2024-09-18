@@ -13,7 +13,7 @@ TextFile::TextFile(const char* path, const uint32& openmode)
 	:
 	BFile(path, openmode)
 {
-	InitObject();
+	_InitObject();
 }
 
 
@@ -21,7 +21,7 @@ TextFile::TextFile(const entry_ref& ref, const uint32& openmode)
 	:
 	BFile(&ref, openmode)
 {
-	InitObject();
+	_InitObject();
 }
 
 
@@ -33,7 +33,7 @@ TextFile::~TextFile()
 
 
 void
-TextFile::InitObject()
+TextFile::_InitObject()
 {
 	fReadBuffer = new char[4096];
 	fReadBufferSize = 4096;

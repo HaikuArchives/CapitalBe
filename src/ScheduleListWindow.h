@@ -25,15 +25,16 @@ private:
 class ScheduleListView : public BView {
 public:
 	ScheduleListView(const char* name, const int32& flags);
+
 	void AttachedToWindow();
 	void MessageReceived(BMessage* msg);
 
 private:
-		// This is a float so we can get the maximum string width for payees.
-	float RefreshScheduleList();
+	// This is a float so we can get the maximum string width for payees.
+	float _RefreshScheduleList();
+	void _ShowPopUpMenu(BPoint screen);
 
 	BColumnListView* fListView;
-	void ShowPopUpMenu(BPoint screen);
 	bool fShowingPopUpMenu;
 
 	BButton* fRemoveButton;

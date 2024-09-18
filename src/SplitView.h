@@ -44,9 +44,11 @@ class SplitView : public BView, public Observer {
 public:
 	SplitView(const char* name, const TransactionData& trans, const int32& flags);
 	~SplitView();
+
 	void AttachedToWindow();
 	void DetachedFromWindow();
 	void MessageReceived(BMessage* msg);
+
 	void SetFields(const char* date, const char* type, const char* payee, const char* amount,
 		const char* category, const char* memo);
 
@@ -56,19 +58,18 @@ public:
 	void FrameResized(float width, float height);
 
 	bool IsSplitHidden() const { return fSplitContainer->IsHidden(); }
-
 	void ToggleSplit();
 
 private:
 	friend SplitViewFilter;
-	bool ValidateAllFields();
+	bool _ValidateAllFields();
 	//	bool ValidateDateField();
 	//	bool ValidateAmountField();
-	bool ValidateSplitAmountField();
+	bool _ValidateSplitAmountField();
 	//	bool ValidateCategoryField();
-	bool ValidateSplitItems();
-	Fixed CalculateTotal();
-	Category* MakeCategory();
+	bool _ValidateSplitItems();
+	Fixed _CalculateTotal();
+	Category* _MakeCategory();
 
 	DateBox* fDate;
 	PayeeBox* fPayee;

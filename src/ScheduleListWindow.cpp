@@ -60,7 +60,7 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 							 StringWidth("This is a relatively long memo text"), 25, 300,
 							 B_ALIGN_LEFT),
 		5);
-	float maxwidth = RefreshScheduleList();
+	float maxwidth = _RefreshScheduleList();
 	fBestWidth = (fRemoveButton->Frame().Width() * 2) + 45;
 	fBestWidth = MAX(fBestWidth, maxwidth + 35);
 	fBestWidth = MAX(fBestWidth, 400);
@@ -119,7 +119,7 @@ ScheduleListView::MessageReceived(BMessage* msg)
 			fListView->GetMouse(&where, &buttons);
 			where.x += 2; // to prevent occasional select
 			if (buttons & B_SECONDARY_MOUSE_BUTTON)
-				ShowPopUpMenu(where);
+				_ShowPopUpMenu(where);
 
 			break;
 		}
@@ -138,7 +138,7 @@ ScheduleListView::MessageReceived(BMessage* msg)
 
 
 float
-ScheduleListView::RefreshScheduleList()
+ScheduleListView::_RefreshScheduleList()
 {
 	for (int32 i = 0; i < fTransList.CountItems(); i++) {
 		ScheduledTransData* data = (ScheduledTransData*)fTransList.ItemAt(i);
@@ -265,7 +265,7 @@ ScheduleListView::RefreshScheduleList()
 
 
 void
-ScheduleListView::ShowPopUpMenu(BPoint position)
+ScheduleListView::_ShowPopUpMenu(BPoint position)
 {
 	if (fShowingPopUpMenu || fListView->CountRows() == 0)
 		return;

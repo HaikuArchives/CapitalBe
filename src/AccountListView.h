@@ -17,7 +17,7 @@ public:
 	void MouseDown(BPoint position);
 
 private:
-	void ShowPopUpMenu(BPoint screen);
+	void _ShowPopUpMenu(BPoint screen);
 	bool fShowingPopUpMenu;
 };
 

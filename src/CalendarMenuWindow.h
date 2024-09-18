@@ -43,7 +43,6 @@ private:
 	static const int kYearDownMessage = 1003;
 	static const int kYearUpMessage = 1004;
 
-
 	BStringView* fYearLabel;
 	BStringView* fMonthLabel;
 	BCalendarView* fCalendarView;

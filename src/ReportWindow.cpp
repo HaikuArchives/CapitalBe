@@ -228,7 +228,7 @@ ReportWindow::ReportWindow(BRect frame)
 		if (!acc)
 			continue;
 
-		AddAccount(acc);
+		_AddAccount(acc);
 	}
 
 	fAccountList->SortItems(compare_stringitem);
@@ -247,7 +247,7 @@ ReportWindow::ReportWindow(BRect frame)
 	fCategoryList->Select(0, fCategoryList->CountItems() - 1, true);
 
 	// Set up the scrollbars
-	CalcCategoryString();
+	_CalcCategoryString();
 
 	fReportField->MakeFocus(true);
 
@@ -268,14 +268,14 @@ ReportWindow::HandleNotify(const uint64& value, const BMessage* msg)
 		}
 
 		if (value & WATCH_CREATE) {
-			AddAccount(acc);
+			_AddAccount(acc);
 		} else if (value & WATCH_DELETE) {
 		} else if (value & WATCH_RENAME) {
 		} else if (value & WATCH_CHANGE) {
 		}
 	} else if (value & WATCH_TRANSACTION) {
 	}
-	RenderReport();
+	_RenderReport();
 	Unlock();
 }
 
@@ -303,25 +303,25 @@ ReportWindow::MessageReceived(BMessage* msg)
 		case M_REPORT_CASH_FLOW:
 		{
 			fReportMode = REPORT_CASH_FLOW;
-			RenderReport();
+			_RenderReport();
 			break;
 		}
 		case M_REPORT_NET_WORTH:
 		{
 			fReportMode = REPORT_NET_WORTH;
-			RenderReport();
+			_RenderReport();
 			break;
 		}
 		case M_REPORT_TRANSACTIONS:
 		{
 			fReportMode = REPORT_TRANSACTIONS;
-			RenderReport();
+			_RenderReport();
 			break;
 		}
 		case M_REPORT_BUDGET:
 		{
 			fReportMode = REPORT_BUDGET;
-			RenderReport();
+			_RenderReport();
 			break;
 		}
 
@@ -329,25 +329,25 @@ ReportWindow::MessageReceived(BMessage* msg)
 		case M_SUBTOTAL_NONE:
 		{
 			fSubtotalMode = SUBTOTAL_NONE;
-			RenderReport();
+			_RenderReport();
 			break;
 		}
 		case M_SUBTOTAL_MONTH:
 		{
 			fSubtotalMode = SUBTOTAL_MONTH;
-			RenderReport();
+			_RenderReport();
 			break;
 		}
 		case M_SUBTOTAL_QUARTER:
 		{
 			fSubtotalMode = SUBTOTAL_QUARTER;
-			RenderReport();
+			_RenderReport();
 			break;
 		}
 		case M_SUBTOTAL_YEAR:
 		{
 			fSubtotalMode = SUBTOTAL_YEAR;
-			RenderReport();
+			_RenderReport();
 			break;
 		}
 
@@ -358,7 +358,7 @@ ReportWindow::MessageReceived(BMessage* msg)
 				fStartDate = temp;
 				if (fStartDate > fEndDate)
 					fStartDate = fEndDate;
-				RenderReport();
+				_RenderReport();
 			} else {
 				ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the date you entered",
 							  "TextInput"),
@@ -384,7 +384,7 @@ ReportWindow::MessageReceived(BMessage* msg)
 				fEndDate = temp;
 				if (fStartDate > fEndDate)
 					fStartDate = fEndDate;
-				RenderReport();
+				_RenderReport();
 			} else {
 				ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the date you entered",
 							  "TextInput"),
@@ -404,13 +404,13 @@ ReportWindow::MessageReceived(BMessage* msg)
 		}
 		case M_CATEGORIES_CHANGED:
 		{
-			CalcCategoryString();
-			RenderReport();
+			_CalcCategoryString();
+			_RenderReport();
 			break;
 		}
 		case M_TOGGLE_ACCOUNT:
 		{
-			RenderReport();
+			_RenderReport();
 			break;
 		}
 		case M_TOGGLE_GRAPH:
@@ -450,12 +450,12 @@ ReportWindow::FrameResized(float w, float h)
 	} else
 		bar->SetRange(0, 0);
 
-	FixGridScrollbar();
+	_FixGridScrollbar();
 }
 
 
 void
-ReportWindow::AddAccount(Account* acc)
+ReportWindow::_AddAccount(Account* acc)
 {
 	if (!acc)
 		return;
@@ -502,7 +502,7 @@ ReportWindow::AddAccount(Account* acc)
 
 
 void
-ReportWindow::FixGridScrollbar()
+ReportWindow::_FixGridScrollbar()
 {
 	BScrollBar* bar = fGridView->ScrollBar(B_VERTICAL);
 	if (!bar)
@@ -542,7 +542,7 @@ void ReportWindow::CalcAccountString()
 }
 */
 void
-ReportWindow::CalcCategoryString()
+ReportWindow::_CalcCategoryString()
 {
 	// Compile list of selected categories
 	fCategoryString = "";
@@ -560,7 +560,7 @@ ReportWindow::CalcCategoryString()
 
 
 void
-ReportWindow::RenderReport()
+ReportWindow::_RenderReport()
 {
 	fGridView->Clear();
 	BColumn* column = fGridView->ColumnAt(0);
@@ -576,28 +576,28 @@ ReportWindow::RenderReport()
 	switch (fReportMode) {
 		case REPORT_CASH_FLOW:
 		{
-			ComputeCashFlow();
+			_ComputeCashFlow();
 			break;
 		}
 		case REPORT_NET_WORTH:
 		{
-			ComputeNetWorth();
+			_ComputeNetWorth();
 			break;
 		}
 		case REPORT_TRANSACTIONS:
 		{
-			ComputeTransactions();
+			_ComputeTransactions();
 			break;
 		}
 		case REPORT_BUDGET:
 		{
-			ComputeBudget();
+			_ComputeBudget();
 			break;
 		}
 		default:
 			break;
 	}
-	FixGridScrollbar();
+	_FixGridScrollbar();
 }
 
 

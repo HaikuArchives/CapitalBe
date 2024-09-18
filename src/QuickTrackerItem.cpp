@@ -39,7 +39,7 @@ void
 QTNetWorthItem::AttachedToWindow()
 {
 	QuickTrackerItem::AttachedToWindow();
-	Calculate();
+	_Calculate();
 }
 
 
@@ -48,7 +48,7 @@ QTNetWorthItem::SetObserving(const bool& value)
 {
 	if (IsObserving() != value) {
 		Observer::SetObserving(value);
-		Calculate();
+		_Calculate();
 	}
 }
 
@@ -77,29 +77,29 @@ QTNetWorthItem::HandleNotify(const uint64& value, const BMessage* msg)
 
 		if (value & WATCH_CREATE) {
 			acc->AddObserver(this);
-			Calculate();
+			_Calculate();
 		} else if (value & WATCH_DELETE) {
 			acc->RemoveObserver(this);
 			if (gDatabase.CountAccounts() >= 1) {
 				if (Window())
 					Window()->Lock();
 
-				Calculate();
+				_Calculate();
 
 				if (Window())
 					Window()->Unlock();
 				return;
 			}
 		} else if (value & WATCH_LOCALE)
-			Calculate();
+			_Calculate();
 	}
 	if (value & WATCH_SELECT)
-		Calculate();
+		_Calculate();
 }
 
 
 void
-QTNetWorthItem::Calculate()
+QTNetWorthItem::_Calculate()
 {
 	BString balanceText, balanceLabel;
 	Fixed balance;
@@ -206,7 +206,7 @@ void
 QTBudgetCategoryItem::AttachedToWindow()
 {
 	QuickTrackerItem::AttachedToWindow();
-	Calculate();
+	_Calculate();
 }
 
 
@@ -215,7 +215,7 @@ QTBudgetCategoryItem::SetObserving(const bool& value)
 {
 	if (IsObserving() != value) {
 		Observer::SetObserving(value);
-		Calculate();
+		_Calculate();
 	}
 }
 
@@ -263,12 +263,12 @@ QTBudgetCategoryItem::HandleNotify(const uint64& value, const BMessage* msg)
 		}
 	}
 	if (!(value & WATCH_SELECT))
-		Calculate();
+		_Calculate();
 }
 
 
 void
-QTBudgetCategoryItem::Calculate()
+QTBudgetCategoryItem::_Calculate()
 {
 	BString label, temp;
 	Fixed variance;

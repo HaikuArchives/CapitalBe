@@ -137,7 +137,7 @@ AccountList::MouseDown(BPoint position)
 
 	if ((buttons & B_SECONDARY_MOUSE_BUTTON) != 0) {
 		Select(IndexOf(position));
-		ShowPopUpMenu(position);
+		_ShowPopUpMenu(position);
 		return;
 	}
 
@@ -149,7 +149,7 @@ AccountList::MouseDown(BPoint position)
 
 
 void
-AccountList::ShowPopUpMenu(BPoint position)
+AccountList::_ShowPopUpMenu(BPoint position)
 {
 	if (fShowingPopUpMenu || IsEmpty() || IndexOf(position) < 0)
 		return;

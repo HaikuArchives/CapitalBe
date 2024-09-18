@@ -9,6 +9,7 @@ class SplitViewFilter : public BMessageFilter {
 public:
 	SplitViewFilter(SplitView* checkview);
 	~SplitViewFilter();
+
 	virtual filter_result Filter(BMessage* msg, BHandler** target);
 
 private:

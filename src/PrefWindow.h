@@ -67,7 +67,7 @@ public:
 	void GetSettings(Locale& locale);
 
 private:
-	void UpdateCurrencyLabel();
+	void _UpdateCurrencyLabel();
 
 	BBox* fCurrencyBox;
 	AutoTextControl* fCurrencySymbolBox;
@@ -89,7 +89,7 @@ public:
 	void GetColor(rgb_color& color);
 
 private:
-	void UpdateColor(rgb_color color);
+	void _UpdateColor(rgb_color color);
 
 	BColorControl* fColorPicker;
 	BTextView *fSelectedPreview, *fUnselectedPreview, *fClosedPreview;

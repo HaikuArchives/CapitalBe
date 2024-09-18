@@ -201,7 +201,7 @@ Database::OpenFile(const char* path)
 	}
 
 	// Check for and apply DB migrations
-	if (ApplyMigrations() != B_OK) {
+	if (_ApplyMigrations() != B_OK) {
 		UNLOCK;
 		ShowBug("Database::ApplyMigrations() failed");
 		return B_ERROR;
@@ -344,7 +344,7 @@ Database::AddAccount(const char* name, const AccountType& type, const char* stat
 
 	LOCK;
 
-	int32 id = GetLastKey("accountlist", "accountid");
+	int32 id = _GetLastKey("accountlist", "accountid");
 	id++;
 
 	CppSQLite3Buffer bufSQL;
@@ -496,7 +496,7 @@ Database::AddBudgetEntry(const BudgetEntry& entry)
 	}
 
 	// We got this far, so we just add the entry to the list
-	value = GetLastKey("budgetlist", "entryid");
+	value = _GetLastKey("budgetlist", "entryid");
 	value++;
 	bufSQL.format("INSERT INTO budgetlist VALUES(%i, %Q, %li, %i, %i);", value, category.String(),
 		entry.amount.AsFixed(), (int)entry.period, (entry.isexpense ? 1 : 0));
@@ -818,7 +818,7 @@ uint32
 Database::NextTransactionID()
 {
 	LOCK;
-	uint32 key = GetLastKey("transactionlist", "transid");
+	uint32 key = _GetLastKey("transactionlist", "transid");
 	key++;
 	UNLOCK;
 	return key;
@@ -1008,7 +1008,7 @@ Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& ne
 
 	uint32 id;
 	if (newid) {
-		id = GetLastKey("scheduledlist", "transid");
+		id = _GetLastKey("scheduledlist", "transid");
 		id++;
 	} else
 		id = data.GetID();
@@ -1048,7 +1048,7 @@ Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& ne
 	}
 
 	if (data.CountCategories() == 1) {
-		InsertSchedTransaction(id, data.GetAccount()->GetID(), data.Date(), data.Type(),
+		_InsertSchedTransaction(id, data.GetAccount()->GetID(), data.Date(), data.Type(),
 			data.Payee(), data.Amount(), data.NameAt(0), data.Memo(), data.GetInterval(), nextdate,
 			data.GetCount(), data.GetDestination());
 	} else {
@@ -1058,7 +1058,7 @@ Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& ne
 		for (int32 i = 0; i < data.CountCategories() - 1; i++) {
 			// We have to be careful here because we have the potential to be adding
 			// multiple categories.
-			InsertSchedTransaction(id, data.GetAccount()->GetID(), data.Date(), data.Type(),
+			_InsertSchedTransaction(id, data.GetAccount()->GetID(), data.Date(), data.Type(),
 				data.Payee(), data.AmountAt(i), data.NameAt(i), data.MemoAt(i), data.GetInterval(),
 				nextdate, data.GetCount(), data.GetDestination());
 		}
@@ -1068,7 +1068,7 @@ Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& ne
 		// multiple categories
 		SetNotify(true);
 		int32 index = data.CountCategories() - 1;
-		InsertSchedTransaction(id, data.GetAccount()->GetID(), data.Date(), data.Type(),
+		_InsertSchedTransaction(id, data.GetAccount()->GetID(), data.Date(), data.Type(),
 			data.Payee(), data.AmountAt(index), data.NameAt(index), data.MemoAt(index),
 			data.GetInterval(), nextdate, data.GetCount(), data.GetDestination());
 	}
@@ -1170,7 +1170,7 @@ Database::CountScheduledTransactions(int accountid)
 
 
 bool
-Database::InsertSchedTransaction(const uint32& id, const uint32& accountid, const time_t& startdate,
+Database::_InsertSchedTransaction(const uint32& id, const uint32& accountid, const time_t& startdate,
 	const TransactionType& type, const char* payee, const Fixed& amount, const char* category,
 	const char* memo, const TransactionInterval& interval, const time_t& nextdate,
 	const int32& count, const int32& destination)
@@ -1197,7 +1197,7 @@ Database::InsertSchedTransaction(const uint32& id, const uint32& accountid, cons
 
 
 int32
-Database::GetLastKey(const char* table, const char* column)
+Database::_GetLastKey(const char* table, const char* column)
 {
 	// Internal method. No locking required
 	if (!table || !column)
@@ -1483,14 +1483,14 @@ Database::DBQuery(const char* query, const char* functionname)
 
 
 status_t
-Database::ApplyMigrations()
+Database::_ApplyMigrations()
 {
 	int currentVersion = 0;
 
 	// Look for db_version, create if it doesn't exist. Set version to 0,
 	// all migrations will be applied.
 	if (!fDB.tableExists("db_version")) {
-		if (CreateDBBackup(currentVersion) != B_OK)
+		if (_CreateDBBackup(currentVersion) != B_OK)
 			return B_ERROR;
 
 		DBCommand("CREATE TABLE db_version (version INTEGER PRIMARY KEY);",
@@ -1531,7 +1531,7 @@ Database::ApplyMigrations()
 		// 		"Database::ApplyMigrations: defaultlocale:remove dateformat");
 
 		// Deescape database
-		if (!(DeescapeDatabase() == B_OK))
+		if (!(_DeescapeDatabase() == B_OK))
 			return B_ERROR;
 		// Update version number
 		DBCommand("UPDATE db_version SET version = 1;", "Database::ApplyMigrations:update version");
@@ -1543,7 +1543,7 @@ Database::ApplyMigrations()
 
 
 status_t
-Database::CreateDBBackup(int32 version)
+Database::_CreateDBBackup(int32 version)
 {
 	BString sourcePath = gSettingsPath.Path();
 	sourcePath << "/MyAccountData";
@@ -1584,7 +1584,7 @@ Database::CreateDBBackup(int32 version)
 
 
 status_t
-Database::DeescapeDatabase()
+Database::_DeescapeDatabase()
 {
 	CppSQLite3Buffer bufSQL;
 	CppSQLite3Query query, transactionQuery;

@@ -16,7 +16,7 @@
 
 
 void
-ReportWindow::ComputeNetWorth()
+ReportWindow::_ComputeNetWorth()
 {
 	// Total of all accounts
 	// Calculate the number of columns and the starting date for each one

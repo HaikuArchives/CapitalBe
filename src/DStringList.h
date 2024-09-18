@@ -23,29 +23,20 @@ public:
 
 	//	void	SortItems();
 	bool SwapItems(int32 indexA, int32 indexB) { return fList.SwapItems(indexA, indexB); }
-
 	bool MoveItem(int32 fromIndex, int32 toIndex) { return fList.MoveItem(fromIndex, toIndex); }
 
 	BString* FindItem(const char* string) const;
-
 	BString* ItemAt(int32 index) const { return (BString*)fList.ItemAtFast(index); }
-
 	BString* ItemAtFast(int32 index) const { return (BString*)fList.ItemAtFast(index); }
-
 	BString* FirstItem() const { return (BString*)fList.FirstItem(); }
-
 	BString* LastItem() const { return (BString*)fList.LastItem(); }
-
 	BString* Items() const { return (BString*)fList.Items(); }
 
 	bool HasItem(const char* string) const;
-
 	bool HasItem(BString* item) const { return fList.HasItem(item); }
 
 	int32 IndexOf(BString* item) const { return fList.IndexOf(item); }
-
 	int32 CountItems() const { return fList.CountItems(); }
-
 	bool IsEmpty() const { return fList.IsEmpty(); }
 
 	void PrintToStream();

@@ -16,9 +16,9 @@ public:
 	virtual void MessageReceived(BMessage* message);
 
 private:
-	BBitmap* DrawIcon();
-	void ShowPopUpCalendar();
-	void UpdateIcon();
+	void _ShowPopUpCalendar();
+	void _UpdateIcon();
+	BBitmap* _DrawIcon();
 
 	DateBox* fDateBox;
 	BMessenger fCalendarWindow;

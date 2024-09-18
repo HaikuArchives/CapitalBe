@@ -16,7 +16,7 @@
 
 
 void
-ReportWindow::ComputeTransactions()
+ReportWindow::_ComputeTransactions()
 {
 	// Total of all accounts
 	// Calculate the number of columns and the starting date for each one

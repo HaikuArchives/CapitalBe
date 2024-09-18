@@ -13,13 +13,12 @@ void InitTransactionItemLayout(BView* owner);
 class TransactionItem : public BListItem {
 public:
 	TransactionItem(const TransactionData& trans);
+
 	void DrawItem(BView* owner, BRect frame, bool complete = false);
 	void Update(BView* owner, const BFont* finfo);
 
 	uint32 GetID() const { return fID; }
-
 	time_t GetDate() const { return fDate; }
-
 	const char* GetPayee() const { return fPayee.String(); }
 
 	void SetData(const TransactionData& trans);

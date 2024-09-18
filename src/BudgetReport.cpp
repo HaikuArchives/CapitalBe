@@ -37,7 +37,7 @@ map_status MapBudgetToSubtotal(Fixed& fixed, const int& budgetperiod, const int&
 
 
 void
-ReportWindow::ComputeBudget()
+ReportWindow::_ComputeBudget()
 {
 	BObjectList<time_t> timelist(20, true);
 

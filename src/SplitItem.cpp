@@ -21,7 +21,7 @@ void
 SplitItem::SetCategory(const char* value)
 {
 	fName = value;
-	UpdateLabel();
+	_UpdateLabel();
 }
 
 
@@ -36,7 +36,7 @@ void
 SplitItem::SetAmount(const Fixed& fixed)
 {
 	fAmount = fixed;
-	UpdateLabel();
+	_UpdateLabel();
 }
 
 
@@ -51,7 +51,7 @@ void
 SplitItem::SetMemo(const char* value)
 {
 	fMemo = value;
-	UpdateLabel();
+	_UpdateLabel();
 }
 
 
@@ -63,7 +63,7 @@ SplitItem::GetMemo() const
 
 
 void
-SplitItem::UpdateLabel()
+SplitItem::_UpdateLabel()
 {
 	BString text = fName;
 	BString amount;

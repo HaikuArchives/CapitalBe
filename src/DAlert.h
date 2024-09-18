@@ -111,10 +111,10 @@ private:
 	virtual void _ReservedAlert2();
 	virtual void _ReservedAlert3();
 
-	void InitObject(const char* text, const char* button1, const char* button2 = NULL,
+	void _InitObject(const char* text, const char* button1, const char* button2 = NULL,
 		const char* button3 = NULL, button_width width = B_WIDTH_AS_USUAL,
 		button_spacing spacing = B_EVEN_SPACING, alert_type type = B_INFO_ALERT);
-	BBitmap* InitIcon();
+	BBitmap* _InitIcon();
 
 	sem_id fAlertSem;
 	int32 fAlertVal;

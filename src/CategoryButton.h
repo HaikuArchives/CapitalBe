@@ -17,8 +17,8 @@ public:
 	virtual void MessageReceived(BMessage* message);
 
 private:
-	BBitmap* DrawIcon();
-	void ShowPopUpMenu();
+	BBitmap* _DrawIcon();
+	void _ShowPopUpMenu();
 
 	CategoryBox* fCategoryBox;
 	bool fShowingPopUpMenu;

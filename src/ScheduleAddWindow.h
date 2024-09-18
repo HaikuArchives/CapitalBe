@@ -15,6 +15,7 @@ class NumBox;
 class ScheduleAddWindow : public BWindow {
 public:
 	ScheduleAddWindow(const BRect& frame, const TransactionData& data);
+
 	void MessageReceived(BMessage* msg);
 
 private:

@@ -77,7 +77,7 @@ TransactionView::SetAccount(Account* acc, BMessage* msg)
 
 	BList itemlist;
 	BString command;
-	command = GenerateQueryCommand(acc->GetID(), msg);
+	command = _GenerateQueryCommand(acc->GetID(), msg);
 
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "TransactionView::SetAccount");
 
@@ -168,7 +168,7 @@ TransactionView::AddTransaction(const TransactionData& trans, const int32& index
 {
 	int32 itemindex = 0;
 	if (index < 0)
-		itemindex = FindIndexForDate(trans.Date(), trans.Payee());
+		itemindex = _FindIndexForDate(trans.Date(), trans.Payee());
 	else
 		itemindex = index;
 
@@ -296,7 +296,7 @@ TransactionView::HandleNotify(const uint64& value, const BMessage* msg)
 					return;
 				}
 
-				int32 index = FindItemForID(id);
+				int32 index = _FindItemForID(id);
 				if (index < 0) {
 					if (lockwin)
 						Window()->Unlock();
@@ -307,7 +307,7 @@ TransactionView::HandleNotify(const uint64& value, const BMessage* msg)
 			} else if (value & WATCH_CHANGE) {
 				TransactionData* data;
 				if (msg->FindPointer("item", (void**)&data) == B_OK) {
-					int32 index = FindItemForID(data->GetID());
+					int32 index = _FindItemForID(data->GetID());
 					TransactionItem* item = (TransactionItem*)fListView->ItemAt(index);
 					if (item) {
 						item->SetData(*data);
@@ -415,7 +415,7 @@ TransactionView::SelectLast()
 
 
 int32
-TransactionView::FindItemForID(const uint32& id)
+TransactionView::_FindItemForID(const uint32& id)
 {
 	for (int32 i = 0; i < fListView->CountItems(); i++) {
 		TransactionItem* item = (TransactionItem*)fListView->ItemAt(i);
@@ -427,7 +427,7 @@ TransactionView::FindItemForID(const uint32& id)
 
 
 int32
-TransactionView::FindIndexForDate(const time_t& time, const char* payee)
+TransactionView::_FindIndexForDate(const time_t& time, const char* payee)
 {
 	// We need to find the appropriate index based on the date of
 	// the transaction and insert it there
@@ -491,7 +491,7 @@ TransactionList::MouseDown(BPoint position)
 
 	if ((buttons & B_SECONDARY_MOUSE_BUTTON) != 0) {
 		Select(IndexOf(position));
-		ShowPopUpMenu(position);
+		_ShowPopUpMenu(position);
 		return;
 	}
 
@@ -503,7 +503,7 @@ TransactionList::MouseDown(BPoint position)
 
 
 void
-TransactionList::ShowPopUpMenu(BPoint position)
+TransactionList::_ShowPopUpMenu(BPoint position)
 {
 	if (fShowingPopUpMenu || IsEmpty())
 		return;
@@ -542,7 +542,7 @@ TransactionContext::~TransactionContext()
 
 
 void
-TransactionView::CalculatePeriod(int32 period, time_t& start, time_t& end)
+TransactionView::_CalculatePeriod(int32 period, time_t& start, time_t& end)
 {
 	time_t now = time(NULL);
 	struct tm tm_now = *localtime(&now);
@@ -628,7 +628,7 @@ TransactionView::CalculatePeriod(int32 period, time_t& start, time_t& end)
 
 
 BString
-TransactionView::GenerateQueryCommand(int32 accountID, BMessage* message)
+TransactionView::_GenerateQueryCommand(int32 accountID, BMessage* message)
 {
 	BString command;
 	if (message == NULL) { // return default query
@@ -683,7 +683,7 @@ TransactionView::GenerateQueryCommand(int32 accountID, BMessage* message)
 		if (message->FindInt32("period", &period) == B_OK && period != 0) {
 			time_t periodStart, periodEnd;
 			// Calculate start and end timestamp for period
-			CalculatePeriod(period, periodStart, periodEnd);
+			_CalculatePeriod(period, periodStart, periodEnd);
 
 			command << (!hasConditions ? " WHERE " : " AND ");
 

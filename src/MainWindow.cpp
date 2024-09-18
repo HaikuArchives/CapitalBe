@@ -55,7 +55,7 @@ MainWindow::MainWindow(BRect frame)
 	SetTitle(B_TRANSLATE_SYSTEM_NAME("CapitalBe"));
 
 	fLoadError = false;
-	InitSettings();
+	_InitSettings();
 
 	AddShortcut(B_HOME, B_COMMAND_KEY, new BMessage(M_FIRST_TRANSACTION));
 	AddShortcut(B_END, B_COMMAND_KEY, new BMessage(M_LAST_TRANSACTION));
@@ -155,7 +155,7 @@ MainWindow::MainWindow(BRect frame)
 
 	// We load the financial data before we create any of the views because the
 	// notifications are not sent and startup time is *significantly* reduced
-	LoadData();
+	_LoadData();
 
 	fRegisterView = new RegisterView("registerview", B_WILL_DRAW);
 
@@ -202,7 +202,7 @@ bool
 MainWindow::QuitRequested()
 {
 #ifndef NOSAVE
-	SaveData();
+	_SaveData();
 #endif
 	prefsLock.Lock();
 	gPreferences.RemoveData("mainframe");
@@ -215,7 +215,7 @@ MainWindow::QuitRequested()
 
 
 void
-MainWindow::InitSettings()
+MainWindow::_InitSettings()
 {
 	// This loads all the settings from disk and uses sane defaults if a setting
 	// is non-existent or invalid
@@ -558,7 +558,7 @@ MainWindow::MessageReceived(BMessage* msg)
 		}
 		case M_CREATE_TRANSFER:
 		{
-			CreateTransfer(msg);
+			_CreateTransfer(msg);
 			break;
 		}
 		case M_SHOW_OPTIONS_WINDOW:
@@ -635,7 +635,7 @@ MainWindow::MessageReceived(BMessage* msg)
 
 
 void
-MainWindow::LoadData()
+MainWindow::_LoadData()
 {
 	if (gDatabase.OpenFile(fLastFile.String()) != B_OK) {
 		BEntry entry(fLastFile.String());
@@ -650,13 +650,13 @@ MainWindow::LoadData()
 
 
 void
-MainWindow::SaveData()
+MainWindow::_SaveData()
 {
 }
 
 
 void
-MainWindow::CreateTransfer(BMessage* msg)
+MainWindow::_CreateTransfer(BMessage* msg)
 {
 	Account *from, *to;
 	BString amount, memo, datestr;

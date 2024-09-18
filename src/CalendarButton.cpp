@@ -21,7 +21,7 @@ CalendarButton::CalendarButton(DateBox* datebox)
 	BSize size(height - 2, height);
 	SetExplicitSize(size);
 
-	UpdateIcon();
+	_UpdateIcon();
 }
 
 
@@ -38,7 +38,7 @@ CalendarButton::MessageReceived(BMessage* msg)
 	switch (msg->what) {
 		case M_SHOW_CALENDER:
 		{
-			ShowPopUpCalendar();
+			_ShowPopUpCalendar();
 			break;
 		}
 		case M_SET_DATE:
@@ -53,7 +53,7 @@ CalendarButton::MessageReceived(BMessage* msg)
 			fDateBox->Invoke();
 			fDateBox->Validate();
 
-			UpdateIcon();
+			_UpdateIcon();
 			break;
 		}
 		default:
@@ -65,7 +65,7 @@ CalendarButton::MessageReceived(BMessage* msg)
 
 
 BBitmap*
-CalendarButton::DrawIcon()
+CalendarButton::_DrawIcon()
 {
 	font_height fh;
 	GetFontHeight(&fh);
@@ -107,19 +107,19 @@ CalendarButton::DrawIcon()
 
 
 void
-CalendarButton::UpdateIcon()
+CalendarButton::_UpdateIcon()
 {
 	fDay = "";
 	BDateTime now = BDateTime::CurrentDateTime(B_LOCAL_TIME);
 	BDate date = now.Time_t();
 	fDay << date.Day();
 
-	SetIcon(DrawIcon());
+	SetIcon(_DrawIcon());
 }
 
 
 void
-CalendarButton::ShowPopUpCalendar()
+CalendarButton::_ShowPopUpCalendar()
 {
 	if (fCalendarWindow.IsValid()) {
 		BMessage activate(B_SET_PROPERTY);

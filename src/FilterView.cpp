@@ -158,19 +158,19 @@ FilterView::MessageReceived(BMessage* msg)
 
 			fPayee->MakeFocus(true);
 			fPayee->TextView()->SelectAll();
-			SendFilterMessage();
+			_SendFilterMessage();
 
 			break;
 		}
 		case M_CLEAR_FILTER:
 		{
-			MakeEmpty();
+			_MakeEmpty();
 			// intentional fall-thru
 		}
 		case M_START_FILTER:
 		case M_FILTER_CHANGED:
 		{
-			SendFilterMessage();
+			_SendFilterMessage();
 			break;
 		}
 		default:
@@ -182,7 +182,7 @@ FilterView::MessageReceived(BMessage* msg)
 
 
 void
-FilterView::MakeEmpty()
+FilterView::_MakeEmpty()
 {
 	fPeriodMenu->ItemAt(0L)->SetMarked(true);
 	fPayee->SetText("");
@@ -203,7 +203,7 @@ FilterView::IsEmpty()
 
 
 void
-FilterView::SendFilterMessage()
+FilterView::_SendFilterMessage()
 {
 	BMessage filterMsg(M_FILTER);
 	filterMsg.AddString("payee", fPayee->Text());

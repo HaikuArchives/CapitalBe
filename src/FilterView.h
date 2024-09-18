@@ -27,8 +27,8 @@ public:
 	bool IsEmpty();
 
 private:
-	void MakeEmpty();
-	void SendFilterMessage();
+	void _MakeEmpty();
+	void _SendFilterMessage();
 
 	BMenu* fPeriodMenu;
 	BMenu* fCompareMenu;

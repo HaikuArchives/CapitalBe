@@ -20,17 +20,14 @@ public:
 
 	void AddItem(const int32& index = -1);
 	void RemoveItem(const int32& index);
-
 	int32 CountItems() const { return fList.CountItems(); }
 
 	void MakeEmpty();
-
 	void Sort();
 
 	void PrintToStream();
 
 	uint32 Width() const { return fWidth; }
-
 	uint32 Height() const { return (uint32)fList.CountItems(); }
 
 private:
