@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef DATEBOX_H
 #define DATEBOX_H
 
@@ -28,4 +35,4 @@ private:
 	bool fFilterTab;
 };
 
-#endif
+#endif // DATEBOX_H

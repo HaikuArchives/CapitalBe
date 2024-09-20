@@ -1,3 +1,15 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ *	n0toose (Panagiotis Vasilopoulos)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ */
 #include "MainWindow.h"
 
 #include <Catalog.h>

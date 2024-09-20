@@ -4,6 +4,8 @@
  * Parts are taken from the IconMenuItem class from Haiku (Tracker) under the
  * Open Tracker Licence
  * Copyright (c) 1991-2000, Be Incorporated. All rights reserved.
+ *
+ *	dospuntos (Johan Wagenheim)
  */
 
 #include "IconMenuItem.h"

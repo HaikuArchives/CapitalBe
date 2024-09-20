@@ -1,3 +1,14 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	humdinger (Joachim Seemer)
+ *	dospuntos (Johan Wagenheim)
+ *	raefaldhia
+ */
 #include "CategoryWindow.h"
 
 #include <Button.h>
@@ -22,7 +33,7 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CategoryWindow"
 
-
+// clang-format off
 enum {
 	M_SHOW_ADD_WINDOW = 'shaw',
 	M_SHOW_REMOVE_WINDOW,
@@ -33,6 +44,7 @@ enum {
 	M_NAME_CHANGED,
 	M_SELECT_ITEM
 };
+// clang-format on
 
 class CategoryItem : public BStringItem {
 public:

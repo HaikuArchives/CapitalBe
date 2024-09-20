@@ -1,3 +1,15 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	humdinger (Joachim Seemer)
+ *	dospuntos (Johan Wagenheim)
+ *	raefaldhia
+ *	waddlesplash (Augustin Cavalier)
+ */
 #include "BudgetWindow.h"
 
 #include <Catalog.h>
@@ -21,7 +33,7 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "BudgetWindow"
 
-
+// clang-format off
 enum {
 	M_CATEGORIES_CHANGED = 'mccc',
 
@@ -37,6 +49,7 @@ enum {
 	M_AMOUNT_CHANGED,
 	M_SELECT_CATEGORY
 };
+// clang-format on
 
 extern int compare_stringitem(const void* item1, const void* item2);
 

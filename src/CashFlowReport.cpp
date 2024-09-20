@@ -1,3 +1,13 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	humdinger (Joachim Seemer)
+ *	dospuntos (Johan Wagenheim)
+ */
 #include "Account.h"
 #include "CBLocale.h"
 #include "ColumnListView.h"
@@ -6,6 +16,7 @@
 #include "ReportGrid.h"
 #include "ReportWindow.h"
 #include "TimeSupport.h"
+
 #include <Catalog.h>
 
 

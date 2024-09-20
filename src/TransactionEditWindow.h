@@ -1,7 +1,16 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	humdinger (Joachim Seemer)
+ */
 #ifndef TRANSEDITWIN_H
 #define TRANSEDITWIN_H
 
 #include "SplitView.h"
+
 #include <Message.h>
 #include <Window.h>
 
@@ -16,4 +25,4 @@ private:
 	SplitView* fSplitView;
 };
 
-#endif
+#endif // TRANSEDITWIN_H

@@ -1,3 +1,11 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	dospuntos (Johan Wagenheim)
+ */
 #include "ScheduledTransData.h"
 #include "CBLocale.h"
 #include "TimeSupport.h"

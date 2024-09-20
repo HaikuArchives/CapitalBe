@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef CATEGORY_WINDOW
 #define CATEGORY_WINDOW
 
@@ -8,4 +15,4 @@ public:
 	CategoryWindow(const BRect& frame);
 };
 
-#endif
+#endif // CATEGORY_WINDOW

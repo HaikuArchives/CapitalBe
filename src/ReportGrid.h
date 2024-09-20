@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef GRID_H
 #define GRID_H
 
@@ -54,4 +61,4 @@ private:
 	uint32 fWidth;
 };
 
-#endif
+#endif // GRID_H

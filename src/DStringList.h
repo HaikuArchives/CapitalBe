@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef _DSTRINGLIST_H
 #define _DSTRINGLIST_H
 
@@ -49,4 +56,4 @@ private:
 	bool fOwner;
 };
 
-#endif
+#endif // _DSTRINGLIST_H

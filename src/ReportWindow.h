@@ -1,9 +1,18 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	waddlesplash (Augustin Cavalier)
+ */
 #ifndef REPORTWINDOW_H
 #define REPORTWINDOW_H
 
 #include "Account.h"
 #include "DStringList.h"
 #include "Notifier.h"
+
 #include <ColumnListView.h>
 #include <Font.h>
 #include <ListItem.h>
@@ -14,6 +23,7 @@
 #include <ScrollView.h>
 #include <TextControl.h>
 #include <Window.h>
+
 #include <time.h>
 
 class StickyDrawButton;
@@ -22,6 +32,7 @@ class DateBox;
 // This is ordered from smallest interval to largest for a reason. :^)
 // Note that if this is changed, you need to also change the BUDGET_ enum in
 // Budget.h. The BudgetReport code depends on them having the same values
+// clang-format off
 enum {
 	SUBTOTAL_WEEK = 0,
 	SUBTOTAL_MONTH,
@@ -36,6 +47,7 @@ enum {
 	REPORT_TRANSACTIONS,
 	REPORT_BUDGET
 };
+// clang-format on
 
 class ReportWindow : public BWindow, public Observer {
 public:
@@ -92,4 +104,4 @@ public:
 };
 
 
-#endif
+#endif // REPORTWINDOW_H

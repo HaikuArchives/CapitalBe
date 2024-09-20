@@ -4,6 +4,7 @@
 	Released under the MIT license.
 */
 #include "TextFile.h"
+
 #include <OS.h>
 #include <stdio.h>
 #include <string.h>

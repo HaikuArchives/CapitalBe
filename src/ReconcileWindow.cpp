@@ -1,3 +1,15 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	dospuntos (Johan Wagenheim)
+ *	fantoro
+ *	humdinger (Joachim Seemer)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ */
 #include <Catalog.h>
 #include <GridLayoutBuilder.h>
 #include <LayoutBuilder.h>
@@ -23,7 +35,7 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "ReconcileWindow"
 
-
+// clang-format off
 enum {
 	M_TOGGLE_DEPOSIT = 'tgdp',
 	M_TOGGLE_CHARGE,
@@ -33,6 +45,7 @@ enum {
 	M_RESET,
 	M_AUTORECONCILE
 };
+// clang-format on
 
 /*
 class ReconcileFilter : public BMessageFilter

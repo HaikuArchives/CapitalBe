@@ -1,6 +1,12 @@
+/*
+ * Copyright 2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	humdinger (Joachim Seemer)
+ */
 #ifndef CATEGORYBUTTON_H
 #define CATEGORYBUTTON_H
-
 
 #include <Button.h>
 #include <PopUpMenu.h>

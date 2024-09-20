@@ -1,7 +1,15 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef SPLIT_ITEM_H
 #define SPLIT_ITEM_H
 
 #include "Fixed.h"
+
 #include <ListItem.h>
 #include <String.h>
 
@@ -27,4 +35,4 @@ private:
 	BString fMemo;
 };
 
-#endif
+#endif // SPLIT_ITEM_H

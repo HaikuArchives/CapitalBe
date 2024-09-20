@@ -1,15 +1,25 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	humdinger (Joachim Seemer)
+ */
 #ifndef TRANSFERWINDOW_H
 #define TRANSFERWINDOW_H
 
 #include "Account.h"
 #include "AccountListView.h"
 #include "Fixed.h"
+
 #include <Button.h>
 #include <ListView.h>
 #include <StringView.h>
 #include <TextControl.h>
 #include <View.h>
 #include <Window.h>
+
 #include <time.h>
 
 #define M_CREATE_TRANSFER 'crtn'
@@ -46,4 +56,4 @@ private:
 	BMessage fMessage;
 };
 
-#endif
+#endif // TRANSFERWINDOW_H

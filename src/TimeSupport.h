@@ -1,7 +1,15 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef TIMESUPPORT_H
 #define TIMESUPPORT_H
 
 #include <String.h>
+
 #include <time.h>
 
 #define SECONDS_PER_DAY 86400
@@ -16,7 +24,6 @@ time_t DecrementDateByMonth(const time_t& t);
 time_t IncrementDateByQuarter(const time_t& t);
 time_t IncrementDateByYear(const time_t& t);
 time_t DecrementDateByYear(const time_t& t);
-
 
 time_t GetCurrentDate();
 time_t GetCurrentMonth();
@@ -37,4 +44,4 @@ int DaysInMonth(int month, int year);
 int DayOfWeek(int day, int month, int year);
 int DayOfYear(int day, int month, int year);
 
-#endif
+#endif // TIMESUPPORT_H

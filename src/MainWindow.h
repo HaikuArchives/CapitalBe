@@ -1,8 +1,19 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ *	n0toose (Panagiotis Vasilopoulos)
+ */
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include "Database.h"
 #include "Notifier.h"
+
 #include <Application.h>
 #include <FilePanel.h>
 #include <Menu.h>
@@ -16,6 +27,7 @@ class RegisterView;
 
 static const char kApplicationSignature[] = "application/x-vnd.wgp-CapitalBe";
 
+// clang-format off
 enum {
 	M_FILE_NEW = 1000,
 	M_FILE_OPEN,
@@ -60,6 +72,7 @@ enum {
 	M_FILTER = 'filt',
 	M_SET_FILTER,
 };
+// clang-format on
 
 class MainWindow : public BWindow, public Observer {
 public:

@@ -1,8 +1,18 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	humdinger (Joachim Seemer)
+ *	dospuntos (Johan Wagenheim)
+ */
 #ifndef DATABASE_H
 #define DATABASE_H
 
 #include <Locker.h>
 #include <String.h>
+
 #include <time.h>
 
 #include "Account.h"
@@ -17,10 +27,12 @@ class TransactionType;
 class TransactionData;
 class ScheduledTransData;
 
+// clang-format off
 enum category_type {
 	SPENDING = 0,
 	INCOME
 };
+// clang-format on
 
 BString AccountTypeToString(const AccountType& type);
 bool IsInternalCategory(const char* category);
@@ -137,4 +149,4 @@ extern Locale gDefaultLocale;
 extern Locale gCurrentLocale;
 extern Database gDatabase;
 
-#endif
+#endif // DATABASE_H

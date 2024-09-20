@@ -1,6 +1,12 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef TRANSACTION_ITEM_H
 #define TRANSACTION_ITEM_H
-
 
 #include "TransactionData.h"
 
@@ -37,4 +43,4 @@ private:
 	uint32 fID;
 };
 
-#endif
+#endif // TRANSACTION_ITEM_H

@@ -1,7 +1,15 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #include "TransactionData.h"
 #include "Account.h"
 #include "CBLocale.h"
 #include "Database.h"
+
 #include <File.h>
 #include <stdio.h>
 #include <stdlib.h>

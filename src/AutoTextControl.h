@@ -82,4 +82,4 @@ private:
 	BMessenger* fMessenger;
 };
 
-#endif
+#endif // AUTO_TEXT_CONTROL_H

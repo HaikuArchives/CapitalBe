@@ -1,4 +1,12 @@
+/*
+ * Copyright 2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	humdinger (Joachim Seemer)
+ */
 #include "AccountListView.h"
+
 #include <Catalog.h>
 #include <Font.h>
 #include <ListView.h>

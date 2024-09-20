@@ -1,3 +1,13 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ */
 #ifndef TRANSACTIONVIEW_H
 #define TRANSACTIONVIEW_H
 
@@ -77,4 +87,4 @@ private:
 	BScrollView* fScrollView;
 };
 
-#endif
+#endif // TRANSACTIONVIEW_H

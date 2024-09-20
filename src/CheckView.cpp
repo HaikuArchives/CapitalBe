@@ -1,3 +1,15 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	humdinger (Joachim Seemer)
+ *	dospuntos (Johan Wagenheim)
+ *	emily
+ *	raefaldhia
+ */
 #include <Catalog.h>
 #include <DateFormat.h>
 #include <GridLayout.h>
@@ -5,6 +17,7 @@
 #include <Messenger.h>
 #include <String.h>
 #include <Window.h>
+
 #include <stdlib.h>
 
 #include "Account.h"
@@ -26,11 +39,11 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CheckView"
 
-
+// clang-format off
 enum {
 	M_ENTER_TRANSACTION = 'entr'
 };
-
+// clang-format on
 
 CheckView::CheckView(const char* name, int32 flags)
 	:

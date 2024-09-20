@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef IMPORT_H
 #define IMPORT_H
 
@@ -6,4 +13,4 @@
 bool ImportQIF(const entry_ref& ref);
 bool ExportQIF(const entry_ref& ref);
 
-#endif
+#endif // IMPORT_H

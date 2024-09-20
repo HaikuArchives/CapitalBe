@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef RECONCILE_ITEM_H
 #define RECONCILE_ITEM_H
 
@@ -26,4 +33,4 @@ private:
 	uint8 fValue;
 };
 
-#endif
+#endif // RECONCILE_ITEM_H

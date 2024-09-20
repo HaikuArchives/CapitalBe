@@ -1,3 +1,10 @@
+/*
+ * Copyright 2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	humdinger (Joachim Seemer)
+ */
 #include "CategoryButton.h"
 #include "CategoryWindow.h"
 #include "Database.h"
@@ -12,14 +19,14 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "CategoryButton"
 
-
+// clang-format off
 enum {
 	M_SHOW_POPUP,
 	M_CLOSE_POPUP,
 	M_CATEGORY_CHOSEN,
 	M_OPEN_CATEGORY_WINDOW,
 };
-
+// clang-format on
 
 CategoryButton::CategoryButton(CategoryBox* categorybox)
 	:

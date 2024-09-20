@@ -1,8 +1,17 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ */
 #ifndef QTITEM_H
 #define QTITEM_H
 
 #include "Budget.h"
 #include "Notifier.h"
+
 #include <TextView.h>
 
 class QuickTrackerItem : public BTextView, public Observer {
@@ -46,4 +55,4 @@ protected:
 	BudgetEntry fEntry;
 };
 
-#endif
+#endif // QTITEM_H

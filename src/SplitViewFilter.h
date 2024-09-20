@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef SPLITVIEWFILTER_H
 #define SPLITVIEWFILTER_H
 
@@ -17,4 +24,4 @@ private:
 	BString fPayeeText;
 };
 
-#endif
+#endif // SPLITVIEWFILTER_H

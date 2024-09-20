@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef CATEGORYBOX_H
 #define CATEGORYBOX_H
 
@@ -6,9 +13,11 @@
 
 class CategoryBox;
 
+// clang-format off
 enum {
 	M_CATEGORY_AUTOCOMPLETE = 'cata'
 };
+// clang-format on
 
 class CategoryBoxFilter : public AutoTextControlFilter {
 public:
@@ -32,4 +41,4 @@ private:
 	BString fType;
 };
 
-#endif
+#endif // CATEGORYBOX_H

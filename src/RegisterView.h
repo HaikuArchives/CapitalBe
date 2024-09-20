@@ -1,3 +1,13 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ */
 #ifndef REGSITERVIEW_H
 #define REGSITERVIEW_H
 
@@ -12,6 +22,7 @@
 class CheckView;
 class FilterView;
 
+// clang-format off
 enum {
 	M_SHOW_ACCOUNT_SETTINGS = 'acst',
 	M_SELECT_ACCOUNT = 'slac',
@@ -27,7 +38,7 @@ typedef enum {
 	THIS_YEAR,
 	LAST_YEAR
 } filter_period_field;
-
+// clang-format on
 
 class RegisterView : public BView, public Observer {
 public:
@@ -56,4 +67,4 @@ private:
 	BBox* fTrackBox;
 };
 
-#endif
+#endif // REGSITERVIEW_H

@@ -1,3 +1,10 @@
+/*
+ * Copyright 2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	humdinger (Joachim Seemer)
+ */
 #include "CalendarButton.h"
 #include "CalendarMenuWindow.h"
 
@@ -5,11 +12,12 @@
 #include <DateFormat.h>
 #include <Picture.h>
 
+// clang-format off
 enum {
 	M_SHOW_CALENDER,
 	M_SET_DATE
 };
-
+// clang-format on
 
 CalendarButton::CalendarButton(DateBox* datebox)
 	:

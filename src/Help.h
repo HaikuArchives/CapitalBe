@@ -1,3 +1,10 @@
+/*
+ * Copyright 2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	humdinger (Joachim Seemer)
+ */
 #ifndef HELP_H
 #define HELP_H
 
@@ -22,4 +29,4 @@ private:
 void openDocumentation(const char* helpfilename, const char* anchor);
 BBitmap* getHelpIcon();
 
-#endif
+#endif // HELP_H

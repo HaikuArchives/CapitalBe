@@ -1,3 +1,11 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	dospuntos (Johan Wagenheim)
+ */
 #ifndef SCHEDULED_TRANS_DATA_H
 #define SCHEDULED_TRANS_DATA_H
 
@@ -42,4 +50,4 @@ private:
 	int32 fDestination;
 };
 
-#endif
+#endif // SCHEDULED_TRANS_DATA_H

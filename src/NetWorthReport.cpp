@@ -1,3 +1,13 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ */
 #include "Account.h"
 #include "CBLocale.h"
 #include "ColumnListView.h"

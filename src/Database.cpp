@@ -1,10 +1,19 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	humdinger (Joachim Seemer)
+ *	dospuntos (Johan Wagenheim)
+ */
 #include "Database.h"
+
 #include <Catalog.h>
 #include <Directory.h>
 #include <Entry.h>
 #include <Path.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "Account.h"
 #include "Budget.h"
@@ -15,7 +24,10 @@
 #include "ScheduledTransData.h"
 #include "TimeSupport.h"
 #include "TransactionData.h"
+
 #include <ctime>
+#include <stdio.h>
+#include <stdlib.h>
 #include <vector>
 
 // #define LOCK_DATABASE

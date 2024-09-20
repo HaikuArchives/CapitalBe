@@ -1,3 +1,10 @@
+/*
+ * Copyright 2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	humdinger (Joachim Seemer)
+ */
 #ifndef CALENDARBUTTON_H
 #define CALENDARBUTTON_H
 

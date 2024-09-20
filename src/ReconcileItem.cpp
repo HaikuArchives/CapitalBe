@@ -1,3 +1,12 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ */
 #include "ReconcileItem.h"
 
 #include <ListView.h>

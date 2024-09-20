@@ -1,6 +1,17 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	humdinger (Joachim Seemer)
+ *	dospuntos (Johan Wagenheim)
+ */
 #include "Account.h"
 #include "Database.h"
+
 #include <Catalog.h>
+
 #include <stdlib.h>
 
 

@@ -1,11 +1,20 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef CBLOCALE_H
 #define CBLOCALE_H
 
 #include "DAlert.h"
 #include "Fixed.h"
+
 #include <File.h>
 #include <String.h>
 #include <TextControl.h>
+
 #include <time.h>
 
 class Locale {
@@ -51,4 +60,4 @@ void CapitalizeEachWord(BString& string);
 const char* GetCurrencyOnlyMask();
 void IllegalCharsToEntities(BString* string);
 
-#endif
+#endif // CBLOCALE_H

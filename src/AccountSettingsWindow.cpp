@@ -1,3 +1,16 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	humdinger (Joachim Seemer)
+ *	dospuntos (Johan Wagenheim)
+ *	emily
+ *	raefaldhia
+ *	waddlesplash (Augustin Cavalier)
+ */
 #include "AccountSettingsWindow.h"
 #include <Catalog.h>
 #include <LayoutBuilder.h>

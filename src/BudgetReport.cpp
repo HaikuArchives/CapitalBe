@@ -1,3 +1,13 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	dospuntos (Johan Wagenheim)
+ *	waddlesplash (Augustin Cavalier)
+ */
 #include "Account.h"
 #include "Budget.h"
 #include "CBLocale.h"
@@ -26,11 +36,13 @@
 	in the budget defaulting to a Weekly period?
 */
 
+// clang-format off
 typedef enum {
 	MAP_UNCHANGED = 0,
 	MAP_CHANGED = 1,
 	MAP_BAD_VALUE = -1
 } map_status;
+// clang-format on
 
 map_status MapBudgetToSubtotal(Fixed& fixed, const int& budgetperiod, const int& subtotal,
 	const time_t& start, const time_t& end);

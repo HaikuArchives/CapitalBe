@@ -1,3 +1,12 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	humdinger (Joachim Seemer)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ */
 #ifndef SPLITVIEW_H
 #define SPLITVIEW_H
 
@@ -15,6 +24,7 @@
 #include "Notifier.h"
 #include "TransactionData.h"
 
+// clang-format off
 enum {
 	M_ADD_SPLIT = 'mads',
 	M_REMOVE_SPLIT,
@@ -30,6 +40,7 @@ enum {
 	M_SHOW_CALENDER,
 	M_SET_DATE
 };
+// clang-format on
 
 class SplitViewFilter;
 class Category;
@@ -97,4 +108,4 @@ private:
 	TransactionData fTransaction;
 };
 
-#endif
+#endif // SPLITVIEW_H

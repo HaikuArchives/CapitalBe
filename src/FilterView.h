@@ -1,19 +1,28 @@
+/*
+ * Copyright 2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	humdinger (Joachim Seemer)
+ *	dospuntos (Johan Wagenheim)
+ */
 #ifndef FILTERVIEW_H
 #define FILTERVIEW_H
 
 #include "NumBox.h"
+
 #include <Button.h>
 #include <Menu.h>
 #include <TextControl.h>
 #include <View.h>
 
-
+// clang-format off
 enum {
 	M_FILTER_CHANGED = 'flch',
 	M_CLEAR_FILTER = 'clar',
 	M_START_FILTER = 'strt',
 };
-
+// clang-format on
 
 class FilterView : public BView {
 public:
@@ -45,4 +54,4 @@ private:
 };
 
 
-#endif
+#endif // FILTERVIEW_H

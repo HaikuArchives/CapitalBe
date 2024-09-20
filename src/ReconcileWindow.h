@@ -1,3 +1,12 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ */
 #ifndef RECONCILEWINDOW_H
 #define RECONCILEWINDOW_H
 
@@ -58,4 +67,4 @@ private:
 	time_t fCurrentDate;
 };
 
-#endif
+#endif // RECONCILEWINDOW_H

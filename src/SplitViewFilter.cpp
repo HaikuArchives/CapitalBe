@@ -1,8 +1,19 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ */
 #include "SplitViewFilter.h"
 #include "Account.h"
 #include "CategoryBox.h"
 #include "Database.h"
 #include "MsgDefs.h"
+
 #include <Button.h>
 #include <Catalog.h>
 #include <TextControl.h>

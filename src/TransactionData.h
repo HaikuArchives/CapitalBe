@@ -1,3 +1,12 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	dospuntos (Johan Wagenheim)
+ *	Thomas Schmidt
+ */
 #ifndef TRANSACTIONDATA_H
 #define TRANSACTIONDATA_H
 
@@ -5,7 +14,9 @@
 #include "Fixed.h"
 #include "TextFile.h"
 #include "Transaction.h"
+
 #include <String.h>
+
 #include <cstdio>
 
 class TransactionData {
@@ -95,4 +106,4 @@ private:
 	bigtime_t fTimeStamp;
 };
 
-#endif
+#endif // TRANSACTIONDATA_H

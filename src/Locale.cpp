@@ -1,5 +1,15 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	dospuntos (Johan Wagenheim)
+ */
 #include "App.h"
 #include "CBLocale.h"
+
 #include <AppFileInfo.h>
 #include <Catalog.h>
 #include <DateFormat.h>
@@ -11,6 +21,7 @@
 #include <Roster.h>
 #include <String.h>
 #include <Url.h>
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>

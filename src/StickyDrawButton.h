@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef _STICKY_DRAWBUTTON_H
 #define _STICKY_DRAWBUTTON_H
 
@@ -32,4 +39,4 @@ private:
 	int32 fButtonState;
 };
 
-#endif
+#endif // _STICKY_DRAWBUTTON_H

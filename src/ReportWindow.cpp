@@ -1,4 +1,17 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ *	waddlesplash (Augustin Cavalier)
+ */
 #include "ReportWindow.h"
+
 #include <Bitmap.h>
 #include <Catalog.h>
 #include <GridLayoutBuilder.h>
@@ -27,6 +40,7 @@
 
 int compare_stringitem(const void* item1, const void* item2);
 
+// clang-format off
 enum {
 	M_REPORT_CASH_FLOW = 'csfl',
 	M_REPORT_NET_WORTH,
@@ -45,7 +59,7 @@ enum {
 	M_TOGGLE_ACCOUNT,
 	M_TOGGLE_GRAPH
 };
-
+// clang-format on
 
 ReportWindow::ReportWindow(BRect frame)
 	:

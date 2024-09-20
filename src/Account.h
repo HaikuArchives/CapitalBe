@@ -1,3 +1,11 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	humdinger (Joachim Seemer)
+ */
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
 
@@ -6,13 +14,16 @@
 #include "ObjectList.h"
 #include "Transaction.h"
 #include "TransactionData.h"
+
 #include <String.h>
 
+// clang-format off
 typedef enum {
 	ACCOUNT_BANK = 0,
 	ACCOUNT_CASH,
 	ACCOUNT_CREDIT
 } AccountType;
+// clang-format on
 
 class Account : public Notifier {
 public:
@@ -59,4 +70,4 @@ private:
 	bool fUseDefaultLocale;
 };
 
-#endif
+#endif // ACCOUNT_H

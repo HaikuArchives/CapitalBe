@@ -1,16 +1,26 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	humdinger (Joachim Seemer)
+ */
 #ifndef SCHEDULELIST_WINDOW
 #define SCHEDULELIST_WINDOW
 
 #include "ColumnListView.h"
+
 #include <PopUpMenu.h>
 #include <Window.h>
 
+// clang-format off
 enum {
 	M_REMOVE_ITEM = 'rmit',
 	M_SELECTION,
 	M_CLOSE_CONTEXT
 };
-
+// clang-format on
 
 class ScheduleContext : public BPopUpMenu {
 public:
@@ -48,4 +58,4 @@ public:
 	ScheduleListWindow(const BRect& frame);
 };
 
-#endif
+#endif // SCHEDULELIST_WINDOW

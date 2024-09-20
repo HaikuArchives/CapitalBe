@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef TRANSACTION_LAYOUT
 #define TRANSACTION_LAYOUT
 
@@ -11,4 +18,4 @@ uint8 TAmountWidth();
 
 void InitTransactionItemLayout(BView* owner);
 
-#endif
+#endif // TRANSACTION_LAYOUT

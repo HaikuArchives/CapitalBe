@@ -1,3 +1,14 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ *	waddlesplash (Augustin Cavalier)
+ */
 #include "Account.h"
 #include "CBLocale.h"
 #include "ColumnListView.h"
@@ -7,7 +18,9 @@
 #include "ReportWindow.h"
 #include "TimeSupport.h"
 #include "Transaction.h"
+
 #include <Catalog.h>
+
 #include <stdlib.h>
 
 

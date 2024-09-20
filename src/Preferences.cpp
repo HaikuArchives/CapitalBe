@@ -1,9 +1,20 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ */
 #include "Preferences.h"
 #include <Application.h>
+
 #include <Entry.h>
 #include <Path.h>
 #include <Roster.h>
 #include <Screen.h>
+
 #include <math.h>
 
 BLocker prefsLock;

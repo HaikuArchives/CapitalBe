@@ -1,3 +1,11 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ */
 #ifndef NAVTEXTBOX_H
 #define NAVTEXTBOX_H
 
@@ -26,4 +34,4 @@ private:
 	bool fFilterTab;
 };
 
-#endif
+#endif // NAVTEXTBOX_H

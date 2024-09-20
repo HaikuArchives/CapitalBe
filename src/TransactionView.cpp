@@ -1,4 +1,16 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ */
 #include "TransactionView.h"
+
 #include <Bitmap.h>
 #include <Box.h>
 #include <Catalog.h>
@@ -6,6 +18,7 @@
 #include <ScrollBar.h>
 #include <StringView.h>
 #include <TranslationUtils.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 

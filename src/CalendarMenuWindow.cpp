@@ -3,8 +3,6 @@
  * Copyright 2008 Karsten Heimrich, host.haiku@gmx.de. All rights reserved.
  * Distributed under the terms of the MIT License.
  */
-
-
 #include "CalendarMenuWindow.h"
 
 #include <Button.h>

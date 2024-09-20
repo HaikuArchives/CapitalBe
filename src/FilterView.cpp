@@ -1,3 +1,11 @@
+/*
+ * Copyright 2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	humdinger (Joachim Seemer)
+ *	dospuntos (Johan Wagenheim)
+ */
 #include <Catalog.h>
 #include <ControlLook.h>
 #include <GridLayoutBuilder.h>
@@ -6,6 +14,7 @@
 #include <String.h>
 #include <StringView.h>
 #include <Window.h>
+
 #include <stdlib.h>
 
 #include "FilterView.h"

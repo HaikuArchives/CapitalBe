@@ -1,8 +1,16 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef TYPES_H
 #define TYPES_H
 
 #include "Fixed.h"
 #include "ObjectList.h"
+
 #include <File.h>
 #include <String.h>
 
@@ -60,4 +68,4 @@ private:
 	BObjectList<Category::CatItem>* fList;
 };
 
-#endif
+#endif //TYPES_H

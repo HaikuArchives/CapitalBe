@@ -1,12 +1,18 @@
 /*
-	AutoTextControl.cpp: A BTextControl which notifies on each keypress
-	Written by DarkWyrm <darkwyrm@earthlink.net>, Copyright 2007
-	Released under the MIT license.
-*/
+ * Copyright 2007-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * A BTextControl which notifies on each keypress
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	humdinger (Joachim Seemer)
+ */
 #include "AutoTextControl.h"
+
 #include <PropertyInfo.h>
 #include <String.h>
 #include <Window.h>
+
 #include <ctype.h>
 #include <stdio.h>
 

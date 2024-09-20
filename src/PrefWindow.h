@@ -1,3 +1,14 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ *	Thomas Schmidt
+ */
 #ifndef PREFWIN_H
 #define PREFWIN_H
 
@@ -22,7 +33,7 @@ class DatePrefView;
 class CurrencyPrefView;
 class NegativeNumberView;
 
-
+// clang-format off
 // PrefWindow
 enum {
 	M_EDIT_OPTIONS = 'edop',
@@ -41,7 +52,7 @@ enum {
 enum {
 	M_UPDATE_COLOR
 };
-
+// clang-format on
 
 class PrefWindow : public BWindow {
 public:
@@ -95,4 +106,4 @@ private:
 	BTextView *fSelectedPreview, *fUnselectedPreview, *fClosedPreview;
 };
 
-#endif
+#endif // PREFWIN_H

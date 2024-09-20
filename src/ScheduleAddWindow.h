@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef SCHEDULE_ADD_WINDOW_H
 #define SCHEDULE_ADD_WINDOW_H
 
@@ -27,4 +34,4 @@ private:
 	TransactionData fTransData;
 };
 
-#endif
+#endif // SCHEDULE_ADD_WINDOW_H

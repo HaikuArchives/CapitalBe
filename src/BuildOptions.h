@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef BUILDOPTS_H
 #define BUILDOPTS_H
 
@@ -11,4 +18,4 @@
 // #define ENTER_NAVIGATION
 
 
-#endif
+#endif // BUILDOPTS_H

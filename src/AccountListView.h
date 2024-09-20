@@ -1,3 +1,10 @@
+/*
+ * Copyright 2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	humdinger (Joachim Seemer)
+ */
 #ifndef ACCOUNTLISTITEM_H
 #define ACCOUNTLISTITEM_H
 
@@ -49,4 +56,4 @@ private:
 	bool fEnabled;
 };
 
-#endif
+#endif // ACCOUNTLISTITEM_H

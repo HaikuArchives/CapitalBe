@@ -1,3 +1,11 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	humdinger (Joachim Seemer)
+ */
 #ifndef APP_H
 #define APP_H
 
@@ -17,4 +25,4 @@ public:
 
 extern bool gRestartApp;
 
-#endif
+#endif // APP_H

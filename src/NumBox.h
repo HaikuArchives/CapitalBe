@@ -1,3 +1,11 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ */
 #ifndef NUMBOX_H
 #define NUMBOX_H
 
@@ -30,4 +38,4 @@ private:
 	bool fAllowNegatives;
 };
 
-#endif
+#endif // NUMBOX_H

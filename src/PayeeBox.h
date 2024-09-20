@@ -1,11 +1,21 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ */
 #ifndef PAYEEBOX_H
 #define PAYEEBOX_H
 
 #include "AutoTextControl.h"
 
+// clang-format off
 enum {
 	M_PAYEE_AUTOCOMPLETE = 'acpy'
 };
+// clang-format on
 
 class PayeeBox;
 
@@ -26,4 +36,4 @@ private:
 	friend PayeeBoxFilter;
 };
 
-#endif
+#endif // PAYEEBOX_H

@@ -26,4 +26,4 @@ private:
 	int32 fReadBufferSize;
 };
 
-#endif
+#endif // TEXTFILE_H

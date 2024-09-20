@@ -1,3 +1,12 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	humdinger (Joachim Seemer)
+ *	dospuntos (Johan Wagenheim)
+ */
 #include "Import.h"
 #include "Account.h"
 #include "Budget.h"
@@ -9,9 +18,11 @@
 #include "TextFile.h"
 #include "Transaction.h"
 #include "TransactionData.h"
+
 #include <Catalog.h>
 #include <File.h>
 #include <TypeConstants.h>
+
 #include <stdio.h>
 #include <time.h>
 

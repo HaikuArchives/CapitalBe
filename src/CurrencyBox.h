@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef CURRENCYBOX_H
 #define CURRENCYBOX_H
 
@@ -22,4 +29,4 @@ private:
 	friend CurrencyBoxFilter;
 };
 
-#endif
+#endif // CURRENCYBOX_H

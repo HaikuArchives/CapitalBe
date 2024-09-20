@@ -1,3 +1,13 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ */
 #include "ScheduledTransItem.h"
 #include "Account.h"
 #include "CBLocale.h"
@@ -5,10 +15,12 @@
 #include "Preferences.h"
 #include "TransactionData.h"
 #include "TransactionLayout.h"
+
 #include <Catalog.h>
 #include <ListView.h>
 #include <Region.h>
 #include <View.h>
+
 #include <ctime>
 #include <stdio.h>
 

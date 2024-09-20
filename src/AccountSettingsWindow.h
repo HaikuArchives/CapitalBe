@@ -1,3 +1,11 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	humdinger (Joachim Seemer)
+ */
 #ifndef NEW_ACCOUNT_WINDOW_H
 #define NEW_ACCOUNT_WINDOW_H
 
@@ -26,4 +34,4 @@ private:
 	BCheckBox* fUseDefault;
 };
 
-#endif
+#endif // NEW_ACCOUNT_WINDOW_H

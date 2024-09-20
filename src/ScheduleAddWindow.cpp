@@ -1,3 +1,14 @@
+/*
+ * Copyright 2009-2024. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ *	bitigchi (Emir Sari)
+ *	dospuntos (Johan Wagenheim)
+ *	humdinger (Joachim Seemer)
+ *	raefaldhia (Raefaldhi Amartya Junior)
+ */
 #include "ScheduleAddWindow.h"
 
 #include <Box.h>
@@ -25,7 +36,7 @@
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "ScheduleAddWindow"
 
-
+// clang-format off
 enum {
 	M_SCHEDULED_MONTHLY = 'schm',
 	M_SCHEDULED_WEEKLY,
@@ -37,7 +48,7 @@ enum {
 	M_REPEAT_LIMITED,
 	M_SCHEDULE_TRANSACTION
 };
-
+// clang-format on
 
 ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& data)
 	:

@@ -1,3 +1,10 @@
+/*
+ * Copyright 2009. All rights reserved.
+ * Distributed under the terms of the MIT license.
+ *
+ * Authors:
+ *	darkwyrm (Jon Yoder)
+ */
 #ifndef CHECKVIEW_H
 #define CHECKVIEW_H
 
@@ -7,12 +14,14 @@
 #include <StringView.h>
 #include <TextControl.h>
 #include <View.h>
+
 #include <time.h>
 
 #include "Account.h"
 #include "Help.h"
 #include "Notifier.h"
 
+// clang-format off
 enum {
 	M_DATE_CHANGED = 'dtch',
 	M_PAYEE_CHANGED = 'pych',
@@ -20,6 +29,7 @@ enum {
 	M_CATEGORY_CHANGED = 'ctch',
 	M_MEMO_CHANGED = 'mmch'
 };
+// clang-format on
 
 class CheckViewFilter;
 class CategoryBox;
@@ -56,5 +66,4 @@ private:
 	BButton *fEnter, *fTransfer;
 };
 
-
-#endif
+#endif // CHECKVIEW_H

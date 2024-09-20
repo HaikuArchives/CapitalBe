@@ -5,7 +5,6 @@
  * Open Tracker Licence
  * Copyright (c) 1991-2000, Be Incorporated. All rights reserved.
  */
-
 #ifndef ICON_MENU_ITEM_H
 #define ICON_MENU_ITEM_H
 
