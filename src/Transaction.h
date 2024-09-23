@@ -62,4 +62,4 @@ private:
 	bigtime_t fID;
 };
 
-#endif // TRANSACTION_H
+#endif	// TRANSACTION_H

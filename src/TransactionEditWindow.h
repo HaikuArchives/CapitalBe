@@ -25,4 +25,4 @@ private:
 	SplitView* fSplitView;
 };
 
-#endif // TRANSEDITWIN_H
+#endif	// TRANSEDITWIN_H

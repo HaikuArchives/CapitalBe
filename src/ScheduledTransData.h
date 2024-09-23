@@ -50,4 +50,4 @@ private:
 	int32 fDestination;
 };
 
-#endif // SCHEDULED_TRANS_DATA_H
+#endif	// SCHEDULED_TRANS_DATA_H

@@ -36,4 +36,4 @@ private:
 	friend PayeeBoxFilter;
 };
 
-#endif // PAYEEBOX_H
+#endif	// PAYEEBOX_H

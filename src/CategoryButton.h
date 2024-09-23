@@ -40,4 +40,4 @@ private:
 	BMessenger fTarget;
 };
 
-#endif // CATEGORYBUTTON_H
+#endif	// CATEGORYBUTTON_H

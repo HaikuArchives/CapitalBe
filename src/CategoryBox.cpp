@@ -19,8 +19,7 @@
 
 
 CategoryBoxFilter::CategoryBoxFilter(CategoryBox* box)
-	:
-	AutoTextControlFilter(box)
+	: AutoTextControlFilter(box)
 {
 }
 
@@ -79,10 +78,9 @@ CategoryBoxFilter::KeyFilter(const int32& key, const int32& mod)
 }
 
 
-CategoryBox::CategoryBox(const char* name, const char* label, const char* text, BMessage* msg,
-	uint32 flags)
-	:
-	AutoTextControl(name, label, text, msg, flags)
+CategoryBox::CategoryBox(
+	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
+	: AutoTextControl(name, label, text, msg, flags)
 {
 	SetFilter(new CategoryBoxFilter(this));
 	SetCharacterLimit(32);
@@ -133,8 +131,8 @@ CategoryBox::Validate()
 bool
 CategoryBox::_SetTypeFromCategory(BString category)
 {
-	CppSQLite3Query query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name ASC",
-		"CategoryView::CategoryView");
+	CppSQLite3Query query = gDatabase.DBQuery(
+		"SELECT * FROM categorylist ORDER BY name ASC", "CategoryView::CategoryView");
 
 	bool categoryExists = false;
 	while (!query.eof()) {
@@ -151,9 +149,9 @@ CategoryBox::_SetTypeFromCategory(BString category)
 
 	bool success = true;
 	if (!categoryExists
-		&& category.ICompare(B_TRANSLATE_ALL("Split", "CommonTerms",
-			   "The noun 'split', as in 'a split-category'"))
-			!= 0) {
+		&& category.ICompare(B_TRANSLATE_ALL(
+			   "Split", "CommonTerms", "The noun 'split', as in 'a split-category'"))
+			   != 0) {
 		bool success = _AddNewCategory(category);
 	}
 
@@ -164,8 +162,9 @@ CategoryBox::_SetTypeFromCategory(BString category)
 bool
 CategoryBox::_AddNewCategory(BString category)
 {
-	BString text(B_TRANSLATE("You created the new category '%categoryname%'.\n\n"
-							 "Please select a transaction type for it, 'income' or 'spending'."));
+	BString text(
+		B_TRANSLATE("You created the new category '%categoryname%'.\n\n"
+					"Please select a transaction type for it, 'income' or 'spending'."));
 	text.ReplaceFirst("%categoryname%", category);
 
 	DAlert* alert = new DAlert(B_TRANSLATE("New category"), text, B_TRANSLATE("Income"),

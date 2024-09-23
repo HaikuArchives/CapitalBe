@@ -62,15 +62,14 @@ enum {
 // clang-format on
 
 ReportWindow::ReportWindow(BRect frame)
-	:
-	BWindow(frame, B_TRANSLATE("Reports"), B_DOCUMENT_WINDOW,
+	: BWindow(frame, B_TRANSLATE("Reports"), B_DOCUMENT_WINDOW,
 		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
-	fSubtotalMode(SUBTOTAL_NONE),
-	fReportMode(REPORT_CASH_FLOW),
-	fStartDate(GetCurrentYear()),
-	fEndDate(GetCurrentDate()),
-	fTitleFont(be_bold_font),
-	fHeaderFont(be_plain_font)
+	  fSubtotalMode(SUBTOTAL_NONE),
+	  fReportMode(REPORT_CASH_FLOW),
+	  fStartDate(GetCurrentYear()),
+	  fEndDate(GetCurrentDate()),
+	  fTitleFont(be_bold_font),
+	  fHeaderFont(be_plain_font)
 {
 	BString temp;
 
@@ -175,8 +174,8 @@ ReportWindow::ReportWindow(BRect frame)
 
 	temp = B_TRANSLATE("Starting date:");
 
-	fStartDateBox = new DateBox("startdate", temp.String(), datestring.String(),
-		new BMessage(M_START_DATE_CHANGED));
+	fStartDateBox = new DateBox(
+		"startdate", temp.String(), datestring.String(), new BMessage(M_START_DATE_CHANGED));
 	fStartDateBox->SetDate(GetCurrentYear());
 	CalendarButton* calendarStartButton = new CalendarButton(fStartDateBox);
 
@@ -195,8 +194,8 @@ ReportWindow::ReportWindow(BRect frame)
 	gDefaultLocale.DateToString(GetCurrentDate(), datestring);
 	temp = B_TRANSLATE("Ending date:");
 
-	fEndDateBox = new DateBox("enddate", temp.String(), datestring.String(),
-		new BMessage(M_END_DATE_CHANGED));
+	fEndDateBox = new DateBox(
+		"enddate", temp.String(), datestring.String(), new BMessage(M_END_DATE_CHANGED));
 	fEndDateBox->SetDate(GetCurrentDate());
 	CalendarButton* calendarEndButton = new CalendarButton(fEndDateBox);
 
@@ -374,8 +373,8 @@ ReportWindow::MessageReceived(BMessage* msg)
 					fStartDate = fEndDate;
 				_RenderReport();
 			} else {
-				ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the date you entered",
-							  "TextInput"),
+				ShowAlert(B_TRANSLATE_CONTEXT(
+							  "CapitalBe didn't understand the date you entered", "TextInput"),
 					B_TRANSLATE_CONTEXT(
 						"CapitalBe understands lots of different ways of entering dates. "
 						"Apparently, this wasn't one of them. You'll need to change how you "
@@ -400,8 +399,8 @@ ReportWindow::MessageReceived(BMessage* msg)
 					fStartDate = fEndDate;
 				_RenderReport();
 			} else {
-				ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the date you entered",
-							  "TextInput"),
+				ShowAlert(B_TRANSLATE_CONTEXT(
+							  "CapitalBe didn't understand the date you entered", "TextInput"),
 					B_TRANSLATE_CONTEXT(
 						"CapitalBe understands lots of different ways of entering dates. "
 						"Apparently, this wasn't one of them. You'll need to change how you "

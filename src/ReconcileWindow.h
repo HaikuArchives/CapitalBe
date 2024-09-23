@@ -67,4 +67,4 @@ private:
 	time_t fCurrentDate;
 };
 
-#endif // RECONCILEWINDOW_H
+#endif	// RECONCILEWINDOW_H

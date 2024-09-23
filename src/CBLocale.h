@@ -60,4 +60,4 @@ void CapitalizeEachWord(BString& string);
 const char* GetCurrencyOnlyMask();
 void IllegalCharsToEntities(BString* string);
 
-#endif // CBLOCALE_H
+#endif	// CBLOCALE_H

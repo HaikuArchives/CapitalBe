@@ -11,9 +11,8 @@
 
 
 DStringList::DStringList(int32 itemsPerBlock, bool owner)
-	:
-	fList(itemsPerBlock),
-	fOwner(owner)
+	: fList(itemsPerBlock),
+	  fOwner(owner)
 {
 }
 

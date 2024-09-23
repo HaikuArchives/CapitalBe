@@ -27,9 +27,8 @@
 
 
 FilterView::FilterView(const char* name, int32 flags)
-	:
-	BView(name, flags | B_FRAME_EVENTS),
-	fMessenger(NULL)
+	: BView(name, flags | B_FRAME_EVENTS),
+	  fMessenger(NULL)
 {
 	fPeriodMenu = new BMenu("timeperiod");
 	// Important: keep the order according to filter_period_field in RegisterView.h
@@ -125,9 +124,7 @@ FilterView::FilterView(const char* name, int32 flags)
 }
 
 
-FilterView::~FilterView()
-{
-}
+FilterView::~FilterView() {}
 
 
 void
@@ -206,8 +203,8 @@ bool
 FilterView::IsEmpty()
 {
 	return fPeriodMenu->FindMarkedIndex() == 0 && strcmp(fPayee->Text(), "") == 0
-		&& strcmp(fCategory->Text(), "") == 0 && strcmp(fMemo->Text(), "") == 0
-		&& fCompareMenu->FindMarkedIndex() == 0 && strcmp(fAmount->Text(), "") == 0;
+		   && strcmp(fCategory->Text(), "") == 0 && strcmp(fMemo->Text(), "") == 0
+		   && fCompareMenu->FindMarkedIndex() == 0 && strcmp(fAmount->Text(), "") == 0;
 }
 
 

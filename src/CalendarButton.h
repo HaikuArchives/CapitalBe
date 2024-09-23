@@ -32,4 +32,4 @@ private:
 	BString fDay;
 };
 
-#endif // CALENDARBUTTON_H
+#endif	// CALENDARBUTTON_H

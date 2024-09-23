@@ -92,8 +92,7 @@ private:
 class AccountItem : public BStringItem {
 public:
 	AccountItem(Account* acc)
-		:
-		BStringItem("")
+		: BStringItem("")
 	{
 		if (acc)
 			SetText(acc->Name());
@@ -104,4 +103,4 @@ public:
 };
 
 
-#endif // REPORTWINDOW_H
+#endif	// REPORTWINDOW_H

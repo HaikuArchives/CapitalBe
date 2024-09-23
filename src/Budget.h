@@ -8,8 +8,8 @@
 #ifndef BUDGET_H
 #define BUDGET_H
 
-#include "Fixed.h"
 #include <String.h>
+#include "Fixed.h"
 
 // This is ordered from smallest interval to largest for a reason. :^)
 // Note that if this is changed, you need to also change the SUBTOTAL_ enum in
@@ -27,12 +27,12 @@ typedef enum {
 class BudgetEntry {
 public:
 	BudgetEntry();
-	BudgetEntry(const char* name, const Fixed& amount, const BudgetPeriod& period,
-		const bool& isexpense);
+	BudgetEntry(
+		const char* name, const Fixed& amount, const BudgetPeriod& period, const bool& isexpense);
 	BudgetEntry(const BudgetEntry& from);
 	BudgetEntry& operator=(const BudgetEntry& from);
-	void Set(const char* name, const Fixed& amount, const BudgetPeriod& period,
-		const bool& isexpense);
+	void Set(
+		const char* name, const Fixed& amount, const BudgetPeriod& period, const bool& isexpense);
 
 	BString name;
 	Fixed amount;
@@ -43,4 +43,4 @@ public:
 BString BudgetPeriodToString(const BudgetPeriod& period);
 BudgetPeriod StringToBudgetPeriod(const char* string);
 
-#endif // BUDGET_H
+#endif	// BUDGET_H

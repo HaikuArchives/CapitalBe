@@ -43,4 +43,4 @@ typedef enum {
 
 const float GetMutedTint(const rgb_color color, const CapitalBeMuted& type);
 
-#endif // PREFERENCES_H_
+#endif	// PREFERENCES_H_

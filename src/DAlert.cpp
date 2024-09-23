@@ -35,12 +35,12 @@
 #include <Message.h>
 #include <MessageFilter.h>
 
-#include "DAlert.h"
 #include <Bitmap.h>
 #include <Button.h>
 #include <Screen.h>
 #include <TextView.h>
 #include <View.h>
+#include "DAlert.h"
 
 #include <Beep.h>
 #include <File.h>
@@ -145,8 +145,7 @@ width_from_label(BButton* button)
 
 DAlert::DAlert(const char* title, const char* text, const char* button1, const char* button2,
 	const char* button3, button_width width, alert_type type)
-	:
-	BWindow(DEFAULT_RECT, title, B_MODAL_WINDOW,
+	: BWindow(DEFAULT_RECT, title, B_MODAL_WINDOW,
 		B_NOT_CLOSABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS)
 {
 	_InitObject(text, button1, button2, button3, width, B_EVEN_SPACING, type);
@@ -155,8 +154,7 @@ DAlert::DAlert(const char* title, const char* text, const char* button1, const c
 
 DAlert::DAlert(const char* title, const char* text, const char* button1, const char* button2,
 	const char* button3, button_width width, button_spacing spacing, alert_type type)
-	:
-	BWindow(DEFAULT_RECT, title, B_MODAL_WINDOW,
+	: BWindow(DEFAULT_RECT, title, B_MODAL_WINDOW,
 		B_NOT_CLOSABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS)
 {
 	_InitObject(text, button1, button2, button3, width, spacing, type);
@@ -172,8 +170,7 @@ DAlert::~DAlert()
 
 
 DAlert::DAlert(BMessage* data)
-	:
-	BWindow(data)
+	: BWindow(data)
 {
 	fInvoker = NULL;
 	fAlertSem = -1;
@@ -391,8 +388,8 @@ DAlert::TextView() const
 
 
 BHandler*
-DAlert::ResolveSpecifier(BMessage* msg, int32 index, BMessage* specifier, int32 form,
-	const char* property)
+DAlert::ResolveSpecifier(
+	BMessage* msg, int32 index, BMessage* specifier, int32 form, const char* property)
 {
 	return BWindow::ResolveSpecifier(msg, index, specifier, form, property);
 }
@@ -520,7 +517,7 @@ DAlert::_InitObject(const char* text, const char* button0, const char* button1, 
 			buttonWidth = maxWidth;
 		else if (fButtonWidth == B_WIDTH_FROM_LABEL)
 			buttonWidth = width_from_label(fButtons[i]);
-		else // B_WIDTH_AS_USUAL
+		else  // B_WIDTH_AS_USUAL
 			buttonWidth = max(buttonWidth, kButtonUsualWidth);
 		fButtons[i]->ResizeTo(buttonWidth, buttonHeight);
 
@@ -556,7 +553,7 @@ DAlert::_InitObject(const char* text, const char* button0, const char* button1, 
 							// if using the current buttonX would not
 							// provide enough space or cause an overlap.
 							buttonX = fButtons[i + 1]->Frame().left - fButtons[i]->Frame().Width()
-								- kButtonMinOffsetSpaceOffset;
+									  - kButtonMinOffsetSpaceOffset;
 						}
 					}
 				} else if (buttonCount == 3)
@@ -564,7 +561,7 @@ DAlert::_InitObject(const char* text, const char* button0, const char* button1, 
 			}
 		}
 		fButtons[i]->MoveTo(buttonX, buttonY);
-	} // for (int i = buttonCount - 1; i >= 0; --i)
+	}  // for (int i = buttonCount - 1; i >= 0; --i)
 
 	// Adjust the window's width, if necessary
 	float totalWidth = kButtonRightOffset;
@@ -592,8 +589,8 @@ DAlert::_InitObject(const char* text, const char* button0, const char* button1, 
 	if (masterView->Bitmap())
 		textViewRect.left = kTextIconOffset;
 
-	fTextView = new BTextView(textViewRect, "_tv_", textViewRect, B_FOLLOW_LEFT | B_FOLLOW_TOP,
-		B_WILL_DRAW);
+	fTextView = new BTextView(
+		textViewRect, "_tv_", textViewRect, B_FOLLOW_LEFT | B_FOLLOW_TOP, B_WILL_DRAW);
 	masterView->AddChild(fTextView);
 
 	fTextView->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
@@ -663,18 +660,16 @@ DAlert::_InitIcon()
 
 
 TAlertView::TAlertView(BRect frame)
-	:
-	BView(frame, "TAlertView", B_FOLLOW_ALL_SIDES, B_WILL_DRAW),
-	fIconBitmap(NULL)
+	: BView(frame, "TAlertView", B_FOLLOW_ALL_SIDES, B_WILL_DRAW),
+	  fIconBitmap(NULL)
 {
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 }
 
 
 TAlertView::TAlertView(BMessage* archive)
-	:
-	BView(archive),
-	fIconBitmap(NULL)
+	: BView(archive),
+	  fIconBitmap(NULL)
 {
 }
 
@@ -724,16 +719,13 @@ TAlertView::Draw(BRect updateRect)
 
 
 _DAlertFilter_::_DAlertFilter_(DAlert* alert)
-	:
-	BMessageFilter(B_KEY_DOWN),
-	fAlert(alert)
+	: BMessageFilter(B_KEY_DOWN),
+	  fAlert(alert)
 {
 }
 
 
-_DAlertFilter_::~_DAlertFilter_()
-{
-}
+_DAlertFilter_::~_DAlertFilter_() {}
 
 
 filter_result
@@ -757,4 +749,4 @@ _DAlertFilter_::Filter(BMessage* msg, BHandler** target)
 }
 
 
-} // namespace CapitalBe
+}  // namespace CapitalBe

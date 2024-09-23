@@ -12,10 +12,9 @@
 
 
 ScheduledTransData::ScheduledTransData()
-	:
-	fInterval(SCHEDULED_UNKNOWN),
-	fCount(0),
-	fNextDate(0)
+	: fInterval(SCHEDULED_UNKNOWN),
+	  fCount(0),
+	  fNextDate(0)
 {
 }
 
@@ -23,12 +22,11 @@ ScheduledTransData::ScheduledTransData()
 ScheduledTransData::ScheduledTransData(Account* account, const char* date, const char* type,
 	const char* payee, const char* amount, const char* category, const char* memo,
 	const TransactionInterval& interval, const int32& count)
-	:
-	TransactionData(account, date, type, payee, amount, category, memo, TRANS_OPEN),
-	fInterval(interval),
-	fCount(count),
-	fNextDate(0),
-	fDestination(-1)
+	: TransactionData(account, date, type, payee, amount, category, memo, TRANS_OPEN),
+	  fInterval(interval),
+	  fCount(count),
+	  fNextDate(0),
+	  fDestination(-1)
 {
 }
 
@@ -39,21 +37,18 @@ ScheduledTransData::ScheduledTransData(const ScheduledTransData& trans)
 }
 
 
-ScheduledTransData::ScheduledTransData(const TransactionData& data,
-	const TransactionInterval& interval, const int32& count)
-	:
-	TransactionData(data),
-	fInterval(interval),
-	fCount(count),
-	fNextDate(0),
-	fDestination(-1)
+ScheduledTransData::ScheduledTransData(
+	const TransactionData& data, const TransactionInterval& interval, const int32& count)
+	: TransactionData(data),
+	  fInterval(interval),
+	  fCount(count),
+	  fNextDate(0),
+	  fDestination(-1)
 {
 }
 
 
-ScheduledTransData::~ScheduledTransData()
-{
-}
+ScheduledTransData::~ScheduledTransData() {}
 
 
 ScheduledTransData&
@@ -80,8 +75,9 @@ ScheduledTransData::CalculateNextDueDate()
 		{
 			// TODO: Add weekly scheduling support
 			//				data.SetNextDueDate(IncrementDateByMonth(data.Date()));
-			ShowBug("Unimplemented Weekly scheduling support in "
-					"ScheduledTransData::CalculateNextDueDate()");
+			ShowBug(
+				"Unimplemented Weekly scheduling support in "
+				"ScheduledTransData::CalculateNextDueDate()");
 			break;
 		}
 		case SCHEDULED_QUARTERLY:

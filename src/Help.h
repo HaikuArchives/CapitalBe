@@ -29,4 +29,4 @@ private:
 void openDocumentation(const char* helpfilename, const char* anchor);
 BBitmap* getHelpIcon();
 
-#endif // HELP_H
+#endif	// HELP_H

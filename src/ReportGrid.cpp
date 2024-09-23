@@ -11,18 +11,15 @@
 
 
 ReportGrid::ReportGrid(const uint32& width, const uint32& height)
-	:
-	fList(20, true),
-	fWidth(width)
+	: fList(20, true),
+	  fWidth(width)
 {
 	for (uint32 i = 0; i < height; i++)
 		AddItem();
 }
 
 
-ReportGrid::~ReportGrid()
-{
-}
+ReportGrid::~ReportGrid() {}
 
 
 const char*
@@ -90,8 +87,8 @@ ReportGrid::SetValue(const uint32& x, const uint32& y, const Fixed& fixed)
 
 
 int
-ReportGrid::CompareGridrecord(const ReportGrid::GridRecord* item1,
-	const ReportGrid::GridRecord* item2)
+ReportGrid::CompareGridrecord(
+	const ReportGrid::GridRecord* item1, const ReportGrid::GridRecord* item2)
 {
 	//	ReportGrid::GridRecord *listitem1 = *((ReportGrid::GridRecord**)item1);
 	//	ReportGrid::GridRecord *listitem2 = *((ReportGrid::GridRecord**)item2);
@@ -159,9 +156,8 @@ ReportGrid::PrintToStream()
 
 
 ReportGrid::GridRecord::GridRecord(const uint32& size, const char* title)
-	:
-	fList(size),
-	fTitle(title)
+	: fList(size),
+	  fTitle(title)
 {
 	for (uint32 i = 0; i < size; i++)
 		fList.AddItem(new Fixed());

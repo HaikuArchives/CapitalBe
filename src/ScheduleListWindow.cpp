@@ -36,9 +36,8 @@
 
 
 ScheduleListView::ScheduleListView(const char* name, const int32& flags)
-	:
-	BView(name, flags),
-	fShowingPopUpMenu(false)
+	: BView(name, flags),
+	  fShowingPopUpMenu(false)
 {
 	// the buttons
 	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove"), new BMessage(M_REMOVE_ITEM));
@@ -67,9 +66,9 @@ ScheduleListView::ScheduleListView(const char* name, const int32& flags)
 	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Next payment"),
 							 StringWidth(B_TRANSLATE("Next payment")) + 20, 25, 300, B_ALIGN_LEFT),
 		4);
-	fListView->AddColumn(new BStringColumn(B_TRANSLATE("Memo"),
-							 StringWidth("This is a relatively long memo text"), 25, 300,
-							 B_ALIGN_LEFT),
+	fListView->AddColumn(
+		new BStringColumn(B_TRANSLATE("Memo"), StringWidth("This is a relatively long memo text"),
+			25, 300, B_ALIGN_LEFT),
 		5);
 	float maxwidth = _RefreshScheduleList();
 	fBestWidth = (fRemoveButton->Frame().Width() * 2) + 45;
@@ -128,7 +127,7 @@ ScheduleListView::MessageReceived(BMessage* msg)
 			BPoint where;
 			uint32 buttons;
 			fListView->GetMouse(&where, &buttons);
-			where.x += 2; // to prevent occasional select
+			where.x += 2;  // to prevent occasional select
 			if (buttons & B_SECONDARY_MOUSE_BUTTON)
 				_ShowPopUpMenu(where);
 
@@ -291,8 +290,7 @@ ScheduleListView::_ShowPopUpMenu(BPoint position)
 
 
 ScheduleListWindow::ScheduleListWindow(const BRect& frame)
-	:
-	BWindow(frame, B_TRANSLATE("Scheduled transactions"), B_DOCUMENT_WINDOW_LOOK,
+	: BWindow(frame, B_TRANSLATE("Scheduled transactions"), B_DOCUMENT_WINDOW_LOOK,
 		B_NORMAL_WINDOW_FEEL, B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE)
 {
 	ScheduleListView* view = new ScheduleListView("schedview", B_WILL_DRAW);
@@ -305,9 +303,8 @@ ScheduleListWindow::ScheduleListWindow(const BRect& frame)
 
 
 ScheduleContext::ScheduleContext(const char* name, BMessenger target)
-	:
-	BPopUpMenu(name, false, false),
-	fTarget(target)
+	: BPopUpMenu(name, false, false),
+	  fTarget(target)
 {
 	SetAsyncAutoDestruct(true);
 }

@@ -22,8 +22,8 @@ BudgetEntry::BudgetEntry()
 }
 
 
-BudgetEntry::BudgetEntry(const char* nm, const Fixed& amt, const BudgetPeriod& per,
-	const bool& isexp)
+BudgetEntry::BudgetEntry(
+	const char* nm, const Fixed& amt, const BudgetPeriod& per, const bool& isexp)
 {
 	Set(nm, amt, per, isexp);
 }

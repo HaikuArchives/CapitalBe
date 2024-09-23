@@ -28,8 +28,7 @@ using BPrivate::BCalendarView;
 class FlatButton : public BButton {
 public:
 	FlatButton(const BString& label, uint32 what)
-		:
-		BButton(label.String(), new BMessage(what))
+		: BButton(label.String(), new BMessage(what))
 	{
 	}
 	virtual ~FlatButton() {}
@@ -54,7 +53,7 @@ FlatButton::Draw(BRect updateRect)
 	const float stringWidth = StringWidth(label);
 	const float x = (updateRect.right - stringWidth) / 2.0f;
 	const float labelY = updateRect.top + ((updateRect.Height() - fh.ascent - fh.descent) / 2.0f)
-		+ fh.ascent + 1.0f;
+						 + fh.ascent + 1.0f;
 
 	SetHighColor(highColor);
 	DrawString(label, BPoint(x, labelY));
@@ -70,16 +69,15 @@ FlatButton::Draw(BRect updateRect)
 
 
 CalendarMenuWindow::CalendarMenuWindow(BHandler* handler, BPoint where)
-	:
-	BWindow(BRect(0.0, 0.0, 100.0, 130.0), "", B_BORDERED_WINDOW,
+	: BWindow(BRect(0.0, 0.0, 100.0, 130.0), "", B_BORDERED_WINDOW,
 		B_AUTO_UPDATE_SIZE_LIMITS | B_ASYNCHRONOUS_CONTROLS | B_CLOSE_ON_ESCAPE | B_NOT_MINIMIZABLE
 			| B_NOT_ZOOMABLE),
-	fYearLabel(NULL),
-	fMonthLabel(NULL),
-	fHandler(handler),
-	fInvocationMessage(NULL),
-	fCalendarView(NULL),
-	fSuppressFirstClose(true)
+	  fYearLabel(NULL),
+	  fMonthLabel(NULL),
+	  fHandler(handler),
+	  fInvocationMessage(NULL),
+	  fCalendarView(NULL),
+	  fSuppressFirstClose(true)
 {
 	SetFeel(B_FLOATING_ALL_WINDOW_FEEL);
 

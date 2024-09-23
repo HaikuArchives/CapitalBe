@@ -35,4 +35,4 @@ private:
 	bool fFilterTab;
 };
 
-#endif // DATEBOX_H
+#endif	// DATEBOX_H

@@ -106,4 +106,4 @@ private:
 	BTextView *fSelectedPreview, *fUnselectedPreview, *fClosedPreview;
 };
 
-#endif // PREFWIN_H
+#endif	// PREFWIN_H

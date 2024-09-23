@@ -24,16 +24,13 @@
 
 
 SplitViewFilter::SplitViewFilter(SplitView* checkview)
-	:
-	BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN),
-	fView(checkview)
+	: BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN),
+	  fView(checkview)
 {
 }
 
 
-SplitViewFilter::~SplitViewFilter()
-{
-}
+SplitViewFilter::~SplitViewFilter() {}
 
 
 filter_result
@@ -175,8 +172,9 @@ SplitViewFilter::Filter(BMessage* msg, BHandler** target)
 			default:
 			{
 				if (text == fView->fSplitAmount) {
-					BString amount_disallowed("`~!@#$%^&*()_-+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
-											  "ZXCVBNM<>?qwertyuiopasdfghjklzxcvbnm");
+					BString amount_disallowed(
+						"`~!@#$%^&*()_-+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
+						"ZXCVBNM<>?qwertyuiopasdfghjklzxcvbnm");
 					if (amount_disallowed.FindFirst(rawchar) != B_ERROR)
 						return B_SKIP_MESSAGE;
 				}
@@ -205,8 +203,8 @@ SplitViewFilter::Filter(BMessage* msg, BHandler** target)
 
 			if (autocomplete.CountChars() > 0
 				&& autocomplete
-					!= B_TRANSLATE_ALL("Split", "CommonTerms",
-						"The noun 'split', as in 'a split-category'")) {
+					   != B_TRANSLATE_ALL(
+						   "Split", "CommonTerms", "The noun 'split', as in 'a split-category'")) {
 				BMessage automsg(M_CATEGORY_AUTOCOMPLETE);
 				automsg.AddInt32("start", strlen(text->Text()) + 1);
 				automsg.AddString("string", autocomplete.String());

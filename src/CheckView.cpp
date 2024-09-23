@@ -46,8 +46,7 @@ enum {
 // clang-format on
 
 CheckView::CheckView(const char* name, int32 flags)
-	:
-	BView(name, flags | B_FRAME_EVENTS)
+	: BView(name, flags | B_FRAME_EVENTS)
 {
 	BStringView* dateLabel
 		= new BStringView("datelabel", B_TRANSLATE_CONTEXT("Date", "CommonTerms"));
@@ -129,9 +128,7 @@ CheckView::CheckView(const char* name, int32 flags)
 }
 
 
-CheckView::~CheckView()
-{
-}
+CheckView::~CheckView() {}
 
 
 void

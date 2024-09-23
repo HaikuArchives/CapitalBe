@@ -17,10 +17,10 @@
 
 #ifndef DEBUG_DATABASE
 
+#include <Roster.h>
 #include "App.h"
 #include "MainWindow.h"
 #include "Preferences.h"
-#include <Roster.h>
 
 bool gRestartApp = false;
 
@@ -29,8 +29,7 @@ bool gRestartApp = false;
 
 
 App::App()
-	:
-	BApplication(kApplicationSignature)
+	: BApplication(kApplicationSignature)
 {
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path, true);
@@ -119,11 +118,11 @@ main()
 
 // Test code
 
+#include <Entry.h>
 #include "CBLocale.h"
 #include "Fixed.h"
 #include "Import.h"
 #include "Transaction.h"
-#include <Entry.h>
 
 
 void
@@ -189,4 +188,4 @@ main()
 
 	StartFile();
 }
-#endif // end disabled test code
+#endif	// end disabled test code

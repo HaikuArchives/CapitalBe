@@ -55,8 +55,8 @@ public:
 
 	uint32 CountTransactions();
 
-	void DoForEachTransaction(void (*TransactionIteratorFunc)(const TransactionData&, void*),
-		void* ptr);
+	void DoForEachTransaction(
+		void (*TransactionIteratorFunc)(const TransactionData&, void*), void* ptr);
 
 	void UseDefaultLocale(const bool& usedefault);
 	bool IsUsingDefaultLocale() const { return fUseDefaultLocale; }
@@ -70,4 +70,4 @@ private:
 	bool fUseDefaultLocale;
 };
 
-#endif // ACCOUNT_H
+#endif	// ACCOUNT_H

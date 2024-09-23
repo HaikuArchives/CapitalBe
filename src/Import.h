@@ -13,4 +13,4 @@
 bool ImportQIF(const entry_ref& ref);
 bool ExportQIF(const entry_ref& ref);
 
-#endif // IMPORT_H
+#endif	// IMPORT_H

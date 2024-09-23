@@ -37,9 +37,7 @@ Locale::Locale()
 }
 
 
-Locale::~Locale()
-{
-}
+Locale::~Locale() {}
 
 
 bool
@@ -81,11 +79,11 @@ Locale::CurrencyToString(const Fixed& amount, BString& string)
 
 	// Determine the formatted number as a string
 	BString num;
-	if (strcmp(fCurrencySymbol, "") == 0) // Using default locale
+	if (strcmp(fCurrencySymbol, "") == 0)  // Using default locale
 		return numberFormatter.FormatMonetary(string, amount.AsDouble());
-	else { // Using custom locale
-		if (numberFormatter.Format(num,
-				fCurrencyDecimalPlace > 0 ? amount.AsDouble() : amount.IntegerPart())
+	else {	// Using custom locale
+		if (numberFormatter.Format(
+				num, fCurrencyDecimalPlace > 0 ? amount.AsDouble() : amount.IntegerPart())
 			!= B_OK)
 			return B_ERROR;
 	}

@@ -108,4 +108,4 @@ private:
 	TransactionData fTransaction;
 };
 
-#endif // SPLITVIEW_H
+#endif	// SPLITVIEW_H

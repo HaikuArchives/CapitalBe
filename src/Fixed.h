@@ -64,4 +64,4 @@ private:
 	int32 fValue;
 };
 
-#endif // FIXED_H
+#endif	// FIXED_H

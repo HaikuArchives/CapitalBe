@@ -114,19 +114,18 @@ private:
 
 
 CategoryView::CategoryView(const char* name, const int32& flags)
-	:
-	BView(name, flags)
+	: BView(name, flags)
 {
 	// the buttons
 	HelpButton* helpButton = new HelpButton("menus.html", "#categories");
 
-	fEditButton = new BButton("editbutton", B_TRANSLATE("Edit" B_UTF8_ELLIPSIS),
-		new BMessage(M_SHOW_EDIT_WINDOW));
-	fRemoveButton = new BButton("removebutton", B_TRANSLATE("Remove" B_UTF8_ELLIPSIS),
-		new BMessage(M_SHOW_REMOVE_WINDOW));
+	fEditButton = new BButton(
+		"editbutton", B_TRANSLATE("Edit" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_EDIT_WINDOW));
+	fRemoveButton = new BButton(
+		"removebutton", B_TRANSLATE("Remove" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_REMOVE_WINDOW));
 
-	fAddButton = new BButton("addbutton", B_TRANSLATE("Add" B_UTF8_ELLIPSIS),
-		new BMessage(M_SHOW_ADD_WINDOW));
+	fAddButton = new BButton(
+		"addbutton", B_TRANSLATE("Add" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_ADD_WINDOW));
 
 	fEditButton->SetEnabled(false);
 	fRemoveButton->SetEnabled(false);
@@ -317,8 +316,8 @@ CategoryView::RefreshCategoryList()
 		maxlength = StringWidth(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
 	}
 
-	CppSQLite3Query query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name DESC",
-		"CategoryView::CategoryView");
+	CppSQLite3Query query = gDatabase.DBQuery(
+		"SELECT * FROM categorylist ORDER BY name DESC", "CategoryView::CategoryView");
 	while (!query.eof()) {
 		BString name = query.getStringField(0);
 		if (IsInternalCategory(name.String())) {
@@ -345,8 +344,7 @@ CategoryView::RefreshCategoryList()
 
 
 CategoryWindow::CategoryWindow(const BRect& frame)
-	:
-	BWindow(frame, B_TRANSLATE("Categories"), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
+	: BWindow(frame, B_TRANSLATE("Categories"), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
 		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
 	CategoryView* view = new CategoryView("categoryview", B_WILL_DRAW);
@@ -359,8 +357,7 @@ CategoryWindow::CategoryWindow(const BRect& frame)
 
 
 CategoryItem::CategoryItem(const BString& name)
-	:
-	BStringItem(name.String())
+	: BStringItem(name.String())
 {
 }
 
@@ -392,11 +389,10 @@ CategoryItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 
 CategoryInputWindow::CategoryInputWindow(BView* target)
-	:
-	BWindow(BRect(), B_TRANSLATE("Add category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+	: BWindow(BRect(), B_TRANSLATE("Add category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_V_RESIZABLE
 			| B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
-	fTarget(target)
+	  fTarget(target)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
@@ -472,18 +468,18 @@ CategoryInputWindow::MessageReceived(BMessage* msg)
 
 
 CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
-	:
-	BWindow(BRect(0, 0, 440, 380), B_TRANSLATE("Remove category"), B_FLOATING_WINDOW_LOOK,
+	: BWindow(BRect(0, 0, 440, 380), B_TRANSLATE("Remove category"), B_FLOATING_WINDOW_LOOK,
 		B_MODAL_APP_WINDOW_FEEL,
 		B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS
 			| B_CLOSE_ON_ESCAPE),
-	fTarget(target)
+	  fTarget(target)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
 	BTextView* directions = new BTextView("directions");
-	BString text(B_TRANSLATE("Please choose a new category for all transactions currently in the "
-							 "'%%CATEGORY_NAME%%' category."));
+	BString text(
+		B_TRANSLATE("Please choose a new category for all transactions currently in the "
+					"'%%CATEGORY_NAME%%' category."));
 	text.ReplaceFirst("%%CATEGORY_NAME%%", from);
 	directions->SetText(text.String());
 	directions->SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
@@ -507,8 +503,8 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 	fListView->AddItem(fIncomeItem);
 	fListView->AddItem(fSpendingItem);
 
-	CppSQLite3Query query = gDatabase.DBQuery("SELECT * FROM categorylist ORDER BY name DESC",
-		"CategoryView::CategoryView");
+	CppSQLite3Query query = gDatabase.DBQuery(
+		"SELECT * FROM categorylist ORDER BY name DESC", "CategoryView::CategoryView");
 
 	int32 maxchars;
 	float maxlength;
@@ -608,12 +604,12 @@ CategoryRemoveWindow::FrameResized(float w, float h)
 
 
 CategoryEditWindow::CategoryEditWindow(const char* oldname, BView* target)
-	:
-	BWindow(BRect(), B_TRANSLATE("Edit category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+	: BWindow(BRect(), B_TRANSLATE("Edit category"), B_FLOATING_WINDOW_LOOK,
+		B_MODAL_APP_WINDOW_FEEL,
 		B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE
 			| B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
-	fOldName(oldname),
-	fTarget(target)
+	  fOldName(oldname),
+	  fTarget(target)
 {
 	BString temp;
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
@@ -623,8 +619,8 @@ CategoryEditWindow::CategoryEditWindow(const char* oldname, BView* target)
 	oldName->SetExplicitMinSize(
 		BSize(be_plain_font->StringWidth("aQuiteLongCategoryName"), B_SIZE_UNSET));
 
-	fNameBox = new AutoTextControl("namebox", B_TRANSLATE("New name:"), "",
-		new BMessage(M_NAME_CHANGED));
+	fNameBox = new AutoTextControl(
+		"namebox", B_TRANSLATE("New name:"), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
 	fOKButton = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_EDIT_CATEGORY));

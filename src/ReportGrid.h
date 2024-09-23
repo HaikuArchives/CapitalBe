@@ -8,10 +8,10 @@
 #ifndef GRID_H
 #define GRID_H
 
-#include "Fixed.h"
-#include "ObjectList.h"
 #include <List.h>
 #include <String.h>
+#include "Fixed.h"
+#include "ObjectList.h"
 
 class ReportGrid {
 public:
@@ -61,4 +61,4 @@ private:
 	uint32 fWidth;
 };
 
-#endif // GRID_H
+#endif	// GRID_H

@@ -35,4 +35,4 @@ private:
 	BString fMemo;
 };
 
-#endif // SPLIT_ITEM_H
+#endif	// SPLIT_ITEM_H

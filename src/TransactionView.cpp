@@ -30,9 +30,8 @@
 
 
 TransactionView::TransactionView()
-	:
-	BView("transactionview", B_WILL_DRAW | B_SUBPIXEL_PRECISE | B_FRAME_EVENTS),
-	fCurrent(NULL)
+	: BView("transactionview", B_WILL_DRAW | B_SUBPIXEL_PRECISE | B_FRAME_EVENTS),
+	  fCurrent(NULL)
 {
 	InitTransactionItemLayout(this);
 
@@ -464,17 +463,14 @@ TransactionView::_FindIndexForDate(const time_t& time, const char* payee)
 
 
 TransactionList::TransactionList()
-	:
-	BListView("TransactionList", B_SINGLE_SELECTION_LIST,
+	: BListView("TransactionList", B_SINGLE_SELECTION_LIST,
 		B_WILL_DRAW | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE),
-	fShowingPopUpMenu(false)
+	  fShowingPopUpMenu(false)
 {
 }
 
 
-TransactionList::~TransactionList()
-{
-}
+TransactionList::~TransactionList() {}
 
 
 void
@@ -540,9 +536,8 @@ TransactionList::_ShowPopUpMenu(BPoint position)
 
 
 TransactionContext::TransactionContext(const char* name, BMessenger target)
-	:
-	BPopUpMenu(name, false, false),
-	fTarget(target)
+	: BPopUpMenu(name, false, false),
+	  fTarget(target)
 {
 	SetAsyncAutoDestruct(true);
 }
@@ -560,8 +555,8 @@ TransactionView::_CalculatePeriod(int32 period, time_t& start, time_t& end)
 	time_t now = time(NULL);
 	struct tm tm_now = *localtime(&now);
 
-	int year = tm_now.tm_year + 1900; // tm_year is years since 1900
-	int month = tm_now.tm_mon + 1; // tm_mon is months since January [0-11]
+	int year = tm_now.tm_year + 1900;  // tm_year is years since 1900
+	int month = tm_now.tm_mon + 1;	   // tm_mon is months since January [0-11]
 
 	// Initialize start and end times
 	struct tm tm_start = {0};
@@ -644,10 +639,10 @@ BString
 TransactionView::_GenerateQueryCommand(int32 accountID, BMessage* message)
 {
 	BString command;
-	if (message == NULL) { // return default query
+	if (message == NULL) {	// return default query
 		command << "SELECT * FROM account_" << accountID << " ORDER BY date,payee";
 		return command;
-	} else { // generate filtering query based on message content
+	} else {  // generate filtering query based on message content
 		BString payee, category, memo, amount;
 		int32 moreless, period;
 		CppSQLite3Buffer sqlBuf;
@@ -658,7 +653,7 @@ TransactionView::_GenerateQueryCommand(int32 accountID, BMessage* message)
 		if (message->FindString("payee", &payee) == B_OK && payee.Length() > 0) {
 			payee.Prepend("%");
 			payee.Append("%");
-			sqlBuf.format("%Q", payee.String()); // Make sure the string is escaped
+			sqlBuf.format("%Q", payee.String());  // Make sure the string is escaped
 			command << " WHERE LOWER(payee) LIKE LOWER(" << sqlBuf << ")";
 			hasConditions = true;
 		}
@@ -667,7 +662,7 @@ TransactionView::_GenerateQueryCommand(int32 accountID, BMessage* message)
 			command << (!hasConditions ? " WHERE " : " AND ");
 			category.Prepend("%");
 			category.Append("%");
-			sqlBuf.format("%Q", category.String()); // Make sure the string is escaped
+			sqlBuf.format("%Q", category.String());	 // Make sure the string is escaped
 			command << " LOWER(category) LIKE LOWER(" << sqlBuf << ")";
 			hasConditions = true;
 		}
@@ -676,13 +671,13 @@ TransactionView::_GenerateQueryCommand(int32 accountID, BMessage* message)
 			command << (!hasConditions ? " WHERE " : " AND ");
 			memo.Prepend("%");
 			memo.Append("%");
-			sqlBuf.format("%Q", memo.String()); // Make sure the string is escaped
+			sqlBuf.format("%Q", memo.String());	 // Make sure the string is escaped
 			command << " LOWER(memo) LIKE LOWER(" << sqlBuf << ")";
 			hasConditions = true;
 		}
 
 		if (message->FindString("amount", &amount) == B_OK && amount.Length() > 0) {
-			Fixed convertedAmount; // To match how numbers are stored in DB
+			Fixed convertedAmount;	// To match how numbers are stored in DB
 			gCurrentLocale.StringToCurrency(amount, convertedAmount);
 			command << (!hasConditions ? " WHERE " : " AND ");
 			BString compSymbol = "<=";

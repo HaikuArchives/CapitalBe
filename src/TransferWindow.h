@@ -56,4 +56,4 @@ private:
 	BMessage fMessage;
 };
 
-#endif // TRANSFERWINDOW_H
+#endif	// TRANSFERWINDOW_H

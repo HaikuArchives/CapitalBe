@@ -91,8 +91,8 @@ public:
 	BButton* ButtonAt(int32 index) const;
 	BTextView* TextView() const;
 
-	virtual BHandler* ResolveSpecifier(BMessage* msg, int32 index, BMessage* specifier, int32 form,
-		const char* property);
+	virtual BHandler* ResolveSpecifier(
+		BMessage* msg, int32 index, BMessage* specifier, int32 form, const char* property);
 	virtual status_t GetSupportedSuites(BMessage* data);
 
 	virtual void DispatchMessage(BMessage* msg, BHandler* handler);
@@ -127,7 +127,7 @@ private:
 	uint32 _reserved[4];
 };
 
-} // namespace CapitalBe
+}  // namespace CapitalBe
 
 using CapitalBe::alert_type;
 using CapitalBe::button_spacing;
@@ -143,4 +143,4 @@ using CapitalBe::button_spacing::B_OFFSET_SPACING;
 
 //------------------------------------------------------------------------------
 
-#endif // DALERT_H
+#endif	// DALERT_H

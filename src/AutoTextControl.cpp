@@ -27,12 +27,11 @@ static property_info sProperties[] = {
 };
 
 
-AutoTextControl::AutoTextControl(const char* name, const char* label, const char* text,
-	BMessage* msg, uint32 flags)
-	:
-	BTextControl(name, label, text, msg, flags),
-	fFilter(NULL),
-	fCharLimit(0)
+AutoTextControl::AutoTextControl(
+	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
+	: BTextControl(name, label, text, msg, flags),
+	  fFilter(NULL),
+	  fCharLimit(0)
 {
 	SetFilter(new AutoTextControlFilter(this));
 }
@@ -48,8 +47,7 @@ AutoTextControl::~AutoTextControl()
 
 
 AutoTextControl::AutoTextControl(BMessage* data)
-	:
-	BTextControl(data)
+	: BTextControl(data)
 {
 	if (data->FindInt32("_charlimit", (int32*)&fCharLimit) != B_OK)
 		fCharLimit = 0;
@@ -93,8 +91,8 @@ AutoTextControl::GetSupportedSuites(BMessage* msg)
 
 
 BHandler*
-AutoTextControl::ResolveSpecifier(BMessage* msg, int32 index, BMessage* specifier, int32 form,
-	const char* property)
+AutoTextControl::ResolveSpecifier(
+	BMessage* msg, int32 index, BMessage* specifier, int32 form, const char* property)
 {
 	return BControl::ResolveSpecifier(msg, index, specifier, form, property);
 }
@@ -152,18 +150,15 @@ AutoTextControl::SetFilter(AutoTextControlFilter* filter)
 
 
 AutoTextControlFilter::AutoTextControlFilter(AutoTextControl* box)
-	:
-	BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN),
-	fBox(box),
-	fCurrentMessage(NULL),
-	fMessenger(NULL)
+	: BMessageFilter(B_PROGRAMMED_DELIVERY, B_ANY_SOURCE, B_KEY_DOWN),
+	  fBox(box),
+	  fCurrentMessage(NULL),
+	  fMessenger(NULL)
 {
 }
 
 
-AutoTextControlFilter::~AutoTextControlFilter()
-{
-}
+AutoTextControlFilter::~AutoTextControlFilter() {}
 
 
 filter_result

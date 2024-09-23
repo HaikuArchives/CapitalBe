@@ -68,4 +68,4 @@ private:
 	BObjectList<Category::CatItem>* fList;
 };
 
-#endif //TYPES_H
+#endif	// TYPES_H

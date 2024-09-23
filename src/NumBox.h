@@ -38,4 +38,4 @@ private:
 	bool fAllowNegatives;
 };
 
-#endif // NUMBOX_H
+#endif	// NUMBOX_H

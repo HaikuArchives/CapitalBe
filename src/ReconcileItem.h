@@ -33,4 +33,4 @@ private:
 	uint8 fValue;
 };
 
-#endif // RECONCILE_ITEM_H
+#endif	// RECONCILE_ITEM_H

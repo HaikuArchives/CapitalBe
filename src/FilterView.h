@@ -54,4 +54,4 @@ private:
 };
 
 
-#endif // FILTERVIEW_H
+#endif	// FILTERVIEW_H

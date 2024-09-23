@@ -51,11 +51,10 @@ enum {
 // clang-format on
 
 ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& data)
-	:
-	BWindow(frame, B_TRANSLATE("Schedule transaction"), B_TITLED_WINDOW_LOOK,
+	: BWindow(frame, B_TRANSLATE("Schedule transaction"), B_TITLED_WINDOW_LOOK,
 		B_MODAL_APP_WINDOW_FEEL,
 		B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
-	fTransData(data)
+	  fTransData(data)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
@@ -85,8 +84,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 		BSize(be_plain_font->StringWidth("aLongCategoryName"), B_SIZE_UNSET));
 	BString label;
 	if (data.CountCategories() > 1) {
-		label << B_TRANSLATE_ALL("Split", "CommonTerms",
-			"The noun 'split', as in 'a split-category'");
+		label << B_TRANSLATE_ALL(
+			"Split", "CommonTerms", "The noun 'split', as in 'a split-category'");
 	} else
 		label << data.NameAt(0);
 
@@ -141,7 +140,7 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	timesLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 	BStringView* repeatLabel = new BStringView("repeatlabel", B_TRANSLATE("Repeat:"));
 	repeatLabel->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
-	BStringView* dummy = new BStringView("dummy", ""); // used to align "Repeat" label
+	BStringView* dummy = new BStringView("dummy", "");	// used to align "Repeat" label
 	dummy->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	BButton* okButton
@@ -275,8 +274,8 @@ ScheduleAddWindow::MessageReceived(BMessage* msg)
 			BString datestr = fStartDate->Text();
 			if (datestr.CountChars() < 3
 				|| gDefaultLocale.StringToDate(datestr.String(), tempdate) != B_OK) {
-				ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the date you entered",
-							  "TextInput"),
+				ShowAlert(B_TRANSLATE_CONTEXT(
+							  "CapitalBe didn't understand the date you entered", "TextInput"),
 					B_TRANSLATE_CONTEXT(
 						"CapitalBe understands lots of different ways of entering dates. "
 						"Apparently, this wasn't one of them. You'll need to change how you "

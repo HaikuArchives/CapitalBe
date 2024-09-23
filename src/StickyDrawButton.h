@@ -39,4 +39,4 @@ private:
 	int32 fButtonState;
 };
 
-#endif // _STICKY_DRAWBUTTON_H
+#endif	// _STICKY_DRAWBUTTON_H

@@ -15,4 +15,4 @@ public:
 	CategoryWindow(const BRect& frame);
 };
 
-#endif // CATEGORY_WINDOW
+#endif	// CATEGORY_WINDOW

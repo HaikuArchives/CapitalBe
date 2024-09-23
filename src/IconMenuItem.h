@@ -20,10 +20,10 @@ const color_space kDefaultIconDepth = B_RGBA32;
 
 class IconMenuItem : public BMenuItem {
 public:
-	IconMenuItem(const char* label, BMessage* message, BBitmap* icon,
-		icon_size which = B_MINI_ICON);
-	IconMenuItem(const char* label, BMessage* message, const char* iconType,
-		icon_size which = B_MINI_ICON);
+	IconMenuItem(
+		const char* label, BMessage* message, BBitmap* icon, icon_size which = B_MINI_ICON);
+	IconMenuItem(
+		const char* label, BMessage* message, const char* iconType, icon_size which = B_MINI_ICON);
 	IconMenuItem(const char* label, BMessage* message, const BNodeInfo* nodeInfo, icon_size which);
 	IconMenuItem(BMenu*, BMessage*, const char* iconType, icon_size which = B_MINI_ICON);
 	IconMenuItem(BMenu*, BMessage*, BBitmap* icon, icon_size which = B_MINI_ICON);
@@ -48,4 +48,4 @@ private:
 	typedef BMenuItem _inherited;
 };
 
-#endif // ICON_MENU_ITEM_H
+#endif	// ICON_MENU_ITEM_H

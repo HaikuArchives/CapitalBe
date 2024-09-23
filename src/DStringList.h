@@ -56,4 +56,4 @@ private:
 	bool fOwner;
 };
 
-#endif // _DSTRINGLIST_H
+#endif	// _DSTRINGLIST_H

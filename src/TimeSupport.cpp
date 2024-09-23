@@ -256,13 +256,13 @@ DaysInMonth(int month, int year)
 		year += 1900;
 
 	switch (month) {
-		case 0: // January
-		case 2: // March
-		case 4: // May
-		case 6: // July
-		case 7: // August
-		case 9: // October
-		case 11: // December
+		case 0:	  // January
+		case 2:	  // March
+		case 4:	  // May
+		case 6:	  // July
+		case 7:	  // August
+		case 9:	  // October
+		case 11:  // December
 		{
 			return 31;
 		}

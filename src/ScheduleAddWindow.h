@@ -34,4 +34,4 @@ private:
 	TransactionData fTransData;
 };
 
-#endif // SCHEDULE_ADD_WINDOW_H
+#endif	// SCHEDULE_ADD_WINDOW_H

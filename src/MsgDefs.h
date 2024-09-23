@@ -15,4 +15,4 @@ enum {
 };
 // clang-format on
 
-#endif // MSGDEFS_H
+#endif	// MSGDEFS_H

@@ -66,4 +66,4 @@ private:
 	BButton *fEnter, *fTransfer;
 };
 
-#endif // CHECKVIEW_H
+#endif	// CHECKVIEW_H

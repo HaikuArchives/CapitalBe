@@ -30,8 +30,8 @@ public:
 	virtual status_t Archive(BMessage* data, bool deep = true) const;
 
 	virtual status_t GetSupportedSuites(BMessage* msg);
-	virtual BHandler* ResolveSpecifier(BMessage* msg, int32 index, BMessage* specifier, int32 form,
-		const char* property);
+	virtual BHandler* ResolveSpecifier(
+		BMessage* msg, int32 index, BMessage* specifier, int32 form, const char* property);
 
 	virtual ~AutoTextControl();
 
@@ -82,4 +82,4 @@ private:
 	BMessenger* fMessenger;
 };
 
-#endif // AUTO_TEXT_CONTROL_H
+#endif	// AUTO_TEXT_CONTROL_H

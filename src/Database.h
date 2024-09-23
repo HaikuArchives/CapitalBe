@@ -149,4 +149,4 @@ extern Locale gDefaultLocale;
 extern Locale gCurrentLocale;
 extern Database gDatabase;
 
-#endif // DATABASE_H
+#endif	// DATABASE_H

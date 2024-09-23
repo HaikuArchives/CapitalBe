@@ -26,9 +26,8 @@
 
 // Calculates the user's net worth by adding up the balances of all accounts
 QTNetWorthItem::QTNetWorthItem(const char* name, uint32 flags)
-	:
-	QuickTrackerItem(name, flags),
-	fIgnore(false)
+	: QuickTrackerItem(name, flags),
+	  fIgnore(false)
 {
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* account = gDatabase.AccountAt(i);
@@ -115,7 +114,7 @@ QTNetWorthItem::_Calculate()
 	BString balanceText, balanceLabel;
 	Fixed balance;
 
-	if (gDatabase.CountAccounts() == 0) { // No accounts
+	if (gDatabase.CountAccounts() == 0) {  // No accounts
 		if (Window())
 			Window()->Lock();
 
@@ -143,9 +142,10 @@ QTNetWorthItem::_Calculate()
 	}
 
 	// Get sum of default currency accounts that are open:
-	command = "SELECT a.accountid FROM accountlist AS a LEFT JOIN accountlocale AS al ON "
-			  "a.accountid = al.accountid WHERE al.accountid IS NULL AND a.status = \"Open\" "
-			  "OR a.status = \"open\";";
+	command
+		= "SELECT a.accountid FROM accountlist AS a LEFT JOIN accountlocale AS al ON "
+		  "a.accountid = al.accountid WHERE al.accountid IS NULL AND a.status = \"Open\" "
+		  "OR a.status = \"open\";";
 	query = gDatabase.DBQuery(command.String(), "Database::Calculate");
 
 	balance = 0;
@@ -162,8 +162,9 @@ QTNetWorthItem::_Calculate()
 
 	// Get sum of other currency accounts:
 	for (int32 i = 0; i < currencies.size(); i++) {
-		command = "SELECT a1.accountid FROM accountlist AS a1 JOIN accountlocale AS a2 ON "
-				  "a1.accountid=a2.accountid WHERE a2.currencysymbol = \"";
+		command
+			= "SELECT a1.accountid FROM accountlist AS a1 JOIN accountlocale AS a2 ON "
+			  "a1.accountid=a2.accountid WHERE a2.currencysymbol = \"";
 		command << currencies.at(i).String() << "\" AND a1.status = \"Open\";";
 		query = gDatabase.DBQuery(command.String(), "Database::Calculate");
 
@@ -191,9 +192,8 @@ QTNetWorthItem::_Calculate()
 
 // Calculates the budget variance for one category
 QTBudgetCategoryItem::QTBudgetCategoryItem(const char* category, const char* name, uint32 flags)
-	:
-	QuickTrackerItem(name, flags),
-	fIgnore(false)
+	: QuickTrackerItem(name, flags),
+	  fIgnore(false)
 {
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* account = gDatabase.AccountAt(i);
@@ -300,8 +300,7 @@ QTBudgetCategoryItem::_Calculate()
 
 
 QuickTrackerItem::QuickTrackerItem(const char* name, uint32 flags)
-	:
-	BTextView(name, flags)
+	: BTextView(name, flags)
 {
 	MakeEditable(false);
 	MakeSelectable(false);

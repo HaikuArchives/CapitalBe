@@ -56,4 +56,4 @@ private:
 	bool fEnabled;
 };
 
-#endif // ACCOUNTLISTITEM_H
+#endif	// ACCOUNTLISTITEM_H

@@ -10,13 +10,12 @@
 
 StickyDrawButton::StickyDrawButton(BRect frame, const char* name, BBitmap* up, BBitmap* down,
 	BMessage* msg, const int32& resize, const int32& flags)
-	:
-	BButton(frame, name, "", msg, resize, flags),
-	fUp(up),
-	fDown(down),
-	fDisabledUp(NULL),
-	fDisabledDown(NULL),
-	fButtonState(B_CONTROL_OFF)
+	: BButton(frame, name, "", msg, resize, flags),
+	  fUp(up),
+	  fDown(down),
+	  fDisabledUp(NULL),
+	  fDisabledDown(NULL),
+	  fButtonState(B_CONTROL_OFF)
 {
 }
 

@@ -11,16 +11,14 @@
 
 
 TextFile::TextFile(const char* path, const uint32& openmode)
-	:
-	BFile(path, openmode)
+	: BFile(path, openmode)
 {
 	_InitObject();
 }
 
 
 TextFile::TextFile(const entry_ref& ref, const uint32& openmode)
-	:
-	BFile(&ref, openmode)
+	: BFile(&ref, openmode)
 {
 	_InitObject();
 }

@@ -28,11 +28,10 @@
 
 
 PrefWindow::PrefWindow(const BRect& frame, BMessenger target)
-	:
-	BWindow(frame, B_TRANSLATE("Settings"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
+	: BWindow(frame, B_TRANSLATE("Settings"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
 		B_ASYNCHRONOUS_CONTROLS | B_NOT_RESIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS
 			| B_CLOSE_ON_ESCAPE),
-	fTarget(target)
+	  fTarget(target)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
@@ -87,9 +86,8 @@ PrefWindow::MessageReceived(BMessage* msg)
 
 
 CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32& flags)
-	:
-	BView(name, flags),
-	fSampleAmount((long)12345678, true)
+	: BView(name, flags),
+	  fSampleAmount((long)12345678, true)
 {
 	BString temp;
 
@@ -104,8 +102,8 @@ CurrencyPrefView::CurrencyPrefView(const char* name, Locale* locale, const int32
 		fLocale.CurrencySymbol(), new BMessage(M_NEW_CURRENCY_SYMBOL));
 	fCurrencySymbolBox->SetCharacterLimit(4);
 
-	fCurrencySymbolPrefix = new BCheckBox("prefixcheck", B_TRANSLATE("Appears before amount"),
-		new BMessage(M_NEW_CURRENCY_SYMBOL));
+	fCurrencySymbolPrefix = new BCheckBox(
+		"prefixcheck", B_TRANSLATE("Appears before amount"), new BMessage(M_NEW_CURRENCY_SYMBOL));
 	fCurrencySymbolPrefix->SetValue(
 		(fLocale.IsCurrencySymbolPrefix()) ? B_CONTROL_ON : B_CONTROL_OFF);
 
@@ -198,15 +196,14 @@ CurrencyPrefView::GetSettings(Locale& locale)
 
 
 NegativeNumberView::NegativeNumberView(const char* name, rgb_color negColor)
-	:
-	BView(name, B_WILL_DRAW)
+	: BView(name, B_WILL_DRAW)
 {
 	BBox* negColorBox = new BBox("negativecolor");
 	negColorBox->SetLabel(B_TRANSLATE("Color for negative amounts"));
 
 	// Color picker
-	fColorPicker = new BColorControl(B_ORIGIN, B_CELLS_32x8, 8.0, "colorpicker",
-		new BMessage(M_UPDATE_COLOR));
+	fColorPicker = new BColorControl(
+		B_ORIGIN, B_CELLS_32x8, 8.0, "colorpicker", new BMessage(M_UPDATE_COLOR));
 	fColorPicker->SetValue(negColor);
 
 	// Preview of the colored text on different background colors

@@ -25,4 +25,4 @@ public:
 
 extern bool gRestartApp;
 
-#endif // APP_H
+#endif	// APP_H

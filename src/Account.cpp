@@ -16,19 +16,16 @@
 
 
 Account::Account(const char* name, const bool& isclosed)
-	:
-	fName(name),
-	fID(0),
-	fClosed(isclosed),
-	fCurrentTransaction(0),
-	fUseDefaultLocale(true)
+	: fName(name),
+	  fID(0),
+	  fClosed(isclosed),
+	  fCurrentTransaction(0),
+	  fUseDefaultLocale(true)
 {
 }
 
 
-Account::~Account()
-{
-}
+Account::~Account() {}
 
 
 void
@@ -75,8 +72,8 @@ Fixed
 Account::BalanceAt(const time_t& date)
 {
 	BString command;
-	command.SetToFormat("SELECT SUM(amount) FROM account_%i WHERE date <= %li ORDER BY payee;", fID,
-		date);
+	command.SetToFormat(
+		"SELECT SUM(amount) FROM account_%i WHERE date <= %li ORDER BY payee;", fID, date);
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Account::BalanceAt");
 
 	int64 amount = 0;

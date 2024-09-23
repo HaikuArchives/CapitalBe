@@ -8,9 +8,9 @@
 #ifndef SPLITVIEWFILTER_H
 #define SPLITVIEWFILTER_H
 
-#include "SplitView.h"
 #include <MessageFilter.h>
 #include <String.h>
+#include "SplitView.h"
 
 class SplitViewFilter : public BMessageFilter {
 public:
@@ -24,4 +24,4 @@ private:
 	BString fPayeeText;
 };
 
-#endif // SPLITVIEWFILTER_H
+#endif	// SPLITVIEWFILTER_H

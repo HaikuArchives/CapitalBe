@@ -34,4 +34,4 @@ private:
 	bool fFilterTab;
 };
 
-#endif // NAVTEXTBOX_H
+#endif	// NAVTEXTBOX_H

@@ -69,4 +69,4 @@ private:
 	BString fDecimalSymbol;
 };
 
-#endif // BUDGETWIN_H
+#endif	// BUDGETWIN_H

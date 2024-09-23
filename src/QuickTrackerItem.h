@@ -55,4 +55,4 @@ protected:
 	BudgetEntry fEntry;
 };
 
-#endif // QTITEM_H
+#endif	// QTITEM_H

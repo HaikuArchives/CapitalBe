@@ -8,9 +8,9 @@
 #ifndef SCHEDULEDTRANS_ITEM_H
 #define SCHEDULEDTRANS_ITEM_H
 
-#include "ScheduledTransData.h"
 #include <ListItem.h>
 #include <time.h>
+#include "ScheduledTransData.h"
 
 class Account;
 
@@ -40,4 +40,4 @@ private:
 	uint32 fID;
 };
 
-#endif // SCHEDULEDTRANS_ITEM_H
+#endif	// SCHEDULEDTRANS_ITEM_H

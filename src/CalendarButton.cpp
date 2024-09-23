@@ -20,9 +20,8 @@ enum {
 // clang-format on
 
 CalendarButton::CalendarButton(DateBox* datebox)
-	:
-	BButton("calenderbutton", "", new BMessage(M_SHOW_CALENDER)),
-	fDateBox(datebox)
+	: BButton("calenderbutton", "", new BMessage(M_SHOW_CALENDER)),
+	  fDateBox(datebox)
 {
 	float height;
 	fDateBox->GetPreferredSize(NULL, &height);

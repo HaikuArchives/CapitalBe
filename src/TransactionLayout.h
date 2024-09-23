@@ -18,4 +18,4 @@ uint8 TAmountWidth();
 
 void InitTransactionItemLayout(BView* owner);
 
-#endif // TRANSACTION_LAYOUT
+#endif	// TRANSACTION_LAYOUT

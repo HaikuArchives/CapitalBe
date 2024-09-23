@@ -58,4 +58,4 @@ public:
 	ScheduleListWindow(const BRect& frame);
 };
 
-#endif // SCHEDULELIST_WINDOW
+#endif	// SCHEDULELIST_WINDOW

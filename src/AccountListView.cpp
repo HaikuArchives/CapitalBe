@@ -26,8 +26,7 @@
 
 
 AccountListItem::AccountListItem(Account* acc)
-	:
-	BListItem()
+	: BListItem()
 {
 	fAccount = acc;
 	fEnabled = true;
@@ -80,8 +79,8 @@ AccountListItem::DrawItem(BView* owner, BRect frame, bool complete)
 	// Draw Balance (or "Closed")
 	owner->SetFont(be_plain_font);
 	if (fAccount->IsClosed()) {
-		owner->DrawString(B_TRANSLATE("Closed"),
-			BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
+		owner->DrawString(
+			B_TRANSLATE("Closed"), BPoint(frame.left + 5, frame.top + (font.Size() * 2)));
 	} else {
 		BString text;
 		fAccount->GetLocale().CurrencyToString(fAccount->Balance(), text);
@@ -106,16 +105,13 @@ AccountListItem::Update(BView* owner, const BFont* finfo)
 
 
 AccountList::AccountList()
-	:
-	BListView("AccountList"),
-	fShowingPopUpMenu(false)
+	: BListView("AccountList"),
+	  fShowingPopUpMenu(false)
 {
 }
 
 
-AccountList::~AccountList()
-{
-}
+AccountList::~AccountList() {}
 
 
 void
@@ -164,8 +160,8 @@ AccountList::_ShowPopUpMenu(BPoint position)
 
 	AccountContext* menu = new AccountContext("PopUpMenu", this);
 
-	menu->AddItem(new BMenuItem(B_TRANSLATE("Reconcile" B_UTF8_ELLIPSIS),
-		new BMessage(M_SHOW_RECONCILE_WINDOW), 'R'));
+	menu->AddItem(new BMenuItem(
+		B_TRANSLATE("Reconcile" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_RECONCILE_WINDOW), 'R'));
 	menu->AddSeparatorItem();
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("New" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_NEW_ACCOUNT), 'N'));
@@ -177,8 +173,8 @@ AccountList::_ShowPopUpMenu(BPoint position)
 	BString label = acc->IsClosed() ? B_TRANSLATE("Reopen") : B_TRANSLATE("Close");
 	menu->AddItem(new BMenuItem(label, new BMessage(M_CLOSE_ACCOUNT)));
 	menu->AddSeparatorItem();
-	menu->AddItem(new BMenuItem(B_TRANSLATE("Settings" B_UTF8_ELLIPSIS),
-		new BMessage(M_SHOW_ACCOUNT_SETTINGS)));
+	menu->AddItem(new BMenuItem(
+		B_TRANSLATE("Settings" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_ACCOUNT_SETTINGS)));
 
 	menu->SetTargetForItems(Window());
 	menu->Go(ConvertToScreen(position), true, true, true);
@@ -193,9 +189,8 @@ AccountContext::~AccountContext()
 
 
 AccountContext::AccountContext(const char* name, BMessenger target)
-	:
-	BPopUpMenu(name, false, false),
-	fTarget(target)
+	: BPopUpMenu(name, false, false),
+	  fTarget(target)
 {
 	SetAsyncAutoDestruct(true);
 }

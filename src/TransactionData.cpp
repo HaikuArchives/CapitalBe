@@ -23,25 +23,23 @@
 
 
 TransactionData::TransactionData()
-	:
-	fDate(0),
-	fType(""),
-	fStatus(TRANS_OPEN),
-	fID(0),
-	fTimeStamp(0)
+	: fDate(0),
+	  fType(""),
+	  fStatus(TRANS_OPEN),
+	  fID(0),
+	  fTimeStamp(0)
 {
 }
 
 
 TransactionData::TransactionData(Account* account, const char* date, const char* type,
 	const char* payee, const char* amount, const char* category, const char* memo, uint8 status)
-	:
-	fDate(0),
-	fType(type),
-	fAccount(NULL),
-	fStatus(TRANS_OPEN),
-	fID(0),
-	fTimeStamp(0)
+	: fDate(0),
+	  fType(type),
+	  fAccount(NULL),
+	  fStatus(TRANS_OPEN),
+	  fID(0),
+	  fTimeStamp(0)
 {
 	fCategory.MakeEmpty();
 	Set(account, date, type, payee, amount, category, memo, status);
@@ -49,20 +47,17 @@ TransactionData::TransactionData(Account* account, const char* date, const char*
 
 
 TransactionData::TransactionData(const TransactionData& trans)
-	:
-	fDate(0),
-	fType(""),
-	fStatus(TRANS_OPEN),
-	fTimeStamp(0)
+	: fDate(0),
+	  fType(""),
+	  fStatus(TRANS_OPEN),
+	  fTimeStamp(0)
 {
 	fCategory.MakeEmpty();
 	*this = trans;
 }
 
 
-TransactionData::~TransactionData()
-{
-}
+TransactionData::~TransactionData() {}
 
 
 TransactionData&

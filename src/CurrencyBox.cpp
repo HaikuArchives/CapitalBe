@@ -22,8 +22,7 @@
 
 
 CurrencyBoxFilter::CurrencyBoxFilter(CurrencyBox* box)
-	:
-	NavTextBoxFilter(box)
+	: NavTextBoxFilter(box)
 {
 }
 
@@ -54,15 +53,15 @@ CurrencyBoxFilter::KeyFilter(const int32& key, const int32& mod)
 }
 
 
-CurrencyBox::CurrencyBox(const char* name, const char* label, const char* text, BMessage* msg,
-	uint32 flags)
-	:
-	NavTextBox(name, label, text, msg, flags)
+CurrencyBox::CurrencyBox(
+	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
+	: NavTextBox(name, label, text, msg, flags)
 {
 	SetFilter(new CurrencyBoxFilter(this));
 
-	const char amount_disallowed[] = " `~!@#%^&*()_-+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
-									 "ZXCVBNM<>?/qwertyuiopasdfghjklzxcvbnm";
+	const char amount_disallowed[]
+		= " `~!@#%^&*()_-+=QWERTYUIOP{[}]|\\ASDFGHJKL;:'\""
+		  "ZXCVBNM<>?/qwertyuiopasdfghjklzxcvbnm";
 	int32 i = 0;
 	while (amount_disallowed[i]) {
 		TextView()->DisallowChar(amount_disallowed[i]);

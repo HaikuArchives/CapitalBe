@@ -44,4 +44,4 @@ int DaysInMonth(int month, int year);
 int DayOfWeek(int day, int month, int year);
 int DayOfYear(int day, int month, int year);
 
-#endif // TIMESUPPORT_H
+#endif	// TIMESUPPORT_H

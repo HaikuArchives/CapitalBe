@@ -21,8 +21,8 @@
 #include <Region.h>
 #include <View.h>
 
-#include <ctime>
 #include <stdio.h>
+#include <ctime>
 
 
 #undef B_TRANSLATION_CONTEXT
@@ -30,16 +30,15 @@
 
 
 ScheduledTransItem::ScheduledTransItem(const ScheduledTransData& data)
-	:
-	BListItem(),
-	fAccount(data.GetAccount()),
-	fType(data.Type().Type()),
-	fPayee(data.Payee()),
-	fAmount(""),
-	fCategory(""),
-	fMemo(data.Memo()),
-	fDate(""),
-	fID(data.GetID())
+	: BListItem(),
+	  fAccount(data.GetAccount()),
+	  fType(data.Type().Type()),
+	  fPayee(data.Payee()),
+	  fAmount(""),
+	  fCategory(""),
+	  fMemo(data.Memo()),
+	  fDate(""),
+	  fID(data.GetID())
 {
 	Locale locale = data.GetAccount()->GetLocale();
 	locale.CurrencyToString(data.Amount().AbsoluteValue(), fAmount);
@@ -191,8 +190,8 @@ ScheduledTransItem::DrawItem(BView* owner, BRect frame, bool complete)
 		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR);
 		owner->DrawString(fMemo.String(), BPoint(xpos + 5, ypos - 3));
 	} else {
-		owner->SetHighUIColor(B_LIST_ITEM_TEXT_COLOR,
-			GetMutedTint(ui_color(B_LIST_ITEM_TEXT_COLOR), CB_MUTED_TEXT));
+		owner->SetHighUIColor(
+			B_LIST_ITEM_TEXT_COLOR, GetMutedTint(ui_color(B_LIST_ITEM_TEXT_COLOR), CB_MUTED_TEXT));
 		owner->DrawString(B_TRANSLATE("No memo"), BPoint(xpos + 5, ypos - 3));
 	}
 	owner->ConstrainClippingRegion(NULL);

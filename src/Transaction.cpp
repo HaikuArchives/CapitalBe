@@ -24,8 +24,7 @@
 
 
 Transaction::Transaction()
-	:
-	fID(0)
+	: fID(0)
 {
 }
 

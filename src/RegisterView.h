@@ -67,4 +67,4 @@ private:
 	BBox* fTrackBox;
 };
 
-#endif // REGSITERVIEW_H
+#endif	// REGSITERVIEW_H

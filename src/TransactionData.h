@@ -106,4 +106,4 @@ private:
 	bigtime_t fTimeStamp;
 };
 
-#endif // TRANSACTIONDATA_H
+#endif	// TRANSACTIONDATA_H

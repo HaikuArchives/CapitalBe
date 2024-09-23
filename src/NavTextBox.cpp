@@ -12,8 +12,7 @@
 
 
 NavTextBoxFilter::NavTextBoxFilter(NavTextBox* box)
-	:
-	AutoTextControlFilter(box)
+	: AutoTextControlFilter(box)
 {
 }
 
@@ -41,11 +40,10 @@ NavTextBoxFilter::KeyFilter(const int32& key, const int32& mod)
 }
 
 
-NavTextBox::NavTextBox(const char* name, const char* label, const char* text, BMessage* msg,
-	uint32 flags)
-	:
-	AutoTextControl(name, label, text, msg, flags),
-	fFilterTab(true)
+NavTextBox::NavTextBox(
+	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
+	: AutoTextControl(name, label, text, msg, flags),
+	  fFilterTab(true)
 {
 	SetFilter(new NavTextBoxFilter(this));
 }

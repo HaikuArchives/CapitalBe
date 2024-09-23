@@ -29,4 +29,4 @@ private:
 	friend CurrencyBoxFilter;
 };
 
-#endif // CURRENCYBOX_H
+#endif	// CURRENCYBOX_H

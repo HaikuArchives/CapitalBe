@@ -10,18 +10,15 @@
 
 
 SplitItem::SplitItem()
-	:
-	BStringItem(""),
-	fName(""),
-	fAmount(0L),
-	fMemo("")
+	: BStringItem(""),
+	  fName(""),
+	  fAmount(0L),
+	  fMemo("")
 {
 }
 
 
-SplitItem::~SplitItem()
-{
-}
+SplitItem::~SplitItem() {}
 
 
 void

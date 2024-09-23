@@ -41,4 +41,4 @@ private:
 	BString fType;
 };
 
-#endif // CATEGORYBOX_H
+#endif	// CATEGORYBOX_H

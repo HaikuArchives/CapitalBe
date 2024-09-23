@@ -43,4 +43,4 @@ private:
 	uint32 fID;
 };
 
-#endif // TRANSACTION_ITEM_H
+#endif	// TRANSACTION_ITEM_H

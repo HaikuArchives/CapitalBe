@@ -22,8 +22,7 @@
 
 
 PayeeBoxFilter::PayeeBoxFilter(PayeeBox* box)
-	:
-	AutoTextControlFilter(box)
+	: AutoTextControlFilter(box)
 {
 }
 
@@ -82,10 +81,9 @@ PayeeBoxFilter::KeyFilter(const int32& key, const int32& mod)
 }
 
 
-PayeeBox::PayeeBox(const char* name, const char* label, const char* text, BMessage* msg,
-	uint32 flags)
-	:
-	AutoTextControl(name, label, text, msg, flags)
+PayeeBox::PayeeBox(
+	const char* name, const char* label, const char* text, BMessage* msg, uint32 flags)
+	: AutoTextControl(name, label, text, msg, flags)
 {
 	SetFilter(new PayeeBoxFilter(this));
 	SetCharacterLimit(32);

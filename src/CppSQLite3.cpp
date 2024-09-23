@@ -52,13 +52,12 @@ int sqlite3_decode_binary(const unsigned char* in, unsigned char* out);
 
 ////////////////////////////////////////////////////////////////////////////////
 
-CppSQLite3Exception::CppSQLite3Exception(const int nErrCode, char* szErrMess,
-	bool bDeleteMsg /*=true*/)
-	:
-	mnErrCode(nErrCode)
+CppSQLite3Exception::CppSQLite3Exception(
+	const int nErrCode, char* szErrMess, bool bDeleteMsg /*=true*/)
+	: mnErrCode(nErrCode)
 {
-	mpszErrMess = sqlite3_mprintf("%s[%d]: %s", errorCodeAsString(nErrCode), nErrCode,
-		szErrMess ? szErrMess : "");
+	mpszErrMess = sqlite3_mprintf(
+		"%s[%d]: %s", errorCodeAsString(nErrCode), nErrCode, szErrMess ? szErrMess : "");
 
 	if (bDeleteMsg && szErrMess)
 		sqlite3_free(szErrMess);
@@ -66,8 +65,7 @@ CppSQLite3Exception::CppSQLite3Exception(const int nErrCode, char* szErrMess,
 
 
 CppSQLite3Exception::CppSQLite3Exception(const CppSQLite3Exception& e)
-	:
-	mnErrCode(e.mnErrCode)
+	: mnErrCode(e.mnErrCode)
 {
 	mpszErrMess = 0;
 	if (e.mpszErrMess)
@@ -189,12 +187,11 @@ CppSQLite3Buffer::format(const char* szFormat, ...)
 ////////////////////////////////////////////////////////////////////////////////
 
 CppSQLite3Binary::CppSQLite3Binary()
-	:
-	mpBuf(0),
-	mnBinaryLen(0),
-	mnBufferLen(0),
-	mnEncodedLen(0),
-	mbEncoded(false)
+	: mpBuf(0),
+	  mnBinaryLen(0),
+	  mnBufferLen(0),
+	  mnEncodedLen(0),
+	  mbEncoded(false)
 {
 }
 
@@ -219,7 +216,7 @@ CppSQLite3Binary::setEncoded(const unsigned char* pBuf)
 	clear();
 
 	mnEncodedLen = strlen((const char*)pBuf);
-	mnBufferLen = mnEncodedLen + 1; // Allow for NULL terminator
+	mnBufferLen = mnEncodedLen + 1;	 // Allow for NULL terminator
 
 	mpBuf = (unsigned char*)malloc(mnBufferLen);
 
@@ -376,8 +373,8 @@ CppSQLite3Query::fieldValue(int nField)
 	checkVM();
 
 	if (nField < 0 || nField > mnCols - 1) {
-		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
-			DONT_DELETE_MSG);
+		throw CppSQLite3Exception(
+			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
 	}
 
 	return (const char*)sqlite3_column_text(mpVM, nField);
@@ -470,8 +467,8 @@ CppSQLite3Query::getBlobField(int nField, int& nLen)
 	checkVM();
 
 	if (nField < 0 || nField > mnCols - 1) {
-		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
-			DONT_DELETE_MSG);
+		throw CppSQLite3Exception(
+			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
 	}
 
 	nLen = sqlite3_column_bytes(mpVM, nField);
@@ -526,8 +523,8 @@ CppSQLite3Query::fieldName(int nCol)
 	checkVM();
 
 	if (nCol < 0 || nCol > mnCols - 1) {
-		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
-			DONT_DELETE_MSG);
+		throw CppSQLite3Exception(
+			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
 	}
 
 	return sqlite3_column_name(mpVM, nCol);
@@ -540,8 +537,8 @@ CppSQLite3Query::fieldDeclType(int nCol)
 	checkVM();
 
 	if (nCol < 0 || nCol > mnCols - 1) {
-		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
-			DONT_DELETE_MSG);
+		throw CppSQLite3Exception(
+			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
 	}
 
 	return sqlite3_column_decltype(mpVM, nCol);
@@ -554,8 +551,8 @@ CppSQLite3Query::fieldDataType(int nCol)
 	checkVM();
 
 	if (nCol < 0 || nCol > mnCols - 1) {
-		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
-			DONT_DELETE_MSG);
+		throw CppSQLite3Exception(
+			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
 	}
 
 	return sqlite3_column_type(mpVM, nCol);
@@ -701,8 +698,8 @@ CppSQLite3Table::fieldValue(int nField)
 	checkResults();
 
 	if (nField < 0 || nField > mnCols - 1) {
-		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
-			DONT_DELETE_MSG);
+		throw CppSQLite3Exception(
+			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
 	}
 
 	int nIndex = (mnCurrentRow * mnCols) + mnCols + nField;
@@ -810,8 +807,8 @@ CppSQLite3Table::fieldName(int nCol)
 	checkResults();
 
 	if (nCol < 0 || nCol > mnCols - 1) {
-		throw CppSQLite3Exception(CPPSQLITE_ERROR, "Invalid field index requested",
-			DONT_DELETE_MSG);
+		throw CppSQLite3Exception(
+			CPPSQLITE_ERROR, "Invalid field index requested", DONT_DELETE_MSG);
 	}
 
 	return mpaszResults[nCol];
@@ -1098,14 +1095,14 @@ CppSQLite3Statement::checkVM()
 CppSQLite3DB::CppSQLite3DB()
 {
 	mpDB = 0;
-	mnBusyTimeoutMs = 60000; // 60 seconds
+	mnBusyTimeoutMs = 60000;  // 60 seconds
 }
 
 
 CppSQLite3DB::CppSQLite3DB(const CppSQLite3DB& db)
 {
 	mpDB = db.mpDB;
-	mnBusyTimeoutMs = 60000; // 60 seconds
+	mnBusyTimeoutMs = 60000;  // 60 seconds
 }
 
 
@@ -1122,7 +1119,7 @@ CppSQLite3DB&
 CppSQLite3DB::operator=(const CppSQLite3DB& db)
 {
 	mpDB = db.mpDB;
-	mnBusyTimeoutMs = 60000; // 60 seconds
+	mnBusyTimeoutMs = 60000;  // 60 seconds
 	return *this;
 }
 

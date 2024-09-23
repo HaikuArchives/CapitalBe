@@ -40,9 +40,8 @@
 
 
 SplitView::SplitView(const char* name, const TransactionData& trans, const int32& flags)
-	:
-	BView(name, flags | B_FRAME_EVENTS),
-	Observer(WATCH_SELECT | WATCH_TRANSACTION | WATCH_ACCOUNT)
+	: BView(name, flags | B_FRAME_EVENTS),
+	  Observer(WATCH_SELECT | WATCH_TRANSACTION | WATCH_ACCOUNT)
 {
 	fTransaction = trans;
 
@@ -85,8 +84,8 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 		= new BStringView("categorylabel", B_TRANSLATE_CONTEXT("Category", "CommonTerms"));
 	categoryLabel->SetExplicitSize(BSize(StringWidth("aVeryLongCategoryName"), B_SIZE_UNSET));
 
-	fCategory = new CategoryBox("categoryentry", "", fTransaction.NameAt(0),
-		new BMessage(M_CATEGORY_CHANGED));
+	fCategory = new CategoryBox(
+		"categoryentry", "", fTransaction.NameAt(0), new BMessage(M_CATEGORY_CHANGED));
 	fCategory->SetType(fTransaction.Type().Type());
 	fCategoryButton = new CategoryButton(fCategory);
 
@@ -98,8 +97,8 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	fMemo = new NavTextBox("memoentry", "", fTransaction.Memo(), new BMessage(M_MEMO_CHANGED));
 
 	// Controls
-	fSplit = new BCheckBox("expander", B_TRANSLATE("Show split"), new BMessage(M_EXPANDER_CHANGED),
-		B_WILL_DRAW);
+	fSplit = new BCheckBox(
+		"expander", B_TRANSLATE("Show split"), new BMessage(M_EXPANDER_CHANGED), B_WILL_DRAW);
 	fSplit->SetExplicitMaxSize(BSize(B_SIZE_UNLIMITED, B_SIZE_UNSET));
 
 	HelpButton* helpButton = new HelpButton("start.html", "#transaction");
@@ -170,10 +169,9 @@ SplitView::SplitView(const char* name, const TransactionData& trans, const int32
 	}
 
 	if (fTransaction.CountCategories() > 1
-		|| strcmp(fTransaction.NameAt(0),
-			   B_TRANSLATE_ALL("Split", "CommonTerms",
-				   "The noun 'split', as in 'a split-category'"))
-			== 0) {
+		|| strcmp(fTransaction.NameAt(0), B_TRANSLATE_ALL("Split", "CommonTerms",
+											  "The noun 'split', as in 'a split-category'"))
+			   == 0) {
 		fCategory->SetText(
 			B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'"));
 		fStartExpanded = true;
@@ -543,8 +541,8 @@ SplitView::MessageReceived(BMessage* msg)
 			fSplitItems->InvalidateItem(selection);
 
 			if (strlen(fSplitCategory->Text()) < 1) {
-				fTransaction.SetNameAt(selection,
-					B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"));
+				fTransaction.SetNameAt(
+					selection, B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"));
 			} else
 				fTransaction.SetNameAt(selection, fSplitCategory->Text());
 			break;
@@ -557,8 +555,8 @@ SplitView::MessageReceived(BMessage* msg)
 				// Reset fSplitTotal if last split item is removed
 				BString totalLabel(B_TRANSLATE("Total:"));
 				BString tempTotal;
-				gCurrentLocale.CurrencyToString(fTransaction.Amount().AbsoluteValue().AsFloat(),
-					tempTotal);
+				gCurrentLocale.CurrencyToString(
+					fTransaction.Amount().AbsoluteValue().AsFloat(), tempTotal);
 				totalLabel << " " << tempTotal;
 				fSplitTotal->SetHighColor(ui_color(B_PANEL_TEXT_COLOR));
 				fSplitTotal->SetText(totalLabel.String());
@@ -587,8 +585,8 @@ SplitView::MessageReceived(BMessage* msg)
 			// Color total if the splits don't add up to the transaction amount
 			float totalAmount = _CalculateTotal().AbsoluteValue().AsFloat();
 			rgb_color totalColor = (totalFixed == fTransaction.Amount().AbsoluteValue())
-				? ui_color(B_PANEL_TEXT_COLOR)
-				: ui_color(B_FAILURE_COLOR);
+									   ? ui_color(B_PANEL_TEXT_COLOR)
+									   : ui_color(B_FAILURE_COLOR);
 			fSplitTotal->SetHighColor(totalColor);
 			break;
 		}
@@ -698,7 +696,8 @@ SplitView::_ValidateSplitAmountField()
 	if (gCurrentLocale.StringToCurrency(fSplitAmount->Text(), amount) != B_OK) {
 		ShowAlert(B_TRANSLATE_CONTEXT("CapitalBe didn't understand the amount", "TextInput"),
 			B_TRANSLATE_CONTEXT("There may be a typo or the wrong kind of currency symbol "
-								"for this account.", "TextInput"));
+								"for this account.",
+				"TextInput"));
 		fSplitAmount->MakeFocus(true);
 		return false;
 	} else {
@@ -738,8 +737,9 @@ SplitView::_ValidateSplitItems()
 		BString errormsg, totalstr;
 		gCurrentLocale.CurrencyToString(total, totalstr);
 
-		errormsg = B_TRANSLATE("When the split items are added together, they need to add up "
-							   "to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%");
+		errormsg = B_TRANSLATE(
+			"When the split items are added together, they need to add up "
+			"to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%");
 		errormsg.ReplaceFirst("%%ENTERED_AMOUNT%%", fAmount->Text());
 		errormsg.ReplaceFirst("%%TOTAL_AMOUNT%%", totalstr.String());
 
