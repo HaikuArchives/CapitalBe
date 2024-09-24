@@ -49,7 +49,7 @@ FilterView::FilterView(const char* name, int32 flags)
 
 	BMenuField* periodField = new BMenuField("periodfield", B_TRANSLATE("Period:"), fPeriodMenu);
 
-	float maxwidth;
+	float maxwidth = 0;
 	for (int32 i = 0; i < fPeriodMenu->CountItems(); i++) {
 		BMenuItem* item = fPeriodMenu->ItemAt(i);
 		float labelwidth = StringWidth(item->Label());

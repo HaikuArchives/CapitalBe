@@ -129,7 +129,7 @@ RegisterView::AttachedToWindow()
 	fAccountView->SetTarget(this);
 	fFilterView->SetMessenger(new BMessenger(this));
 
-	int32 index;
+	int32 index = 0;
 	if (index > fAccountView->CountItems() || index < 0
 		|| gPreferences.FindInt32("selected-account", &index) != B_OK)
 		index = 0;

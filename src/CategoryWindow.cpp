@@ -506,17 +506,6 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 	CppSQLite3Query query = gDatabase.DBQuery(
 		"SELECT * FROM categorylist ORDER BY name DESC", "CategoryView::CategoryView");
 
-	int32 maxchars;
-	float maxlength;
-	if (strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms"))
-		> strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"))) {
-		maxchars = strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
-		maxlength = be_plain_font->StringWidth(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
-	} else {
-		maxchars = strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
-		maxlength = be_plain_font->StringWidth(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
-	}
-
 	while (!query.eof()) {
 		int expense = query.getIntField(1);
 		BString name = query.getStringField(0);
@@ -530,11 +519,6 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 			fListView->AddUnder(new CategoryItem(name.String()), fSpendingItem);
 		else if (expense == INCOME)
 			fListView->AddUnder(new CategoryItem(name.String()), fIncomeItem);
-
-		if (name.CountChars() > maxchars) {
-			maxchars = name.CountChars();
-			maxlength = be_plain_font->StringWidth(name.String());
-		}
 
 		query.nextRow();
 	}

@@ -246,12 +246,13 @@ void
 BudgetWindow::_HandleCategorySelection()
 {
 	BRow* row = fCategoryList->CurrentSelection();
-	if (!row) {
+	if (row == NULL) {
 		fAmountBox->SetText("");
 		fMonthly->SetValue(B_CONTROL_ON);
 		fStatAverageRow->SetField(new BStringField(""), 1);
 		fStatHighestRow->SetField(new BStringField(""), 1);
 		fStatLowestRow->SetField(new BStringField(""), 1);
+		return;
 	}
 
 	BudgetEntry entry;

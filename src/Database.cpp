@@ -1266,7 +1266,10 @@ Database::RemoveCategory(const char* name)
 bool
 Database::RenameCategory(const char* oldname, const char* newname)
 {
-	if ((!oldname && !newname) || strcmp(oldname, newname) == 0)
+	if (oldname == NULL || newname == NULL)
+		return false;
+
+	if (strcmp(oldname, newname) == 0)
 		return false;
 
 	if (!HasCategory(oldname) || HasCategory(newname))
@@ -1552,7 +1555,6 @@ Database::_ApplyMigrations()
 			return B_ERROR;
 		// Update version number
 		DBCommand("UPDATE db_version SET version = 1;", "Database::ApplyMigrations:update version");
-		currentVersion = 1;
 	}
 
 	return B_OK;
