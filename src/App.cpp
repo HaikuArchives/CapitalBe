@@ -12,7 +12,9 @@
 #include <Catalog.h>
 #include <FilePanel.h>
 #include <FindDirectory.h>
+#include <MimeType.h>
 #include <Path.h>
+#include <Resources.h>
 
 // #define DEBUG_DATABASE
 
@@ -118,6 +120,8 @@ App::MessageReceived(BMessage* msg)
 void
 App::ReadyToRun()
 {
+	_InstallMimeType();
+
 	BPath path;
 	find_directory(B_USER_SETTINGS_DIRECTORY, &path, true);
 	path.Append("CapitalBe");
@@ -155,6 +159,55 @@ App::ReadyToRun()
 		}
 	}
 }
+
+
+void
+App::_InstallMimeType()
+{
+	// install mime type of documents
+	BMimeType mime(kLedgerMimeType);
+	if (mime.InitCheck() < B_OK)
+		return;
+
+	mime.Delete();
+
+	status_t ret = mime.Install();
+	if (ret < B_OK) {
+		fprintf(stderr, "Could not install mime type: %s.\n", strerror(ret));
+		return;
+	}
+
+	// set preferred app
+	if (mime.SetPreferredApp(kApplicationSignature) < B_OK)
+		fprintf(stderr, "Could not set preferred app!\n");
+
+	// set descriptions
+	if (mime.SetShortDescription(B_TRANSLATE_COMMENT(
+			"CapitalBe ledger", "MIME type short description"))
+		< B_OK)
+		fprintf(stderr, "Could not set short description of mime type!\n");
+	if (mime.SetLongDescription(B_TRANSLATE_COMMENT(
+			"CapitalBe ledger containing accounts, transactions etc.",
+			"MIME type long description"))
+		!= B_OK)
+		fprintf(stderr, "Could not set long description of mime type!\n");
+
+	// set document icons
+	BResources* resources = AppResources();
+	// does not need to be freed (belongs to BApplication base)
+	if (resources == NULL) {
+		fprintf(stderr, "Could not find app resources.\n");
+		return;
+	}
+
+	size_t size;
+	const void* iconData;
+
+	iconData = resources->LoadResource('VICN', kLedgerMimeType, &size);
+	if (iconData && mime.SetIcon((uint8*)iconData, size) < B_OK)
+		fprintf(stderr, "Could not set vector icon of mime type.\n");
+}
+
 
 void
 App::ShowAlert(BString text)

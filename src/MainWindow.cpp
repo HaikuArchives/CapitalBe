@@ -730,6 +730,12 @@ MainWindow::_LoadData()
 void
 MainWindow::_SaveData()
 {
+	// Just set the MIME type
+	BFile file;
+	if (file.SetTo(fLastFile.String(), B_WRITE_ONLY) == B_OK) {
+		BNodeInfo nodeInfo(&file);
+		nodeInfo.SetType(kLedgerMimeType);
+	}
 }
 
 
