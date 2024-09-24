@@ -1195,10 +1195,10 @@ Database::CountScheduledTransactions(int accountid)
 
 
 bool
-Database::_InsertSchedTransaction(const uint32& id, const uint32& accountid, const time_t& startdate,
-	const TransactionType& type, const char* payee, const Fixed& amount, const char* category,
-	const char* memo, const TransactionInterval& interval, const time_t& nextdate,
-	const int32& count, const int32& destination)
+Database::_InsertSchedTransaction(const uint32& id, const uint32& accountid,
+	const time_t& startdate, const TransactionType& type, const char* payee, const Fixed& amount,
+	const char* category, const char* memo, const TransactionInterval& interval,
+	const time_t& nextdate, const int32& count, const int32& destination)
 {
 	// Internal method. No locking required
 	if (!payee || !category)
