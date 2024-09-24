@@ -81,6 +81,17 @@ App::AboutRequested()
 
 
 void
+App::RefsReceived(BMessage* msg)
+{
+	entry_ref ref;
+	if (msg->FindRef("refs", &ref) == B_OK) {
+		BPath path(&ref);
+		ShowMainWindow(path.Path());
+	}
+}
+
+
+void
 App::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
