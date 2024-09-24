@@ -114,6 +114,7 @@ App::MessageReceived(BMessage* msg)
 			}
 		} break;
 
+		case B_SIMPLE_DATA:
 		case M_FILE_OPEN:
 		{
 			entry_ref ref;

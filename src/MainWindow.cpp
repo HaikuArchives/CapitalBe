@@ -236,6 +236,7 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 MainWindow::~MainWindow()
 {
 	_SetFileSettings();
+	_SetMime();
 
 	delete fNewPanel;
 	delete fOpenPanel;
@@ -247,9 +248,6 @@ MainWindow::~MainWindow()
 bool
 MainWindow::QuitRequested()
 {
-#ifndef NOSAVE
-	_SaveData();
-#endif
 	prefsLock.Lock();
 	gPreferences.RemoveData("mainframe");
 	gPreferences.AddRect("mainframe", Frame());
@@ -377,6 +375,11 @@ MainWindow::MessageReceived(BMessage* msg)
 			// do the selecting which then generates the proper notification instead
 			// of tweaking the database via SetCurrentAccount. Man, I hate hacks sometimes. :/
 			fRegisterView->SelectAccount(index + 1);
+			break;
+		}
+		case B_SIMPLE_DATA:
+		{
+			be_app->PostMessage(msg);
 			break;
 		}
 		case M_FILE_NEW:
@@ -728,7 +731,7 @@ MainWindow::_LoadData()
 
 
 void
-MainWindow::_SaveData()
+MainWindow::_SetMime()
 {
 	// Just set the MIME type
 	BFile file;
