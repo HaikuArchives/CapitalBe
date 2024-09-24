@@ -21,6 +21,7 @@
 #include <Messenger.h>
 #include <NetPositive.h>
 #include <Path.h>
+#include <RecentItems.h>
 #include <Resources.h>
 #include <Roster.h>
 #include <StringFormat.h>
@@ -111,16 +112,15 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 
 	menu = new BMenu(B_TRANSLATE("File"));
 
-	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("New ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_NEW)));
-	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("Open ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_OPEN)));
-	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("New ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_NEW)));
-	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("Open ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_OPEN)));
+	BMenuItem* openItem = new BMenuItem(BRecentFilesList::NewFileListMenu(
+		B_TRANSLATE("Open" B_UTF8_ELLIPSIS), NULL, NULL, be_app, 9, true,
+		NULL, kApplicationSignature), new BMessage(M_FILE_OPEN));
+	openItem->SetShortcut('O', 0);
+	menu->AddItem(openItem);
 	menu->AddSeparatorItem();
+
 	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Import from QIF file" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_IMPORT_PANEL)));
 	menu->AddItem(new BMenuItem(
