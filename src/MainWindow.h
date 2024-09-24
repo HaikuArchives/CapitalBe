@@ -26,6 +26,7 @@
 class RegisterView;
 
 static const char kApplicationSignature[] = "application/x-vnd.wgp-CapitalBe";
+static const char kLedgerMimeType[] = "application/x-vnd.wgp-CapitalBe-ledger";
 
 // clang-format off
 enum {

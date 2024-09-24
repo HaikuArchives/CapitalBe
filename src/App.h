@@ -26,6 +26,7 @@ public:
 	void ReadyToRun();
 
 private:
+	void _InstallMimeType();
 	void ShowAlert(BString text);
 	void ShowMainWindow(BPath path);
 
