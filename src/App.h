@@ -28,11 +28,10 @@ public:
 
 private:
 	void _InstallMimeType();
-	void ShowAlert(BString text);
-	void ShowMainWindow(BPath path);
+	void _ShowAlert(BString text);
+	void _ShowMainWindow(BPath path);
 
 	MainWindow* fMainWindow;
 };
-
 
 #endif	// APP_H

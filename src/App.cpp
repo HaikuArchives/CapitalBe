@@ -86,7 +86,7 @@ App::RefsReceived(BMessage* msg)
 	entry_ref ref;
 	if (msg->FindRef("refs", &ref) == B_OK) {
 		BPath path(&ref);
-		ShowMainWindow(path.Path());
+		_ShowMainWindow(path.Path());
 	}
 }
 
@@ -110,7 +110,7 @@ App::MessageReceived(BMessage* msg)
 				BEntry entry(path.Path());
 				if (entry.Exists())
 					entry.Remove();
-				ShowMainWindow(path);
+				_ShowMainWindow(path);
 			}
 		} break;
 
@@ -119,7 +119,7 @@ App::MessageReceived(BMessage* msg)
 			entry_ref ref;
 			if (msg->FindRef("refs", &ref) == B_OK) {
 				BPath path(&ref);
-				ShowMainWindow(path.Path());
+				_ShowMainWindow(path.Path());
 			}
 		} break;
 
@@ -148,25 +148,25 @@ App::ReadyToRun()
 		BEntry entry(lastFile.String());
 		if (entry.Exists()) {
 			BPath path(&entry);
-			ShowMainWindow(path);
+			_ShowMainWindow(path);
 		} else {
 			alertText
 				= B_TRANSLATE("CapitalBe couldn't find the last open ledger at '%filename%'.\n");
 			alertText.ReplaceFirst("%filename%", lastFile.String());
-			ShowAlert(alertText);
+			_ShowAlert(alertText);
 		}
 	} else {  // "lastfile" wasn't set in previous CapitalBe versions
 		lastFile << path.Path() << "/MyAccountData";  // this file was used back then
 		BEntry entry(lastFile.String());
 		if (entry.Exists()) {
 			BPath path(&entry);
-			ShowMainWindow(path);
+			_ShowMainWindow(path);
 		} else {  // looks like it's our first launch
 			alertText = B_TRANSLATE(
 				"Welcome to CapitalBe!\n\n"
 				"There appears to be no 'ledger' where all your accounts and transactions "
 				"are saved. You can open an existing ledger, or create a new ledger.\n");
-			ShowAlert(alertText);
+			_ShowAlert(alertText);
 		}
 	}
 }
@@ -221,7 +221,7 @@ App::_InstallMimeType()
 
 
 void
-App::ShowAlert(BString text)
+App::_ShowAlert(BString text)
 {
 	DAlert* alert = new DAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text, B_TRANSLATE("Cancel"),
 		B_TRANSLATE("Open ledger"), B_TRANSLATE("Create new ledger"), B_WIDTH_AS_USUAL,
@@ -254,7 +254,7 @@ App::ShowAlert(BString text)
 
 
 void
-App::ShowMainWindow(BPath path)
+App::_ShowMainWindow(BPath path)
 {
 	if (fMainWindow != NULL) {
 		BMessenger messengerMain(fMainWindow);
