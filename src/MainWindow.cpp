@@ -19,7 +19,6 @@
 #include <LayoutBuilder.h>
 #include <MenuBar.h>
 #include <Messenger.h>
-#include <NetPositive.h>
 #include <Path.h>
 #include <RecentItems.h>
 #include <Resources.h>
@@ -734,9 +733,9 @@ void
 MainWindow::_SetMime()
 {
 	// Just set the MIME type
-	BFile file;
-	if (file.SetTo(fLastFile.String(), B_WRITE_ONLY) == B_OK) {
-		BNodeInfo nodeInfo(&file);
+	BNode node(fLastFile.String());
+	if (node.InitCheck() == B_OK) {
+		BNodeInfo nodeInfo(&node);
 		nodeInfo.SetType(kLedgerMimeType);
 	}
 }
