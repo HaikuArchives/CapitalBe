@@ -32,7 +32,8 @@
 
 App::App(void)
 	: BApplication(kApplicationSignature),
-	  fMainWindow(NULL)
+	  fMainWindow(NULL),
+	  fFile(NULL)
 {
 }
 
@@ -85,8 +86,11 @@ App::RefsReceived(BMessage* msg)
 {
 	entry_ref ref;
 	if (msg->FindRef("refs", &ref) == B_OK) {
-		BPath path(&ref);
-		_ShowMainWindow(path.Path());
+		BEntry entry(&ref);
+		fFile = new BPath(&entry);
+		// If we're launching ReadyToRun() is executed
+		if (!IsLaunching())
+			_ShowMainWindow(fFile->Path());
 	}
 }
 
@@ -141,6 +145,11 @@ App::ReadyToRun()
 	gSettingsPath = path;
 
 	LoadPreferences();
+
+	if (fFile != NULL) {
+		_ShowMainWindow(*fFile);
+		return;
+	}
 
 	BString alertText;
 	BString lastFile;
