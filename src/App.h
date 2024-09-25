@@ -11,6 +11,7 @@
 
 #include <Application.h>
 #include <Message.h>
+#include <Path.h>
 
 #include "MainWindow.h"
 
@@ -22,9 +23,9 @@ public:
 	~App();
 
 	virtual void AboutRequested();
-	void RefsReceived(BMessage* msg);
 	void MessageReceived(BMessage* msg);
 	void ReadyToRun();
+	void RefsReceived(BMessage* msg);
 
 private:
 	void _InstallMimeType();
@@ -32,6 +33,7 @@ private:
 	void _ShowMainWindow(BPath path);
 
 	MainWindow* fMainWindow;
+	BPath* fFile;
 };
 
 #endif	// APP_H
