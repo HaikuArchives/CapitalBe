@@ -91,6 +91,7 @@ private:
 	void _SetFileSettings();
 
 	void _LoadData();
+	void _SetFileLock(bool state);
 	void _SetMime();
 
 	void _CreateTransfer(BMessage* msg);

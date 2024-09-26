@@ -236,6 +236,7 @@ MainWindow::~MainWindow()
 {
 	_SetFileSettings();
 	_SetMime();
+	_SetFileLock(false);
 
 	delete fNewPanel;
 	delete fOpenPanel;
@@ -726,6 +727,18 @@ MainWindow::_LoadData()
 			PostMessage(M_SHOW_NEW_ACCOUNT);
 		}
 	}
+	_SetFileLock(true);
+}
+
+
+void
+MainWindow::_SetFileLock(bool state)
+{
+	BNode node(fLastFile);
+	if (node.InitCheck() != B_OK)
+		return;
+
+	node.WriteAttr("filelock", B_BOOL_TYPE, 0, &state, sizeof(bool));
 }
 
 

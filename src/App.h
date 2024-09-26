@@ -29,6 +29,7 @@ public:
 
 private:
 	void _InstallMimeType();
+	bool _IsFileLocked(BPath path);
 	void _ShowAlert(BString text);
 	void _ShowMainWindow(BPath path);
 
