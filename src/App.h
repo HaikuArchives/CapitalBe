@@ -34,7 +34,7 @@ private:
 	void _ShowMainWindow(BPath path);
 
 	MainWindow* fMainWindow;
-	BPath* fFile;
+	BPath fFile;
 };
 
 #endif	// APP_H

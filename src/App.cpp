@@ -32,8 +32,7 @@
 
 App::App(void)
 	: BApplication(kApplicationSignature),
-	  fMainWindow(NULL),
-	  fFile(NULL)
+	  fMainWindow(NULL)
 {
 }
 
@@ -87,10 +86,10 @@ App::RefsReceived(BMessage* msg)
 	entry_ref ref;
 	if (msg->FindRef("refs", &ref) == B_OK) {
 		BEntry entry(&ref);
-		fFile = new BPath(&entry);
+		fFile.SetTo(&entry);
 		// If we're launching ReadyToRun() is executed
 		if (!IsLaunching())
-			_ShowMainWindow(fFile->Path());
+			_ShowMainWindow(fFile.Path());
 	}
 }
 
@@ -146,8 +145,8 @@ App::ReadyToRun()
 
 	LoadPreferences();
 
-	if (fFile != NULL) {
-		_ShowMainWindow(*fFile);
+	if (fFile.InitCheck() == B_OK) {
+		_ShowMainWindow(fFile);
 		return;
 	}
 
