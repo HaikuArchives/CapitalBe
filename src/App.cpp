@@ -230,6 +230,20 @@ App::_InstallMimeType()
 }
 
 
+bool
+App::_IsFileLocked(BPath path)
+{
+	BNode node(path.Path());
+	if (node.InitCheck() != B_OK)
+		return false;
+
+	bool state = false;
+	node.ReadAttr("filelock", B_BOOL_TYPE, 0, &state, sizeof(bool));
+
+	return state;
+}
+
+
 void
 App::_ShowAlert(BString text)
 {
@@ -271,6 +285,21 @@ App::_ShowMainWindow(BPath path)
 		if (messengerMain.IsValid() && messengerMain.LockTarget())
 			fMainWindow->Quit();
 		fMainWindow = NULL;
+	}
+
+	if (_IsFileLocked(path)) {
+		BString text(B_TRANSLATE("The ledger '%filename%' appears to be already open.\n"
+			"Entering data into the same ledger in parallel will probably lead to data loss.\n"));
+		text.ReplaceFirst("%filename%", path.Leaf());
+		DAlert* alert = new DAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text,
+			B_TRANSLATE("Cancel"), B_TRANSLATE("Open ledger"), NULL,
+			B_WIDTH_AS_USUAL, B_OFFSET_SPACING, B_WARNING_ALERT);
+		alert->SetShortcut(0, B_ESCAPE);
+
+		if (alert->Go() == 0) {
+			PostMessage(B_QUIT_REQUESTED);
+			return;
+		}
 	}
 
 	BRect winFrame;
