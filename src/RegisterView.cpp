@@ -34,7 +34,7 @@
 
 RegisterView::RegisterView(const char* name, int32 select)
 	: BView(name, B_WILL_DRAW | B_FRAME_EVENTS),
-	fSelectedAcc(select)
+	  fSelectedAcc(select)
 {
 	SetViewUIColor(B_PANEL_BACKGROUND_COLOR);
 
@@ -115,9 +115,7 @@ RegisterView::RegisterView(const char* name, int32 select)
 }
 // clang-format on
 
-RegisterView::~RegisterView()
-{
-}
+RegisterView::~RegisterView() {}
 
 
 void

@@ -87,7 +87,7 @@ public:
 	void OpenAbout();
 
 private:
-	void _GetFileSettings(BRect *winFrame, int32 *selectAcc);
+	void _GetFileSettings(BRect* winFrame, int32* selectAcc);
 	void _SetFileSettings();
 
 	void _LoadData();

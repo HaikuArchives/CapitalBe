@@ -61,7 +61,7 @@
 
 MainWindow::MainWindow(BRect frame, BPath lastFile)
 	: BWindow(frame, NULL, B_DOCUMENT_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS),
-	fLastFile(lastFile.Path())
+	  fLastFile(lastFile.Path())
 {
 	BString title = B_TRANSLATE_SYSTEM_NAME("CapitalBe");
 	title << ": " << lastFile.Leaf();
@@ -111,11 +111,12 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 
 	menu = new BMenu(B_TRANSLATE("File"));
 
-	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("New ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_NEW)));
-	BMenuItem* openItem = new BMenuItem(BRecentFilesList::NewFileListMenu(
-		B_TRANSLATE("Open" B_UTF8_ELLIPSIS), NULL, NULL, be_app, 9, true,
-		NULL, kApplicationSignature), new BMessage(M_FILE_OPEN));
+	menu->AddItem(
+		new BMenuItem(B_TRANSLATE("New ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_NEW)));
+	BMenuItem* openItem
+		= new BMenuItem(BRecentFilesList::NewFileListMenu(B_TRANSLATE("Open" B_UTF8_ELLIPSIS), NULL,
+							NULL, be_app, 9, true, NULL, kApplicationSignature),
+			new BMessage(M_FILE_OPEN));
 	openItem->SetShortcut('O', 0);
 	menu->AddItem(openItem);
 	menu->AddSeparatorItem();
@@ -681,7 +682,7 @@ MainWindow::MessageReceived(BMessage* msg)
 
 
 void
-MainWindow::_GetFileSettings(BRect *winFrame, int32 *selectAcc)
+MainWindow::_GetFileSettings(BRect* winFrame, int32* selectAcc)
 {
 	BNode node(fLastFile);
 	if (node.InitCheck() != B_OK)

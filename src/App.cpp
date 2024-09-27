@@ -202,13 +202,13 @@ App::_InstallMimeType()
 		fprintf(stderr, "Could not set preferred app!\n");
 
 	// set descriptions
-	if (mime.SetShortDescription(B_TRANSLATE_COMMENT(
-			"CapitalBe ledger", "MIME type short description"))
+	if (mime.SetShortDescription(
+			B_TRANSLATE_COMMENT("CapitalBe ledger", "MIME type short description"))
 		< B_OK)
 		fprintf(stderr, "Could not set short description of mime type!\n");
-	if (mime.SetLongDescription(B_TRANSLATE_COMMENT(
-			"CapitalBe ledger containing accounts, transactions etc.",
-			"MIME type long description"))
+	if (mime.SetLongDescription(
+			B_TRANSLATE_COMMENT("CapitalBe ledger containing accounts, transactions etc.",
+				"MIME type long description"))
 		!= B_OK)
 		fprintf(stderr, "Could not set long description of mime type!\n");
 
@@ -287,12 +287,13 @@ App::_ShowMainWindow(BPath path)
 	}
 
 	if (_IsFileLocked(path)) {
-		BString text(B_TRANSLATE("The ledger '%filename%' appears to be already open.\n"
+		BString text(B_TRANSLATE(
+			"The ledger '%filename%' appears to be already open.\n"
 			"Entering data into the same ledger in parallel will probably lead to data loss.\n"));
 		text.ReplaceFirst("%filename%", path.Leaf());
 		DAlert* alert = new DAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text,
-			B_TRANSLATE("Cancel"), B_TRANSLATE("Open ledger"), NULL,
-			B_WIDTH_AS_USUAL, B_OFFSET_SPACING, B_WARNING_ALERT);
+			B_TRANSLATE("Cancel"), B_TRANSLATE("Open ledger"), NULL, B_WIDTH_AS_USUAL,
+			B_OFFSET_SPACING, B_WARNING_ALERT);
 		alert->SetShortcut(0, B_ESCAPE);
 
 		if (alert->Go() == 0) {
