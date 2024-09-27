@@ -59,6 +59,43 @@
 #define B_SERVICES_DAEMON_RESTART 'SDRS'
 
 
+bool
+LedgerFileFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* stat,
+	const char* fileType)
+{
+	BEntry entry(ref, true); // traverse links
+	// allow folders and links of folders
+	if (entry.IsDirectory())
+		return true;
+
+	if (IsValid(ref, &entry))
+		return true;
+
+	return false;
+}
+
+
+bool
+LedgerFileFilter::IsValid(const entry_ref* ref, const BEntry* entry)
+{
+	// allow files with ledger MIME type
+	char mimeType[B_MIME_TYPE_LENGTH];
+	BNode traversedNode(entry); // create a new node from the link-traversed BEntry
+	BNodeInfo(&traversedNode).GetType(mimeType);
+
+	if (strncmp(kLedgerMimeType, mimeType, sizeof(kLedgerMimeType)) == 0)
+		return true;
+
+	// allow the fixed filename of old CapitalBe versions, just in case...
+	char name[B_FILE_NAME_LENGTH];
+	entry->GetName(name);
+	if (strncmp("MyAccountData", name, 13) == 0)
+		return true;
+
+	return false;
+}
+
+
 MainWindow::MainWindow(BRect frame, BPath lastFile)
 	: BWindow(frame, NULL, B_DOCUMENT_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS),
 	  fLastFile(lastFile.Path())
@@ -196,7 +233,8 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 	fNewPanel->Window()->SetTitle(label << B_TRANSLATE("New ledger"));
 
 	fOpenPanel = new BFilePanel(
-		B_OPEN_PANEL, new BMessenger(be_app), NULL, B_FILE_NODE, false, new BMessage(M_FILE_OPEN));
+		B_OPEN_PANEL, new BMessenger(be_app), NULL, B_FILE_NODE, false, new BMessage(M_FILE_OPEN),
+		new LedgerFileFilter());
 	label = temp;
 	fOpenPanel->Window()->SetTitle(label << B_TRANSLATE("Open ledger"));
 

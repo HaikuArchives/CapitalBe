@@ -75,6 +75,15 @@ enum {
 };
 // clang-format on
 
+class LedgerFileFilter : public BRefFilter {
+public:
+	bool Filter(const entry_ref* entryRef, BNode* node, struct stat_beos* stat,
+		const char* fileType);
+
+	bool IsValid(const entry_ref* entryRef, const BEntry* entry);
+};
+
+
 class MainWindow : public BWindow, public Observer {
 public:
 	MainWindow(BRect frame, BPath lastFile);
