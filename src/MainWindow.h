@@ -77,8 +77,8 @@ enum {
 
 class LedgerFileFilter : public BRefFilter {
 public:
-	bool Filter(const entry_ref* entryRef, BNode* node, struct stat_beos* stat,
-		const char* fileType);
+	bool Filter(
+		const entry_ref* entryRef, BNode* node, struct stat_beos* stat, const char* fileType);
 
 	bool IsValid(const entry_ref* entryRef, const BEntry* entry);
 };

@@ -126,13 +126,13 @@ App::MessageReceived(BMessage* msg)
 				BEntry entry(&ref);
 				LedgerFileFilter filter;
 				if (!filter.IsValid(&ref, &entry)) {
-					BString text(B_TRANSLATE(
-						"The file '%filename%' appears not to be a CapitalBe ledger.\n"
-						"Or it doesn't have the 'CapitalBe ledger' filetype.\n"));
+					BString text(
+						B_TRANSLATE("The file '%filename%' appears not to be a CapitalBe ledger.\n"
+									"Or it doesn't have the 'CapitalBe ledger' filetype.\n"));
 					text.ReplaceFirst("%filename%", path.Leaf());
-					DAlert* alert = new DAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text,
-						B_TRANSLATE("OK"), NULL, NULL,
-						B_WIDTH_AS_USUAL, B_OFFSET_SPACING, B_INFO_ALERT);
+					DAlert* alert
+						= new DAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text, B_TRANSLATE("OK"),
+							NULL, NULL, B_WIDTH_AS_USUAL, B_OFFSET_SPACING, B_INFO_ALERT);
 					alert->Go();
 					return;
 				}

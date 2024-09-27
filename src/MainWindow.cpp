@@ -60,10 +60,10 @@
 
 
 bool
-LedgerFileFilter::Filter(const entry_ref* ref, BNode* node, struct stat_beos* stat,
-	const char* fileType)
+LedgerFileFilter::Filter(
+	const entry_ref* ref, BNode* node, struct stat_beos* stat, const char* fileType)
 {
-	BEntry entry(ref, true); // traverse links
+	BEntry entry(ref, true);  // traverse links
 	// allow folders and links of folders
 	if (entry.IsDirectory())
 		return true;
@@ -80,7 +80,7 @@ LedgerFileFilter::IsValid(const entry_ref* ref, const BEntry* entry)
 {
 	// allow files with ledger MIME type
 	char mimeType[B_MIME_TYPE_LENGTH];
-	BNode traversedNode(entry); // create a new node from the link-traversed BEntry
+	BNode traversedNode(entry);	 // create a new node from the link-traversed BEntry
 	BNodeInfo(&traversedNode).GetType(mimeType);
 
 	if (strncmp(kLedgerMimeType, mimeType, sizeof(kLedgerMimeType)) == 0)
@@ -232,9 +232,8 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 	BString label = temp;
 	fNewPanel->Window()->SetTitle(label << B_TRANSLATE("New ledger"));
 
-	fOpenPanel = new BFilePanel(
-		B_OPEN_PANEL, new BMessenger(be_app), NULL, B_FILE_NODE, false, new BMessage(M_FILE_OPEN),
-		new LedgerFileFilter());
+	fOpenPanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(be_app), NULL, B_FILE_NODE, false,
+		new BMessage(M_FILE_OPEN), new LedgerFileFilter());
 	label = temp;
 	fOpenPanel->Window()->SetTitle(label << B_TRANSLATE("Open ledger"));
 
