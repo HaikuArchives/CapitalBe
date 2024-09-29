@@ -24,7 +24,6 @@
 #include "CategoryBox.h"
 #include "CheckView.h"
 #include "CurrencyBox.h"
-#include "DAlert.h"
 #include "Database.h"
 #include "DateBox.h"
 #include "Help.h"

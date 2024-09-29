@@ -221,7 +221,7 @@ Locale::_SetDefaults()
 void
 ShowAlert(const char* header, const char* message, alert_type type)
 {
-	DAlert* alert = new DAlert(header, message, "OK", NULL, NULL, B_WIDTH_AS_USUAL, type);
+	BAlert* alert = new BAlert(header, message, "OK", NULL, NULL, B_WIDTH_AS_USUAL, type);
 	alert->Go();
 }
 
@@ -278,7 +278,7 @@ ShowBug(const char* string)
 		"CapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n"
 		"2) Just quit and do nothing\n");
 
-	DAlert* alert = new DAlert(B_TRANSLATE("Agh! Bug!"), message.String(),
+	BAlert* alert = new BAlert(B_TRANSLATE("Agh! Bug!"), message.String(),
 		B_TRANSLATE("Save bugreport"), B_TRANSLATE("Quit"));
 	int32 value = alert->Go();
 

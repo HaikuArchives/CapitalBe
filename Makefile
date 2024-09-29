@@ -47,7 +47,6 @@ SRCS = \
 	 src/CheckView.cpp  \
 	 src/CppSQLite3.cpp  \
 	 src/CurrencyBox.cpp  \
-	 src/DAlert.cpp  \
 	 src/Database.cpp  \
 	 src/DateBox.cpp  \
 	 src/DStringList.cpp  \

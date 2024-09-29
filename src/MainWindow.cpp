@@ -33,7 +33,6 @@
 #include "BudgetWindow.h"
 #include "CBLocale.h"
 #include "CategoryWindow.h"
-#include "DAlert.h"
 #include "FilterView.h"
 #include "Help.h"
 #include "IconMenuItem.h"
@@ -374,7 +373,7 @@ MainWindow::MessageReceived(BMessage* msg)
 			msg << B_TRANSLATE(
 				"Once deleted, you will not be able to get back any data on this account.");
 
-			DAlert* alert = new DAlert(B_TRANSLATE("Really delete account?"), msg.String(),
+			BAlert* alert = new BAlert(B_TRANSLATE("Really delete account?"), msg.String(),
 				B_TRANSLATE("Delete"), B_TRANSLATE("Cancel"), NULL, B_WIDTH_AS_USUAL, B_STOP_ALERT);
 
 			if (alert->Go() == 0) {

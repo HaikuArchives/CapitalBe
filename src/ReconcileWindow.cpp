@@ -21,7 +21,6 @@
 #include "CBLocale.h"
 #include "CalendarButton.h"
 #include "CurrencyBox.h"
-#include "DAlert.h"
 #include "Database.h"
 #include "DateBox.h"
 #include "MsgDefs.h"

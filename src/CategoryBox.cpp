@@ -93,7 +93,7 @@ CategoryBox::Validate()
 	BString category(Text());
 
 	if (category == "") {
-		DAlert* alert = new DAlert(B_TRANSLATE("Category is missing"),
+		BAlert* alert = new BAlert(B_TRANSLATE("Category is missing"),
 			B_TRANSLATE(
 				"Do you really want to add this transaction without a category?\n\n"
 				"Even then, you need to select a transaction type, 'income' or 'spending'.\n"),
@@ -167,7 +167,7 @@ CategoryBox::_AddNewCategory(BString category)
 					"Please select a transaction type for it, 'income' or 'spending'."));
 	text.ReplaceFirst("%categoryname%", category);
 
-	DAlert* alert = new DAlert(B_TRANSLATE("New category"), text, B_TRANSLATE("Income"),
+	BAlert* alert = new BAlert(B_TRANSLATE("New category"), text, B_TRANSLATE("Income"),
 		B_TRANSLATE("Spending"), B_TRANSLATE("Cancel"), B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 	int32 value = alert->Go();
 	if (value == 0) {

@@ -8,7 +8,10 @@
  *	dospuntos (Johan Wagenheim)
  */
 #include <AboutWindow.h>
+#include <Alert.h>
+#include <AppFileInfo.h>
 #include <Application.h>
+#include <Bitmap.h>
 #include <Catalog.h>
 #include <FilePanel.h>
 #include <FindDirectory.h>
@@ -22,7 +25,6 @@
 
 #include <Roster.h>
 #include "App.h"
-#include "DAlert.h"
 #include "Preferences.h"
 
 
@@ -130,8 +132,8 @@ App::MessageReceived(BMessage* msg)
 						B_TRANSLATE("The file '%filename%' appears not to be a CapitalBe ledger.\n"
 									"Or it doesn't have the 'CapitalBe ledger' filetype.\n"));
 					text.ReplaceFirst("%filename%", path.Leaf());
-					DAlert* alert
-						= new DAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text, B_TRANSLATE("OK"),
+					BAlert* alert
+						= new BAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text, B_TRANSLATE("OK"),
 							NULL, NULL, B_WIDTH_AS_USUAL, B_OFFSET_SPACING, B_INFO_ALERT);
 					alert->Go();
 					return;
@@ -260,10 +262,20 @@ App::_IsFileLocked(BPath path)
 void
 App::_ShowAlert(BString text)
 {
-	DAlert* alert = new DAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text, B_TRANSLATE("Cancel"),
+	BAlert* alert = new BAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text, B_TRANSLATE("Cancel"),
 		B_TRANSLATE("Open ledger"), B_TRANSLATE("Create new ledger"), B_WIDTH_AS_USUAL,
 		B_OFFSET_SPACING, B_INFO_ALERT);
 	alert->SetShortcut(0, B_ESCAPE);
+
+	entry_ref ref;
+	be_roster->FindApp(kApplicationSignature, &ref);
+
+	BFile file(&ref, B_READ_ONLY);
+	BAppFileInfo appMime(&file);
+
+	BBitmap* icon = new BBitmap(BRect(0.0, 0.0, 63.0, 63.0), B_RGBA32);
+	appMime.GetIcon(icon, (icon_size)64);
+	alert->SetIcon(icon);
 
 	switch (alert->Go()) {
 		case 0:
@@ -287,6 +299,7 @@ App::_ShowAlert(BString text)
 			newLedger->Show();
 		} break;
 	}
+	delete icon;
 }
 
 
@@ -305,7 +318,7 @@ App::_ShowMainWindow(BPath path)
 			"The ledger '%filename%' appears to be already open.\n"
 			"Entering data into the same ledger in parallel will probably lead to data loss.\n"));
 		text.ReplaceFirst("%filename%", path.Leaf());
-		DAlert* alert = new DAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text,
+		BAlert* alert = new BAlert(B_TRANSLATE_SYSTEM_NAME("CapitalBe"), text,
 			B_TRANSLATE("Cancel"), B_TRANSLATE("Open ledger"), NULL, B_WIDTH_AS_USUAL,
 			B_OFFSET_SPACING, B_WARNING_ALERT);
 		alert->SetShortcut(0, B_ESCAPE);

@@ -8,9 +8,9 @@
 #ifndef CBLOCALE_H
 #define CBLOCALE_H
 
-#include "DAlert.h"
 #include "Fixed.h"
 
+#include <Alert.h>
 #include <File.h>
 #include <String.h>
 #include <TextControl.h>
