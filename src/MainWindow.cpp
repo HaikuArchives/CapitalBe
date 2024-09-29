@@ -23,8 +23,8 @@
 #include <RecentItems.h>
 #include <Resources.h>
 #include <Roster.h>
-#include <StringFormat.h>
 #include <Screen.h>
+#include <StringFormat.h>
 #include <Url.h>
 
 #include <stdlib.h>
@@ -740,7 +740,7 @@ MainWindow::Zoom(BPoint /*origin*/, float /*width*/, float /*height*/)
 		MoveTo(BPoint(fFrameBeforeZoom.left, 0));
 		ResizeTo(fFrameBeforeZoom.Width(), screenFrame.Height());
 		MoveOnScreen(B_MOVE_IF_PARTIALLY_OFFSCREEN);
-	 } else {
+	} else {
 		fIsZoomed = false;
 		MoveTo(BPoint(frame.left, fFrameBeforeZoom.top));
 		ResizeTo(frame.Width(), fFrameBeforeZoom.Height());
