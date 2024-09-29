@@ -89,8 +89,9 @@ public:
 	MainWindow(BRect frame, BPath lastFile);
 	~MainWindow();
 
-	bool QuitRequested();
-	void MessageReceived(BMessage* msg);
+	virtual bool QuitRequested();
+	virtual void MessageReceived(BMessage* msg);
+	virtual void Zoom(BPoint origin, float width, float height);
 
 	void HandleNotify(const uint64& value, const BMessage* msg);
 	void OpenAbout();
@@ -111,6 +112,9 @@ private:
 	BString fLastFile;
 	BMenuItem* fAccountClosedItem;
 	BMessageRunner* fRunner;
+
+	BRect fFrameBeforeZoom;
+	bool fIsZoomed;
 };
 
 #endif

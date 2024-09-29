@@ -24,6 +24,7 @@
 #include <Resources.h>
 #include <Roster.h>
 #include <StringFormat.h>
+#include <Screen.h>
 #include <Url.h>
 
 #include <stdlib.h>
@@ -98,7 +99,9 @@ LedgerFileFilter::IsValid(const entry_ref* ref, const BEntry* entry)
 
 MainWindow::MainWindow(BRect frame, BPath lastFile)
 	: BWindow(frame, NULL, B_DOCUMENT_WINDOW, B_AUTO_UPDATE_SIZE_LIMITS),
-	  fLastFile(lastFile.Path())
+	  fLastFile(lastFile.Path()),
+	  fFrameBeforeZoom(frame),
+	  fIsZoomed(false)
 {
 	BString title = B_TRANSLATE_SYSTEM_NAME("CapitalBe");
 	title << ": " << lastFile.Leaf();
@@ -107,9 +110,8 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 	if (gPreferences.FindColor("negativecolor", &gNegativeColor) != B_OK)
 		gNegativeColor = ui_color(B_FAILURE_COLOR);
 
-	BRect winFrame = frame;
 	int32 selectAcc = 0;
-	_GetFileSettings(&winFrame, &selectAcc);
+	_GetFileSettings(&fFrameBeforeZoom, &selectAcc);
 
 	AddShortcut(B_HOME, B_COMMAND_KEY, new BMessage(M_FIRST_TRANSACTION));
 	AddShortcut(B_END, B_COMMAND_KEY, new BMessage(M_LAST_TRANSACTION));
@@ -262,8 +264,15 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 
 	clearFilter->SetTarget(FindView("registerview")->FindView("filterview"));
 
-	MoveTo(winFrame.LeftTop());
-	ResizeTo(winFrame.Width(), winFrame.Height());
+	MoveTo(fFrameBeforeZoom.LeftTop());
+	ResizeTo(fFrameBeforeZoom.Width(), fFrameBeforeZoom.Height());
+
+	// If file was zoomed when closing last, zoom it again at launch
+	if (fIsZoomed) {
+		fIsZoomed = false;
+		BWindow::Zoom();
+	}
+
 	HandleScheduledTransactions();
 	BMessage message(M_RUN_SCHEDULED_TRANSACTIONS);
 	fRunner = new BMessageRunner(this, &message, 30 * 1000 * 1000);	 // Every 30 seconds
@@ -719,11 +728,34 @@ MainWindow::MessageReceived(BMessage* msg)
 
 
 void
+MainWindow::Zoom(BPoint /*origin*/, float /*width*/, float /*height*/)
+{
+	BRect frame = Frame();
+	if (!fIsZoomed) {
+		fIsZoomed = true;
+		fFrameBeforeZoom = frame;
+		BScreen screen(this);
+		BRect screenFrame(screen.Frame());
+
+		MoveTo(BPoint(fFrameBeforeZoom.left, 0));
+		ResizeTo(fFrameBeforeZoom.Width(), screenFrame.Height());
+		MoveOnScreen(B_MOVE_IF_PARTIALLY_OFFSCREEN);
+	 } else {
+		fIsZoomed = false;
+		MoveTo(BPoint(frame.left, fFrameBeforeZoom.top));
+		ResizeTo(frame.Width(), fFrameBeforeZoom.Height());
+	}
+}
+
+
+void
 MainWindow::_GetFileSettings(BRect* winFrame, int32* selectAcc)
 {
 	BNode node(fLastFile);
 	if (node.InitCheck() != B_OK)
 		return;
+
+	node.ReadAttr("window_zoom", B_BOOL_TYPE, 0, &fIsZoomed, sizeof(bool));
 
 	ssize_t bytesRead;
 	BRect frame;
@@ -749,7 +781,13 @@ MainWindow::_SetFileSettings()
 	if (accList != NULL)
 		select = accList->CurrentSelection();
 
-	BRect frame(Frame());
+	BRect frame;
+	if (fIsZoomed)
+		frame = fFrameBeforeZoom;
+	else
+		frame = Frame();
+
+	node.WriteAttr("window_zoom", B_BOOL_TYPE, 0, &fIsZoomed, sizeof(bool));
 	node.WriteAttr("window_frame", B_RECT_TYPE, 0, &frame, sizeof(BRect));
 	node.WriteAttr("select_account", B_INT32_TYPE, 0, &select, sizeof(int32));
 }

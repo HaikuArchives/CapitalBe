@@ -121,6 +121,7 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	clip = cliprect;
 	owner->ConstrainClippingRegion(&clip);
 	locale.DateToString(fDate, string);
+
 	owner->DrawString(string.String(), BPoint(xpos, ypos - fontFactor));
 	owner->ConstrainClippingRegion(NULL);
 

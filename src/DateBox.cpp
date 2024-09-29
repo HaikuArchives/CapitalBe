@@ -138,5 +138,9 @@ DateBox::Validate(const bool& alert)
 		gDefaultLocale.DateToString(fCurrentDate, date);
 		SetText(date.String());
 	}
+
+	bool valid = fCurrentDate > GetCurrentDate();
+	MarkAsInvalid(valid);
+
 	return true;
 }
