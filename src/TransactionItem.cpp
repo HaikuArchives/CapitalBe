@@ -13,6 +13,7 @@
 #include "CBLocale.h"
 #include "Database.h"
 #include "Preferences.h"
+#include "TimeSupport.h"
 #include "TransactionData.h"
 #include "TransactionLayout.h"
 
@@ -121,6 +122,9 @@ TransactionItem::DrawItem(BView* owner, BRect frame, bool complete)
 	clip = cliprect;
 	owner->ConstrainClippingRegion(&clip);
 	locale.DateToString(fDate, string);
+
+	if (fDate > GetCurrentDate())
+		owner->SetHighColor(gNegativeColor);
 
 	owner->DrawString(string.String(), BPoint(xpos, ypos - fontFactor));
 	owner->ConstrainClippingRegion(NULL);
