@@ -28,6 +28,7 @@
 <table class="index" id="index" summary="index">
 <tbody><tr class="heading"><td>Index</td></tr>
 <tr class="index"><td>
+	<a href="#welcome">Create/Open a ledger</a><br />
 	<a href="#new-account">Create accounts</a><br />
 	<a href="#transaction">Enter transactions</a><br />
 	<a href="#split-transactions"> ┗━ Split transactions</a><br />
@@ -62,13 +63,25 @@
 
 <h2>
 <a href="#"><img src="../icons/up.png" style="border:none;float:right" alt="index" /></a>
+<a id="welcome" name="welcome">Create/Open a ledger</a></h2>
+
+<p>When you launch CapitalBe for the first time, you're welcomed by a window given your two choices (besides <span class="button">Cancel</span>…):</p>
+
+<p style="text-align:center"><img src="./images/welcome.png" alt="Create/Open a ledger" /></p>
+
+<p>A "ledger" is a file where CapitalBe stores all accounts and transactions. If you already have a ledger file somewhere, you click <span class="button">Open ledger</span> to find and load it. <span class="button">Create new ledger</span> opens a save dialog where you choose a location and filename for your new ledger.</p>
+
+<p>CapitalBe used to work with only one file, <tt>~/config/settings/CapitalBe/MyAccountData</tt>. If you've used CapitalBe before, that file is loaded automatically and you can just continue your bookkeeping as before.</p>
+
+<h2>
+<a href="#"><img src="../icons/up.png" style="border:none;float:right" alt="index" /></a>
 <a id="new-account" name="new-account">Create accounts</a></h2>
 
-<p>Let's start by creating a new account. You're prompted to set one up when there isn't one already &ndash; like when first launching CapitalBe &ndash; or you initiate it yourself by clicking the menu item <span class="menu">Account | New…</span>.</p>
+<p>After an empty ledger is created, you're prompted to set up an account. More accounts are added with the menu item <span class="menu">Account | New…</span>.</p>
 
 <p style="text-align:center"><img src="./images/account_new.png" alt="Creating new accounts" /></p>
 
-<p>First you <span class="menu">Name</span> your new account, here "<i>Bank account #1</i>".</p>
+<p>First you <span class="menu">Name</span> your new account, here "<i>Bank account</i>".</p>
 
 <p>By default, CapitalBe uses your system settings (configured with Haiku's Locale preferences) for the currency settings and formatting. If you have accounts that differ from that, you can untick the checkbox <span class="menu">Use system currency format</span> to see additional options:</p>
 
@@ -95,6 +108,7 @@
 <li>All entered categories and payees are saved and CapitalBe tries to auto-complete them while you are typing.</li>
 <li>When the date box has focus <span class="key">↑</span>/<span class="key">↓</span> in/decreases the day, <span class="key">SHIFT</span>&nbsp;<span class="key">↑</span>/<span class="key">↓</span> in/decreases the month, and <span class="key">Page↑</span>/<span class="key">Page↓</span> in/decreases the year.</li>
 <li>The little icon beside the date box opens a calendar window to conveniently choose a date.</li>
+<li>If your entered date lies in the future, the date box is marked with a red border/text, as that is normally not intentional.</li>
 <li>The little icon beside the category box opens a menu to choose from your categories.</li>
 <li>If there's a transaction that's very similar to an already existing one, right-click it and choose <span class="menu">Use as new transaction</span> to fill the text fields of the new transaction with the data.</li>
 </ul></div>
