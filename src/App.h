@@ -33,6 +33,7 @@ private:
 	void _ShowAlert(BString text);
 	void _ShowMainWindow(BPath path);
 
+	BFilePanel *fNewPanel, *fOpenPanel;
 	MainWindow* fMainWindow;
 	BPath fFile;
 };

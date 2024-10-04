@@ -36,12 +36,20 @@ App::App(void)
 	: BApplication(kApplicationSignature),
 	  fMainWindow(NULL)
 {
+	fOpenPanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL,
+		B_FILE_NODE, false, new BMessage(M_FILE_OPEN));
+
+	fNewPanel = new BFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL,
+		B_FILE_NODE, false, new BMessage(M_FILE_NEW));
 }
 
 
 App::~App()
 {
 	SavePreferences();
+
+	delete fOpenPanel;
+	delete fNewPanel;
 }
 
 
@@ -285,21 +293,16 @@ App::_ShowAlert(BString text)
 
 		case 1:
 		{
-			BFilePanel* openLedger = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL,
-				B_FILE_NODE, false, new BMessage(M_FILE_OPEN));
-			openLedger->Window()->SetTitle(B_TRANSLATE("CapitalBe: Open ledger"));
-			openLedger->Show();
+			fOpenPanel->Window()->SetTitle(B_TRANSLATE("CapitalBe: Open ledger"));
+			fOpenPanel->Show();
 		} break;
 
 		case 2:
 		{
-			BFilePanel* newLedger = new BFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL,
-				B_FILE_NODE, false, new BMessage(M_FILE_NEW));
-			newLedger->Window()->SetTitle(B_TRANSLATE("CapitalBe: Create new ledger"));
-			newLedger->Show();
+			fNewPanel->Window()->SetTitle(B_TRANSLATE("CapitalBe: Create new ledger"));
+			fNewPanel->Show();
 		} break;
 	}
-	delete icon;
 }
 
 
