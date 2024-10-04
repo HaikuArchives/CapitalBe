@@ -232,11 +232,15 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 		B_SAVE_PANEL, new BMessenger(be_app), NULL, B_FILE_NODE, false, new BMessage(M_FILE_NEW));
 	BString label = temp;
 	fNewPanel->Window()->SetTitle(label << B_TRANSLATE("New ledger"));
+	BPath path(fLastFile);
+	path.GetParent(&path);
+	fNewPanel->SetPanelDirectory(path.Path());
 
 	fOpenPanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(be_app), NULL, B_FILE_NODE, false,
 		new BMessage(M_FILE_OPEN), new LedgerFileFilter());
 	label = temp;
 	fOpenPanel->Window()->SetTitle(label << B_TRANSLATE("Open ledger"));
+	fOpenPanel->SetPanelDirectory(path.Path());
 
 	fImportPanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL, B_FILE_NODE, false,
 		new BMessage(M_IMPORT_ACCOUNT));
@@ -460,6 +464,10 @@ MainWindow::MessageReceived(BMessage* msg)
 					B_TRANSLATE("This happens when the kind of file is not "
 								"supported, when the file's data is damaged, or when you feed "
 								"it a recipe for quiche."));
+			} else {
+				BPath path(&ref);
+				path.GetParent(&path);
+				fImportPanel->SetPanelDirectory(path.Path());
 			}
 			break;
 		}
@@ -489,7 +497,8 @@ MainWindow::MessageReceived(BMessage* msg)
 				ShowAlert(
 					errmsg.String(), B_TRANSLATE("This really shouldn't happen, so you probably "
 												 "should report a bug for this."));
-			}
+			} else
+				fExportPanel->SetPanelDirectory(&dir);
 			break;
 		}
 		case M_CLOSE_ACCOUNT:

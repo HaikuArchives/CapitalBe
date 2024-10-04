@@ -15,6 +15,7 @@
 #include <DateFormat.h>
 #include <Debug.h>
 #include <File.h>
+#include <FindDirectory.h>
 #include <Locale.h>
 #include <NumberFormat.h>
 #include <OS.h>
@@ -297,8 +298,10 @@ ShowBug(const char* string)
 
 	if (value == 0) {
 		// Generate a text file of the bug on the Desktop
-		BString filename("/boot/home/Desktop/CapitalBe Bug Report ");
-		filename << real_time_clock() << ".txt";
+		BPath path;
+		find_directory(B_USER_SETTINGS_DIRECTORY, &path, true);
+		BString filename(path.Path());
+		filename << "CapitalBe Bug Report " << real_time_clock() << ".txt";
 		BFile file(filename.String(), B_READ_WRITE | B_CREATE_FILE | B_ERASE_FILE);
 		file.Write(message.String(), message.Length());
 		file.Unset();
