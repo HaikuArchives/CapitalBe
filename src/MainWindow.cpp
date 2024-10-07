@@ -473,6 +473,7 @@ MainWindow::MessageReceived(BMessage* msg)
 		}
 		case M_SHOW_EXPORT_PANEL:
 		{
+			fExportPanel->SetSaveText(_GenerateFileName());
 			fExportPanel->Show();
 			break;
 		}
@@ -755,6 +756,28 @@ MainWindow::Zoom(BPoint /*origin*/, float /*width*/, float /*height*/)
 	}
 }
 
+
+BString
+MainWindow::_GenerateFileName()
+{
+	BString filename("%ledgerName%-%accountName%.qif");
+
+	BPath path(fLastFile);
+	filename.ReplaceFirst("%ledgerName%", path.Leaf());
+
+	BString text;
+	BListView* accList = (BListView*)fRegisterView->FindView("AccountList");
+	if (accList != NULL) {
+		AccountListItem* accItem = (AccountListItem*)accList->ItemAt(accList->CurrentSelection());
+		if (accItem != NULL) {
+			Account account = *accItem->GetAccount();
+			text << account.Name();
+		}
+	}
+	filename.ReplaceFirst("%accountName%", text);
+
+	return filename;
+}
 
 void
 MainWindow::_GetFileSettings(BRect* winFrame, int32* selectAcc)

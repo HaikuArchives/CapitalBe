@@ -97,6 +97,7 @@ public:
 	void OpenAbout();
 
 private:
+	BString _GenerateFileName();
 	void _GetFileSettings(BRect* winFrame, int32* selectAcc);
 	void _SetFileSettings();
 
