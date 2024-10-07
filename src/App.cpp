@@ -36,11 +36,11 @@ App::App(void)
 	: BApplication(kApplicationSignature),
 	  fMainWindow(NULL)
 {
-	fOpenPanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL,
-		B_FILE_NODE, false, new BMessage(M_FILE_OPEN));
+	fOpenPanel = new BFilePanel(
+		B_OPEN_PANEL, new BMessenger(this), NULL, B_FILE_NODE, false, new BMessage(M_FILE_OPEN));
 
-	fNewPanel = new BFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL,
-		B_FILE_NODE, false, new BMessage(M_FILE_NEW));
+	fNewPanel = new BFilePanel(
+		B_SAVE_PANEL, new BMessenger(this), NULL, B_FILE_NODE, false, new BMessage(M_FILE_NEW));
 }
 
 
