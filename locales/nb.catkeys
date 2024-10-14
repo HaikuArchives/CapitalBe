@@ -1,4 +1,4 @@
-1	Norwegian	application/x-vnd.wgp-CapitalBe	4101502469
+1	Norwegian	application/x-vnd.wgp-CapitalBe	4060137602
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Denne kontoen har # planlagt transaksjon som vil bli fjernet.}other{Denne kontoen har # planlagte transaksjoner som vil bli fjernet.}}
 <No accounts>	MainWindow		<Ingen konti>
 About CapitalBe	MainWindow		Om CapitalBe
@@ -23,11 +23,15 @@ File	MainWindow		Fil
 Go to filter	MainWindow		Gå til filter
 Import	MainWindow		Importer
 Import from QIF file…	MainWindow		Importer QIF-fil…
+New ledger	MainWindow		Ny hovedbok
+New ledger…	MainWindow		Ny hovedbok…
 New…	MainWindow		Ny…
 Next	MainWindow		Neste
 Not enough accounts for a transfer	MainWindow		Ikke nok konti for overføring
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Når du er slettet, vil du ikke kunne få tilbake data på denne kontoen.
 Oops!	MainWindow		Oops!
+Open ledger	MainWindow		Åpne hovedbok
+Open…	MainWindow		Åpne…
 Previous	MainWindow		Forrige
 Quit	MainWindow		Avslutt
 Really delete account?	MainWindow		Virkelig slette kontoen?
@@ -226,6 +230,20 @@ Selected:	PrefWindow		Valgt:
 Settings	PrefWindow		Innstillinger
 Symbol:	PrefWindow		Symbol:
 Unselected:	PrefWindow		Ikke valgt:
+Cancel	App		Avbryt
+CapitalBe couldn't find the last open ledger at '%filename%'.\n	App		CapitalBe kunne ikke finne den siste åpne hovedboken på '%filename%'.\n
+CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe er en enkel applikasjon for å holde rede på din personlige økonomi.
+CapitalBe ledger	App	MIME type short description	CapitalBe hovedbok
+CapitalBe ledger containing accounts, transactions etc.	App	MIME type long description	CapitalBe hovedbok som inneholder kontoer, transaksjoner osv.
+CapitalBe: Create new ledger	App		CapitalBe: Opprett ny hovedbok
+CapitalBe: Open ledger	App		CapitalBe: Åpne hovedbok
+Create new ledger	App		Opprett ny hovedbok
+Distributed under the terms of the MIT License.	App		Distribuert under vilkårene i MIT -lisensen.
+OK	App		OK
+Open ledger	App		Åpne hovedbok
+The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n	App		Filen '%filename%' ser ikke ut til å være en hovedbok.\nEller den har ikke filtypen 'CapitalBe hovedbok'.\n
+The ledger '%filename%' appears to be already open.\nEntering data into the same ledger in parallel will probably lead to data loss.\n	App		Hovedboken '%filename%' ser ut til å være åpen allerede.\nÅ legge inn data i den samme hovedboken vil sannsynligvis føre til tap av data.
+Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n	App		Velkommen til CapitalBe!\n\nDet ser ikke ut til at det finnes en 'hovedbok' der alle kontoene og transaksjonene dine lagres. Du kan åpne en eksisterende hovedbok, eller opprette en ny.\n
 CapitalBe	System name		CapitalBe
 CapitalBe didn't understand the amount	TextInput		CapitalBe forsto ikke beløpet
 CapitalBe didn't understand the date you entered	TextInput		CapitalBe forsto ikke datoen du skrev inn
@@ -233,8 +251,6 @@ CapitalBe understands lots of different ways of entering dates. Apparently, this
 Payee is missing	TextInput		Betalingsmottaker mangler
 There may be a typo or the wrong kind of currency symbol for this account.	TextInput		Det kan være en skrivefeil eller feil type valutasymbol for denne kontoen.
 You need to enter a payee.	TextInput		Du må skrive inn en betalingsmottaker.
-CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe er en enkel applikasjon for å holde rede på din personlige økonomi.
-Distributed under the terms of the MIT License.	App		Distribuert under vilkårene i MIT -lisensen.
 Edit categories…	CategoryButton		Rediger kategorier…
 Edit transaction	TransactionEdit		Rediger transaksjon
 No memo	TransactionEdit		Uten notat

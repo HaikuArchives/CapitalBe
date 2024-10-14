@@ -1,4 +1,4 @@
-1	German	application/x-vnd.wgp-CapitalBe	4101502469
+1	German	application/x-vnd.wgp-CapitalBe	4060137602
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Für dieses Konto gibt es # terminierte Buchung, die entfernt würde.}other{Für dieses Konto gibt es # terminierte Buchungen, die entfernt würden.}}
 <No accounts>	MainWindow		<keine Konten>
 About CapitalBe	MainWindow		Über CapitalBe
@@ -23,11 +23,15 @@ File	MainWindow		Datei
 Go to filter	MainWindow		Gehe zur Filtereingabe
 Import	MainWindow		Importieren
 Import from QIF file…	MainWindow		Import aus QIF Datei …
+New ledger	MainWindow		Neues Kontobuch
+New ledger…	MainWindow		Neues Kontobuch …
 New…	MainWindow		Neu …
 Next	MainWindow		Weiter
 Not enough accounts for a transfer	MainWindow		Zu wenige Konten für eine Umbuchung
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Einmal gelöscht, können die Daten dieses Kontos nicht wiederhergestellt werden.
 Oops!	MainWindow		Oha!
+Open ledger	MainWindow		Kontobuch öffnen
+Open…	MainWindow		Öffnen…
 Previous	MainWindow		Zurück
 Quit	MainWindow		Beenden
 Really delete account?	MainWindow		Konto tatsächlich löschen?
@@ -226,6 +230,20 @@ Selected:	PrefWindow		Ausgewählt:
 Settings	PrefWindow		Einstellungen
 Symbol:	PrefWindow		Symbol:
 Unselected:	PrefWindow		Nicht ausgewählt:
+Cancel	App		Abbrechen
+CapitalBe couldn't find the last open ledger at '%filename%'.\n	App		CapitalBe konnte das zuletzt geöffnete Kontobuch unter  '%filename%' nicht finden.\n
+CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe ist ein einfaches Programm, um die persönlichen Finanzen im Auge zu behalten.
+CapitalBe ledger	App	MIME type short description	CapitalBe Kontobuch
+CapitalBe ledger containing accounts, transactions etc.	App	MIME type long description	CapitalBe Kontobuch mit allen Buchungen, Konten etc.
+CapitalBe: Create new ledger	App		CapitalBe: Neues Kontobuch
+CapitalBe: Open ledger	App		CapitalBe: Kontobuch öffnen
+Create new ledger	App		Neues Kontobuch erstellen
+Distributed under the terms of the MIT License.	App		Veröffentlicht unter der MIT Lizenz.
+OK	App		OK
+Open ledger	App		Kontobuch öffnen
+The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n	App		Die Datei '%filename%' scheint kein CapitalBe Kontobuch zu sein.\nOder es hat nicht den Dateityp 'CapitalBe Kontobuch'.\n
+The ledger '%filename%' appears to be already open.\nEntering data into the same ledger in parallel will probably lead to data loss.\n	App		Das Kontobuch '%filename%' scheint bereits geöffnet zu sein.\nGibt man Daten parallel in das gleiche Kontobuch ein kommt es fast zwangsläufig zu Datenverlust!\n
+Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n	App		Willkommen zu CapitalBe!\n\nEs scheint noch kein Kontobuch zu geben, in das alle Konten und Buchungen gespeichert werden. Ein schon existierendes Kontobuch kann geöffnet, oder ein neues Kontobuch erstellt werden.\n
 CapitalBe	System name		CapitalBe
 CapitalBe didn't understand the amount	TextInput		Der eingegebene Betrag kann nicht verarbeitet werden
 CapitalBe didn't understand the date you entered	TextInput		Das eingegebene Datum kann nicht verarbeitet werden
@@ -233,8 +251,6 @@ CapitalBe understands lots of different ways of entering dates. Apparently, this
 Payee is missing	TextInput		Empfänger fehlt
 There may be a typo or the wrong kind of currency symbol for this account.	TextInput		Es kann sich um einen Tippfehler oder ein falsches Währungssymbol für dieses Konto handeln.
 You need to enter a payee.	TextInput		Es muss ein Empfänger eingegeben werden.
-CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe ist ein einfaches Programm, um die persönlichen Finanzen im Auge zu behalten.
-Distributed under the terms of the MIT License.	App		Veröffentlicht unter der MIT Lizenz.
 Edit categories…	CategoryButton		Kategorien bearbeiten …
 Edit transaction	TransactionEdit		Buchung bearbeiten
 No memo	TransactionEdit		Keine Notiz

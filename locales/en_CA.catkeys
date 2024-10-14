@@ -1,4 +1,4 @@
-1	English (Canada)	application/x-vnd.wgp-CapitalBe	4101502469
+1	English (Canada)	application/x-vnd.wgp-CapitalBe	4060137602
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}
 <No accounts>	MainWindow		<No accounts>
 About CapitalBe	MainWindow		About CapitalBe
@@ -23,11 +23,15 @@ File	MainWindow		File
 Go to filter	MainWindow		Go to filter
 Import	MainWindow		Import
 Import from QIF file…	MainWindow		Import from QIF file…
+New ledger	MainWindow		New ledger
+New ledger…	MainWindow		New ledger…
 New…	MainWindow		New…
 Next	MainWindow		Next
 Not enough accounts for a transfer	MainWindow		Not enough accounts for a transfer
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Once deleted, you will not be able to get back any data on this account.
 Oops!	MainWindow		Oops!
+Open ledger	MainWindow		Open ledger
+Open…	MainWindow		Open…
 Previous	MainWindow		Previous
 Quit	MainWindow		Quit
 Really delete account?	MainWindow		Really delete account?
@@ -226,6 +230,20 @@ Selected:	PrefWindow		Selected:
 Settings	PrefWindow		Settings
 Symbol:	PrefWindow		Symbol:
 Unselected:	PrefWindow		Unselected:
+Cancel	App		Cancel
+CapitalBe couldn't find the last open ledger at '%filename%'.\n	App		CapitalBe couldn't find the last open ledger at '%filename%'.\n
+CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe is a simple application to keep track of your personal finances.
+CapitalBe ledger	App	MIME type short description	CapitalBe ledger
+CapitalBe ledger containing accounts, transactions etc.	App	MIME type long description	CapitalBe ledger containing accounts, transactions etc.
+CapitalBe: Create new ledger	App		CapitalBe: Create new ledger
+CapitalBe: Open ledger	App		CapitalBe: Open ledger
+Create new ledger	App		Create new ledger
+Distributed under the terms of the MIT License.	App		Distributed under the terms of the MIT License.
+OK	App		Alright
+Open ledger	App		Open ledger
+The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n	App		The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n
+The ledger '%filename%' appears to be already open.\nEntering data into the same ledger in parallel will probably lead to data loss.\n	App		The ledger '%filename%' appears to be already open.\nEntering data into the same ledger in parallel will probably lead to data loss.\n
+Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n	App		Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n
 CapitalBe	System name		CapitalBe
 CapitalBe didn't understand the amount	TextInput		CapitalBe didn't understand the amount
 CapitalBe didn't understand the date you entered	TextInput		CapitalBe didn't understand the date you entered
@@ -233,8 +251,6 @@ CapitalBe understands lots of different ways of entering dates. Apparently, this
 Payee is missing	TextInput		Payee is missing
 There may be a typo or the wrong kind of currency symbol for this account.	TextInput		There may be a typo or the wrong kind of currency symbol for this account.
 You need to enter a payee.	TextInput		You need to enter a payee.
-CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe is a simple application to keep track of your personal finances.
-Distributed under the terms of the MIT License.	App		Distributed under the terms of the MIT License.
 Edit categories…	CategoryButton		Edit categories…
 Edit transaction	TransactionEdit		Edit transaction
 No memo	TransactionEdit		No memo

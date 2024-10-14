@@ -1,4 +1,4 @@
-1	Friulian	application/x-vnd.wgp-CapitalBe	4101502469
+1	Friulian	application/x-vnd.wgp-CapitalBe	4060137602
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Chest cont al à # transazion programade che e vignarà gjavade.}other{Chest cont al à # transazions programadis che a vignaran gjavadis.}}
 <No accounts>	MainWindow		<Nissun cont>
 About CapitalBe	MainWindow		Informazions su CapitalBe
@@ -23,11 +23,15 @@ File	MainWindow		File
 Go to filter	MainWindow		Va al filtri
 Import	MainWindow		Impuarte
 Import from QIF file…	MainWindow		Impuarte di file QIF…
+New ledger	MainWindow		New ledger
+New ledger…	MainWindow		New ledger…
 New…	MainWindow		Gnûf…
 Next	MainWindow		Sucessîf
 Not enough accounts for a transfer	MainWindow		No vonde conts par un trasferiment
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Une volte eliminât, no tu rivarâs a recuperâ nissun dât di chest cont.
 Oops!	MainWindow		Orpo!
+Open ledger	MainWindow		Open ledger
+Open…	MainWindow		Vierç…
 Previous	MainWindow		Precedent
 Quit	MainWindow		Jes
 Really delete account?	MainWindow		Eliminâ pardabon il cont?
@@ -226,6 +230,20 @@ Selected:	PrefWindow		Selezionât:
 Settings	PrefWindow		Impostazions
 Symbol:	PrefWindow		Simbul:
 Unselected:	PrefWindow		Deselezionât:
+Cancel	App		Anule
+CapitalBe couldn't find the last open ledger at '%filename%'.\n	App		CapitalBe couldn't find the last open ledger at '%filename%'.\n
+CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe e je une semplice aplicazion par tignî di voli lis financis personâls.
+CapitalBe ledger	App	MIME type short description	CapitalBe ledger
+CapitalBe ledger containing accounts, transactions etc.	App	MIME type long description	CapitalBe ledger containing accounts, transactions etc.
+CapitalBe: Create new ledger	App		CapitalBe: Create new ledger
+CapitalBe: Open ledger	App		CapitalBe: Open ledger
+Create new ledger	App		Create new ledger
+Distributed under the terms of the MIT License.	App		Distribuît sot i tiermis de licence MIT.
+OK	App		Va ben
+Open ledger	App		Open ledger
+The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n	App		The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n
+The ledger '%filename%' appears to be already open.\nEntering data into the same ledger in parallel will probably lead to data loss.\n	App		The ledger '%filename%' appears to be already open.\nEntering data into the same ledger in parallel will probably lead to data loss.\n
+Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n	App		Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n
 CapitalBe	System name		CapitalBe
 CapitalBe didn't understand the amount	TextInput		CapitalBe nol è rivât a capî l'impuart
 CapitalBe didn't understand the date you entered	TextInput		CapitalBe nol è rivât a capî la date che tu âs inserît
@@ -233,8 +251,6 @@ CapitalBe understands lots of different ways of entering dates. Apparently, this
 Payee is missing	TextInput		Al mancje il beneficiari
 There may be a typo or the wrong kind of currency symbol for this account.	TextInput		Al podarès jessi un erôr di scriture o il gjenar sbaliât di simbul di valude par chest cont.
 You need to enter a payee.	TextInput		Tu âs di inserî un beneficiari.
-CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe e je une semplice aplicazion par tignî di voli lis financis personâls.
-Distributed under the terms of the MIT License.	App		Distribuît sot i tiermis de licence MIT.
 Edit categories…	CategoryButton		Modifiche categoriis…
 Edit transaction	TransactionEdit		Modifiche transazion
 No memo	TransactionEdit		Nissun pro memoria

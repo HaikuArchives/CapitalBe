@@ -1,4 +1,4 @@
-1	Spanish	application/x-vnd.wgp-CapitalBe	4101502469
+1	Spanish	application/x-vnd.wgp-CapitalBe	4060137602
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Esta cuenta tiene # movimiento programado que se eliminará.}other{Esta cuenta tiene # movimientos programados que se eliminarán.}}
 <No accounts>	MainWindow		<Sin cuentas>
 About CapitalBe	MainWindow		Acerca de CapitalBe
@@ -23,11 +23,15 @@ File	MainWindow		Archivo
 Go to filter	MainWindow		Ir a filtro
 Import	MainWindow		Importar
 Import from QIF file…	MainWindow		Importar desde archivo QIF…
+New ledger	MainWindow		Nuevo libro contable
+New ledger…	MainWindow		Nuevo libro contable…
 New…	MainWindow		Nueva…
 Next	MainWindow		Siguiente
 Not enough accounts for a transfer	MainWindow		No hay suficientes cuentas para realizar una transferencia
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Una vez eliminada, no podrá volver a acceder a ningún dato de esta cuenta.
 Oops!	MainWindow		¡Ups!
+Open ledger	MainWindow		Abrir libro contable
+Open…	MainWindow		Abrir…
 Previous	MainWindow		Anterior
 Quit	MainWindow		Salir
 Really delete account?	MainWindow		¿Desea eliminar la cuenta?
@@ -226,6 +230,20 @@ Selected:	PrefWindow		Seleccionado:
 Settings	PrefWindow		Configuración
 Symbol:	PrefWindow		Símbolo:
 Unselected:	PrefWindow		No seleccionado:
+Cancel	App		Cancelar
+CapitalBe couldn't find the last open ledger at '%filename%'.\n	App		CapitalBe no pudo encontrar el último libro contable abierto en '%filename%'.\n
+CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe es una sencilla aplicación para llevar el seguimiento de sus finanzas personales.
+CapitalBe ledger	App	MIME type short description	Libro contable de CapitalBe
+CapitalBe ledger containing accounts, transactions etc.	App	MIME type long description	Libro contable de CapitalBe integrado por cuentas, transacciones, etc.
+CapitalBe: Create new ledger	App		CapitalBe: Crear nuevo libro contable
+CapitalBe: Open ledger	App		CapitalBe: Abrir libro contable
+Create new ledger	App		Crear nuevo libro contable
+Distributed under the terms of the MIT License.	App		Distribuido bajo los términos de la licencia MIT.
+OK	App		Aceptar
+Open ledger	App		Abrir libro contable
+The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n	App		El archivo '%filename%' no parece ser un libro contable de CapitalBe.\nO no es del tipo de archivo «libro contable de CapitalBe».\n
+The ledger '%filename%' appears to be already open.\nEntering data into the same ledger in parallel will probably lead to data loss.\n	App		El libro contable '%filename%' parece estar ya abierto.\nIntroducir datos en el mismo libro contable en paralelo probablemente provocará la pérdida de datos.\n
+Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n	App		¡Bienvenido a CapitalBe! Parece que no hay un "libro contable" en el que se guarden todas sus cuentas y transacciones. Puede abrir un libro contable ya existente o crear uno nuevo.
 CapitalBe	System name		CapitalBe
 CapitalBe didn't understand the amount	TextInput		CapitalBe no puede comprender el importe
 CapitalBe didn't understand the date you entered	TextInput		CapitalBe no puede comprender la fecha que ha introducido
@@ -233,8 +251,6 @@ CapitalBe understands lots of different ways of entering dates. Apparently, this
 Payee is missing	TextInput		Falta el beneficiario
 There may be a typo or the wrong kind of currency symbol for this account.	TextInput		Puede haber un error tipográfico o el símbolo de la moneda para de esta cuenta.
 You need to enter a payee.	TextInput		Debe indicar un beneficiario.
-CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe es una sencilla aplicación para llevar el seguimiento de sus finanzas personales.
-Distributed under the terms of the MIT License.	App		Distribuido bajo los términos de la licencia MIT.
 Edit categories…	CategoryButton		Editar categorías…
 Edit transaction	TransactionEdit		Editar movimiento
 No memo	TransactionEdit		Sin nota

@@ -1,4 +1,4 @@
-1	Turkish	application/x-vnd.wgp-CapitalBe	4101502469
+1	Turkish	application/x-vnd.wgp-CapitalBe	4060137602
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Bu hesapta kaldırılacak # planlı işlem var.}other{Bu hesapta kaldırılacak # planlı işlem var.}}
 <No accounts>	MainWindow		<Hesap yok>
 About CapitalBe	MainWindow		CapitalBe hakkında
@@ -23,11 +23,15 @@ File	MainWindow		Dosya
 Go to filter	MainWindow		Süzgece git
 Import	MainWindow		İçe aktar
 Import from QIF file…	MainWindow		QIF dosyasından içe aktar…
+New ledger	MainWindow		Yeni defter
+New ledger…	MainWindow		Yeni defter…
 New…	MainWindow		Yeni…
 Next	MainWindow		Sonraki
 Not enough accounts for a transfer	MainWindow		Havale için yeterli hesap yok
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Sildikten sonra bu hesaptaki herhangi bir veriyi geri alamazsınız.
 Oops!	MainWindow		Ay!
+Open ledger	MainWindow		Defter aç
+Open…	MainWindow		Aç…
 Previous	MainWindow		Önceki
 Quit	MainWindow		Çık
 Really delete account?	MainWindow		Hesap gerçekten silinsin mi?
@@ -226,6 +230,20 @@ Selected:	PrefWindow		Seçili:
 Settings	PrefWindow		Ayarlar
 Symbol:	PrefWindow		Sembol:
 Unselected:	PrefWindow		Seçili değil:
+Cancel	App		Vazgeç
+CapitalBe couldn't find the last open ledger at '%filename%'.\n	App		CapitalBe, “%filename%” konumundaki son açılan defteri bulamadı.\n
+CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe, kişisel finansal durumunuzu izlemek için yapılmış yalın bir uygulamadır.
+CapitalBe ledger	App	MIME type short description	CapitalBe defteri
+CapitalBe ledger containing accounts, transactions etc.	App	MIME type long description	CapitalBe defterleri; hesapları, işlemleri ve benzeri ögeleri içerir.
+CapitalBe: Create new ledger	App		CapitalBe: Yeni defter oluştur
+CapitalBe: Open ledger	App		CapitalBe: Defter aç
+Create new ledger	App		Yeni defter oluştur
+Distributed under the terms of the MIT License.	App		MIT Lisansı hükümleri altında dağıtılır.
+OK	App		Tamam
+Open ledger	App		Defter aç
+The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n	App		“%filename%” dosyası bir CapitalBe defteri değil gibi görünüyor.\nBunun dışında, “CapitalBe defteri” dosya türüne sahip de olmayabilir.\n
+The ledger '%filename%' appears to be already open.\nEntering data into the same ledger in parallel will probably lead to data loss.\n	App		“%filename%” defteri halihazırda açık gibi görünüyor.\nAynı deftere başka bir örnekten paralel olarak veri girişi yapmak veri kaybına neden olabilir.\n
+Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n	App		CapitalBe’ye hoş geldiniz!\n\nHesaplarınızın ve işlemlerinizin içine kaydedildiği bir “defteriniz” yok gibi görünüyor. Var olan bir defteri açabilir veya yeni bir defter oluşturmak isteyebilirsiniz.\n
 CapitalBe	System name		CapitalBe
 CapitalBe didn't understand the amount	TextInput		CapitalBe tutarı anlamadı
 CapitalBe didn't understand the date you entered	TextInput		CapitalBe girdiğiniz tarihi anlamadı
@@ -233,8 +251,6 @@ CapitalBe understands lots of different ways of entering dates. Apparently, this
 Payee is missing	TextInput		Alacaklı eksik
 There may be a typo or the wrong kind of currency symbol for this account.	TextInput		Bu hesap için olan para birimi simgesi yanlış olabilir veya bir yazım yanlışı bulunabilir.
 You need to enter a payee.	TextInput		Bir alacaklı girmeniz gerekiyor.
-CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe, kişisel finansal durumunuzu izlemek için yapılmış yalın bir uygulamadır.
-Distributed under the terms of the MIT License.	App		MIT Lisansı hükümleri altında dağıtılır.
 Edit categories…	CategoryButton		Kategorileri düzenle…
 Edit transaction	TransactionEdit		İşlemi düzenle
 No memo	TransactionEdit		Not yok
