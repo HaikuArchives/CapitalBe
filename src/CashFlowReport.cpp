@@ -116,13 +116,13 @@ ReportWindow::_ComputeCashFlow()
 				account << "account_" << item->account->GetID();
 				commandBuffer.format(
 					"SELECT SUM(amount) from %s WHERE category = %Q AND amount > "
-					"0 AND date >= %li AND date < %li",
+					"0 AND date >= %" B_PRIdTIME " AND date < %" B_PRIdTIME,
 					account.String(), escaped.String(), subtotal_start, subtotal_end);
 				command << commandBuffer;
 
 				expcommandBuffer.format(
 					"SELECT SUM(amount) from %s WHERE category = %Q AND amount "
-					"< 0 AND date >= %li AND date < %li",
+					"< 0 AND date >= %" B_PRIdTIME " AND date < %" B_PRIdTIME,
 					account.String(), escaped.String(), subtotal_start, subtotal_end);
 				expcommand << expcommandBuffer;
 

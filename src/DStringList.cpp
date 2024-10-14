@@ -145,10 +145,10 @@ DStringList::PrintToStream()
 {
 	BString* str;
 
-	printf("DStringList: %ld items\n", fList.CountItems());
+	printf("DStringList: %" B_PRId32 " items\n", fList.CountItems());
 
 	for (int32 i = 0; i < fList.CountItems(); i++) {
 		str = ItemAt(i);
-		printf("%ld: %s\n", i, (str) ? str->String() : NULL);
+		printf("%" B_PRId32 ": %s\n", i, (str) ? str->String() : NULL);
 	}
 }

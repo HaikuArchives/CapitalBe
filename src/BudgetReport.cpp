@@ -186,7 +186,8 @@ ReportWindow::_ComputeBudget()
 		account << item->account->GetID();
 
 		bufSQL.format(
-			"SELECT date,amount FROM %s WHERE category = %Q AND date >= %li AND date < %li;",
+			"SELECT date,amount FROM %s WHERE category = %Q AND date >= %" B_PRIdTIME
+			" AND date < %" B_PRIdTIME ";",
 			account.String(), stringitem->Text(), fStartDate, fEndDate);
 		command << bufSQL;
 

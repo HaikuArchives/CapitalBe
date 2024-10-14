@@ -683,7 +683,7 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 
 	CppSQLite3Buffer bufSQL;
 	bufSQL.format(
-		"INSERT INTO transactionlist VALUES(%li, %i, %Q, %i);", timestamp, id, category, accountid);
+		"INSERT INTO transactionlist VALUES(%" B_PRIdBIGTIME ", %i, %Q, %i);", timestamp, id, category, accountid);
 	DBCommand(bufSQL, "Database::AddTransaction:insert into transactionlist");
 
 	BString _status, command;
@@ -696,7 +696,7 @@ Database::AddTransaction(const uint32& accountid, const uint32& id, const time_t
 	else
 		_status << "open";
 
-	bufSQL.format("INSERT INTO account_%i VALUES(%li, %i, %li, %Q, %Q, %li, %Q, %Q, %Q);",
+	bufSQL.format("INSERT INTO account_%i VALUES(%" B_PRIdBIGTIME ", %i, %" B_PRIdTIME ", %Q, %Q, %li, %Q, %Q, %Q);",
 		accountid, timestamp, id, date, type.Type(), payee, amount.AsFixed(), category, memo,
 		_status.String());
 
@@ -1210,7 +1210,7 @@ Database::_InsertSchedTransaction(const uint32& id, const uint32& accountid,
 	CppSQLite3Buffer bufSQL;
 	BString _memo = memo;
 	bufSQL.format(
-		"INSERT INTO scheduledlist VALUES(%ld, %u, %u, %ld, %Q, %Q, %ld, %Q, %Q, %u, %d, %ld, %i);",
+		"INSERT INTO scheduledlist VALUES(%" B_PRIdBIGTIME ", %u, %u, %" B_PRIdTIME ", %Q, %Q, %ld, %Q, %Q, %u, %d, %ld, %i);",
 		timestamp, accountid, id, startdate, type.Type(), payee, amount.AsFixed(), category,
 		_memo.String(), interval, count, nextdate, destination);
 	CppSQLite3Query query
@@ -1626,7 +1626,7 @@ Database::_DeescapeDatabase()
 		DBCommand(bufSQL, "Database::DeescapeDatabase:account names");
 
 		// Deescape transactions for current account
-		bufSQL.format("SELECT timestamp, payee, category, memo FROM account_%li", id);
+		bufSQL.format("SELECT timestamp, payee, category, memo FROM account_%" B_PRIu32, id);
 		transactionQuery = DBQuery(bufSQL, "Database::DeescapeDatabase:account data");
 		while (!transactionQuery.eof()) {
 			payee = DeescapeIllegalCharacters(transactionQuery.getStringField(1));
@@ -1634,8 +1634,8 @@ Database::_DeescapeDatabase()
 			memo = DeescapeIllegalCharacters(transactionQuery.getStringField(3));
 
 			bufSQL.format(
-				"UPDATE account_%li SET payee = %Q, category = %Q, memo = %Q"
-				"WHERE timestamp = %li;",
+				"UPDATE account_%" B_PRIu32 " SET payee = %Q, category = %Q, memo = %Q"
+				"WHERE timestamp = %" B_PRId64 ";",
 				id, payee.String(), category.String(), memo.String(),
 				transactionQuery.getInt64Field(0));
 			DBCommand(bufSQL, "Database::DeescapeDatabase:account details");
@@ -1643,12 +1643,12 @@ Database::_DeescapeDatabase()
 		}
 
 		// Deescape transactionlist
-		bufSQL.format("SELECT timestamp, category FROM account_%li", id);
+		bufSQL.format("SELECT timestamp, category FROM account_%" B_PRIu32, id);
 		transactionQuery = DBQuery(bufSQL, "Database::DeescapeDatabase:transactionlist");
 		while (!transactionQuery.eof()) {
 			category = DeescapeIllegalCharacters(transactionQuery.getStringField(1));
 
-			bufSQL.format("UPDATE transactionlist SET category = %Q WHERE timestamp = %li;",
+			bufSQL.format("UPDATE transactionlist SET category = %Q WHERE timestamp = %" B_PRId64 ";",
 				category.String(), transactionQuery.getInt64Field(0));
 			DBCommand(bufSQL, "Database::DeescapeDatabase:transactionlist");
 			transactionQuery.nextRow();

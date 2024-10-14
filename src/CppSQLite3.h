@@ -35,6 +35,9 @@
 
 #include <cstdio>
 #include <cstring>
+#include <inttypes.h>
+#define SQLITE_INT64_TYPE int64_t
+#define SQLITE_UINT64_TYPE uint64_t
 #include "sqlite3.h"
 
 #define CPPSQLITE_ERROR 1000
@@ -65,7 +68,7 @@ public:
 
 	~CppSQLite3Buffer();
 
-	const char* format(const char* szFormat, ...);
+	const char* format(const char* szFormat, ...) _PRINTFLIKE(2, 3);
 
 	operator const char*() { return mpBuf; }
 

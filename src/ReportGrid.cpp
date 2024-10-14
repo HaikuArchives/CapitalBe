@@ -140,7 +140,7 @@ ReportGrid::PrintToStream()
 		for (int32 i = 0; i < CountItems(); i++) {
 			ReportGrid::GridRecord* item = fList.ItemAt(i);
 
-			printf("Row %ld: %s ", i, item->Title());
+			printf("Row %" B_PRId32 ": %s ", i, item->Title());
 			for (uint32 j = 0; j < fWidth; j++) {
 				Fixed f;
 				item->ValueAt(j, f);
