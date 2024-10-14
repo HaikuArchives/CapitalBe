@@ -541,7 +541,8 @@ BudgetWindow::_GenerateBudget(const bool& zero)
 				Account* acc = gDatabase.AccountAt(j);
 				accountName = "account_";
 				accountName << acc->GetID();
-				bufSQL.format("SELECT SUM(amount) FROM %s WHERE category = %Q AND date > %" B_PRId32 ";",
+				bufSQL.format("SELECT SUM(amount) FROM %s WHERE category = %Q AND date > %" B_PRId32
+							  ";",
 					accountName.String(), income.RowTitle(i),
 					DecrementDateByYear(GetCurrentDate()));
 

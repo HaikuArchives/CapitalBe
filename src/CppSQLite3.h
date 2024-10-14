@@ -33,9 +33,9 @@
 #ifndef _CppSQLite3_H_
 #define _CppSQLite3_H_
 
+#include <inttypes.h>
 #include <cstdio>
 #include <cstring>
-#include <inttypes.h>
 #define SQLITE_INT64_TYPE int64_t
 #define SQLITE_UINT64_TYPE uint64_t
 #include "sqlite3.h"
