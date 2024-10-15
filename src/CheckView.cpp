@@ -127,7 +127,8 @@ CheckView::CheckView(const char* name, int32 flags)
 }
 
 
-CheckView::~CheckView() {
+CheckView::~CheckView()
+{
 	gDatabase.RemoveObserver(this);
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* account = gDatabase.AccountAt(i);
