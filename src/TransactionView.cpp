@@ -75,6 +75,16 @@ TransactionView::AttachedToWindow()
 
 
 void
+TransactionView::DetachedFromWindow()
+{
+	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
+		Account* account = gDatabase.AccountAt(i);
+		account->RemoveObserver(this);
+	}
+}
+
+
+void
 TransactionView::SetAccount(Account* acc, BMessage* msg)
 {
 	// We accept NULL pointers because sometimes we're given them

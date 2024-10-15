@@ -115,7 +115,13 @@ RegisterView::RegisterView(const char* name, int32 select)
 }
 // clang-format on
 
-RegisterView::~RegisterView() {}
+RegisterView::~RegisterView() {
+	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
+		Account* acc = gDatabase.AccountAt(i);
+		acc->RemoveObserver(this);
+	}
+	gDatabase.RemoveObserver(fCheckView);
+}
 
 
 void

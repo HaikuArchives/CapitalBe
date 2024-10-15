@@ -57,6 +57,7 @@ public:
 	~TransactionView();
 
 	void AttachedToWindow();
+	void DetachedFromWindow();
 
 	void SetAccount(Account* acc, BMessage* msg = NULL);
 	TransactionItem* AddTransaction(const TransactionData& trans, const int32& index = -1);
