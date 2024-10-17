@@ -122,6 +122,8 @@ RegisterView::~RegisterView()
 		acc->RemoveObserver(this);
 	}
 	gDatabase.RemoveObserver(fCheckView);
+	gDatabase.RemoveObserver(fTransactionView);
+	gDatabase.RemoveObserver(this);
 }
 
 
