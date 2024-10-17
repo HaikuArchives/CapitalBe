@@ -292,6 +292,8 @@ MainWindow::~MainWindow()
 	delete fOpenPanel;
 	delete fImportPanel;
 	delete fExportPanel;
+
+	gDatabase.RemoveObserver(this);
 }
 
 
