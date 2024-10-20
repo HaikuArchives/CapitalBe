@@ -248,6 +248,7 @@ ReadTransactions(Account* account, TextFile& file)
 				// funky: MM/DD/' F . F is an offset from the year 2000,
 				// so a line reading D1/23' 5 is 1/23/2005.
 				transdata.ReplaceFirst("' ", "/200");
+				transdata.ReplaceFirst("'", "/20");
 				if (gDefaultLocale.StringToDate(transdata.String() + 1, date) == B_OK)
 					data.SetDate(date);
 				break;
