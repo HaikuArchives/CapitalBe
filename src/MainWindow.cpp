@@ -762,21 +762,10 @@ MainWindow::Zoom(BPoint /*origin*/, float /*width*/, float /*height*/)
 BString
 MainWindow::_GenerateFileName()
 {
-	BString filename("%ledgerName%-%accountName%.qif");
+	BString filename("%ledgerName%.qif");
 
 	BPath path(fLastFile);
 	filename.ReplaceFirst("%ledgerName%", path.Leaf());
-
-	BString text;
-	BListView* accList = (BListView*)fRegisterView->FindView("AccountList");
-	if (accList != NULL) {
-		AccountListItem* accItem = (AccountListItem*)accList->ItemAt(accList->CurrentSelection());
-		if (accItem != NULL) {
-			Account account = *accItem->GetAccount();
-			text << account.Name();
-		}
-	}
-	filename.ReplaceFirst("%accountName%", text);
 
 	return filename;
 }
