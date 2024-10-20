@@ -125,8 +125,6 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 
 	BMenu* menu = new BMenu("");
 	menu->AddItem(new BMenuItem(
-		B_TRANSLATE("Categories" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_CATEGORY_WINDOW)));
-	menu->AddItem(new BMenuItem(
 		B_TRANSLATE("Settings" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_OPTIONS_WINDOW), ','));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem(B_TRANSLATE("Go to filter"), new BMessage(M_FOCUS_FILTER), 'F'));
@@ -147,8 +145,11 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 	iconMenu = new IconMenuItem(menu, NULL, kApplicationSignature, B_MINI_ICON);
 	bar->AddItem(iconMenu);
 
-	menu = new BMenu(B_TRANSLATE("File"));
+	menu = new BMenu(B_TRANSLATE("Ledger"));
 
+	menu->AddItem(new BMenuItem(
+		B_TRANSLATE("Categories" B_UTF8_ELLIPSIS), new BMessage(M_SHOW_CATEGORY_WINDOW)));
+	menu->AddSeparatorItem();
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("New ledger" B_UTF8_ELLIPSIS), new BMessage(M_FILE_NEW)));
 	BMenuItem* openItem

@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	4060137602
+1	English	application/x-vnd.wgp-CapitalBe	256720733
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -71,6 +71,7 @@ Do you really want to add this transaction without a category?\n\nEven then, you
 Spending	BudgetWindow		Spending
 Distributed under the terms of the MIT License.	App		Distributed under the terms of the MIT License.
 Uncategorized	CommonTerms		Uncategorized
+Ledger	MainWindow		Ledger
 Transfer	CommonTerms		Transfer
 Reopen	MainWindow		Reopen
 Clear filter	MainWindow		Clear filter
@@ -218,7 +219,6 @@ Balance	MainWindow		Balance
 Categories:	ReportWindow		Categories:
 Budget category: %category%	BudgetWindow		Budget category: %category%
 Export	MainWindow		Export
-File	MainWindow		File
 Enter a transfer…	MainWindow		Enter a transfer…
 Tools	MainWindow		Tools
 This month	FilterView		This month
