@@ -21,6 +21,7 @@
 
 #include <Catalog.h>
 #include <File.h>
+#include <StringList.h>
 #include <TypeConstants.h>
 
 #include <stdio.h>
@@ -55,6 +56,7 @@ BString ReadTransactions(Account* account, TextFile& file);
 BString ReadAccounts(BObjectList<Account>& list, TextFile& file);
 
 BString DateToQIFDate(const time_t& date);
+time_t QIFDateToDate(const BString& date);
 BString MakeCategoryString(const DStringList& list, const bool& isexpense);
 
 
@@ -247,10 +249,10 @@ ReadTransactions(Account* account, TextFile& file)
 				// StringToDate - MM/DD/YY. The other is downright
 				// funky: MM/DD/' F . F is an offset from the year 2000,
 				// so a line reading D1/23' 5 is 1/23/2005.
+				transdata.RemoveFirst("D");
 				transdata.ReplaceFirst("' ", "/200");
 				transdata.ReplaceFirst("'", "/20");
-				if (gDefaultLocale.StringToDate(transdata.String() + 1, date) == B_OK)
-					data.SetDate(date);
+				data.SetDate(QIFDateToDate(transdata));
 				break;
 			}
 			case 'C':
@@ -435,7 +437,6 @@ ExportQIF(const entry_ref& ref)
 			text << "L" << query.getStringField(6) << "\n^\n";
 			query.nextRow();
 		}
-
 		file.Write(text.String(), text.CountChars());
 		text = "";
 	}
@@ -473,6 +474,21 @@ DateToQIFDate(const time_t& date)
 	}
 
 	return qifdate;
+}
+
+
+time_t
+QIFDateToDate(const BString& date)
+{
+	BStringList list;
+	date.Split("/", true, list);
+
+	struct tm* timestruct;
+	timestruct->tm_mon = atoi(list.StringAt(0)) - 1;
+	timestruct->tm_mday = atoi(list.StringAt(1));
+	timestruct->tm_year = atoi(list.StringAt(2)) - 1900;
+
+	return mktime(timestruct);
 }
 
 
