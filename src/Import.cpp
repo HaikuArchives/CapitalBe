@@ -365,7 +365,7 @@ ReadTransactions(Account* account, TextFile& file)
 bool
 ExportQIF(const entry_ref& ref)
 {
-	BFile file(&ref, B_CREATE_FILE | B_READ_WRITE | B_FAIL_IF_EXISTS);
+	BFile file(&ref, B_CREATE_FILE | B_READ_WRITE);
 	if (file.InitCheck() != B_OK)
 		return false;
 
@@ -393,7 +393,7 @@ ExportQIF(const entry_ref& ref)
 	text << MakeCategoryString(expenselist, true);
 
 	if (text.CountChars() > 0)
-		file.Write(text.String(), text.CountChars());
+		file.Write(text.String(), text.Length());
 	text = "";
 
 	// Export account list
@@ -403,7 +403,7 @@ ExportQIF(const entry_ref& ref)
 		text << "N" << account->Name() << "\nBank\n^\n";
 	}
 
-	file.Write(text.String(), text.CountChars());
+	file.Write(text.String(), text.Length());
 	text = "";
 
 	// Export accounts
@@ -437,7 +437,7 @@ ExportQIF(const entry_ref& ref)
 			text << "L" << query.getStringField(6) << "\n^\n";
 			query.nextRow();
 		}
-		file.Write(text.String(), text.CountChars());
+		file.Write(text.String(), text.Length());
 		text = "";
 	}
 	query.finalize();
