@@ -483,7 +483,8 @@ QIFDateToDate(const BString& date)
 	BStringList list;
 	date.Split("/", true, list);
 
-	struct tm* timestruct;
+	time_t time = ::time(NULL);
+	struct tm* timestruct = localtime(&time);
 	timestruct->tm_mon = atoi(list.StringAt(0)) - 1;
 	timestruct->tm_mday = atoi(list.StringAt(1));
 	timestruct->tm_year = atoi(list.StringAt(2)) - 1900;
