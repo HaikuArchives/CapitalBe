@@ -1,3 +1,18 @@
+v2.2
+
+* Introduce "ledgers" to separate bookkeeping for multiple persons/projects
+* Keep a list of recent ledgers in "Open ledger…" submenu
+* Added "CapitalBe ledger" MIME type
+* Allow double-clicking and drag&drop of "CapitalBe ledger" files
+* Rename "File" to "Ledger" menu and move "Categories" to there
+* Let the Zoom button maximize the window vertically
+* Still allow transaction dates of the future, but mark them "invalid"
+* Fix QIF im/export
+* Bugfixes
+* Updated documentation
+* Updated translations
+
+
 v2.1
 
 * Layout improvements for the Budget window
