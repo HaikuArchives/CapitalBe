@@ -308,7 +308,7 @@ SplitView::MessageReceived(BMessage* msg)
 			msg->FindInt32("start", &start);
 			msg->FindString("string", &string);
 			fPayee->SetText(string.String());
-			fPayee->TextView()->Select(start, string.CountChars());
+			fPayee->TextView()->Select(start, string.Length());
 			break;
 		}
 		case M_CATEGORY_AUTOCOMPLETE:
@@ -317,10 +317,10 @@ SplitView::MessageReceived(BMessage* msg)
 			msg->FindString("string", &string);
 			if (fSplitContainer->IsHidden()) {
 				fCategory->SetText(string.String());
-				fCategory->TextView()->Select(start, string.CountChars());
+				fCategory->TextView()->Select(start, string.Length());
 			} else {
 				fSplitCategory->SetText(string.String());
-				fSplitCategory->TextView()->Select(start, string.CountChars());
+				fSplitCategory->TextView()->Select(start, string.Length());
 			}
 			break;
 		}

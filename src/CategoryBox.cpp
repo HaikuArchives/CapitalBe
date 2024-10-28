@@ -61,6 +61,7 @@ CategoryBoxFilter::KeyFilter(const int32& key, const int32& mod)
 		TextControl()->TextView()->Delete(start, end);
 		BString string = "";
 		GetCurrentMessage()->FindString("bytes", &string);
+		int32 charLength = string.Length();
 
 		string.Prepend(TextControl()->Text());
 
@@ -69,7 +70,7 @@ CategoryBoxFilter::KeyFilter(const int32& key, const int32& mod)
 			autocomplete = string;
 
 		BMessage automsg(M_CATEGORY_AUTOCOMPLETE);
-		automsg.AddInt32("start", strlen(TextControl()->Text()) + 1);
+		automsg.AddInt32("start", strlen(TextControl()->Text()) + charLength);
 		automsg.AddString("string", autocomplete.String());
 		SendMessage(&automsg);
 	}

@@ -162,7 +162,7 @@ CheckView::MessageReceived(BMessage* msg)
 			msg->FindInt32("start", &start);
 			msg->FindString("string", &string);
 			fPayee->SetText(string.String());
-			fPayee->TextView()->Select(start, string.CountChars());
+			fPayee->TextView()->Select(start, string.Length());
 			break;
 		}
 		case M_CATEGORY_AUTOCOMPLETE:
@@ -170,7 +170,7 @@ CheckView::MessageReceived(BMessage* msg)
 			msg->FindInt32("start", &start);
 			msg->FindString("string", &string);
 			fCategory->SetText(string.String());
-			fCategory->TextView()->Select(start, string.CountChars() + 2);
+			fCategory->TextView()->Select(start, string.Length());
 			break;
 		}
 
