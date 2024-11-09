@@ -407,10 +407,9 @@ ExportQIF(const entry_ref& ref)
 	text = "";
 
 	// Export accounts
-	text << "!Account\n";
 	for (int32 i = 0; i < gDatabase.CountAccounts(); i++) {
 		Account* account = gDatabase.AccountAt(i);
-		text << "N" << account->Name() << "\nTBank\n^\n!Type:Bank\n";
+		text << "!Account\n" << "N" << account->Name() << "\nTBank\n^\n!Type:Bank\n";
 
 		command = "SELECT * FROM account_";
 		command << account->GetID() << " ORDER BY date;";
