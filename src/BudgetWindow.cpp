@@ -329,6 +329,10 @@ BudgetWindow::_RefreshCategories()
 	float maxwidth = fCategoryList->StringWidth("Category");
 	while (!query.eof()) {
 		BString cat = query.getStringField(0);
+		if (cat == B_TRANSLATE_CONTEXT("Opening balance", "CommonTerms")) {
+			query.nextRow();
+			continue;
+		}
 		Fixed amount;
 		amount.SetPremultiplied(query.getInt64Field(1));
 		BudgetPeriod period = (BudgetPeriod)query.getIntField(2);

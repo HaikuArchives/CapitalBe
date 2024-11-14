@@ -183,7 +183,7 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 			// Opening balance date and amount not empty, create opening trnsaction.
 			if (strlen(fOpeningAmount->Text()) > 0 && strlen(fOpeningDate->Text()) > 0) {
 				fOpeningTransaction.Set(fAccount, fOpeningDate->Text(), "DEP", NULL,
-				fOpeningAmount->Text(), B_TRANSLATE("Opening balance"), NULL,
+				fOpeningAmount->Text(), B_TRANSLATE_CONTEXT("Opening balance", "CommonTerms"), NULL,
 				fOpeningTransaction.Status());
 				try {
 					gDatabase.RemoveTransaction(fOpeningTransaction.GetID());
@@ -230,7 +230,7 @@ AccountSettingsWindow::_GetOpeningTransaction()
 	BString category;
 	CppSQLite3Buffer sqlBuf;
 
-	category << "%" << B_TRANSLATE("Opening balance") << "%";
+	category << "%" << B_TRANSLATE_CONTEXT("Opening balance", "CommonTerms") << "%";
 	sqlBuf.format("%Q", category.String());	 // Make sure the string is escaped
 
 	command << "SELECT * FROM account_" << fAccount->GetID() << " WHERE"

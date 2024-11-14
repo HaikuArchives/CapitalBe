@@ -484,7 +484,8 @@ ReportWindow::_AddAccount(Account* acc)
 
 	while (!query.eof()) {
 		BString catstr = query.getStringField(0);
-		if (catstr.CountChars() < 1) {
+		if (catstr.CountChars() < 1
+			|| catstr == B_TRANSLATE_CONTEXT("Opening balance", "CommonTerms")) {
 			query.nextRow();
 			continue;
 		}
