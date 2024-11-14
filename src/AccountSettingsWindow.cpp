@@ -17,19 +17,23 @@
 #include <MessageFilter.h>
 
 #include "AutoTextControl.h"
+#include "CalendarButton.h"
 #include "CBLocale.h"
 #include "Database.h"
 #include "Help.h"
+#include "MsgDefs.h"
 #include "PrefWindow.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "Account"
 
-
-#define M_EDIT_ACCOUNT_SETTINGS 'east'
-#define M_NAME_CHANGED 'nmch'
-#define M_TOGGLE_USE_DEFAULT 'tgud'
-
+// clang-format off
+enum {
+	M_EDIT_ACCOUNT_SETTINGS = 'east',
+	M_DATA_CHANGED = 'dtch',
+	M_TOGGLE_USE_DEFAULT = 'tgud'
+};
+// clang-format on
 
 AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	: BWindow(BRect(0, 0, 1, 1), B_TRANSLATE("Account settings"), B_FLOATING_WINDOW_LOOK,
@@ -41,12 +45,35 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
+	bool foundOpeningTransaction = false;
+
 	if (fAccount == NULL)
 		SetTitle(B_TRANSLATE("New account"));
+	else
+		foundOpeningTransaction = _GetOpeningTransaction();
 
 	fAccountName = new AutoTextControl("accname", B_TRANSLATE("Name:"),
-		(fAccount ? fAccount->Name() : NULL), new BMessage(M_NAME_CHANGED));
+		(fAccount ? fAccount->Name() : NULL), new BMessage(M_DATA_CHANGED));
 	fAccountName->SetCharacterLimit(32);
+	fAccountName->TextView()->SetExplicitMinSize(
+		BSize(be_plain_font->StringWidth("QuiteALongAccountName"),
+		B_SIZE_UNSET));
+
+	fOpeningDate = new DateBox("opendate", "", NULL, new BMessage(M_DATA_CHANGED));
+	CalendarButton* calendarButton = new CalendarButton(fOpeningDate);
+
+	fOpeningAmount = new CurrencyBox("openamount", B_TRANSLATE("Opening balance:"), "",
+		new BMessage(M_DATA_CHANGED));
+
+	if (foundOpeningTransaction) {
+		fOpeningDate->SetDate(fOpeningTransaction.Date());
+		fOpeningDate->Validate();
+		BString tempstr;
+		gCurrentLocale.CurrencyToString((fOpeningTransaction.Amount() < 0)
+			? fOpeningTransaction.Amount().InvertAsCopy()
+			: fOpeningTransaction.Amount(), tempstr);
+		fOpeningAmount->SetText(tempstr.String());
+	}
 
 	fUseDefault = new BCheckBox("usedefault", B_TRANSLATE("Use system currency format"),
 		new BMessage(M_TOGGLE_USE_DEFAULT));
@@ -74,10 +101,24 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 		fPrefView->Hide();
 
 	// clang-format off
+	BView* calendarWidget = new BView("calendarwidget", B_WILL_DRAW);
+	BLayoutBuilder::Group<>(calendarWidget, B_HORIZONTAL, -2)
+		.Add(fOpeningDate)
+		.Add(calendarButton)
+		.End();
+
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(B_USE_DEFAULT_SPACING)
+		.AddGrid(B_USE_HALF_ITEM_SPACING)
+			.Add(fAccountName->CreateLabelLayoutItem(), 0, 0)
+			.Add(fAccountName->CreateTextViewLayoutItem(), 1, 0)
+			.Add(new BStringView(NULL, B_TRANSLATE("Opening date:")), 0, 1)
+			.Add(calendarWidget, 1, 1)
+			.Add(fOpeningAmount->CreateLabelLayoutItem(), 0, 2)
+			.Add(fOpeningAmount->CreateTextViewLayoutItem(), 1, 2)
+			.End()
+		.AddStrut(B_USE_HALF_ITEM_SPACING)
 		.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING)
-			.Add(fAccountName)
 			.Add(fUseDefault)
 			.Add(fPrefView)
 			.End()
@@ -100,8 +141,28 @@ void
 AccountSettingsWindow::MessageReceived(BMessage* msg)
 {
 	switch (msg->what) {
+		case M_PREVIOUS_FIELD:
+		{
+			if (fOpeningDate->ChildAt(0)->IsFocus())
+				fAccountName->MakeFocus(true);
+			else if (fOpeningAmount->ChildAt(0)->IsFocus())
+				fOpeningDate->MakeFocus(true);
+			break;
+		}
+		case M_NEXT_FIELD:
+		{
+			if (fOpeningDate->ChildAt(0)->IsFocus())
+				fOpeningAmount->MakeFocus(true);
+			else if (fOpeningAmount->ChildAt(0)->IsFocus())
+				fUseDefault->MakeFocus(true);
+			break;
+		}
 		case M_EDIT_ACCOUNT_SETTINGS:
 		{
+			_UpdateStates();
+			if (!fOK->IsEnabled())
+				break;
+
 			Locale customLocale;
 			fPrefView->GetSettings(customLocale);
 
@@ -115,8 +176,22 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 				if (fUseDefault->Value() != B_CONTROL_ON) {
 					fAccount->UseDefaultLocale(false);
 					fAccount->SetLocale(customLocale);
-				} else {
+				} else
 					fAccount->UseDefaultLocale(true);
+			}
+
+			// Opening balance date and amount not empty, create opening trnsaction.
+			if (strlen(fOpeningAmount->Text()) > 0 && strlen(fOpeningDate->Text()) > 0) {
+				fOpeningTransaction.Set(fAccount, fOpeningDate->Text(), "DEP", NULL,
+				fOpeningAmount->Text(), B_TRANSLATE("Opening balance"), NULL,
+				fOpeningTransaction.Status());
+				try {
+					gDatabase.RemoveTransaction(fOpeningTransaction.GetID());
+
+					// This adds the transaction data without generating a new transaction id
+					gDatabase.AddTransaction(fOpeningTransaction, false);
+				} catch (CppSQLite3Exception& e) {
+					debugger(e.errorMessage());
 				}
 			}
 
@@ -134,13 +209,9 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 
 			break;
 		}
-		case M_NAME_CHANGED:
+		case M_DATA_CHANGED:
 		{
-			if (strlen(fAccountName->Text()) < 1)
-				fOK->SetEnabled(false);
-			else
-				fOK->SetEnabled(true);
-
+			_UpdateStates();
 			break;
 		}
 		default:
@@ -149,4 +220,79 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 			break;
 		}
 	}
+}
+
+
+bool
+AccountSettingsWindow::_GetOpeningTransaction()
+{
+	BString command;
+	BString category;
+	CppSQLite3Buffer sqlBuf;
+
+	category << "%" << B_TRANSLATE("Opening balance") << "%";
+	sqlBuf.format("%Q", category.String());	 // Make sure the string is escaped
+
+	command << "SELECT * FROM account_" << fAccount->GetID() << " WHERE"
+		<< " LOWER(category) LIKE LOWER(" << sqlBuf << ")" << " ORDER BY date, payee;";
+
+	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Find opening transaction");
+
+	bool found = false;
+	uint32 currentid = 0, newid = 0;
+	if (!query.eof()) {
+		found = true;
+		currentid = query.getIntField(1);
+		newid = query.getIntField(1);
+		fOpeningTransaction.SetID(currentid);
+		fOpeningTransaction.SetDate(atol(query.getStringField(2)));
+		fOpeningTransaction.SetType(query.getStringField(3));
+		fOpeningTransaction.SetPayee(query.getStringField(4));
+		fOpeningTransaction.SetAccount(fAccount);
+
+		Fixed f;
+		f.SetPremultiplied(atol(query.getStringField(5)));
+		fOpeningTransaction.AddCategory(query.getStringField(6), f, true);
+
+		if (!query.fieldIsNull(7))
+			fOpeningTransaction.SetMemoAt(fOpeningTransaction.CountCategories() - 1, query.getStringField(7));
+
+		BString status = query.getStringField(8);
+		if (status.ICompare("Reconciled") == 0)
+			fOpeningTransaction.SetStatus(TRANS_RECONCILED);
+		else if (status.ICompare("Cleared") == 0)
+			fOpeningTransaction.SetStatus(TRANS_CLEARED);
+		else
+			fOpeningTransaction.SetStatus(TRANS_OPEN);
+
+		// query.nextRow();
+	}
+	return found;
+}
+
+
+void
+AccountSettingsWindow::_UpdateStates()
+{
+	bool nameEmpty = strlen(fAccountName->Text()) < 1;
+	bool dateEmpty = strlen(fOpeningDate->Text()) < 1;
+	bool amountEmpty = strlen(fOpeningAmount->Text()) < 1;
+
+	fAccountName->MarkAsInvalid(nameEmpty);
+
+	if (!dateEmpty)
+		fOpeningDate->Validate();
+
+	if (!amountEmpty)
+		fOpeningAmount->Validate();
+
+	if (dateEmpty && amountEmpty) {
+		fOpeningDate->MarkAsInvalid(false);
+		fOpeningAmount->MarkAsInvalid(false);
+	} else {
+		fOpeningDate->MarkAsInvalid(dateEmpty);
+		fOpeningAmount->MarkAsInvalid(amountEmpty);
+	}
+
+	fOK->SetEnabled(!nameEmpty & !(dateEmpty ^ amountEmpty));
 }

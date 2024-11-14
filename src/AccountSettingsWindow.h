@@ -13,7 +13,11 @@
 #include <CheckBox.h>
 #include <View.h>
 #include <Window.h>
+
+#include "CurrencyBox.h"
+#include "DateBox.h"
 #include "Fixed.h"
+#include "TransactionData.h"
 
 class AutoTextControl;
 class CurrencyPrefView;
@@ -27,10 +31,16 @@ public:
 private:
 	friend class NewAccountFilter;
 
+	bool _GetOpeningTransaction();
+	void _UpdateStates();
+
 	AutoTextControl* fAccountName;
+	DateBox* fOpeningDate;
+	CurrencyBox* fOpeningAmount;
 	BButton* fOK;
 	CurrencyPrefView* fPrefView;
 	Account* fAccount;
+	TransactionData fOpeningTransaction;
 	BCheckBox* fUseDefault;
 };
 

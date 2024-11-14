@@ -585,6 +585,17 @@ MainWindow::MessageReceived(BMessage* msg)
 
 			TransactionData data;
 			gDatabase.GetTransaction(acc->CurrentTransaction(), acc->GetID(), data);
+
+			// If category is empty it's the initial balance transaction.
+			// Edit in account settings.
+			BString category = data.NameAt(0);
+			if (category == B_TRANSLATE("Opening balance")) {
+				AccountSettingsWindow* accwin = new AccountSettingsWindow(acc);
+				accwin->CenterIn(Frame());
+				accwin->Show();
+				break;
+			}
+
 			TransactionEditWindow* transwin = new TransactionEditWindow(data);
 			transwin->CenterIn(Frame());
 			transwin->Show();
