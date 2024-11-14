@@ -169,6 +169,7 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 			if (!fAccount) {
 				gDatabase.AddAccount(fAccountName->Text(), ACCOUNT_BANK, "Open",
 					fUseDefault->Value() == B_CONTROL_ON ? NULL : &customLocale);
+				fAccount = gDatabase.AccountByName(fAccountName->Text());
 			} else {
 				if (strcmp(fAccountName->Text(), fAccount->Name()) != 0)
 					gDatabase.RenameAccount(fAccount, fAccountName->Text());
@@ -264,8 +265,6 @@ AccountSettingsWindow::_GetOpeningTransaction()
 			fOpeningTransaction.SetStatus(TRANS_CLEARED);
 		else
 			fOpeningTransaction.SetStatus(TRANS_OPEN);
-
-		// query.nextRow();
 	}
 	return found;
 }
