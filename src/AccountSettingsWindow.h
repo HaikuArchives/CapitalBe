@@ -37,6 +37,7 @@ private:
 	AutoTextControl* fAccountName;
 	DateBox* fOpeningDate;
 	CurrencyBox* fOpeningAmount;
+	BButton* fNegativeButton;
 	BButton* fOK;
 	CurrencyPrefView* fPrefView;
 	Account* fAccount;

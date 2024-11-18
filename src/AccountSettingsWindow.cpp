@@ -23,6 +23,7 @@
 #include "Help.h"
 #include "MsgDefs.h"
 #include "PrefWindow.h"
+#include "Preferences.h"
 
 #undef B_TRANSLATION_CONTEXT
 #define B_TRANSLATION_CONTEXT "Account"
@@ -31,6 +32,7 @@
 enum {
 	M_EDIT_ACCOUNT_SETTINGS = 'east',
 	M_DATA_CHANGED = 'dtch',
+	M_NEGATIVE_AMOUNT = 'nega',
 	M_TOGGLE_USE_DEFAULT = 'tgud'
 };
 // clang-format on
@@ -59,20 +61,32 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 		BSize(be_plain_font->StringWidth("QuiteALongAccountName"),
 		B_SIZE_UNSET));
 
-	fOpeningDate = new DateBox("opendate", "", NULL, new BMessage(M_DATA_CHANGED));
+	fOpeningDate = new DateBox("opendate", NULL, NULL, new BMessage(M_DATA_CHANGED));
 	CalendarButton* calendarButton = new CalendarButton(fOpeningDate);
 
-	fOpeningAmount = new CurrencyBox("openamount", B_TRANSLATE("Opening balance:"), "",
-		new BMessage(M_DATA_CHANGED));
+	fOpeningAmount = new CurrencyBox("openamount", NULL, NULL, new BMessage(M_DATA_CHANGED));
+
+	fNegativeButton = new BButton("\xcc\xb5", new BMessage(M_NEGATIVE_AMOUNT));
+	fNegativeButton->SetBehavior(BButton::B_TOGGLE_BEHAVIOR);
+	fNegativeButton->SetToolTip(B_TRANSLATE("Use a negative opening balance."));
+	float height;
+	fOpeningAmount->GetPreferredSize(NULL, &height);
+	BSize size(height - 2, height);
+	fNegativeButton->SetExplicitSize(size);
 
 	if (foundOpeningTransaction) {
 		fOpeningDate->SetDate(fOpeningTransaction.Date());
 		fOpeningDate->Validate();
 		BString tempstr;
-		gCurrentLocale.CurrencyToString((fOpeningTransaction.Amount() < 0)
+		bool negative = fOpeningTransaction.Amount() < 0;
+		gCurrentLocale.CurrencyToString(negative
 			? fOpeningTransaction.Amount().InvertAsCopy()
 			: fOpeningTransaction.Amount(), tempstr);
 		fOpeningAmount->SetText(tempstr.String());
+		if (negative) {
+			fNegativeButton->SetValue(B_CONTROL_ON);
+			PostMessage(M_NEGATIVE_AMOUNT);
+		}
 	}
 
 	fUseDefault = new BCheckBox("usedefault", B_TRANSLATE("Use system currency format"),
@@ -107,17 +121,22 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 		.Add(calendarButton)
 		.End();
 
+	BView* amountWidget = new BView("amountwidget", B_WILL_DRAW);
+	BLayoutBuilder::Group<>(amountWidget, B_HORIZONTAL, -2)
+		.Add(fOpeningAmount)
+		.Add(fNegativeButton)
+		.End();
+
 	BLayoutBuilder::Group<>(this, B_VERTICAL, B_USE_DEFAULT_SPACING)
 		.SetInsets(B_USE_DEFAULT_SPACING)
-		.AddGrid(B_USE_HALF_ITEM_SPACING)
+		.AddGrid(B_USE_SMALL_SPACING)
 			.Add(fAccountName->CreateLabelLayoutItem(), 0, 0)
 			.Add(fAccountName->CreateTextViewLayoutItem(), 1, 0)
 			.Add(new BStringView(NULL, B_TRANSLATE("Opening date:")), 0, 1)
 			.Add(calendarWidget, 1, 1)
-			.Add(fOpeningAmount->CreateLabelLayoutItem(), 0, 2)
-			.Add(fOpeningAmount->CreateTextViewLayoutItem(), 1, 2)
+			.Add(new BStringView(NULL, B_TRANSLATE("Opening balance:")), 0, 2)
+			.Add(amountWidget, 1, 2)
 			.End()
-		.AddStrut(B_USE_HALF_ITEM_SPACING)
 		.AddGroup(B_VERTICAL, B_USE_DEFAULT_SPACING)
 			.Add(fUseDefault)
 			.Add(fPrefView)
@@ -183,7 +202,8 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 
 			// Opening balance date and amount not empty, create opening trnsaction.
 			if (strlen(fOpeningAmount->Text()) > 0 && strlen(fOpeningDate->Text()) > 0) {
-				fOpeningTransaction.Set(fAccount, fOpeningDate->Text(), "DEP", NULL,
+				const char* type = fNegativeButton->Value() == B_CONTROL_OFF ? "DEP" : "ATM";
+				fOpeningTransaction.Set(fAccount, fOpeningDate->Text(), type, NULL,
 				fOpeningAmount->Text(), B_TRANSLATE_CONTEXT("Opening balance", "CommonTerms"), NULL,
 				fOpeningTransaction.Status());
 				try {
@@ -213,6 +233,13 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 		case M_DATA_CHANGED:
 		{
 			_UpdateStates();
+			break;
+		}
+		case M_NEGATIVE_AMOUNT:
+		{
+			rgb_color color = fNegativeButton->Value() == B_CONTROL_OFF
+				? ui_color(B_CONTROL_TEXT_COLOR) : gNegativeColor;
+			fOpeningAmount->TextView()->SetFontAndColor(be_plain_font, B_FONT_ALL, &color);
 			break;
 		}
 		default:
