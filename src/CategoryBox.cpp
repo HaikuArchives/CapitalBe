@@ -127,6 +127,7 @@ CategoryBox::Validate()
 
 	SetText(category);
 	bool success = _SetTypeFromCategory(category);
+
 	return success;
 }
 
@@ -155,7 +156,7 @@ CategoryBox::_SetTypeFromCategory(BString category)
 		&& category.ICompare(B_TRANSLATE_ALL(
 			   "Split", "CommonTerms", "The noun 'split', as in 'a split-category'"))
 			   != 0) {
-		bool success = _AddNewCategory(category);
+		success = _AddNewCategory(category);
 	}
 
 	return success;
