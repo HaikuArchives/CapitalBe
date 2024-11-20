@@ -118,7 +118,7 @@ CategoryBox::Validate()
 	if (IsInternalCategory(category.String())) {
 		ShowAlert(B_TRANSLATE("Can't use this category name"),
 			B_TRANSLATE(
-				"CapitalBe uses 'Income', 'Opening balance', 'Expenses', 'Split', 'Transfer', "
+				"CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', "
 				"and 'Uncategorized' for managing accounts, so you can't use them as category "
 				"names.\n\n"
 				"Please choose a different name for your new category."));

@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	3009550524
+1	English	application/x-vnd.wgp-CapitalBe	1317338280
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -17,13 +17,13 @@ Enter	CheckView		Enter
 This really shouldn't happen, so you probably should report a bug for this.	MainWindow		This really shouldn't happen, so you probably should report a bug for this.
 Remove…	CategoryWindow		Remove…
 Next	MainWindow		Next
+CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.
 Cancel	CategoryWindow		Cancel
 Transfer from '%%PAYEE%%'	MainWindow		Transfer from '%%PAYEE%%'
 You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow		You need to enter the date for the statement to 'Quick balance'.
 Repeats	ScheduleListWindow		Repeats
 Cancel	ScheduleAddWindow		Cancel
 Account total	MainWindow		Account total
-CapitalBe uses 'Income', 'Opening balance', 'Expenses', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe uses 'Income', 'Opening balance', 'Expenses', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.
 Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n	App		Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n
 CapitalBe	System name		CapitalBe
 Import from QIF file…	MainWindow		Import from QIF file…
