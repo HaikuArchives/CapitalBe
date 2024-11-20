@@ -1,3 +1,0 @@
-La finestra de la llista de transaccions programades
-
-Aquesta finestra només mostra les transaccions que heu programat perquè s'introdueixin automàticament. També podeu suprimir-les aquí. Si voleu crear-ne una de nova, haureu de programar-la des de la finestra principal.

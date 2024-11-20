@@ -1,3 +1,0 @@
-The Scheduled Transaction List Window
-
-This window merely shows the transactions which you have scheduled to be entered automatically. You can also remove them here. If you would like to create a new one, you will need to schedule it from the main window.

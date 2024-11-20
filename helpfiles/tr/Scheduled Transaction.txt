@@ -1,3 +1,0 @@
-Planlı İşlem Listesi Penceresi
-
-Bu pencere yalnızca kendiliğinden girilmesini planladığınız işlemleri gösterir. Bunları buradan da kaldırabilirsiniz. Yeni bir tane oluşturmak istiyorsanız ana pencereden planlamanız gerekir.

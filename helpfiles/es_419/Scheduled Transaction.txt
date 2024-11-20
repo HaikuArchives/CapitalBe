@@ -1,3 +1,0 @@
-Movimientos Programados
-
-Esta ventana simplemente muestra las transacciones programadas para que se ingresen automáticamente. También puedes eliminarlos aquí. Si deseas crear uno nuevo, deberás programarlo desde la ventana principal.
