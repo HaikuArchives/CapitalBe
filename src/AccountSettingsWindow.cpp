@@ -17,8 +17,8 @@
 #include <MessageFilter.h>
 
 #include "AutoTextControl.h"
-#include "CalendarButton.h"
 #include "CBLocale.h"
+#include "CalendarButton.h"
 #include "Database.h"
 #include "Help.h"
 #include "MsgDefs.h"
@@ -58,8 +58,7 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 		(fAccount ? fAccount->Name() : NULL), new BMessage(M_DATA_CHANGED));
 	fAccountName->SetCharacterLimit(32);
 	fAccountName->TextView()->SetExplicitMinSize(
-		BSize(be_plain_font->StringWidth("QuiteALongAccountName"),
-		B_SIZE_UNSET));
+		BSize(be_plain_font->StringWidth("QuiteALongAccountName"), B_SIZE_UNSET));
 
 	fOpeningDate = new DateBox("opendate", NULL, NULL, new BMessage(M_DATA_CHANGED));
 	CalendarButton* calendarButton = new CalendarButton(fOpeningDate);
@@ -79,9 +78,9 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 		fOpeningDate->Validate();
 		BString tempstr;
 		bool negative = fOpeningTransaction.Amount() < 0;
-		gCurrentLocale.CurrencyToString(negative
-			? fOpeningTransaction.Amount().InvertAsCopy()
-			: fOpeningTransaction.Amount(), tempstr);
+		gCurrentLocale.CurrencyToString(
+			negative ? fOpeningTransaction.Amount().InvertAsCopy() : fOpeningTransaction.Amount(),
+			tempstr);
 		fOpeningAmount->SetText(tempstr.String());
 		if (negative) {
 			fNegativeButton->SetValue(B_CONTROL_ON);
@@ -204,8 +203,8 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 			if (strlen(fOpeningAmount->Text()) > 0 && strlen(fOpeningDate->Text()) > 0) {
 				const char* type = fNegativeButton->Value() == B_CONTROL_OFF ? "DEP" : "ATM";
 				fOpeningTransaction.Set(fAccount, fOpeningDate->Text(), type, NULL,
-				fOpeningAmount->Text(), B_TRANSLATE_CONTEXT("Opening balance", "CommonTerms"), NULL,
-				fOpeningTransaction.Status());
+					fOpeningAmount->Text(), B_TRANSLATE_CONTEXT("Opening balance", "CommonTerms"),
+					NULL, fOpeningTransaction.Status());
 				try {
 					gDatabase.RemoveTransaction(fOpeningTransaction.GetID());
 
@@ -238,7 +237,8 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 		case M_NEGATIVE_AMOUNT:
 		{
 			rgb_color color = fNegativeButton->Value() == B_CONTROL_OFF
-				? ui_color(B_CONTROL_TEXT_COLOR) : gNegativeColor;
+								  ? ui_color(B_CONTROL_TEXT_COLOR)
+								  : gNegativeColor;
 			fOpeningAmount->TextView()->SetFontAndColor(be_plain_font, B_FONT_ALL, &color);
 			break;
 		}
@@ -262,7 +262,8 @@ AccountSettingsWindow::_GetOpeningTransaction()
 	sqlBuf.format("%Q", category.String());	 // Make sure the string is escaped
 
 	command << "SELECT * FROM account_" << fAccount->GetID() << " WHERE"
-		<< " LOWER(category) LIKE LOWER(" << sqlBuf << ")" << " ORDER BY date, payee;";
+			<< " LOWER(category) LIKE LOWER(" << sqlBuf << ")"
+			<< " ORDER BY date, payee;";
 
 	CppSQLite3Query query = gDatabase.DBQuery(command.String(), "Find opening transaction");
 
@@ -283,7 +284,8 @@ AccountSettingsWindow::_GetOpeningTransaction()
 		fOpeningTransaction.AddCategory(query.getStringField(6), f, true);
 
 		if (!query.fieldIsNull(7))
-			fOpeningTransaction.SetMemoAt(fOpeningTransaction.CountCategories() - 1, query.getStringField(7));
+			fOpeningTransaction.SetMemoAt(
+				fOpeningTransaction.CountCategories() - 1, query.getStringField(7));
 
 		BString status = query.getStringField(8);
 		if (status.ICompare("Reconciled") == 0)
