@@ -143,7 +143,7 @@ CategoryButton::_ShowPopUpMenu()
 		return;
 
 	CategoryPopUp* menu = new CategoryPopUp("PopUpMenu", this);
-	BMenu* spendingMenu = new BMenu(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
+	BMenu* spendingMenu = new BMenu(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"));
 	BMenu* incomeMenu = new BMenu(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 	BMenuItem* editCategories = new BMenuItem(
 		B_TRANSLATE("Edit categories" B_UTF8_ELLIPSIS), new BMessage(M_OPEN_CATEGORY_WINDOW));

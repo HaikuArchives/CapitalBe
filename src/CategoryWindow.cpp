@@ -137,7 +137,7 @@ CategoryView::CategoryView(const char* name, const int32& flags)
 	fListView->SetSelectionMessage(new BMessage(M_SELECT_ITEM));
 
 	fIncomeItem = new CategoryItem(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
-	fSpendingItem = new CategoryItem(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
+	fSpendingItem = new CategoryItem(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"));
 
 	RefreshCategoryList();
 
@@ -236,7 +236,7 @@ CategoryView::MessageReceived(BMessage* msg)
 			if (IsInternalCategory(name.String())) {
 				ShowAlert(B_TRANSLATE("Can't use this category name"),
 					B_TRANSLATE(
-						"CapitalBe uses 'Income', 'Opening balance', 'Spending', 'Split', "
+						"CapitalBe uses 'Income', 'Opening balance', 'Expenses', 'Split', "
 						"'Transfer', and 'Uncategorized' for managing accounts, so you can't use "
 						"them as category names.\n\n"
 						"Please choose a different name for your new category."));
@@ -308,12 +308,12 @@ CategoryView::RefreshCategoryList()
 	int32 maxchars;
 	float maxlength;
 	if (strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms"))
-		> strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"))) {
+		> strlen(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"))) {
 		maxchars = strlen(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 		maxlength = StringWidth(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 	} else {
-		maxchars = strlen(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
-		maxlength = StringWidth(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
+		maxchars = strlen(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"));
+		maxlength = StringWidth(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"));
 	}
 
 	CppSQLite3Query query = gDatabase.DBQuery(
@@ -400,7 +400,7 @@ CategoryInputWindow::CategoryInputWindow(BView* target)
 		= new AutoTextControl("namebox", B_TRANSLATE("Name:"), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
-	fSpending = new BRadioButton("spendingoption", B_TRANSLATE("Spending category"), NULL);
+	fSpending = new BRadioButton("spendingoption", B_TRANSLATE("Expenses category"), NULL);
 	fIncome = new BRadioButton("incomeoption", B_TRANSLATE("Income category"), NULL);
 
 	fSpending->SetValue(B_CONTROL_ON);
@@ -499,7 +499,7 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 	fListView->SetSelectionMessage(new BMessage(M_SELECT_ITEM));
 
 	fIncomeItem = new CategoryItem(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
-	fSpendingItem = new CategoryItem(B_TRANSLATE_CONTEXT("Spending", "CommonTerms"));
+	fSpendingItem = new CategoryItem(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"));
 	fListView->AddItem(fIncomeItem);
 	fListView->AddItem(fSpendingItem);
 

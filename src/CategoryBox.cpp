@@ -97,9 +97,10 @@ CategoryBox::Validate()
 		BAlert* alert = new BAlert(B_TRANSLATE("Category is missing"),
 			B_TRANSLATE(
 				"Do you really want to add this transaction without a category?\n\n"
-				"Even then, you need to select a transaction type, 'income' or 'spending'.\n"),
-			B_TRANSLATE("Income"), B_TRANSLATE("Spending"), B_TRANSLATE("Cancel"), B_WIDTH_AS_USUAL,
-			B_WARNING_ALERT);
+				"Even then, you need to select a transaction type, 'income' or 'expenses'.\n"),
+			B_TRANSLATE_CONTEXT("Income", "CommonTerms"),
+			B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"),
+			B_TRANSLATE("Cancel"), B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 		int32 value = alert->Go();
 		if (value == 0) {
 			fType = "DEP";
@@ -117,7 +118,7 @@ CategoryBox::Validate()
 	if (IsInternalCategory(category.String())) {
 		ShowAlert(B_TRANSLATE("Can't use this category name"),
 			B_TRANSLATE(
-				"CapitalBe uses 'Income', 'Opening balance', 'Spending', 'Split', 'Transfer', "
+				"CapitalBe uses 'Income', 'Opening balance', 'Expenses', 'Split', 'Transfer', "
 				"and 'Uncategorized' for managing accounts, so you can't use them as category "
 				"names.\n\n"
 				"Please choose a different name for your new category."));
@@ -166,11 +167,14 @@ CategoryBox::_AddNewCategory(BString category)
 {
 	BString text(
 		B_TRANSLATE("You created the new category '%categoryname%'.\n\n"
-					"Please select a transaction type for it, 'income' or 'spending'."));
+					"Please select a transaction type for it, 'income' or 'expenses'."));
 	text.ReplaceFirst("%categoryname%", category);
 
-	BAlert* alert = new BAlert(B_TRANSLATE("New category"), text, B_TRANSLATE("Income"),
-		B_TRANSLATE("Spending"), B_TRANSLATE("Cancel"), B_WIDTH_AS_USUAL, B_WARNING_ALERT);
+	BAlert* alert = new BAlert(B_TRANSLATE("New category"), text,
+		B_TRANSLATE_CONTEXT("Income", "CommonTerms"),
+		B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"),
+		B_TRANSLATE("Cancel"),
+		B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 	int32 value = alert->Go();
 	if (value == 0) {
 		fType = "DEP";

@@ -321,7 +321,7 @@ BudgetWindow::_RefreshCategories()
 	fSpendingRow = new BRow();
 	fCategoryList->AddRow(fSpendingRow);
 	fIncomeRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Income", "CommonTerms")), 0);
-	fSpendingRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")), 0);
+	fSpendingRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms")), 0);
 
 	CppSQLite3Query query = gDatabase.DBQuery(
 		"SELECT category,amount,period,isexpense FROM budgetlist ORDER BY category",
@@ -793,7 +793,7 @@ BudgetWindow::_BuildBudgetSummary()
 	fBudgetSummary->SetSortingEnabled(false);
 	fBudgetSummary->AddColumn(
 		new BStringColumn(B_TRANSLATE("Summary"),
-			fBudgetSummary->StringWidth(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")) + 20, 10,
+			fBudgetSummary->StringWidth(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms")) + 20, 10,
 			300, B_TRUNCATE_END),
 		0);
 	fBudgetSummary->AddRow(fSummaryIncomeRow);
@@ -803,7 +803,7 @@ BudgetWindow::_BuildBudgetSummary()
 
 	fSummaryIncomeRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Income", "CommonTerms")), 0);
 	fSummarySpendingRow->SetField(
-		new BStringField(B_TRANSLATE_CONTEXT("Spending", "CommonTerms")), 0);
+		new BStringField(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms")), 0);
 	fSummaryTotalRow->SetField(new BStringField(B_TRANSLATE("Total")), 0);
 
 	// Add all the calendar stuff
@@ -864,5 +864,5 @@ BudgetWindow::_BuildCategoryList()
 	fSpendingRow = new BRow();
 	fCategoryList->AddRow(fSpendingRow);
 	fIncomeRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Income", "CommonTerms")), 0);
-	fSpendingRow->SetField(new BStringField(B_TRANSLATE("Spending")), 0);
+	fSpendingRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms")), 0);
 }

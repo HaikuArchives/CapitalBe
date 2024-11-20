@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	256720733
+1	English	application/x-vnd.wgp-CapitalBe	3009550524
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -11,6 +11,7 @@ Category is missing	CategoryWindow		Category is missing
 OK	PrefWindow		OK
 Use as new transaction	MainWindow		Use as new transaction
 Cancel	TransferWindow		Cancel
+Expenses	CommonTerms		Expenses
 Weekly	BudgetWindow		Weekly
 Enter	CheckView		Enter
 This really shouldn't happen, so you probably should report a bug for this.	MainWindow		This really shouldn't happen, so you probably should report a bug for this.
@@ -22,6 +23,7 @@ You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow
 Repeats	ScheduleListWindow		Repeats
 Cancel	ScheduleAddWindow		Cancel
 Account total	MainWindow		Account total
+CapitalBe uses 'Income', 'Opening balance', 'Expenses', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe uses 'Income', 'Opening balance', 'Expenses', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.
 Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n	App		Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n
 CapitalBe	System name		CapitalBe
 Import from QIF file…	MainWindow		Import from QIF file…
@@ -29,15 +31,15 @@ Ending date:	ReportWindow		Ending date:
 Preview:	PrefWindow		Preview:
 Scheduled transactions	MainWindow		Scheduled transactions
 Go to filter	MainWindow		Go to filter
-CapitalBe: Create new ledger	App		CapitalBe: Create new ledger
 Transactions	RegisterView		Transactions
+CapitalBe: Create new ledger	App		CapitalBe: Create new ledger
 Closed account:	PrefWindow		Closed account:
 Bank charges	ReconcileWindow		Bank charges
 Transfer to '%%PAYEE%%'	MainWindow		Transfer to '%%PAYEE%%'
+Opening balance:	Account		Opening balance:
 Could not import the data in the file '%%FILENAME%%'	MainWindow		Could not import the data in the file '%%FILENAME%%'
 Total charges: %s	ReconcileWindow		Total charges: %s
 You need to select an account in order to reconcile it.	MainWindow		You need to select an account in order to reconcile it.
-Spending category	CategoryWindow		Spending category
 Add…	CategoryWindow		Add…
 Total	NetWorthReport		Total
 Transactions	ReportWindow		Transactions
@@ -65,10 +67,7 @@ Frequency	ScheduleListWindow		Frequency
 CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.	TextInput		CapitalBe understands lots of different ways of entering dates. Apparently, this wasn't one of them. You'll need to change how you entered this date. Sorry.
 Settings	PrefWindow		Settings
 Cancel	ReconcileWindow		Cancel
-Spending	CategoryWindow		Spending
 Reconcile…	MainWindow		Reconcile…
-Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n	CategoryWindow		Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n
-Spending	BudgetWindow		Spending
 Distributed under the terms of the MIT License.	App		Distributed under the terms of the MIT License.
 Uncategorized	CommonTerms		Uncategorized
 Ledger	MainWindow		Ledger
@@ -82,6 +81,7 @@ Annually	ScheduleAddWindow		Annually
 Close	MainWindow		Close
 Clear	FilterView		Clear
 CapitalBe ledger containing accounts, transactions etc.	App	MIME type long description	CapitalBe ledger containing accounts, transactions etc.
+Opening date:	Account		Opening date:
 Import	MainWindow		Import
 Interest earned	ReconcileWindow		Interest earned
 Quit	Locale		Quit
@@ -102,6 +102,7 @@ There may be a typo or the wrong kind of currency symbol for this account.	TextI
 Appears before amount	PrefWindow		Appears before amount
 Unreconciled total: %s	ReconcileWindow		Unreconciled total: %s
 Cancel	App		Cancel
+Opening balance	MainWindow		Opening balance
 Couldn't Quick balance	ReconcileWindow		Couldn't Quick balance
 There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		There may be a typo or the wrong kind of currency symbol for this account.
 Really delete account?	MainWindow		Really delete account?
@@ -121,9 +122,9 @@ Schedule this transaction…	MainWindow		Schedule this transaction…
 Name:	CategoryWindow		Name:
 Symbol:	PrefWindow		Symbol:
 Transactions	TransactionReport		Transactions
-Spending	CommonTerms		Spending
 CapitalBe didn't understand the amount	TextInput		CapitalBe didn't understand the amount
 New category	CategoryWindow		New category
+Opening balance	CommonTerms		Opening balance
 Average	BudgetWindow		Average
 Summary	BudgetWindow		Summary
 You need to enter a payee.	TextInput		You need to enter a payee.
@@ -194,9 +195,10 @@ Categories…	MainWindow		Categories…
 Currency format	PrefWindow		Currency format
 Payee	CommonTerms		Payee
 Credit card account	Import		Credit card account
+Use a negative opening balance.	Account		Use a negative opening balance.
 If you intend to transfer money, it will need to be an amount that is not zero.	TransferWindow		If you intend to transfer money, it will need to be an amount that is not zero.
+Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'expenses'.\n	CategoryWindow		Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'expenses'.\n
 Success!	ReconcileWindow		Success!
-Income	CategoryWindow		Income
 Edit category	CategoryWindow		Edit category
 Schedule transaction	ScheduleAddWindow		Schedule transaction
 QuickTracker	RegisterView		QuickTracker
@@ -210,8 +212,8 @@ Use as filter	MainWindow		Use as filter
 OK	ScheduleAddWindow		OK
 Quit	MainWindow		Quit
 Lowest	BudgetWindow		Lowest
+Expenses category	CategoryWindow		Expenses category
 Previous	MainWindow		Previous
-Type	TransactionReport	Type of transaction, spending or income	Type
 Transfers generated by scheduling cannot be scheduled themselves.	MainWindow		Transfers generated by scheduling cannot be scheduled themselves.
 Accounts	RegisterView		Accounts
 Income	CommonTerms		Income
@@ -222,12 +224,12 @@ Export	MainWindow		Export
 Enter a transfer…	MainWindow		Enter a transfer…
 Tools	MainWindow		Tools
 This month	FilterView		This month
+Type	TransactionReport	Type of transaction, expenses or income	Type
 Not enough accounts for a transfer	MainWindow		Not enough accounts for a transfer
 Delete…	MainWindow		Delete…
 The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n	App		The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n
 CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n	Locale		CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n
 New account	Account		New account
-You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.	CategoryWindow		You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.
 Scheduled transactions	ScheduleListWindow		Scheduled transactions
 Starting date:	ReportWindow		Starting date:
 Agh! Bug!	Locale		Agh! Bug!
@@ -250,8 +252,8 @@ You need to have an account created in order to reconcile it.	MainWindow		You ne
 Payee is missing	TextInput		Payee is missing
 CapitalBe didn't understand the date you entered	TextInput		CapitalBe didn't understand the date you entered
 Recalculate all	BudgetWindow		Recalculate all
-CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.
 Quarterly	BudgetWindow		Quarterly
+You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.	CategoryWindow		You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.
 Remove category	CategoryWindow		Remove category
 New ledger	MainWindow		New ledger
 You cannot schedule transactions on a closed account.	MainWindow		You cannot schedule transactions on a closed account.

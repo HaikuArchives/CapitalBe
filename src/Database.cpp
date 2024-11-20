@@ -1708,8 +1708,9 @@ Database::_DeescapeDatabase()
 bool
 IsInternalCategory(const char* category)
 {
-	const char* internal_categories[] = {B_TRANSLATE_CONTEXT("Income", "CommonTerms"),
-		B_TRANSLATE_CONTEXT("Spending", "CommonTerms"),
+	const char* internal_categories[] = {
+		B_TRANSLATE_CONTEXT("Income", "CommonTerms"),
+		B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"),
 		B_TRANSLATE_ALL("Split", "CommonTerms", "The noun 'split', as in 'a split-category'"),
 		B_TRANSLATE_CONTEXT("Transfer", "CommonTerms"),
 		B_TRANSLATE_CONTEXT("Uncategorized", "CommonTerms"),

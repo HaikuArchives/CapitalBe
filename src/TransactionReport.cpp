@@ -78,7 +78,7 @@ ReportWindow::_ComputeTransactions()
 	col = new BStringColumn(B_TRANSLATE_CONTEXT("Date", "CommonTerms"),
 		fGridView->StringWidth("00-00-0000") + 15, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 1);
-	col = new BStringColumn(B_TRANSLATE_COMMENT("Type", "Type of transaction, spending or income"),
+	col = new BStringColumn(B_TRANSLATE_COMMENT("Type", "Type of transaction, expenses or income"),
 		fGridView->StringWidth("LongTypeName") + 20, 10, 300, B_TRUNCATE_END);
 	fGridView->AddColumn(col, 2);
 	col = new BStringColumn(
@@ -170,7 +170,7 @@ ReportWindow::_ComputeTransactions()
 				// type
 				BString type(query.getStringField(1));
 				if (type == "ATM")
-					type = B_TRANSLATE_CONTEXT("Spending", "CommonTerms");
+					type = B_TRANSLATE_CONTEXT("Expenses", "CommonTerms");
 				else if (type == "DEP")
 					type = B_TRANSLATE_CONTEXT("Income", "CommonTerms");
 				else if (type == "XFER")
