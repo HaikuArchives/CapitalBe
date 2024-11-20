@@ -52,10 +52,10 @@ private:
 	BMenuBar* fBar;
 
 	BColumnListView* fCategoryList;
-	BRow *fIncomeRow, *fSpendingRow;
+	BRow *fIncomeRow, *fExpensesRow;
 
 	BColumnListView* fBudgetSummary;
-	BRow *fSummaryIncomeRow, *fSummarySpendingRow, *fSummaryTotalRow;
+	BRow *fSummaryIncomeRow, *fSummaryExpensesRow, *fSummaryTotalRow;
 
 	BBox* fCatBox;
 	CurrencyBox* fAmountBox;
@@ -65,7 +65,7 @@ private:
 	BColumnListView* fCatStat;
 	BRow *fStatAverageRow, *fStatHighestRow, *fStatLowestRow;
 
-	ReportGrid fIncomeGrid, fSpendingGrid;
+	ReportGrid fIncomeGrid, fExpensesGrid;
 	BString fDecimalSymbol;
 };
 

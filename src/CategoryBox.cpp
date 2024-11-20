@@ -143,7 +143,7 @@ CategoryBox::_SetTypeFromCategory(BString category)
 		BString name = DeescapeIllegalCharacters(query.getStringField(0));
 
 		if (name.ICompare(category) == 0) {
-			type == SPENDING ? fType = "ATM" : fType = "DEP";
+			type == EXPENSES ? fType = "ATM" : fType = "DEP";
 			categoryExists = true;
 			break;
 		}

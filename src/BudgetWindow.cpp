@@ -58,7 +58,7 @@ BudgetWindow::BudgetWindow(const BRect& frame)
 	: BWindow(BRect(), B_TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
 		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
 	  fIncomeGrid(13, 0),
-	  fSpendingGrid(13, 0)
+	  fExpensesGrid(13, 0)
 {
 	BNumberFormat numberFormatter;
 	fDecimalSymbol = numberFormatter.GetSeparator(B_DECIMAL_SEPARATOR);
@@ -318,10 +318,10 @@ BudgetWindow::_RefreshCategories()
 	fCategoryList->Clear();
 	fIncomeRow = new BRow();
 	fCategoryList->AddRow(fIncomeRow);
-	fSpendingRow = new BRow();
-	fCategoryList->AddRow(fSpendingRow);
+	fExpensesRow = new BRow();
+	fCategoryList->AddRow(fExpensesRow);
 	fIncomeRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Income", "CommonTerms")), 0);
-	fSpendingRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms")), 0);
+	fExpensesRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms")), 0);
 
 	CppSQLite3Query query = gDatabase.DBQuery(
 		"SELECT category,amount,period,isexpense FROM budgetlist ORDER BY category",
@@ -342,7 +342,7 @@ BudgetWindow::_RefreshCategories()
 		if (query.getIntField(3) == 0)
 			fCategoryList->AddRow(row, fIncomeRow);
 		else
-			fCategoryList->AddRow(row, fSpendingRow);
+			fCategoryList->AddRow(row, fExpensesRow);
 
 		row->SetField(new BStringField(cat.String()), 0);
 
@@ -362,7 +362,7 @@ BudgetWindow::_RefreshCategories()
 	}
 	fCategoryList->ColumnAt(0)->SetWidth(maxwidth + 30);
 	fCategoryList->ExpandOrCollapse(fIncomeRow, true);
-	fCategoryList->ExpandOrCollapse(fSpendingRow, true);
+	fCategoryList->ExpandOrCollapse(fExpensesRow, true);
 }
 
 
@@ -380,8 +380,8 @@ BudgetWindow::_RefreshBudgetSummary()
 			irowtotal += f;
 		}
 
-		for (int32 j = 0; j < fSpendingGrid.CountItems(); j++) {
-			fSpendingGrid.ValueAt(i, j, f);
+		for (int32 j = 0; j < fExpensesGrid.CountItems(); j++) {
+			fExpensesGrid.ValueAt(i, j, f);
 			stotal += f.AbsoluteValue();
 			srowtotal += f;
 		}
@@ -441,7 +441,7 @@ void
 BudgetWindow::_RefreshBudgetGrid()
 {
 	fIncomeGrid.MakeEmpty();
-	fSpendingGrid.MakeEmpty();
+	fExpensesGrid.MakeEmpty();
 
 	CppSQLite3Query query
 		= gDatabase.DBQuery("SELECT category,amount,period FROM budgetlist ORDER BY category",
@@ -452,7 +452,7 @@ BudgetWindow::_RefreshBudgetGrid()
 		amount.SetPremultiplied(query.getInt64Field(1));
 		BudgetPeriod period = (BudgetPeriod)query.getIntField(2);
 
-		ReportGrid* grid = (amount.IsPositive()) ? &fIncomeGrid : &fSpendingGrid;
+		ReportGrid* grid = (amount.IsPositive()) ? &fIncomeGrid : &fExpensesGrid;
 
 		int32 index = grid->CountItems();
 		grid->AddItem();
@@ -495,7 +495,7 @@ void
 BudgetWindow::_GenerateBudget(const bool& zero)
 {
 	// Generate a budget based on the last year's transactions
-	ReportGrid income(1, 0), spending(1, 0);
+	ReportGrid income(1, 0), expenses(1, 0);
 
 	gDatabase.DBCommand("DELETE FROM budgetlist", "BudgetWindow::GenerateBudget:empty budget");
 
@@ -518,8 +518,8 @@ BudgetWindow::_GenerateBudget(const bool& zero)
 		bool isexpense = !query.getIntField(1);
 
 		if (isexpense) {
-			spending.AddItem();
-			spending.SetRowTitle(spending.CountItems() - 1, catname.String());
+			expenses.AddItem();
+			expenses.SetRowTitle(expenses.CountItems() - 1, catname.String());
 		} else {
 			income.AddItem();
 			income.SetRowTitle(income.CountItems() - 1, catname.String());
@@ -561,7 +561,7 @@ BudgetWindow::_GenerateBudget(const bool& zero)
 		gDatabase.AddBudgetEntry(BudgetEntry(income.RowTitle(i), cattotal, BUDGET_MONTHLY, false));
 	}
 
-	for (int32 i = 0; i < spending.CountItems(); i++) {
+	for (int32 i = 0; i < expenses.CountItems(); i++) {
 		cattotal = 0;
 
 		if (!zero) {
@@ -570,7 +570,7 @@ BudgetWindow::_GenerateBudget(const bool& zero)
 				accountName = "account_";
 				accountName << acc->GetID();
 				bufSQL.format("SELECT SUM(amount) FROM %s WHERE category = %Q;",
-					accountName.String(), spending.RowTitle(i));
+					accountName.String(), expenses.RowTitle(i));
 
 				query = gDatabase.DBQuery(bufSQL, "BudgetWindow::GenerateBudget:get category");
 				cattotal.AddPremultiplied(query.getInt64Field(0));
@@ -579,8 +579,8 @@ BudgetWindow::_GenerateBudget(const bool& zero)
 			cattotal /= 12;
 			cattotal.Round();
 		}
-		spending.SetValue(0, i, cattotal);
-		gDatabase.AddBudgetEntry(BudgetEntry(spending.RowTitle(i), cattotal, BUDGET_MONTHLY, true));
+		expenses.SetValue(0, i, cattotal);
+		gDatabase.AddBudgetEntry(BudgetEntry(expenses.RowTitle(i), cattotal, BUDGET_MONTHLY, true));
 	}
 }
 
@@ -785,7 +785,7 @@ void
 BudgetWindow::_BuildBudgetSummary()
 {
 	fSummaryIncomeRow = new BRow();
-	fSummarySpendingRow = new BRow();
+	fSummaryExpensesRow = new BRow();
 	fSummaryTotalRow = new BRow();
 
 	fBudgetSummary
@@ -797,12 +797,12 @@ BudgetWindow::_BuildBudgetSummary()
 			300, B_TRUNCATE_END),
 		0);
 	fBudgetSummary->AddRow(fSummaryIncomeRow);
-	fBudgetSummary->AddRow(fSummarySpendingRow);
+	fBudgetSummary->AddRow(fSummaryExpensesRow);
 	fBudgetSummary->AddRow(fSummaryTotalRow);
 	fBudgetSummary->SetColumnFlags(B_ALLOW_COLUMN_RESIZE);
 
 	fSummaryIncomeRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Income", "CommonTerms")), 0);
-	fSummarySpendingRow->SetField(
+	fSummaryExpensesRow->SetField(
 		new BStringField(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms")), 0);
 	fSummaryTotalRow->SetField(new BStringField(B_TRANSLATE("Total")), 0);
 
@@ -819,7 +819,7 @@ BudgetWindow::_BuildBudgetSummary()
 									  10, 300, B_TRUNCATE_END, B_ALIGN_RIGHT),
 			i + 1);
 		fSummaryIncomeRow->SetField(new BStringField(""), i + 1);
-		fSummarySpendingRow->SetField(new BStringField(""), i + 1);
+		fSummaryExpensesRow->SetField(new BStringField(""), i + 1);
 		fSummaryTotalRow->SetField(new BStringField(""), i + 1);
 	}
 	fBudgetSummary->AddColumn(new BStringColumn(B_TRANSLATE("Total"),
@@ -827,11 +827,11 @@ BudgetWindow::_BuildBudgetSummary()
 								  B_TRUNCATE_END, B_ALIGN_RIGHT),
 		13);
 	fSummaryIncomeRow->SetField(new BStringField(""), 13);
-	fSummarySpendingRow->SetField(new BStringField(""), 13);
+	fSummaryExpensesRow->SetField(new BStringField(""), 13);
 	fSummaryTotalRow->SetField(new BStringField(""), 13);
 
 	fBudgetSummary->UpdateRow(fSummaryIncomeRow);
-	fBudgetSummary->UpdateRow(fSummarySpendingRow);
+	fBudgetSummary->UpdateRow(fSummaryExpensesRow);
 	fBudgetSummary->UpdateRow(fSummaryTotalRow);
 }
 
@@ -861,8 +861,8 @@ BudgetWindow::_BuildCategoryList()
 
 	fIncomeRow = new BRow();
 	fCategoryList->AddRow(fIncomeRow);
-	fSpendingRow = new BRow();
-	fCategoryList->AddRow(fSpendingRow);
+	fExpensesRow = new BRow();
+	fCategoryList->AddRow(fExpensesRow);
 	fIncomeRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Income", "CommonTerms")), 0);
-	fSpendingRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms")), 0);
+	fExpensesRow->SetField(new BStringField(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms")), 0);
 }

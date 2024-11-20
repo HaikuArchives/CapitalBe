@@ -143,7 +143,7 @@ CategoryButton::_ShowPopUpMenu()
 		return;
 
 	CategoryPopUp* menu = new CategoryPopUp("PopUpMenu", this);
-	BMenu* spendingMenu = new BMenu(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"));
+	BMenu* expensesMenu = new BMenu(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"));
 	BMenu* incomeMenu = new BMenu(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
 	BMenuItem* editCategories = new BMenuItem(
 		B_TRANSLATE("Edit categories" B_UTF8_ELLIPSIS), new BMessage(M_OPEN_CATEGORY_WINDOW));
@@ -160,21 +160,21 @@ CategoryButton::_ShowPopUpMenu()
 		BMessage* msg = new BMessage(M_CATEGORY_CHOSEN);
 		msg->AddString("category", name);
 
-		if (expense == SPENDING)
-			spendingMenu->AddItem(new BMenuItem(name, msg));
+		if (expense == EXPENSES)
+			expensesMenu->AddItem(new BMenuItem(name, msg));
 		else if (expense == INCOME)
 			incomeMenu->AddItem(new BMenuItem(name, msg));
 
 		query.nextRow();
 	}
 
-	menu->AddItem(spendingMenu);
+	menu->AddItem(expensesMenu);
 	menu->AddItem(incomeMenu);
 	menu->AddItem(new BSeparatorItem());
 	menu->AddItem(editCategories);
 
 	incomeMenu->SetTargetForItems(this);
-	spendingMenu->SetTargetForItems(this);
+	expensesMenu->SetTargetForItems(this);
 	editCategories->SetTarget(this);
 
 	BPoint where = Bounds().LeftTop();

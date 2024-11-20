@@ -150,7 +150,7 @@ ReportWindow::_ComputeCashFlow()
 			} else
 				incomegrid.SetValue(subtotal_index, incomegrid.CountItems() - 1, Fixed());
 
-			// query for spending in this category
+			// query for expenses in this category
 			query = gDatabase.DBQuery(expcommand.String(), "ReportWindow::ComputeCashFlow:expense");
 
 			if (!query.eof()) {

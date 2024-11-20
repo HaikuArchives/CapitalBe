@@ -65,7 +65,7 @@ private:
 
 	BButton *fAddButton, *fRemoveButton, *fEditButton;
 
-	CategoryItem *fIncomeItem, *fSpendingItem;
+	CategoryItem *fIncomeItem, *fExpensesItem;
 	float fBestWidth;
 };
 
@@ -79,7 +79,7 @@ private:
 
 	BButton* fOKButton;
 
-	BRadioButton* fSpending;
+	BRadioButton* fExpenses;
 	BRadioButton* fIncome;
 	BView* fTarget;
 };
@@ -106,7 +106,7 @@ public:
 private:
 	BOutlineListView* fListView;
 
-	CategoryItem *fIncomeItem, *fSpendingItem;
+	CategoryItem *fIncomeItem, *fExpensesItem;
 
 	BButton* fOKButton;
 	BView* fTarget;
@@ -137,7 +137,7 @@ CategoryView::CategoryView(const char* name, const int32& flags)
 	fListView->SetSelectionMessage(new BMessage(M_SELECT_ITEM));
 
 	fIncomeItem = new CategoryItem(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
-	fSpendingItem = new CategoryItem(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"));
+	fExpensesItem = new CategoryItem(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"));
 
 	RefreshCategoryList();
 
@@ -183,7 +183,7 @@ CategoryView::MessageReceived(BMessage* msg)
 
 			CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
-			if (!item || item == fIncomeItem || item == fSpendingItem) {
+			if (!item || item == fIncomeItem || item == fExpensesItem) {
 				fEditButton->SetEnabled(false);
 				fRemoveButton->SetEnabled(false);
 			} else {
@@ -204,7 +204,7 @@ CategoryView::MessageReceived(BMessage* msg)
 			int32 index = fListView->CurrentSelection();
 			CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
-			if (!item || item == fIncomeItem || item == fSpendingItem)
+			if (!item || item == fIncomeItem || item == fExpensesItem)
 				break;
 
 			CategoryRemoveWindow* catwin = new CategoryRemoveWindow(item->Text(), this);
@@ -217,7 +217,7 @@ CategoryView::MessageReceived(BMessage* msg)
 			int32 index = fListView->CurrentSelection();
 			CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
-			if (!item || item == fIncomeItem || item == fSpendingItem)
+			if (!item || item == fIncomeItem || item == fExpensesItem)
 				break;
 
 			CategoryEditWindow* catwin = new CategoryEditWindow(item->Text(), this);
@@ -256,7 +256,7 @@ CategoryView::MessageReceived(BMessage* msg)
 			int32 index = fListView->CurrentSelection();
 			CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
-			if (!item || item == fIncomeItem || item == fSpendingItem)
+			if (!item || item == fIncomeItem || item == fExpensesItem)
 				break;
 
 			gDatabase.RecategorizeTransactions(item->Text(), newcat.String());
@@ -274,7 +274,7 @@ CategoryView::MessageReceived(BMessage* msg)
 			int32 index = fListView->CurrentSelection();
 			CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
-			if (!item || item == fIncomeItem || item == fSpendingItem)
+			if (!item || item == fIncomeItem || item == fExpensesItem)
 				break;
 
 			gDatabase.RecategorizeTransactions(item->Text(), newname.String());
@@ -297,13 +297,13 @@ CategoryView::RefreshCategoryList()
 	if (fListView->CountItems() > 0) {
 		if (fListView->HasItem(fIncomeItem))
 			fListView->RemoveItem(fIncomeItem);
-		if (fListView->HasItem(fSpendingItem))
-			fListView->RemoveItem(fSpendingItem);
+		if (fListView->HasItem(fExpensesItem))
+			fListView->RemoveItem(fExpensesItem);
 
 		fListView->MakeEmpty();
 	}
 	fListView->AddItem(fIncomeItem);
-	fListView->AddItem(fSpendingItem);
+	fListView->AddItem(fExpensesItem);
 
 	int32 maxchars;
 	float maxlength;
@@ -326,8 +326,8 @@ CategoryView::RefreshCategoryList()
 		}
 
 		int expense = query.getIntField(1);
-		if (expense == SPENDING)
-			fListView->AddUnder(new CategoryItem(name.String()), fSpendingItem);
+		if (expense == EXPENSES)
+			fListView->AddUnder(new CategoryItem(name.String()), fExpensesItem);
 		else if (expense == INCOME)
 			fListView->AddUnder(new CategoryItem(name.String()), fIncomeItem);
 
@@ -400,10 +400,10 @@ CategoryInputWindow::CategoryInputWindow(BView* target)
 		= new AutoTextControl("namebox", B_TRANSLATE("Name:"), "", new BMessage(M_NAME_CHANGED));
 	fNameBox->SetCharacterLimit(32);
 
-	fSpending = new BRadioButton("spendingoption", B_TRANSLATE("Expenses category"), NULL);
+	fExpenses = new BRadioButton("expensesoption", B_TRANSLATE("Expenses category"), NULL);
 	fIncome = new BRadioButton("incomeoption", B_TRANSLATE("Income category"), NULL);
 
-	fSpending->SetValue(B_CONTROL_ON);
+	fExpenses->SetValue(B_CONTROL_ON);
 
 	fOKButton = new BButton("okbutton", B_TRANSLATE("OK"), new BMessage(M_ADD_CATEGORY));
 	fOKButton->MakeDefault(true);
@@ -419,7 +419,7 @@ CategoryInputWindow::CategoryInputWindow(BView* target)
 			.Add(fNameBox->CreateLabelLayoutItem(), 0, 0)
 			.Add(fNameBox->CreateTextViewLayoutItem(), 1, 0)
 			.Add(BSpaceLayoutItem::CreateVerticalStrut(B_USE_DEFAULT_SPACING), 0, 1)
-			.Add(fSpending, 1, 2)
+			.Add(fExpenses, 1, 2)
 			.Add(fIncome, 1, 3)
 			.End()
 		.AddStrut(B_USE_BIG_SPACING)
@@ -453,7 +453,7 @@ CategoryInputWindow::MessageReceived(BMessage* msg)
 		{
 			BMessenger msgr(fTarget);
 			msg->AddString("name", fNameBox->Text());
-			msg->AddBool("expense", fSpending->Value() == B_CONTROL_ON);
+			msg->AddBool("expense", fExpenses->Value() == B_CONTROL_ON);
 			msgr.SendMessage(msg);
 			Quit();
 			break;
@@ -499,9 +499,9 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 	fListView->SetSelectionMessage(new BMessage(M_SELECT_ITEM));
 
 	fIncomeItem = new CategoryItem(B_TRANSLATE_CONTEXT("Income", "CommonTerms"));
-	fSpendingItem = new CategoryItem(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"));
+	fExpensesItem = new CategoryItem(B_TRANSLATE_CONTEXT("Expenses", "CommonTerms"));
 	fListView->AddItem(fIncomeItem);
-	fListView->AddItem(fSpendingItem);
+	fListView->AddItem(fExpensesItem);
 
 	CppSQLite3Query query = gDatabase.DBQuery(
 		"SELECT * FROM categorylist ORDER BY name DESC", "CategoryView::CategoryView");
@@ -515,8 +515,8 @@ CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 			continue;
 		}
 
-		if (expense == SPENDING)
-			fListView->AddUnder(new CategoryItem(name.String()), fSpendingItem);
+		if (expense == EXPENSES)
+			fListView->AddUnder(new CategoryItem(name.String()), fExpensesItem);
 		else if (expense == INCOME)
 			fListView->AddUnder(new CategoryItem(name.String()), fIncomeItem);
 
@@ -551,7 +551,7 @@ CategoryRemoveWindow::MessageReceived(BMessage* msg)
 
 			CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
-			if (!item || item == fIncomeItem || item == fSpendingItem)
+			if (!item || item == fIncomeItem || item == fExpensesItem)
 				fOKButton->SetEnabled(false);
 			else
 				fOKButton->SetEnabled(true);
@@ -562,7 +562,7 @@ CategoryRemoveWindow::MessageReceived(BMessage* msg)
 			int32 index = fListView->CurrentSelection();
 			CategoryItem* item = (CategoryItem*)fListView->ItemAt(index);
 
-			if (!item || item == fIncomeItem || item == fSpendingItem)
+			if (!item || item == fIncomeItem || item == fExpensesItem)
 				break;
 
 			BMessenger msgr(fTarget);

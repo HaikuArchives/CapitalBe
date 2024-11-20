@@ -29,7 +29,7 @@ class ScheduledTransData;
 
 // clang-format off
 enum category_type {
-	SPENDING = 0,
+	EXPENSES = 0,
 	INCOME
 };
 // clang-format on
