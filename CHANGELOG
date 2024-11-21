@@ -1,3 +1,15 @@
+v2.3
+
+* Account settings: added option to set an opening date and balance
+* Report: Improved summarily display of categories (1 row/category)
+* Bugfix: support non-ASCII characters for payee and category
+* Bugfix: fix QIF export of multiple accounts
+* Bugfix: don't create a transaction if the user aborted it ("Cancel")
+* Rename category type from "Spending" to "Expenses"
+* Added French translation, thanks blioberis, Jérôme Duval, and Briseur!
+* Update documenation
+
+
 v2.2
 
 * Introduce "ledgers" to separate bookkeeping for multiple persons/projects

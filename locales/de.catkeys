@@ -1,4 +1,4 @@
-1	German	application/x-vnd.wgp-CapitalBe	256720733
+1	German	application/x-vnd.wgp-CapitalBe	3533405837
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Für dieses Konto gibt es # terminierte Buchung, die entfernt würde.}other{Für dieses Konto gibt es # terminierte Buchungen, die entfernt würden.}}
 <No accounts>	MainWindow		<keine Konten>
 About CapitalBe	MainWindow		Über CapitalBe
@@ -20,6 +20,7 @@ Enter a transfer…	MainWindow		Umbuchung eingeben …
 Export	MainWindow		Exportieren
 Export to QIF file…	MainWindow		Export als QIF Datei …
 Go to filter	MainWindow		Gehe zur Filtereingabe
+Help…	MainWindow		Hilfe…
 Import	MainWindow		Importieren
 Import from QIF file…	MainWindow		Import aus QIF Datei …
 Ledger	MainWindow		Kontobuch
@@ -32,6 +33,7 @@ Once deleted, you will not be able to get back any data on this account.	MainWin
 Oops!	MainWindow		Oha!
 Open ledger	MainWindow		Kontobuch öffnen
 Open…	MainWindow		Öffnen…
+Opening balance	MainWindow		Eröffnungsstand
 Previous	MainWindow		Zurück
 Quit	MainWindow		Beenden
 Really delete account?	MainWindow		Konto tatsächlich löschen?
@@ -75,7 +77,6 @@ Monthly	BudgetWindow		Monatlich
 Quarterly	BudgetWindow		Vierteljährlich
 Recalculate all	BudgetWindow		Alles neu berechnen
 Set all to zero	BudgetWindow		Alles auf Null
-Spending	BudgetWindow		Ausgabe
 Summary	BudgetWindow		Zusammenfassung
 Total	BudgetWindow		Gesamt
 Transfer	BudgetWindow		Umbuchung
@@ -113,6 +114,9 @@ Closed	Account		geschlossen
 Name:	Account		Name:
 New account	Account		Neues Konto
 OK	Account		OK
+Opening balance:	Account		Eröffnungsstand:
+Opening date:	Account		Eröffnungsdatum:
+Use a negative opening balance.	Account		Negativer Eröffnungsstand
 Use system currency format	Account		Währungsformat der Systemeinstellungen nutzen
 Accounts	RegisterView		Konten
 Filter	RegisterView		Filter
@@ -146,13 +150,13 @@ Add category	CategoryWindow		Kategorie hinzufügen
 Add…	CategoryWindow		Hinzu …
 Can't use this category name	CategoryWindow		Dieser Kategorie-Name kann nicht verwendet werden
 Cancel	CategoryWindow		Abbrechen
-CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe benutzt 'Einnahme', 'Ausgabe', 'Umbuchung' und 'Split' bereits zur Kategorie-Verwaltung.\n\nFür die neu anzulegende Kategorie muss daher ein anderer Name gewählt werden.
+CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe benutzt 'Ausgabe', 'Einnahme', 'Eröffnungsstand', 'Umbuchung' und 'Split' bereits zur Kategorie-Verwaltung.\n\nFür die neu anzulegende Kategorie muss daher ein anderer Name gewählt werden.
 Categories	CategoryWindow		Kategorien
 Category is missing	CategoryWindow		Kategorie fehlt
-Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n	CategoryWindow		Soll diese Buchung tatsächlich ohne Kategorie angelegt werden?\n\nSelbst dann muss ein Buchungstyp vergeben werden, 'Einnahme' oder 'Ausgabe'.\n
+Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'expenses'.\n	CategoryWindow		Soll diese Buchung tatsächlich ohne Kategorie angelegt werden?\n\nSelbst dann muss ein Buchungstyp vergeben werden, 'Einnahme' oder 'Ausgabe'.\n
 Edit category	CategoryWindow		Kategorie bearbeiten
 Edit…	CategoryWindow		Bearbeiten …
-Income	CategoryWindow		Einnahme
+Expenses category	CategoryWindow		Ausgabe-Kategorie
 Income category	CategoryWindow		Einnahme-Kategorie
 Name:	CategoryWindow		Name:
 New category	CategoryWindow		Neue Kategory
@@ -161,9 +165,7 @@ OK	CategoryWindow		OK
 Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Bitte eine neue Kategorie für alle Buchungen wählen, die sich momentan in der Kategorie '%%CATEGORY_NAME%%' befinden.
 Remove category	CategoryWindow		Kategorie entfernen
 Remove…	CategoryWindow		Entfernen …
-Spending	CategoryWindow		Ausgabe
-Spending category	CategoryWindow		Ausgabe-Kategorie
-You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.	CategoryWindow		Die neue Kategorie '%categoryname%' wurde angelegt.\n\nBitte den Buchungstyp wählen, 'Einnahme' oder 'Ausgabe'.
+You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.	CategoryWindow		Die neue Kategorie '%categoryname%' wurde angelegt.\n\nBitte den Buchungstyp wählen, 'Einnahme' oder 'Ausgabe'.
 Add item	SplitView		Eintrag hinzu
 Enter	SplitView		Eingabe
 Remove item	SplitView		Eintrag entfernen
@@ -188,10 +190,11 @@ This year	FilterView		Dieses Jahr
 Amount	CommonTerms		Betrag
 Category	CommonTerms		Kategorie
 Date	CommonTerms		Datum
+Expenses	CommonTerms		Ausgabe
 Income	CommonTerms		Einnahme
 Memo	CommonTerms		Notiz
+Opening balance	CommonTerms		Eröffnungsstand
 Payee	CommonTerms		Empfänger
-Spending	CommonTerms		Ausgabe
 Split	CommonTerms	The noun 'split', as in 'a split-category'	Split
 Transfer	CommonTerms		Umbuchung
 Uncategorized	CommonTerms		Ohne Kategorie
@@ -258,6 +261,6 @@ Enter	CheckView		Eingabe
 No memo	ScheduledTransItem		Keine Notiz
 No transactions	TransactionReport		Keine Buchungen
 Transactions	TransactionReport		Buchungen
-Type	TransactionReport	Type of transaction, spending or income	Typ
+Type	TransactionReport	Type of transaction, expenses or income	Typ
 Total	NetWorthReport		Gesamt
 Total worth	NetWorthReport		Gesamtsumme

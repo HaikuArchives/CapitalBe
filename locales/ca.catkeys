@@ -1,4 +1,4 @@
-1	Catalan	application/x-vnd.wgp-CapitalBe	256720733
+1	Catalan	application/x-vnd.wgp-CapitalBe	3533405837
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Aquest compte té # transacció programada que se suprimirà.}altre{Aquest compte té # transaccions programades que se suprimiran.}}
 <No accounts>	MainWindow		<Sense comptes>
 About CapitalBe	MainWindow		Quant al CapitalBe
@@ -20,6 +20,7 @@ Enter a transfer…	MainWindow		Introduïu una transferència...
 Export	MainWindow		Exporta
 Export to QIF file…	MainWindow		Exporta-ho a un fitxer QIF...
 Go to filter	MainWindow		Ves al filtratge
+Help…	MainWindow		Ajuda…
 Import	MainWindow		Importa
 Import from QIF file…	MainWindow		Importa des d'un fitxer QIF...
 Ledger	MainWindow		Llibre
@@ -32,6 +33,7 @@ Once deleted, you will not be able to get back any data on this account.	MainWin
 Oops!	MainWindow		Ui!
 Open ledger	MainWindow		Obre un llibre
 Open…	MainWindow		Obre...
+Opening balance	MainWindow		Saldo inicial
 Previous	MainWindow		Anterior
 Quit	MainWindow		Surt
 Really delete account?	MainWindow		Realment voleu suprimir el compte?
@@ -75,7 +77,6 @@ Monthly	BudgetWindow		Mensualment
 Quarterly	BudgetWindow		Trimestralment
 Recalculate all	BudgetWindow		Recalcula-ho tot
 Set all to zero	BudgetWindow		Estableix-ho tot a zero
-Spending	BudgetWindow		Despeses
 Summary	BudgetWindow		Resum
 Total	BudgetWindow		Total
 Transfer	BudgetWindow		Transferència
@@ -113,6 +114,9 @@ Closed	Account		Tancat
 Name:	Account		Nom:
 New account	Account		Compte nou
 OK	Account		D'acord
+Opening balance:	Account		Balanç inicial:
+Opening date:	Account		Data d'obertura:
+Use a negative opening balance.	Account		Usa un balanç d'obertura negatiu.
 Use system currency format	Account		Usa el format de moneda del sistema
 Accounts	RegisterView		Comptes
 Filter	RegisterView		Filtratge
@@ -146,13 +150,13 @@ Add category	CategoryWindow		Afegeix-hi una categoria
 Add…	CategoryWindow		Afegeix...
 Can't use this category name	CategoryWindow		No es pot usar aquest nom de categoria.
 Cancel	CategoryWindow		Cancel·la
-CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		El CapitalBe usa Ingressos, Despeses, Divisió, Transferir i Sense categoria per gestionar els comptes, de manera que no els podeu usar com a noms de categoria.\n\nTrieu un nom diferent per a la categoria nova.
+CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		El CapitalBe usa Ingressos, Despeses, Balanç inicial, Dividir, Transferència i Sense categoria per gestionar els comptes, de manera que no els podeu usar com a noms de categoria.\n\nTrieu un nom diferent. per a la categoria nova.
 Categories	CategoryWindow		Categories
 Category is missing	CategoryWindow		Hi manca la categoria
-Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n	CategoryWindow		Realment voleu afegir aquesta transacció sense una categoria?\n\nEn tot cas, heu de seleccionar un tipus de transacció: ingressos o despeses.\n
+Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'expenses'.\n	CategoryWindow		Realment voleu afegir aquesta transacció sense una categoria?\n\nTanmateix, heu de seleccionar un tipus de transacció: ingressos o despeses.\n
 Edit category	CategoryWindow		Edita la categoria
 Edit…	CategoryWindow		Edita…
-Income	CategoryWindow		Ingressos
+Expenses category	CategoryWindow		Categoria de despeses
 Income category	CategoryWindow		Categoria d'ingressos
 Name:	CategoryWindow		Nom:
 New category	CategoryWindow		Categoria nova
@@ -161,9 +165,7 @@ OK	CategoryWindow		D'acord
 Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Trieu una categoria nova per a totes les transaccions que es troben actualment a la categoria %%CATEGORY_NAME%%.
 Remove category	CategoryWindow		Suprimeix la categoria
 Remove…	CategoryWindow		Suprimeix...
-Spending	CategoryWindow		Despeses
-Spending category	CategoryWindow		Categoria de despeses
-You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.	CategoryWindow		Heu creat la categoria "%categoryname%".\n\nSeleccioneu un tipus de transacció per a aquesta: ingressos o despeses.
+You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.	CategoryWindow		Heu creat la categoria "%categoryname%".\n\nSeleccioneu un tipus de transacció per a aquesta: ingressos o despeses.
 Add item	SplitView		Afegeix-hi un element
 Enter	SplitView		Retorn
 Remove item	SplitView		Suprimeix l'element
@@ -188,10 +190,11 @@ This year	FilterView		Aquest any
 Amount	CommonTerms		Quantitat
 Category	CommonTerms		Categoria
 Date	CommonTerms		Data
+Expenses	CommonTerms		Despeses
 Income	CommonTerms		Ingressos
 Memo	CommonTerms		Resum
+Opening balance	CommonTerms		Balanç inicial
 Payee	CommonTerms		Beneficiari
-Spending	CommonTerms		Despeses
 Split	CommonTerms	The noun 'split', as in 'a split-category'	Dividir
 Transfer	CommonTerms		Transferència
 Uncategorized	CommonTerms		Sense categoria
@@ -258,6 +261,6 @@ Enter	CheckView		Retorn
 No memo	ScheduledTransItem		Sense resum
 No transactions	TransactionReport		Sense transaccions
 Transactions	TransactionReport		Transaccions
-Type	TransactionReport	Type of transaction, spending or income	Tipus
+Type	TransactionReport	Type of transaction, expenses or income	Tipus
 Total	NetWorthReport		Total
 Total worth	NetWorthReport		Valor total

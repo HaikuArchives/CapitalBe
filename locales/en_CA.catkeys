@@ -1,4 +1,4 @@
-1	English (Canada)	application/x-vnd.wgp-CapitalBe	256720733
+1	English (Canada)	application/x-vnd.wgp-CapitalBe	3533405837
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}
 <No accounts>	MainWindow		<No accounts>
 About CapitalBe	MainWindow		About CapitalBe
@@ -20,6 +20,7 @@ Enter a transfer…	MainWindow		Enter a transfer…
 Export	MainWindow		Export
 Export to QIF file…	MainWindow		Export to QIF file…
 Go to filter	MainWindow		Go to filter
+Help…	MainWindow		Help…
 Import	MainWindow		Import
 Import from QIF file…	MainWindow		Import from QIF file…
 Ledger	MainWindow		Ledger
@@ -32,6 +33,7 @@ Once deleted, you will not be able to get back any data on this account.	MainWin
 Oops!	MainWindow		Oops!
 Open ledger	MainWindow		Open ledger
 Open…	MainWindow		Open…
+Opening balance	MainWindow		Opening balance
 Previous	MainWindow		Previous
 Quit	MainWindow		Quit
 Really delete account?	MainWindow		Really delete account?
@@ -75,7 +77,6 @@ Monthly	BudgetWindow		Monthly
 Quarterly	BudgetWindow		Quarterly
 Recalculate all	BudgetWindow		Recalculate all
 Set all to zero	BudgetWindow		Set all to zero
-Spending	BudgetWindow		Spending
 Summary	BudgetWindow		Summary
 Total	BudgetWindow		Total
 Transfer	BudgetWindow		Transfer
@@ -113,6 +114,9 @@ Closed	Account		Closed
 Name:	Account		Name:
 New account	Account		New account
 OK	Account		Alright
+Opening balance:	Account		Opening balance:
+Opening date:	Account		Opening date:
+Use a negative opening balance.	Account		Use a negative opening balance.
 Use system currency format	Account		Use system currency format
 Accounts	RegisterView		Accounts
 Filter	RegisterView		Filter
@@ -146,13 +150,13 @@ Add category	CategoryWindow		Add category
 Add…	CategoryWindow		Add…
 Can't use this category name	CategoryWindow		Can't use this category name
 Cancel	CategoryWindow		Cancel
-CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.
+CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.
 Categories	CategoryWindow		Categories
 Category is missing	CategoryWindow		Category is missing
-Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n	CategoryWindow		Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n
+Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'expenses'.\n	CategoryWindow		Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'expenses'.\n
 Edit category	CategoryWindow		Edit category
 Edit…	CategoryWindow		Edit…
-Income	CategoryWindow		Income
+Expenses category	CategoryWindow		Expenses category
 Income category	CategoryWindow		Income category
 Name:	CategoryWindow		Name:
 New category	CategoryWindow		New category
@@ -161,9 +165,7 @@ OK	CategoryWindow		Alright
 Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.
 Remove category	CategoryWindow		Remove category
 Remove…	CategoryWindow		Remove…
-Spending	CategoryWindow		Spending
-Spending category	CategoryWindow		Spending category
-You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.	CategoryWindow		You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.
+You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.	CategoryWindow		You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.
 Add item	SplitView		Add item
 Enter	SplitView		Enter
 Remove item	SplitView		Remove item
@@ -188,10 +190,11 @@ This year	FilterView		This year
 Amount	CommonTerms		Amount
 Category	CommonTerms		Category
 Date	CommonTerms		Date
+Expenses	CommonTerms		Expenses
 Income	CommonTerms		Income
 Memo	CommonTerms		Memo
+Opening balance	CommonTerms		Opening balance
 Payee	CommonTerms		Payee
-Spending	CommonTerms		Spending
 Split	CommonTerms	The noun 'split', as in 'a split-category'	Split
 Transfer	CommonTerms		Transfer
 Uncategorized	CommonTerms		Uncategorized
@@ -258,6 +261,6 @@ Enter	CheckView		Enter
 No memo	ScheduledTransItem		No memo
 No transactions	TransactionReport		No transactions
 Transactions	TransactionReport		Transactions
-Type	TransactionReport	Type of transaction, spending or income	Type
+Type	TransactionReport	Type of transaction, expenses or income	Type
 Total	NetWorthReport		Total
 Total worth	NetWorthReport		Total worth

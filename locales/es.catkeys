@@ -1,10 +1,10 @@
-1	Spanish	application/x-vnd.wgp-CapitalBe	256720733
+1	Spanish	application/x-vnd.wgp-CapitalBe	3533405837
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Esta cuenta tiene # movimiento programado que se eliminará.}other{Esta cuenta tiene # movimientos programados que se eliminarán.}}
 <No accounts>	MainWindow		<Sin cuentas>
 About CapitalBe	MainWindow		Acerca de CapitalBe
 Account	MainWindow		Cuenta
 Account total	MainWindow		Total de cuenta:
-Balance	MainWindow		Balance
+Balance	MainWindow		Saldo
 Budget	MainWindow		Presupuesto
 Cancel	MainWindow		Cancelar
 Categories…	MainWindow		Categorías…
@@ -20,6 +20,7 @@ Enter a transfer…	MainWindow		Realizar una transferencia…
 Export	MainWindow		Exportar
 Export to QIF file…	MainWindow		Exportar a un archivo QIF…
 Go to filter	MainWindow		Ir a filtro
+Help…	MainWindow		Ayuda…
 Import	MainWindow		Importar
 Import from QIF file…	MainWindow		Importar desde archivo QIF…
 Ledger	MainWindow		Libro contable
@@ -32,6 +33,7 @@ Once deleted, you will not be able to get back any data on this account.	MainWin
 Oops!	MainWindow		¡Ups!
 Open ledger	MainWindow		Abrir libro contable
 Open…	MainWindow		Abrir…
+Opening balance	MainWindow		Saldo inicial
 Previous	MainWindow		Anterior
 Quit	MainWindow		Salir
 Really delete account?	MainWindow		¿Desea eliminar la cuenta?
@@ -75,7 +77,6 @@ Monthly	BudgetWindow		Mensual
 Quarterly	BudgetWindow		Trimestral
 Recalculate all	BudgetWindow		Recalcular todo
 Set all to zero	BudgetWindow		Poner todo a cero
-Spending	BudgetWindow		Gastos
 Summary	BudgetWindow		Resumen
 Total	BudgetWindow		Total
 Transfer	BudgetWindow		Transferir
@@ -87,18 +88,18 @@ Bank charges	ReconcileWindow		Tasas bancarias
 Cancel	ReconcileWindow		Cancelar
 CapitalBe didn't understand the amount for 'Bank charges'	ReconcileWindow		CapitalBe no comprende el importe para los gastos bancarios
 CapitalBe didn't understand the amount for 'Interest earned'	ReconcileWindow		CapitalBe no comprende el importe para los intereses generados
-Couldn't Quick balance	ReconcileWindow		No se pudo hacer el Balance Rápido
+Couldn't Quick balance	ReconcileWindow		No se pudo hacer el Saldo Rápido
 Date is missing	ReconcileWindow		Falta la fecha
 DEP	ReconcileWindow		DEP
-Ending balance	ReconcileWindow		Balance final
+Ending balance	ReconcileWindow		Saldo final
 Interest earned	ReconcileWindow		Interés obtenido
-Quick balance	ReconcileWindow		Balance Rápido
-Quick balance failed. This doesn't mean that you did something wrong - it's just that 'Quick balance' works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Hubo un fallo en el Balance Rápido. Esto no significa que haya hecho algo mal: es sólo que el  balance rápido funciona en casos más simples que el actual. Lo lamento.
-Quick balance successful!	ReconcileWindow		¡Balance rápido completado!
+Quick balance	ReconcileWindow		Saldo Rápido
+Quick balance failed. This doesn't mean that you did something wrong - it's just that 'Quick balance' works on simpler cases in balancing an account than this one. Sorry.	ReconcileWindow		Hubo un fallo en el Saldo Rápido. Esto no significa que haya hecho algo mal: es sólo que el  saldo rápido funciona en casos más simples que el actual. Lo lamento.
+Quick balance successful!	ReconcileWindow		¡Saldo rápido completado!
 Reconcile	ReconcileWindow		Conciliar
 Reconcile:	ReconcileWindow		Conciliar:
 Reset	ReconcileWindow		Anular
-Starting balance	ReconcileWindow		Balance inicial
+Starting balance	ReconcileWindow		Saldo inicial
 Success!	ReconcileWindow		¡Hecho!
 There may be a typo or the wrong kind of currency symbol for this account.	ReconcileWindow		Puede haber un error tipográfico o en el símbolo de la moneda para esta cuenta.
 Total charges:	ReconcileWindow		Total gastos:
@@ -106,17 +107,20 @@ Total charges: %s	ReconcileWindow		Total gastos: %s
 Total deposits:	ReconcileWindow		Total depósitos:
 Total deposits: %s	ReconcileWindow		Total depósitos: %s
 Unreconciled total: %s	ReconcileWindow		Total sin conciliar: %s
-You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow		Debe intoducir una fecha para añadir al Balance Rápido.
+You need to enter the date for the statement to 'Quick balance'.	ReconcileWindow		Debe intoducir una fecha para añadir al Saldo Rápido.
 Account settings	Account		Configuración de cuenta
 Cancel	Account		Cancelar
 Closed	Account		Cerrada
 Name:	Account		Nombre:
 New account	Account		Cuenta nueva
 OK	Account		Aceptar
+Opening balance:	Account		Saldo inicial:
+Opening date:	Account		Fecha inicial:
+Use a negative opening balance.	Account		Usar un saldo inicial negativo.
 Use system currency format	Account		Usar el formato de moneda del sistema
 Accounts	RegisterView		Cuentas
 Filter	RegisterView		Filtro
-QuickTracker	RegisterView		Balance Rápido
+QuickTracker	RegisterView		Saldo Rápido
 Transactions	RegisterView		Movimientos
 Transactions (filtered)	RegisterView		Movimientos (filtrados)
 Accounts:	ReportWindow		Cuentas:
@@ -146,13 +150,13 @@ Add category	CategoryWindow		Añadir categoría
 Add…	CategoryWindow		Añadir…
 Can't use this category name	CategoryWindow		No se puede usar ese nombre de categoría
 Cancel	CategoryWindow		Cancelar
-CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe utiliza 'Ingresos', 'Gastos', 'División', 'Transferencia' y 'Sin categoría' para administrar cuentas, por lo que no puede usarlos como nombres de categoría.\n\nPor favor, elija un nombre diferente para su nueva categoría.
+CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe utiliza 'Ingresos', 'Gastos', 'División', 'Transferencia' y 'Sin categoría' para administrar cuentas, por lo que no puede usarlos como nombres de categoría.\n\nPor favor, elija un nombre diferente para su nueva categoría.
 Categories	CategoryWindow		Categorías
 Category is missing	CategoryWindow		Falta la categoría
-Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n	CategoryWindow		¿Desea añadir este movimiento sin asignarle una categoría?\n\nAún así, debe seleccionar un tipo de movimiento, "ingresos" o "gastos".\n
+Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'expenses'.\n	CategoryWindow		¿Desea añadir este movimiento sin asignarle una categoría?\n\nAún así, debe seleccionar un tipo de movimiento, "ingresos" o "gastos".\n
 Edit category	CategoryWindow		Editar categoría
 Edit…	CategoryWindow		Editar…
-Income	CategoryWindow		Ingreso
+Expenses category	CategoryWindow		Categoría de gastos
 Income category	CategoryWindow		Categoría de ingresos
 Name:	CategoryWindow		Nombre:
 New category	CategoryWindow		Nueva categoría
@@ -161,9 +165,7 @@ OK	CategoryWindow		Aceptar
 Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Por favor elija una nueva categoría para los movimientos que actualmente están en la categoría '%%CATEGORY_NAME%%'.
 Remove category	CategoryWindow		Quitar categoría
 Remove…	CategoryWindow		Quitar…
-Spending	CategoryWindow		Gastos
-Spending category	CategoryWindow		Categoría de gastos
-You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.	CategoryWindow		Ha creado como nueva categoría '%categoryname%'.\n\nPor favor, seleccione un tipo de movimiento para ella, "ingresos" o "gastos".
+You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.	CategoryWindow		Ha creado como nueva categoría '%categoryname%'.\n\nPor favor, seleccione un tipo de movimiento para ella, "ingresos" o "gastos".
 Add item	SplitView		Añadir elemento
 Enter	SplitView		Añadir
 Remove item	SplitView		Quitar elemento
@@ -188,10 +190,11 @@ This year	FilterView		Este año
 Amount	CommonTerms		Importe
 Category	CommonTerms		Categoría
 Date	CommonTerms		Fecha
+Expenses	CommonTerms		Gastos
 Income	CommonTerms		Ingresos
 Memo	CommonTerms		Nota
+Opening balance	CommonTerms		Saldo inicial
 Payee	CommonTerms		Beneficiario
-Spending	CommonTerms		Gastos
 Split	CommonTerms	The noun 'split', as in 'a split-category'	División
 Transfer	CommonTerms		Transferencia
 Uncategorized	CommonTerms		Sin categoría
@@ -258,6 +261,6 @@ Enter	CheckView		Añadir
 No memo	ScheduledTransItem		Sin nota
 No transactions	TransactionReport		No hay movimientos
 Transactions	TransactionReport		Movimientos
-Type	TransactionReport	Type of transaction, spending or income	Tipo
+Type	TransactionReport	Type of transaction, expenses or income	Tipo
 Total	NetWorthReport		Total
 Total worth	NetWorthReport		Valor total

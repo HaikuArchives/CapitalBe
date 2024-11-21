@@ -1,4 +1,4 @@
-1	Spanish (Latin American)	application/x-vnd.wgp-CapitalBe	256720733
+1	Spanish (Latin American)	application/x-vnd.wgp-CapitalBe	3533405837
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Esta cuenta tiene # transacción programada que se eliminará.}other{Esta cuenta tiene # transacciones programadas que se eliminarán.}}
 <No accounts>	MainWindow		<Sin cuentas>
 About CapitalBe	MainWindow		Sobre CapitalBe
@@ -20,6 +20,7 @@ Enter a transfer…	MainWindow		Ingresar una transacción…
 Export	MainWindow		Exportar
 Export to QIF file…	MainWindow		Exportar a un archivo QIF…
 Go to filter	MainWindow		Ir a filtro
+Help…	MainWindow		Ayuda…
 Import	MainWindow		Importar
 Import from QIF file…	MainWindow		Importar desde archivo QIF…
 Ledger	MainWindow		Libro contable
@@ -32,6 +33,7 @@ Once deleted, you will not be able to get back any data on this account.	MainWin
 Oops!	MainWindow		¡Ups!
 Open ledger	MainWindow		Abrir libro contable
 Open…	MainWindow		Abrir…
+Opening balance	MainWindow		Saldo inicial
 Previous	MainWindow		Anterior
 Quit	MainWindow		Salir
 Really delete account?	MainWindow		¿Realmente eliminar la cuenta?
@@ -75,7 +77,6 @@ Monthly	BudgetWindow		Mensual
 Quarterly	BudgetWindow		Cuatrimestral
 Recalculate all	BudgetWindow		Recalcular todo
 Set all to zero	BudgetWindow		Poner todo a cero
-Spending	BudgetWindow		Gastos
 Summary	BudgetWindow		Resumen
 Total	BudgetWindow		Total
 Transfer	BudgetWindow		Transferir
@@ -113,6 +114,9 @@ Closed	Account		Cuenta cerrada
 Name:	Account		Nombre:
 New account	Account		Nueva cuenta
 OK	Account		Aceptar
+Opening balance:	Account		Saldo inicial:
+Opening date:	Account		Fecha inicial:
+Use a negative opening balance.	Account		Usar un saldo inicial negativo.
 Use system currency format	Account		Usar configuración de sistema
 Accounts	RegisterView		Cuentas
 Filter	RegisterView		Filtro
@@ -146,13 +150,13 @@ Add category	CategoryWindow		Añadir categoría
 Add…	CategoryWindow		Añadir…
 Can't use this category name	CategoryWindow		No se puede usar ese nombre de categoría
 Cancel	CategoryWindow		Cancelar
-CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe utiliza 'Ingresos', 'Gastos', 'Dividido', 'Transferencia' y 'Sin categoría' para administrar cuentas, por lo que no puedes usarlos como nombres de categoría.\n\nPor favor, elije un nombre diferente para tu nueva categoría.
+CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe utiliza 'Ingresos', 'Gastos', 'División', 'Transferencia' y 'Sin categoría' para administrar cuentas, por lo que no puedes usarlos como nombres de categoría.\n\nPor favor, elije un nombre diferente para tu nueva categoría.
 Categories	CategoryWindow		Categorías
 Category is missing	CategoryWindow		Falta la categoría
-Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n	CategoryWindow		¿Realmente quieres agregar esta transacción sin una categoría?\n\nIncluso en ese caso, debes seleccionar un tipo de transacción, "ingresos" o "gastos".\n
+Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'expenses'.\n	CategoryWindow		¿Realmente quieres agregar esta transacción sin una categoría?\n\nIncluso en ese caso, debes seleccionar un tipo de transacción, "ingresos" o "gastos".\n
 Edit category	CategoryWindow		Editar categoría
 Edit…	CategoryWindow		Editar…
-Income	CategoryWindow		Ingreso
+Expenses category	CategoryWindow		Categoría de gastos
 Income category	CategoryWindow		Categoría de ingreso
 Name:	CategoryWindow		Nombre:
 New category	CategoryWindow		Nueva categoría
@@ -161,14 +165,12 @@ OK	CategoryWindow		Aceptar
 Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Por favor elija una nueva categoría para los movimientos que actualmente están en la categoría '%%CATEGORY_NAME%%'
 Remove category	CategoryWindow		Eliminar categoría
 Remove…	CategoryWindow		Quitar…
-Spending	CategoryWindow		Gastos
-Spending category	CategoryWindow		Categoría de gastos
-You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.	CategoryWindow		Creaste la nueva categoría '%categoryname%'.\n\nPor favor, selecciona un tipo de transacción para ella, "ingresos" o "gastos".
+You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.	CategoryWindow		Creaste la nueva categoría '%categoryname%'.\n\nPor favor, selecciona un tipo de transacción para ella, "ingresos" o "gastos".
 Add item	SplitView		Agregar
 Enter	SplitView		Añadir
 Remove item	SplitView		Eliminar
-Show split	SplitView		Mostrar
-The split total must match the amount box	SplitView		The split total must match the amount box
+Show split	SplitView		Mostrar división
+The split total must match the amount box	SplitView		El total de la división debe coincidir con el cuadro de importe
 Total:	SplitView		Total:
 When the split items are added together, they need to add up to %%ENTERED_AMOUNT%%. Currently, they add up to %%TOTAL_AMOUNT%%	SplitView		Cuando los elementos divididos se suman, deben sumar %%ENTERED_AMOUNT%%. Actualmente, suman %%TOTAL_AMOUNT%%
 Agh! Bug!	Locale		Agh! Error!
@@ -188,11 +190,12 @@ This year	FilterView		Este año
 Amount	CommonTerms		Monto
 Category	CommonTerms		Categoría
 Date	CommonTerms		Fecha
+Expenses	CommonTerms		Gastos
 Income	CommonTerms		Ingreso
 Memo	CommonTerms		Nota
+Opening balance	CommonTerms		Saldo inicial
 Payee	CommonTerms		Beneficiario
-Spending	CommonTerms		Gastos
-Split	CommonTerms	The noun 'split', as in 'a split-category'	Dividido
+Split	CommonTerms	The noun 'split', as in 'a split-category'	División
 Transfer	CommonTerms		Transferir
 Uncategorized	CommonTerms		Sin categoría
 Annually	ScheduleAddWindow		Anual
@@ -258,6 +261,6 @@ Enter	CheckView		Añadir
 No memo	ScheduledTransItem		Sin nota
 No transactions	TransactionReport		Sin transacciones
 Transactions	TransactionReport		Transacciones
-Type	TransactionReport	Type of transaction, spending or income	Tipo
+Type	TransactionReport	Type of transaction, expenses or income	Tipo
 Total	NetWorthReport		Saldo
 Total worth	NetWorthReport		Saldo total

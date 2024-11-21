@@ -1,4 +1,4 @@
-1	Turkish	application/x-vnd.wgp-CapitalBe	256720733
+1	Turkish	application/x-vnd.wgp-CapitalBe	3533405837
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Bu hesapta kaldırılacak # planlı işlem var.}other{Bu hesapta kaldırılacak # planlı işlem var.}}
 <No accounts>	MainWindow		<Hesap yok>
 About CapitalBe	MainWindow		CapitalBe hakkında
@@ -20,6 +20,7 @@ Enter a transfer…	MainWindow		Bir havale gir…
 Export	MainWindow		Dışa aktar
 Export to QIF file…	MainWindow		QIF dosyasına dışa aktar…
 Go to filter	MainWindow		Süzgece git
+Help…	MainWindow		Yardım…
 Import	MainWindow		İçe aktar
 Import from QIF file…	MainWindow		QIF dosyasından içe aktar…
 Ledger	MainWindow		Defter
@@ -32,6 +33,7 @@ Once deleted, you will not be able to get back any data on this account.	MainWin
 Oops!	MainWindow		Ay!
 Open ledger	MainWindow		Defter aç
 Open…	MainWindow		Aç…
+Opening balance	MainWindow		Opening balance
 Previous	MainWindow		Önceki
 Quit	MainWindow		Çık
 Really delete account?	MainWindow		Hesap gerçekten silinsin mi?
@@ -75,7 +77,6 @@ Monthly	BudgetWindow		Aylık
 Quarterly	BudgetWindow		Dört aylık
 Recalculate all	BudgetWindow		Tümünü yeniden hesapla
 Set all to zero	BudgetWindow		Tümünü sıfır olarak ayarla
-Spending	BudgetWindow		Harcama
 Summary	BudgetWindow		Özet
 Total	BudgetWindow		Toplam
 Transfer	BudgetWindow		Havale
@@ -113,6 +114,9 @@ Closed	Account		Kapalı
 Name:	Account		Ad:
 New account	Account		Yeni hesap
 OK	Account		Tamam
+Opening balance:	Account		Opening balance:
+Opening date:	Account		Opening date:
+Use a negative opening balance.	Account		Use a negative opening balance.
 Use system currency format	Account		Sistem para birimi biçimini kullan
 Accounts	RegisterView		Hesaplar
 Filter	RegisterView		Süz
@@ -146,13 +150,13 @@ Add category	CategoryWindow		Kategori ekle
 Add…	CategoryWindow		Ekle…
 Can't use this category name	CategoryWindow		Bu kategori adı kullanılamıyor
 Cancel	CategoryWindow		Vazgeç
-CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe hesapları yönetmek için “Gelir”, “Harcama”, “Bölünmüş”, “Havale” ve “Kategorisiz” ögelerini kullanır, bundan dolayı onları kategori adları olarak kullanamazsınız.\n\nYeni kategoriniz için lütfen başka bir ad seçin.
+CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe hesapları yönetmek için “Gelir”, “Harcama”, “Bölünmüş”, “Havale” ve “Kategorisiz” ögelerini kullanır, bundan dolayı onları kategori adları olarak kullanamazsınız.\n\nYeni kategoriniz için lütfen başka bir ad seçin.
 Categories	CategoryWindow		Kategoriler
 Category is missing	CategoryWindow		Kategori eksik
-Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n	CategoryWindow		Bu işlemi bir kategori olmadan eklemek istediğinizden emin misiniz??\n\nÖyleyken bile, “gelir” veya “harcama” olmak üzere bir kategori seçmeniz gerekecektir.\n
+Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'expenses'.\n	CategoryWindow		Bu işlemi bir kategori olmadan eklemek istediğinizden emin misiniz??\n\nÖyleyken bile, “gelir” veya “harcama” olmak üzere bir kategori seçmeniz gerekecektir.\n
 Edit category	CategoryWindow		Kategoriyi düzenle
 Edit…	CategoryWindow		Düzenle…
-Income	CategoryWindow		Gelir
+Expenses category	CategoryWindow		Harcama kategorisi
 Income category	CategoryWindow		Gelir kategorisi
 Name:	CategoryWindow		Ad:
 New category	CategoryWindow		Yeni kategori
@@ -161,9 +165,7 @@ OK	CategoryWindow		Tamam
 Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Şu anda “%%CATEGORY_NAME%%” kategorisinde olan tüm işlemler için lütfen yeni bir kategori seçin.
 Remove category	CategoryWindow		Kategoriyi kaldır
 Remove…	CategoryWindow		Kaldır…
-Spending	CategoryWindow		Harcama
-Spending category	CategoryWindow		Harcama kategorisi
-You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.	CategoryWindow		“%categoryname%” adında yeni bir kategori oluşturdunuz.\n\n“Gelir” veya “Harcama” içinden biri olmak üzere bir işlem türü seçin.
+You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.	CategoryWindow		“%categoryname%” adında yeni bir kategori oluşturdunuz.\n\n“Gelir” veya “Harcama” içinden biri olmak üzere bir işlem türü seçin.
 Add item	SplitView		Öge ekle
 Enter	SplitView		Gir
 Remove item	SplitView		Ögeyi kaldır
@@ -188,10 +190,11 @@ This year	FilterView		Bu yıl
 Amount	CommonTerms		Tutar
 Category	CommonTerms		Kategori
 Date	CommonTerms		Tarih
+Expenses	CommonTerms		Harcama
 Income	CommonTerms		Gelir
 Memo	CommonTerms		Not
+Opening balance	CommonTerms		Opening balance
 Payee	CommonTerms		Alacaklı
-Spending	CommonTerms		Harcama
 Split	CommonTerms	The noun 'split', as in 'a split-category'	Bölünmüş
 Transfer	CommonTerms		Havale
 Uncategorized	CommonTerms		Kategorisiz
@@ -258,6 +261,6 @@ Enter	CheckView		Gir
 No memo	ScheduledTransItem		Not yok
 No transactions	TransactionReport		İşlem yok
 Transactions	TransactionReport		İşlemler
-Type	TransactionReport	Type of transaction, spending or income	Tür
+Type	TransactionReport	Type of transaction, expenses or income	Tür
 Total	NetWorthReport		Toplam
 Total worth	NetWorthReport		Toplam değer

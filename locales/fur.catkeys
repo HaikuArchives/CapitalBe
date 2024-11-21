@@ -1,4 +1,4 @@
-1	Friulian	application/x-vnd.wgp-CapitalBe	256720733
+1	Friulian	application/x-vnd.wgp-CapitalBe	3533405837
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Chest cont al à # transazion programade che e vignarà gjavade.}other{Chest cont al à # transazions programadis che a vignaran gjavadis.}}
 <No accounts>	MainWindow		<Nissun cont>
 About CapitalBe	MainWindow		Informazions su CapitalBe
@@ -20,18 +20,20 @@ Enter a transfer…	MainWindow		Inserìs un trasferiment…
 Export	MainWindow		Espuarte
 Export to QIF file…	MainWindow		Espuarte su file QIF…
 Go to filter	MainWindow		Va al filtri
+Help…	MainWindow		Jutori…
 Import	MainWindow		Impuarte
 Import from QIF file…	MainWindow		Impuarte di file QIF…
-Ledger	MainWindow		Ledger
-New ledger	MainWindow		New ledger
-New ledger…	MainWindow		New ledger…
+Ledger	MainWindow		Libri contabil
+New ledger	MainWindow		Gnûf libri contabil
+New ledger…	MainWindow		Gnûf libri contabil…
 New…	MainWindow		Gnûf…
 Next	MainWindow		Sucessîf
 Not enough accounts for a transfer	MainWindow		No vonde conts par un trasferiment
 Once deleted, you will not be able to get back any data on this account.	MainWindow		Une volte eliminât, no tu rivarâs a recuperâ nissun dât di chest cont.
 Oops!	MainWindow		Orpo!
-Open ledger	MainWindow		Open ledger
+Open ledger	MainWindow		Vierç libri contabil
 Open…	MainWindow		Vierç…
+Opening balance	MainWindow		Salt iniziâl
 Previous	MainWindow		Precedent
 Quit	MainWindow		Jes
 Really delete account?	MainWindow		Eliminâ pardabon il cont?
@@ -75,7 +77,6 @@ Monthly	BudgetWindow		Mensîl
 Quarterly	BudgetWindow		Trimestrâl
 Recalculate all	BudgetWindow		Torne calcole dut
 Set all to zero	BudgetWindow		Met dut a zero
-Spending	BudgetWindow		Spesis
 Summary	BudgetWindow		Sintesi
 Total	BudgetWindow		Totâl
 Transfer	BudgetWindow		Trasferiment
@@ -113,6 +114,9 @@ Closed	Account		Sierât
 Name:	Account		Non:
 New account	Account		Gnûf cont
 OK	Account		Va ben
+Opening balance:	Account		Salt iniziâl:
+Opening date:	Account		Date di viertidure:
+Use a negative opening balance.	Account		Dopre un salt iniziâl passîf.
 Use system currency format	Account		Dopre il formât di valude dal sisteme
 Accounts	RegisterView		Conts
 Filter	RegisterView		Filtri
@@ -146,13 +150,13 @@ Add category	CategoryWindow		Zonte categorie
 Add…	CategoryWindow		Zonte…
 Can't use this category name	CategoryWindow		Impussibil doprâ chest non di categorie
 Cancel	CategoryWindow		Anule
-CapitalBe uses 'Income', 'Spending', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe al dopre 'Introit', 'Spesis', 'Frazion', 'Trasferiment' e 'Cence categorie' par gjestî i conts, in mût di no doprâju tant che nons di categorie.\n\nSielç un altri non pe tô gnove categorie.
+CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe al dopre 'Introit', 'Spesis', 'Salt iniziâl', 'Frazion', 'Trasferiment' e 'Cence categorie' par gjestî i conts, in mût di no doprâju tant che nons di categorie.\n\nSielç un altri non pe tô gnove categorie.
 Categories	CategoryWindow		Categoriis
 Category is missing	CategoryWindow		E mancje la categorie
-Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'spending'.\n	CategoryWindow		Desideristu pardabon zontâ cheste transazion cence categorie?\n\nDistès tu varâs di selezionâ un gjenar di transazion, 'introit' o 'spesis'.\n
+Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'expenses'.\n	CategoryWindow		Desideristu pardabon zontâ cheste transazion cence categorie?\n\nDistès tu varâs di selezionâ un gjenar di transazion, 'introit' o 'spesis'.\n
 Edit category	CategoryWindow		Modifiche categorie
 Edit…	CategoryWindow		Modifiche…
-Income	CategoryWindow		Introit
+Expenses category	CategoryWindow		Categorie spese
 Income category	CategoryWindow		Categorie introit
 Name:	CategoryWindow		Non:
 New category	CategoryWindow		Gnove categorie
@@ -161,9 +165,7 @@ OK	CategoryWindow		Va ben
 Please choose a new category for all transactions currently in the '%%CATEGORY_NAME%%' category.	CategoryWindow		Sielç une gnove categorie par dutis lis transazions che in chest moment a son inte categorie '%%CATEGORY_NAME%%'.
 Remove category	CategoryWindow		Gjave categorie
 Remove…	CategoryWindow		Gjave…
-Spending	CategoryWindow		Spese
-Spending category	CategoryWindow		Categorie spese
-You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'spending'.	CategoryWindow		Tu âs creât la gnove categorie '%categoryname%'.\n\nSelezionii un gjenar di spese, 'introit' o 'spese'.
+You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.	CategoryWindow		Tu âs creât la gnove categorie '%categoryname%'.\n\nSelezionii un gjenar di spese, 'introit' o 'spese'.
 Add item	SplitView		Zonte element
 Enter	SplitView		Inserìs
 Remove item	SplitView		Gjave element
@@ -188,10 +190,11 @@ This year	FilterView		Chest an
 Amount	CommonTerms		Cuantitât
 Category	CommonTerms		Categorie
 Date	CommonTerms		Date
+Expenses	CommonTerms		Spese
 Income	CommonTerms		Introit
 Memo	CommonTerms		Pro memoria
+Opening balance	CommonTerms		Salt iniziâl
 Payee	CommonTerms		Beneficiari
-Spending	CommonTerms		Spese
 Split	CommonTerms	The noun 'split', as in 'a split-category'	Frazion
 Transfer	CommonTerms		Trasferiment
 Uncategorized	CommonTerms		Cence categorie
@@ -231,19 +234,19 @@ Settings	PrefWindow		Impostazions
 Symbol:	PrefWindow		Simbul:
 Unselected:	PrefWindow		Deselezionât:
 Cancel	App		Anule
-CapitalBe couldn't find the last open ledger at '%filename%'.\n	App		CapitalBe couldn't find the last open ledger at '%filename%'.\n
+CapitalBe couldn't find the last open ledger at '%filename%'.\n	App		CapitalBe nol è rivât a cjatâ l'ultin libri contabil viert '%filename%'.\n
 CapitalBe is a simple application to keep track of your personal finances.	App		CapitalBe e je une semplice aplicazion par tignî di voli lis financis personâls.
-CapitalBe ledger	App	MIME type short description	CapitalBe ledger
-CapitalBe ledger containing accounts, transactions etc.	App	MIME type long description	CapitalBe ledger containing accounts, transactions etc.
-CapitalBe: Create new ledger	App		CapitalBe: Create new ledger
-CapitalBe: Open ledger	App		CapitalBe: Open ledger
-Create new ledger	App		Create new ledger
+CapitalBe ledger	App	MIME type short description	Libri contabil di CapitalBe
+CapitalBe ledger containing accounts, transactions etc.	App	MIME type long description	Libri contabil di CapitalBe che al conten conts, transazions e v.i.
+CapitalBe: Create new ledger	App		CapitalBe: Cree gnûf libri contabil
+CapitalBe: Open ledger	App		CapitalBe: Vierç libri contabil
+Create new ledger	App		Cree gnûf libri contabil
 Distributed under the terms of the MIT License.	App		Distribuît sot i tiermis de licence MIT.
 OK	App		Va ben
-Open ledger	App		Open ledger
-The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n	App		The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n
-The ledger '%filename%' appears to be already open.\nEntering data into the same ledger in parallel will probably lead to data loss.\n	App		The ledger '%filename%' appears to be already open.\nEntering data into the same ledger in parallel will probably lead to data loss.\n
-Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n	App		Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n
+Open ledger	App		Vierç libri contabil
+The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n	App		Al somee che il file '%filename%' nol sedi un libri contabil di CapitalBe.\nOpûr nol à il gjenar di file 'CapitalBe ledger'.\n
+The ledger '%filename%' appears to be already open.\nEntering data into the same ledger in parallel will probably lead to data loss.\n	App		Al somee che il libri contabil '%filename%' al sedi za viert.\nAl è probabil che, lant a inserî in paralêl i dâts tal stes libri contabil, tu pierdarâs dâts.\n
+Welcome to CapitalBe!\n\nThere appears to be no 'ledger' where all your accounts and transactions are saved. You can open an existing ledger, or create a new ledger.\n	App		Benvignûts su CapitalBe!\n\nAl somee che nol esist un 'libri contabil' dulà salvâ ducj i conts e lis transazions. Tu puedis vierzi un libri contabil esistent, o creâ un gnûf.\n
 CapitalBe	System name		CapitalBe
 CapitalBe didn't understand the amount	TextInput		CapitalBe nol è rivât a capî l'impuart
 CapitalBe didn't understand the date you entered	TextInput		CapitalBe nol è rivât a capî la date che tu âs inserît
@@ -258,6 +261,6 @@ Enter	CheckView		Inserìs
 No memo	ScheduledTransItem		Nissun pro memoria
 No transactions	TransactionReport		Nissune transazion
 Transactions	TransactionReport		Transazions
-Type	TransactionReport	Type of transaction, spending or income	Gjenar
+Type	TransactionReport	Type of transaction, expenses or income	Gjenar
 Total	NetWorthReport		Totâl
 Total worth	NetWorthReport		Patrimoni totâl
