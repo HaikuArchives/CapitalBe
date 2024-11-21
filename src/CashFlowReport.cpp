@@ -249,7 +249,10 @@ ReportWindow::_ComputeCashFlow()
 				Fixed f;
 
 				incomegrid.ValueAt(columnindex, i, f);
-				gCurrentLocale.CurrencyToString(f, temp);
+				if (f == 0)
+					temp = "-";
+				else
+					gCurrentLocale.CurrencyToString(f, temp);
 
 				BStringField* amountfield = new BStringField(temp.String());
 				row->SetField(amountfield, columnindex + 1);
@@ -279,7 +282,10 @@ ReportWindow::_ComputeCashFlow()
 				Fixed f;
 
 				expensegrid.ValueAt(columnindex, i, f);
-				gCurrentLocale.CurrencyToString(f, temp);
+				if (f == 0)
+					temp = "-";
+				else
+					gCurrentLocale.CurrencyToString(f, temp);
 
 				BStringField* amountfield = new BStringField(temp.String());
 				row->SetField(amountfield, columnindex + 1);
