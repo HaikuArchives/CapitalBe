@@ -94,6 +94,14 @@ ReportWindow::_ComputeCashFlow()
 		*/
 
 		int32 count = timelist.CountItems() - 1;
+
+		// Add one row per category, prefill with "<emptyrow> so it
+		// can be filtered out later
+		incomegrid.AddItem();
+		incomegrid.SetRowTitle(incomegrid.CountItems() - 1, "<emptyrow>");
+		expensegrid.AddItem();
+		expensegrid.SetRowTitle(incomegrid.CountItems() - 1, "<emptyrow>");
+
 		for (int32 subtotal_index = 0; subtotal_index < count; subtotal_index++) {
 			time_t subtotal_start = *((time_t*)timelist.ItemAt(subtotal_index));
 			time_t subtotal_end = *((time_t*)timelist.ItemAt(subtotal_index + 1));
@@ -143,7 +151,6 @@ ReportWindow::_ComputeCashFlow()
 					query.nextRow();
 				}
 				if (inctotal > 0) {
-					incomegrid.AddItem();
 					incomegrid.SetRowTitle(incomegrid.CountItems() - 1, catitem->Text());
 					incomegrid.SetValue(subtotal_index, incomegrid.CountItems() - 1, inctotal);
 				}
@@ -162,7 +169,6 @@ ReportWindow::_ComputeCashFlow()
 					query.nextRow();
 				}
 				if (exptotal > 0) {
-					expensegrid.AddItem();
 					expensegrid.SetRowTitle(expensegrid.CountItems() - 1, catitem->Text());
 					expensegrid.SetValue(subtotal_index, expensegrid.CountItems() - 1, exptotal);
 				}
@@ -172,6 +178,7 @@ ReportWindow::_ComputeCashFlow()
 			query.finalize();
 		}
 	}
+
 	incomegrid.Sort();
 	expensegrid.Sort();
 
@@ -226,6 +233,11 @@ ReportWindow::_ComputeCashFlow()
 	if (!fGridView->IsHidden()) {
 		// Now that the grid is set up, start adding data to the grid
 		for (i = 0; i < incomegrid.CountItems(); i++) {
+			// Don't output empty rows,
+			// e.g. if the previously queried category wasn't of type 'income'
+			if (strcmp(incomegrid.RowTitle(i), "<emptyrow>") == 0)
+				continue;
+
 			BRow* row = new BRow();
 			fGridView->AddRow(row);
 
@@ -251,6 +263,11 @@ ReportWindow::_ComputeCashFlow()
 		fGridView->AddRow(new BRow());
 
 		for (i = 0; i < expensegrid.CountItems(); i++) {
+			// Don't output empty rows,
+			// e.g. if the previously queried category wasn't of type 'expense'
+			if (strcmp(expensegrid.RowTitle(i), "<emptyrow>") == 0)
+				continue;
+
 			BRow* row = new BRow();
 			fGridView->AddRow(row);
 
