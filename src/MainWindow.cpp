@@ -132,8 +132,7 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 		= new BMenuItem(B_TRANSLATE("Clear filter"), new BMessage(M_CLEAR_FILTER), 'L');
 	menu->AddItem(clearFilter);
 	menu->AddSeparatorItem();
-	menu->AddItem(
-		new BMenuItem(B_TRANSLATE("Help" B_UTF8_ELLIPSIS), new BMessage(M_HELP)));
+	menu->AddItem(new BMenuItem(B_TRANSLATE("Help" B_UTF8_ELLIPSIS), new BMessage(M_HELP)));
 	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Report a bug" B_UTF8_ELLIPSIS), new BMessage(M_REPORT_BUG)));
 	BMenuItem* item
