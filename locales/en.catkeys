@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	1317338280
+1	English	application/x-vnd.wgp-CapitalBe	3533405837
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -251,6 +251,7 @@ Quick balance failed. This doesn't mean that you did something wrong - it's just
 You need to have an account created in order to reconcile it.	MainWindow		You need to have an account created in order to reconcile it.
 Payee is missing	TextInput		Payee is missing
 CapitalBe didn't understand the date you entered	TextInput		CapitalBe didn't understand the date you entered
+Help…	MainWindow		Help…
 Recalculate all	BudgetWindow		Recalculate all
 Quarterly	BudgetWindow		Quarterly
 You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.	CategoryWindow		You created the new category '%categoryname%'.\n\nPlease select a transaction type for it, 'income' or 'expenses'.

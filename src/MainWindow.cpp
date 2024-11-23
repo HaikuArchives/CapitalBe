@@ -133,6 +133,8 @@ MainWindow::MainWindow(BRect frame, BPath lastFile)
 	menu->AddItem(clearFilter);
 	menu->AddSeparatorItem();
 	menu->AddItem(
+		new BMenuItem(B_TRANSLATE("Help" B_UTF8_ELLIPSIS), new BMessage(M_HELP)));
+	menu->AddItem(
 		new BMenuItem(B_TRANSLATE("Report a bug" B_UTF8_ELLIPSIS), new BMessage(M_REPORT_BUG)));
 	BMenuItem* item
 		= new BMenuItem(B_TRANSLATE("About CapitalBe"), new BMessage(B_ABOUT_REQUESTED));
