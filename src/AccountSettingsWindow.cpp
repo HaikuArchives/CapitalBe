@@ -47,12 +47,12 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 	AddShortcut('Q', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
 
-	bool foundOpeningTransaction = false;
+	fOpeningTransactionExists = false;
 
 	if (fAccount == NULL)
 		SetTitle(B_TRANSLATE("New account"));
 	else
-		foundOpeningTransaction = _GetOpeningTransaction();
+		fOpeningTransactionExists = _GetOpeningTransaction();
 
 	fAccountName = new AutoTextControl("accname", B_TRANSLATE("Name:"),
 		(fAccount ? fAccount->Name() : NULL), new BMessage(M_DATA_CHANGED));
@@ -73,7 +73,7 @@ AccountSettingsWindow::AccountSettingsWindow(Account* account)
 	BSize size(height - 2, height);
 	fNegativeButton->SetExplicitSize(size);
 
-	if (foundOpeningTransaction) {
+	if (fOpeningTransactionExists) {
 		fOpeningDate->SetDate(fOpeningTransaction.Date());
 		fOpeningDate->Validate();
 		BString tempstr;
@@ -184,7 +184,9 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 			Locale customLocale;
 			fPrefView->GetSettings(customLocale);
 
+			bool newAccount = false;
 			if (!fAccount) {
+				newAccount = true;
 				gDatabase.AddAccount(fAccountName->Text(), ACCOUNT_BANK, "Open",
 					fUseDefault->Value() == B_CONTROL_ON ? NULL : &customLocale);
 				fAccount = gDatabase.AccountByName(fAccountName->Text());
@@ -199,17 +201,17 @@ AccountSettingsWindow::MessageReceived(BMessage* msg)
 					fAccount->UseDefaultLocale(true);
 			}
 
-			// Opening balance date and amount not empty, create opening trnsaction.
+			// Opening balance date and amount not empty, create opening transaction.
 			if (strlen(fOpeningAmount->Text()) > 0 && strlen(fOpeningDate->Text()) > 0) {
 				const char* type = fNegativeButton->Value() == B_CONTROL_OFF ? "DEP" : "ATM";
 				fOpeningTransaction.Set(fAccount, fOpeningDate->Text(), type, NULL,
 					fOpeningAmount->Text(), B_TRANSLATE_CONTEXT("Opening balance", "CommonTerms"),
 					NULL, fOpeningTransaction.Status());
 				try {
-					gDatabase.RemoveTransaction(fOpeningTransaction.GetID());
+					if (fOpeningTransactionExists)
+						gDatabase.RemoveTransaction(fOpeningTransaction.GetID());
 
-					// This adds the transaction data without generating a new transaction id
-					gDatabase.AddTransaction(fOpeningTransaction, false);
+					gDatabase.AddTransaction(fOpeningTransaction);
 				} catch (CppSQLite3Exception& e) {
 					debugger(e.errorMessage());
 				}

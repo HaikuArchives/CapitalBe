@@ -34,6 +34,7 @@ private:
 	bool _GetOpeningTransaction();
 	void _UpdateStates();
 
+	bool fOpeningTransactionExists;
 	AutoTextControl* fAccountName;
 	DateBox* fOpeningDate;
 	CurrencyBox* fOpeningAmount;
