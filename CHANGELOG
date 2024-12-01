@@ -1,3 +1,8 @@
+v2.3.1
+
+* Bugfix: there was only one opening balance possible for all accounts.
+
+
 v2.3
 
 * Account settings: added option to set an opening date and balance
