@@ -56,7 +56,7 @@ extern int compare_stringitem(const void* item1, const void* item2);
 
 BudgetWindow::BudgetWindow(const BRect& frame)
 	: BWindow(BRect(), B_TRANSLATE("Budget"), B_DOCUMENT_WINDOW,
-		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
+		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS),
 	  fIncomeGrid(13, 0),
 	  fExpensesGrid(13, 0)
 {

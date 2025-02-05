@@ -41,8 +41,8 @@
 
 TransferWindow::TransferWindow(BHandler* target)
 	: BWindow(BRect(0, 0, 400, 350), B_TRANSLATE("Add account transfer"), B_TITLED_WINDOW_LOOK,
-		B_MODAL_APP_WINDOW_FEEL,
-		B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
+		  B_MODAL_APP_WINDOW_FEEL,
+		  B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fMessenger(target),
 	  fMessage(M_CREATE_TRANSFER)
 {
@@ -52,8 +52,8 @@ TransferWindow::TransferWindow(BHandler* target)
 
 TransferWindow::TransferWindow(BHandler* target, Account* src, Account* dest, const Fixed& amount)
 	: BWindow(BRect(0, 0, 400, 350), B_TRANSLATE("Edit transfer"), B_TITLED_WINDOW_LOOK,
-		B_MODAL_APP_WINDOW_FEEL,
-		B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
+		  B_MODAL_APP_WINDOW_FEEL,
+		  B_NOT_MINIMIZABLE | B_NOT_ZOOMABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fMessenger(target)
 {
 	_InitObject(src, dest, amount);

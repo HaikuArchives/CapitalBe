@@ -345,7 +345,7 @@ CategoryView::RefreshCategoryList()
 
 CategoryWindow::CategoryWindow(const BRect& frame)
 	: BWindow(frame, B_TRANSLATE("Categories"), B_DOCUMENT_WINDOW_LOOK, B_NORMAL_WINDOW_FEEL,
-		B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
+		  B_ASYNCHRONOUS_CONTROLS | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE)
 {
 	CategoryView* view = new CategoryView("categoryview", B_WILL_DRAW);
 
@@ -390,8 +390,8 @@ CategoryItem::DrawItem(BView* owner, BRect frame, bool complete)
 
 CategoryInputWindow::CategoryInputWindow(BView* target)
 	: BWindow(BRect(), B_TRANSLATE("Add category"), B_FLOATING_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL,
-		B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_V_RESIZABLE
-			| B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
+		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_V_RESIZABLE
+			  | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fTarget(target)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
@@ -469,9 +469,9 @@ CategoryInputWindow::MessageReceived(BMessage* msg)
 
 CategoryRemoveWindow::CategoryRemoveWindow(const char* from, BView* target)
 	: BWindow(BRect(0, 0, 440, 380), B_TRANSLATE("Remove category"), B_FLOATING_WINDOW_LOOK,
-		B_MODAL_APP_WINDOW_FEEL,
-		B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS
-			| B_CLOSE_ON_ESCAPE),
+		  B_MODAL_APP_WINDOW_FEEL,
+		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS
+			  | B_CLOSE_ON_ESCAPE),
 	  fTarget(target)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));
@@ -589,9 +589,9 @@ CategoryRemoveWindow::FrameResized(float w, float h)
 
 CategoryEditWindow::CategoryEditWindow(const char* oldname, BView* target)
 	: BWindow(BRect(), B_TRANSLATE("Edit category"), B_FLOATING_WINDOW_LOOK,
-		B_MODAL_APP_WINDOW_FEEL,
-		B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE
-			| B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
+		  B_MODAL_APP_WINDOW_FEEL,
+		  B_ASYNCHRONOUS_CONTROLS | B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_NOT_RESIZABLE
+			  | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fOldName(oldname),
 	  fTarget(target)
 {

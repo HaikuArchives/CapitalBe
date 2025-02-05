@@ -52,8 +52,8 @@ enum {
 
 ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& data)
 	: BWindow(frame, B_TRANSLATE("Schedule transaction"), B_TITLED_WINDOW_LOOK,
-		B_MODAL_APP_WINDOW_FEEL,
-		B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
+		  B_MODAL_APP_WINDOW_FEEL,
+		  B_NOT_ZOOMABLE | B_NOT_MINIMIZABLE | B_AUTO_UPDATE_SIZE_LIMITS | B_CLOSE_ON_ESCAPE),
 	  fTransData(data)
 {
 	AddShortcut('W', B_COMMAND_KEY, new BMessage(B_QUIT_REQUESTED));

@@ -474,7 +474,7 @@ TransactionView::_FindIndexForDate(const time_t& time, const char* payee)
 
 TransactionList::TransactionList()
 	: BListView("TransactionList", B_SINGLE_SELECTION_LIST,
-		B_WILL_DRAW | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE),
+		  B_WILL_DRAW | B_NAVIGABLE | B_FULL_UPDATE_ON_RESIZE),
 	  fShowingPopUpMenu(false)
 {
 }
