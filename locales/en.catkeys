@@ -1,4 +1,4 @@
-1	English	application/x-vnd.wgp-CapitalBe	3533405837
+1	English	application/x-vnd.wgp-CapitalBe	2962703943
 Year	ReportWindow		Year
 None	ReportWindow		None
 Export to QIF file…	MainWindow		Export to QIF file…
@@ -226,6 +226,7 @@ Tools	MainWindow		Tools
 This month	FilterView		This month
 Type	TransactionReport	Type of transaction, expenses or income	Type
 Not enough accounts for a transfer	MainWindow		Not enough accounts for a transfer
+Weekly	ScheduleAddWindow		Weekly
 Delete…	MainWindow		Delete…
 The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n	App		The file '%filename%' appears not to be a CapitalBe ledger.\nOr it doesn't have the 'CapitalBe ledger' filetype.\n
 CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n	Locale		CapitalBe has run into a bug. This shouldn't happen, but it has.\nWould you like to:\n\n1) Save the bug to a text file for uploading to\nCapitalBe's issue tracker (https://github.com/HaikuArchives/CapitalBe/issues)\n\n2) Just quit and do nothing\n
