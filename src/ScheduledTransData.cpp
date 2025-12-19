@@ -73,11 +73,7 @@ ScheduledTransData::CalculateNextDueDate()
 		}
 		case SCHEDULED_WEEKLY:
 		{
-			// TODO: Add weekly scheduling support
-			//				data.SetNextDueDate(IncrementDateByMonth(data.Date()));
-			ShowBug(
-				"Unimplemented Weekly scheduling support in "
-				"ScheduledTransData::CalculateNextDueDate()");
+			fNextDate = IncrementDateByWeek(Date());
 			break;
 		}
 		case SCHEDULED_QUARTERLY:

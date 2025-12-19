@@ -18,7 +18,8 @@
 
 time_t IncrementDateByDay(const time_t& t);
 time_t DecrementDateByDay(const time_t& t);
-
+time_t IncrementDateByWeek(const time_t& t);
+time_t DecrementDateByWeek(const time_t& t);
 time_t IncrementDateByMonth(const time_t& t);
 time_t DecrementDateByMonth(const time_t& t);
 time_t IncrementDateByQuarter(const time_t& t);

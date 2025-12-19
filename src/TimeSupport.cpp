@@ -29,6 +29,24 @@ DecrementDateByDay(const time_t& t)
 
 
 time_t
+IncrementDateByWeek(const time_t& t)
+{
+	struct tm timestruct = *localtime(&t);
+	timestruct.tm_mday = timestruct.tm_mday + 7;
+	return mktime(&timestruct);
+}
+
+
+time_t
+DecrementDateByWeek(const time_t& t)
+{
+	struct tm timestruct = *localtime(&t);
+	timestruct.tm_mday = timestruct.tm_mday - 7;
+	return mktime(&timestruct);
+}
+
+
+time_t
 IncrementDateByMonth(const time_t& t)
 {
 	struct tm timestruct = *localtime(&t);

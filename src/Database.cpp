@@ -1047,11 +1047,8 @@ Database::AddScheduledTransaction(const ScheduledTransData& data, const bool& ne
 			}
 			case SCHEDULED_WEEKLY:
 			{
-				// TODO: Add weekly scheduling support
-				//				data.SetNextDueDate(IncrementDateByMonth(data.Date()));
-				ShowBug(
-					"Unimplemented Weekly scheduling support in "
-					"Database::AddScheduledTransaction()");
+				nextdate = IncrementDateByWeek(data.Date());
+
 				break;
 			}
 			case SCHEDULED_QUARTERLY:

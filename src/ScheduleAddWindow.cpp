@@ -103,6 +103,8 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 
 	fIntervalMenu = new BMenu("Frequency");
 	fIntervalMenu->AddItem(
+		new BMenuItem(B_TRANSLATE("Weekly"), new BMessage(M_SCHEDULED_WEEKLY)));
+	fIntervalMenu->AddItem(
 		new BMenuItem(B_TRANSLATE("Monthly"), new BMessage(M_SCHEDULED_MONTHLY)));
 	fIntervalMenu->AddItem(
 		new BMenuItem(B_TRANSLATE("Quarterly"), new BMessage(M_SCHEDULED_QUARTERLY)));
@@ -247,15 +249,20 @@ ScheduleAddWindow::MessageReceived(BMessage* msg)
 			switch (fIntervalMenu->IndexOf(intervalitem)) {
 				case 0:
 				{
-					stdata.SetInterval(SCHEDULED_MONTHLY);
+					stdata.SetInterval(SCHEDULED_WEEKLY);
 					break;
 				}
 				case 1:
 				{
-					stdata.SetInterval(SCHEDULED_QUARTERLY);
+					stdata.SetInterval(SCHEDULED_MONTHLY);
 					break;
 				}
 				case 2:
+				{
+					stdata.SetInterval(SCHEDULED_QUARTERLY);
+					break;
+				}
+				case 3:
 				{
 					stdata.SetInterval(SCHEDULED_ANNUALLY);
 					break;
