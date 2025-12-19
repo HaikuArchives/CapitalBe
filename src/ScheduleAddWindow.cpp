@@ -102,8 +102,7 @@ ScheduleAddWindow::ScheduleAddWindow(const BRect& frame, const TransactionData& 
 	memo->SetEnabled(false);
 
 	fIntervalMenu = new BMenu("Frequency");
-	fIntervalMenu->AddItem(
-		new BMenuItem(B_TRANSLATE("Weekly"), new BMessage(M_SCHEDULED_WEEKLY)));
+	fIntervalMenu->AddItem(new BMenuItem(B_TRANSLATE("Weekly"), new BMessage(M_SCHEDULED_WEEKLY)));
 	fIntervalMenu->AddItem(
 		new BMenuItem(B_TRANSLATE("Monthly"), new BMessage(M_SCHEDULED_MONTHLY)));
 	fIntervalMenu->AddItem(
