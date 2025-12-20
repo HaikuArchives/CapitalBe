@@ -306,12 +306,12 @@ ShowBug(const char* string)
 		file.Write(message.String(), message.Length());
 		file.Unset();
 
-		// Open issue tracker in browser
-		#if B_HAIKU_VERSION < B_HAIKU_VERSION_1_PRE_BETA_6
-			BUrl url(kIssuesURL);
-		#else
-			BUrl url(kIssuesURL, true);
-		#endif
+// Open issue tracker in browser
+#if B_HAIKU_VERSION < B_HAIKU_VERSION_1_PRE_BETA_6
+		BUrl url(kIssuesURL);
+#else
+		BUrl url(kIssuesURL, true);
+#endif
 		url.OpenWithPreferredApplication();
 	}
 
