@@ -27,6 +27,7 @@ class RegisterView;
 
 static const char kApplicationSignature[] = "application/x-vnd.wgp-CapitalBe";
 static const char kLedgerMimeType[] = "application/x-vnd.wgp-CapitalBe-ledger";
+static const char kIssuesURL[] = "https://github.com/HaikuArchives/CapitalBe/issues/";
 
 // clang-format off
 enum {
