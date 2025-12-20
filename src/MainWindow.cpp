@@ -333,8 +333,13 @@ MainWindow::MessageReceived(BMessage* msg)
 		}
 		case M_REPORT_BUG:
 		{
-			BUrl("https://github.com/HaikuArchives/CapitalBe/issues/")
-				.OpenWithPreferredApplication();
+			// Open issue tracker in browser
+			#if B_HAIKU_VERSION < B_HAIKU_VERSION_1_PRE_BETA_6
+				BUrl url(kIssuesURL);
+			#else
+				BUrl url(kIssuesURL, true);
+			#endif
+			url.OpenWithPreferredApplication();
 			break;
 		}
 		case M_SHOW_NEW_ACCOUNT:
