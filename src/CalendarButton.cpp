@@ -7,6 +7,7 @@
  */
 #include "CalendarButton.h"
 #include "CalendarMenuWindow.h"
+#include "Database.h"
 
 #include <Bitmap.h>
 #include <DateFormat.h>
@@ -55,7 +56,12 @@ CalendarButton::MessageReceived(BMessage* msg)
 			msg->FindInt32("day", &day);
 			msg->FindInt32("month", &month);
 			msg->FindInt32("year", &year);
-			date << day << "." << month << "." << year;
+
+			BDate thedate(year, month, day);
+			BDateTime dateTime;
+			dateTime.SetDate(thedate);
+			gDefaultLocale.DateToString(dateTime.Time_t(), date);
+
 			fDateBox->SetText(date);
 			fDateBox->Invoke();
 			fDateBox->Validate();
