@@ -177,6 +177,10 @@ CalendarMenuWindow::MessageReceived(BMessage* message)
 			fInvocationMessage->AddInt32("year", year);
 			msgr.SendMessage(fInvocationMessage);
 
+			// Delay closing the window to avoid a MouseUp reaching the window
+			// underneath. Remove once https://dev.haiku-os.org/ticket/19861 is fixed.
+			snooze(100000 * 2);
+
 			PostMessage(B_QUIT_REQUESTED);
 			break;
 		}
