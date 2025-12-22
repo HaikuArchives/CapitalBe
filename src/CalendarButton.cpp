@@ -66,6 +66,10 @@ CalendarButton::MessageReceived(BMessage* msg)
 			fDateBox->Invoke();
 			fDateBox->Validate();
 
+			BMessage reply;
+			reply.AddBool("status", true);
+			msg->SendReply(&reply);
+
 			_UpdateIcon();
 			break;
 		}

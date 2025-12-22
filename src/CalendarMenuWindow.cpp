@@ -175,9 +175,14 @@ CalendarMenuWindow::MessageReceived(BMessage* message)
 			fInvocationMessage->AddInt32("day", day);
 			fInvocationMessage->AddInt32("month", month);
 			fInvocationMessage->AddInt32("year", year);
-			msgr.SendMessage(fInvocationMessage);
-
-			PostMessage(B_QUIT_REQUESTED);
+			BMessage reply;
+			msgr.SendMessage(fInvocationMessage, &reply);
+			if (reply.FindBool("status"))
+				// wait 2/10 sec to prevent a mouse click when confirming the date
+				// reaches the window. Otherwise an entry might get selected, overwriting
+				// the just chosen date in the DateBox.
+				// snooze(100000 * 2);
+				PostMessage(B_QUIT_REQUESTED);
 			break;
 		}
 
