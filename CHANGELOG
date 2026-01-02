@@ -1,3 +1,15 @@
+v2.3.2
+
+* Added weekly scheduling.
+* Bugfix: When using the calendar button the resulting date mixed up
+  month and day when using e.g. US American locale.
+* Bugfix: When using the calendar button a double-click to apply the
+  chosen date reached the window underneath, selecting that transaction's
+  date.
+* Updated translations
+* Added translations for cs, pt_BR, sv, uk
+
+
 v2.3.1
 
 * Bugfix: there was only one opening balance possible for all accounts.
