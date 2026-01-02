@@ -1,4 +1,4 @@
-1	Norwegian	application/x-vnd.wgp-CapitalBe	3533405837
+1	Norwegian	application/x-vnd.wgp-CapitalBe	2962703943
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Denne kontoen har # planlagt transaksjon som vil bli fjernet.}other{Denne kontoen har # planlagte transaksjoner som vil bli fjernet.}}
 <No accounts>	MainWindow		<Ingen konti>
 About CapitalBe	MainWindow		Om CapitalBe
@@ -33,7 +33,7 @@ Once deleted, you will not be able to get back any data on this account.	MainWin
 Oops!	MainWindow		Oops!
 Open ledger	MainWindow		Åpne hovedbok
 Open…	MainWindow		Åpne…
-Opening balance	MainWindow		Opening balance
+Opening balance	MainWindow		Åpningsbalanse
 Previous	MainWindow		Forrige
 Quit	MainWindow		Avslutt
 Really delete account?	MainWindow		Virkelig slette kontoen?
@@ -114,9 +114,9 @@ Closed	Account		Avsluttet
 Name:	Account		Navn:
 New account	Account		Ny konto
 OK	Account		OK
-Opening balance:	Account		Opening balance:
-Opening date:	Account		Opening date:
-Use a negative opening balance.	Account		Use a negative opening balance.
+Opening balance:	Account		Åpningssaldo:
+Opening date:	Account		Åpningsdato:
+Use a negative opening balance.	Account		Bruk en negativ åpningssaldo.
 Use system currency format	Account		Bruk systemets valutaformat
 Accounts	RegisterView		Konti
 Filter	RegisterView		Filter
@@ -150,7 +150,7 @@ Add category	CategoryWindow		Legg til kategori
 Add…	CategoryWindow		Legg til…
 Can't use this category name	CategoryWindow		Kan ikke bruke dette kategorinavnet
 Cancel	CategoryWindow		Avbryt
-CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe bruker ordene 'inntekt', 'utgift', 'delt', 'overføring' og 'ukategorisert' for å administrere kontoer, så du kan ikke kan bruke dem som kategorinavn.\n\nVelg et annet navn for den nye kategorien.
+CapitalBe uses 'Income', 'Expenses', 'Opening balance', 'Split', 'Transfer', and 'Uncategorized' for managing accounts, so you can't use them as category names.\n\nPlease choose a different name for your new category.	CategoryWindow		CapitalBe bruker ordene 'inntekt', 'utgift', 'åpningsbalanse", 'delt', 'overføring' og 'ukategorisert' for å administrere kontoer, så du kan ikke kan bruke dem som kategorinavn.\n\nVelg et annet navn for den nye kategorien.
 Categories	CategoryWindow		Kategorier
 Category is missing	CategoryWindow		Kategori mangler
 Do you really want to add this transaction without a category?\n\nEven then, you need to select a transaction type, 'income' or 'expenses'.\n	CategoryWindow		Vil du virkelig legge til denne transaksjonen uten kategori?\n\nSelv da må du velge en transaksjonstype, 'inntekt' eller 'utgift'.\n
@@ -193,7 +193,7 @@ Date	CommonTerms		Dato
 Expenses	CommonTerms		Utgifter
 Income	CommonTerms		Inntekter
 Memo	CommonTerms		Notat
-Opening balance	CommonTerms		Opening balance
+Opening balance	CommonTerms		Åpningsbalanse
 Payee	CommonTerms		Betalingsmottaker
 Split	CommonTerms	The noun 'split', as in 'a split-category'	Delt
 Transfer	CommonTerms		Overfør
@@ -209,6 +209,7 @@ Repeat:	ScheduleAddWindow		Gjenta:
 Schedule transaction	ScheduleAddWindow		Planlegg transaksjon
 Starting date:	ScheduleAddWindow		Startdato:
 times	ScheduleAddWindow		ganger
+Weekly	ScheduleAddWindow		Ukentlig
 Annually	ScheduleListWindow		Årlig
 Frequency	ScheduleListWindow		Frekvens
 Memo	ScheduleListWindow		Notat

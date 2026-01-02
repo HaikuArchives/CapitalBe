@@ -1,4 +1,4 @@
-1	Russian	application/x-vnd.wgp-CapitalBe	3533405837
+1	Russian	application/x-vnd.wgp-CapitalBe	2962703943
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, Multiple,one{В этом аккаунте # запланированная транзакция, которая будет удалена.}other{В этом аккаунте # запланированная транзакция, которая будет удалена.}}
 <No accounts>	MainWindow		<Нет аккаунтов>
 About CapitalBe	MainWindow		О CapitalBe
@@ -209,6 +209,7 @@ Repeat:	ScheduleAddWindow		Повторить:
 Schedule transaction	ScheduleAddWindow		Запланировать транзакцию
 Starting date:	ScheduleAddWindow		Дата начала:
 times	ScheduleAddWindow		раз
+Weekly	ScheduleAddWindow		Еженедельно
 Annually	ScheduleListWindow		Ежегодно
 Frequency	ScheduleListWindow		Частота
 Memo	ScheduleListWindow		Памятка

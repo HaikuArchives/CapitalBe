@@ -1,4 +1,4 @@
-1	Friulian	application/x-vnd.wgp-CapitalBe	3533405837
+1	Friulian	application/x-vnd.wgp-CapitalBe	2962703943
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Chest cont al à # transazion programade che e vignarà gjavade.}other{Chest cont al à # transazions programadis che a vignaran gjavadis.}}
 <No accounts>	MainWindow		<Nissun cont>
 About CapitalBe	MainWindow		Informazions su CapitalBe
@@ -209,6 +209,7 @@ Repeat:	ScheduleAddWindow		Ripetizion:
 Schedule transaction	ScheduleAddWindow		Programe transazion
 Starting date:	ScheduleAddWindow		Date di inizi:
 times	ScheduleAddWindow		voltis
+Weekly	ScheduleAddWindow		Setemanâl
 Annually	ScheduleListWindow		Anuâl
 Frequency	ScheduleListWindow		Frecuence
 Memo	ScheduleListWindow		Pro memoria

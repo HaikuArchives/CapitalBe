@@ -1,4 +1,4 @@
-1	English (Canada)	application/x-vnd.wgp-CapitalBe	3533405837
+1	English (Canada)	application/x-vnd.wgp-CapitalBe	2962703943
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}
 <No accounts>	MainWindow		<No accounts>
 About CapitalBe	MainWindow		About CapitalBe
@@ -209,6 +209,7 @@ Repeat:	ScheduleAddWindow		Repeat:
 Schedule transaction	ScheduleAddWindow		Schedule transaction
 Starting date:	ScheduleAddWindow		Starting date:
 times	ScheduleAddWindow		times
+Weekly	ScheduleAddWindow		Weekly
 Annually	ScheduleListWindow		Annually
 Frequency	ScheduleListWindow		Frequency
 Memo	ScheduleListWindow		Memo

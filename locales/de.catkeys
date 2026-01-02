@@ -1,4 +1,4 @@
-1	German	application/x-vnd.wgp-CapitalBe	3533405837
+1	German	application/x-vnd.wgp-CapitalBe	2962703943
 {0, plural,one{This account has # scheduled transaction that will be removed.}other{This account has # scheduled transactions that will be removed.}}	MainWindow		{0, plural,one{Für dieses Konto gibt es # terminierte Buchung, die entfernt würde.}other{Für dieses Konto gibt es # terminierte Buchungen, die entfernt würden.}}
 <No accounts>	MainWindow		<keine Konten>
 About CapitalBe	MainWindow		Über CapitalBe
@@ -209,6 +209,7 @@ Repeat:	ScheduleAddWindow		Wiederholungen:
 Schedule transaction	ScheduleAddWindow		Buchung terminieren
 Starting date:	ScheduleAddWindow		Start-Datum:
 times	ScheduleAddWindow		mal
+Weekly	ScheduleAddWindow		Wöchentlich
 Annually	ScheduleListWindow		Jährlich
 Frequency	ScheduleListWindow		Häufigkeit
 Memo	ScheduleListWindow		Notiz
