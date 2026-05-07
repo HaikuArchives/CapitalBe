@@ -337,13 +337,13 @@ TransactionView::HandleNotify(const uint64& value, const BMessage* msg)
 					}
 				}
 			}
-/*			else
-			if(value & WATCH_SELECT)
-			{
-				fListView->Select(index);
-				fListView->ScrollToSelection();
-			}
-*/		}
+		/*			else
+					if(value & WATCH_SELECT)
+					{
+						fListView->Select(index);
+						fListView->ScrollToSelection();
+					}
+		*/		}
 	} else if (value & WATCH_ACCOUNT) {
 		if (value & WATCH_REDRAW)
 			fListView->Invalidate();
