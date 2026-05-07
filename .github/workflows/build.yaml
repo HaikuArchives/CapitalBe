@@ -19,7 +19,7 @@ jobs:
           - { os: haiku, version: 'nightly',  runner: 'ubuntu-latest', architecture: 'x86' }
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: korli/action@v0.25.0-haiku4
         with:
